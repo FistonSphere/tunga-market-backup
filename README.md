@@ -1,10 +1,10 @@
 <div align="center">
-  <img src="https://www.dropbox.com/scl/fi/h6y7u4pytahxmkn1l80hs/DSC04159.JPG?rlkey=jyc1idv8jd8cngrs14721gqgq&st=dlyblxbq&raw=1" alt="Tunga Market Logo" width="120"/>
+  <img src="https://www.dropbox.com/scl/fi/zokwu3crj3ur2mfrzp0bh/WhatsApp-Image-2025-07-26-at-16.30.09.jpeg?rlkey=b013szj4pmeeikvdxibqy0pbt&st=dmgyror0&raw=1" alt="Tunga Market Logo" width="120"/>
   <h1>Tunga Market</h1>
   <p><strong>A Next-Level Alibaba-Inspired E-Commerce UI</strong></p>
   <p>Crafted using HTML5, CSS3, and JavaScript · Built for Scalability · Designed for Laravel 12 Integration</p>
   <br>
-  <img src="https://www.dropbox.com/scl/fi/h6y7u4pytahxmkn1l80hs/DSC04159.JPG?rlkey=jyc1idv8jd8cngrs14721gqgq&st=dlyblxbq&raw=1" alt="Project Screenshot or Banner" width="100%"/>
+  <img src="https://www.dropbox.com/scl/fi/zokwu3crj3ur2mfrzp0bh/WhatsApp-Image-2025-07-26-at-16.30.09.jpeg?rlkey=b013szj4pmeeikvdxibqy0pbt&st=dmgyror0&raw=1" alt="Project Screenshot or Banner" width="100%"/>
 </div>
 
 ---
