@@ -20,9 +20,8 @@
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="/">
-                        <img src="{{ asset('assets/images/logo.png') }}" alt="Tunga Market Logo" class=" text-primary"
-                            style="object-fit: cover; border-radius: 6px; height: 50px; width: 120px;" />
+                    <a href="/"  class ="imglogolink">
+                        <img src="{{ asset('assets/images/logo.png') }}" alt="Tunga Market Logo" class="Imglogo text-primary" />
                     </a>
                 </div>
 
