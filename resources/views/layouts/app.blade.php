@@ -20,8 +20,9 @@
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="/"  class ="imglogolink">
-                        <img src="{{ asset('assets/images/logo.png') }}" alt="Tunga Market Logo" class="Imglogo text-primary" />
+                    <a href="/" class ="imglogolink">
+                        <img src="{{ asset('assets/images/logo.png') }}" alt="Tunga Market Logo"
+                            class="Imglogo text-primary" />
                     </a>
                 </div>
 
@@ -186,9 +187,10 @@
                 <div>
                     <div class="flex items-center mb-4">
                         <a href="/">
-                        <img src="{{ asset('assets/images/logo.png') }}" alt="Tunga Market Logo" class=" text-primary"
-                            style="object-fit: cover; border-radius: 6px; height: 50px; width: 120px;" />
-                    </a>
+                            <img src="{{ asset('assets/images/logo.png') }}" alt="Tunga Market Logo"
+                                class=" text-primary"
+                                style="object-fit: cover; border-radius: 6px; height: 50px; width: 120px;" />
+                        </a>
                     </div>
                     <p class="text-secondary-300 mb-4">
                         Where Business Grows Together. The next-generation marketplace transforming global trade.
@@ -299,10 +301,11 @@
 
         <!-- Enhanced Chat Popup -->
         <div id="chatbot-popup"
-            class="chatbot-popup absolute bottom-16 right-0 w-80 bg-white rounded-xl shadow-modal border border-border backdrop-blur-sm">
+            class="chatbot-popup absolute bottom-16 right-0 w-80 bg-white rounded-xl shadow-modal border border-border backdrop-blur-sm"
+            style="height:500px;margin-top: -2em">
             <!-- Enhanced Chat Header -->
-            <div class="bg-gradient-to-r from-primary to-primary-700 text-white p-4 rounded-t-xl">
-                <div class="flex items-center space-x-3">
+            <div class="bg-gradient-to-r from-primary to-primary-700 text-white p-3 rounded-t-xl">
+                <div class="flex items-center space-x-3" style="height: 30px;">
                     <div
                         class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -311,7 +314,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="font-semibold">Tunga Market Support Assistant</h3>
+                        <h3 class="font-semibold">Support Assistant</h3>
                         <div class="flex items-center space-x-1 text-primary-100">
                             <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
                             <span class="text-sm">Always Online</span>
@@ -330,7 +333,7 @@
                                 d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                         </svg>
                     </div>
-                    <div class="bg-surface rounded-lg p-3 max-w-xs shadow-md">
+                    <div class="bg-surface rounded-lg p-2 max-w-xs shadow-md">
                         <p class="text-sm text-secondary-700">👋 Hello! I'm your Tunga Market assistant. I'm here to
                             help you with orders, payments, shipping, and any questions you have. How can I assist you
                             today?</p>
@@ -339,7 +342,7 @@
             </div>
 
             <!-- Enhanced Quick Actions -->
-            <div class="border-t border-border p-4 space-y-3 bg-gray-50">
+            <div class="border-t border-border p-3 space-y-2 bg-gray-50" style="margin-top:-3em">
                 <h4 class="font-medium text-primary text-sm mb-3 flex items-center">
                     <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -347,30 +350,30 @@
                     </svg>
                     Quick Help
                 </h4>
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-2 gap-2" >
                     <button onclick="quickAction('order')"
-                        class="text-left p-3 text-sm bg-white hover:bg-accent-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105 border border-gray-200">
+                        class="text-left p-1 text-sm bg-white hover:bg-accent-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105 border border-gray-200">
                         <div class="flex items-center space-x-2">
                             <span class="text-lg">📦</span>
                             <span class="font-medium">Order Status</span>
                         </div>
                     </button>
                     <button onclick="quickAction('shipping')"
-                        class="text-left p-3 text-sm bg-white hover:bg-accent-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105 border border-gray-200">
+                        class="text-left p-1 text-sm bg-white hover:bg-accent-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105 border border-gray-200">
                         <div class="flex items-center space-x-2">
                             <span class="text-lg">🚚</span>
                             <span class="font-medium">Shipping Info</span>
                         </div>
                     </button>
                     <button onclick="quickAction('payment')"
-                        class="text-left p-3 text-sm bg-white hover:bg-accent-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105 border border-gray-200">
+                        class="text-left p-1 text-sm bg-white hover:bg-accent-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105 border border-gray-200">
                         <div class="flex items-center space-x-2">
                             <span class="text-lg">💳</span>
                             <span class="font-medium">Payment Help</span>
                         </div>
                     </button>
                     <button onclick="quickAction('return')"
-                        class="text-left p-3 text-sm bg-white hover:bg-accent-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105 border border-gray-200">
+                        class="text-left p-1 text-sm bg-white hover:bg-accent-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105 border border-gray-200">
                         <div class="flex items-center space-x-2">
                             <span class="text-lg">🔄</span>
                             <span class="font-medium">Returns</span>
@@ -492,15 +495,15 @@
                     <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
                     <div class="space-y-1">
                         ${filteredSuggestions.map(suggestion => `
-                                                    <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                                        <div class="flex items-center space-x-2">
-                                                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                                            </svg>
-                                                            <span>${suggestion}</span>
-                                                        </div>
-                                                    </button>
-                                                `).join('')}
+                                                        <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                                            <div class="flex items-center space-x-2">
+                                                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                                </svg>
+                                                                <span>${suggestion}</span>
+                                                            </div>
+                                                        </button>
+                                                    `).join('')}
                     </div>
                 </div>
             `;
