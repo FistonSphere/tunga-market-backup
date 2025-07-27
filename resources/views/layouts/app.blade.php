@@ -28,8 +28,8 @@
 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="homepage.html" class="text-primary font-semibold border-b-2 border-accent">Home</a>
-                    <a href="product_discovery_hub.html"
+                    <a href="{{ route('home') }}" class="text-primary font-semibold border-b-2 border-accent">Home</a>
+                    <a href="{{ route('product.discovery') }}"
                         class="text-secondary-600 hover:text-primary transition-fast">Discover</a>
                     <a href="seller_central_dashboard.html"
                         class="text-secondary-600 hover:text-primary transition-fast">Sell</a>
