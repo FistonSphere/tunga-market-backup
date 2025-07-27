@@ -8,4 +8,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/product-discovery-hub', [ProductListingController::class, 'index'])->name('product.discovery');
+Route::get('/product-view', [ProductListingController::class, 'showProduct'])->name('product.view');
 Route::get('/authentication', [AuthController::class, 'showLoginForm'])->name('login');
