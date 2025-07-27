@@ -607,4 +607,277 @@
             </div>
         </div>
     </section>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Form toggle functionality
+        const formToggles = document.querySelectorAll('.form-toggle');
+        const authForms = document.querySelectorAll('.auth-form');
+
+        formToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const targetForm = this.dataset.form;
+
+                // Reset all toggles and forms
+                formToggles.forEach(t => {
+                    t.classList.remove('active', 'text-primary', 'border-b-2', 'border-primary');
+                    t.classList.add('text-secondary-600');
+                });
+                authForms.forEach(form => {
+                    form.classList.remove('active');
+                    form.classList.add('hidden');
+                });
+
+                // Activate selected
+                this.classList.add('active', 'text-primary', 'border-b-2', 'border-primary');
+                this.classList.remove('text-secondary-600');
+                document.getElementById(targetForm + 'Form').classList.add('active');
+                document.getElementById(targetForm + 'Form').classList.remove('hidden');
+            });
+        });
+
+        // Password visibility toggle
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+        }
+
+        // Password strength indicator
+        const signupPasswordInput = document.getElementById('signupPassword');
+        const strengthIndicator = document.getElementById('passwordStrength');
+
+        if (signupPasswordInput && strengthIndicator) {
+            signupPasswordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                let color = '#e53e3e'; // error color
+
+                if (password.length >= 8) strength += 25;
+                if (/[a-z]/.test(password)) strength += 25;
+                if (/[A-Z]/.test(password)) strength += 25;
+                if (/[0-9!@#$%^&*]/.test(password)) strength += 25;
+
+                if (strength >= 75) color = '#38a169'; // success color
+                else if (strength >= 50) color = '#d69e2e'; // warning color
+                else if (strength >= 25) color = '#ff6b35'; // accent color
+
+                strengthIndicator.style.width = strength + '%';
+                strengthIndicator.style.backgroundColor = color;
+            });
+        }
+
+        // Form submission handlers
+        function handleSignIn(event) {
+            event.preventDefault();
+            // Add loading state
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Signing In...';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                // Show success notification
+                showNotification('Welcome back! Redirecting to dashboard...', 'success');
+
+                // Redirect after delay
+                setTimeout(() => {
+                    window.location.href = 'homepage.html';
+                }, 2000);
+            }, 1500);
+        }
+
+        function handleSignUp(event) {
+            event.preventDefault();
+            // Add loading state
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Creating Account...';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                // Show success notification
+                showNotification('Account created successfully! Please check your email for verification.',
+                    'success');
+
+                // Reset form and switch to sign in
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    document.querySelector('[data-form="signin"]').click();
+                }, 3000);
+            }, 2000);
+        }
+
+        function handlePasswordReset(event) {
+            event.preventDefault();
+            // Add loading state
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                // Show success notification
+                showNotification('Reset instructions sent to your email!', 'success');
+
+                // Reset and go back to sign in
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    showSignIn();
+                }, 2000);
+            }, 1500);
+        }
+
+        // Social login handlers
+        function signInWithGoogle() {
+            showNotification('Redirecting to Google...', 'info');
+            // Simulate Google OAuth flow
+            setTimeout(() => {
+                showNotification('Google sign-in successful! Welcome back!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'homepage.html';
+                }, 2000);
+            }, 1500);
+        }
+
+        function signUpWithGoogle() {
+            showNotification('Redirecting to Google...', 'info');
+            // Simulate Google OAuth flow
+            setTimeout(() => {
+                showNotification('Google sign-up successful! Account created!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'homepage.html';
+                }, 2000);
+            }, 1500);
+        }
+
+        function signInWithFacebook() {
+            showNotification('Redirecting to Facebook...', 'info');
+            // Simulate Facebook OAuth flow
+            setTimeout(() => {
+                showNotification('Facebook sign-in successful! Welcome back!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'homepage.html';
+                }, 2000);
+            }, 1500);
+        }
+
+        function signUpWithFacebook() {
+            showNotification('Redirecting to Facebook...', 'info');
+            // Simulate Facebook OAuth flow
+            setTimeout(() => {
+                showNotification('Facebook sign-up successful! Account created!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'homepage.html';
+                }, 2000);
+            }, 1500);
+        }
+
+        // Navigation functions
+        function showForgotPassword() {
+            // Hide other forms
+            authForms.forEach(form => {
+                form.classList.remove('active');
+                form.classList.add('hidden');
+            });
+            // Show forgot password form
+            document.getElementById('forgotPasswordForm').classList.add('active');
+            document.getElementById('forgotPasswordForm').classList.remove('hidden');
+
+            // Reset form toggles
+            formToggles.forEach(t => {
+                t.classList.remove('active', 'text-primary', 'border-b-2', 'border-primary');
+                t.classList.add('text-secondary-600');
+            });
+        }
+
+        function showSignIn() {
+            document.querySelector('[data-form="signin"]').click();
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className =
+                `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-full`;
+
+            // Set colors based on type
+            const colors = {
+                success: 'bg-success-100 text-success-800 border border-success-200',
+                error: 'bg-error-100 text-error-800 border border-error-200',
+                warning: 'bg-warning-100 text-warning-800 border border-warning-200',
+                info: 'bg-primary-100 text-primary-800 border border-primary-200'
+            };
+
+            notification.className += ` ${colors[type] || colors.info}`;
+            notification.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <div class="flex-1">${message}</div>
+                    <button class="text-current opacity-70 hover:opacity-100" onclick="this.parentElement.parentElement.remove()">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 300);
+            }, 5000);
+        }
+
+        // Add CSS for form toggles
+        const style = document.createElement('style');
+        style.textContent = `
+            .form-toggle {
+                position: relative;
+                color: var(--color-secondary-600);
+            }
+            
+            .form-toggle.active {
+                color: var(--color-primary);
+                border-bottom: 2px solid var(--color-primary);
+            }
+            
+            .auth-form {
+                display: none;
+            }
+            
+            .auth-form.active {
+                display: block;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize first form as active
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('[data-form="signin"]').classList.add('active', 'text-primary', 'border-b-2',
+                'border-primary');
+            document.querySelector('[data-form="signin"]').classList.remove('text-secondary-600');
+        });
+    </script>
 @endsection
