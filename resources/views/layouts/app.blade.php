@@ -36,10 +36,6 @@
                         class="{{ request()->routeIs('product.discovery') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
                         Discover
                     </a>
-                    <a href="{{ url('seller_central_dashboard.html') }}"
-                        class="{{ request()->is('seller_central_dashboard.html') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
-                        Sell
-                    </a>
                     <a href="{{ url('supplier_profiles.html') }}"
                         class="{{ request()->is('supplier_profiles.html') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
                         Suppliers
@@ -57,6 +53,14 @@
 
                 <!-- CTA Buttons -->
                 <div class="hidden md:flex items-center space-x-4">
+                    <!-- Search Icon -->
+                    <button onclick="openSearchOverlay()"
+                        class="text-secondary-600 hover:text-accent transition-fast p-2" title="Search Products">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
                     <!-- Wishlist Icon -->
                     <button onclick="toggleWishlist()"
                         class="relative text-secondary-600 hover:text-accent transition-fast p-2" title="Wishlist">
@@ -518,15 +522,15 @@
                     <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
                     <div class="space-y-1">
                         ${filteredSuggestions.map(suggestion => `
-                                                                                                <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                                                                                    <div class="flex items-center space-x-2">
-                                                                                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                                                                                        </svg>
-                                                                                                        <span>${suggestion}</span>
-                                                                                                    </div>
-                                                                                                </button>
-                                                                                            `).join('')}
+                                                                                                    <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                                                                                        <div class="flex items-center space-x-2">
+                                                                                                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                                                                            </svg>
+                                                                                                            <span>${suggestion}</span>
+                                                                                                        </div>
+                                                                                                    </button>
+                                                                                                `).join('')}
                     </div>
                 </div>
             `;
