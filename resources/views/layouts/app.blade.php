@@ -28,18 +28,32 @@
 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="{{ route('home') }}" class="text-primary font-semibold border-b-2 border-accent">Home</a>
+                    <a href="{{ route('home') }}"
+                        class="{{ request()->routeIs('home') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
+                        Home
+                    </a>
                     <a href="{{ route('product.discovery') }}"
-                        class="text-secondary-600 hover:text-primary transition-fast">Discover</a>
-                    <a href="seller_central_dashboard.html"
-                        class="text-secondary-600 hover:text-primary transition-fast">Sell</a>
-                    <a href="supplier_profiles.html"
-                        class="text-secondary-600 hover:text-primary transition-fast">Suppliers</a>
-                    <a href="community_marketplace.html"
-                        class="text-secondary-600 hover:text-primary transition-fast">Community</a>
-                    <a href="mobile_commerce_app_landing.html"
-                        class="text-secondary-600 hover:text-primary transition-fast">Mobile App</a>
+                        class="{{ request()->routeIs('product.discovery') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
+                        Discover
+                    </a>
+                    <a href="{{ url('seller_central_dashboard.html') }}"
+                        class="{{ request()->is('seller_central_dashboard.html') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
+                        Sell
+                    </a>
+                    <a href="{{ url('supplier_profiles.html') }}"
+                        class="{{ request()->is('supplier_profiles.html') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
+                        Suppliers
+                    </a>
+                    <a href="{{ url('community_marketplace.html') }}"
+                        class="{{ request()->is('community_marketplace.html') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
+                        Community
+                    </a>
+                    <a href="{{ url('mobile_commerce_app_landing.html') }}"
+                        class="{{ request()->is('mobile_commerce_app_landing.html') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
+                        Mobile App
+                    </a>
                 </div>
+
 
                 <!-- CTA Buttons -->
                 <div class="hidden md:flex items-center space-x-4">
@@ -504,15 +518,15 @@
                     <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
                     <div class="space-y-1">
                         ${filteredSuggestions.map(suggestion => `
-                                                                                        <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                                                                            <div class="flex items-center space-x-2">
-                                                                                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                                                                                </svg>
-                                                                                                <span>${suggestion}</span>
-                                                                                            </div>
-                                                                                        </button>
-                                                                                    `).join('')}
+                                                                                            <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                                                                                <div class="flex items-center space-x-2">
+                                                                                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                                                                    </svg>
+                                                                                                    <span>${suggestion}</span>
+                                                                                                </div>
+                                                                                            </button>
+                                                                                        `).join('')}
                     </div>
                 </div>
             `;
