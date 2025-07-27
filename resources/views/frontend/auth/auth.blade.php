@@ -12,7 +12,7 @@
                         <span class="text-gradient">Business Growth Journey</span>
                     </h1>
                     <p class="text-body-lg text-secondary-600 mb-8 max-w-xl">
-                        Join millions of businesses already growing with AliMax Commerce. Access verified suppliers,
+                        Join millions of businesses already growing with Tunga Market. Access verified suppliers,
                         discover trending products, and scale your operations globally.
                     </p>
                 </div>
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <blockquote class="text-body text-secondary-700 italic">
-                        "AliMax Commerce transformed our sourcing process. We've reduced costs by 35% while improving
+                        "Tunga Market transformed our sourcing process. We've reduced costs by 35% while improving
                         quality."
                     </blockquote>
                 </div>
@@ -422,7 +422,7 @@
     <section class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Why Choose AliMax Commerce?</h2>
+                <h2 class="text-heading font-bold text-primary mb-4">Why Choose Tunga Market?</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
                     Experience the benefits that come with joining our verified global marketplace
                 </p>
