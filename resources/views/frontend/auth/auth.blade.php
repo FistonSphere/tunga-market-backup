@@ -1,21 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Authentication Portal - AliMax Commerce</title>
-    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
-    <meta name="description"
-        content="AliMax Commerce Authentication Portal - Sign in or create your account with secure login options including Google and Facebook" />
-    <script type="module"
-        src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Falimaxcom1831back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.6">
-    </script>
-</head>
-
-<body class="bg-background text-text-primary">
-
-
+@extends('layouts.app')
+@section('content')
+   
     <!-- Main Authentication Section -->
     <section
         class="min-h-screen bg-gradient-to-br from-primary-50 to-accent-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -36,8 +21,7 @@
                 <!-- Trust Indicators -->
                 <div class="grid sm:grid-cols-3 gap-6 mb-8">
                     <div class="text-center">
-                        <div
-                            class="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <div class="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-3">
                             <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -48,8 +32,7 @@
                     </div>
 
                     <div class="text-center">
-                        <div
-                            class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
                             <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -97,8 +80,7 @@
                         data-form="signin">
                         Sign In
                     </button>
-                    <button class="flex-1 py-3 text-center font-semibold transition-fast form-toggle"
-                        data-form="signup">
+                    <button class="flex-1 py-3 text-center font-semibold transition-fast form-toggle" data-form="signup">
                         Sign Up
                     </button>
                 </div>
@@ -375,10 +357,8 @@
                 <!-- Forgot Password Form -->
                 <div id="forgotPasswordForm" class="auth-form hidden">
                     <div class="text-center mb-6">
-                        <div
-                            class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                        <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                             </svg>
@@ -518,8 +498,7 @@
                     <div class="flex items-start space-x-4">
                         <div
                             class="w-10 h-10 bg-success-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                             </svg>
@@ -534,8 +513,7 @@
                     <div class="flex items-start space-x-4">
                         <div
                             class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                             </svg>
@@ -550,8 +528,7 @@
                     <div class="flex items-start space-x-4">
                         <div
                             class="w-10 h-10 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -568,8 +545,7 @@
                     <div class="flex items-start space-x-4">
                         <div
                             class="w-10 h-10 bg-warning-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <svg class="w-5 h-5 text-warning" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
@@ -635,104 +611,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-secondary-800 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Company Info -->
-                <div>
-                    <div class="flex items-center mb-4">
-                        <svg class="h-8 w-8 text-accent" viewBox="0 0 40 40" fill="currentColor">
-                            <path d="M20 0L35 10v20L20 40L5 30V10L20 0z" />
-                            <path d="M20 8L28 13v14l-8 5-8-5V13l8-5z" fill="#ff6b35" />
-                        </svg>
-                        <span class="ml-2 text-xl font-bold">AliMax Commerce</span>
-                    </div>
-                    <p class="text-secondary-300 mb-4">
-                        Welcome to Your Business Growth Journey. Secure, trusted, and designed for success.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="javascript:void(0)" class="text-secondary-400 hover:text-accent transition-fast">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
-                            </svg>
-                        </a>
-                        <a href="javascript:void(0)" class="text-secondary-400 hover:text-accent transition-fast">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z" />
-                            </svg>
-                        </a>
-                        <a href="javascript:void(0)" class="text-secondary-400 hover:text-accent transition-fast">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
 
-                <!-- Quick Links -->
-                <div>
-                    <h3 class="font-semibold mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="homepage.html"
-                                class="text-secondary-300 hover:text-accent transition-fast">Homepage</a></li>
-                        <li><a href="product_discovery_hub.html"
-                                class="text-secondary-300 hover:text-accent transition-fast">Product Discovery</a></li>
-                        <li><a href="seller_central_dashboard.html"
-                                class="text-secondary-300 hover:text-accent transition-fast">Seller Central</a></li>
-                        <li><a href="supplier_profiles.html"
-                                class="text-secondary-300 hover:text-accent transition-fast">Find Suppliers</a></li>
-                    </ul>
-                </div>
-
-                <!-- Support -->
-                <div>
-                    <h3 class="font-semibold mb-4">Support</h3>
-                    <ul class="space-y-2">
-                        <li><a href="javascript:void(0)"
-                                class="text-secondary-300 hover:text-accent transition-fast">Help Center</a></li>
-                        <li><a href="javascript:void(0)"
-                                class="text-secondary-300 hover:text-accent transition-fast">Contact Us</a></li>
-                        <li><a href="trust_verification_center.html"
-                                class="text-secondary-300 hover:text-accent transition-fast">Trust Center</a></li>
-                        <li><a href="javascript:void(0)"
-                                class="text-secondary-300 hover:text-accent transition-fast">Security</a></li>
-                    </ul>
-                </div>
-
-                <!-- Authentication -->
-                <div>
-                    <h3 class="font-semibold mb-4">Get Started</h3>
-                    <ul class="space-y-2">
-                        <li><span class="text-accent font-semibold">Sign In / Sign Up</span></li>
-                        <li><a href="javascript:void(0)"
-                                class="text-secondary-300 hover:text-accent transition-fast">Account Recovery</a></li>
-                        <li><a href="javascript:void(0)"
-                                class="text-secondary-300 hover:text-accent transition-fast">Business Verification</a>
-                        </li>
-                        <li><a href="javascript:void(0)"
-                                class="text-secondary-300 hover:text-accent transition-fast">API Access</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div
-                class="border-t border-secondary-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-secondary-400">© 2025 AliMax Commerce. All Rights Reserved.</p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="javascript:void(0)" class="text-secondary-400 hover:text-accent transition-fast">Privacy
-                        Policy</a>
-                    <a href="javascript:void(0)" class="text-secondary-400 hover:text-accent transition-fast">Terms of
-                        Service</a>
-                    <a href="javascript:void(0)" class="text-secondary-400 hover:text-accent transition-fast">Cookie
-                        Policy</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script>
         // Mobile menu toggle
@@ -1007,6 +886,4 @@
         });
     </script>
     <script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
-</body>
-
-</html>
+@endsection
