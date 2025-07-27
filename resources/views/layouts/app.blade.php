@@ -186,11 +186,10 @@
                 <!-- Company Info -->
                 <div>
                     <div class="flex items-center mb-4">
-                        <svg class="h-8 w-8 text-accent" viewBox="0 0 40 40" fill="currentColor">
-                            <path d="M20 0L35 10v20L20 40L5 30V10L20 0z" />
-                            <path d="M20 8L28 13v14l-8 5-8-5V13l8-5z" fill="#ff6b35" />
-                        </svg>
-                        <span class="ml-2 text-xl font-bold">Tunga Market</span>
+                        <a href="/">
+                        <img src="{{ asset('assets/images/logo.png') }}" alt="Tunga Market Logo" class=" text-primary"
+                            style="object-fit: cover; border-radius: 6px; height: 50px; width: 120px;" />
+                    </a>
                     </div>
                     <p class="text-secondary-300 mb-4">
                         Where Business Grows Together. The next-generation marketplace transforming global trade.
