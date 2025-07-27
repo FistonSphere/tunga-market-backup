@@ -7,3 +7,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/product-discovery-hub', [ProductListingController::class, 'index'])->name('product.discovery');
+Route::get('');
