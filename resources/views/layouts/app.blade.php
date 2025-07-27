@@ -43,15 +43,6 @@
 
                 <!-- CTA Buttons -->
                 <div class="hidden md:flex items-center space-x-4">
-                    <!-- Search Icon -->
-                    <button onclick="openSearchOverlay()"
-                        class="text-secondary-600 hover:text-accent transition-fast p-2" title="Search Products">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </button>
-
                     <!-- Wishlist Icon -->
                     <button onclick="toggleWishlist()"
                         class="relative text-secondary-600 hover:text-accent transition-fast p-2" title="Wishlist">
@@ -351,7 +342,7 @@
             </div>
 
             <!-- Enhanced Quick Actions -->
-            <div class="border-t border-border p-3 space-y-2 bg-gray-50" style="margin-top:-3em">
+            <div class="border-t border-border p-3 space-y-2 bg-gray-50">
                 <h4 class="font-medium text-primary text-sm mb-3 flex items-center">
                     <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -513,15 +504,15 @@
                     <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
                     <div class="space-y-1">
                         ${filteredSuggestions.map(suggestion => `
-                                                                                <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                                                                    <div class="flex items-center space-x-2">
-                                                                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                                                                        </svg>
-                                                                                        <span>${suggestion}</span>
-                                                                                    </div>
-                                                                                </button>
-                                                                            `).join('')}
+                                                                                        <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                                                                            <div class="flex items-center space-x-2">
+                                                                                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                                                                </svg>
+                                                                                                <span>${suggestion}</span>
+                                                                                            </div>
+                                                                                        </button>
+                                                                                    `).join('')}
                     </div>
                 </div>
             `;
@@ -943,6 +934,195 @@
                     }
                 });
             });
+        });
+
+
+        // Cart and Wishlist Management System
+        class CartWishlistManager {
+            constructor() {
+                this.cartCount = this.getStoredCount('cartCount', 7);
+                this.wishlistCount = this.getStoredCount('wishlistCount', 12);
+                this.updateDisplays();
+            }
+
+            getStoredCount(key, defaultValue = 0) {
+                try {
+                    const stored = localStorage.getItem(key);
+                    return stored ? parseInt(stored) : defaultValue;
+                } catch (e) {
+                    return defaultValue;
+                }
+            }
+
+            setStoredCount(key, value) {
+                try {
+                    localStorage.setItem(key, value.toString());
+                } catch (e) {
+                    console.warn('Could not store count in localStorage');
+                }
+            }
+
+            updateDisplays() {
+                this.updateCartDisplay();
+                this.updateWishlistDisplay();
+            }
+
+            updateCartDisplay() {
+                const cartCountElement = document.getElementById('cart-count');
+                if (cartCountElement) {
+                    const displayCount = this.cartCount > 99 ? '99+' : this.cartCount.toString();
+                    cartCountElement.textContent = displayCount;
+                    cartCountElement.style.display = this.cartCount > 0 ? 'flex' : 'none';
+                }
+            }
+
+            updateWishlistDisplay() {
+                const wishlistCountElement = document.getElementById('wishlist-count');
+                if (wishlistCountElement) {
+                    const displayCount = this.wishlistCount > 99 ? '99+' : this.wishlistCount.toString();
+                    wishlistCountElement.textContent = displayCount;
+                    wishlistCountElement.style.display = this.wishlistCount > 0 ? 'flex' : 'none';
+                }
+            }
+
+            addToCart(quantity = 1) {
+                this.cartCount = Math.max(0, this.cartCount + quantity);
+                this.setStoredCount('cartCount', this.cartCount);
+                this.updateCartDisplay();
+                this.showNotification('Added to Cart', `${quantity} item(s) added to your cart`, 'success');
+            }
+
+            removeFromCart(quantity = 1) {
+                this.cartCount = Math.max(0, this.cartCount - quantity);
+                this.setStoredCount('cartCount', this.cartCount);
+                this.updateCartDisplay();
+            }
+
+            addToWishlist(quantity = 1) {
+                this.wishlistCount = Math.max(0, this.wishlistCount + quantity);
+                this.setStoredCount('wishlistCount', this.wishlistCount);
+                this.updateWishlistDisplay();
+                this.showNotification('Added to Wishlist', `${quantity} item(s) added to your wishlist`, 'success');
+            }
+
+            removeFromWishlist(quantity = 1) {
+                this.wishlistCount = Math.max(0, this.wishlistCount - quantity);
+                this.setStoredCount('wishlistCount', this.wishlistCount);
+                this.updateWishlistDisplay();
+            }
+
+            showNotification(title, message, type = 'success') {
+                let notification = document.getElementById('header-notification');
+                if (!notification) {
+                    notification = document.createElement('div');
+                    notification.id = 'header-notification';
+                    notification.className =
+                        'fixed top-20 right-4 transform translate-x-full transition-transform duration-300 z-50';
+                    document.body.appendChild(notification);
+                }
+
+                const colors = {
+                    success: 'border-success',
+                    info: 'border-primary',
+                    warning: 'border-warning',
+                    error: 'border-error'
+                };
+
+                notification.innerHTML = `
+                <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]} max-w-sm">
+                    <div class="flex items-start space-x-3">
+                        <div>
+                            <h4 class="font-semibold text-primary">${title}</h4>
+                            <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                        </div>
+                        <button onclick="hideHeaderNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+                notification.classList.remove('translate-x-full');
+                setTimeout(() => {
+                    notification.classList.add('translate-x-full');
+                }, 3000);
+            }
+        }
+
+        // Initialize cart and wishlist manager
+        const cartWishlistManager = new CartWishlistManager();
+
+        // Global functions for button clicks
+        function toggleCart() {
+            window.location.href = 'shopping_cart.html';
+        }
+
+        function toggleWishlist() {
+            cartWishlistManager.showNotification('Wishlist',
+                `You have ${cartWishlistManager.wishlistCount} items in your wishlist`, 'info');
+        }
+
+        function addToCart(quantity = 1) {
+            cartWishlistManager.addToCart(quantity);
+        }
+
+        function addToWishlist(quantity = 1) {
+            cartWishlistManager.addToWishlist(quantity);
+        }
+
+        function hideHeaderNotification() {
+            const notification = document.getElementById('header-notification');
+            if (notification) {
+                notification.classList.add('translate-x-full');
+            }
+        }
+
+        // Add functionality to product cards
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add quick add to cart functionality to product cards
+            const productCards = document.querySelectorAll('.product-card, .card.group.cursor-pointer');
+            productCards.forEach(card => {
+                // Add quick action buttons to product cards
+                const existingButtons = card.querySelector('.absolute.top-3.right-3');
+                if (existingButtons && !card.querySelector('.quick-add-cart')) {
+                    const quickCartBtn = document.createElement('button');
+                    quickCartBtn.className =
+                        'quick-add-cart absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-fast opacity-0 group-hover:opacity-100';
+                    quickCartBtn.title = 'Quick Add to Cart';
+                    quickCartBtn.innerHTML = `
+                    <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7m0 0h9.5M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7"/>
+                    </svg>
+                `;
+                    quickCartBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        addToCart(1);
+                    });
+                    card.appendChild(quickCartBtn);
+                }
+
+                // Update existing wishlist buttons
+                const wishlistBtn = card.querySelector('.absolute.top-3.right-3 svg');
+                if (wishlistBtn && wishlistBtn.parentElement) {
+                    wishlistBtn.parentElement.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        addToWishlist(1);
+                    });
+                }
+            });
+        });
+
+        // Listen for storage changes to sync across tabs
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'cartCount' || e.key === 'wishlistCount') {
+                cartWishlistManager.cartCount = cartWishlistManager.getStoredCount('cartCount', 7);
+                cartWishlistManager.wishlistCount = cartWishlistManager.getStoredCount('wishlistCount', 12);
+                cartWishlistManager.updateDisplays();
+            }
         });
     </script>
 </body>

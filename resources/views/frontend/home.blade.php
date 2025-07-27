@@ -23,8 +23,8 @@
                         <span class="text-gradient">Grows Together</span>
                     </h1>
                     <p class="text-body-lg text-secondary-600 mb-8 max-w-xl">
-                        Experience the evolution of global trade through our AI-powered marketplace that transforms buying
-                        into an engaging journey of discovery and growth.
+                        Experience the evolution of global trade through Tunga Market, a platform that turns buying and
+                        selling into a meaningful journey of growth and opportunity.
                     </p>
 
                     <!-- Personalized Entry Points -->
