@@ -63,11 +63,6 @@
                                 <div class="font-medium">Suppliers</div>
                                 <div class="text-xs text-gray-500">Explore supplier profiles and offerings.</div>
                             </a>
-                            <a href="{{ url('community_marketplace.html') }}"
-                                class="block p-3 rounded-xl hover:bg-gray-100 transition-all {{ request()->is('community_marketplace.html') ? 'text-primary font-semibold border-l-4 border-accent pl-2' : 'text-secondary-600' }}">
-                                <div class="font-medium">Community</div>
-                                <div class="text-xs text-gray-500">Join discussions and local markets.</div>
-                            </a>
                             <a href="{{ url('mobile_commerce_app_landing.html') }}"
                                 class="block p-3 rounded-xl hover:bg-gray-100 transition-all {{ request()->is('mobile_commerce_app_landing.html') ? 'text-primary font-semibold border-l-4 border-accent pl-2' : 'text-secondary-600' }}">
                                 <div class="font-medium">Mobile App</div>
