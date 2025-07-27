@@ -319,6 +319,15 @@
                             <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
                             <span class="text-sm">Always Online</span>
                         </div>
+                        <div class="close">
+                            <button id="close-chat"
+                                class="bg-gradient-to-r from-accent to-accent-600 text-white transition-fast absolute top-2 right-2 text-sm py-2 px-3 rounded-lg hover:from-accent-600 hover:to-accent-700 transition-all duration-200 transform hover:scale-105 shadow-sm">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -350,7 +359,7 @@
                     </svg>
                     Quick Help
                 </h4>
-                <div class="grid grid-cols-2 gap-2" >
+                <div class="grid grid-cols-2 gap-2">
                     <button onclick="quickAction('order')"
                         class="text-left p-1 text-sm bg-white hover:bg-accent-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105 border border-gray-200">
                         <div class="flex items-center space-x-2">
@@ -416,6 +425,15 @@
 
 
     <script>
+        //close chatbot
+        let closeChat = document.getElementById('close-chat');
+        closeChat.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (window.supportChatbot) {
+                window.supportChatbot.toggleChatbot();
+            }
+        });
+
         //copy right year
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('copyright-year').textContent = new Date().getFullYear();
@@ -495,15 +513,15 @@
                     <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
                     <div class="space-y-1">
                         ${filteredSuggestions.map(suggestion => `
-                                                        <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                                            <div class="flex items-center space-x-2">
-                                                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                                                </svg>
-                                                                <span>${suggestion}</span>
-                                                            </div>
-                                                        </button>
-                                                    `).join('')}
+                                                                                <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                                                                    <div class="flex items-center space-x-2">
+                                                                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                                                        </svg>
+                                                                                        <span>${suggestion}</span>
+                                                                                    </div>
+                                                                                </button>
+                                                                            `).join('')}
                     </div>
                 </div>
             `;
@@ -669,6 +687,7 @@
                 // Add hover effects to quick action buttons
                 this.addQuickActionEffects();
             }
+
 
             toggleChatbot() {
                 const popup = document.getElementById('chatbot-popup');
@@ -926,7 +945,6 @@
             });
         });
     </script>
-    <script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
 </body>
 
 </html>

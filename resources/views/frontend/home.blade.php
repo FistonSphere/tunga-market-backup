@@ -78,7 +78,7 @@
                                 alt="Business collaboration" class="w-full h-32 object-cover rounded-lg shadow-card"
                                 loading="lazy"
                                 onerror="this.src='https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                            <img src="https://images.pixabay.com/photo/2017/10/26/19/45/warehouse-2892006_1280.jpg"
+                            <img src="https://www.indiawarehousing.in/wp-content/uploads/2024/11/How-to-Start-a-Warehousing-Business-in-India.jpg"
                                 alt="Global logistics" class="w-full h-40 object-cover rounded-lg shadow-card"
                                 loading="lazy"
                                 onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2940&auto=format&fit=crop'; this.onerror=null;" />
