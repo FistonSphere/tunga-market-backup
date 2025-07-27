@@ -253,7 +253,7 @@
                 <div>
                     <h3 class="font-semibold mb-4">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="product_discovery_hub.html"
+                        <li><a href="{{route ('product.discovery')}}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Product Discovery</a></li>
                         <li><a href="seller_central_dashboard.html"
                                 class="text-secondary-300 hover:text-accent transition-fast">Seller Central</a></li>

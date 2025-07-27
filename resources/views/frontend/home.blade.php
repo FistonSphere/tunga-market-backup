@@ -29,7 +29,7 @@
 
                     <!-- Personalized Entry Points -->
                     <div class="grid sm:grid-cols-3 gap-4 mb-8">
-                        <a href="product_discovery_hub.html"
+                        <a href="{{route ('product.discovery')}}"
                             class="card hover:shadow-hover transition-all duration-300 text-center group">
                             <div
                                 class="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:bg-accent-200 transition-fast">

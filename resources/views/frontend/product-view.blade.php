@@ -8,7 +8,7 @@
                 <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
-                <a href="product_discovery_hub.html"
+                <a href="{{route ('product.discovery')}}"
                     class="text-secondary-600 hover:text-primary transition-fast">Electronics</a>
                 <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />

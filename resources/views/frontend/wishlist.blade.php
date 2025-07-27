@@ -1032,7 +1032,7 @@
                     </svg>
                     <h2 class="text-2xl font-bold text-primary mb-2">Your cart is empty</h2>
                     <p class="text-secondary-600 mb-6">Looks like you haven't added any items to your cart yet.</p>
-                    <a href="product_discovery_hub.html" class="btn-primary">Continue Shopping</a>
+                    <a href="{{route ('product.discovery')}}" class="btn-primary">Continue Shopping</a>
                 </div>
             `;
             }
