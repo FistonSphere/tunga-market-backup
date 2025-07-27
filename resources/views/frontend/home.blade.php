@@ -569,7 +569,7 @@
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">Success Stories</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Real transformations from businesses that chose to grow with AliMax Commerce
+                    Real transformations from businesses that chose to grow with Tunga Market
                 </p>
             </div>
 
@@ -591,7 +591,7 @@
                         </div>
                     </div>
                     <blockquote class="text-body text-secondary-700 mb-4 italic">
-                        "AliMax Commerce transformed our sourcing process. We've reduced costs by 35% while improving
+                        "Tunga Market transformed our sourcing process. We've reduced costs by 35% while improving
                         quality through their verified supplier network."
                     </blockquote>
                     <div class="text-primary font-semibold">Sarah Chen</div>
@@ -838,7 +838,7 @@
                 Ready to Transform Your Business?
             </h2>
             <p class="text-body-lg text-primary-100 mb-8 max-w-2xl mx-auto">
-                Join thousands of businesses already growing with AliMax Commerce. Start your journey today and discover
+                Join thousands of businesses already growing with Tunga Market. Start your journey today and discover
                 what's possible when business grows together.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
