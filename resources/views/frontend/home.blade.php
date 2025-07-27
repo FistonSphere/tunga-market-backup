@@ -1,4 +1,4 @@
-@extends('layouts.frontend.app')
+@extends('layouts.app')
 @section('content')
     <!-- Hero Section -->
     <section class="relative bg-gradient-to-br from-primary-50 to-accent-50 overflow-hidden">
