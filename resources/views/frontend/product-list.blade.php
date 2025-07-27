@@ -7,12 +7,13 @@
             <div class="text-center mb-8">
                 <h1 class="text-hero font-bold text-primary mb-4">
                     Discover Your Next
-                    <span class="text-gradient">Business Opportunity</span>
+                    <span class="text-gradient">Favorite Product</span>
                 </h1>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    AI-powered product discovery with AR previews, visual search, and intelligent recommendations tailored
-                    to your business needs.
+                    Explore trending items, unbeatable deals, and thousands of trusted sellers, all in one seamless
+                    shopping experience.
                 </p>
+
             </div>
 
             <!-- Advanced Search Bar -->

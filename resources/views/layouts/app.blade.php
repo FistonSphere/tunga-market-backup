@@ -36,18 +36,46 @@
                         class="{{ request()->routeIs('product.discovery') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
                         Discover
                     </a>
-                    <a href="{{ url('supplier_profiles.html') }}"
-                        class="{{ request()->is('supplier_profiles.html') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
-                        Suppliers
-                    </a>
-                    <a href="{{ url('community_marketplace.html') }}"
-                        class="{{ request()->is('community_marketplace.html') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
-                        Community
-                    </a>
-                    <a href="{{ url('mobile_commerce_app_landing.html') }}"
-                        class="{{ request()->is('mobile_commerce_app_landing.html') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
-                        Mobile App
-                    </a>
+                    <style>
+                        /* Optional: Ensure dropdown doesn't disappear on fast mouse move */
+                        .dropdown-wrapper:hover .dropdown-menu {
+                            display: flex !important;
+                        }
+                    </style>
+
+                    <div class="relative dropdown-wrapper">
+                        <!-- Trigger -->
+                        <button
+                            class="text-secondary-600 hover:text-primary transition font-semibold px-4 py-2 flex items-center space-x-1">
+                            <span>Explore</span>
+                            <svg class="w-4 h-4 ml-1 transition-transform" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown Content -->
+                        <div
+                            class="dropdown-menu absolute hidden flex-col space-y-2 p-4 mt-2 bg-white shadow-xl rounded-2xl border border-gray-200 w-64 z-50">
+                            <a href="{{ url('supplier_profiles.html') }}"
+                                class="block p-3 rounded-xl hover:bg-gray-100 transition-all {{ request()->is('supplier_profiles.html') ? 'text-primary font-semibold border-l-4 border-accent pl-2' : 'text-secondary-600' }}">
+                                <div class="font-medium">Suppliers</div>
+                                <div class="text-xs text-gray-500">Explore supplier profiles and offerings.</div>
+                            </a>
+                            <a href="{{ url('community_marketplace.html') }}"
+                                class="block p-3 rounded-xl hover:bg-gray-100 transition-all {{ request()->is('community_marketplace.html') ? 'text-primary font-semibold border-l-4 border-accent pl-2' : 'text-secondary-600' }}">
+                                <div class="font-medium">Community</div>
+                                <div class="text-xs text-gray-500">Join discussions and local markets.</div>
+                            </a>
+                            <a href="{{ url('mobile_commerce_app_landing.html') }}"
+                                class="block p-3 rounded-xl hover:bg-gray-100 transition-all {{ request()->is('mobile_commerce_app_landing.html') ? 'text-primary font-semibold border-l-4 border-accent pl-2' : 'text-secondary-600' }}">
+                                <div class="font-medium">Mobile App</div>
+                                <div class="text-xs text-gray-500">Discover our commerce app features.</div>
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
 
 
@@ -522,15 +550,15 @@
                     <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
                     <div class="space-y-1">
                         ${filteredSuggestions.map(suggestion => `
-                                                                                                    <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                                                                                        <div class="flex items-center space-x-2">
-                                                                                                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                                                                                            </svg>
-                                                                                                            <span>${suggestion}</span>
-                                                                                                        </div>
-                                                                                                    </button>
-                                                                                                `).join('')}
+                                                                                                        <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                                                                                            <div class="flex items-center space-x-2">
+                                                                                                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                                                                                </svg>
+                                                                                                                <span>${suggestion}</span>
+                                                                                                            </div>
+                                                                                                        </button>
+                                                                                                    `).join('')}
                     </div>
                 </div>
             `;
