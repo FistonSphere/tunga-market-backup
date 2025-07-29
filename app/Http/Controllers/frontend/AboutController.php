@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class AboutController extends Controller
 {
-    //
+    public function index(){
+        // Logic to retrieve and display about information
+        return view('frontend.about'); // Adjust the view name as necessary
+    }
 }
