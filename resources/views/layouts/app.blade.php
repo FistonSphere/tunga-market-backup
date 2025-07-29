@@ -15,7 +15,7 @@
 
 <body class="bg-background text-text-primary">
     <!-- Navigation Header -->
-    <header class="bg-white shadow-card sticky top-0 z-50">
+    <header class="bg-white shadow-card sticky top-0 z-50 border-b border-border">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
@@ -26,8 +26,8 @@
                     </a>
                 </div>
 
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center space-x-8">
+                <!-- Enhanced Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8 relative">
                     <a href="{{ route('home') }}"
                         class="{{ request()->routeIs('home') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
                         Home
@@ -36,53 +36,206 @@
                         class="{{ request()->routeIs('product.discovery') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
                         Discover
                     </a>
-                    <style>
-                        .dropdown-wrapper:hover .dropdown-menu {
-                            display: flex !important;
-                        }
-                    </style>
 
-                    <div class="relative dropdown-wrapper">
-                        <!-- Trigger -->
+                    <!-- Enhanced Explore Dropdown -->
+                    <div class="relative group">
                         <button
-                            class="text-secondary-600 hover:text-primary transition font-semibold px-4 py-2 flex items-center space-x-1">
+                            class="flex items-center space-x-1 text-secondary-600 hover:text-primary transition-fast font-medium group-hover:text-primary"
+                            id="explore-button">
                             <span>Explore</span>
-                            <svg class="w-4 h-4 ml-1 transition-transform" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
+                                    d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
 
-                        <!-- Dropdown Content -->
-                        <div
-                            class="dropdown-menu absolute hidden flex-col space-y-2 p-4 mt-2 bg-white shadow-xl rounded-2xl border border-gray-200 w-64 z-50">
-                            <a href="{{ url('supplier_profiles.html') }}"
-                                class="block p-3 rounded-xl hover:bg-gray-100 transition-all {{ request()->is('supplier_profiles.html') ? 'text-primary font-semibold border-l-4 border-accent pl-2' : 'text-secondary-600' }}">
-                                <div class="font-medium">Suppliers</div>
-                                <div class="text-xs text-gray-500">Explore supplier profiles and offerings.</div>
-                            </a>
-                            <a href="{{ url('mobile_commerce_app_landing.html') }}"
-                                class="block p-3 rounded-xl hover:bg-gray-100 transition-all {{ request()->is('mobile_commerce_app_landing.html') ? 'text-primary font-semibold border-l-4 border-accent pl-2' : 'text-secondary-600' }}">
-                                <div class="font-medium">Mobile App</div>
-                                <div class="text-xs text-gray-500">Discover our commerce app features.</div>
-                            </a>
+                        <!-- Full-Width Landscape Dropdown Card -->
+                        <div id="explore-dropdown"
+                            class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-screen max-w-screen-xl bg-white rounded-xl shadow-modal border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50"
+                            style="margin-left: calc(-50vw + 50%);">
+                            <div class="p-8">
+                                <!-- Horizontal Layout Container -->
+                                <div class="flex flex-col lg:flex-row gap-8">
+                                    <!-- Left Section: Primary Actions -->
+                                    <div class="flex-1">
+                                        <h3
+                                            class="text-sm font-semibold text-secondary-600 uppercase tracking-wide mb-6">
+                                            Main Categories</h3>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+                                            <a href="seller_central_dashboard.html"
+                                                class="group/item p-6 rounded-lg hover:bg-accent-50 transition-all duration-300 border border-transparent hover:border-accent-200">
+                                                <div class="flex items-center space-x-4">
+                                                    <div
+                                                        class="w-12 h-12 bg-success-100 rounded-lg flex items-center justify-center group-hover/item:bg-success-200 transition-fast">
+                                                        <svg class="w-6 h-6 text-success" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="font-semibold text-primary text-lg">Sell</h4>
+                                                        <p class="text-sm text-secondary-600">Start selling products and
+                                                            grow your business</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+
+                                            <a href="supplier_profiles.html"
+                                                class="group/item p-6 rounded-lg hover:bg-accent-50 transition-all duration-300 border border-transparent hover:border-accent-200">
+                                                <div class="flex items-center space-x-4">
+                                                    <div
+                                                        class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center group-hover/item:bg-primary-200 transition-fast">
+                                                        <svg class="w-6 h-6 text-primary" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="font-semibold text-primary text-lg">Suppliers</h4>
+                                                        <p class="text-sm text-secondary-600">Find trusted suppliers and
+                                                            partners</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+
+                                            <a href="community_marketplace.html"
+                                                class="group/item p-6 rounded-lg hover:bg-accent-50 transition-all duration-300 border border-transparent hover:border-accent-200">
+                                                <div class="flex items-center space-x-4">
+                                                    <div
+                                                        class="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center group-hover/item:bg-accent-200 transition-fast">
+                                                        <svg class="w-6 h-6 text-accent" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="font-semibold text-primary text-lg">Community</h4>
+                                                        <p class="text-sm text-secondary-600">Connect with traders and
+                                                            businesses</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+
+                                            <a href="mobile_commerce_app_landing.html"
+                                                class="group/item p-6 rounded-lg hover:bg-accent-50 transition-all duration-300 border border-transparent hover:border-accent-200">
+                                                <div class="flex items-center space-x-4">
+                                                    <div
+                                                        class="w-12 h-12 bg-warning-100 rounded-lg flex items-center justify-center group-hover/item:bg-warning-200 transition-fast">
+                                                        <svg class="w-6 h-6 text-warning" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="font-semibold text-primary text-lg">Mobile App</h4>
+                                                        <p class="text-sm text-secondary-600">Download our mobile app
+                                                            for
+                                                            trading</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Vertical Divider -->
+                                    <div class="hidden lg:block w-px bg-border"></div>
+
+                                    <!-- Right Section: Company & Support -->
+                                    <div class="flex-1">
+                                        <h3
+                                            class="text-sm font-semibold text-secondary-600 uppercase tracking-wide mb-6">
+                                            Company & Support</h3>
+                                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                                            <a href="#about-us"
+                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">About
+                                                Us</a>
+                                            <a href="#careers"
+                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Careers</a>
+                                            <a href="#press"
+                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Press</a>
+                                            <a href="#investor-relations"
+                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Investor
+                                                Relations</a>
+                                            <a href="#help-center"
+                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Help
+                                                Center</a>
+                                            <a href="#contact-us"
+                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Contact
+                                                Us</a>
+                                            <a href="#dispute-resolution"
+                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Dispute
+                                                Resolution</a>
+                                            <a href="#trade-assurance"
+                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Trade
+                                                Assurance</a>
+                                        </div>
+
+                                        <!-- Additional Features Section -->
+                                        <div class="mt-8 pt-6 border-t border-border">
+                                            <h4
+                                                class="text-sm font-semibold text-secondary-600 uppercase tracking-wide mb-4">
+                                                Quick Access</h4>
+                                            <div class="flex flex-wrap gap-3">
+                                                <a href="order_tracking_center.html"
+                                                    class="inline-flex items-center space-x-2 text-sm bg-primary-50 text-primary px-4 py-2 rounded-full hover:bg-primary-100 transition-fast">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                                    </svg>
+                                                    <span>Track Orders</span>
+                                                </a>
+                                                <a href="wishlist_popup.html"
+                                                    class="inline-flex items-center space-x-2 text-sm bg-accent-50 text-accent px-4 py-2 rounded-full hover:bg-accent-100 transition-fast">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                                    </svg>
+                                                    <span>My Wishlist</span>
+                                                </a>
+                                                <a href="live_chat_support_center.html"
+                                                    class="inline-flex items-center space-x-2 text-sm bg-success-50 text-success px-4 py-2 rounded-full hover:bg-success-100 transition-fast">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                                    </svg>
+                                                    <span>Live Support</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
                 </div>
 
-
-                <!-- CTA Buttons -->
+                <!-- Enhanced Search & Action Buttons -->
                 <div class="hidden md:flex items-center space-x-4">
-                    <!-- Search Icon -->
-                    <button onclick="openSearchOverlay()"
-                        class="text-secondary-600 hover:text-accent transition-fast p-2" title="Search Products">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </button>
+                    <!-- Enhanced Search with Voice & Image -->
+                    <div class="flex items-center space-x-2">
+                        <button onclick="openSearchOverlay()"
+                            class="text-secondary-600 hover:text-accent transition-fast p-2" title="Search Products">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                    </div>
+
                     <!-- Wishlist Icon -->
                     <button onclick="toggleWishlist()"
                         class="relative text-secondary-600 hover:text-accent transition-fast p-2" title="Wishlist">
@@ -111,12 +264,84 @@
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <button class="md:hidden p-2" id="mobileMenuBtn">
-                    <svg class="h-6 w-6 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2" id="mobile-menu-button">
+                    <svg id="mobile-menu-icon" class="h-6 w-6 text-secondary-600" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
+                    <svg id="mobile-close-icon" class="h-6 w-6 text-secondary-600 hidden" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                 </button>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-menu" class="md:hidden border-t border-border bg-white shadow-lg hidden">
+                <div class="px-4 py-6 space-y-4">
+                    <a href="homepage.html" class="block text-primary font-semibold py-2">Home</a>
+                    <a href="product_discovery_hub.html"
+                        class="block text-secondary-600 hover:text-primary transition-fast py-2">Discover</a>
+
+                    <!-- Mobile Explore Section -->
+                    <div class="border-t border-border pt-4">
+                        <h3 class="text-sm font-semibold text-secondary-600 uppercase tracking-wide mb-3">Explore</h3>
+                        <div class="space-y-2 pl-4">
+                            <a href="seller_central_dashboard.html"
+                                class="block text-secondary-700 hover:text-primary transition-fast py-2">📈 Sell</a>
+                            <a href="supplier_profiles.html"
+                                class="block text-secondary-700 hover:text-primary transition-fast py-2">🏢
+                                Suppliers</a>
+                            <a href="community_marketplace.html"
+                                class="block text-secondary-700 hover:text-primary transition-fast py-2">👥
+                                Community</a>
+                            <a href="mobile_commerce_app_landing.html"
+                                class="block text-secondary-700 hover:text-primary transition-fast py-2">📱 Mobile
+                                App</a>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Company & Support -->
+                    <div class="border-t border-border pt-4">
+                        <h3 class="text-sm font-semibold text-secondary-600 uppercase tracking-wide mb-3">Company &
+                            Support
+                        </h3>
+                        <div class="grid grid-cols-2 gap-2 pl-4">
+                            <a href="#about-us"
+                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">About Us</a>
+                            <a href="#careers"
+                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Careers</a>
+                            <a href="#press"
+                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Press</a>
+                            <a href="#investor-relations"
+                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Investor
+                                Relations</a>
+                            <a href="#help-center"
+                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Help
+                                Center</a>
+                            <a href="#contact-us"
+                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Contact
+                                Us</a>
+                            <a href="#dispute-resolution"
+                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Dispute
+                                Resolution</a>
+                            <a href="#trade-assurance"
+                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Trade
+                                Assurance</a>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Actions -->
+                    <div class="border-t border-border pt-4 space-y-3">
+                        <div class="flex space-x-4">
+                            <a href="{{ route('login') }}"
+                                class="flex-1 text-primary hover:text-accent transition-fast py-2">Sign In</a>
+                            <a href="{{ route('login') }}" class="flex-1 btn-primary py-2 text-sm">Get Started</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </nav>
     </header>
@@ -252,7 +477,7 @@
                 <div>
                     <h3 class="font-semibold mb-4">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="{{route ('product.discovery')}}"
+                        <li><a href="{{ route('product.discovery') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Product Discovery</a></li>
                         <li><a href="seller_central_dashboard.html"
                                 class="text-secondary-300 hover:text-accent transition-fast">Seller Central</a></li>
@@ -544,15 +769,15 @@
                     <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
                     <div class="space-y-1">
                         ${filteredSuggestions.map(suggestion => `
-                                                                                                                <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                                                                                                    <div class="flex items-center space-x-2">
-                                                                                                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                                                                                                        </svg>
-                                                                                                                        <span>${suggestion}</span>
-                                                                                                                    </div>
-                                                                                                                </button>
-                                                                                                            `).join('')}
+                                                                                                                        <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                                                                                                            <div class="flex items-center space-x-2">
+                                                                                                                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                                                                                                </svg>
+                                                                                                                                <span>${suggestion}</span>
+                                                                                                                            </div>
+                                                                                                                        </button>
+                                                                                                                    `).join('')}
                     </div>
                 </div>
             `;
@@ -1164,6 +1389,96 @@
                 cartWishlistManager.wishlistCount = cartWishlistManager.getStoredCount('wishlistCount', 12);
                 cartWishlistManager.updateDisplays();
             }
+        });
+    </script>
+
+    <script>
+        // Enhanced Navigation Functionality
+        class EnhancedNavigation {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.setupDropdownEvents();
+                this.setupMobileMenu();
+                this.setupSearchOverlay();
+                this.setupImageSearch();
+            }
+
+            setupDropdownEvents() {
+                const exploreButton = document.getElementById('explore-button');
+                const exploreDropdown = document.getElementById('explore-dropdown');
+
+                // Handle hover events for desktop
+                const exploreGroup = exploreButton.closest('.group');
+
+                exploreGroup.addEventListener('mouseenter', () => {
+                    exploreDropdown.classList.add('opacity-100', 'visible');
+                    exploreDropdown.classList.remove('opacity-0', 'invisible');
+                });
+
+                exploreGroup.addEventListener('mouseleave', () => {
+                    exploreDropdown.classList.remove('opacity-100', 'visible');
+                    exploreDropdown.classList.add('opacity-0', 'invisible');
+                });
+
+                // Handle click events for mobile/tablet
+                exploreButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const isVisible = exploreDropdown.classList.contains('opacity-100');
+
+                    if (isVisible) {
+                        exploreDropdown.classList.remove('opacity-100', 'visible');
+                        exploreDropdown.classList.add('opacity-0', 'invisible');
+                    } else {
+                        exploreDropdown.classList.add('opacity-100', 'visible');
+                        exploreDropdown.classList.remove('opacity-0', 'invisible');
+                    }
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!exploreGroup.contains(e.target)) {
+                        exploreDropdown.classList.remove('opacity-100', 'visible');
+                        exploreDropdown.classList.add('opacity-0', 'invisible');
+                    }
+                });
+            }
+
+            setupMobileMenu() {
+                // Mobile menu functionality handled by toggleMobileMenu function
+            }
+
+           
+
+        }
+
+        // Global Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('mobile-menu-icon');
+            const closeIcon = document.getElementById('mobile-close-icon');
+
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
+
+
+
+
+
+        // Initialize Enhanced Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            window.enhancedNav = new EnhancedNavigation();
         });
     </script>
 </body>
