@@ -37,7 +37,6 @@
                         Discover
                     </a>
                     <style>
-                        /* Optional: Ensure dropdown doesn't disappear on fast mouse move */
                         .dropdown-wrapper:hover .dropdown-menu {
                             display: flex !important;
                         }
