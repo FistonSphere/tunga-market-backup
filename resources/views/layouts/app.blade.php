@@ -21,7 +21,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="/" class ="imglogolink">
-                        <img src="{{ asset('assets/images/logo.png') }}" alt="Tunga Market Logo"
+                        <img src="{{ asset('assets/images/logo.png') }}" style="width: 80px; height: 40px; border-radius: 8px; object-fit: cover;" alt="Tunga Market Logo"
                             class="Imglogo text-primary" />
                     </a>
                 </div>
@@ -1450,7 +1450,7 @@
                 // Mobile menu functionality handled by toggleMobileMenu function
             }
 
-           
+
 
         }
 
