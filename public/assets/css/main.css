@@ -4505,3 +4505,9 @@ h6 {
         width: 120px;
     }
 }
+@media (max-width: 486px) {
+    body.bg-background.text-text-primary {
+        width: 119%;
+    }
+}
+
