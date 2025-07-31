@@ -551,7 +551,7 @@
             <a href="careers.html" class="bg-accent hover:bg-accent-600 text-white font-semibold px-8 py-4 rounded-lg transition-fast">
                 Explore Careers
             </a>
-            <a href="homepage.html" class="bg-white hover:bg-gray-50 text-primary font-semibold px-8 py-4 rounded-lg transition-fast">
+            <a href="{{ route('home') }} " class="bg-white hover:bg-gray-50 text-primary font-semibold px-8 py-4 rounded-lg transition-fast">
                 Start Trading
             </a>
         </div>

@@ -239,7 +239,7 @@
                         </svg>
                     </button>
                     <!-- Wishlist Icon -->
-                    <button onclick="toggleWishlist()"
+                    <button onclick="toggleWishlist()" id="open-wishlist-btn"
                         class="relative text-secondary-600 hover:text-accent transition-fast p-2" title="Wishlist">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -322,7 +322,8 @@
                             <a href="{{ route('about') }}"
                                 class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">About Us</a>
                             <a href="{{ route('contact') }}"
-                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Contact Us</a>
+                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Contact
+                                Us</a>
                             <a href="#press"
                                 class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Press</a>
                             <a href="#investor-relations"
@@ -686,7 +687,253 @@
         </div>
     </div>
 
+    <!-- Wishlist overlay popup hidden initially -->
+    <div id="wishlist-overlay" style="display: none"
+        class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-modal max-w-2xl w-full max-h-screen overflow-hidden animate-fade-in">
+            <!-- Popup Header -->
+            <div class="flex items-center justify-between p-6 border-b border-border">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-accent-100 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-primary">My Wishlist</h2>
+                        <p class="text-body-sm text-secondary-600">
+                            <span id="total-wishlist-count">12</span> items saved
+                        </p>
+                    </div>
+                </div>
 
+                <!-- Header Actions -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="clearAllWishlist()"
+                        class="text-secondary-600 hover:text-error transition-fast text-body-sm font-medium">
+                        Clear All
+                    </button>
+                    <button onclick="shareWishlist()" class="text-secondary-600 hover:text-accent transition-fast p-2"
+                        title="Share Wishlist">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                        </svg>
+                    </button>
+                    <button onclick="closeWishlistPopup()"
+                        class="text-secondary-600 hover:text-primary transition-fast p-2" title="Close">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Wishlist Items Container -->
+            <div class="p-6 max-h-96 overflow-y-auto">
+                <div id="wishlist-items" class="space-y-4">
+                    <!-- Wishlist Item 1 -->
+                    <div
+                        class="wishlist-item flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface transition-fast group">
+                        <div class="relative flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
+                                alt="Premium Wireless Earbuds Pro" class="w-16 h-16 rounded-lg object-cover"
+                                loading="lazy" />
+                            <div
+                                class="absolute -top-1 -right-1 bg-success text-white text-xs rounded-full px-1.5 py-0.5 font-semibold">
+                                -25%
+                            </div>
+                        </div>
+
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-semibold text-primary mb-1 truncate">
+                                Premium Wireless Earbuds Pro
+                            </h3>
+                            <p class="text-body-sm text-secondary-600 mb-2">
+                                TechSound Electronics
+                            </p>
+
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-baseline space-x-2">
+                                    <span class="text-lg font-bold text-primary">$149.99</span>
+                                    <span class="text-body-sm text-secondary-500 line-through">$199.99</span>
+                                </div>
+                                <div class="flex items-center text-success text-body-sm">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    In Stock
+                                </div>
+                                <div class="flex items-center text-warning text-body-sm">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                                    </svg>
+                                    Price Drop!
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item Actions -->
+                        <div class="flex flex-col space-y-2">
+                            <button onclick="addToCartFromWishlist(this)" class="btn-primary px-4 py-2 text-body-sm">
+                                Add to Cart
+                            </button>
+                            <button onclick="removeFromWishlist(this)"
+                                class="text-secondary-600 hover:text-error transition-fast text-body-sm">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Wishlist Item 2 -->
+                    <div
+                        class="wishlist-item flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface transition-fast group">
+                        <div class="relative flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2684&auto=format&fit=crop"
+                                alt="Portable Bluetooth Speaker" class="w-16 h-16 rounded-lg object-cover"
+                                loading="lazy" />
+                        </div>
+
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-semibold text-primary mb-1 truncate">
+                                Portable Bluetooth Speaker Pro
+                            </h3>
+                            <p class="text-body-sm text-secondary-600 mb-2">
+                                AudioMax Solutions
+                            </p>
+
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-baseline space-x-2">
+                                    <span class="text-lg font-bold text-primary">$89.99</span>
+                                    <span class="text-body-sm text-secondary-500 line-through">$119.99</span>
+                                </div>
+                                <div class="flex items-center text-success text-body-sm">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    In Stock
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col space-y-2">
+                            <button onclick="addToCartFromWishlist(this)" class="btn-primary px-4 py-2 text-body-sm">
+                                Add to Cart
+                            </button>
+                            <button onclick="removeFromWishlist(this)"
+                                class="text-secondary-600 hover:text-error transition-fast text-body-sm">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Popup Footer -->
+            <div class="border-t border-border p-6 bg-surface">
+                <div class="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+                    <!-- Quick Actions -->
+                    <div class="flex items-center space-x-4">
+                        <button onclick="addAllToCart()"
+                            class="text-accent hover:text-accent-600 transition-fast font-semibold text-body-sm">
+                            <svg class="w-4 h-4 mr-1 inline" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7m0 0h9.5M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7" />
+                            </svg>
+                            Add All to Cart
+                        </button>
+                        <button onclick="compareItems()"
+                            class="text-secondary-600 hover:text-primary transition-fast font-semibold text-body-sm">
+                            <svg class="w-4 h-4 mr-1 inline" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            Compare
+                        </button>
+                    </div>
+
+                    <!-- See More Button -->
+                    <a href="{{ route('product.discovery') }}" class="btn-primary flex items-center space-x-2 px-6 py-3">
+                        <span>See All Items</span>
+                        <span class="bg-white bg-opacity-20 rounded-full px-2 py-1 text-xs font-semibold">+7</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation for Mobile -->
+    <div id="mobile-bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-border md:hidden z-40">
+        <div class="flex items-center justify-around py-2">
+            <button onclick="window.location.href='{{ route('home') }}'"
+                class="flex flex-col items-center p-2 text-secondary-600 hover:text-primary transition-fast">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                <span class="text-xs">Home</span>
+            </button>
+
+            <button onclick="window.location.href='{{ route('product.discovery') }}'"
+                class="flex flex-col items-center p-2 text-secondary-600 hover:text-primary transition-fast">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <span class="text-xs">Discover</span>
+            </button>
+
+            <button onclick="viewFullWishlist()"
+                class="flex flex-col items-center p-2 text-accent hover:text-accent-600 transition-fast">
+                <div class="relative">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    <span
+                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">12</span>
+                </div>
+                <span class="text-xs font-semibold">Wishlist</span>
+            </button>
+
+            <button onclick="window.location.href='shopping_cart.html'"
+                class="flex flex-col items-center p-2 text-secondary-600 hover:text-primary transition-fast">
+                <div class="relative">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7m0 0h9.5M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7" />
+                    </svg>
+                    <span
+                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">7</span>
+                </div>
+                <span class="text-xs">Cart</span>
+            </button>
+
+            <button onclick="window.location.href='order_tracking_center.html'"
+                class="flex flex-col items-center p-2 text-secondary-600 hover:text-primary transition-fast">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <span class="text-xs">Orders</span>
+            </button>
+        </div>
+    </div>
     <script>
         //close chatbot
         let closeChat = document.getElementById('close-chat');
@@ -776,15 +1023,15 @@
                     <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
                     <div class="space-y-1">
                         ${filteredSuggestions.map(suggestion => `
-                                                                                                                                        <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                                                                                                                            <div class="flex items-center space-x-2">
-                                                                                                                                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                                                                                                                                </svg>
-                                                                                                                                                <span>${suggestion}</span>
-                                                                                                                                            </div>
-                                                                                                                                        </button>
-                                                                                                                                    `).join('')}
+                                                                                                                                                    <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                                                                                                                                        <div class="flex items-center space-x-2">
+                                                                                                                                                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                                                                                                                            </svg>
+                                                                                                                                                            <span>${suggestion}</span>
+                                                                                                                                                        </div>
+                                                                                                                                                    </button>
+                                                                                                                                                `).join('')}
                     </div>
                 </div>
             `;
@@ -893,10 +1140,10 @@
         }
 
         // Wishlist and Cart Functions (placeholders for existing functionality)
-        function toggleWishlist() {
-            // Placeholder for wishlist functionality
-            console.log('Wishlist toggled');
-        }
+        // function toggleWishlist() {
+        //     // Placeholder for wishlist functionality
+        //     console.log('Wishlist toggled');
+        // }
 
         function toggleCart() {
             // Placeholder for cart functionality
@@ -1332,10 +1579,10 @@
             window.location.href = 'shopping_cart.html';
         }
 
-        function toggleWishlist() {
-            cartWishlistManager.showNotification('Wishlist',
-                `You have ${cartWishlistManager.wishlistCount} items in your wishlist`, 'info');
-        }
+        // function toggleWishlist() {
+        //     cartWishlistManager.showNotification('Wishlist',
+        //         `You have ${cartWishlistManager.wishlistCount} items in your wishlist`, 'info');
+        // }
 
         function addToCart(quantity = 1) {
             cartWishlistManager.addToCart(quantity);
@@ -1477,14 +1724,490 @@
             }
         }
 
-
-
-
-
-
         // Initialize Enhanced Navigation
         document.addEventListener('DOMContentLoaded', function() {
             window.enhancedNav = new EnhancedNavigation();
+        });
+    </script>
+    <script>
+        // Show wishlist popup on button click
+        document
+            .getElementById("open-wishlist-btn")
+            .addEventListener("click", () => {
+                const overlay = document.getElementById("wishlist-overlay");
+                overlay.style.display = "flex";
+                overlay.style.animation = "fadeIn 0.3s ease-out forwards";
+            });
+
+        // Hide wishlist popup function
+        function closeWishlistPopup() {
+            const overlay = document.getElementById("wishlist-overlay");
+            overlay.style.animation = "fadeOut 0.3s ease-out forwards";
+            setTimeout(() => {
+                overlay.style.display = "none";
+            }, 300);
+        }
+
+        // Close popup on clicking outside the inner popup content
+        document
+            .getElementById("wishlist-overlay")
+            .addEventListener("click", (e) => {
+                if (e.target === e.currentTarget) {
+                    closeWishlistPopup();
+                }
+            });
+
+        // Close popup on pressing ESC key
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                const overlay = document.getElementById("wishlist-overlay");
+                if (overlay.style.display === "flex") {
+                    closeWishlistPopup();
+                }
+            }
+        });
+    </script>
+    <script>
+        // Wishlist Management Class
+        class WishlistPopupManager {
+            constructor() {
+                this.wishlistCount = this.getStoredCount("wishlistCount", 12);
+                this.cartCount = this.getStoredCount("cartCount", 7);
+                this.updateCounts();
+                this.initializeDragAndDrop();
+                this.handleMobileInteractions();
+            }
+
+            getStoredCount(key, defaultValue = 0) {
+                try {
+                    const stored = localStorage.getItem(key);
+                    return stored ? parseInt(stored) : defaultValue;
+                } catch (e) {
+                    return defaultValue;
+                }
+            }
+
+            setStoredCount(key, value) {
+                try {
+                    localStorage.setItem(key, value.toString());
+                } catch (e) {
+                    console.warn("Could not store count in localStorage");
+                }
+            }
+
+            updateCounts() {
+                const totalCountElement = document.getElementById(
+                    "total-wishlist-count"
+                );
+                if (totalCountElement) {
+                    totalCountElement.textContent = this.wishlistCount;
+                }
+
+                // Update mobile nav counts
+                const mobileWishlistBadge = document.querySelector(
+                    "#mobile-bottom-nav .bg-accent"
+                );
+                const mobileCartBadge = document.querySelector(
+                    '#mobile-bottom-nav [class*="bg-accent"]:last-child'
+                );
+
+                if (mobileWishlistBadge) {
+                    mobileWishlistBadge.textContent =
+                        this.wishlistCount > 99 ? "99+" : this.wishlistCount;
+                }
+            }
+
+            showToast(title, message, type = "success") {
+                const toast = document.getElementById("toast-notification");
+                const toastTitle = document.getElementById("toast-title");
+                const toastMessage = document.getElementById("toast-message");
+
+                const colors = {
+                    success: {
+                        border: "border-success",
+                        icon: "text-success"
+                    },
+                    warning: {
+                        border: "border-warning",
+                        icon: "text-warning"
+                    },
+                    error: {
+                        border: "border-error",
+                        icon: "text-error"
+                    },
+                    info: {
+                        border: "border-primary",
+                        icon: "text-primary"
+                    },
+                };
+
+                const toastContent = toast.querySelector("div");
+                toastContent.className =
+                    `bg-white shadow-modal rounded-lg p-4 ${colors[type].border} border-l-4 max-w-sm`;
+
+                toastTitle.textContent = title;
+                toastMessage.textContent = message;
+
+                toast.classList.remove("translate-x-full");
+
+                setTimeout(() => {
+                    this.hideToast();
+                }, 4000);
+            }
+
+            hideToast() {
+                const toast = document.getElementById("toast-notification");
+                toast.classList.add("translate-x-full");
+            }
+
+            initializeDragAndDrop() {
+                const wishlistItems = document.querySelectorAll(".wishlist-item");
+                wishlistItems.forEach((item, index) => {
+                    item.draggable = true;
+                    item.addEventListener("dragstart", this.handleDragStart.bind(this));
+                    item.addEventListener("dragover", this.handleDragOver.bind(this));
+                    item.addEventListener("drop", this.handleDrop.bind(this));
+                });
+            }
+
+            handleDragStart(e) {
+                e.dataTransfer.setData("text/plain", "");
+                e.currentTarget.classList.add("opacity-50");
+            }
+
+            handleDragOver(e) {
+                e.preventDefault();
+            }
+
+            handleDrop(e) {
+                e.preventDefault();
+                e.currentTarget.classList.remove("opacity-50");
+                this.showToast(
+                    "Items Reordered",
+                    "Wishlist items have been reordered successfully."
+                );
+            }
+
+            handleMobileInteractions() {
+                if (window.innerWidth <= 768) {
+                    // Add swipe gestures for mobile
+                    const wishlistItems = document.querySelectorAll(".wishlist-item");
+                    wishlistItems.forEach((item) => {
+                        let startX = 0;
+                        let currentX = 0;
+                        let cardBeingDragged = null;
+
+                        item.addEventListener(
+                            "touchstart",
+                            (e) => {
+                                startX = e.touches[0].clientX;
+                                cardBeingDragged = e.currentTarget;
+                            }, {
+                                passive: true
+                            }
+                        );
+
+                        item.addEventListener(
+                            "touchmove",
+                            (e) => {
+                                if (!cardBeingDragged) return;
+                                currentX = e.touches[0].clientX;
+                                const diffX = currentX - startX;
+
+                                if (diffX < -50) {
+                                    cardBeingDragged.style.transform = `translateX(${diffX}px)`;
+                                    cardBeingDragged.style.opacity = Math.max(
+                                        0.5,
+                                        1 + diffX / 200
+                                    );
+                                }
+                            }, {
+                                passive: true
+                            }
+                        );
+
+                        item.addEventListener(
+                            "touchend",
+                            (e) => {
+                                if (!cardBeingDragged) return;
+                                const diffX = currentX - startX;
+
+                                if (diffX < -100) {
+                                    // Remove item
+                                    this.removeItemFromWishlist(cardBeingDragged);
+                                } else {
+                                    // Reset position
+                                    cardBeingDragged.style.transform = "";
+                                    cardBeingDragged.style.opacity = "";
+                                }
+
+                                cardBeingDragged = null;
+                                startX = 0;
+                                currentX = 0;
+                            }, {
+                                passive: true
+                            }
+                        );
+                    });
+                }
+            }
+
+            removeItemFromWishlist(item) {
+                const productName = item.querySelector("h3").textContent;
+                item.style.transform = "translateX(-100%)";
+                item.style.opacity = "0";
+
+                setTimeout(() => {
+                    item.remove();
+                    this.wishlistCount--;
+                    this.setStoredCount("wishlistCount", this.wishlistCount);
+                    this.updateCounts();
+                    this.showToast(
+                        "Item Removed",
+                        `${productName} removed from wishlist`
+                    );
+                }, 300);
+            }
+        }
+
+        // Initialize wishlist popup manager
+        const wishlistManager = new WishlistPopupManager();
+
+        // Global Functions
+        function closeWishlistPopup() {
+            const overlay = document.getElementById("wishlist-overlay");
+            overlay.style.animation = "fadeOut 0.3s ease-out forwards";
+           
+        }
+
+        function addToCartFromWishlist(button) {
+            const item = button.closest(".wishlist-item");
+            const productName = item.querySelector("h3").textContent;
+            const priceElement = item.querySelector(
+                ".text-lg.font-bold.text-primary"
+            );
+            const price = priceElement.textContent;
+
+            // Update counts
+            wishlistManager.cartCount++;
+            wishlistManager.wishlistCount--;
+            wishlistManager.setStoredCount("cartCount", wishlistManager.cartCount);
+            wishlistManager.setStoredCount(
+                "wishlistCount",
+                wishlistManager.wishlistCount
+            );
+            wishlistManager.updateCounts();
+
+            // Remove item with animation
+            item.style.transform = "translateX(100%)";
+            item.style.opacity = "0";
+            setTimeout(() => item.remove(), 300);
+
+            wishlistManager.showToast(
+                "Added to Cart",
+                `${productName} (${price}) added to cart`
+            );
+        }
+
+        function removeFromWishlist(button) {
+            const item = button.closest(".wishlist-item");
+            wishlistManager.removeItemFromWishlist(item);
+        }
+
+        function clearAllWishlist() {
+            if (
+                confirm(
+                    "Are you sure you want to clear your entire wishlist? This action cannot be undone."
+                )
+            ) {
+                const items = document.querySelectorAll(".wishlist-item");
+                items.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.style.transform = "translateX(-100%)";
+                        item.style.opacity = "0";
+                        setTimeout(() => item.remove(), 300);
+                    }, index * 100);
+                });
+
+                wishlistManager.wishlistCount = 0;
+                wishlistManager.setStoredCount("wishlistCount", 0);
+                wishlistManager.updateCounts();
+                wishlistManager.showToast(
+                    "Wishlist Cleared",
+                    "All items removed from wishlist"
+                );
+            }
+        }
+
+        function shareWishlist() {
+            if (navigator.share) {
+                navigator
+                    .share({
+                        title: "My AliMax Commerce Wishlist",
+                        text: "Check out these amazing products I'm planning to buy!",
+                        url: window.location.href,
+                    })
+                    .then(() => {
+                        wishlistManager.showToast(
+                            "Shared",
+                            "Wishlist shared successfully!"
+                        );
+                    })
+                    .catch(() => {
+                        fallbackShare();
+                    });
+            } else {
+                fallbackShare();
+            }
+        }
+
+        function fallbackShare() {
+            navigator.clipboard
+                .writeText(window.location.href)
+                .then(() => {
+                    wishlistManager.showToast(
+                        "Link Copied",
+                        "Wishlist link copied to clipboard"
+                    );
+                })
+                .catch(() => {
+                    wishlistManager.showToast(
+                        "Share Failed",
+                        "Unable to share wishlist",
+                        "error"
+                    );
+                });
+        }
+
+        function addAllToCart() {
+            const items = document.querySelectorAll(".wishlist-item");
+            if (items.length === 0) {
+                wishlistManager.showToast(
+                    "Empty Wishlist",
+                    "No items to add to cart",
+                    "warning"
+                );
+                return;
+            }
+
+            let addedCount = 0;
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.transform = "translateX(100%)";
+                    item.style.opacity = "0";
+                    addedCount++;
+
+                    if (addedCount === items.length) {
+                        wishlistManager.cartCount += addedCount;
+                        wishlistManager.wishlistCount = 0;
+                        wishlistManager.setStoredCount(
+                            "cartCount",
+                            wishlistManager.cartCount
+                        );
+                        wishlistManager.setStoredCount("wishlistCount", 0);
+                        wishlistManager.updateCounts();
+                        wishlistManager.showToast(
+                            "All Added",
+                            `${addedCount} items added to cart`
+                        );
+                    }
+
+                    setTimeout(() => item.remove(), 300);
+                }, index * 150);
+            });
+        }
+
+        function compareItems() {
+            const selectedItems = document.querySelectorAll(".wishlist-item");
+            if (selectedItems.length < 2) {
+                wishlistManager.showToast(
+                    "Select Items",
+                    "Select at least 2 items to compare",
+                    "warning"
+                );
+                return;
+            }
+
+            wishlistManager.showToast(
+                "Comparison Started",
+                "Opening product comparison..."
+            );
+            // In real implementation, would open comparison view
+            setTimeout(() => {
+                window.location.href = "{{ route('product.discovery') }}";
+            }, 1500);
+        }
+
+        function viewFullWishlist() {
+            // Trigger the wishlist popup by simulating a click on the open-wishlist-btn
+            const openBtn = document.getElementById("open-wishlist-btn");
+            if (openBtn) {
+            openBtn.click();
+            }
+        }
+
+        function hideToast() {
+            wishlistManager.hideToast();
+        }
+
+        // Handle back button and ESC key
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") {
+                closeWishlistPopup();
+            }
+        });
+
+        // Handle click outside popup
+        document
+            .getElementById("wishlist-overlay")
+            .addEventListener("click", function(e) {
+                if (e.target === this) {
+                    closeWishlistPopup();
+                }
+            });
+
+        // Add animation styles
+        const style = document.createElement("style");
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: scale(0.9); }
+                to { opacity: 1; transform: scale(1); }
+            }
+            
+            @keyframes fadeOut {
+                from { opacity: 1; transform: scale(1); }
+                to { opacity: 0; transform: scale(0.9); }
+            }
+            
+            .animate-fade-in {
+                animation: fadeIn 0.3s ease-out forwards;
+            }
+            
+            .wishlist-item {
+                transition: all 0.3s ease;
+            }
+            
+            .wishlist-item:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Show mobile bottom nav
+        if (window.innerWidth <= 768) {
+            document.body.style.paddingBottom = "70px";
+        }
+
+        // Handle window resize
+        window.addEventListener("resize", function() {
+            if (window.innerWidth <= 768) {
+                document.body.style.paddingBottom = "70px";
+                document.getElementById("mobile-bottom-nav").style.display = "block";
+            } else {
+                document.body.style.paddingBottom = "0";
+                document.getElementById("mobile-bottom-nav").style.display = "none";
+            }
         });
     </script>
 </body>

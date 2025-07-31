@@ -5,7 +5,7 @@
     <section class="bg-surface py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav class="flex items-center space-x-2 text-body-sm">
-                <a href="homepage.html" class="text-secondary-600 hover:text-primary transition-fast">Home</a>
+                <a href="{{ route('home') }}" class="text-secondary-600 hover:text-primary transition-fast">Home</a>
                 <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>

@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
     <!-- Main Authentication Section -->
     <section
         class="min-h-screen bg-gradient-to-br from-primary-50 to-accent-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -693,7 +692,7 @@
 
                 // Redirect after delay
                 setTimeout(() => {
-                    window.location.href = 'homepage.html';
+                    window.location.href = '{{ route('home') }}';
                 }, 2000);
             }, 1500);
         }
@@ -750,7 +749,7 @@
             setTimeout(() => {
                 showNotification('Google sign-in successful! Welcome back!', 'success');
                 setTimeout(() => {
-                    window.location.href = 'homepage.html';
+                    window.location.href = '{{ route('home') }}';
                 }, 2000);
             }, 1500);
         }
@@ -761,7 +760,7 @@
             setTimeout(() => {
                 showNotification('Google sign-up successful! Account created!', 'success');
                 setTimeout(() => {
-                    window.location.href = 'homepage.html';
+                    window.location.href = '{{ route('home') }}';
                 }, 2000);
             }, 1500);
         }
@@ -772,7 +771,7 @@
             setTimeout(() => {
                 showNotification('Facebook sign-in successful! Welcome back!', 'success');
                 setTimeout(() => {
-                    window.location.href = 'homepage.html';
+                    window.location.href = '{{ route('home') }}';
                 }, 2000);
             }, 1500);
         }
@@ -783,7 +782,7 @@
             setTimeout(() => {
                 showNotification('Facebook sign-up successful! Account created!', 'success');
                 setTimeout(() => {
-                    window.location.href = 'homepage.html';
+                    window.location.href = '{{ route('home') }}';
                 }, 2000);
             }, 1500);
         }
