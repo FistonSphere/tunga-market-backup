@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-   
+
     <!-- Main Authentication Section -->
     <section
         class="min-h-screen bg-gradient-to-br from-primary-50 to-accent-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -13,7 +13,7 @@
                         <span class="text-gradient">Business Growth Journey</span>
                     </h1>
                     <p class="text-body-lg text-secondary-600 mb-8 max-w-xl">
-                        Join millions of businesses already growing with AliMax Commerce. Access verified suppliers,
+                        Join millions of businesses already growing with Tunga Market. Access verified suppliers,
                         discover trending products, and scale your operations globally.
                     </p>
                 </div>
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     <blockquote class="text-body text-secondary-700 italic">
-                        "AliMax Commerce transformed our sourcing process. We've reduced costs by 35% while improving
+                        "Tunga Market transformed our sourcing process. We've reduced costs by 35% while improving
                         quality."
                     </blockquote>
                 </div>
@@ -425,7 +425,7 @@
     <section class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Why Choose AliMax Commerce?</h2>
+                <h2 class="text-heading font-bold text-primary mb-4">Why Choose Tunga Market?</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
                     Experience the benefits that come with joining our verified global marketplace
                 </p>
@@ -862,16 +862,16 @@
                 position: relative;
                 color: var(--color-secondary-600);
             }
-            
+
             .form-toggle.active {
                 color: var(--color-primary);
                 border-bottom: 2px solid var(--color-primary);
             }
-            
+
             .auth-form {
                 display: none;
             }
-            
+
             .auth-form.active {
                 display: block;
             }

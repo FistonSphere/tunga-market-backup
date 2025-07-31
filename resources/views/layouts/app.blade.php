@@ -158,8 +158,8 @@
                                             class="text-sm font-semibold text-secondary-600 uppercase tracking-wide mb-6">
                                             Company & Support</h3>
                                         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                                            <a href="#about-us"
-                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">About
+                                            <a href="{{ route('about') }}"
+                                                class="{{ request()->routeIs('about') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">About
                                                 Us</a>
                                             <a href="#careers"
                                                 class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Careers</a>
