@@ -161,8 +161,9 @@
                                             <a href="{{ route('about') }}"
                                                 class="{{ request()->routeIs('about') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">About
                                                 Us</a>
-                                            <a href="#careers"
-                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Careers</a>
+                                            <a href="{{ route('contact') }}"
+                                                class="{{ request()->routeIs('contact') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Contact
+                                                Us</a>
                                             <a href="#press"
                                                 class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Press</a>
                                             <a href="#investor-relations"
@@ -171,9 +172,7 @@
                                             <a href="#help-center"
                                                 class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Help
                                                 Center</a>
-                                            <a href="#contact-us"
-                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Contact
-                                                Us</a>
+
                                             <a href="#dispute-resolution"
                                                 class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Dispute
                                                 Resolution</a>
