@@ -165,7 +165,7 @@
                                                 class="{{ request()->routeIs('contact') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Contact
                                                 Us</a>
                                             <a href="{{ route('compare') }}"
-                                                class="{{ request()->routeIs('compare') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Press</a>
+                                                class="{{ request()->routeIs('compare') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Compare</a>
                                             <a href="#investor-relations"
                                                 class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Investor
                                                 Relations</a>
@@ -291,8 +291,8 @@
             <!-- Mobile Navigation Menu -->
             <div id="mobile-menu" class="md:hidden border-t border-border bg-white shadow-lg hidden">
                 <div class="px-4 py-6 space-y-4">
-                    <a href="homepage.html" class="block text-primary font-semibold py-2">Home</a>
-                    <a href="product_discovery_hub.html"
+                    <a href="{{ route('home') }}" class="block text-primary font-semibold py-2">Home</a>
+                    <a href="{{ route('product.discovery') }}"
                         class="block text-secondary-600 hover:text-primary transition-fast py-2">Discover</a>
 
                     <!-- Mobile Explore Section -->
