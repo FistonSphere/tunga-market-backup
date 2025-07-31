@@ -58,7 +58,7 @@
                         <!-- Full-Width Landscape Dropdown Card -->
                         <div id="explore-dropdown"
                             class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-screen max-w-screen-xl bg-white rounded-xl shadow-modal border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50"
-                            style="margin-left: calc(-50vw + 50%);">
+                            style="margin-left: calc(7.5vw + 50%); margin-top: 1.3em;">
                             <div class="p-8">
                                 <!-- Horizontal Layout Container -->
                                 <div class="flex flex-col lg:flex-row gap-8">
