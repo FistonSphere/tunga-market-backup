@@ -12,13 +12,10 @@
         src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2FTunga Marketcom1831back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.6">
     </script>
 </head>
-<style>
-  
-</style>
 
 <body class="bg-background text-text-primary">
     <!-- Navigation Header -->
-    <header class="bg-white shadow-card sticky top-0 z-50 border-b border-border">
+    <header class="bg-white shadow-card sticky top-0 z-50">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
@@ -29,8 +26,7 @@
                             alt="Tunga Market Logo" class="Imglogo text-primary" />
                     </a>
                 </div>
-
-                <!-- Enhanced Desktop Navigation -->
+                <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8 relative">
                     <a href="{{ route('home') }}"
                         class="{{ request()->routeIs('home') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
@@ -40,8 +36,12 @@
                         class="{{ request()->routeIs('product.discovery') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
                         Discover
                     </a>
+                    <style>
+                        .dropdown-wrapper:hover .dropdown-menu {
+                            display: flex !important;
+                        }
+                    </style>
 
-                    <!-- Enhanced Explore Dropdown -->
                     <div class="relative group">
                         <button
                             class="flex items-center space-x-1 text-secondary-600 hover:text-primary transition-fast font-medium group-hover:text-primary"
@@ -225,21 +225,20 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-                <!-- Enhanced Search & Action Buttons -->
-                <div class="hidden md:flex items-center space-x-4">
-                    <!-- Enhanced Search with Voice & Image -->
-                    <div class="flex items-center space-x-2">
-                        <button onclick="openSearchOverlay()"
-                            class="text-secondary-600 hover:text-accent transition-fast p-2" title="Search Products">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </button>
-                    </div>
 
+                <!-- CTA Buttons -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <!-- Search Icon -->
+                    <button onclick="openSearchOverlay()"
+                        class="text-secondary-600 hover:text-accent transition-fast p-2" title="Search Products">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
                     <!-- Wishlist Icon -->
                     <button onclick="toggleWishlist()"
                         class="relative text-secondary-600 hover:text-accent transition-fast p-2" title="Wishlist">
@@ -268,7 +267,15 @@
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <button onclick="toggleMobileMenu()" class="md:hidden p-2" id="mobile-menu-button">
+                {{-- <button class="md:hidden p-2" id="mobileMenuBtn">
+                    <svg class="h-6 w-6 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button> --}}
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2" id="mobileMenuBtn">
                     <svg id="mobile-menu-icon" class="h-6 w-6 text-secondary-600" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -773,15 +780,15 @@
                     <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
                     <div class="space-y-1">
                         ${filteredSuggestions.map(suggestion => `
-                                                                                                                                <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                                                                                                                    <div class="flex items-center space-x-2">
-                                                                                                                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                                                                                                                        </svg>
-                                                                                                                                        <span>${suggestion}</span>
-                                                                                                                                    </div>
-                                                                                                                                </button>
-                                                                                                                            `).join('')}
+                                                                                                                                        <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                                                                                                                            <div class="flex items-center space-x-2">
+                                                                                                                                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                                                                                                                </svg>
+                                                                                                                                                <span>${suggestion}</span>
+                                                                                                                                            </div>
+                                                                                                                                        </button>
+                                                                                                                                    `).join('')}
                     </div>
                 </div>
             `;
@@ -1395,7 +1402,6 @@
             }
         });
     </script>
-
     <script>
         // Enhanced Navigation Functionality
         class EnhancedNavigation {
