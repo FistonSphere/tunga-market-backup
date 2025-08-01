@@ -1,10 +1,10 @@
 <div align="center">
-  <img src="https://www.dropbox.com/scl/fi/zokwu3crj3ur2mfrzp0bh/WhatsApp-Image-2025-07-26-at-16.30.09.jpeg?rlkey=b013szj4pmeeikvdxibqy0pbt&st=dmgyror0&raw=1" alt="Tunga Market Logo" width="120"/>
+  <img src="https://www.dropbox.com/scl/fi/vy0d2x0pmrmaj6hpgoms0/logo.png?rlkey=e553eu9o270txevaryonf0ejs&st=l1gohtu8&raw=1" alt="Tunga Market Logo" width="120"/>
   <h1>Tunga Market</h1>
   <p><strong>Next-generation B2B/B2C hybrid marketplace that transcends traditional e-commerce limitations through trading ecosystem and immersive visual storytelling.</strong></p>
   <p>Crafted using HTML5, CSS3, Tailwind CSS and JavaScript · Built for Scalability · Designed for Laravel 12 Integration . Stripe Payment Integration</p>
   <br>
-  <img src="https://www.dropbox.com/scl/fi/zokwu3crj3ur2mfrzp0bh/WhatsApp-Image-2025-07-26-at-16.30.09.jpeg?rlkey=b013szj4pmeeikvdxibqy0pbt&st=dmgyror0&raw=1" alt="Project Screenshot or Banner" width="100%"/>
+  <img src="https://www.dropbox.com/scl/fi/vy0d2x0pmrmaj6hpgoms0/logo.png?rlkey=e553eu9o270txevaryonf0ejs&st=l1gohtu8&raw=1" alt="Project Screenshot or Banner" width="100%"/>
 </div>
 
 ---
