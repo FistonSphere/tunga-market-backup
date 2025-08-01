@@ -68,7 +68,7 @@
                                             class="text-sm font-semibold text-secondary-600 uppercase tracking-wide mb-6">
                                             Main Categories</h3>
                                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-                                            <a href="seller_central_dashboard.html"
+                                            <a href="{{ route('about') }}"
                                                 class="group/item p-6 rounded-lg hover:bg-accent-50 transition-all duration-300 border border-transparent hover:border-accent-200">
                                                 <div class="flex items-center space-x-4">
                                                     <div
@@ -76,18 +76,17 @@
                                                         <svg class="w-6 h-6 text-success" fill="none"
                                                             stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                                                stroke-width="2"
+                                                                d="M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm0 2c-2.67 0-8 1.34-8 4v2a1 1 0 001 1h14a1 1 0 001-1v-2c0-2.66-5.33-4-8-4z" />
                                                         </svg>
                                                     </div>
                                                     <div>
-                                                        <h4 class="font-semibold text-primary text-lg">Sell</h4>
-                                                        <p class="text-sm text-secondary-600">Start selling products and
-                                                            grow your business</p>
+                                                        <h4 class="font-semibold text-primary text-lg">About Us</h4>
                                                     </div>
                                                 </div>
                                             </a>
 
-                                            <a href="supplier_profiles.html"
+                                            <a href="{{ route('compare') }}"
                                                 class="group/item p-6 rounded-lg hover:bg-accent-50 transition-all duration-300 border border-transparent hover:border-accent-200">
                                                 <div class="flex items-center space-x-4">
                                                     <div
@@ -96,18 +95,16 @@
                                                             stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 stroke-width="2"
-                                                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                                                         </svg>
                                                     </div>
                                                     <div>
-                                                        <h4 class="font-semibold text-primary text-lg">Suppliers</h4>
-                                                        <p class="text-sm text-secondary-600">Find trusted suppliers and
-                                                            partners</p>
+                                                        <h4 class="font-semibold text-primary text-lg">Compare</h4>
                                                     </div>
                                                 </div>
                                             </a>
 
-                                            <a href="community_marketplace.html"
+                                            <a href="{{ route('compare') }}"
                                                 class="group/item p-6 rounded-lg hover:bg-accent-50 transition-all duration-300 border border-transparent hover:border-accent-200">
                                                 <div class="flex items-center space-x-4">
                                                     <div
@@ -162,21 +159,9 @@
                                             <a href="{{ route('about') }}"
                                                 class="{{ request()->routeIs('about') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">About
                                                 Us</a>
-                                            <a href="{{ route('contact') }}"
-                                                class="{{ request()->routeIs('contact') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Contact
-                                                Us</a>
-                                            <a href="{{ route('compare') }}"
-                                                class="{{ request()->routeIs('compare') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Compare</a>
-                                            <a href="#investor-relations"
-                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Investor
-                                                Relations</a>
                                             <a href="#help-center"
                                                 class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Help
                                                 Center</a>
-
-                                            <a href="#dispute-resolution"
-                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Dispute
-                                                Resolution</a>
                                             <a href="#trade-assurance"
                                                 class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Trade
                                                 Assurance</a>
@@ -225,7 +210,10 @@
                             </div>
                         </div>
                     </div>
-
+                    <a href="{{ route('contact') }}"
+                        class="{{ request()->routeIs('contact') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
+                        Contact Us
+                    </a>
                 </div>
 
 
@@ -1033,15 +1021,15 @@
                     <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
                     <div class="space-y-1">
                         ${filteredSuggestions.map(suggestion => `
-                                                                                                                                                        <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                                                                                                                                            <div class="flex items-center space-x-2">
-                                                                                                                                                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                                                                                                                                                </svg>
-                                                                                                                                                                <span>${suggestion}</span>
-                                                                                                                                                            </div>
-                                                                                                                                                        </button>
-                                                                                                                                                    `).join('')}
+                                                                                                                                                                        <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                                                                                                                                                            <div class="flex items-center space-x-2">
+                                                                                                                                                                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                                                                                                                                                </svg>
+                                                                                                                                                                                <span>${suggestion}</span>
+                                                                                                                                                                            </div>
+                                                                                                                                                                        </button>
+                                                                                                                                                                    `).join('')}
                     </div>
                 </div>
             `;
