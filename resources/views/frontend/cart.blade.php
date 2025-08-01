@@ -930,7 +930,7 @@
         }
 
         function proceedToCheckout() {
-            window.location.href = 'checkout_process.html';
+            window.location.href = '{{ route('checkout') }}';
         }
 
         function quickAddToCart(button) {
