@@ -167,7 +167,7 @@
                                         </div>
 
                                         <!-- Additional Features Section -->
-                                        <div class="mt-8 pt-6 border-t border-border">
+                                        {{-- <div class="mt-8 pt-6 border-t border-border">
                                             <h4
                                                 class="text-sm font-semibold text-secondary-600 uppercase tracking-wide mb-4">
                                                 Quick Access</h4>
@@ -203,7 +203,7 @@
                                                     <span>Live Support</span>
                                                 </a>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -473,12 +473,9 @@
                     <ul class="space-y-2">
                         <li><a href="{{ route('product.discovery') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Product Discovery</a></li>
-                        <li><a href="seller_central_dashboard.html"
-                                class="text-secondary-300 hover:text-accent transition-fast">Seller Central</a></li>
-                        <li><a href="supplier_profiles.html"
-                                class="text-secondary-300 hover:text-accent transition-fast">Find Suppliers</a></li>
-                        <li><a href="community_marketplace.html"
-                                class="text-secondary-300 hover:text-accent transition-fast">Community</a></li>
+                        <li><a href="{{ route('compare') }}"
+                                class="text-secondary-300 hover:text-accent transition-fast">Compare</a></li>
+                        
                     </ul>
                 </div>
 
@@ -486,15 +483,11 @@
                 <div>
                     <h3 class="font-semibold mb-4">Support</h3>
                     <ul class="space-y-2">
-                        <li><a href="javascript:void(0)"
+                        <li><a href="{{ route('help.center') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Help Center</a></li>
-                        <li><a href="javascript:void(0)"
+                        <li><a href="{{ route('contact') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Contact Us</a></li>
-                        <li><a href="javascript:void(0)"
-                                class="text-secondary-300 hover:text-accent transition-fast">Trade Assurance</a></li>
-                        <li><a href="javascript:void(0)"
-                                class="text-secondary-300 hover:text-accent transition-fast">Dispute Resolution</a>
-                        </li>
+                       
                     </ul>
                 </div>
 
@@ -502,15 +495,11 @@
                 <div>
                     <h3 class="font-semibold mb-4">Company</h3>
                     <ul class="space-y-2">
-                        <li><a href="javascript:void(0)"
+                        <li><a href="{{ route('about') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">About Us</a></li>
-                        <li><a href="javascript:void(0)"
+                        <li><a href="{{ route('careers') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Careers</a></li>
-                        <li><a href="javascript:void(0)"
-                                class="text-secondary-300 hover:text-accent transition-fast">Press</a></li>
-                        <li><a href="javascript:void(0)"
-                                class="text-secondary-300 hover:text-accent transition-fast">Investor Relations</a>
-                        </li>
+                      
                     </ul>
                 </div>
             </div>
@@ -533,145 +522,9 @@
         </div>
     </footer>
 
-    <!-- Support Chatbot Widget -->
-    <div id="support-chatbot" class="fixed bottom-6 right-6 z-50">
-        <!-- Enhanced Chatbot Toggle Button -->
-        <button id="chatbot-toggle"
-            class="bg-gradient-to-r from-accent to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white rounded-full p-4 shadow-modal hover:shadow-hover transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent-200">
-            <svg id="chat-icon" class="w-6 h-6 transition-transform duration-300" fill="none"
-                stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-            <svg id="close-icon" class="w-6 h-6 transition-transform duration-300 hidden" fill="none"
-                stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-
-        <!-- Enhanced Chat Popup -->
-        <div id="chatbot-popup"
-            class="chatbot-popup absolute bottom-16 right-0 w-80 bg-white rounded-xl shadow-modal border border-border backdrop-blur-sm"
-            style="height:500px;margin-top: -2em">
-            <!-- Enhanced Chat Header -->
-            <div class="bg-gradient-to-r from-primary to-primary-700 text-white p-3 rounded-t-xl">
-                <div class="flex items-center space-x-3" style="height: 30px;">
-                    <div
-                        class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold">Support Assistant</h3>
-                        <div class="flex items-center space-x-1 text-primary-100">
-                            <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
-                            <span class="text-sm">Always Online</span>
-                        </div>
-                        <div class="close">
-                            <button id="close-chat"
-                                class="bg-gradient-to-r from-accent to-accent-600 text-white transition-fast absolute top-2 right-2 text-sm py-2 px-3 rounded-lg hover:from-accent-600 hover:to-accent-700 transition-all duration-200 transform hover:scale-105 shadow-sm">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Enhanced Chat Content -->
-            <div class="h-64 overflow-y-auto p-4 space-y-3 bg-gradient-to-b from-gray-50 to-white">
-                <div class="flex space-x-2 chat-message-slide-in">
-                    <div
-                        class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                        </svg>
-                    </div>
-                    <div class="bg-surface rounded-lg p-2 max-w-xs shadow-md">
-                        <p class="text-sm text-secondary-700">👋 Hello! I'm your Tunga Market assistant. I'm here to
-                            help you with orders, payments, shipping, and any questions you have. How can I assist you
-                            today?</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Enhanced Quick Actions -->
-            <div class="border-t border-border p-3 space-y-2 bg-gray-50">
-                <h4 class="font-medium text-primary text-sm mb-3 flex items-center">
-                    <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    Quick Help
-                </h4>
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="quickAction('order')"
-                        class="text-left p-1 text-sm bg-white hover:bg-accent-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105 border border-gray-200">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-lg">📦</span>
-                            <span class="font-medium">Order Status</span>
-                        </div>
-                    </button>
-                    <button onclick="quickAction('shipping')"
-                        class="text-left p-1 text-sm bg-white hover:bg-accent-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105 border border-gray-200">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-lg">🚚</span>
-                            <span class="font-medium">Shipping Info</span>
-                        </div>
-                    </button>
-                    <button onclick="quickAction('payment')"
-                        class="text-left p-1 text-sm bg-white hover:bg-accent-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105 border border-gray-200">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-lg">💳</span>
-                            <span class="font-medium">Payment Help</span>
-                        </div>
-                    </button>
-                    <button onclick="quickAction('return')"
-                        class="text-left p-1 text-sm bg-white hover:bg-accent-50 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105 border border-gray-200">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-lg">🔄</span>
-                            <span class="font-medium">Returns</span>
-                        </div>
-                    </button>
-                </div>
-
-                <!-- Enhanced Contact Options -->
-                <div class="pt-3 border-t border-border">
-                    <div class="flex space-x-2">
-                        <button onclick="openDiscussion()"
-                            class="flex-1 bg-gradient-to-r from-accent to-accent-600 text-white text-sm py-2 px-3 rounded-lg hover:from-accent-600 hover:to-accent-700 transition-all duration-200 transform hover:scale-105 shadow-sm">
-                            💬 Discussion
-                        </button>
-                        <button onclick="bookExpert()"
-                            class="flex-1 bg-gradient-to-r from-primary to-primary-600 text-white text-sm py-2 px-3 rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all duration-200 transform hover:scale-105 shadow-sm">
-                            👨‍💼 Expert
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Enhanced Chat Input -->
-            <div class="border-t border-border p-4 bg-white rounded-b-xl">
-                <div class="flex space-x-2">
-                    <input type="text" id="chat-input" placeholder="Type your message here..."
-                        class="flex-1 p-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-300 bg-gray-50 focus:bg-white" />
-                    <button onclick="sendMessage()"
-                        class="bg-gradient-to-r from-accent to-accent-600 text-white px-4 py-3 rounded-lg hover:from-accent-600 hover:to-accent-700 transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-accent-200 shadow-sm">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                        </svg>
-                    </button>
-                </div>
-                <p class="text-xs text-gray-500 mt-2">Press Enter to send • We typically respond instantly</p>
-            </div>
-        </div>
-    </div>
+    <!-- start Support Chatbot Widget -->
+    <!-- end Support Chatbot Widget -->
+    
 
     <!-- Wishlist overlay popup hidden initially -->
     <div id="wishlist-overlay" style="display: none"
@@ -1648,6 +1501,7 @@
             }
         });
     </script>
+    
 </body>
 
 </html>
