@@ -11,7 +11,7 @@
 
 ## 🚀 Overview
 
-**Tunga Market** is a visually enhanced, Alibaba-style e-commerce user interface built with **pure HTML, CSS, and JavaScript**. It focuses on **modern UI/UX**, responsiveness, and scalability. This is the **UI base layer** for a future **dynamic Laravel 12** e-commerce marketplace project.
+**Tunga Market** is a visually enhanced, Alibaba-style e-commerce user interface built with **pure HTML, CSS, Tailwind CSS and JavaScript**. It focuses on **modern UI/UX**, responsiveness, and scalability. This is the **UI base layer** for a future **dynamic Laravel 12** e-commerce marketplace project.
 
 ---
 
