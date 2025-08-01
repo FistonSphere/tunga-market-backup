@@ -7,5 +7,9 @@ use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
-    //
+    public function index()
+    {
+        // Logic to retrieve and display checkout information
+        return view('frontend.checkout'); // Adjust the view name as necessary
+    }
 }
