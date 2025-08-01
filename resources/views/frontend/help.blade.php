@@ -1,0 +1,599 @@
+@extends('layouts.app')
+
+@section('content')
+    <!-- Hero Section with Search -->
+    <section class="relative bg-gradient-to-br from-primary-50 to-accent-50 py-20 overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <svg class="w-full h-full" viewBox="0 0 1200 600" fill="none">
+                <path d="M100 300Q300 100 500 300T900 300Q1000 200 1100 300" stroke="currentColor" stroke-width="2"
+                    opacity="0.3" />
+                <path d="M0 400Q200 200 400 400T800 400Q900 300 1200 400" stroke="currentColor" stroke-width="2"
+                    opacity="0.2" />
+            </svg>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-hero font-bold text-primary mb-6">
+                How Can We <span class="text-gradient">Help You</span> Today?
+            </h1>
+            <p class="text-body-lg text-secondary-600 mb-8 max-w-2xl mx-auto">
+                Find answers, step-by-step guides, and instant support for all your AliMax Commerce needs. Our comprehensive
+                help center is here to empower your success.
+            </p>
+
+            <!-- Intelligent Search Bar -->
+            <div class="relative max-w-2xl mx-auto mb-8">
+                <div class="relative">
+                    <input type="text" placeholder="Search for help articles, guides, or ask a question..."
+                        class="w-full px-6 py-4 pl-12 pr-20 text-lg rounded-full border-2 border-primary-200 focus:border-primary focus:outline-none shadow-card" />
+                    <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-secondary-400"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <button
+                        class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary hover:bg-primary-600 text-white px-6 py-2 rounded-full transition-fast">
+                        Search
+                    </button>
+                </div>
+
+                <!-- Popular Searches -->
+                <div class="flex flex-wrap justify-center gap-2 mt-4">
+                    <span class="text-sm text-secondary-600">Popular:</span>
+                    <button class="text-sm text-primary hover:text-accent transition-fast">Order tracking</button>
+                    <span class="text-secondary-300">•</span>
+                    <button class="text-sm text-primary hover:text-accent transition-fast">Payment issues</button>
+                    <span class="text-secondary-300">•</span>
+                    <button class="text-sm text-primary hover:text-accent transition-fast">Seller registration</button>
+                    <span class="text-secondary-300">•</span>
+                    <button class="text-sm text-primary hover:text-accent transition-fast">Dispute resolution</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Help Topics -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-heading font-bold text-primary mb-4">Featured Help Topics</h2>
+                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
+                    Quick access to the most common questions organized by user type
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- For Buyers -->
+                <div class="card group hover:shadow-hover transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-200 transition-fast">
+                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-primary text-center mb-4">For Buyers</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
+                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                How to place your first order
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
+                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Payment methods & security
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
+                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Order tracking & delivery
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
+                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Returns & refunds policy
+                            </a>
+                        </li>
+                    </ul>
+                    <button class="btn-outline text-sm mt-6 w-full">View All Buyer Guides</button>
+                </div>
+
+                <!-- For Sellers -->
+                <div class="card group hover:shadow-hover transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-accent-200 transition-fast">
+                        <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-primary text-center mb-4">For Sellers</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
+                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Getting started as a seller
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
+                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Product listing optimization
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
+                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Managing orders & inventory
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
+                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Payment & fee structure
+                            </a>
+                        </li>
+                    </ul>
+                    <button class="btn-outline text-sm mt-6 w-full">View All Seller Guides</button>
+                </div>
+
+                <!-- Platform Features -->
+                <div class="card group hover:shadow-hover transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-success-200 transition-fast">
+                        <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-primary text-center mb-4">Platform Features</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
+                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Trade Assurance protection
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
+                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Account security settings
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
+                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Mobile app features
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
+                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                API documentation
+                            </a>
+                        </li>
+                    </ul>
+                    <button class="btn-outline text-sm mt-6 w-full">View All Features</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Troubleshooting -->
+    <section class="py-16 bg-secondary-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-heading font-bold text-primary mb-4">Interactive Troubleshooting</h2>
+                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
+                    Step-by-step guidance to solve common issues quickly
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Troubleshooting Wizard -->
+                <div class="card">
+                    <h3 class="font-semibold text-primary mb-6">Quick Problem Solver</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-white rounded-lg border-l-4 border-primary">
+                            <h4 class="font-medium text-primary mb-2">What issue are you experiencing?</h4>
+                            <div class="space-y-2">
+                                <button
+                                    class="w-full text-left p-3 bg-secondary-50 hover:bg-primary-50 rounded-lg transition-fast text-secondary-600 hover:text-primary">
+                                    I can't place an order
+                                </button>
+                                <button
+                                    class="w-full text-left p-3 bg-secondary-50 hover:bg-primary-50 rounded-lg transition-fast text-secondary-600 hover:text-primary">
+                                    Payment was declined
+                                </button>
+                                <button
+                                    class="w-full text-left p-3 bg-secondary-50 hover:bg-primary-50 rounded-lg transition-fast text-secondary-600 hover:text-primary">
+                                    Can't access my account
+                                </button>
+                                <button
+                                    class="w-full text-left p-3 bg-secondary-50 hover:bg-primary-50 rounded-lg transition-fast text-secondary-600 hover:text-primary">
+                                    Order status questions
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn-primary">Start Troubleshooting</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Tutorials -->
+                <div class="card">
+                    <h3 class="font-semibold text-primary mb-6">Video Tutorial Library</h3>
+                    <div class="space-y-4">
+                        <div
+                            class="flex items-center space-x-4 p-3 bg-white rounded-lg hover:shadow-card transition-all duration-300 cursor-pointer">
+                            <div class="w-16 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-primary">Getting Started Guide</h4>
+                                <p class="text-sm text-secondary-600">Complete platform walkthrough • 8 min</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-center space-x-4 p-3 bg-white rounded-lg hover:shadow-card transition-all duration-300 cursor-pointer">
+                            <div class="w-16 h-12 bg-accent-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-primary">Order Management</h4>
+                                <p class="text-sm text-secondary-600">Placing & tracking orders • 12 min</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-center space-x-4 p-3 bg-white rounded-lg hover:shadow-card transition-all duration-300 cursor-pointer">
+                            <div class="w-16 h-12 bg-success-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-success" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-primary">Seller Dashboard</h4>
+                                <p class="text-sm text-secondary-600">Managing your store • 15 min</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-outline text-sm mt-6 w-full">View All Tutorials</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-heading font-bold text-primary mb-4">Frequently Asked Questions</h2>
+                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
+                    Quick answers to the most common questions from our community
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="card">
+                    <button class="w-full text-left flex justify-between items-center p-6" onclick="toggleFAQ(1)">
+                        <h3 class="font-semibold text-primary">How do I track my order status?</h3>
+                        <svg class="w-5 h-5 text-secondary-400 transform transition-transform duration-200"
+                            id="faq-icon-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="hidden px-6 pb-6" id="faq-content-1">
+                        <p class="text-secondary-600">
+                            You can track your order in multiple ways: 1) Log into your account and visit the "My Orders"
+                            section, 2) Use the tracking number sent to your email, or 3) Contact our support team with your
+                            order number. Real-time updates are provided throughout the shipping process.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="card">
+                    <button class="w-full text-left flex justify-between items-center p-6" onclick="toggleFAQ(2)">
+                        <h3 class="font-semibold text-primary">What payment methods do you accept?</h3>
+                        <svg class="w-5 h-5 text-secondary-400 transform transition-transform duration-200"
+                            id="faq-icon-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="hidden px-6 pb-6" id="faq-content-2">
+                        <p class="text-secondary-600">
+                            We accept major credit cards (Visa, MasterCard, American Express), PayPal, bank transfers, and
+                            digital wallets. For international transactions, we support multiple currencies and offer secure
+                            payment processing with fraud protection.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="card">
+                    <button class="w-full text-left flex justify-between items-center p-6" onclick="toggleFAQ(3)">
+                        <h3 class="font-semibold text-primary">How does Trade Assurance work?</h3>
+                        <svg class="w-5 h-5 text-secondary-400 transform transition-transform duration-200"
+                            id="faq-icon-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="hidden px-6 pb-6" id="faq-content-3">
+                        <p class="text-secondary-600">
+                            Trade Assurance protects your orders from payment to delivery. Your payment is held securely
+                            until you confirm receipt of goods as described. If there are quality issues or delivery
+                            problems, you're covered with full refund protection up to the order value.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="card">
+                    <button class="w-full text-left flex justify-between items-center p-6" onclick="toggleFAQ(4)">
+                        <h3 class="font-semibold text-primary">Can I return or exchange products?</h3>
+                        <svg class="w-5 h-5 text-secondary-400 transform transition-transform duration-200"
+                            id="faq-icon-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="hidden px-6 pb-6" id="faq-content-4">
+                        <p class="text-secondary-600">
+                            Yes, we offer a comprehensive return policy. Most items can be returned within 30 days of
+                            delivery. For exchanges, contact the seller directly or use our dispute resolution system.
+                            Return shipping costs may apply depending on the reason for return.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="card">
+                    <button class="w-full text-left flex justify-between items-center p-6" onclick="toggleFAQ(5)">
+                        <h3 class="font-semibold text-primary">How do I become a verified seller?</h3>
+                        <svg class="w-5 h-5 text-secondary-400 transform transition-transform duration-200"
+                            id="faq-icon-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="hidden px-6 pb-6" id="faq-content-5">
+                        <p class="text-secondary-600">
+                            To become verified, complete your business profile, provide legal documentation (business
+                            license, tax ID), undergo our verification process, and maintain high performance standards.
+                            Verified sellers get enhanced visibility, Trust badges, and access to premium features.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Content -->
+    <section class="py-16 bg-secondary-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-heading font-bold text-primary mb-4">Community Tips & Success Stories</h2>
+                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
+                    Learn from experienced users and discover best practices shared by our community
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Success Story 1 -->
+                <div class="card hover:shadow-hover transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop"
+                            alt="Success Story" class="w-12 h-12 rounded-full object-cover mr-4" loading="lazy" />
+                        <div>
+                            <h4 class="font-medium text-primary">Sarah's Electronics Store</h4>
+                            <p class="text-sm text-secondary-600">Verified Seller • 2 years</p>
+                        </div>
+                    </div>
+                    <h3 class="font-semibold text-primary mb-3">From Local to Global: 300% Growth</h3>
+                    <p class="text-body-sm text-secondary-600 mb-4">
+                        "AliMax Commerce transformed my small electronics business. The Trade Assurance program gave
+                        international buyers confidence, and our sales increased 300% in just 18 months."
+                    </p>
+                    <div class="flex items-center text-sm text-accent">
+                        <span class="mr-2">⭐⭐⭐⭐⭐</span>
+                        <span>Helpful (247)</span>
+                    </div>
+                </div>
+
+                <!-- Success Story 2 -->
+                <div class="card hover:shadow-hover transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?q=80&w=400&auto=format&fit=crop"
+                            alt="Success Story" class="w-12 h-12 rounded-full object-cover mr-4" loading="lazy" />
+                        <div>
+                            <h4 class="font-medium text-primary">Maria's Import Business</h4>
+                            <p class="text-sm text-secondary-600">Premium Buyer • 3 years</p>
+                        </div>
+                    </div>
+                    <h3 class="font-semibold text-primary mb-3">Streamlined Sourcing with AI</h3>
+                    <p class="text-body-sm text-secondary-600 mb-4">
+                        "The AI-powered supplier matching saved me countless hours. I found reliable partners quickly and
+                        our procurement costs dropped by 25% while quality improved."
+                    </p>
+                    <div class="flex items-center text-sm text-accent">
+                        <span class="mr-2">⭐⭐⭐⭐⭐</span>
+                        <span>Helpful (189)</span>
+                    </div>
+                </div>
+
+                <!-- Community Tip -->
+                <div class="card hover:shadow-hover transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-success-100 rounded-full flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-primary">Expert Tip</h4>
+                            <p class="text-sm text-secondary-600">Community Moderator</p>
+                        </div>
+                    </div>
+                    <h3 class="font-semibold text-primary mb-3">Optimizing Your Product Listings</h3>
+                    <p class="text-body-sm text-secondary-600 mb-4">
+                        "Use high-quality images, detailed descriptions, and competitive pricing. Products with complete
+                        information get 60% more inquiries. Don't forget to respond to messages within 24 hours!"
+                    </p>
+                    <div class="flex items-center text-sm text-accent">
+                        <span class="mr-2">💡</span>
+                        <span>Pro Tip</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <button class="btn-outline">View More Success Stories</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Support -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-heading font-bold text-primary mb-4">Still Need Help?</h2>
+                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
+                    Our support team is available 24/7 to assist you with any questions or issues
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Live Chat -->
+                <div class="card text-center hover:shadow-hover transition-all duration-300">
+                    <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-primary mb-4">Live Chat Support</h3>
+                    <p class="text-body-sm text-secondary-600 mb-6">
+                        Get instant help from our support agents. Available 24/7 in multiple languages.
+                    </p>
+                    <div class="text-sm text-success mb-4">
+                        🟢 Online Now • Avg. response: 2 minutes
+                    </div>
+                    <button class="btn-primary w-full">Start Live Chat</button>
+                </div>
+
+                <!-- Email Support -->
+                <div class="card text-center hover:shadow-hover transition-all duration-300">
+                    <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-primary mb-4">Email Support</h3>
+                    <p class="text-body-sm text-secondary-600 mb-6">
+                        Send us detailed questions and receive comprehensive responses within 4 hours.
+                    </p>
+                    <div class="text-sm text-secondary-600 mb-4">
+                        📧 support@alimaxcommerce.com
+                    </div>
+                    <button class="btn-outline w-full">Send Email</button>
+                </div>
+
+                <!-- Phone Support -->
+                <div class="card text-center hover:shadow-hover transition-all duration-300">
+                    <div class="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-primary mb-4">Phone Support</h3>
+                    <p class="text-body-sm text-secondary-600 mb-6">
+                        Speak directly with our experts for complex issues and urgent matters.
+                    </p>
+                    <div class="text-sm text-secondary-600 mb-4">
+                        📞 +1 (800) 555-0123 • Mon-Fri 9AM-6PM EST
+                    </div>
+                    <button class="btn-outline w-full">Call Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+@endsection
