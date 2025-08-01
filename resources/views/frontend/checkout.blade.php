@@ -1115,7 +1115,7 @@
                                     </svg>
                                     <div>
                                         <div class="font-medium text-primary">Call Support</div>
-                                        <div class="text-body-sm text-secondary-600">+1-800-ALIMAX-1</div>
+                                        <div class="text-body-sm text-secondary-600">+1-800-1</div>
                                     </div>
                                 </button>
                             </div>

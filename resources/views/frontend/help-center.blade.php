@@ -571,7 +571,7 @@
                         Send us detailed questions and receive comprehensive responses within 4 hours.
                     </p>
                     <div class="text-sm text-secondary-600 mb-4">
-                        📧 support@alimaxcommerce.com
+                        📧 support@tungamarket.com
                     </div>
                     <button class="btn-outline w-full">Send Email</button>
                 </div>

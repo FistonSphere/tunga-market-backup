@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <p class="text-body text-secondary-700 italic">
-                        "AliMax isn't just a workplace—it's where innovation meets impact. Every day, I help shape products
+                        "Tunga Market isn't just a workplace—it's where innovation meets impact. Every day, I help shape products
                         that connect businesses worldwide."
                     </p>
                 </div>

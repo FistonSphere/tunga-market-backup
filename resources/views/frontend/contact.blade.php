@@ -1277,10 +1277,10 @@
                         "🏢 Our offices:<br>• San Francisco (HQ): 123 Market Street<br>• London: 25 Old Broad Street<br>• Singapore: 1 Raffles Place<br>You can schedule visits using the buttons on each office card!";
                 } else if (lowerMessage.includes('emergency') || lowerMessage.includes('urgent')) {
                     response =
-                        "🚨 For emergencies: Call +1 (800) 911-HELP (24/7) or email emergency@alimax.com. Emergency criteria: service outages, payment failures, security breaches, or immediate business disruption.";
+                        "🚨 For emergencies: Call +1 (800) 911-HELP (24/7) or email emergency@tungamarket.com. Emergency criteria: service outages, payment failures, security breaches, or immediate business disruption.";
                 } else if (lowerMessage.includes('email') || lowerMessage.includes('mail')) {
                     response =
-                        "📧 Email contacts:<br>• General: info@alimax.com<br>• Sales: sales@alimax.com<br>• Support: support@alimax.com<br>• Partners: partners@alimax.com<br>• Emergency: emergency@alimax.com";
+                        "📧 Email contacts:<br>• General: info@tungamarket.com<br>• Sales: sales@tungamarket.com<br>• Support: support@tungamarket.com<br>• Partners: partners@tungamarket.com<br>• Emergency: emergency@tungamarket.com";
                 } else if (lowerMessage.includes('response time') || lowerMessage.includes('sla')) {
                     response =
                         "⏱️ Response times:<br>• Critical: 15 minutes<br>• High: 1 hour<br>• Medium: 4 hours<br>• Low: 24 hours<br>We guarantee these SLA times for all inquiries!";
