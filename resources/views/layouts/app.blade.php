@@ -162,9 +162,8 @@
                                             <a href="{{ route('help.center') }}"
                                                 class="{{ request()->routeIs('help.center') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Help
                                                 Center</a>
-                                            <a href="#trade-assurance"
-                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Trade
-                                                Assurance</a>
+                                            <a href="{{ route('careers') }}"
+                                                class="{{ request()->routeIs('careers') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Careers</a>
                                         </div>
 
                                         <!-- Additional Features Section -->

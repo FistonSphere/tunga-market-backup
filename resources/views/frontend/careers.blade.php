@@ -769,4 +769,67 @@
             </div>
         </div>
     </section>
+
+    <script>
+        // Smooth scrolling functions
+        function scrollToPositions() {
+            document.getElementById('positions').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function scrollToCulture() {
+            document.getElementById('culture').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Job filtering functionality
+        function filterJobs(category) {
+            const jobs = document.querySelectorAll('.job-item');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            // Update active button
+            filterBtns.forEach(btn => {
+                btn.classList.remove('active', 'bg-primary', 'text-white');
+                btn.classList.add('bg-secondary-200', 'text-secondary-600');
+            });
+
+            event.target.classList.add('active', 'bg-primary', 'text-white');
+            event.target.classList.remove('bg-secondary-200', 'text-secondary-600');
+
+            // Filter jobs
+            jobs.forEach(job => {
+                if (category === 'all') {
+                    job.style.display = 'block';
+                    job.style.animation = 'fadeIn 0.3s ease-in-out';
+                } else if (job.classList.contains(category)) {
+                    job.style.display = 'block';
+                    job.style.animation = 'fadeIn 0.3s ease-in-out';
+                } else {
+                    job.style.display = 'none';
+                }
+            });
+        }
+
+        // Mock job details function
+        function openJobDetails(jobId) {
+            alert(
+                `Opening job details for: ${jobId}\n\nThis would typically open a detailed job description page or modal.`);
+        }
+
+        // Add fade in animation for filtered jobs
+        document.addEventListener('DOMContentLoaded', function() {
+            const style = document.createElement('style');
+            style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+            document.head.appendChild(style);
+        });
+    </script>
 @endsection
