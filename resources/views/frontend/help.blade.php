@@ -17,7 +17,7 @@
                 How Can We <span class="text-gradient">Help You</span> Today?
             </h1>
             <p class="text-body-lg text-secondary-600 mb-8 max-w-2xl mx-auto">
-                Find answers, step-by-step guides, and instant support for all your AliMax Commerce needs. Our comprehensive
+                Find answers, step-by-step guides, and instant support for all your Tunga Market needs. Our comprehensive
                 help center is here to empower your success.
             </p>
 
@@ -467,7 +467,7 @@
                     </div>
                     <h3 class="font-semibold text-primary mb-3">From Local to Global: 300% Growth</h3>
                     <p class="text-body-sm text-secondary-600 mb-4">
-                        "AliMax Commerce transformed my small electronics business. The Trade Assurance program gave
+                        "Tunga Market transformed my small electronics business. The Trade Assurance program gave
                         international buyers confidence, and our sales increased 300% in just 18 months."
                     </p>
                     <div class="flex items-center text-sm text-accent">

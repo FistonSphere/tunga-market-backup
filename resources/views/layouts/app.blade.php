@@ -2041,7 +2041,7 @@
             if (navigator.share) {
                 navigator
                     .share({
-                        title: "My AliMax Commerce Wishlist",
+                        title: "My Tunga Market Wishlist",
                         text: "Check out these amazing products I'm planning to buy!",
                         url: window.location.href,
                     })
