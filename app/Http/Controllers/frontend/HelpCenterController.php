@@ -10,6 +10,6 @@ class HelpCenterController extends Controller
    public function index()
    {
        // Logic to retrieve and display help center information
-       return view('frontend.help'); // Adjust the view name as necessary
+       return view('frontend.help-center'); // Adjust the view name as necessary
    }
 }
