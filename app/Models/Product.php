@@ -22,7 +22,11 @@ class Product extends Model
         'specifications',
         'shipping_info',
         'tags',
-        'status'
+        'status',
+        'brand_id',
+        'product_type_id',
+        'unit_id',
+        'tax_class_id',
     ];
 
     protected $casts = [
