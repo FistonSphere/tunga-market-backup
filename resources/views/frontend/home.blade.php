@@ -1222,7 +1222,7 @@
 
             addBotResponse(userMessage) {
                 let response =
-                    "Thank you for your message! I'm here to help you with any questions about AliMax Commerce. 😊";
+                    "Thank you for your message! I'm here to help you with any questions about Tunga Market. 😊";
 
                 // Enhanced keyword-based responses
                 const lowerMessage = userMessage.toLowerCase();
@@ -1242,7 +1242,7 @@
                 } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes(
                     'hey')) {
                     response =
-                        "👋 Hello there! Welcome to AliMax Commerce! I'm your AI assistant ready to help with orders, payments, shipping, or any other questions. How can I assist you today?";
+                        "👋 Hello there! Welcome to Tunga Market! I'm your AI assistant ready to help with orders, payments, shipping, or any other questions. How can I assist you today?";
                 } else if (lowerMessage.includes('help') || lowerMessage.includes('support')) {
                     response =
                         "🤝 I'm here to help! You can ask me about orders, payments, shipping, returns, or use the quick action buttons below. What do you need assistance with?";
