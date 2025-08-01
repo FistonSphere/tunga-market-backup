@@ -12,15 +12,21 @@ class TagSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-   public function run(): void
+    public function run(): void
     {
-        $tags = ['New Arrival', 'Best Seller', 'Trending', 'Limited Edition', 'Discounted'];
+        $tags = [
+            'New Arrival',
+            'Sale',
+            'Popular',
+            'Limited Edition',
+            'Featured',
+        ];
 
         foreach ($tags as $tag) {
-            ProductTag::create([
-                'name' => $tag,
-                'slug' => Str::slug($tag),
-            ]);
+            ProductTag::firstOrCreate(
+                ['name' => $tag],
+                ['slug' => Str::slug($tag)]
+            );
         }
     }
 }

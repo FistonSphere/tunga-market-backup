@@ -13,12 +13,16 @@ class UnitSeeder extends Seeder
      */
     public function run(): void
     {
-        $units = ['Piece', 'Box', 'Kilogram', 'Liter', 'Pack'];
+        $units = [
+            ['name' => 'Piece', 'abbreviation' => 'pc'],
+            ['name' => 'Kilogram', 'abbreviation' => 'kg'],
+            ['name' => 'Liter', 'abbreviation' => 'L'],
+            ['name' => 'Meter', 'abbreviation' => 'm'],
+            ['name' => 'Box', 'abbreviation' => 'bx'],
+        ];
 
         foreach ($units as $unit) {
-            Unit::create([
-                'name' => $unit,
-            ]);
+            Unit::create($unit);
         }
     }
 }

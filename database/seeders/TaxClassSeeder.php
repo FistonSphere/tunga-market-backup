@@ -11,19 +11,19 @@ class TaxClassSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-   public function run(): void
+    public function run(): void
     {
-        $taxes = [
-            ['name' => 'Standard VAT', 'rate' => 18],
-            ['name' => 'Reduced VAT', 'rate' => 8],
-            ['name' => 'Zero VAT', 'rate' => 0],
+        $taxClasses = [
+            ['name' => 'Standard', 'rate' => 0.15, 'description' => 'Standard tax rate'],
+            ['name' => 'Reduced', 'rate' => 0.07, 'description' => 'Reduced tax rate'],
+            ['name' => 'Zero', 'rate' => 0.00, 'description' => 'Zero tax rate'],
         ];
 
-        foreach ($taxes as $tax) {
-            TaxClass::create([
-                'name' => $tax['name'],
-                'rate' => $tax['rate'],
-            ]);
+        foreach ($taxClasses as $class) {
+            TaxClass::firstOrCreate(
+                ['name' => $class['name']],  // Use 'name' as unique key
+                ['rate' => $class['rate'], 'description' => $class['description']]
+            );
         }
     }
 }
