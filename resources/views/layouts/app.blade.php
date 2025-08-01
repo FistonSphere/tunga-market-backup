@@ -246,7 +246,7 @@
                     </button>
 
                     <!-- Cart Icon -->
-                    <button onclick="toggleCart()"
+                    <a href="{{ route('cart') }}" id="open-cart-btn"
                         class="relative text-secondary-600 hover:text-accent transition-fast p-2 mr-2"
                         title="Shopping Cart">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -255,7 +255,7 @@
                         </svg>
                         <span id="cart-count"
                             class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">0</span>
-                    </button>
+                    </a>
 
                     <a href="{{ route('login') }}" class="text-primary hover:text-accent transition-fast">Sign In</a>
                     <a href="{{ route('login') }}" class="btn-primary">Get Started</a>
