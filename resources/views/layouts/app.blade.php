@@ -159,8 +159,8 @@
                                             <a href="{{ route('about') }}"
                                                 class="{{ request()->routeIs('about') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">About
                                                 Us</a>
-                                            <a href="#help-center"
-                                                class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Help
+                                            <a href="{{ route('help.center') }}"
+                                                class="{{ request()->routeIs('help.center') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Help
                                                 Center</a>
                                             <a href="#trade-assurance"
                                                 class="text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Trade
