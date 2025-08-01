@@ -1,0 +1,1721 @@
+@extends('layouts.app')
+@section('content')
+    <!-- Breadcrumb Navigation -->
+    <section class="bg-surface py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex items-center space-x-2 text-body-sm">
+                <a href="homepage.html" class="text-secondary-600 hover:text-primary transition-fast">Home</a>
+                <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+                <a href="shopping_cart.html" class="text-secondary-600 hover:text-primary transition-fast">Shopping Cart</a>
+                <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+                <span class="text-primary font-medium">Checkout</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Main Checkout Content -->
+    <section class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Checkout Steps -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Step 1: Order Review -->
+                    <div id="step-1" class="checkout-step">
+                        <div class="card">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-2xl font-bold text-primary">1. Order Review</h2>
+                                <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
+                                    onclick="goBackToCart()">
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                                    </svg>
+                                    Edit Cart
+                                </button>
+                            </div>
+
+                            <!-- Order Items -->
+                            <div class="space-y-4">
+                                <!-- Supplier Group 1 -->
+                                <div class="border border-border rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-border">
+                                        <div class="flex items-center space-x-3">
+                                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2940&auto=format&fit=crop"
+                                                alt="TechSound Manufacturing" class="w-10 h-10 rounded-lg object-cover"
+                                                loading="lazy" />
+                                            <div>
+                                                <h3 class="font-semibold text-primary">TechSound Manufacturing Co.</h3>
+                                                <div class="text-body-sm text-secondary-600">📍 Shenzhen, China • 🚚 Free
+                                                    Shipping</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-body-sm text-secondary-600">Delivery</div>
+                                            <div class="font-medium text-primary">5-7 days</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Items from this supplier -->
+                                    <div class="space-y-3">
+                                        <div class="flex items-center space-x-4">
+                                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
+                                                alt="Premium Wireless Earbuds Pro" class="w-16 h-16 rounded-lg object-cover"
+                                                loading="lazy" />
+                                            <div class="flex-1">
+                                                <h4 class="font-medium text-primary">Premium Wireless Earbuds Pro</h4>
+                                                <div class="text-body-sm text-secondary-600">Color: Midnight Black • Qty: 2
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="font-semibold text-primary">$299.98</div>
+                                                <div class="text-body-sm text-success">Save $99.98</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center space-x-4">
+                                            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2684&auto=format&fit=crop"
+                                                alt="Portable Bluetooth Speaker" class="w-16 h-16 rounded-lg object-cover"
+                                                loading="lazy" />
+                                            <div class="flex-1">
+                                                <h4 class="font-medium text-primary">Portable Bluetooth Speaker Pro</h4>
+                                                <div class="text-body-sm text-secondary-600">Color: Space Gray • Qty: 1
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="font-semibold text-primary">$89.99</div>
+                                                <div class="text-body-sm text-success">Save $30.00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-surface rounded-lg p-3 mt-4">
+                                        <div class="flex justify-between text-body-sm">
+                                            <span class="text-secondary-600">Subtotal:</span>
+                                            <span class="font-medium text-primary">$389.97</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Supplier Group 2 -->
+                                <div class="border border-border rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-border">
+                                        <div class="flex items-center space-x-3">
+                                            <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                                                alt="GlobalTech Solutions" class="w-10 h-10 rounded-lg object-cover"
+                                                loading="lazy" />
+                                            <div>
+                                                <h3 class="font-semibold text-primary">GlobalTech Solutions Ltd.</h3>
+                                                <div class="text-body-sm text-secondary-600">📍 Guangzhou, China • 🚚 $12.99
+                                                    shipping</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-body-sm text-secondary-600">Delivery</div>
+                                            <div class="font-medium text-primary">7-10 days</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center py-4 text-secondary-600">
+                                        <div class="text-body">3 items from this supplier</div>
+                                        <button class="text-accent hover:text-accent-600 transition-fast text-body-sm mt-1"
+                                            onclick="expandSupplierItems(this)">View Details</button>
+                                    </div>
+
+                                    <div class="bg-surface rounded-lg p-3 mt-4">
+                                        <div class="flex justify-between text-body-sm">
+                                            <span class="text-secondary-600">Subtotal:</span>
+                                            <span class="font-medium text-primary">$245.97</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Continue Button -->
+                            <div class="flex justify-end mt-6">
+                                <button class="btn-primary" onclick="nextStep(2)">Continue to Shipping</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Shipping & Address -->
+                    <div id="step-2" class="checkout-step hidden">
+                        <div class="card">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-2xl font-bold text-primary">2. Shipping & Address</h2>
+                                <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
+                                    onclick="previousStep(1)">
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                                    </svg>
+                                    Back to Order Review
+                                </button>
+                            </div>
+
+                            <!-- Address Management -->
+                            <div class="space-y-6">
+                                <!-- Saved Addresses -->
+                                <div>
+                                    <h3 class="font-semibold text-primary mb-4">Select Shipping Address</h3>
+                                    <div class="space-y-3">
+                                        <!-- Saved Address 1 -->
+                                        <label
+                                            class="flex items-start space-x-3 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer">
+                                            <input type="radio" name="shipping-address" value="home"
+                                                class="mt-1 text-accent focus:ring-accent-500 border-border" checked />
+                                            <div class="flex-1">
+                                                <div class="flex items-center space-x-2 mb-1">
+                                                    <span class="font-medium text-primary">Home</span>
+                                                    <span
+                                                        class="bg-success text-white px-2 py-0.5 rounded-full text-xs">Default</span>
+                                                </div>
+                                                <div class="text-body-sm text-secondary-700">
+                                                    John Smith<br />
+                                                    123 Main Street, Apt 4B<br />
+                                                    New York, NY 10001<br />
+                                                    United States<br />
+                                                    Phone: +1 (555) 123-4567
+                                                </div>
+                                                <button
+                                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm mt-2">Edit</button>
+                                            </div>
+                                        </label>
+
+                                        <!-- Saved Address 2 -->
+                                        <label
+                                            class="flex items-start space-x-3 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer">
+                                            <input type="radio" name="shipping-address" value="work"
+                                                class="mt-1 text-accent focus:ring-accent-500 border-border" />
+                                            <div class="flex-1">
+                                                <div class="flex items-center space-x-2 mb-1">
+                                                    <span class="font-medium text-primary">Work</span>
+                                                </div>
+                                                <div class="text-body-sm text-secondary-700">
+                                                    John Smith<br />
+                                                    456 Business Ave, Suite 200<br />
+                                                    New York, NY 10002<br />
+                                                    United States<br />
+                                                    Phone: +1 (555) 987-6543
+                                                </div>
+                                                <button
+                                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm mt-2">Edit</button>
+                                            </div>
+                                        </label>
+
+                                        <!-- Add New Address -->
+                                        <label
+                                            class="flex items-start space-x-3 p-4 border-2 border-dashed border-border rounded-lg hover:bg-surface cursor-pointer">
+                                            <input type="radio" name="shipping-address" value="new"
+                                                class="mt-1 text-accent focus:ring-accent-500 border-border" />
+                                            <div class="flex-1">
+                                                <div class="flex items-center space-x-2 mb-1">
+                                                    <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                    </svg>
+                                                    <span class="font-medium text-primary">Add New Address</span>
+                                                </div>
+                                                <div class="text-body-sm text-secondary-600">
+                                                    Enter a new shipping address
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- New Address Form (Hidden by default) -->
+                                <div id="new-address-form" class="hidden">
+                                    <h4 class="font-semibold text-primary mb-4">New Shipping Address</h4>
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-body-sm font-medium text-primary mb-1">First Name
+                                                *</label>
+                                            <input type="text" class="input-field" required />
+                                        </div>
+                                        <div>
+                                            <label class="block text-body-sm font-medium text-primary mb-1">Last Name
+                                                *</label>
+                                            <input type="text" class="input-field" required />
+                                        </div>
+                                        <div class="md:col-span-2">
+                                            <label class="block text-body-sm font-medium text-primary mb-1">Company
+                                                (Optional)</label>
+                                            <input type="text" class="input-field" />
+                                        </div>
+                                        <div class="md:col-span-2">
+                                            <label class="block text-body-sm font-medium text-primary mb-1">Address Line 1
+                                                *</label>
+                                            <input type="text" class="input-field" required />
+                                        </div>
+                                        <div class="md:col-span-2">
+                                            <label class="block text-body-sm font-medium text-primary mb-1">Address Line 2
+                                                (Optional)</label>
+                                            <input type="text" class="input-field" />
+                                        </div>
+                                        <div>
+                                            <label class="block text-body-sm font-medium text-primary mb-1">City *</label>
+                                            <input type="text" class="input-field" required />
+                                        </div>
+                                        <div>
+                                            <label class="block text-body-sm font-medium text-primary mb-1">State/Province
+                                                *</label>
+                                            <select class="input-field" required>
+                                                <option value>Select State</option>
+                                                <option value="NY">New York</option>
+                                                <option value="CA">California</option>
+                                                <option value="TX">Texas</option>
+                                                <option value="FL">Florida</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-body-sm font-medium text-primary mb-1">ZIP/Postal Code
+                                                *</label>
+                                            <input type="text" class="input-field" required />
+                                        </div>
+                                        <div>
+                                            <label class="block text-body-sm font-medium text-primary mb-1">Country
+                                                *</label>
+                                            <select class="input-field" required>
+                                                <option value="US">United States</option>
+                                                <option value="CA">Canada</option>
+                                                <option value="GB">United Kingdom</option>
+                                                <option value="AU">Australia</option>
+                                            </select>
+                                        </div>
+                                        <div class="md:col-span-2">
+                                            <label class="block text-body-sm font-medium text-primary mb-1">Phone Number
+                                                *</label>
+                                            <input type="tel" class="input-field" required />
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center space-x-3 mt-4">
+                                        <input type="checkbox" id="save-address"
+                                            class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded" />
+                                        <label for="save-address" class="text-body-sm text-secondary-700">Save this
+                                            address for future orders</label>
+                                    </div>
+                                </div>
+
+                                <!-- Billing Address -->
+                                <div>
+                                    <h3 class="font-semibold text-primary mb-4">Billing Address</h3>
+                                    <div class="space-y-3">
+                                        <label class="flex items-center space-x-3">
+                                            <input type="radio" name="billing-address" value="same"
+                                                class="text-accent focus:ring-accent-500 border-border" checked />
+                                            <span class="text-body text-secondary-700">Same as shipping address</span>
+                                        </label>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="radio" name="billing-address" value="different"
+                                                class="text-accent focus:ring-accent-500 border-border" />
+                                            <span class="text-body text-secondary-700">Use a different billing
+                                                address</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Shipping Options -->
+                                <div>
+                                    <h3 class="font-semibold text-primary mb-4">Shipping Options</h3>
+                                    <div class="space-y-3">
+                                        <!-- TechSound Manufacturing Shipping -->
+                                        <div class="border border-border rounded-lg p-4">
+                                            <h4 class="font-medium text-primary mb-3">TechSound Manufacturing Co.</h4>
+                                            <div class="space-y-2">
+                                                <label
+                                                    class="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-surface cursor-pointer">
+                                                    <div class="flex items-center space-x-3">
+                                                        <input type="radio" name="shipping-techsound" value="free"
+                                                            class="text-accent focus:ring-accent-500 border-border"
+                                                            checked />
+                                                        <div>
+                                                            <div class="font-medium text-primary">Free Standard Shipping
+                                                            </div>
+                                                            <div class="text-body-sm text-secondary-600">5-7 business days
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <div class="font-semibold text-success">FREE</div>
+                                                        <div class="text-body-sm text-secondary-600">Tracking included
+                                                        </div>
+                                                    </div>
+                                                </label>
+
+                                                <label
+                                                    class="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-surface cursor-pointer">
+                                                    <div class="flex items-center space-x-3">
+                                                        <input type="radio" name="shipping-techsound" value="express"
+                                                            class="text-accent focus:ring-accent-500 border-border" />
+                                                        <div>
+                                                            <div class="font-medium text-primary">Express Shipping</div>
+                                                            <div class="text-body-sm text-secondary-600">2-3 business days
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <div class="font-semibold text-primary">$15.99</div>
+                                                        <div class="text-body-sm text-secondary-600">Insurance included
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- GlobalTech Solutions Shipping -->
+                                        <div class="border border-border rounded-lg p-4">
+                                            <h4 class="font-medium text-primary mb-3">GlobalTech Solutions Ltd.</h4>
+                                            <div class="space-y-2">
+                                                <label
+                                                    class="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-surface cursor-pointer">
+                                                    <div class="flex items-center space-x-3">
+                                                        <input type="radio" name="shipping-globaltech" value="standard"
+                                                            class="text-accent focus:ring-accent-500 border-border"
+                                                            checked />
+                                                        <div>
+                                                            <div class="font-medium text-primary">Standard Shipping</div>
+                                                            <div class="text-body-sm text-secondary-600">7-10 business days
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <div class="font-semibold text-primary">$12.99</div>
+                                                        <div class="text-body-sm text-secondary-600">Tracking included
+                                                        </div>
+                                                    </div>
+                                                </label>
+
+                                                <label
+                                                    class="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-surface cursor-pointer">
+                                                    <div class="flex items-center space-x-3">
+                                                        <input type="radio" name="shipping-globaltech"
+                                                            value="expedited"
+                                                            class="text-accent focus:ring-accent-500 border-border" />
+                                                        <div>
+                                                            <div class="font-medium text-primary">Expedited Shipping</div>
+                                                            <div class="text-body-sm text-secondary-600">4-6 business days
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <div class="font-semibold text-primary">$24.99</div>
+                                                        <div class="text-body-sm text-secondary-600">Insurance included
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Navigation Buttons -->
+                            <div class="flex justify-between mt-8">
+                                <button class="btn-secondary" onclick="previousStep(1)">Back to Order Review</button>
+                                <button class="btn-primary" onclick="nextStep(3)">Continue to Payment</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Payment -->
+                    <div id="step-3" class="checkout-step hidden">
+                        <div class="card">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-2xl font-bold text-primary">3. Payment Method</h2>
+                                <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
+                                    onclick="previousStep(2)">
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                                    </svg>
+                                    Back to Shipping
+                                </button>
+                            </div>
+
+                            <!-- Security Notice -->
+                            <div class="bg-success-50 border border-success-200 rounded-lg p-4 mb-6">
+                                <div class="flex items-center space-x-3">
+                                    <svg class="w-6 h-6 text-success flex-shrink-0" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m5.09-5.09A10 10 0 0019.49 5 8.5 8.5 0 0013 8a10 10 0 00-7.07 7.07A8.5 8.5 0 003 12.5a10 10 0 007.07-7.07zM12 12a5.5 5.5 0 1111 0 5.5 5.5 0 01-11 0z" />
+                                    </svg>
+                                    <div>
+                                        <h4 class="font-semibold text-success mb-1">Your payment is protected</h4>
+                                        <p class="text-body-sm text-success-700">256-bit SSL encryption • PCI DSS compliant
+                                            • Buyer protection guarantee</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Payment Methods -->
+                            <div class="space-y-6">
+                                <!-- Credit/Debit Card -->
+                                <div>
+                                    <label class="flex items-center space-x-3 mb-4">
+                                        <input type="radio" name="payment-method" value="card"
+                                            class="text-accent focus:ring-accent-500 border-border" checked />
+                                        <span class="font-semibold text-primary">Credit/Debit Card</span>
+                                        <div class="flex items-center space-x-2 ml-auto">
+                                            <div
+                                                class="w-8 h-5 bg-primary rounded text-white text-xs flex items-center justify-center font-bold">
+                                                VISA</div>
+                                            <div
+                                                class="w-8 h-5 bg-accent rounded text-white text-xs flex items-center justify-center font-bold">
+                                                MC</div>
+                                            <div
+                                                class="w-8 h-5 bg-secondary rounded text-white text-xs flex items-center justify-center font-bold">
+                                                AMEX</div>
+                                        </div>
+                                    </label>
+
+                                    <div id="card-form" class="space-y-4 pl-7">
+                                        <!-- Saved Cards -->
+                                        <div class="space-y-3">
+                                            <h4 class="font-medium text-primary">Saved Payment Methods</h4>
+
+                                            <label
+                                                class="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-surface cursor-pointer">
+                                                <div class="flex items-center space-x-3">
+                                                    <input type="radio" name="saved-card" value="card1"
+                                                        class="text-accent focus:ring-accent-500 border-border" />
+                                                    <div
+                                                        class="w-8 h-5 bg-primary rounded text-white text-xs flex items-center justify-center font-bold">
+                                                        VISA</div>
+                                                    <div>
+                                                        <div class="font-medium text-primary">•••• •••• •••• 1234</div>
+                                                        <div class="text-body-sm text-secondary-600">Expires 12/26 • John
+                                                            Smith</div>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm">Edit</button>
+                                            </label>
+
+                                            <label
+                                                class="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-surface cursor-pointer">
+                                                <div class="flex items-center space-x-3">
+                                                    <input type="radio" name="saved-card" value="card2"
+                                                        class="text-accent focus:ring-accent-500 border-border" />
+                                                    <div
+                                                        class="w-8 h-5 bg-accent rounded text-white text-xs flex items-center justify-center font-bold">
+                                                        MC</div>
+                                                    <div>
+                                                        <div class="font-medium text-primary">•••• •••• •••• 5678</div>
+                                                        <div class="text-body-sm text-secondary-600">Expires 08/27 • John
+                                                            Smith</div>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm">Edit</button>
+                                            </label>
+
+                                            <label
+                                                class="flex items-center space-x-3 p-4 border-2 border-dashed border-border rounded-lg hover:bg-surface cursor-pointer">
+                                                <input type="radio" name="saved-card" value="new-card"
+                                                    class="text-accent focus:ring-accent-500 border-border" checked />
+                                                <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                </svg>
+                                                <span class="font-medium text-primary">Add New Card</span>
+                                            </label>
+                                        </div>
+
+                                        <!-- New Card Form -->
+                                        <div id="new-card-form" class="space-y-4">
+                                            <div>
+                                                <label class="block text-body-sm font-medium text-primary mb-1">Card Number
+                                                    *</label>
+                                                <input type="text" class="input-field"
+                                                    placeholder="1234 5678 9012 3456" maxlength="19" required />
+                                            </div>
+
+                                            <div class="grid md:grid-cols-3 gap-4">
+                                                <div class="md:col-span-2">
+                                                    <label class="block text-body-sm font-medium text-primary mb-1">Expiry
+                                                        Date *</label>
+                                                    <input type="text" class="input-field" placeholder="MM/YY"
+                                                        maxlength="5" required />
+                                                </div>
+                                                <div>
+                                                    <label class="block text-body-sm font-medium text-primary mb-1">CVV
+                                                        *</label>
+                                                    <input type="text" class="input-field" placeholder="123"
+                                                        maxlength="4" required />
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <label class="block text-body-sm font-medium text-primary mb-1">Cardholder
+                                                    Name *</label>
+                                                <input type="text" class="input-field" placeholder="John Smith"
+                                                    required />
+                                            </div>
+
+                                            <div class="flex items-center space-x-3">
+                                                <input type="checkbox" id="save-card"
+                                                    class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded" />
+                                                <label for="save-card" class="text-body-sm text-secondary-700">Save this
+                                                    card for future purchases</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- IREMBO Pay -->
+                                <div>
+                                    <label class="flex items-center space-x-3 mb-4">
+                                        <input type="radio" name="payment-method" value="irembo-pay"
+                                            class="text-accent focus:ring-accent-500 border-border" />
+                                        <span class="font-semibold text-primary">IREMBO Pay</span>
+                                        <div class="flex items-center space-x-2 ml-auto">
+                                            <div
+                                                class="w-12 h-6 bg-gradient-to-r from-green-500 to-blue-500 rounded text-white text-xs flex items-center justify-center font-bold">
+                                                IREMBO</div>
+                                            <div
+                                                class="w-8 h-5 bg-yellow-500 rounded text-white text-xs flex items-center justify-center font-bold">
+                                                MTN</div>
+                                            <div
+                                                class="w-10 h-5 bg-red-500 rounded text-white text-xs flex items-center justify-center font-bold">
+                                                AIRTEL</div>
+                                        </div>
+                                    </label>
+
+                                    <div id="irembo-form" class="space-y-4 pl-7 hidden">
+                                        <div class="bg-primary-50 border border-primary-200 rounded-lg p-4 mb-4">
+                                            <div class="flex items-center space-x-3">
+                                                <svg class="w-6 h-6 text-primary flex-shrink-0" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                                </svg>
+                                                <div>
+                                                    <h4 class="font-semibold text-primary mb-1">IREMBO Pay - Mobile Money
+                                                    </h4>
+                                                    <p class="text-body-sm text-primary-700">Secure mobile money payments
+                                                        in Rwanda. Supports MTN Mobile Money and Airtel Money.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Mobile Money Provider Selection -->
+                                        <div>
+                                            <label class="block text-body-sm font-medium text-primary mb-2">Select Mobile
+                                                Money Provider *</label>
+                                            <div class="grid grid-cols-2 gap-3">
+                                                <label
+                                                    class="flex items-center justify-center p-4 border border-border rounded-lg cursor-pointer hover:bg-surface transition-fast">
+                                                    <input type="radio" name="mobile-provider" value="mtn"
+                                                        class="sr-only" />
+                                                    <div class="text-center">
+                                                        <div
+                                                            class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                                                            <span class="text-white font-bold text-sm">MTN</span>
+                                                        </div>
+                                                        <div class="font-semibold text-primary">MTN Mobile Money</div>
+                                                        <div class="text-sm text-secondary-600">*182# or App</div>
+                                                    </div>
+                                                </label>
+
+                                                <label
+                                                    class="flex items-center justify-center p-4 border border-border rounded-lg cursor-pointer hover:bg-surface transition-fast">
+                                                    <input type="radio" name="mobile-provider" value="airtel"
+                                                        class="sr-only" />
+                                                    <div class="text-center">
+                                                        <div
+                                                            class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                                                            <span class="text-white font-bold text-sm">AIRTEL</span>
+                                                        </div>
+                                                        <div class="font-semibold text-primary">Airtel Money</div>
+                                                        <div class="text-sm text-secondary-600">*175# or App</div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Payment Method Selection -->
+                                        <div id="payment-method-selection" class="hidden">
+                                            <label class="block text-body-sm font-medium text-primary mb-2">How would you
+                                                like to pay?</label>
+                                            <div class="space-y-3">
+                                                <!-- Phone Number Payment -->
+                                                <label
+                                                    class="flex items-start space-x-3 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer">
+                                                    <input type="radio" name="payment-type" value="phone"
+                                                        class="mt-1 text-accent focus:ring-accent-500 border-border" />
+                                                    <div class="flex-1">
+                                                        <div class="flex items-center space-x-2 mb-1">
+                                                            <svg class="w-5 h-5 text-accent" fill="none"
+                                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2"
+                                                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                                            </svg>
+                                                            <span class="font-medium text-primary">Pay with Phone
+                                                                Number</span>
+                                                        </div>
+                                                        <div class="text-body-sm text-secondary-600">
+                                                            Enter your mobile money phone number. You'll receive a payment
+                                                            request on your phone.
+                                                        </div>
+                                                    </div>
+                                                </label>
+
+                                                <!-- Mobile Money Code Payment (MTN Only) -->
+                                                <label
+                                                    class="flex items-start space-x-3 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer"
+                                                    id="code-payment-option">
+                                                    <input type="radio" name="payment-type" value="code"
+                                                        class="mt-1 text-accent focus:ring-accent-500 border-border" />
+                                                    <div class="flex-1">
+                                                        <div class="flex items-center space-x-2 mb-1">
+                                                            <svg class="w-5 h-5 text-accent" fill="none"
+                                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2"
+                                                                    d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                                                            </svg>
+                                                            <span class="font-medium text-primary">Pay with Mobile Money
+                                                                Code</span>
+                                                            <span
+                                                                class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-semibold">MTN
+                                                                Only</span>
+                                                        </div>
+                                                        <div class="text-body-sm text-secondary-600">
+                                                            Generate a payment code from MTN Mobile Money app or *182# and
+                                                            enter it here.
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Phone Number Input -->
+                                        <div id="phone-input-section" class="hidden">
+                                            <label class="block text-body-sm font-medium text-primary mb-1">Mobile Money
+                                                Phone Number *</label>
+                                            <div class="flex">
+                                                <div
+                                                    class="flex items-center px-3 bg-surface border border-r-0 border-border rounded-l-lg">
+                                                    <span class="text-secondary-600">+250</span>
+                                                </div>
+                                                <input type="tel" id="mobile-phone"
+                                                    class="flex-1 input-field rounded-l-none" placeholder="7xxxxxxxx"
+                                                    maxlength="9" required />
+                                            </div>
+                                            <p class="text-body-sm text-secondary-600 mt-1">Enter your 9-digit mobile
+                                                number (without +250)</p>
+                                        </div>
+
+                                        <!-- Mobile Money Code Input -->
+                                        <div id="code-input-section" class="hidden">
+                                            <label class="block text-body-sm font-medium text-primary mb-1">Mobile Money
+                                                Payment Code *</label>
+                                            <input type="text" id="mobile-code" class="input-field"
+                                                placeholder="Enter 6-digit payment code" maxlength="6" required />
+                                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-2">
+                                                <h5 class="font-medium text-yellow-800 mb-1">How to get your payment code:
+                                                </h5>
+                                                <ol class="text-body-sm text-yellow-700 space-y-1">
+                                                    <li>1. Dial *182# on your MTN phone</li>
+                                                    <li>2. Select "Pay Bill" or "Send Money"</li>
+                                                    <li>3. Enter merchant code: <strong>123456</strong></li>
+                                                    <li>4. Enter amount: <strong>$<span
+                                                                id="payment-amount">711.36</span></strong></li>
+                                                    <li>5. Generate payment code and enter it above</li>
+                                                </ol>
+                                            </div>
+                                        </div>
+
+                                        <!-- PIN Input for Both Methods -->
+                                        <div id="pin-input-section" class="hidden">
+                                            <label class="block text-body-sm font-medium text-primary mb-1">Mobile Money
+                                                PIN *</label>
+                                            <input type="password" id="mobile-pin" class="input-field"
+                                                placeholder="Enter your 4-digit PIN" maxlength="4" required />
+                                            <p class="text-body-sm text-secondary-600 mt-1">Your mobile money PIN for
+                                                transaction authorization</p>
+                                        </div>
+
+                                        <!-- Payment Instructions -->
+                                        <div id="payment-instructions"
+                                            class="hidden bg-accent-50 border border-accent-200 rounded-lg p-4">
+                                            <h5 class="font-semibold text-accent mb-2">Payment Instructions</h5>
+                                            <div id="phone-instructions" class="hidden">
+                                                <p class="text-body-sm text-accent-700 mb-2">When you click "Place Order":
+                                                </p>
+                                                <ol
+                                                    class="text-body-sm text-accent-700 space-y-1 list-decimal list-inside">
+                                                    <li>You'll receive a payment request on your phone</li>
+                                                    <li>Enter your Mobile Money PIN to confirm</li>
+                                                    <li>Your order will be processed immediately</li>
+                                                </ol>
+                                            </div>
+                                            <div id="code-instructions" class="hidden">
+                                                <p class="text-body-sm text-accent-700 mb-2">Your payment will be processed
+                                                    using the provided code:</p>
+                                                <ul class="text-body-sm text-accent-700 space-y-1 list-disc list-inside">
+                                                    <li>Ensure your mobile money account has sufficient balance</li>
+                                                    <li>Payment code is valid for 15 minutes</li>
+                                                    <li>Your order will be confirmed once payment is successful</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- PayPal -->
+                                <div>
+                                    <label class="flex items-center space-x-3 mb-4">
+                                        <input type="radio" name="payment-method" value="paypal"
+                                            class="text-accent focus:ring-accent-500 border-border" />
+                                        <span class="font-semibold text-primary">PayPal</span>
+                                        <div
+                                            class="w-16 h-6 bg-primary rounded text-white text-xs flex items-center justify-center font-bold ml-auto">
+                                            PayPal</div>
+                                    </label>
+                                    <div class="pl-7 text-body-sm text-secondary-600">
+                                        <p>You'll be redirected to PayPal to complete your payment securely.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Bank Transfer -->
+                                <div>
+                                    <label class="flex items-center space-x-3 mb-4">
+                                        <input type="radio" name="payment-method" value="bank-transfer"
+                                            class="text-accent focus:ring-accent-500 border-border" />
+                                        <span class="font-semibold text-primary">Bank Transfer</span>
+                                        <span
+                                            class="bg-warning-100 text-warning-800 px-2 py-1 rounded-full text-xs ml-auto">3-5
+                                            days processing</span>
+                                    </label>
+                                    <div class="pl-7 text-body-sm text-secondary-600">
+                                        <p>Direct bank transfer. Your order will be processed after payment confirmation.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Trade Credit -->
+                                <div>
+                                    <label class="flex items-center space-x-3 mb-4">
+                                        <input type="radio" name="payment-method" value="trade-credit"
+                                            class="text-accent focus:ring-accent-500 border-border" />
+                                        <span class="font-semibold text-primary">Trade Credit</span>
+                                        <span
+                                            class="bg-success-100 text-success-800 px-2 py-1 rounded-full text-xs ml-auto">Available:
+                                            $2,500</span>
+                                    </label>
+                                    <div class="pl-7 text-body-sm text-secondary-600">
+                                        <p>Use your approved trade credit balance for this purchase.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Navigation Buttons -->
+                            <div class="flex justify-between mt-8">
+                                <button class="btn-secondary" onclick="previousStep(2)">Back to Shipping</button>
+                                <button class="btn-primary" onclick="nextStep(4)">Review & Place Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Order Confirmation -->
+                    <div id="step-4" class="checkout-step hidden">
+                        <div class="card">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-2xl font-bold text-primary">4. Order Confirmation</h2>
+                                <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
+                                    onclick="previousStep(3)">
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                                    </svg>
+                                    Back to Payment
+                                </button>
+                            </div>
+
+                            <!-- Order Summary Review -->
+                            <div class="space-y-6">
+                                <!-- Shipping Address Summary -->
+                                <div class="border border-border rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h3 class="font-semibold text-primary">Shipping Address</h3>
+                                        <button class="text-accent hover:text-accent-600 transition-fast text-body-sm"
+                                            onclick="editStep(2)">Edit</button>
+                                    </div>
+                                    <div class="text-body-sm text-secondary-700">
+                                        John Smith<br />
+                                        123 Main Street, Apt 4B<br />
+                                        New York, NY 10001<br />
+                                        United States<br />
+                                        Phone: +1 (555) 123-4567
+                                    </div>
+                                </div>
+
+                                <!-- Payment Method Summary -->
+                                <div class="border border-border rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h3 class="font-semibold text-primary">Payment Method</h3>
+                                        <button class="text-accent hover:text-accent-600 transition-fast text-body-sm"
+                                            onclick="editStep(3)">Edit</button>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <div
+                                            class="w-8 h-5 bg-primary rounded text-white text-xs flex items-center justify-center font-bold">
+                                            VISA</div>
+                                        <span class="text-body-sm text-secondary-700">•••• •••• •••• 1234</span>
+                                    </div>
+                                </div>
+
+                                <!-- Delivery Information -->
+                                <div class="border border-border rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h3 class="font-semibold text-primary">Delivery Information</h3>
+                                        <button class="text-accent hover:text-accent-600 transition-fast text-body-sm"
+                                            onclick="editStep(2)">Edit</button>
+                                    </div>
+                                    <div class="space-y-2 text-body-sm">
+                                        <div class="flex justify-between">
+                                            <span class="text-secondary-600">TechSound Manufacturing:</span>
+                                            <span class="text-primary">5-7 days (Free shipping)</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-secondary-600">GlobalTech Solutions:</span>
+                                            <span class="text-primary">7-10 days ($12.99 shipping)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Terms and Conditions -->
+                                <div class="border border-border rounded-lg p-4">
+                                    <h3 class="font-semibold text-primary mb-3">Terms & Conditions</h3>
+                                    <div class="space-y-3">
+                                        <label class="flex items-start space-x-3">
+                                            <input type="checkbox" id="terms-conditions"
+                                                class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-0.5"
+                                                required />
+                                            <span class="text-body-sm text-secondary-700">I agree to the <a href="#"
+                                                    class="text-accent hover:underline">Terms of Service</a> and <a
+                                                    href="#" class="text-accent hover:underline">Privacy
+                                                    Policy</a></span>
+                                        </label>
+
+                                        <label class="flex items-start space-x-3">
+                                            <input type="checkbox" id="supplier-terms"
+                                                class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-0.5"
+                                                required />
+                                            <span class="text-body-sm text-secondary-700">I acknowledge the supplier terms
+                                                and delivery conditions</span>
+                                        </label>
+
+                                        <label class="flex items-start space-x-3">
+                                            <input type="checkbox" id="marketing-emails"
+                                                class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-0.5" />
+                                            <span class="text-body-sm text-secondary-700">I want to receive marketing
+                                                emails about special offers and new products</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Buyer Protection Info -->
+                                <div class="bg-primary-50 border border-primary-200 rounded-lg p-4">
+                                    <h3 class="font-semibold text-primary mb-3">Your Purchase is Protected</h3>
+                                    <div class="grid md:grid-cols-2 gap-4 text-body-sm">
+                                        <div class="flex items-center space-x-2">
+                                            <svg class="w-4 h-4 text-success flex-shrink-0" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <span class="text-secondary-700">30-day money back guarantee</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <svg class="w-4 h-4 text-success flex-shrink-0" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <span class="text-secondary-700">Quality assurance program</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <svg class="w-4 h-4 text-success flex-shrink-0" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <span class="text-secondary-700">Dispute resolution support</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <svg class="w-4 h-4 text-success flex-shrink-0" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <span class="text-secondary-700">24/7 customer support</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Place Order Button -->
+                            <div class="flex justify-between mt-8">
+                                <button class="btn-secondary" onclick="previousStep(3)">Back to Payment</button>
+                                <button class="btn-primary bg-success hover:bg-success-600 text-lg px-8 py-4"
+                                    onclick="placeOrder()">
+                                    Place Order - $711.36
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="sticky top-24 space-y-6">
+                        <!-- Order Summary -->
+                        <div class="card">
+                            <h3 class="font-semibold text-primary mb-4">Order Summary</h3>
+
+                            <!-- Items Summary -->
+                            <div class="space-y-3 mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
+                                        alt="Premium Wireless Earbuds Pro" class="w-12 h-12 rounded-lg object-cover"
+                                        loading="lazy" />
+                                    <div class="flex-1">
+                                        <div class="font-medium text-primary text-body-sm">Premium Wireless Earbuds Pro
+                                        </div>
+                                        <div class="text-body-sm text-secondary-600">Qty: 2 • $149.99 each</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-medium text-primary">$299.98</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center space-x-3">
+                                    <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2684&auto=format&fit=crop"
+                                        alt="Portable Bluetooth Speaker" class="w-12 h-12 rounded-lg object-cover"
+                                        loading="lazy" />
+                                    <div class="flex-1">
+                                        <div class="font-medium text-primary text-body-sm">Portable Bluetooth Speaker Pro
+                                        </div>
+                                        <div class="text-body-sm text-secondary-600">Qty: 1 • $89.99 each</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-medium text-primary">$89.99</div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center text-body-sm text-secondary-600 py-2">
+                                    + 3 more items from GlobalTech Solutions
+                                </div>
+                            </div>
+
+                            <div class="border-t border-border pt-4 space-y-3 text-body-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-secondary-600">Subtotal (7 items):</span>
+                                    <span class="font-medium text-primary">$735.93</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-secondary-600">Bulk Discount:</span>
+                                    <span class="font-medium text-success">-$89.50</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-secondary-600">Shipping:</span>
+                                    <span class="font-medium text-primary" id="shipping-cost">$12.99</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-secondary-600">Tax (estimated):</span>
+                                    <span class="font-medium text-primary">$52.94</span>
+                                </div>
+                                <div class="border-t border-border pt-3">
+                                    <div class="flex justify-between">
+                                        <span class="font-semibold text-primary">Total:</span>
+                                        <span class="text-xl font-bold text-primary" id="order-total">$711.36</span>
+                                    </div>
+                                    <div class="text-success text-body-sm mt-1">You save $89.50!</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security & Trust -->
+                        <div class="card">
+                            <h3 class="font-semibold text-primary mb-4">Security & Trust</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center space-x-3">
+                                    <svg class="w-5 h-5 text-success flex-shrink-0" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-700">256-bit SSL Encryption</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <svg class="w-5 h-5 text-success flex-shrink-0" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m5.09-5.09A10 10 0 0019.49 5 8.5 8.5 0 0013 8a10 10 0 00-7.07 7.07A8.5 8.5 0 003 12.5a10 10 0 007.07-7.07zM12 12a5.5 5.5 0 1111 0 5.5 5.5 0 01-11 0z" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-700">PCI DSS Compliant</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <svg class="w-5 h-5 text-success flex-shrink-0" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-700">Buyer Protection</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <svg class="w-5 h-5 text-success flex-shrink-0" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 109.75 9.75A9.75 9.75 0 0012 2.25z" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-700">24/7 Support</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Support -->
+                        <div class="card">
+                            <h3 class="font-semibold text-primary mb-4">Need Help?</h3>
+                            <div class="space-y-3">
+                                <button
+                                    class="w-full text-left flex items-center space-x-3 p-3 rounded-lg hover:bg-surface transition-fast">
+                                    <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                    </svg>
+                                    <div>
+                                        <div class="font-medium text-primary">Live Chat</div>
+                                        <div class="text-body-sm text-secondary-600">Average response: 2 minutes</div>
+                                    </div>
+                                </button>
+
+                                <button
+                                    class="w-full text-left flex items-center space-x-3 p-3 rounded-lg hover:bg-surface transition-fast">
+                                    <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    </svg>
+                                    <div>
+                                        <div class="font-medium text-primary">Call Support</div>
+                                        <div class="text-body-sm text-secondary-600">+1-800-ALIMAX-1</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Progress Bar -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border p-4 z-40">
+        <div class="flex items-center justify-between mb-3">
+            <div class="text-body-sm text-secondary-600">Step <span id="mobile-step">1</span> of 4</div>
+            <div class="text-lg font-bold text-primary" id="mobile-total">$711.36</div>
+        </div>
+        <div class="w-full bg-border rounded-full h-2">
+            <div id="mobile-progress" class="bg-accent h-2 rounded-full transition-all duration-300" style="width: 25%">
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 transform translate-x-full transition-transform duration-300 z-50">
+        <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 border-success max-w-sm">
+            <div class="flex items-start space-x-3">
+                <svg class="w-6 h-6 text-success flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                    <h4 class="font-semibold text-primary">Success!</h4>
+                    <p class="text-body-sm text-secondary-600 mt-1" id="toast-message">Action completed successfully.</p>
+                </div>
+                <button onclick="hideToast()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        // Step Navigation Functions
+        function nextStep(step) {
+            if (validateCurrentStep()) {
+                showStep(step);
+                updateProgress(step);
+            }
+        }
+
+        function previousStep(step) {
+            showStep(step);
+            updateProgress(step);
+        }
+
+        function showStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.checkout-step').forEach(el => {
+                el.classList.add('hidden');
+            });
+
+            // Show target step
+            document.getElementById(`step-${step}`).classList.remove('hidden');
+            currentStep = step;
+
+            // Update progress indicators
+            updateProgressIndicators(step);
+        }
+
+        function updateProgress(step) {
+            const progress = (step / 4) * 100;
+            const mobileProgress = document.getElementById('mobile-progress');
+            const mobileStep = document.getElementById('mobile-step');
+
+            if (mobileProgress) mobileProgress.style.width = `${progress}%`;
+            if (mobileStep) mobileStep.textContent = step;
+        }
+
+        function updateProgressIndicators(step) {
+            // Update desktop progress
+            const steps = document.querySelectorAll('[class*="w-8"][class*="h-8"][class*="rounded-full"]');
+
+            steps.forEach((stepEl, index) => {
+                const stepNumber = index + 1;
+                if (stepNumber <= step) {
+                    stepEl.classList.remove('bg-border', 'text-secondary-600');
+                    stepEl.classList.add('bg-accent', 'text-white');
+                } else {
+                    stepEl.classList.remove('bg-accent', 'text-white');
+                    stepEl.classList.add('bg-border', 'text-secondary-600');
+                }
+            });
+        }
+
+        function validateCurrentStep() {
+            switch (currentStep) {
+                case 1:
+                    return true; // Order review always valid
+                case 2:
+                    return validateShippingStep();
+                case 3:
+                    return validatePaymentStep();
+                case 4:
+                    return validateConfirmationStep();
+                default:
+                    return true;
+            }
+        }
+
+        function validateShippingStep() {
+            const shippingAddress = document.querySelector('input[name="shipping-address"]:checked');
+            if (!shippingAddress) {
+                showToast('Address Required', 'Please select a shipping address.', 'warning');
+                return false;
+            }
+
+            if (shippingAddress.value === 'new') {
+                const requiredFields = document.querySelectorAll(
+                    '#new-address-form input[required], #new-address-form select[required]');
+                for (let field of requiredFields) {
+                    if (!field.value.trim()) {
+                        showToast('Complete Address', 'Please fill in all required address fields.', 'warning');
+                        field.focus();
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        function validatePaymentStep() {
+            const paymentMethod = document.querySelector('input[name="payment-method"]:checked');
+            if (!paymentMethod) {
+                showToast('Payment Required', 'Please select a payment method.', 'warning');
+                return false;
+            }
+
+            if (paymentMethod.value === 'card') {
+                const savedCard = document.querySelector('input[name="saved-card"]:checked');
+                if (savedCard && savedCard.value === 'new-card') {
+                    const requiredFields = document.querySelectorAll('#new-card-form input[required]');
+                    for (let field of requiredFields) {
+                        if (!field.value.trim()) {
+                            showToast('Complete Payment Info', 'Please fill in all required payment fields.', 'warning');
+                            field.focus();
+                            return false;
+                        }
+                    }
+                }
+            } else if (paymentMethod.value === 'irembo-pay') {
+                return validateIREMBOPay();
+            }
+
+            return true;
+        }
+
+        function validateIREMBOPay() {
+            const provider = document.querySelector('input[name="mobile-provider"]:checked');
+            if (!provider) {
+                showToast('Provider Required', 'Please select a mobile money provider.', 'warning');
+                return false;
+            }
+
+            const paymentType = document.querySelector('input[name="payment-type"]:checked');
+            if (!paymentType) {
+                showToast('Payment Type Required', 'Please select how you want to pay.', 'warning');
+                return false;
+            }
+
+            if (paymentType.value === 'phone') {
+                const phoneInput = document.getElementById('mobile-phone');
+                if (!phoneInput.value.trim() || phoneInput.value.length !== 9) {
+                    showToast('Valid Phone Required', 'Please enter a valid 9-digit phone number.', 'warning');
+                    phoneInput.focus();
+                    return false;
+                }
+            } else if (paymentType.value === 'code') {
+                const codeInput = document.getElementById('mobile-code');
+                if (!codeInput.value.trim() || codeInput.value.length !== 6) {
+                    showToast('Valid Code Required', 'Please enter a valid 6-digit payment code.', 'warning');
+                    codeInput.focus();
+                    return false;
+                }
+            }
+
+            const pinInput = document.getElementById('mobile-pin');
+            if (!pinInput.value.trim() || pinInput.value.length !== 4) {
+                showToast('PIN Required', 'Please enter your 4-digit mobile money PIN.', 'warning');
+                pinInput.focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        function validateConfirmationStep() {
+            const termsChecked = document.getElementById('terms-conditions')?.checked;
+            const supplierTermsChecked = document.getElementById('supplier-terms')?.checked;
+
+            if (!termsChecked || !supplierTermsChecked) {
+                showToast('Accept Terms', 'Please accept the terms and conditions to continue.', 'warning');
+                return false;
+            }
+
+            return true;
+        }
+
+        // IREMBO Pay specific functions
+        function handlePaymentMethodChange() {
+            const paymentMethods = document.querySelectorAll('input[name="payment-method"]');
+            const iremboForm = document.getElementById('irembo-form');
+            const cardForm = document.getElementById('card-form');
+
+            paymentMethods.forEach(method => {
+                method.addEventListener('change', function() {
+                    // Hide all payment forms first
+                    if (iremboForm) iremboForm.classList.add('hidden');
+                    if (cardForm) cardForm.classList.add('hidden');
+
+                    // Show relevant form
+                    if (this.value === 'irembo-pay' && iremboForm) {
+                        iremboForm.classList.remove('hidden');
+                    } else if (this.value === 'card' && cardForm) {
+                        cardForm.classList.remove('hidden');
+                    }
+                });
+            });
+        }
+
+        function handleMobileProviderChange() {
+            const providers = document.querySelectorAll('input[name="mobile-provider"]');
+            const paymentMethodSelection = document.getElementById('payment-method-selection');
+            const codePaymentOption = document.getElementById('code-payment-option');
+
+            providers.forEach(provider => {
+                provider.addEventListener('change', function() {
+                    // Show payment method selection
+                    if (paymentMethodSelection) {
+                        paymentMethodSelection.classList.remove('hidden');
+                    }
+
+                    // Show/hide code payment option based on provider
+                    if (codePaymentOption) {
+                        if (this.value === 'mtn') {
+                            codePaymentOption.style.display = 'flex';
+                        } else {
+                            codePaymentOption.style.display = 'none';
+                            // If code was selected and we switch to Airtel, select phone
+                            const codeRadio = document.querySelector(
+                                'input[name="payment-type"][value="code"]');
+                            const phoneRadio = document.querySelector(
+                                'input[name="payment-type"][value="phone"]');
+                            if (codeRadio && codeRadio.checked && phoneRadio) {
+                                phoneRadio.checked = true;
+                                handlePaymentTypeChange();
+                            }
+                        }
+                    }
+
+                    // Update provider-specific styling
+                    providers.forEach(p => {
+                        const label = p.closest('label');
+                        if (label) {
+                            label.classList.remove('ring-2', 'ring-accent', 'bg-accent-50');
+                        }
+                    });
+
+                    const selectedLabel = this.closest('label');
+                    if (selectedLabel) {
+                        selectedLabel.classList.add('ring-2', 'ring-accent', 'bg-accent-50');
+                    }
+                });
+            });
+        }
+
+        function handlePaymentTypeChange() {
+            const paymentTypes = document.querySelectorAll('input[name="payment-type"]');
+            const phoneInputSection = document.getElementById('phone-input-section');
+            const codeInputSection = document.getElementById('code-input-section');
+            const pinInputSection = document.getElementById('pin-input-section');
+            const paymentInstructions = document.getElementById('payment-instructions');
+            const phoneInstructions = document.getElementById('phone-instructions');
+            const codeInstructions = document.getElementById('code-instructions');
+
+            paymentTypes.forEach(type => {
+                type.addEventListener('change', function() {
+                    // Hide all input sections first
+                    if (phoneInputSection) phoneInputSection.classList.add('hidden');
+                    if (codeInputSection) codeInputSection.classList.add('hidden');
+                    if (pinInputSection) pinInputSection.classList.add('hidden');
+                    if (paymentInstructions) paymentInstructions.classList.add('hidden');
+                    if (phoneInstructions) phoneInstructions.classList.add('hidden');
+                    if (codeInstructions) codeInstructions.classList.add('hidden');
+
+                    // Show relevant sections based on payment type
+                    if (this.value === 'phone') {
+                        if (phoneInputSection) phoneInputSection.classList.remove('hidden');
+                        if (pinInputSection) pinInputSection.classList.remove('hidden');
+                        if (paymentInstructions) paymentInstructions.classList.remove('hidden');
+                        if (phoneInstructions) phoneInstructions.classList.remove('hidden');
+                    } else if (this.value === 'code') {
+                        if (codeInputSection) codeInputSection.classList.remove('hidden');
+                        if (pinInputSection) pinInputSection.classList.remove('hidden');
+                        if (paymentInstructions) paymentInstructions.classList.remove('hidden');
+                        if (codeInstructions) codeInstructions.classList.remove('hidden');
+                    }
+
+                    // Update payment type styling
+                    paymentTypes.forEach(p => {
+                        const label = p.closest('label');
+                        if (label) {
+                            label.classList.remove('ring-2', 'ring-accent', 'bg-accent-50');
+                        }
+                    });
+
+                    const selectedLabel = this.closest('label');
+                    if (selectedLabel) {
+                        selectedLabel.classList.add('ring-2', 'ring-accent', 'bg-accent-50');
+                    }
+                });
+            });
+        }
+
+        // Form handling functions
+        function expandSupplierItems(button) {
+            button.textContent = 'Hide Details';
+            button.onclick = () => {
+                button.textContent = 'View Details';
+                button.onclick = () => expandSupplierItems(button);
+            };
+        }
+
+        function goBackToCart() {
+            window.location.href = 'shopping_cart.html';
+        }
+
+        function editStep(stepNumber) {
+            showStep(stepNumber);
+            updateProgress(stepNumber);
+        }
+
+        // Place Order Function with IREMBO Pay Support
+        function placeOrder() {
+            if (!validateConfirmationStep()) {
+                return;
+            }
+
+            const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
+
+            // Show loading state
+            const button = event.target;
+            const originalText = button.textContent;
+            button.disabled = true;
+
+            if (paymentMethod === 'irembo-pay') {
+                button.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing Mobile Payment...
+            `;
+
+                // Simulate IREMBO Pay processing
+                setTimeout(() => {
+                    const provider = document.querySelector('input[name="mobile-provider"]:checked')?.value;
+                    const paymentType = document.querySelector('input[name="payment-type"]:checked')?.value;
+
+                    if (paymentType === 'phone') {
+                        showToast('Payment Request Sent',
+                            'Check your phone for the payment request. Enter your PIN to complete the transaction.',
+                            'success');
+                    } else {
+                        showToast('Code Verified', 'Payment code verified successfully. Processing payment...',
+                            'success');
+                    }
+
+                    // Complete the order after mobile payment simulation
+                    setTimeout(() => {
+                        completeOrder();
+                    }, 3000);
+
+                }, 2000);
+            } else {
+                button.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing Order...
+            `;
+
+                // Standard payment processing
+                setTimeout(() => {
+                    completeOrder();
+                }, 3000);
+            }
+        }
+
+        function completeOrder() {
+            // Generate order number
+            const orderNumber = 'AM' + Date.now().toString().slice(-8);
+
+            // Store order details for thank you page
+            localStorage.setItem('orderDetails', JSON.stringify({
+                orderNumber: orderNumber,
+                total: '$711.36',
+                items: 7,
+                email: 'john.smith@email.com',
+                shippingAddress: '123 Main Street, Apt 4B, New York, NY 10001',
+                estimatedDelivery: '5-7 business days',
+                paymentMethod: document.querySelector('input[name="payment-method"]:checked')?.value || 'card'
+            }));
+
+            showToast('Order Placed Successfully!', `Order #${orderNumber} has been confirmed.`, 'success');
+
+            // For demo purposes, show success message
+            setTimeout(() => {
+                alert(
+                    `Thank you! Your order #${orderNumber} has been placed successfully. You will receive a confirmation email shortly.`);
+            }, 1000);
+        }
+
+        // Phone number formatting for IREMBO Pay
+        function formatPhoneNumber() {
+            const phoneInput = document.getElementById('mobile-phone');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 9) {
+                        value = value.substring(0, 9);
+                    }
+                    e.target.value = value;
+                });
+            }
+        }
+
+        // PIN formatting
+        function formatPIN() {
+            const pinInput = document.getElementById('mobile-pin');
+            if (pinInput) {
+                pinInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 4) {
+                        value = value.substring(0, 4);
+                    }
+                    e.target.value = value;
+                });
+            }
+        }
+
+        // Code formatting
+        function formatCode() {
+            const codeInput = document.getElementById('mobile-code');
+            if (codeInput) {
+                codeInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 6) {
+                        value = value.substring(0, 6);
+                    }
+                    e.target.value = value;
+                });
+            }
+        }
+
+        // Card number formatting
+        function formatCardNumber() {
+            const cardInput = document.querySelector('input[placeholder="1234 5678 9012 3456"]');
+            if (cardInput) {
+                cardInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+                    let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                    e.target.value = formattedValue;
+                });
+            }
+        }
+
+        function formatExpiry() {
+            const expiryInput = document.querySelector('input[placeholder="MM/YY"]');
+            if (expiryInput) {
+                expiryInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length >= 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                    }
+                    e.target.value = value;
+                });
+            }
+        }
+
+        // Address form toggle
+        function handleAddressToggle() {
+            const addressRadios = document.querySelectorAll('input[name="shipping-address"]');
+            const newAddressForm = document.getElementById('new-address-form');
+
+            if (addressRadios.length && newAddressForm) {
+                addressRadios.forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        if (this.value === 'new') {
+                            newAddressForm.classList.remove('hidden');
+                        } else {
+                            newAddressForm.classList.add('hidden');
+                        }
+                    });
+                });
+            }
+        }
+
+        // Toast notification functions
+        function showToast(title, message, type = 'success') {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+
+            const colors = {
+                success: {
+                    border: 'border-success',
+                    icon: 'text-success'
+                },
+                warning: {
+                    border: 'border-warning',
+                    icon: 'text-warning'
+                },
+                error: {
+                    border: 'border-error',
+                    icon: 'text-error'
+                }
+            };
+
+            const toastContent = toast.querySelector('div');
+            toastContent.className = `bg-white shadow-modal rounded-lg p-4 ${colors[type].border} border-l-4 max-w-sm`;
+
+            toast.querySelector('h4').textContent = title;
+            const messageEl = toast.querySelector('#toast-message');
+            if (messageEl) messageEl.textContent = message;
+
+            toast.classList.remove('translate-x-full');
+
+            setTimeout(() => {
+                hideToast();
+            }, 5000);
+        }
+
+        function hideToast() {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.classList.add('translate-x-full');
+            }
+        }
+
+        // Mobile responsiveness
+        function handleMobileView() {
+            if (window.innerWidth <= 768) {
+                document.body.style.paddingBottom = '100px';
+            } else {
+                document.body.style.paddingBottom = '0';
+            }
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            handleMobileView();
+            handlePaymentMethodChange();
+            handleMobileProviderChange();
+            handlePaymentTypeChange();
+            handleAddressToggle();
+            formatPhoneNumber();
+            formatPIN();
+            formatCode();
+            formatCardNumber();
+            formatExpiry();
+            updateProgressIndicators(1);
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', handleMobileView);
+
+        // Auto-save form data (demo)
+        function autoSaveFormData() {
+            const formData = {
+                step: currentStep,
+                shippingAddress: document.querySelector('input[name="shipping-address"]:checked')?.value,
+                paymentMethod: document.querySelector('input[name="payment-method"]:checked')?.value,
+                timestamp: Date.now()
+            };
+
+            try {
+                localStorage.setItem('checkoutProgress', JSON.stringify(formData));
+            } catch (e) {
+                console.warn('Could not save checkout progress');
+            }
+        }
+
+        // Auto-save every 30 seconds
+        setInterval(autoSaveFormData, 30000);
+    </script>
+@endsection
