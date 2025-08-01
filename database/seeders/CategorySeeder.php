@@ -18,13 +18,20 @@ class CategorySeeder extends Seeder
             'Electronics',
             'Fashion',
             'Home & Kitchen',
+            'Health & Beauty',
+            'Books',
+            'Toys',
+            'Sports',
+            'Automotive',
+            'Groceries',
+            'Others'
         ];
 
         foreach ($categories as $category) {
-            Category::create([
-                'name' => $category,
-                'slug' => Str::slug($category),
-            ]);
+            Category::firstOrCreate(
+                ['slug' => Str::slug($category)], // Check if slug exists
+                ['name' => $category]
+            );
         }
     }
 }
