@@ -295,11 +295,10 @@
                     <div class="border-t border-border pt-4">
                         <h3 class="text-sm font-semibold text-secondary-600 uppercase tracking-wide mb-3">Explore</h3>
                         <div class="space-y-2 pl-4">
-                            <a href="seller_central_dashboard.html"
-                                class="block text-secondary-700 hover:text-primary transition-fast py-2">📈 Sell</a>
-                            <a href="supplier_profiles.html"
-                                class="block text-secondary-700 hover:text-primary transition-fast py-2">🏢
-                                Suppliers</a>
+                            <a href="{{ route('about') }}"
+                                class="block text-secondary-700 hover:text-primary transition-fast py-2">About Us</a>
+                            <a href="{{ route('compare') }}"
+                                class="block text-secondary-700 hover:text-primary transition-fast py-2"> Compare</a>
                             <a href="community_marketplace.html"
                                 class="block text-secondary-700 hover:text-primary transition-fast py-2">👥
                                 Community</a>
@@ -320,20 +319,12 @@
                             <a href="{{ route('contact') }}"
                                 class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Contact
                                 Us</a>
-                            <a href="#press"
-                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Press</a>
-                            <a href="#investor-relations"
-                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Investor
-                                Relations</a>
-                            <a href="#help-center"
+                            <a href="{{ route('help.center') }}"
                                 class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Help
                                 Center</a>
-                            <a href="#contact-us"
+                            <a href="{{ route('contact') }}"
                                 class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Contact
                                 Us</a>
-                            <a href="#dispute-resolution"
-                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Dispute
-                                Resolution</a>
                         </div>
                     </div>
 

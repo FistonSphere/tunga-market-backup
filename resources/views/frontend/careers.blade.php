@@ -19,7 +19,7 @@
                     <span class="text-gradient">Global Commerce</span>
                 </h1>
                 <p class="text-body-lg text-secondary-600 mb-8 max-w-3xl mx-auto">
-                    Join our mission to democratize international trade through cutting-edge technology. At AliMax Commerce,
+                    Join our mission to democratize international trade through cutting-edge technology. At Tunga Market,
                     your ideas shape the global marketplace and your career grows with limitless opportunities.
                 </p>
 
@@ -58,7 +58,7 @@
     <section id="culture" class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Why AliMax Commerce?</h2>
+                <h2 class="text-heading font-bold text-primary mb-4">Why Tunga Market?</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
                     Experience a culture that values innovation, diversity, and personal growth in the heart of global
                     commerce
@@ -626,7 +626,7 @@
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">What Our Team Says</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Hear from our employees about their experience working at AliMax Commerce
+                    Hear from our employees about their experience working at Tunga Market
                 </p>
             </div>
 
