@@ -37,6 +37,7 @@ class ProductSeeder extends Seeder
         $product1 = Product::create([
             'name' => 'Samsung Galaxy S21',
             'slug' => Str::slug('Samsung Galaxy S21'),
+            'sku' => 'SGS21-005',
             'short_description' => 'Latest Samsung flagship smartphone with high-end specs.',
             'long_description' => 'The Samsung Galaxy S21 features a 6.2-inch display, powerful Exynos processor, and an advanced triple-camera system. It supports 5G and has a long-lasting battery life.',
             'price' => 799.99,
@@ -57,6 +58,7 @@ class ProductSeeder extends Seeder
         $product2 = Product::create([
             'name' => 'Nike Air Max 270',
             'slug' => Str::slug('Nike Air Max 270'),
+            'sku' => 'SGS21-004',
             'short_description' => 'Comfortable and stylish sneakers from Nike.',
             'long_description' => 'Nike Air Max 270 offers superior comfort and breathability, designed with a large Air unit and lightweight materials, perfect for everyday wear.',
             'price' => 150.00,
@@ -76,6 +78,7 @@ class ProductSeeder extends Seeder
         $product3 = Product::create([
             'name' => 'Sony WH-1000XM5 Headphones',
             'slug' => Str::slug('Sony WH-1000XM5 Headphones'),
+            'sku' => 'SGS21-003',
             'short_description' => 'Industry-leading noise cancellation headphones.',
             'long_description' => 'Sony WH-1000XM5 headphones deliver exceptional sound quality with industry-leading noise cancellation and Bluetooth 5.2 connectivity for seamless wireless listening.',
             'price' => 349.00,
@@ -95,6 +98,7 @@ class ProductSeeder extends Seeder
         $product4 = Product::create([
             'name' => 'Digital Photography eBook',
             'slug' => Str::slug('Digital Photography eBook'),
+            'sku' => 'SGS21-002',
             'short_description' => 'Learn the art of digital photography.',
             'long_description' => 'This eBook covers the fundamentals of digital photography, from camera settings to composition techniques, perfect for beginners and enthusiasts.',
             'price' => 19.99,
@@ -114,6 +118,7 @@ class ProductSeeder extends Seeder
         $product5 = Product::create([
             'name' => 'Non-stick Frying Pan',
             'slug' => Str::slug('Non-stick Frying Pan'),
+            'sku' => 'SGS21-001',
             'short_description' => 'Perfect for everyday cooking.',
             'long_description' => 'Durable non-stick frying pan suitable for all cooktops. Easy to clean and dishwasher safe, making your cooking experience hassle-free.',
             'price' => 25.99,

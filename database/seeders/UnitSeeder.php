@@ -18,11 +18,14 @@ class UnitSeeder extends Seeder
             ['name' => 'Kilogram', 'abbreviation' => 'kg'],
             ['name' => 'Liter', 'abbreviation' => 'L'],
             ['name' => 'Meter', 'abbreviation' => 'm'],
-            ['name' => 'Box', 'abbreviation' => 'bx'],
+            ['name' => 'File', 'abbreviation' => 'file'], // THIS is the one causing your current issue
         ];
 
         foreach ($units as $unit) {
-            Unit::create($unit);
+            Unit::firstOrCreate(
+                ['name' => $unit['name']],
+                ['abbreviation' => $unit['abbreviation']]
+            );
         }
     }
 }
