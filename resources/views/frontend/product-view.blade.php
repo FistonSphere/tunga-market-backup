@@ -8,7 +8,7 @@
                 <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
-                <a href="{{route ('product.discovery')}}"
+                <a href="{{ route('product.discovery') }}"
                     class="text-secondary-600 hover:text-primary transition-fast">Electronics</a>
                 <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -1308,4 +1308,441 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Cart and Wishlist Management System
+        class CartWishlistManager {
+            constructor() {
+                this.cartCount = this.getStoredCount("cartCount", 7);
+                this.wishlistCount = this.getStoredCount("wishlistCount", 12);
+                this.updateDisplays();
+            }
+
+            getStoredCount(key, defaultValue = 0) {
+                try {
+                    const stored = localStorage.getItem(key);
+                    return stored ? parseInt(stored) : defaultValue;
+                } catch (e) {
+                    return defaultValue;
+                }
+            }
+
+            setStoredCount(key, value) {
+                try {
+                    localStorage.setItem(key, value.toString());
+                } catch (e) {
+                    console.warn("Could not store count in localStorage");
+                }
+            }
+
+            updateDisplays() {
+                this.updateCartDisplay();
+                this.updateWishlistDisplay();
+            }
+
+            updateCartDisplay() {
+                const cartCountElement = document.getElementById("cart-count");
+                if (cartCountElement) {
+                    const displayCount =
+                        this.cartCount > 99 ? "99+" : this.cartCount.toString();
+                    cartCountElement.textContent = displayCount;
+                    cartCountElement.style.display =
+                        this.cartCount > 0 ? "flex" : "none";
+                }
+            }
+
+            updateWishlistDisplay() {
+                const wishlistCountElement =
+                    document.getElementById("wishlist-count");
+                if (wishlistCountElement) {
+                    const displayCount =
+                        this.wishlistCount > 99 ? "99+" : this.wishlistCount.toString();
+                    wishlistCountElement.textContent = displayCount;
+                    wishlistCountElement.style.display =
+                        this.wishlistCount > 0 ? "flex" : "none";
+                }
+            }
+
+            addToCart(quantity = 1) {
+                this.cartCount = Math.max(0, this.cartCount + quantity);
+                this.setStoredCount("cartCount", this.cartCount);
+                this.updateCartDisplay();
+                this.showNotification(
+                    "Added to Cart",
+                    `${quantity} item(s) added to your cart`,
+                    "success"
+                );
+            }
+
+            removeFromCart(quantity = 1) {
+                this.cartCount = Math.max(0, this.cartCount - quantity);
+                this.setStoredCount("cartCount", this.cartCount);
+                this.updateCartDisplay();
+            }
+
+            addToWishlist(quantity = 1) {
+                this.wishlistCount = Math.max(0, this.wishlistCount + quantity);
+                this.setStoredCount("wishlistCount", this.wishlistCount);
+                this.updateWishlistDisplay();
+                this.showNotification(
+                    "Added to Wishlist",
+                    `${quantity} item(s) added to your wishlist`,
+                    "success"
+                );
+            }
+
+            removeFromWishlist(quantity = 1) {
+                this.wishlistCount = Math.max(0, this.wishlistCount - quantity);
+                this.setStoredCount("wishlistCount", this.wishlistCount);
+                this.updateWishlistDisplay();
+            }
+
+            showNotification(title, message, type = "success") {
+                // Use existing toast system
+                if (typeof showToast === "function") {
+                    showToast(title, message, type);
+                } else {
+                    // Fallback notification
+                    let notification = document.getElementById("header-notification");
+                    if (!notification) {
+                        notification = document.createElement("div");
+                        notification.id = "header-notification";
+                        notification.className =
+                            "fixed top-20 right-4 transform translate-x-full transition-transform duration-300 z-50";
+                        document.body.appendChild(notification);
+                    }
+
+                    const colors = {
+                        success: "border-success",
+                        info: "border-primary",
+                        warning: "border-warning",
+                        error: "border-error",
+                    };
+
+                    notification.innerHTML = `
+                    <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]} max-w-sm">
+                        <div class="flex items-start space-x-3">
+                            <div>
+                                <h4 class="font-semibold text-primary">${title}</h4>
+                                <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                            </div>
+                            <button onclick="hideHeaderNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                    notification.classList.remove("translate-x-full");
+                    setTimeout(() => {
+                        notification.classList.add("translate-x-full");
+                    }, 3000);
+                }
+            }
+        }
+
+        // Initialize cart and wishlist manager
+        const cartWishlistManager = new CartWishlistManager();
+
+        // Global functions for button clicks
+        function toggleCart() {
+            window.location.href = "shopping_cart.html";
+        }
+
+        function toggleWishlist() {
+            cartWishlistManager.showNotification(
+                "Wishlist",
+                `You have ${cartWishlistManager.wishlistCount} items in your wishlist`,
+                "info"
+            );
+        }
+
+        function addToCart(quantity = 1) {
+            cartWishlistManager.addToCart(quantity);
+        }
+
+        function addToWishlist(quantity = 1) {
+            cartWishlistManager.addToWishlist(quantity);
+        }
+
+        function hideHeaderNotification() {
+            const notification = document.getElementById("header-notification");
+            if (notification) {
+                notification.classList.add("translate-x-full");
+            }
+        }
+
+        // Override existing add to cart and wishlist functions
+        document.addEventListener("DOMContentLoaded", function() {
+            // Update the existing Add to Cart button
+            const addToCartBtn = document.querySelector(".btn-primary");
+            if (addToCartBtn && addToCartBtn.textContent.includes("Add to Cart")) {
+                addToCartBtn.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    addToCart(1);
+                });
+            }
+
+            // Update the existing Add to Wishlist button
+            const addToWishlistBtn = document.querySelector(".btn-secondary");
+            if (
+                addToWishlistBtn &&
+                addToWishlistBtn.textContent.includes("Add to Wishlist")
+            ) {
+                addToWishlistBtn.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    addToWishlist(1);
+                });
+            }
+        });
+
+        // Listen for storage changes to sync across tabs
+        window.addEventListener("storage", function(e) {
+            if (e.key === "cartCount" || e.key === "wishlistCount") {
+                cartWishlistManager.cartCount = cartWishlistManager.getStoredCount(
+                    "cartCount",
+                    7
+                );
+                cartWishlistManager.wishlistCount =
+                    cartWishlistManager.getStoredCount("wishlistCount", 12);
+                cartWishlistManager.updateDisplays();
+            }
+        });
+    </script>
+
+    <script>
+        // Image Gallery Functions
+        function changeMainImage(thumbnail, imageSrc) {
+            // Remove active state from all thumbnails
+            document.querySelectorAll(".thumbnail-btn").forEach((btn) => {
+                btn.classList.remove("active", "border-accent");
+                btn.classList.add("border-transparent");
+            });
+
+            // Add active state to clicked thumbnail
+            thumbnail.classList.add("active", "border-accent");
+            thumbnail.classList.remove("border-transparent");
+
+            // Change main image
+            document.getElementById("mainImage").src = imageSrc;
+        }
+
+        // Tab Functions
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll(".tab-content").forEach((content) => {
+                content.classList.add("hidden");
+            });
+
+            // Remove active state from all tabs
+            document.querySelectorAll(".tab-btn").forEach((btn) => {
+                btn.classList.remove("active", "border-accent", "text-accent");
+                btn.classList.add("border-transparent", "text-secondary-600");
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.remove("hidden");
+
+            // Add active state to clicked tab
+            event.target.classList.add("active", "border-accent", "text-accent");
+            event.target.classList.remove(
+                "border-transparent",
+                "text-secondary-600"
+            );
+        }
+
+        // Toast Notification Functions
+        function showToast(title, message, type = "success") {
+            const toast = document.getElementById("toast");
+            const toastContent = toast.querySelector("div");
+
+            // Update toast content based on type
+            const colors = {
+                success: {
+                    border: "border-success",
+                    icon: "text-success",
+                    iconPath: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+                },
+                warning: {
+                    border: "border-warning",
+                    icon: "text-warning",
+                    iconPath: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z",
+                },
+                error: {
+                    border: "border-error",
+                    icon: "text-error",
+                    iconPath: "M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z",
+                },
+            };
+
+            // Update border color
+            toastContent.className = `bg-white shadow-modal rounded-lg p-4 ${colors[type].border} border-l-4 max-w-sm`;
+
+            // Update icon
+            const icon = toast.querySelector("svg");
+            icon.className = `w-6 h-6 ${colors[type].icon} flex-shrink-0 mt-0.5`;
+            icon.querySelector("path").setAttribute("d", colors[type].iconPath);
+
+            // Update text content
+            toast.querySelector("h4").textContent = title;
+            toast.querySelector("p").textContent = message;
+
+            // Show toast
+            toast.classList.remove("translate-x-full");
+            toast.classList.add("translate-x-0");
+
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                hideToast();
+            }, 5000);
+        }
+
+        function hideToast() {
+            const toast = document.getElementById("toast");
+            toast.classList.remove("translate-x-0");
+            toast.classList.add("translate-x-full");
+        }
+
+        // Add to Cart Function (Demo)
+        document
+            .querySelector(".btn-primary")
+            .addEventListener("click", function() {
+                showToast(
+                    "Added to Cart!",
+                    "Premium Wireless Earbuds Pro has been added to your cart.",
+                    "success"
+                );
+            });
+
+        // Add to Wishlist Function (Demo)
+        document
+            .querySelector(".btn-secondary")
+            .addEventListener("click", function() {
+                showToast(
+                    "Added to Wishlist!",
+                    "Product saved to your wishlist for later.",
+                    "success"
+                );
+            });
+
+        // Form Submission (Demo)
+        document.querySelector("form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            showToast(
+                "Inquiry Sent!",
+                "Your inquiry has been sent to the supplier. They will contact you soon.",
+                "success"
+            );
+        });
+
+        // Mobile responsiveness - Sticky cart button for mobile
+        function createMobileCartButton() {
+            if (window.innerWidth <= 768) {
+                const existingMobileBtn = document.getElementById("mobile-cart-btn");
+                if (!existingMobileBtn) {
+                    const mobileCartBtn = document.createElement("div");
+                    mobileCartBtn.id = "mobile-cart-btn";
+                    mobileCartBtn.className =
+                        "fixed bottom-4 left-4 right-4 bg-accent text-white rounded-lg p-4 shadow-modal z-40 md:hidden";
+                    mobileCartBtn.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="font-semibold">$149.99</div>
+                                <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
+                            </div>
+                            <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
+                                Add to Cart
+                            </button>
+                        </div>
+                    `;
+                    document.body.appendChild(mobileCartBtn);
+
+                    // Add click handler
+                    mobileCartBtn
+                        .querySelector("button")
+                        .addEventListener("click", function() {
+                            showToast(
+                                "Added to Cart!",
+                                "Premium Wireless Earbuds Pro has been added to your cart.",
+                                "success"
+                            );
+                        });
+                }
+            } else {
+                const existingMobileBtn = document.getElementById("mobile-cart-btn");
+                if (existingMobileBtn) {
+                    existingMobileBtn.remove();
+                }
+            }
+        }
+
+        // Initialize mobile cart button
+        createMobileCartButton();
+        window.addEventListener("resize", createMobileCartButton);
+
+        // Voice input for mobile (demo placeholder)
+        function enableVoiceInput() {
+            if (
+                "webkitSpeechRecognition" in window ||
+                "SpeechRecognition" in window
+            ) {
+                const SpeechRecognition =
+                    window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = "en-US";
+
+                // Add voice button to inquiry form textarea on mobile
+                if (window.innerWidth <= 768) {
+                    const textarea = document.querySelector("textarea");
+                    if (textarea && !document.getElementById("voice-btn")) {
+                        const voiceBtn = document.createElement("button");
+                        voiceBtn.id = "voice-btn";
+                        voiceBtn.type = "button";
+                        voiceBtn.className =
+                            "absolute bottom-2 right-2 p-2 text-secondary-600 hover:text-accent transition-fast";
+                        voiceBtn.innerHTML = `
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+                            </svg>
+                        `;
+
+                        textarea.parentElement.style.position = "relative";
+                        textarea.parentElement.appendChild(voiceBtn);
+
+                        voiceBtn.addEventListener("click", function() {
+                            recognition.start();
+                            voiceBtn.innerHTML = `
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+                                </svg>
+                            `;
+                        });
+
+                        recognition.onresult = function(event) {
+                            const transcript = event.results[0][0].transcript;
+                            textarea.value += (textarea.value ? " " : "") + transcript;
+                        };
+
+                        recognition.onend = function() {
+                            voiceBtn.innerHTML = `
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+                                </svg>
+                            `;
+                        };
+                    }
+                }
+            }
+        }
+
+        // Initialize voice input on mobile
+        if (window.innerWidth <= 768) {
+            enableVoiceInput();
+        }
+    </script>
 @endsection

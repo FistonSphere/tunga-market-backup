@@ -29,7 +29,7 @@
 
                     <!-- Personalized Entry Points -->
                     <div class="grid sm:grid-cols-3 gap-4 mb-8">
-                        <a href="{{route ('product.discovery')}}"
+                        <a href="{{ route('product.discovery') }}"
                             class="card hover:shadow-hover transition-all duration-300 text-center group">
                             <div
                                 class="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:bg-accent-200 transition-fast">
@@ -854,6 +854,510 @@
     </section>
 
     <script>
-        
+        // Search Overlay Functionality
+        function openSearchOverlay() {
+            const overlay = document.getElementById('search-overlay');
+            const modal = document.getElementById('search-modal');
+            const searchInput = document.getElementById('search-input');
+
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+
+            // Focus on search input after animation
+            setTimeout(() => {
+                searchInput.focus();
+            }, 300);
+        }
+
+        function closeSearchOverlay() {
+            const overlay = document.getElementById('search-overlay');
+            overlay.classList.remove('show');
+            document.body.style.overflow = 'auto';
+
+            // Clear search input
+            document.getElementById('search-input').value = '';
+            resetSearchSuggestions();
+        }
+
+        // Close search overlay when clicking outside
+        document.getElementById('search-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSearchOverlay();
+            }
+        });
+
+        // Close search overlay with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSearchOverlay();
+            }
+        });
+
+        // Search Input Handler
+        function handleSearchInput() {
+            const searchValue = document.getElementById('search-input').value.toLowerCase();
+            const suggestionsContainer = document.getElementById('search-suggestions');
+
+            if (searchValue.length > 0) {
+                updateSearchSuggestions(searchValue);
+            } else {
+                resetSearchSuggestions();
+            }
+        }
+
+        function updateSearchSuggestions(query) {
+            const suggestions = [
+                'wireless earbuds bluetooth',
+                'smart home devices',
+                'laptop accessories',
+                'fitness equipment',
+                'kitchen appliances',
+                'phone cases',
+                'gaming accessories',
+                'outdoor gear'
+            ];
+
+            const filteredSuggestions = suggestions.filter(item =>
+                item.includes(query)
+            );
+
+            const suggestionsContainer = document.getElementById('search-suggestions');
+
+            if (filteredSuggestions.length > 0) {
+                suggestionsContainer.innerHTML = `
+                <div class="space-y-2">
+                    <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
+                    <div class="space-y-1">
+                        ${filteredSuggestions.map(suggestion => `
+                                <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                        </svg>
+                                        <span>${suggestion}</span>
+                                    </div>
+                                </button>
+                            `).join('')}
+                    </div>
+                </div>
+            `;
+            } else {
+                suggestionsContainer.innerHTML = `
+                <div class="space-y-2">
+                    <div class="text-sm font-medium text-gray-500 mb-3">No suggestions found</div>
+                    <div class="text-center py-8 text-gray-400">
+                        <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <p class="text-sm">Try different keywords</p>
+                    </div>
+                </div>
+            `;
+            }
+        }
+
+        function resetSearchSuggestions() {
+            const suggestionsContainer = document.getElementById('search-suggestions');
+            suggestionsContainer.innerHTML = `
+            <div class="space-y-2">
+                <div class="text-sm font-medium text-gray-500 mb-3">Popular Searches</div>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="selectSuggestion('wireless earbuds')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            <span>Wireless Earbuds</span>
+                        </div>
+                    </button>
+                    <button onclick="selectSuggestion('smart home')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            <span>Smart Home</span>
+                        </div>
+                    </button>
+                    <button onclick="selectSuggestion('laptop accessories')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            <span>Laptop Accessories</span>
+                        </div>
+                    </button>
+                    <button onclick="selectSuggestion('fitness equipment')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            <span>Fitness Equipment</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        `;
+        }
+
+        function selectSuggestion(suggestion) {
+            document.getElementById('search-input').value = suggestion;
+            // Here you would typically perform the actual search
+            setTimeout(() => {
+                closeSearchOverlay();
+                // Redirect to product discovery with search query
+                window.location.href = `product_discovery_hub.html?search=${encodeURIComponent(suggestion)}`;
+            }, 300);
+        }
+
+        // Countdown Timer Functionality
+        function initCountdownTimer() {
+            // Set the date we're counting down to (2 days, 14 hours, 23 minutes, 45 seconds from now)
+            const now = new Date().getTime();
+            const countDownDate = now + (2 * 24 * 60 * 60 * 1000) + (14 * 60 * 60 * 1000) + (23 * 60 * 1000) + (45 * 1000);
+
+            // Update the countdown every 1 second
+            const countdown = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the result in the respective elements
+                document.getElementById("days").innerHTML = String(days).padStart(2, '0');
+                document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
+                document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
+                document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
+
+                // If the countdown is finished, show expired message
+                if (distance < 0) {
+                    clearInterval(countdown);
+                    document.querySelector('.bg-gradient-to-r.from-accent.to-accent-600').innerHTML = `
+                    <h3 class="text-2xl font-bold mb-4">🎉 Sale Extended!</h3>
+                    <p class="text-lg">Due to popular demand, we've extended our flash sale!</p>
+                    <button class="mt-4 bg-white text-accent px-6 py-2 rounded-lg font-semibold">Shop Now</button>
+                `;
+                }
+            }, 1000);
+        }
+
+        // Wishlist and Cart Functions (placeholders for existing functionality)
+        function toggleWishlist() {
+            // Placeholder for wishlist functionality
+            console.log('Wishlist toggled');
+        }
+
+        function toggleCart() {
+            // Placeholder for cart functionality
+            console.log('Cart toggled');
+        }
+
+        // Enhanced Support Chatbot Functionality (keeping existing code)
+        class SupportChatbot {
+            constructor() {
+                this.isOpen = false;
+                this.messages = [];
+                this.isTyping = false;
+                this.init();
+            }
+
+            init() {
+                const toggle = document.getElementById('chatbot-toggle');
+                const popup = document.getElementById('chatbot-popup');
+                const chatInput = document.getElementById('chat-input');
+
+                // Add bounce animation class
+                toggle.classList.add('chatbot-toggle-bounce');
+
+                // Toggle chatbot
+                toggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.toggleChatbot();
+                });
+
+                // Enter key to send message
+                chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.sendMessage();
+                    }
+                });
+
+                // Add focus animation to chat input
+                chatInput.classList.add('chat-input-focus');
+
+                // Close on outside click
+                document.addEventListener('click', (e) => {
+                    if (!document.getElementById('support-chatbot').contains(e.target) && this.isOpen) {
+                        this.toggleChatbot();
+                    }
+                });
+
+                // Show notification dot after 10 seconds
+                setTimeout(() => {
+                    this.showNotificationDot();
+                }, 10000);
+
+                // Add hover effects to quick action buttons
+                this.addQuickActionEffects();
+            }
+
+            toggleChatbot() {
+                const popup = document.getElementById('chatbot-popup');
+                const chatIcon = document.getElementById('chat-icon');
+                const closeIcon = document.getElementById('close-icon');
+                const toggle = document.getElementById('chatbot-toggle');
+
+                this.isOpen = !this.isOpen;
+
+                if (this.isOpen) {
+                    popup.classList.add('show');
+                    chatIcon.classList.add('hidden');
+                    closeIcon.classList.remove('hidden');
+                    toggle.classList.remove('chatbot-toggle-bounce');
+                    this.removeNotificationDot();
+
+                    // Focus on input after animation
+                    setTimeout(() => {
+                        document.getElementById('chat-input').focus();
+                    }, 300);
+                } else {
+                    popup.classList.remove('show');
+                    chatIcon.classList.remove('hidden');
+                    closeIcon.classList.add('hidden');
+                    toggle.classList.add('chatbot-toggle-bounce');
+                }
+            }
+
+            sendMessage() {
+                const input = document.getElementById('chat-input');
+                const message = input.value.trim();
+
+                if (!message) return;
+
+                this.addMessage(message, 'user');
+                input.value = '';
+
+                // Show typing indicator
+                this.showTypingIndicator();
+
+                // Simulate bot response with delay
+                setTimeout(() => {
+                    this.hideTypingIndicator();
+                    this.addBotResponse(message);
+                }, 1500);
+            }
+
+            addMessage(message, sender) {
+                const chatContent = document.querySelector('#chatbot-popup .h-64');
+                const messageDiv = document.createElement('div');
+
+                if (sender === 'user') {
+                    messageDiv.className = 'flex justify-end space-x-2 chat-message-slide-in-right';
+                    messageDiv.innerHTML = `
+                    <div class="bg-accent text-white rounded-lg p-3 max-w-xs shadow-md">
+                        <p class="text-sm">${message}</p>
+                    </div>
+                    <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                    </div>
+                `;
+                } else {
+                    messageDiv.className = 'flex space-x-2 chat-message-slide-in';
+                    messageDiv.innerHTML = `
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <div class="bg-surface rounded-lg p-3 max-w-xs shadow-md">
+                        <p class="text-sm text-secondary-700">${message}</p>
+                    </div>
+                `;
+                }
+
+                chatContent.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            showTypingIndicator() {
+                const chatContent = document.querySelector('#chatbot-popup .h-64');
+                const typingDiv = document.createElement('div');
+                typingDiv.id = 'typing-indicator';
+                typingDiv.className = 'flex space-x-2 chat-message-slide-in';
+                typingDiv.innerHTML = `
+                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
+                <div class="bg-surface rounded-lg p-3 shadow-md">
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+
+                chatContent.appendChild(typingDiv);
+                this.scrollToBottom();
+            }
+
+            hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            scrollToBottom() {
+                const chatContent = document.querySelector('#chatbot-popup .h-64');
+                chatContent.scrollTop = chatContent.scrollHeight;
+            }
+
+            addBotResponse(userMessage) {
+                let response =
+                    "Thank you for your message! I'm here to help you with any questions about AliMax Commerce. 😊";
+
+                // Enhanced keyword-based responses
+                const lowerMessage = userMessage.toLowerCase();
+
+                if (lowerMessage.includes('order') || lowerMessage.includes('tracking')) {
+                    response =
+                        "🚚 You can track your order by going to Order Tracking Center or providing your order number. Would you like me to guide you there?";
+                } else if (lowerMessage.includes('payment') || lowerMessage.includes('pay')) {
+                    response =
+                        "💳 We accept various payment methods including cards, PayPal, and mobile money. What specific payment issue can I help you with?";
+                } else if (lowerMessage.includes('shipping') || lowerMessage.includes('delivery')) {
+                    response =
+                        "📦 Shipping times vary by supplier location. Most items arrive within 5-10 business days. Would you like specific shipping information for your region?";
+                } else if (lowerMessage.includes('return') || lowerMessage.includes('refund')) {
+                    response =
+                        "🔄 We offer 30-day returns on most items with buyer protection. You can start a return request from your order history. Need step-by-step guidance?";
+                } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes(
+                    'hey')) {
+                    response =
+                        "👋 Hello there! Welcome to AliMax Commerce! I'm your AI assistant ready to help with orders, payments, shipping, or any other questions. How can I assist you today?";
+                } else if (lowerMessage.includes('help') || lowerMessage.includes('support')) {
+                    response =
+                        "🤝 I'm here to help! You can ask me about orders, payments, shipping, returns, or use the quick action buttons below. What do you need assistance with?";
+                } else if (lowerMessage.includes('product') || lowerMessage.includes('item')) {
+                    response =
+                        "🛍️ Looking for products? I can help you find items, check availability, or connect you with suppliers. What are you searching for?";
+                }
+
+                this.addMessage(response, 'bot');
+            }
+
+            showNotificationDot() {
+                const toggle = document.getElementById('chatbot-toggle');
+                if (!this.isOpen && !toggle.querySelector('.notification-dot')) {
+                    const dot = document.createElement('div');
+                    dot.className = 'notification-dot';
+                    toggle.appendChild(dot);
+                }
+            }
+
+            removeNotificationDot() {
+                const dot = document.querySelector('.notification-dot');
+                if (dot) {
+                    dot.remove();
+                }
+            }
+
+            addQuickActionEffects() {
+                // Add hover effects to quick action buttons
+                setTimeout(() => {
+                    const quickButtons = document.querySelectorAll(
+                        '#chatbot-popup button[onclick^="quickAction"]');
+                    quickButtons.forEach(button => {
+                        button.classList.add('quick-action-hover');
+                    });
+                }, 100);
+            }
+        }
+
+        // Enhanced global functions for quick actions
+        function quickAction(type) {
+            const chatbot = window.supportChatbot;
+            let message = '';
+
+            switch (type) {
+                case 'order':
+                    message = "I need help with my order status and tracking";
+                    break;
+                case 'shipping':
+                    message = "I have questions about shipping and delivery";
+                    break;
+                case 'payment':
+                    message = "I need assistance with payment options and issues";
+                    break;
+                case 'return':
+                    message = "I want to return or exchange an item";
+                    break;
+            }
+
+            document.getElementById('chat-input').value = message;
+            chatbot.sendMessage();
+        }
+
+        function sendMessage() {
+            window.supportChatbot.sendMessage();
+        }
+
+        function openDiscussion() {
+            // Add a smooth transition effect
+            const button = event.target;
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                window.location.href = 'community_marketplace.html';
+            }, 150);
+        }
+
+        function bookExpert() {
+            // Add a smooth transition effect
+            const button = event.target;
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                window.location.href = 'expert_consultation_booking.html';
+            }, 150);
+        }
+
+        // Initialize all functionality when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize countdown timer
+            initCountdownTimer();
+
+            // Initialize enhanced chatbot
+            window.supportChatbot = new SupportChatbot();
+
+            // Add welcome message after a short delay
+            setTimeout(() => {
+                if (window.supportChatbot && !window.supportChatbot.isOpen) {
+                    window.supportChatbot.showNotificationDot();
+                }
+            }, 8000);
+
+            // Add smooth scroll behavior to navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
     </script>
 @endsection
