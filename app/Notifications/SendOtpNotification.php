@@ -12,12 +12,12 @@ class SendOtpNotification extends Notification implements ShouldQueue
     use Queueable;
 
     protected $otp;
-    protected $name;
+    protected $user;
 
-    public function __construct($otp, $name)
+    public function __construct($otp, $user)
     {
         $this->otp = $otp;
-        $this->name = $name;
+        $this->user = $user;
     }
 
     public function via($notifiable)
@@ -28,13 +28,16 @@ class SendOtpNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Tunga Market – Verify Your Account')
-            ->greeting("Hello {$this->name},")
+            ->greeting("Hello {$this->user},")
             ->line("Thank you for registering on **Tunga Market**.")
             ->line("Please use the following **OTP code** to verify your email address:")
             ->line("🔐 **{$this->otp}**")
-            ->line("This code will expire in 10 minutes.")
+            ->line("This code will expire in 1 hour.")
             ->action('Visit Tunga Market', url('/'))
             ->line('If you did not request this, please ignore this email.')
-            ->markdown('emails.auth.otp');
+            ->view('emails.auth.otp', [
+                'otp' => $this->otp,
+                'user' => $this->user
+            ]);
     }
 }

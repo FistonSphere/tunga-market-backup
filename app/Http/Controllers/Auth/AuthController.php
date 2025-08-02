@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -20,60 +21,41 @@ class AuthController extends Controller
         return view('frontend.auth.auth'); // Adjust the view name as necessary
     }
 
-    public function initiate(Request $request)
+    public function register(Request $request)
     {
-        // Honeypot (anti-bot field)
+        // Anti-bot check
         if ($request->filled('company')) {
-            return response()->json(['success' => false, 'message' => 'Bot detected.']);
+            return response()->json(['success' => false, 'message' => 'Bot detected.'], 422);
         }
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:100',
-            'last_name'  => 'required|string|max:100',
-            'email'      => 'required|email|unique:users,email',
-            'password'   => 'required|min:8|confirmed',
+            'last_name' => 'required|string|max:100',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8|confirmed',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->errors()->first()], 422);
+        }
+
         $otp = rand(100000, 999999);
-        $expiresAt = now()->addMinutes(10);
+        $expiresAt = now()->addHour(); // 1 hour expiry
 
         Session::put('pending_user', [
             'first_name' => $request->first_name,
-            'last_name'  => $request->last_name,
-            'email'      => $request->email,
-            'password'   => Hash::make($request->password),
-            'otp'        => $otp,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'otp' => $otp,
             'otp_expires_at' => $expiresAt,
         ]);
 
-        // Send email using Laravel Notification with a custom design
-        $user = new User(['email' => $request->email]); // Temp instance
-        $user->notify(new SendOtpNotification($otp, $request->first_name));
+        // Temp user for notification
+        $tempUser = new User(['email' => $request->email]);
+        $tempUser->notify(new SendOtpNotification($otp, $request->first_name));
 
-        return response()->json([
-            'success' => true,
-            'message' => 'OTP sent to your email',
-        ]);
-    }
-
-    public function resendOtp(Request $request)
-    {
-        $data = Session::get('pending_user');
-        if (!$data) {
-            return response()->json(['success' => false, 'message' => 'Session expired. Please register again.']);
-        }
-
-        $otp = rand(100000, 999999);
-        $expiresAt = now()->addMinutes(10);
-
-        $data['otp'] = $otp;
-        $data['otp_expires_at'] = $expiresAt;
-        Session::put('pending_user', $data);
-
-        $user = new User(['email' => $data['email']]);
-        $user->notify(new SendOtpNotification($otp, $data['first_name']));
-
-        return response()->json(['success' => true, 'message' => 'OTP resent successfully']);
+        return response()->json(['success' => true, 'message' => 'OTP sent to your email']);
     }
 
     public function verifyOtp(Request $request)
@@ -85,23 +67,24 @@ class AuthController extends Controller
         $data = Session::get('pending_user');
 
         if (!$data) {
-            return response()->json(['success' => false, 'message' => 'Session expired.']);
+            return response()->json(['success' => false, 'message' => 'Session expired. Please try again.']);
         }
 
         if (now()->gt(Carbon::parse($data['otp_expires_at']))) {
             Session::forget('pending_user');
-            return response()->json(['success' => false, 'message' => 'OTP expired. Please try again.']);
+            return response()->json(['success' => false, 'message' => 'OTP expired. Please register again.']);
         }
 
         if ((string) $request->otp !== (string) $data['otp']) {
             return response()->json(['success' => false, 'message' => 'Invalid OTP']);
         }
 
+        // Save new verified user
         $user = User::create([
             'first_name' => $data['first_name'],
-            'last_name'  => $data['last_name'],
-            'email'      => $data['email'],
-            'password'   => $data['password'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'password' => $data['password'],
         ]);
 
         auth()->login($user);
@@ -109,5 +92,26 @@ class AuthController extends Controller
         Session::forget('pending_user');
 
         return response()->json(['success' => true, 'message' => 'Account verified and created.']);
+    }
+
+    public function resendOtp(Request $request)
+    {
+        $data = Session::get('pending_user');
+
+        if (!$data) {
+            return response()->json(['success' => false, 'message' => 'Session expired. Please start over.']);
+        }
+
+        $otp = rand(100000, 999999);
+        $expiresAt = now()->addHour();
+
+        $data['otp'] = $otp;
+        $data['otp_expires_at'] = $expiresAt;
+        Session::put('pending_user', $data);
+
+        $user = new User(['email' => $data['email']]);
+        $user->notify(new SendOtpNotification($otp, $data['first_name']));
+
+        return response()->json(['success' => true, 'message' => 'OTP resent successfully.']);
     }
 }

@@ -27,6 +27,9 @@ Route::get('/checkout-process', [CheckoutController::class, 'index'])->name('che
 
 
 // Start Authentication routes
-Route::post('/register/initiate', [AuthController::class, 'initiate']);
-Route::post('/register/verify-otp', [AuthController::class, 'verifyOtp']);
+Route::post('/register-user', [AuthController::class, 'register'])->name('register-user');
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
+Route::post('/resend-otp', [AuthController::class, 'resendOtp'])->name('resend-otp');
+
+
 // End Authentication routes

@@ -242,7 +242,7 @@
                     </div>
 
                     <!-- Registration Form -->
-                    <form class="space-y-4" id="registerForm">
+                    <form class="space-y-4" id="registrationForm" method="POST" action="{{ route('register-user') }}">
                         @csrf
                         <div class="grid grid-cols-2 gap-4">
                             <div>
@@ -625,58 +625,57 @@
     </script>
 
     <script>
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
+        // AJAX form submit + open OTP Modal
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            fetch('/register/initiate', {
+            const form = this;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content')
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('otpModal').classList.remove('hidden');
+                    } else {
+                        alert(data.message || 'Something went wrong');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+        // OTP Verification
+        function verifyOtp() {
+            const otp = document.getElementById('otpInput').value;
+
+            fetch('{{ route('verify-otp') }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        first_name: document.getElementById('first_name').value,
-                        last_name: document.getElementById('last_name').value,
-                        email: document.getElementById('email').value,
-                        password: document.getElementById('password').value,
-                        password_confirmation: document.getElementById('password_confirmation').value,
+                        otp
                     })
                 })
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
-                        alert('OTP sent to your email.');
-                        // Show OTP input form
-                        document.getElementById('otpWrapper').style.display = 'block';
+                        alert('Account verified successfully!');
+                        window.location.href = "{{ route('login') }}";
                     } else {
-                        alert(data.message || 'Something went wrong.');
+                        alert(data.message || 'Incorrect OTP');
                     }
                 });
-        });
-
-        document.getElementById('verifyOtpBtn').addEventListener('click', function() {
-        fetch('/register/verify-otp', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                        'content')
-                },
-                body: JSON.stringify({
-                    otp: document.getElementById('otp').value
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Registration completed and logged in!');
-                    window.location.href = '/dashboard';
-                } else {
-                    alert(data.message || 'Invalid OTP.');
-                }
-            });
-        });
+        }
     </script>
 
 
