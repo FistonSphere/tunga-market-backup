@@ -8,9 +8,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
     <meta name="description"
         content="Next-generation B2B/B2C hybrid marketplace that transcends traditional e-commerce limitations through trading ecosystem and immersive visual storytelling." />
-    <script type="module"
-        src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2FTunga Marketcom1831back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.6">
-    </script>
+    
 </head>
 
 <body class="bg-background text-text-primary">

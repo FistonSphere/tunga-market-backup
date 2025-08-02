@@ -243,27 +243,30 @@
 
                     <!-- Registration Form -->
                     <form class="space-y-4" id="registerForm">
+                        @csrf
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-secondary-700 mb-2">First Name</label>
-                                <input type="text" class="input-field" placeholder="John" required />
+                                <input type="text" class="input-field" placeholder="First Name" name= "first_name"
+                                    required />
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-secondary-700 mb-2">Last Name</label>
-                                <input type="text" class="input-field" placeholder="Doe" required />
+                                <input type="text" class="input-field" placeholder="Last Name" name="last_name"
+                                    required />
                             </div>
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-secondary-700 mb-2">Email Address</label>
-                            <input type="email" class="input-field" placeholder="john@company.com" required />
+                            <input type="email" class="input-field" placeholder="Email" name="email" required />
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-secondary-700 mb-2">Password</label>
                             <div class="relative">
                                 <input type="password" id="signupPassword" class="input-field pr-10"
-                                    placeholder="Create a strong password" required />
+                                    placeholder="Create a strong password" name="password" required />
                                 <button type="button"
                                     class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600"
                                     onclick="togglePassword('signupPassword')">
@@ -279,7 +282,7 @@
                             <label class="block text-sm font-medium text-secondary-700 mt-4 mb-2">Confirm Password</label>
                             <div class="relative">
                                 <input type="password" id="signupPasswordConfirm" class="input-field pr-10"
-                                    placeholder="Confirm password" required />
+                                    placeholder="Confirm password" name="password_confirmation" required />
                                 <button type="button"
                                     class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600"
                                     onclick="togglePassword('signupPasswordConfirm')">
@@ -345,69 +348,6 @@
                     </div>
                 </div>
 
-                <!-- Forgot Password Form -->
-                <div id="forgotPasswordForm" class="auth-form hidden">
-                    <div class="text-center mb-6">
-                        <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-                            </svg>
-                        </div>
-                        <h2 class="text-2xl font-bold text-primary mb-2">Reset Password</h2>
-                        <p class="text-secondary-600">Enter your email to receive reset instructions</p>
-                    </div>
-
-                    <!-- Recovery Options -->
-                    <div class="space-y-4 mb-6">
-                        <label
-                            class="flex items-center p-4 border border-secondary-200 rounded-lg cursor-pointer hover:bg-secondary-50 transition-fast">
-                            <input type="radio" name="recoveryMethod" value="email"
-                                class="text-primary focus:ring-primary" checked />
-                            <div class="ml-3">
-                                <div class="font-medium text-secondary-700">Email Recovery</div>
-                                <div class="text-sm text-secondary-600">Send reset link to your email address</div>
-                            </div>
-                        </label>
-
-                        <label
-                            class="flex items-center p-4 border border-secondary-200 rounded-lg cursor-pointer hover:bg-secondary-50 transition-fast">
-                            <input type="radio" name="recoveryMethod" value="sms"
-                                class="text-primary focus:ring-primary" />
-                            <div class="ml-3">
-                                <div class="font-medium text-secondary-700">SMS Recovery</div>
-                                <div class="text-sm text-secondary-600">Send reset code to your phone number</div>
-                            </div>
-                        </label>
-
-                        <label
-                            class="flex items-center p-4 border border-secondary-200 rounded-lg cursor-pointer hover:bg-secondary-50 transition-fast">
-                            <input type="radio" name="recoveryMethod" value="security"
-                                class="text-primary focus:ring-primary" />
-                            <div class="ml-3">
-                                <div class="font-medium text-secondary-700">Security Questions</div>
-                                <div class="text-sm text-secondary-600">Answer your security questions</div>
-                            </div>
-                        </label>
-                    </div>
-
-                    <form class="space-y-4" onsubmit="handlePasswordReset(event)">
-                        <div>
-                            <label class="block text-sm font-medium text-secondary-700 mb-2">Email Address</label>
-                            <input type="email" class="input-field" placeholder="Enter your registered email"
-                                required />
-                        </div>
-
-                        <button type="submit" class="w-full btn-primary">
-                            Send Reset Instructions
-                        </button>
-
-                        <button type="button" class="w-full text-secondary-600 hover:text-primary transition-fast"
-                            onclick="showSignIn()">
-                            ← Back to Sign In
-                        </button>
-                    </form>
-                </div>
             </div>
         </div>
     </section>
@@ -685,64 +625,59 @@
     </script>
 
     <script>
-        const form = document.getElementById('registerForm');
-        const otpModal = document.getElementById('otpModal');
-
-        form.addEventListener('submit', async (e) => {
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const submitBtn = document.getElementById('signupSubmitBtn');
-            submitBtn.textContent = 'Processing...';
-            submitBtn.disabled = true;
 
-            const formData = new FormData(form);
-
-            const data = Object.fromEntries(formData.entries());
-
-            try {
-                const response = await fetch('/register/initiate', {
+            fetch('/register/initiate', {
                     method: 'POST',
                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                         'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content')
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify({
+                        first_name: document.getElementById('first_name').value,
+                        last_name: document.getElementById('last_name').value,
+                        email: document.getElementById('email').value,
+                        password: document.getElementById('password').value,
+                        password_confirmation: document.getElementById('password_confirmation').value,
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('OTP sent to your email.');
+                        // Show OTP input form
+                        document.getElementById('otpWrapper').style.display = 'block';
+                    } else {
+                        alert(data.message || 'Something went wrong.');
+                    }
                 });
-
-                const result = await response.json();
-                if (result.success) {
-                    otpModal.classList.remove('hidden');
-                } else {
-                    alert(result.message || 'Something went wrong.');
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Create Account';
-                }
-            } catch (err) {
-                alert('Error occurred.');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Create Account';
-            }
         });
 
-        async function verifyOtp() {
-            const otp = document.getElementById('otpInput').value;
-            const response = await fetch('/register/verify-otp', {
+        document.getElementById('verifyOtpBtn').addEventListener('click', function() {
+        fetch('/register/verify-otp', {
                 method: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                     'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                        'content')
                 },
                 body: JSON.stringify({
-                    otp
+                    otp: document.getElementById('otp').value
                 })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Registration completed and logged in!');
+                    window.location.href = '/dashboard';
+                } else {
+                    alert(data.message || 'Invalid OTP.');
+                }
             });
-
-            const result = await response.json();
-            if (result.success) {
-                window.location.href = '/dashboard'; // or wherever user goes
-            } else {
-                alert(result.message || 'Invalid code.');
-            }
-        }
+        });
+        });
     </script>
 
 
@@ -786,208 +721,7 @@
             input.setAttribute('type', type);
         }
 
-        // Password strength indicator
-        const signupPasswordInput = document.getElementById('signupPassword');
-        const strengthIndicator = document.getElementById('passwordStrength');
 
-        if (signupPasswordInput && strengthIndicator) {
-            signupPasswordInput.addEventListener('input', function() {
-                const password = this.value;
-                let strength = 0;
-                let color = '#e53e3e'; // error color
-
-                if (password.length >= 8) strength += 25;
-                if (/[a-z]/.test(password)) strength += 25;
-                if (/[A-Z]/.test(password)) strength += 25;
-                if (/[0-9!@#$%^&*]/.test(password)) strength += 25;
-
-                if (strength >= 75) color = '#38a169'; // success color
-                else if (strength >= 50) color = '#d69e2e'; // warning color
-                else if (strength >= 25) color = '#ff6b35'; // accent color
-
-                strengthIndicator.style.width = strength + '%';
-                strengthIndicator.style.backgroundColor = color;
-            });
-        }
-
-        // Form submission handlers
-        function handleSignIn(event) {
-            event.preventDefault();
-            // Add loading state
-            const submitBtn = event.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Signing In...';
-            submitBtn.disabled = true;
-
-            // Simulate API call
-            setTimeout(() => {
-                // Show success notification
-                showNotification('Welcome back! Redirecting to dashboard...', 'success');
-
-                // Redirect after delay
-                setTimeout(() => {
-                    window.location.href = '{{ route('home') }}';
-                }, 2000);
-            }, 1500);
-        }
-
-        function handleSignUp(event) {
-            event.preventDefault();
-            // Add loading state
-            const submitBtn = event.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Creating Account...';
-            submitBtn.disabled = true;
-
-            // Simulate API call
-            setTimeout(() => {
-                // Show success notification
-                showNotification('Account created successfully! Please check your email for verification.',
-                    'success');
-
-                // Reset form and switch to sign in
-                setTimeout(() => {
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                    document.querySelector('[data-form="signin"]').click();
-                }, 3000);
-            }, 2000);
-        }
-
-
-        function handlePasswordReset(event) {
-            event.preventDefault();
-            // Add loading state
-            const submitBtn = event.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-
-            // Simulate API call
-            setTimeout(() => {
-                // Show success notification
-                showNotification('Reset instructions sent to your email!', 'success');
-
-                // Reset and go back to sign in
-                setTimeout(() => {
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                    showSignIn();
-                }, 2000);
-            }, 1500);
-        }
-
-        // Social login handlers
-        function signInWithGoogle() {
-            showNotification('Redirecting to Google...', 'info');
-            // Simulate Google OAuth flow
-            setTimeout(() => {
-                showNotification('Google sign-in successful! Welcome back!', 'success');
-                setTimeout(() => {
-                    window.location.href = '{{ route('home') }}';
-                }, 2000);
-            }, 1500);
-        }
-
-        function signUpWithGoogle() {
-            showNotification('Redirecting to Google...', 'info');
-            // Simulate Google OAuth flow
-            setTimeout(() => {
-                showNotification('Google sign-up successful! Account created!', 'success');
-                setTimeout(() => {
-                    window.location.href = '{{ route('home') }}';
-                }, 2000);
-            }, 1500);
-        }
-
-        function signInWithFacebook() {
-            showNotification('Redirecting to Facebook...', 'info');
-            // Simulate Facebook OAuth flow
-            setTimeout(() => {
-                showNotification('Facebook sign-in successful! Welcome back!', 'success');
-                setTimeout(() => {
-                    window.location.href = '{{ route('home') }}';
-                }, 2000);
-            }, 1500);
-        }
-
-        function signUpWithFacebook() {
-            showNotification('Redirecting to Facebook...', 'info');
-            // Simulate Facebook OAuth flow
-            setTimeout(() => {
-                showNotification('Facebook sign-up successful! Account created!', 'success');
-                setTimeout(() => {
-                    window.location.href = '{{ route('home') }}';
-                }, 2000);
-            }, 1500);
-        }
-
-        // Navigation functions
-        function showForgotPassword() {
-            // Hide other forms
-            authForms.forEach(form => {
-                form.classList.remove('active');
-                form.classList.add('hidden');
-            });
-            // Show forgot password form
-            document.getElementById('forgotPasswordForm').classList.add('active');
-            document.getElementById('forgotPasswordForm').classList.remove('hidden');
-
-            // Reset form toggles
-            formToggles.forEach(t => {
-                t.classList.remove('active', 'text-primary', 'border-b-2', 'border-primary');
-                t.classList.add('text-secondary-600');
-            });
-        }
-
-        function showSignIn() {
-            document.querySelector('[data-form="signin"]').click();
-        }
-
-        // Notification system
-        function showNotification(message, type = 'info') {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className =
-                `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-full`;
-
-            // Set colors based on type
-            const colors = {
-                success: 'bg-success-100 text-success-800 border border-success-200',
-                error: 'bg-error-100 text-error-800 border border-error-200',
-                warning: 'bg-warning-100 text-warning-800 border border-warning-200',
-                info: 'bg-primary-100 text-primary-800 border border-primary-200'
-            };
-
-            notification.className += ` ${colors[type] || colors.info}`;
-            notification.innerHTML = `
-                <div class="flex items-center space-x-3">
-                    <div class="flex-1">${message}</div>
-                    <button class="text-current opacity-70 hover:opacity-100" onclick="this.parentElement.parentElement.remove()">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-            `;
-
-            document.body.appendChild(notification);
-
-            // Animate in
-            setTimeout(() => {
-                notification.classList.remove('translate-x-full');
-            }, 100);
-
-            // Auto remove after 5 seconds
-            setTimeout(() => {
-                notification.classList.add('translate-x-full');
-                setTimeout(() => {
-                    if (notification.parentElement) {
-                        notification.remove();
-                    }
-                }, 300);
-            }, 5000);
-        }
 
         // Add CSS for form toggles
         const style = document.createElement('style');
@@ -1019,5 +753,4 @@
             document.querySelector('[data-form="signin"]').classList.remove('text-secondary-600');
         });
     </script>
-    <script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
 @endsection
