@@ -290,6 +290,9 @@
                                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                     </svg>
                                 </button>
+                                <p id="passwordMatchMessage" class="text-xs mt-2 text-red-500 hidden">Passwords do not
+                                    match.</p>
+
                             </div>
 
                             <!-- Password strength indicator -->
@@ -317,7 +320,7 @@
                             </label>
                         </div>
 
-                        <button type="submit" class="w-full btn-primary">
+                        <button type="submit" class="w-full btn-primary" id="signupSubmitBtn" disabled>
                             Create Account
                         </button>
                     </form>
@@ -604,48 +607,61 @@
 
     <script>
         const passwordInput = document.getElementById('signupPassword');
+        const confirmPasswordInput = document.getElementById('signupPasswordConfirm');
+        const submitBtn = document.getElementById('signupSubmitBtn');
+        const matchMessage = document.getElementById('passwordMatchMessage');
         const strengthBar = document.getElementById('passwordStrength');
         const strengthLabel = document.getElementById('strengthLabel');
 
-        passwordInput.addEventListener('input', () => {
+        passwordInput.addEventListener('input', handleValidation);
+        confirmPasswordInput.addEventListener('input', handleValidation);
+
+        function handleValidation() {
             const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
             const strength = calculatePasswordStrength(password);
             updateStrengthBar(strength);
-        });
+
+            const passwordsMatch = password === confirmPassword;
+            const strongEnough = strength >= 3; // customize this threshold
+
+            if (!passwordsMatch && confirmPassword.length > 0) {
+                matchMessage.classList.remove('hidden');
+            } else {
+                matchMessage.classList.add('hidden');
+            }
+
+            submitBtn.disabled = !(passwordsMatch && strongEnough);
+        }
 
         function calculatePasswordStrength(password) {
             let score = 0;
-
             if (password.length >= 6) score++;
             if (password.length >= 8) score++;
             if (/[A-Z]/.test(password)) score++;
             if (/[a-z]/.test(password)) score++;
             if (/\d/.test(password)) score++;
             if (/[\W_]/.test(password)) score++;
-
             return score;
         }
 
         function updateStrengthBar(score) {
-            const bar = strengthBar;
-            const label = strengthLabel;
-
             let percent = Math.min(score * 16.7, 100);
-            bar.style.width = percent + '%';
+            strengthBar.style.width = percent + '%';
 
-            // Color and label logic
             if (score <= 2) {
-                bar.className = 'bg-red-500 h-1 rounded-full transition-all duration-300';
-                label.textContent = 'Weak';
-                label.className = 'text-xs font-semibold text-red-500';
+                strengthBar.className = 'bg-red-500 h-1 rounded-full transition-all duration-300';
+                strengthLabel.textContent = 'Weak';
+                strengthLabel.className = 'text-xs font-semibold text-red-500';
             } else if (score <= 4) {
-                bar.className = 'bg-yellow-500 h-1 rounded-full transition-all duration-300';
-                label.textContent = 'Medium';
-                label.className = 'text-xs font-semibold text-yellow-500';
+                strengthBar.className = 'bg-yellow-500 h-1 rounded-full transition-all duration-300';
+                strengthLabel.textContent = 'Medium';
+                strengthLabel.className = 'text-xs font-semibold text-yellow-500';
             } else {
-                bar.className = 'bg-green-500 h-1 rounded-full transition-all duration-300';
-                label.textContent = 'Strong';
-                label.className = 'text-xs font-semibold text-green-500';
+                strengthBar.className = 'bg-green-500 h-1 rounded-full transition-all duration-300';
+                strengthLabel.textContent = 'Strong';
+                strengthLabel.className = 'text-xs font-semibold text-green-500';
             }
         }
 
@@ -654,6 +670,7 @@
             input.type = input.type === "password" ? "text" : "password";
         }
     </script>
+
 
 
     <script>
@@ -764,6 +781,7 @@
             }, 2000);
         }
 
+        
         function handlePasswordReset(event) {
             event.preventDefault();
             // Add loading state
