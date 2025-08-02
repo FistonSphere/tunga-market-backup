@@ -24,3 +24,9 @@ Route::get('/help-center', [HelpCenterController::class, 'index'])->name('help.c
 Route::get('/careers', [CareerController::class, 'index'])->name('careers');
 Route::get('/shopping-cart', [CartController::class, 'index'])->name('cart');
 Route::get('/checkout-process', [CheckoutController::class, 'index'])->name('checkout');
+
+
+// Start Authentication routes
+Route::post('/register/initiate', [AuthController::class, 'initiate']);
+Route::post('/register/verify-otp', [AuthController::class, 'verifyOtp']);
+// End Authentication routes
