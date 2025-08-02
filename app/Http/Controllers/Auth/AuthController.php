@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -23,8 +24,10 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        // Anti-bot check
+        Log::info('Register method triggered');
+
         if ($request->filled('company')) {
+            Log::warning('Bot honeypot triggered.');
             return response()->json(['success' => false, 'message' => 'Bot detected.'], 422);
         }
 
@@ -36,11 +39,14 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
+            Log::error('Validation failed', $validator->errors()->toArray());
             return response()->json(['success' => false, 'message' => $validator->errors()->first()], 422);
         }
 
         $otp = rand(100000, 999999);
-        $expiresAt = now()->addHour(); // 1 hour expiry
+        $expiresAt = now()->addHour();
+
+        Log::info("OTP generated: $otp");
 
         Session::put('pending_user', [
             'first_name' => $request->first_name,
@@ -51,9 +57,15 @@ class AuthController extends Controller
             'otp_expires_at' => $expiresAt,
         ]);
 
-        // Temp user for notification
-        $tempUser = new User(['email' => $request->email]);
-        $tempUser->notify(new SendOtpNotification($otp, $request->first_name));
+        Log::info('Pending user stored in session', ['email' => $request->email]);
+
+        try {
+            $tempUser = new User(['email' => $request->email]);
+            $tempUser->notify(new SendOtpNotification($otp, $request->first_name));
+            Log::info("✅ OTP email successfully sent to {$request->email}");
+        } catch (\Exception $e) {
+            Log::error("❌ Failed to send OTP email: " . $e->getMessage());
+        }
 
         return response()->json(['success' => true, 'message' => 'OTP sent to your email']);
     }

@@ -10,6 +10,7 @@ use App\Http\Controllers\frontend\ContactController;
 use App\Http\Controllers\frontend\HelpCenterController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\ProductListingController;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -30,6 +31,8 @@ Route::get('/checkout-process', [CheckoutController::class, 'index'])->name('che
 Route::post('/register-user', [AuthController::class, 'register'])->name('register-user');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
 Route::post('/resend-otp', [AuthController::class, 'resendOtp'])->name('resend-otp');
+
+
 
 
 // End Authentication routes

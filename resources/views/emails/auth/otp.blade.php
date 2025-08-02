@@ -1,43 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Email Verification</title>
+    <title>Verify Your Account</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f7f7f7; color: #333; }
+        .container { max-width: 600px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
+        h2 { color: #ff6600; }
+        .otp { font-size: 24px; font-weight: bold; color: #1a73e8; margin: 20px 0; }
+        .footer { font-size: 14px; color: #999; margin-top: 30px; }
+    </style>
 </head>
-
-<body style="background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; padding: 20px;">
-    <div
-        style="max-width: 600px; margin: auto; background: white; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.05); overflow: hidden;">
-        <div style="background-color: #FF6B00; padding: 20px 30px; color: white;">
-            <h2 style="margin: 0;">Welcome to <span style="color: #001F54;">Tunga Market</span></h2>
-        </div>
-
-        <div style="padding: 30px;">
-            <p style="font-size: 16px; color: #333;">Hello <strong>{{ $user->first_name }}</strong>,</p>
-
-            <p style="font-size: 15px; color: #555;">Thank you for registering. Please verify your email by using the OTP
-                code below:</p>
-
-            <div style="text-align: center; margin: 30px 0;">
-                <div
-                    style="font-size: 24px; font-weight: bold; color: #001F54; border: 2px dashed #FF6B00; padding: 15px 20px; border-radius: 8px; display: inline-block;">
-                    {{ $otp }}
-                </div>
-            </div>
-
-            <p style="font-size: 14px; color: #888;">
-                This code is valid for <strong>10 minutes</strong>. Do not share it with anyone.
-            </p>
-
-            <p style="margin-top: 30px; font-size: 14px; color: #333;">If you didn’t register for Tunga Market, just
-                ignore this message.</p>
-
-            <div style="margin-top: 40px; font-size: 12px; text-align: center; color: #aaa;">
-                &copy; {{ now()->year }} Tunga Market. All rights reserved.
-            </div>
-        </div>
+<body>
+    <div class="container">
+        <h2>Tunga Market – Verify Your Account</h2>
+        <p>Hello <strong>{{ $user }}</strong>,</p>
+        <p>Thank you for registering on Tunga Market.</p>
+        <p>Please use the OTP below to verify your email address:</p>
+        <div class="otp">🔐 {{ $otp }}</div>
+        <p>This code will expire in 1 hour. If you didn’t initiate this request, you can safely ignore this message.</p>
+        <p class="footer">© {{ now()->year }} Tunga Market. All rights reserved.</p>
     </div>
 </body>
-
 </html>

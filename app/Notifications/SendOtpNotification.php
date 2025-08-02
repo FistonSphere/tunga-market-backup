@@ -5,7 +5,8 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
+use App\Mail\OtpMail;
+use Illuminate\Support\Facades\Mail;
 
 class SendOtpNotification extends Notification implements ShouldQueue
 {
@@ -25,19 +26,12 @@ class SendOtpNotification extends Notification implements ShouldQueue
         return ['mail'];
     }
     public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->subject('Tunga Market – Verify Your Account')
-            ->greeting("Hello {$this->user},")
-            ->line("Thank you for registering on **Tunga Market**.")
-            ->line("Please use the following **OTP code** to verify your email address:")
-            ->line("🔐 **{$this->otp}**")
-            ->line("This code will expire in 1 hour.")
-            ->action('Visit Tunga Market', url('/'))
-            ->line('If you did not request this, please ignore this email.')
-            ->view('emails.auth.otp', [
-                'otp' => $this->otp,
-                'user' => $this->user
-            ]);
-    }
+{
+    // Send manually using Mailable, not MailMessage
+    Mail::to($notifiable->email)->send(new OtpMail($this->otp, $this->user));
+
+    // Return a basic MailMessage just for Notification system compatibility (won’t be used)
+    return (new \Illuminate\Notifications\Messages\MailMessage)
+        ->line('OTP email sent via custom template.');
+}
 }
