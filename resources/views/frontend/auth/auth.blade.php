@@ -90,8 +90,9 @@
                 <div id="signinForm" class="auth-form active">
                     <div class="text-center mb-6">
                         <h2 class="text-2xl font-bold text-primary mb-2">Welcome Back</h2>
-                        <p class="text-secondary-600">Sign in to continue your business journey</p>
+                        <p class="text-secondary-600">Sign in to continue shopping and managing your account</p>
                     </div>
+
 
                     <!-- Social Login Options -->
                     <div class="space-y-3 mb-6">
@@ -198,38 +199,7 @@
                 <div id="signupForm" class="auth-form hidden">
                     <div class="text-center mb-6">
                         <h2 class="text-2xl font-bold text-primary mb-2">Create Your Account</h2>
-                        <p class="text-secondary-600">Join the global commerce revolution</p>
-                    </div>
-
-                    <!-- Business Type Selection -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-secondary-700 mb-3">I am a:</label>
-                        <div class="grid grid-cols-3 gap-2">
-                            <label class="relative">
-                                <input type="radio" name="userType" value="buyer" class="sr-only peer" checked />
-                                <div
-                                    class="p-3 text-center border-2 border-secondary-200 rounded-lg cursor-pointer peer-checked:border-primary peer-checked:bg-primary-50 transition-fast">
-                                    <div class="text-sm font-medium text-secondary-700 peer-checked:text-primary">Buyer
-                                    </div>
-                                </div>
-                            </label>
-                            <label class="relative">
-                                <input type="radio" name="userType" value="seller" class="sr-only peer" />
-                                <div
-                                    class="p-3 text-center border-2 border-secondary-200 rounded-lg cursor-pointer peer-checked:border-primary peer-checked:bg-primary-50 transition-fast">
-                                    <div class="text-sm font-medium text-secondary-700 peer-checked:text-primary">
-                                        Seller</div>
-                                </div>
-                            </label>
-                            <label class="relative">
-                                <input type="radio" name="userType" value="both" class="sr-only peer" />
-                                <div
-                                    class="p-3 text-center border-2 border-secondary-200 rounded-lg cursor-pointer peer-checked:border-primary peer-checked:bg-primary-50 transition-fast">
-                                    <div class="text-sm font-medium text-secondary-700 peer-checked:text-primary">Both
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
+                        <p class="text-secondary-600">Start shopping, saving, and discovering great products today</p>
                     </div>
 
                     <!-- Social Registration Options -->
@@ -290,15 +260,25 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-secondary-700 mb-2">Company Name</label>
-                            <input type="text" class="input-field" placeholder="Your Company Ltd." required />
-                        </div>
-
-                        <div>
                             <label class="block text-sm font-medium text-secondary-700 mb-2">Password</label>
                             <div class="relative">
                                 <input type="password" id="signupPassword" class="input-field pr-10"
                                     placeholder="Create a strong password" required />
+                                <button type="button"
+                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600"
+                                    onclick="togglePassword('signupPassword')">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <label class="block text-sm font-medium text-secondary-700 mb-2">Confirm Password</label>
+                            <div class="relative">
+                                <input type="password" id="signupPassword" class="input-field pr-10"
+                                    placeholder="Confirm password" required />
                                 <button type="button"
                                     class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600"
                                     onclick="togglePassword('signupPassword')">
@@ -426,14 +406,14 @@
     <section class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Why Choose Tunga Market?</h2>
+                <h2 class="text-heading font-bold text-primary mb-4">Why Shop with Tunga Market?</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Experience the benefits that come with joining our verified global marketplace
+                    Enjoy a smarter, simpler, and more personal online shopping experience designed with you in mind.
                 </p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <!-- Faster Checkout -->
+                <!-- Easy & Fast Checkout -->
                 <div class="card text-center">
                     <div class="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -441,15 +421,14 @@
                                 d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                     </div>
-                    <h3 class="font-semibold text-primary mb-4">Lightning-Fast Checkout</h3>
+                    <h3 class="font-semibold text-primary mb-4">Quick & Easy Checkout</h3>
                     <p class="text-body-sm text-secondary-600 mb-4">
-                        Save your payment methods and shipping addresses for one-click purchasing across our entire
-                        marketplace.
+                        Save your info once and check out faster no more typing in your details every time you shop.
                     </p>
-                    <div class="text-success font-semibold">60% faster checkout process</div>
+                    <div class="text-success font-semibold">Built for convenience</div>
                 </div>
 
-                <!-- Personalized Recommendations -->
+                <!-- Smart Product Discovery -->
                 <div class="card text-center">
                     <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -457,15 +436,14 @@
                                 d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                         </svg>
                     </div>
-                    <h3 class="font-semibold text-primary mb-4">AI-Powered Recommendations</h3>
+                    <h3 class="font-semibold text-primary mb-4">Smart Product Suggestions</h3>
                     <p class="text-body-sm text-secondary-600 mb-4">
-                        Discover products and suppliers tailored to your business needs based on your browsing and
-                        purchase history.
+                        Get personalized recommendations based on your interests, searches, and favorite items.
                     </p>
-                    <div class="text-primary font-semibold">Up to 40% more relevant results</div>
+                    <div class="text-primary font-semibold">Discover what fits you</div>
                 </div>
 
-                <!-- Cross-Platform Sync -->
+                <!-- Multi-Device Access -->
                 <div class="card text-center">
                     <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -473,23 +451,25 @@
                                 d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                         </svg>
                     </div>
-                    <h3 class="font-semibold text-primary mb-4">Seamless Synchronization</h3>
+                    <h3 class="font-semibold text-primary mb-4">Shop Anywhere, Anytime</h3>
                     <p class="text-body-sm text-secondary-600 mb-4">
-                        Access your account, orders, and preferences across web, mobile app, and desktop platforms.
+                        Your account, favorites, and orders stay with you on desktop, tablet, or mobile.
                     </p>
-                    <div class="text-accent font-semibold">100% data synchronization</div>
+                    <div class="text-accent font-semibold">Always in sync</div>
                 </div>
             </div>
         </div>
+
     </section>
 
     <!-- Security Section -->
     <section class="py-16 bg-secondary-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Your Security is Our Priority</h2>
+                <h2 class="text-heading font-bold text-primary mb-4">Your Privacy & Safety Matter</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Advanced security features protect your account and business data at every step
+                    We take your security seriously your personal info, payments, and account are protected every step of
+                    the way.
                 </p>
             </div>
 
@@ -505,9 +485,9 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-primary mb-2">End-to-End Encryption</h3>
-                            <p class="text-body-sm text-secondary-600">All your data is protected with military-grade
-                                256-bit AES encryption</p>
+                            <h3 class="font-semibold text-primary mb-2">Secure Data Encryption</h3>
+                            <p class="text-body-sm text-secondary-600">We use advanced encryption to keep your personal and
+                                payment info safe.</p>
                         </div>
                     </div>
 
@@ -520,9 +500,9 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-primary mb-2">Two-Factor Authentication</h3>
-                            <p class="text-body-sm text-secondary-600">Optional 2FA with authenticator apps, SMS, or
-                                email verification</p>
+                            <h3 class="font-semibold text-primary mb-2">Two-Factor Login</h3>
+                            <p class="text-body-sm text-secondary-600">Add an extra layer of protection with optional 2FA
+                                via email, SMS, or app.</p>
                         </div>
                     </div>
 
@@ -537,9 +517,9 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-primary mb-2">Activity Monitoring</h3>
-                            <p class="text-body-sm text-secondary-600">Real-time monitoring of login attempts and
-                                unusual account activity</p>
+                            <h3 class="font-semibold text-primary mb-2">Real-Time Alerts</h3>
+                            <p class="text-body-sm text-secondary-600">Get notified if we detect any unusual activity in
+                                your account.</p>
                         </div>
                     </div>
 
@@ -552,64 +532,67 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-primary mb-2">Session Management</h3>
-                            <p class="text-body-sm text-secondary-600">Control active sessions and manage device access
-                                from your account settings</p>
+                            <h3 class="font-semibold text-primary mb-2">Account Controls</h3>
+                            <p class="text-body-sm text-secondary-600">View and manage active sessions, devices, and login
+                                locations anytime.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Security Dashboard Mock -->
+                <!-- Public Security Display -->
                 <div class="card">
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="font-semibold text-primary">Account Security Status</h3>
-                        <span
-                            class="px-3 py-1 bg-success-100 text-success rounded-full text-sm font-semibold">Excellent</span>
+                        <h3 class="font-semibold text-primary">How We Keep Tunga Market Secure</h3>
+                        <span class="px-3 py-1 bg-success-100 text-success rounded-full text-sm font-semibold">System
+                            Secure</span>
                     </div>
 
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-3">
                                 <div class="w-2 h-2 bg-success rounded-full"></div>
-                                <span class="text-body-sm text-secondary-600">Password Strength</span>
+                                <span class="text-body-sm text-secondary-600">Encrypted Connections</span>
                             </div>
-                            <span class="text-body-sm font-semibold text-success">Strong</span>
+                            <span class="text-body-sm font-semibold text-success">Active</span>
                         </div>
 
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-3">
                                 <div class="w-2 h-2 bg-warning rounded-full"></div>
-                                <span class="text-body-sm text-secondary-600">Two-Factor Auth</span>
+                                <span class="text-body-sm text-secondary-600">Two-Factor Authentication</span>
                             </div>
-                            <span class="text-body-sm font-semibold text-warning">Recommended</span>
+                            <span class="text-body-sm font-semibold text-warning">Optional</span>
                         </div>
 
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-3">
                                 <div class="w-2 h-2 bg-success rounded-full"></div>
-                                <span class="text-body-sm text-secondary-600">Recent Activity</span>
+                                <span class="text-body-sm text-secondary-600">System Monitoring</span>
                             </div>
-                            <span class="text-body-sm font-semibold text-success">Normal</span>
+                            <span class="text-body-sm font-semibold text-success">24/7 Protection</span>
                         </div>
 
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-3">
                                 <div class="w-2 h-2 bg-success rounded-full"></div>
-                                <span class="text-body-sm text-secondary-600">Login Location</span>
+                                <span class="text-body-sm text-secondary-600">Login Protection</span>
                             </div>
-                            <span class="text-body-sm font-semibold text-success">Verified</span>
+                            <span class="text-body-sm font-semibold text-success">Location Verified</span>
                         </div>
                     </div>
 
                     <div class="mt-6 pt-4 border-t">
                         <div class="text-center">
-                            <div class="text-body-sm text-secondary-600 mb-2">Last security scan</div>
-                            <div class="text-body-sm font-semibold text-primary">January 26, 2025 - 13:54 UTC</div>
+                            <div class="text-body-sm text-secondary-600">Regular security checks ensure your data stays
+                                protected.</div>
                         </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
+
     </section>
 
 
