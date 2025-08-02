@@ -275,13 +275,14 @@
                                     </svg>
                                 </button>
                             </div>
-                            <label class="block text-sm font-medium text-secondary-700 mb-2">Confirm Password</label>
+
+                            <label class="block text-sm font-medium text-secondary-700 mt-4 mb-2">Confirm Password</label>
                             <div class="relative">
-                                <input type="password" id="signupPassword" class="input-field pr-10"
+                                <input type="password" id="signupPasswordConfirm" class="input-field pr-10"
                                     placeholder="Confirm password" required />
                                 <button type="button"
                                     class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600"
-                                    onclick="togglePassword('signupPassword')">
+                                    onclick="togglePassword('signupPasswordConfirm')">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -290,14 +291,20 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="mt-2">
-                                <div class="text-xs text-secondary-600 mb-1">Password strength:</div>
+
+                            <!-- Password strength indicator -->
+                            <div class="mt-3">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-xs text-secondary-600">Password strength:</span>
+                                    <span id="strengthLabel" class="text-xs font-semibold text-secondary-600">Weak</span>
+                                </div>
                                 <div class="w-full bg-secondary-200 rounded-full h-1">
-                                    <div id="passwordStrength" class="bg-error h-1 rounded-full transition-fast"
-                                        style="width: 25%"></div>
+                                    <div id="passwordStrength" class="h-1 rounded-full transition-all duration-300"
+                                        style="width: 0%;"></div>
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="flex items-start space-x-3">
                             <input type="checkbox" id="agreeTerms"
@@ -595,6 +602,58 @@
 
     </section>
 
+    <script>
+        const passwordInput = document.getElementById('signupPassword');
+        const strengthBar = document.getElementById('passwordStrength');
+        const strengthLabel = document.getElementById('strengthLabel');
+
+        passwordInput.addEventListener('input', () => {
+            const password = passwordInput.value;
+            const strength = calculatePasswordStrength(password);
+            updateStrengthBar(strength);
+        });
+
+        function calculatePasswordStrength(password) {
+            let score = 0;
+
+            if (password.length >= 6) score++;
+            if (password.length >= 8) score++;
+            if (/[A-Z]/.test(password)) score++;
+            if (/[a-z]/.test(password)) score++;
+            if (/\d/.test(password)) score++;
+            if (/[\W_]/.test(password)) score++;
+
+            return score;
+        }
+
+        function updateStrengthBar(score) {
+            const bar = strengthBar;
+            const label = strengthLabel;
+
+            let percent = Math.min(score * 16.7, 100);
+            bar.style.width = percent + '%';
+
+            // Color and label logic
+            if (score <= 2) {
+                bar.className = 'bg-red-500 h-1 rounded-full transition-all duration-300';
+                label.textContent = 'Weak';
+                label.className = 'text-xs font-semibold text-red-500';
+            } else if (score <= 4) {
+                bar.className = 'bg-yellow-500 h-1 rounded-full transition-all duration-300';
+                label.textContent = 'Medium';
+                label.className = 'text-xs font-semibold text-yellow-500';
+            } else {
+                bar.className = 'bg-green-500 h-1 rounded-full transition-all duration-300';
+                label.textContent = 'Strong';
+                label.className = 'text-xs font-semibold text-green-500';
+            }
+        }
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === "password" ? "text" : "password";
+        }
+    </script>
 
 
     <script>
