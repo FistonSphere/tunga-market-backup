@@ -242,7 +242,7 @@
                     </div>
 
                     <!-- Registration Form -->
-                    <form class="space-y-4" onsubmit="handleSignUp(event)">
+                    <form class="space-y-4" id="registerForm">
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-secondary-700 mb-2">First Name</label>
@@ -603,6 +603,19 @@
             </div>
         </div>
 
+        <!-- OTP Modal -->
+        <div id="otpModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+            <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-sm">
+                <h2 class="text-lg font-semibold mb-2 text-center">Email Verification</h2>
+                <p class="text-sm text-secondary-600 mb-4 text-center">
+                    We’ve sent a 4-digit code to your email. Enter it below to continue.
+                </p>
+                <input id="otpInput" type="text" maxlength="4"
+                    class="w-full border border-secondary-300 rounded-md px-4 py-2 text-center tracking-widest text-xl"
+                    placeholder="____" />
+                <button onclick="verifyOtp()" class="mt-4 w-full btn-primary">Verify</button>
+            </div>
+        </div>
     </section>
 
     <script>
@@ -671,6 +684,66 @@
         }
     </script>
 
+    <script>
+        const form = document.getElementById('registerForm');
+        const otpModal = document.getElementById('otpModal');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('signupSubmitBtn');
+            submitBtn.textContent = 'Processing...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/register/initiate', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    otpModal.classList.remove('hidden');
+                } else {
+                    alert(result.message || 'Something went wrong.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Create Account';
+                }
+            } catch (err) {
+                alert('Error occurred.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Create Account';
+            }
+        });
+
+        async function verifyOtp() {
+            const otp = document.getElementById('otpInput').value;
+            const response = await fetch('/register/verify-otp', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    otp
+                })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                window.location.href = '/dashboard'; // or wherever user goes
+            } else {
+                alert(result.message || 'Invalid code.');
+            }
+        }
+    </script>
 
 
     <script>
@@ -781,7 +854,7 @@
             }, 2000);
         }
 
-        
+
         function handlePasswordReset(event) {
             event.preventDefault();
             // Add loading state
