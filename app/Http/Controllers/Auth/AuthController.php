@@ -60,36 +60,28 @@ class AuthController extends Controller
 
     public function verifyOtp(Request $request)
     {
-        $request->validate([
-            'otp' => 'required|digits:6',
-        ]);
-
-        $pendingUser = session('pending_user');
+        $otp = $request->otp;
+        $pendingUser = Session::get('pending_user');
 
         if (!$pendingUser) {
-            return response()->json(['error' => 'No registration attempt found.'], 422);
+            return response()->json(['status' => 'error', 'message' => 'No pending registration.']);
         }
 
-        if ($request->otp != $pendingUser['otp']) {
-            return response()->json(['error' => 'Invalid OTP.'], 422);
+        if ($otp == $pendingUser['otp']) {
+            // Create user in DB
+            $user = User::create([
+                'first_name' => $pendingUser['first_name'],
+                'last_name' => $pendingUser['last_name'],
+                'email' => $pendingUser['email'],
+                'phone' => $pendingUser['phone'],
+                'password' => bcrypt($pendingUser['password']),
+            ]);
+
+            Session::forget('pending_user');
+
+            return response()->json(['status' => 'success']);
         }
 
-        if (now()->gt($pendingUser['otp_expires_at'])) {
-            return response()->json(['error' => 'OTP expired.'], 422);
-        }
-
-        // Create user here
-        $user = User::create([
-            'first_name' => $pendingUser['first_name'],
-            'last_name' => $pendingUser['last_name'],
-            'email' => $pendingUser['email'],
-            'password' => $pendingUser['password'],
-        ]);
-
-        session()->forget('pending_user');
-
-        auth()->login($user);
-
-        return response()->json(['message' => 'Account created and verified successfully.']);
+        return response()->json(['status' => 'error', 'message' => 'Incorrect OTP.']);
     }
 }

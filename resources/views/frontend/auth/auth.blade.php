@@ -658,29 +658,92 @@
                 .catch(error => console.error(error));
         });
 
-        function verifyOtp() {
-            const otp = document.getElementById("otpInput").value;
+        // function verifyOtp() {
+        //     const otp = document.getElementById("otpInput").value;
 
-            fetch("{{ route('verify-otp') }}", {
-                    method: "POST",
+        //     fetch("{{ route('verify-otp') }}", {
+        //             method: "POST",
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //                 "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+        //             },
+        //             body: JSON.stringify({
+        //                 otp: otp
+        //             })
+        //         })
+        //         .then(res => res.json())
+        //         .then(data => {
+        //             if (data.message) {
+        //                 alert("✅ " + data.message);
+        //                 window.location.href = "/dashboard"; // or your home route
+        //             } else {
+        //                 alert(data.error);
+        //             }
+        //         });
+        // }
+    </script>
+    <script>
+        document.getElementById('verifyOtpForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const otp = document.getElementById('otpInput').value;
+            const verifyBtn = document.getElementById('verifyBtn');
+            const spinner = document.getElementById('loadingSpinner');
+            const text = document.querySelector('.verify-text');
+
+            // Show loading
+            spinner.classList.remove('hidden');
+            text.textContent = "Verifying...";
+
+            try {
+                const res = await fetch("{{ route('verify-otp') }}", {
+                    method: 'POST',
                     headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
                     },
                     body: JSON.stringify({
-                        otp: otp
+                        otp
                     })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.message) {
-                        alert("✅ " + data.message);
-                        window.location.href = "/dashboard"; // or your home route
-                    } else {
-                        alert(data.error);
-                    }
                 });
+
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    // ✅ Success: Hide modal, show toast, redirect
+                    document.getElementById('otpModal').classList.add('hidden');
+                    showToast("🎉 Registered successfully!", 'success');
+
+                    setTimeout(() => {
+                        window.location.href = "{{ route('login') }}";
+                    }, 1500);
+                } else {
+                    // ❌ OTP incorrect
+                    showToast("❌ " + data.message, 'error');
+                }
+            } catch (error) {
+                showToast("⚠️ Something went wrong", 'error');
+            }
+
+            // Reset button
+            spinner.classList.add('hidden');
+            text.textContent = "Verify";
+        });
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className =
+                `fixed top-5 right-5 z-[9999] p-4 rounded-lg text-white font-semibold shadow-lg ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
+
+        // 👇 Show the modal after registration
+        document.addEventListener('DOMContentLoaded', () => {
+            @if (session('show_otp_modal'))
+                document.getElementById('otpModal').classList.remove('hidden');
+            @endif
+        });
     </script>
 
 
