@@ -30,7 +30,7 @@ Route::get('/checkout-process', [CheckoutController::class, 'index'])->name('che
 // Start Authentication routes
 Route::post('/register', [AuthController::class, 'register'])->name('register-user');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
-
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 // End Authentication routes

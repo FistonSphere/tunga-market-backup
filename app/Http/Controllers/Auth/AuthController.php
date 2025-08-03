@@ -91,4 +91,12 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Account created and verified successfully, now swipe to login.', 'redirect' => route('login')]);
     }
+
+    public function logout(Request $request)
+    {
+        auth()->logout();
+        Session::flush();
+        return redirect()->back()->with('message', 'You have been logged out successfully.');
+    }
+    
 }
