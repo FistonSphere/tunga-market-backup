@@ -242,7 +242,7 @@
                     </div>
 
                     <!-- Registration Form -->
-                    <form class="space-y-4" id="registrationForm" method="POST" action="{{ route('register-user') }}">
+                    <form class="space-y-4" id="registerForm" method="POST">
                         @csrf
                         <div class="grid grid-cols-2 gap-4">
                             <div>
@@ -625,58 +625,54 @@
     </script>
 
     <script>
-        // AJAX form submit + open OTP Modal
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+        document.getElementById("registerForm").addEventListener("submit", function(e) {
             e.preventDefault();
 
-            const form = this;
-            const formData = new FormData(form);
+            const formData = new FormData(this);
 
-            fetch(form.action, {
-                    method: 'POST',
+            fetch("{{ route('register-user') }}", {
+                    method: "POST",
                     headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
                     },
-                    body: formData
+                    body: formData,
                 })
-                .then(res => res.json())
+                .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
-                        document.getElementById('otpModal').classList.remove('hidden');
+                    if (data.message) {
+                        document.getElementById("otpModal").classList.remove("hidden");
                     } else {
-                        alert(data.message || 'Something went wrong');
+                        alert(data.error || "Something went wrong.");
                     }
                 })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                .catch(error => console.error(error));
         });
 
-        // OTP Verification
         function verifyOtp() {
-            const otp = document.getElementById('otpInput').value;
+            const otp = document.getElementById("otpInput").value;
 
-            fetch('{{ route('verify-otp') }}', {
-                    method: 'POST',
+            fetch("{{ route('verify-otp') }}", {
+                    method: "POST",
                     headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
                     },
                     body: JSON.stringify({
-                        otp
+                        otp: otp
                     })
                 })
                 .then(res => res.json())
                 .then(data => {
-                    if (data.success) {
-                        alert('Account verified successfully!');
-                        window.location.href = "{{ route('login') }}";
+                    if (data.message) {
+                        alert("✅ " + data.message);
+                        window.location.href = "/dashboard"; // or your home route
                     } else {
-                        alert(data.message || 'Incorrect OTP');
+                        alert(data.error);
                     }
                 });
         }
     </script>
+
 
 
     <script>
