@@ -544,18 +544,28 @@
         </div>
 
         <!-- OTP Modal -->
-        <div id="otpModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-            <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-sm">
-                <h2 class="text-lg font-semibold mb-2 text-center">Email Verification</h2>
-                <p class="text-sm text-secondary-600 mb-4 text-center">
-                    We’ve sent a 4-digit code to your email. Enter it below to continue.
-                </p>
-                <input id="otpInput" type="text" maxlength="4"
-                    class="w-full border border-secondary-300 rounded-md px-4 py-2 text-center tracking-widest text-xl"
-                    placeholder="____" />
-                <button onclick="verifyOtp()" class="mt-4 w-full btn-primary">Verify</button>
+        <div id="otpModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 hidden">
+            <div class="bg-white rounded-lg w-full max-w-md shadow-lg p-6">
+                <h2 class="text-xl font-semibold mb-4 text-center">Enter OTP Code</h2>
+                <form id="verifyOtpForm">
+                    @csrf
+                    <input type="text" name="otp" id="otpInput" placeholder="Enter OTP" required
+                        class="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-orange-500 mb-4 text-center text-lg tracking-widest">
+
+                    <button type="submit" id="verifyBtn"
+                        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 flex justify-center items-center gap-2">
+                        <span class="verify-text">Verify</span>
+                        <svg id="loadingSpinner" class="w-5 h-5 animate-spin hidden" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                    </button>
+                </form>
             </div>
         </div>
+
     </section>
 
     <script>

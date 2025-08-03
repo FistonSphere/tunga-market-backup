@@ -32,7 +32,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $otp = rand(100000, 999999);
+        $otp = rand(1000, 9999);
         Log::info("OTP generated: $otp");
 
         $pendingUser = [
