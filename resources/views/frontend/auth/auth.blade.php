@@ -1,8 +1,20 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+        #toast {
+            transition: opacity 0.5s ease;
+        }
+    </style>
+
+     <div id="toast"
+            class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded shadow-lg opacity-0 transition-opacity duration-300 z-50">
+            <span id="toastMessage"></span>
+        </div>
     <!-- Main Authentication Section -->
     <section
         class="min-h-screen bg-gradient-to-br from-primary-50 to-accent-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+
+
         <div class="max-w-6xl w-full grid lg:grid-cols-2 gap-12 items-center">
             <!-- Left Side - Welcome Content -->
             <div class="text-center lg:text-left">
@@ -350,6 +362,9 @@
 
             </div>
         </div>
+
+
+
     </section>
 
     <!-- Benefits Section -->
@@ -624,54 +639,6 @@
         }
     </script>
 
-    {{-- <script>
-        document.getElementById("registerForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-
-            fetch("{{ route('register-user') }}", {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
-                    },
-                    body: formData,
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) {
-                        document.getElementById("otpModal").classList.remove("hidden");
-                    } else {
-                        alert(data.error || "Something went wrong.");
-                    }
-                })
-                .catch(error => console.error(error));
-        });
-
-        function verifyOtp() {
-            const otp = document.getElementById("otpInput").value;
-
-            fetch("{{ route('verify-otp') }}", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
-                    },
-                    body: JSON.stringify({
-                        otp: otp
-                    })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.message) {
-                        alert("✅ " + data.message);
-                        window.location.href = "/dashboard"; // or your home route
-                    } else {
-                        alert(data.error);
-                    }
-                });
-        }
-    </script> --}}
 
     <script>
         const otpButton = document.querySelector("#otpModal button");
@@ -703,12 +670,17 @@
         });
 
         function verifyOtp() {
-            const otp = otpInput.value;
+            const otp = document.getElementById("otpInput").value;
+            const verifyButton = document.querySelector('#otpModal button');
 
-            // Loading animation
-            otpButton.disabled = true;
-            otpButton.innerHTML =
-                `<span class="flex items-center justify-center gap-2"><svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l4-4-4-4v4A8 8 0 004 12z"></path></svg> Verifying...</span>`;
+            // Start loading
+            verifyButton.disabled = true;
+            verifyButton.innerHTML = `
+        <svg class="animate-spin h-5 w-5 mx-auto text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+        </svg>
+    `;
 
             fetch("{{ route('verify-otp') }}", {
                     method: "POST",
@@ -717,39 +689,44 @@
                         "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
                     },
                     body: JSON.stringify({
-                        otp: otp
+                        otp
                     })
                 })
                 .then(res => res.json())
                 .then(data => {
+                    verifyButton.disabled = false;
+                    verifyButton.innerHTML = "Verify";
+
                     if (data.message) {
-                        // Success flow
-                        showToast("🎉 " + data.message, "success");
-                        setTimeout(() => {
-                            document.getElementById("otpModal").classList.add("hidden");
-                            window.location.href = "{{ route('login') }}";
-                        }, 1500);
+                        // Hide OTP modal
+                        document.getElementById("otpModal").classList.add("hidden");
+
+                        // Show success toast
+                        showToast("✅ " + data.message);
                     } else {
-                        showToast(data.error, "error");
-                        otpButton.disabled = false;
-                        otpButton.textContent = "Verify";
+                        alert(data.error || "Verification failed. Please try again.");
                     }
                 })
-                .catch(err => {
-                    showToast("Something went wrong.", "error");
-                    otpButton.disabled = false;
-                    otpButton.textContent = "Verify";
+                .catch(error => {
+                    verifyButton.disabled = false;
+                    verifyButton.innerHTML = "Verify";
+                    alert("Something went wrong. Please try again.");
                 });
         }
 
-        function showToast(message, type) {
-            const toast = document.createElement("div");
-            toast.className = `fixed top-5 right-5 z-50 px-4 py-2 rounded shadow-lg text-white ${
-            type === "success" ? "bg-green-600" : "bg-red-600"
-        }`;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            const toastMsg = document.getElementById("toastMessage");
+
+            toastMsg.textContent = message;
+            toast.classList.add("opacity-100");
+            toast.classList.remove("opacity-0");
+
+            setTimeout(() => {
+                toast.classList.add("opacity-0");
+                toast.classList.remove("opacity-100");
+            }, 4000); // Toast fades after 4s
         }
     </script>
 
