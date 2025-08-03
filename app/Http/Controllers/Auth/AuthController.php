@@ -92,11 +92,25 @@ class AuthController extends Controller
         return response()->json(['message' => 'Account created and verified successfully, now swipe to login.', 'redirect' => route('login')]);
     }
 
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if (!auth()->attempt($credentials)) {
+            return redirect()->back()->withErrors(['email' => 'Invalid credentials.']);
+        }
+
+        return redirect()->back()->with('message', 'Login Successfully.'); // Adjust the route as necessary
+    }
     public function logout(Request $request)
     {
         auth()->logout();
         Session::flush();
         return redirect()->back()->with('message', 'You have been logged out successfully.');
     }
-    
 }
