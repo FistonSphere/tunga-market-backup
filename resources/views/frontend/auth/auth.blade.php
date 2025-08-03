@@ -4,16 +4,17 @@
         #toast {
             transition: opacity 0.5s ease;
         }
-        #otpModal{
+
+        #otpModal {
             backdrop-filter: blur(10px);
             background-color: rgb(0 0 0 / 58%);
         }
     </style>
 
-     <div id="toast"
-            class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded shadow-lg opacity-0 transition-opacity duration-300 z-50">
-            <span id="toastMessage"></span>
-        </div>
+    <div id="toast"
+        class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded shadow-lg opacity-0 transition-opacity duration-300 z-50">
+        <span id="toastMessage"></span>
+    </div>
     <!-- Main Authentication Section -->
     <section
         class="min-h-screen bg-gradient-to-br from-primary-50 to-accent-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -150,17 +151,20 @@
                     </div>
 
                     <!-- Email/Password Form -->
-                    <form class="space-y-4" onsubmit="handleSignIn(event)">
+                    <form class="space-y-4" id="loginForm" method="POST" action="{{ route('login-user') }}">
+
+                        @csrf
                         <div>
                             <label class="block text-sm font-medium text-secondary-700 mb-2">Email Address</label>
-                            <input type="email" class="input-field" placeholder="Enter your email" required />
+                            <input type="email" class="input-field" name="email" placeholder="Enter your email"
+                                required />
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-secondary-700 mb-2">Password</label>
                             <div class="relative">
                                 <input type="password" id="signinPassword" class="input-field pr-10"
-                                    placeholder="Enter your password" required />
+                                    placeholder="Enter your password" name="password" required />
                                 <button type="button"
                                     class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600"
                                     onclick="togglePassword('signinPassword')">

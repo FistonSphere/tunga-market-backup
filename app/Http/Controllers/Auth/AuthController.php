@@ -9,6 +9,7 @@ use App\Notifications\OtpRegistrationMail;
 use App\Notifications\SendOtpNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -94,18 +95,28 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
+        // Validate input
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|string|min:6',
         ]);
 
-        $credentials = $request->only('email', 'password');
-
-        if (!auth()->attempt($credentials)) {
-            return redirect()->back()->withErrors(['email' => 'Invalid credentials.']);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
         }
 
-        return redirect()->back()->with('message', 'Login Successfully.'); // Adjust the route as necessary
+        // Attempt login
+        if (Auth::attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ], $request->has('remember'))) {
+
+            $request->session()->regenerate();
+
+            return redirect()->intended()->with('success', 'Login successful!');
+        }
+
+        return back()->withErrors(['password' => 'The provided credentials are incorrect.'])->withInput();
     }
     public function logout(Request $request)
     {
