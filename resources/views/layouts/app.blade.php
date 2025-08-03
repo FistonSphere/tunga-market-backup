@@ -263,13 +263,13 @@
                                     class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                                 </div>
                                 <span class="text-primary font-semibold">
-                                    {{ Auth::user()->first_name ?? 'My Account' }}
+                                     Hi, {{ Auth::user()->first_name ?? 'My Account' }}
                                 </span>
                             </div>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
-                                    class="text-error hover:text-error-600 transition-fast font-semibold">
+                                    class="btn-primary">
                                     Logout
                                 </button>
                             </form>
@@ -358,7 +358,7 @@
                                     class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                                 </div>
                                 <span class="text-primary font-semibold">
-                                    {{ Auth::user()->first_name ?? 'My Account' }}
+                                  Hi, {{ Auth::user()->first_name ?? 'My Account' }}
                                 </span>
                             </div>
                             <form method="POST" action="{{ route('logout') }}">
