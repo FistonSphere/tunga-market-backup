@@ -262,9 +262,9 @@
                                 <div id="userAvatar"
                                     class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                                 </div>
-                                <span class="text-primary font-semibold">
+                                <a href="{{ route('user.profile') }}" class="text-primary font-semibold">
                                      Hi, {{ Auth::user()->first_name ?? 'My Account' }}
-                                </span>
+                                </a>
                             </div>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -357,14 +357,14 @@
                                 <div id="userAvatar"
                                     class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                                 </div>
-                                <span class="text-primary font-semibold">
+                                <a href="{{ route('user.profile') }}" class="text-primary font-semibold">
                                   Hi, {{ Auth::user()->first_name ?? 'My Account' }}
-                                </span>
+                                </a>
                             </div>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
-                                    class="text-error hover:text-error-600 transition-fast font-semibold">
+                                    class="btn-primary">
                                     Logout
                                 </button>
                             </form>
