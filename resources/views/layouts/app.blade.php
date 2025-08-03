@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
     <meta name="description"
         content="Next-generation B2B/B2C hybrid marketplace that transcends traditional e-commerce limitations through trading ecosystem and immersive visual storytelling." />
-    
+
 </head>
 
 <body class="bg-background text-text-primary">
@@ -254,9 +254,31 @@
                         <span id="cart-count"
                             class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">0</span>
                     </a>
+                    <!-- If user is authenticated -->
+                    @auth
+                        <!-- User Profile & Actions -->
+                        <div class="hidden md:flex items-center space-x-4">
+                            <div class="flex items-center space-x-3">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop"
+                                    alt="User Avatar" class="w-8 h-8 rounded-full object-cover" />
+                                <span class="text-primary font-semibold">
+                                    {{ Auth::user()->name ?? 'My Account' }}
+                                </span>
+                            </div>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="text-error hover:text-error-600 transition-fast font-semibold">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    @endauth
 
-                    <a href="{{ route('login') }}" class="text-primary hover:text-accent transition-fast">Sign In</a>
-                    <a href="{{ route('login') }}" class="btn-primary">Get Started</a>
+                    @guest
+                        <a href="{{ route('login') }}" class="text-primary hover:text-accent transition-fast">Sign In</a>
+                        <a href="{{ route('login') }}" class="btn-primary">Get Started</a>
+                    @endguest
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -326,13 +348,37 @@
                     </div> --}}
 
                     <!-- Mobile Actions -->
-                    <div class="border-t border-border pt-4 space-y-3">
-                        <div class="flex space-x-4">
-                            <a href="{{ route('login') }}"
-                                class="flex-1 text-primary hover:text-accent transition-fast py-2">Sign In</a>
-                            <a href="{{ route('login') }}" class="flex-1 btn-primary py-2 text-sm">Get Started</a>
+                    <!-- If user is authenticated -->
+                    @auth
+                        <!-- User Profile & Actions -->
+                        <div class="hidden md:flex items-center space-x-4">
+                            <div class="flex items-center space-x-3">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop"
+                                    alt="User Avatar" class="w-8 h-8 rounded-full object-cover" />
+                                <span class="text-primary font-semibold">
+                                    {{ Auth::user()->name ?? 'My Account' }}
+                                </span>
+                            </div>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="text-error hover:text-error-600 transition-fast font-semibold">
+                                    Logout
+                                </button>
+                            </form>
                         </div>
-                    </div>
+                    @endauth
+
+                    <!-- If user is NOT authenticated -->
+                    @guest
+                        <div class="border-t border-border pt-4 space-y-3">
+                            <div class="flex space-x-4">
+                                <a href="{{ route('login') }}"
+                                    class="flex-1 text-primary hover:text-accent transition-fast py-2">Sign In</a>
+                                <a href="{{ route('login') }}" class="flex-1 btn-primary py-2 text-sm">Get Started</a>
+                            </div>
+                        </div>
+                    @endguest
                 </div>
             </div>
         </nav>
@@ -473,7 +519,7 @@
                                 class="text-secondary-300 hover:text-accent transition-fast">Product Discovery</a></li>
                         <li><a href="{{ route('compare') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Compare</a></li>
-                        
+
                     </ul>
                 </div>
 
@@ -485,7 +531,7 @@
                                 class="text-secondary-300 hover:text-accent transition-fast">Help Center</a></li>
                         <li><a href="{{ route('contact') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Contact Us</a></li>
-                       
+
                     </ul>
                 </div>
 
@@ -497,7 +543,7 @@
                                 class="text-secondary-300 hover:text-accent transition-fast">About Us</a></li>
                         <li><a href="{{ route('careers') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Careers</a></li>
-                      
+
                     </ul>
                 </div>
             </div>
@@ -522,7 +568,7 @@
 
     <!-- start Support Chatbot Widget -->
     <!-- end Support Chatbot Widget -->
-    
+
 
     <!-- Wishlist overlay popup hidden initially -->
     <div id="wishlist-overlay" style="display: none"
@@ -1305,7 +1351,7 @@
         function closeWishlistPopup() {
             const overlay = document.getElementById('wishlist-overlay');
             overlay.style.animation = 'fadeOut 0.3s ease-out forwards';
-            
+
         }
 
         function addToCartFromWishlist(button) {
@@ -1462,20 +1508,20 @@
                 from { opacity: 0; transform: scale(0.9); }
                 to { opacity: 1; transform: scale(1); }
             }
-            
+
             @keyframes fadeOut {
                 from { opacity: 1; transform: scale(1); }
                 to { opacity: 0; transform: scale(0.9); }
             }
-            
+
             .animate-fade-in {
                 animation: fadeIn 0.3s ease-out forwards;
             }
-            
+
             .wishlist-item {
                 transition: all 0.3s ease;
             }
-            
+
             .wishlist-item:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
@@ -1499,7 +1545,7 @@
             }
         });
     </script>
-    
+
 </body>
 
 </html>
