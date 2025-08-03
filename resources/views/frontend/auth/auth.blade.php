@@ -4,12 +4,16 @@
         #toast {
             transition: opacity 0.5s ease;
         }
+        #otpModal{
+            backdrop-filter: blur(10px);
+            background-color: rgb(0 0 0 / 58%);
+        }
     </style>
 
-    <div id="toast"
-        class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded shadow-lg opacity-0 transition-opacity duration-300 z-50">
-        <span id="toastMessage"></span>
-    </div>
+     <div id="toast"
+            class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded shadow-lg opacity-0 transition-opacity duration-300 z-50">
+            <span id="toastMessage"></span>
+        </div>
     <!-- Main Authentication Section -->
     <section
         class="min-h-screen bg-gradient-to-br from-primary-50 to-accent-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -559,23 +563,18 @@
         </div>
 
         <!-- OTP Modal -->
-        <div id="otpModal"
-            class="fixed inset-0 backdrop-blur-sm bg-black/10 flex items-center justify-center z-50 hidden">
-            <div class="bg-white/80 backdrop-blur-md border border-gray-200 p-6 rounded-2xl shadow-2xl w-full max-w-sm">
-                <h2 class="text-lg font-semibold mb-2 text-center text-gray-800">Email Verification</h2>
-                <p class="text-sm text-gray-600 mb-4 text-center">
+        <div id="otpModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+            <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-sm">
+                <h2 class="text-lg font-semibold mb-2 text-center">Email Verification</h2>
+                <p class="text-sm text-secondary-600 mb-4 text-center">
                     We’ve sent a 4-digit code to your email. Enter it below to continue.
                 </p>
                 <input id="otpInput" type="text" maxlength="4"
-                    class="w-full border border-gray-300 rounded-md px-4 py-2 text-center tracking-widest text-xl bg-white/60 backdrop-blur focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full border border-secondary-300 rounded-md px-4 py-2 text-center tracking-widest text-xl"
                     placeholder="____" />
-                <button onclick="verifyOtp()"
-                    class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition">
-                    Verify
-                </button>
+                <button onclick="verifyOtp()" class="mt-4 w-full btn-primary">Verify</button>
             </div>
         </div>
-
     </section>
 
     <script>
