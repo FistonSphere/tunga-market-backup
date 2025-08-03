@@ -544,28 +544,18 @@
         </div>
 
         <!-- OTP Modal -->
-        <div id="otpModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 hidden">
-            <div class="bg-white rounded-lg w-full max-w-md shadow-lg p-6">
-                <h2 class="text-xl font-semibold mb-4 text-center">Enter OTP Code</h2>
-                <form id="verifyOtpForm">
-                    @csrf
-                    <input type="text" name="otp" id="otpInput" placeholder="Enter OTP" required
-                        class="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-orange-500 mb-4 text-center text-lg tracking-widest">
-
-                    <button type="submit" id="verifyBtn"
-                        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 flex justify-center items-center gap-2">
-                        <span class="verify-text">Verify</span>
-                        <svg id="loadingSpinner" class="w-5 h-5 animate-spin hidden" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                        </svg>
-                    </button>
-                </form>
+        <div id="otpModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+            <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-sm">
+                <h2 class="text-lg font-semibold mb-2 text-center">Email Verification</h2>
+                <p class="text-sm text-secondary-600 mb-4 text-center">
+                    We’ve sent a 4-digit code to your email. Enter it below to continue.
+                </p>
+                <input id="otpInput" type="text" maxlength="4"
+                    class="w-full border border-secondary-300 rounded-md px-4 py-2 text-center tracking-widest text-xl"
+                    placeholder="____" />
+                <button onclick="verifyOtp()" class="mt-4 w-full btn-primary">Verify</button>
             </div>
         </div>
-
     </section>
 
     <script>
@@ -634,7 +624,7 @@
         }
     </script>
 
-    <script>
+    {{-- <script>
         document.getElementById("registerForm").addEventListener("submit", function(e) {
             e.preventDefault();
 
@@ -658,94 +648,110 @@
                 .catch(error => console.error(error));
         });
 
-        // function verifyOtp() {
-        //     const otp = document.getElementById("otpInput").value;
+        function verifyOtp() {
+            const otp = document.getElementById("otpInput").value;
 
-        //     fetch("{{ route('verify-otp') }}", {
-        //             method: "POST",
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //                 "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
-        //             },
-        //             body: JSON.stringify({
-        //                 otp: otp
-        //             })
-        //         })
-        //         .then(res => res.json())
-        //         .then(data => {
-        //             if (data.message) {
-        //                 alert("✅ " + data.message);
-        //                 window.location.href = "/dashboard"; // or your home route
-        //             } else {
-        //                 alert(data.error);
-        //             }
-        //         });
-        // }
-    </script>
-    <script>
-        document.getElementById('verifyOtpForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const otp = document.getElementById('otpInput').value;
-            const verifyBtn = document.getElementById('verifyBtn');
-            const spinner = document.getElementById('loadingSpinner');
-            const text = document.querySelector('.verify-text');
-
-            // Show loading
-            spinner.classList.remove('hidden');
-            text.textContent = "Verifying...";
-
-            try {
-                const res = await fetch("{{ route('verify-otp') }}", {
-                    method: 'POST',
+            fetch("{{ route('verify-otp') }}", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
                     },
                     body: JSON.stringify({
-                        otp
+                        otp: otp
                     })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.message) {
+                        alert("✅ " + data.message);
+                        window.location.href = "/dashboard"; // or your home route
+                    } else {
+                        alert(data.error);
+                    }
                 });
+        }
+    </script> --}}
 
-                const data = await res.json();
+    <script>
+        const otpButton = document.querySelector("#otpModal button");
+        const otpInput = document.getElementById("otpInput");
 
-                if (data.status === 'success') {
-                    // ✅ Success: Hide modal, show toast, redirect
-                    document.getElementById('otpModal').classList.add('hidden');
-                    showToast("🎉 Registered successfully!", 'success');
+        document.getElementById("registerForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
 
-                    setTimeout(() => {
-                        window.location.href = "{{ route('login') }}";
-                    }, 1500);
-                } else {
-                    // ❌ OTP incorrect
-                    showToast("❌ " + data.message, 'error');
-                }
-            } catch (error) {
-                showToast("⚠️ Something went wrong", 'error');
-            }
-
-            // Reset button
-            spinner.classList.add('hidden');
-            text.textContent = "Verify";
+            fetch("{{ route('register-user') }}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                    },
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        document.getElementById("otpModal").classList.remove("hidden");
+                    } else {
+                        showToast(data.error || "Something went wrong.", "error");
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    showToast("Something went wrong.", "error");
+                });
         });
 
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className =
-                `fixed top-5 right-5 z-[9999] p-4 rounded-lg text-white font-semibold shadow-lg ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+        function verifyOtp() {
+            const otp = otpInput.value;
+
+            // Loading animation
+            otpButton.disabled = true;
+            otpButton.innerHTML =
+                `<span class="flex items-center justify-center gap-2"><svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l4-4-4-4v4A8 8 0 004 12z"></path></svg> Verifying...</span>`;
+
+            fetch("{{ route('verify-otp') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                    },
+                    body: JSON.stringify({
+                        otp: otp
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.message) {
+                        // Success flow
+                        showToast("🎉 " + data.message, "success");
+                        setTimeout(() => {
+                            document.getElementById("otpModal").classList.add("hidden");
+                            window.location.href = "{{ route('login') }}";
+                        }, 1500);
+                    } else {
+                        showToast(data.error, "error");
+                        otpButton.disabled = false;
+                        otpButton.textContent = "Verify";
+                    }
+                })
+                .catch(err => {
+                    showToast("Something went wrong.", "error");
+                    otpButton.disabled = false;
+                    otpButton.textContent = "Verify";
+                });
+        }
+
+        function showToast(message, type) {
+            const toast = document.createElement("div");
+            toast.className = `fixed top-5 right-5 z-50 px-4 py-2 rounded shadow-lg text-white ${
+            type === "success" ? "bg-green-600" : "bg-red-600"
+        }`;
             toast.textContent = message;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
-
-        // 👇 Show the modal after registration
-        document.addEventListener('DOMContentLoaded', () => {
-            @if (session('show_otp_modal'))
-                document.getElementById('otpModal').classList.remove('hidden');
-            @endif
-        });
     </script>
-
 
 
     <script>
