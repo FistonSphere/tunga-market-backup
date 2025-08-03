@@ -31,6 +31,12 @@ Route::get('/checkout-process', [CheckoutController::class, 'index'])->name('che
 Route::post('/register', [AuthController::class, 'register'])->name('register-user');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
 Route::post('/login', [AuthController::class, 'login'])->name('login-user');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/user/profile', [AuthController::class, 'profile'])->name('user.profile');
+    Route::post('/user/update-profile', [AuthController::class, 'updateProfile'])->name('user.update.profile');
+    Route::post('/user/change-password', [AuthController::class, 'changePassword'])->name('user.change.password');
+});
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
