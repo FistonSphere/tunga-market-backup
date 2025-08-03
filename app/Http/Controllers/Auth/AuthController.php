@@ -89,6 +89,6 @@ class AuthController extends Controller
         session()->forget('pending_user');
         auth()->login($user);
 
-        return response()->json(['message' => 'Account created and verified successfully.', 'redirect' => route('login')]);
+        return response()->json(['message' => 'Account created and verified successfully, now swipe to login.', 'redirect' => route('login')]);
     }
 }
