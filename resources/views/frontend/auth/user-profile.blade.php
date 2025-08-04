@@ -106,14 +106,6 @@
                                 </svg>
                                 <span>Notifications</span>
                             </button>
-                            <button onclick="showSection('business')"
-                                class="nav-item w-full text-left p-3 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                </svg>
-                                <span>Business Profile</span>
-                            </button>
                             <button onclick="showSection('subscription')"
                                 class="nav-item w-full text-left p-3 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -209,7 +201,7 @@
                                                 <input type="text" value="{{ auth()->user()->state }}" class="input-field" />
                                             </div>
                                         </div>
-                                        <div class="grid grid-cols-2 gap-4">
+                                        <div class="space-y-4">
                                             <div>
                                                 <label
                                                     class="block text-sm font-medium text-secondary-700 mb-2">Country</label>
@@ -634,182 +626,6 @@
                         </div>
                     </div>
 
-                    <!-- Business Profile Section -->
-                    <div id="business-section" class="content-section hidden">
-                        <div class="card">
-                            <h2 class="text-2xl font-bold text-primary mb-6">Business Profile</h2>
-
-                            <div class="space-y-8">
-                                <!-- Business Information -->
-                                <div>
-                                    <h3 class="text-lg font-semibold text-primary mb-4">Business Information</h3>
-                                    <div class="grid md:grid-cols-2 gap-6">
-                                        <div class="space-y-4">
-                                            <div>
-                                                <label class="block text-sm font-medium text-secondary-700 mb-2">Business
-                                                    Name</label>
-                                                <input type="text" value="TechStart Solutions" class="input-field" />
-                                            </div>
-                                            <div>
-                                                <label class="block text-sm font-medium text-secondary-700 mb-2">Business
-                                                    Type</label>
-                                                <select class="input-field">
-                                                    <option value="corporation">Corporation</option>
-                                                    <option value="llc">LLC</option>
-                                                    <option value="partnership">Partnership</option>
-                                                    <option value="sole_proprietorship">Sole Proprietorship</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label class="block text-sm font-medium text-secondary-700 mb-2">Tax ID /
-                                                    EIN</label>
-                                                <input type="text" value="12-3456789" class="input-field" />
-                                            </div>
-                                        </div>
-                                        <div class="space-y-4">
-                                            <div>
-                                                <label
-                                                    class="block text-sm font-medium text-secondary-700 mb-2">Industry</label>
-                                                <select class="input-field">
-                                                    <option value="technology">Technology</option>
-                                                    <option value="manufacturing">Manufacturing</option>
-                                                    <option value="retail">Retail</option>
-                                                    <option value="services">Services</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label class="block text-sm font-medium text-secondary-700 mb-2">Company
-                                                    Size</label>
-                                                <select class="input-field">
-                                                    <option value="1-10">1-10 employees</option>
-                                                    <option value="11-50">11-50 employees</option>
-                                                    <option value="51-200">51-200 employees</option>
-                                                    <option value="200+">200+ employees</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label class="block text-sm font-medium text-secondary-700 mb-2">Annual
-                                                    Revenue</label>
-                                                <select class="input-field">
-                                                    <option value="under_1m">Under $1M</option>
-                                                    <option value="1m_10m">$1M - $10M</option>
-                                                    <option value="10m_100m">$10M - $100M</option>
-                                                    <option value="over_100m">Over $100M</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Verification Status -->
-                                <div class="border-t border-secondary-200 pt-8">
-                                    <h3 class="text-lg font-semibold text-primary mb-4">Verification Status</h3>
-                                    <div class="space-y-4">
-                                        <div
-                                            class="flex items-center justify-between p-4 bg-success-50 border border-success-200 rounded-lg">
-                                            <div class="flex items-center space-x-3">
-                                                <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                <div>
-                                                    <h4 class="font-semibold text-success-700">Business Registration
-                                                        Verified</h4>
-                                                    <p class="text-success-600 text-sm">Your business registration has been
-                                                        verified</p>
-                                                </div>
-                                            </div>
-                                            <span class="text-success font-semibold text-sm">Verified</span>
-                                        </div>
-
-                                        <div
-                                            class="flex items-center justify-between p-4 bg-success-50 border border-success-200 rounded-lg">
-                                            <div class="flex items-center space-x-3">
-                                                <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                <div>
-                                                    <h4 class="font-semibold text-success-700">Tax ID Verified</h4>
-                                                    <p class="text-success-600 text-sm">Your tax identification number has
-                                                        been verified</p>
-                                                </div>
-                                            </div>
-                                            <span class="text-success font-semibold text-sm">Verified</span>
-                                        </div>
-
-                                        <div
-                                            class="flex items-center justify-between p-4 bg-warning-50 border border-warning-200 rounded-lg">
-                                            <div class="flex items-center space-x-3">
-                                                <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                <div>
-                                                    <h4 class="font-semibold text-warning-700">Financial Verification</h4>
-                                                    <p class="text-warning-600 text-sm">Upload bank statements for higher
-                                                        credit limits</p>
-                                                </div>
-                                            </div>
-                                            <button class="btn-primary">Upload</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Business Performance -->
-                                <div class="border-t border-secondary-200 pt-8">
-                                    <h3 class="text-lg font-semibold text-primary mb-4">Business Performance</h3>
-                                    <div class="grid md:grid-cols-3 gap-6">
-                                        <div class="text-center">
-                                            <div class="text-3xl font-bold text-accent mb-2">4.9</div>
-                                            <div class="text-secondary-600">Buyer Rating</div>
-                                            <div class="flex justify-center mt-2">
-                                                <div class="flex space-x-1">
-                                                    <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                                        <path
-                                                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                                    </svg>
-                                                    <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                                        <path
-                                                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                                    </svg>
-                                                    <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                                        <path
-                                                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                                    </svg>
-                                                    <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                                        <path
-                                                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                                    </svg>
-                                                    <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                                        <path
-                                                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-center">
-                                            <div class="text-3xl font-bold text-primary mb-2">156</div>
-                                            <div class="text-secondary-600">Total Orders</div>
-                                            <div class="text-success text-sm mt-2">↗ 23% this month</div>
-                                        </div>
-                                        <div class="text-center">
-                                            <div class="text-3xl font-bold text-success mb-2">$245K</div>
-                                            <div class="text-secondary-600">Total Spent</div>
-                                            <div class="text-success text-sm mt-2">↗ 15% this quarter</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mt-8 pt-6 border-t border-secondary-200">
-                                <button class="btn-primary" onclick="saveBusinessProfile()">Save Changes</button>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Subscription Section -->
                     <div id="subscription-section" class="content-section hidden">
