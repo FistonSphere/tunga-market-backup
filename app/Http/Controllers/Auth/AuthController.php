@@ -10,12 +10,14 @@ use App\Notifications\SendOtpNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -129,5 +131,44 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         return view('frontend.auth.user-profile', compact('user'));
+    }
+
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:50',
+            'last_name'  => 'required|string|max:50',
+            'email'      => 'required|email|max:255|unique:users,email,' . $user->id,
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        if ($request->hasFile('profile_picture')) {
+            $image      = $request->file('profile_picture');
+            $filename   = 'profile_' . $user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/'); // root of the public folder
+
+            // Delete old image if it exists (and is in public root)
+            if ($user->profile_picture) {
+                $oldImage = public_path(parse_url($user->profile_picture, PHP_URL_PATH));
+                if (File::exists($oldImage)) {
+                    File::delete($oldImage);
+                }
+            }
+
+            // Move the new image to the public root
+            $image->move($destinationPath, $filename);
+
+            // Save full URL in database
+            $user->profile_picture = url($filename); // Example: http://127.0.0.1:8000/profile_1_123456.jpg
+        }
+
+        $user->first_name = $validated['first_name'];
+        $user->last_name = $validated['last_name'];
+        $user->email = $validated['email'];
+        $user->save();
+
+        return response()->json(['success' => true, 'profile_picture' => $user->profile_picture]);
     }
 }
