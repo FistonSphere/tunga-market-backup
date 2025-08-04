@@ -1183,4 +1183,74 @@
             return `hsl(${hue}, 70%, 60%)`;
         }
     </script>
+
+    <script>
+        function previewProfileImage(event) {
+            const preview = document.getElementById('previewImage');
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = e => preview.src = e.target.result;
+                reader.readAsDataURL(file);
+            }
+        }
+
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const saveBtn = document.getElementById('saveButton');
+            const loader = document.getElementById('loadingIcon');
+            const progressBar = document.getElementById('uploadProgressBar');
+            const progressFill = progressBar.querySelector('div');
+
+            loader.classList.remove('hidden');
+            progressBar.classList.remove('hidden');
+
+            fetch("{{ route('user.profile.update') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content')
+                    },
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    loader.classList.add('hidden');
+                    progressBar.classList.add('hidden');
+                    progressFill.style.width = '0%';
+
+                    if (data.success) {
+                        Toastify({
+                            text: "✅ Profile updated successfully!",
+                            duration: 3000,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: "#10b981"
+                        }).showToast();
+                    } else {
+                        Toastify({
+                            text: "❌ " + (data.message || 'Failed to update.'),
+                            duration: 3000,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: "#ef4444"
+                        }).showToast();
+                    }
+                })
+                .catch(() => {
+                    loader.classList.add('hidden');
+                    progressBar.classList.add('hidden');
+                    Toastify({
+                        text: "❌ Something went wrong.",
+                        duration: 3000,
+                        gravity: "top",
+                        position: "right",
+                        backgroundColor: "#ef4444"
+                    }).showToast();
+                });
+        });
+    </script>
 @endsection
