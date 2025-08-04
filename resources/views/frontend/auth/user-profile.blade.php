@@ -6,23 +6,41 @@
             <div class="flex flex-col lg:flex-row items-center justify-between">
                 <!-- Welcome Content -->
                 <div class="text-center lg:text-left mb-8 lg:mb-0">
+                    @php
+                        $user = auth()->user();
+                        $hasProfilePic = !empty($user->profile_image);
+                    @endphp
+
                     <div class="flex items-center justify-center lg:justify-start space-x-4 mb-4">
-                        <div id="userAvatar"
-                            class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                        </div>
+                        @if ($hasProfilePic)
+                            <img src="{{ $user->profile_image }}" alt="User Avatar"
+                                class="w-16 h-16 rounded-full object-cover border-4 border-white shadow-card" />
+                        @else
+                            <div id="welcomeAvatar"
+                                class="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-card border-4 border-white">
+                            </div>
+                        @endif
+
                         <div>
-                            <h1 class="text-3xl font-bold text-primary">Welcome back, {{ auth()->user()->first_name }}
-                                {{ auth()->user()->last_name }}!</h1>
+                            <h1 class="text-3xl font-bold text-primary">
+                                Welcome back, {{ $user->first_name }} {{ $user->last_name }}!
+                            </h1>
                             <p class="text-secondary-600">Tunga Market • Normal User</p>
                         </div>
                     </div>
+
+                    @if (!$hasProfilePic)
+                        <input type="hidden" id="welcomeFirstName" value="{{ $user->first_name }}">
+                        <input type="hidden" id="welcomeLastName" value="{{ $user->last_name }}">
+                    @endif
+
+
+
                     <p class="text-body-lg text-secondary-700 max-w-xl">
                         Manage your account, track your orders, and enjoy a seamless shopping experience all from your
                         personalized dashboard.
                     </p>
-                    <!-- Hidden values for JavaScript -->
-                    <input type="hidden" id="userFirstName" value="{{ Auth::user()->first_name }}">
-                    <input type="hidden" id="userLastName" value="{{ Auth::user()->last_name }}">
+
                 </div>
 
                 <!-- Quick Stats -->
@@ -1336,5 +1354,30 @@
         `;
         document.head.appendChild(style);
     </script>
-    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const avatarElement = document.getElementById('welcomeAvatar');
+            if (avatarElement) {
+                const firstName = document.getElementById('welcomeFirstName')?.value?.trim();
+                const lastName = document.getElementById('welcomeLastName')?.value?.trim();
+
+                if (firstName && lastName) {
+                    const initials = `${firstName[0]}${lastName[0]}`.toUpperCase();
+                    const color = stringToColor(initials);
+
+                    avatarElement.textContent = initials;
+                    avatarElement.style.backgroundColor = color;
+                }
+            }
+        });
+
+        function stringToColor(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const hue = Math.abs(hash % 360);
+            return `hsl(${hue}, 70%, 60%)`;
+        }
+    </script>
 @endsection
