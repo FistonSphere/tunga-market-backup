@@ -1336,4 +1336,5 @@
         `;
         document.head.appendChild(style);
     </script>
+    
 @endsection
