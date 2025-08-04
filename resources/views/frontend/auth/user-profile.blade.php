@@ -130,104 +130,106 @@
                 <div class="lg:col-span-3">
                     <!-- Profile Settings Section -->
                     <div id="profile-section" class="content-section">
-                        <div class="card">
-                            <div class="flex items-center justify-between mb-6">
-                                <h2 class="text-2xl font-bold text-primary">Profile Settings</h2>
-                                <div class="flex items-center space-x-2">
-                                    <div class="w-3 h-3 bg-success rounded-full"></div>
-                                    <span class="text-sm text-success font-semibold">Profile Complete</span>
-                                </div>
-                            </div>
-
-                            <div class="grid md:grid-cols-2 gap-8">
-                                <!-- Personal Information -->
-                                <div>
-                                    <h3 class="text-lg font-semibold text-primary mb-4">Personal Information</h3>
-                                    <div class="space-y-4">
-                                        <div>
-                                            <label class="block text-sm font-medium text-secondary-700 mb-2">Profile
-                                                Picture</label>
-                                            <div class="flex items-center space-x-4">
-                                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop"
-                                                    alt="Profile" class="w-16 h-16 rounded-full object-cover" />
-                                                <button
-                                                    class="text-accent hover:text-accent-600 font-semibold text-sm">Change
-                                                    Photo</button>
-                                            </div>
-                                        </div>
-                                        <div class="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label class="block text-sm font-medium text-secondary-700 mb-2">First
-                                                    Name</label>
-                                                <input type="text" value="{{ auth()->user()->first_name }}" class="input-field" />
-                                            </div>
-                                            <div>
-                                                <label class="block text-sm font-medium text-secondary-700 mb-2">Last
-                                                    Name</label>
-                                                <input type="text" value="{{ auth()->user()->last_name }}" class="input-field" />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-secondary-700 mb-2">Email
-                                                Address</label>
-                                            <input type="email" value="{{ auth()->user()->email }}" class="input-field" />
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-secondary-700 mb-2">Phone
-                                                Number</label>
-                                            <input type="tel" value="{{ auth()->user()->phone }}" class="input-field" />
-                                        </div>
+                        <form id="profileForm" enctype="multipart/form-data">
+                            @csrf
+                            <div class="card">
+                                <!-- Header & Status -->
+                                <div class="flex items-center justify-between mb-6">
+                                    <h2 class="text-2xl font-bold text-primary">Profile Settings</h2>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-3 h-3 bg-success rounded-full"></div>
+                                        <span class="text-sm text-success font-semibold">Profile Complete</span>
                                     </div>
                                 </div>
 
-                                <!-- Address Information -->
-                                <div>
-                                    <h3 class="text-lg font-semibold text-primary mb-4">Address Information</h3>
-                                    <div class="space-y-4">
-                                        <div>
-                                            <label class="block text-sm font-medium text-secondary-700 mb-2">Address Line
-                                                1</label>
-                                            <input type="text" value="{{ auth()->user()->address_line }}" class="input-field" />
-                                        </div>
-                                        <div class="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label
-                                                    class="block text-sm font-medium text-secondary-700 mb-2">City</label>
-                                                <input type="text" value="{{ auth()->user()->city }}" class="input-field" />
-                                            </div>
-                                            <div>
-                                                <label
-                                                    class="block text-sm font-medium text-secondary-700 mb-2">State</label>
-                                                <input type="text" value="{{ auth()->user()->state }}" class="input-field" />
-                                            </div>
-                                        </div>
+                                <div class="grid md:grid-cols-2 gap-8">
+                                    <!-- Personal Info -->
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-primary mb-4">Personal Information</h3>
                                         <div class="space-y-4">
+                                            <!-- Profile Picture Upload -->
                                             <div>
-                                                <label
-                                                    class="block text-sm font-medium text-secondary-700 mb-2">Country</label>
-                                                <select class="input-field">
-                                                    <option value="US">United States</option>
-                                                    <option value="CA">Canada</option>
-                                                    <option value="UK">United Kingdom</option>
-                                                </select>
+                                                <label class="block text-sm font-medium text-secondary-700 mb-2">Profile
+                                                    Picture</label>
+                                                <div class="flex items-center space-x-4">
+                                                    <img id="previewImage"
+                                                        src="{{ auth()->user()->profile_picture ?? 'https://via.placeholder.com/150' }}"
+                                                        alt="Profile" class="w-16 h-16 rounded-full object-cover" />
+                                                    <div class="relative">
+                                                        <input type="file" name="profile_picture" accept="image/*"
+                                                            class="absolute inset-0 opacity-0 cursor-pointer"
+                                                            onchange="previewProfileImage(event)" />
+                                                        <span
+                                                            class="text-accent hover:text-accent-600 font-semibold text-sm cursor-pointer">Change
+                                                            Photo</span>
+                                                    </div>
+                                                </div>
+                                                <div id="uploadProgressBar"
+                                                    class="w-full h-1 bg-gray-200 rounded mt-2 hidden">
+                                                    <div class="h-full bg-primary rounded" style="width: 0%"></div>
+                                                </div>
                                             </div>
+
+                                            <!-- Basic Info Inputs -->
+                                            <div class="grid grid-cols-2 gap-4">
+                                                <input type="text" name="first_name" class="input-field"
+                                                    placeholder="First Name" value="{{ auth()->user()->first_name }}"
+                                                    required />
+                                                <input type="text" name="last_name" class="input-field"
+                                                    placeholder="Last Name" value="{{ auth()->user()->last_name }}"
+                                                    required />
+                                            </div>
+                                            <input type="email" name="email" class="input-field" placeholder="Email"
+                                                value="{{ auth()->user()->email }}" required />
+                                            <input type="tel" name="phone" class="input-field" placeholder="Phone"
+                                                value="{{ auth()->user()->phone }}" />
+                                        </div>
+                                    </div>
+
+                                    <!-- Address Info -->
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-primary mb-4">Address Information</h3>
+                                        <div class="space-y-4">
+                                            <input type="text" name="address_line" class="input-field"
+                                                placeholder="Address Line 1"
+                                                value="{{ auth()->user()->address_line }}" />
+                                            <div class="grid grid-cols-2 gap-4">
+                                                <input type="text" name="city" class="input-field"
+                                                    placeholder="City" value="{{ auth()->user()->city }}" />
+                                                <input type="text" name="state" class="input-field"
+                                                    placeholder="State" value="{{ auth()->user()->state }}" />
+                                            </div>
+                                            <select name="country" class="input-field">
+                                                <option value="US" @selected(auth()->user()->country == 'US')>United States</option>
+                                                <option value="CA" @selected(auth()->user()->country == 'CA')>Canada</option>
+                                                <option value="UK" @selected(auth()->user()->country == 'UK')>United Kingdom</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="mt-8 pt-6 border-t border-secondary-200">
-                                <div class="flex items-center justify-between">
+                                <!-- Save Buttons -->
+                                <div class="mt-8 pt-6 border-t border-secondary-200 flex items-center justify-between">
                                     <div class="text-sm text-secondary-600">
-                                        Last updated: January 26, 2025 at 2:30 PM UTC
+                                        Last updated: {{ auth()->user()->updated_at->format('F d, Y \a\t h:i A') }} UTC
                                     </div>
                                     <div class="flex space-x-3">
-                                        <button class="btn-secondary">Cancel</button>
-                                        <button class="btn-primary" onclick="saveProfile()">Save Changes</button>
+                                        <button type="reset" class="btn-secondary">Cancel</button>
+                                        <button type="submit" id="saveButton"
+                                            class="btn-primary flex items-center space-x-2">
+                                            <span>Save Changes</span>
+                                            <svg id="loadingIcon" class="w-4 h-4 animate-spin hidden"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                    stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
 
                     <!-- Order History Section -->
