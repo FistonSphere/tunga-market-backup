@@ -256,16 +256,28 @@
                     </a>
                     <!-- If user is authenticated -->
                     @auth
+                        @php
+                            $user = Auth::user();
+                            $hasProfilePic = !empty($user->profile_image);
+                        @endphp
+
                         <!-- User Profile & Actions -->
                         <div class="hidden md:flex items-center space-x-4">
                             <a href="{{ route('user.profile') }}" class="flex items-center space-x-3">
-                                <div id="userAvatar"
-                                    class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                                </div>
-                                <a href="{{ route('user.profile') }}" class="text-primary font-semibold">
-                                    Hi, {{ Auth::user()->first_name ?? 'My Account' }}
-                                </a>
+                                @if ($hasProfilePic)
+                                    <img src="{{ $user->profile_image }}" alt="User Avatar"
+                                        class="w-8 h-8 rounded-full object-cover" />
+                                @else
+                                    <div id="userAvatar"
+                                        class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                    </div>
+                                @endif
+
+                                <span class="text-primary font-semibold">
+                                    Hi, {{ $user->first_name ?? 'My Account' }}
+                                </span>
                             </a>
+
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="btn-primary">
@@ -273,10 +285,14 @@
                                 </button>
                             </form>
                         </div>
-                        <!-- Hidden values for JavaScript -->
-                        <input type="hidden" id="userFirstName" value="{{ Auth::user()->first_name }}">
-                        <input type="hidden" id="userLastName" value="{{ Auth::user()->last_name }}">
+
+                        @if (!$hasProfilePic)
+                            <!-- Hidden values for JavaScript -->
+                            <input type="hidden" id="userFirstName" value="{{ $user->first_name }}">
+                            <input type="hidden" id="userLastName" value="{{ $user->last_name }}">
+                        @endif
                     @endauth
+
 
                     @guest
                         <a href="{{ route('login') }}" class="text-primary hover:text-accent transition-fast">Sign In</a>
@@ -353,16 +369,28 @@
                     <!-- Mobile Actions -->
                     <!-- If user is authenticated -->
                     @auth
+                        @php
+                            $user = Auth::user();
+                            $hasProfilePic = !empty($user->profile_image);
+                        @endphp
+
                         <!-- User Profile & Actions -->
                         <div class="hidden md:flex items-center space-x-4">
                             <a href="{{ route('user.profile') }}" class="flex items-center space-x-3">
-                                <div id="userAvatar"
-                                    class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                                </div>
-                                <a href="{{ route('user.profile') }}" class="text-primary font-semibold">
-                                    Hi, {{ Auth::user()->first_name ?? 'My Account' }}
-                                </a>
+                                @if ($hasProfilePic)
+                                    <img src="{{ $user->profile_image }}" alt="User Avatar"
+                                        class="w-8 h-8 rounded-full object-cover" />
+                                @else
+                                    <div id="userAvatar"
+                                        class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                    </div>
+                                @endif
+
+                                <span class="text-primary font-semibold">
+                                    Hi, {{ $user->first_name ?? 'My Account' }}
+                                </span>
                             </a>
+
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="btn-primary">
@@ -370,10 +398,14 @@
                                 </button>
                             </form>
                         </div>
-                        <!-- Hidden values for JavaScript -->
-                        <input type="hidden" id="userFirstName" value="{{ Auth::user()->first_name }}">
-                        <input type="hidden" id="userLastName" value="{{ Auth::user()->last_name }}">
+
+                        @if (!$hasProfilePic)
+                            <!-- Hidden values for JavaScript -->
+                            <input type="hidden" id="userFirstName" value="{{ $user->first_name }}">
+                            <input type="hidden" id="userLastName" value="{{ $user->last_name }}">
+                        @endif
                     @endauth
+
 
                     <!-- If user is NOT authenticated -->
                     @guest
@@ -1554,31 +1586,31 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const firstName = document.getElementById('userFirstName')?.value?.trim();
-            const lastName = document.getElementById('userLastName')?.value?.trim();
-            const avatarElement = document.getElementById('userAvatar');
+            const avatar = document.getElementById('userAvatar');
+            if (avatar) {
+                const firstName = document.getElementById('userFirstName')?.value?.trim();
+                const lastName = document.getElementById('userLastName')?.value?.trim();
 
-            if (firstName && lastName && avatarElement) {
-                const initials = `${firstName[0]}${lastName[0]}`.toUpperCase();
+                if (firstName && lastName) {
+                    const initials = `${firstName[0]}${lastName[0]}`.toUpperCase();
+                    const bgColor = generateColorFromString(initials);
 
-                // Generate a background color based on initials (basic hash)
-                const color = stringToColor(initials);
-
-                avatarElement.textContent = initials;
-                avatarElement.style.backgroundColor = color;
+                    avatar.textContent = initials;
+                    avatar.style.backgroundColor = bgColor;
+                }
             }
         });
 
-        // Hash string to pastel color
-        function stringToColor(str) {
+        function generateColorFromString(str) {
             let hash = 0;
             for (let i = 0; i < str.length; i++) {
                 hash = str.charCodeAt(i) + ((hash << 5) - hash);
             }
-            const hue = hash % 360;
-            return `hsl(${hue}, 70%, 60%)`; // pastel shade
+            const hue = Math.abs(hash % 360);
+            return `hsl(${hue}, 70%, 60%)`;
         }
     </script>
+
 
 </body>
 

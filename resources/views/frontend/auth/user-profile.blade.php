@@ -167,23 +167,23 @@
                                             <div>
                                                 <label class="block text-sm font-medium text-secondary-700 mb-2">First
                                                     Name</label>
-                                                <input type="text" value="John" class="input-field" />
+                                                <input type="text" value="{{ auth()->user()->first_name }}" class="input-field" />
                                             </div>
                                             <div>
                                                 <label class="block text-sm font-medium text-secondary-700 mb-2">Last
                                                     Name</label>
-                                                <input type="text" value="Smith" class="input-field" />
+                                                <input type="text" value="{{ auth()->user()->last_name }}" class="input-field" />
                                             </div>
                                         </div>
                                         <div>
                                             <label class="block text-sm font-medium text-secondary-700 mb-2">Email
                                                 Address</label>
-                                            <input type="email" value="john.smith@techstart.com" class="input-field" />
+                                            <input type="email" value="{{ auth()->user()->email }}" class="input-field" />
                                         </div>
                                         <div>
                                             <label class="block text-sm font-medium text-secondary-700 mb-2">Phone
                                                 Number</label>
-                                            <input type="tel" value="+1 (555) 123-4567" class="input-field" />
+                                            <input type="tel" value="{{ auth()->user()->phone }}" class="input-field" />
                                         </div>
                                     </div>
                                 </div>
@@ -193,38 +193,23 @@
                                     <h3 class="text-lg font-semibold text-primary mb-4">Address Information</h3>
                                     <div class="space-y-4">
                                         <div>
-                                            <label
-                                                class="block text-sm font-medium text-secondary-700 mb-2">Company</label>
-                                            <input type="text" value="TechStart Solutions" class="input-field" />
-                                        </div>
-                                        <div>
                                             <label class="block text-sm font-medium text-secondary-700 mb-2">Address Line
                                                 1</label>
-                                            <input type="text" value="123 Business Park Drive" class="input-field" />
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-secondary-700 mb-2">Address Line
-                                                2</label>
-                                            <input type="text" value="Suite 200" class="input-field" />
+                                            <input type="text" value="{{ auth()->user()->address_line }}" class="input-field" />
                                         </div>
                                         <div class="grid grid-cols-2 gap-4">
                                             <div>
                                                 <label
                                                     class="block text-sm font-medium text-secondary-700 mb-2">City</label>
-                                                <input type="text" value="San Francisco" class="input-field" />
+                                                <input type="text" value="{{ auth()->user()->city }}" class="input-field" />
                                             </div>
                                             <div>
                                                 <label
                                                     class="block text-sm font-medium text-secondary-700 mb-2">State</label>
-                                                <input type="text" value="CA" class="input-field" />
+                                                <input type="text" value="{{ auth()->user()->state }}" class="input-field" />
                                             </div>
                                         </div>
                                         <div class="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label class="block text-sm font-medium text-secondary-700 mb-2">ZIP
-                                                    Code</label>
-                                                <input type="text" value="94107" class="input-field" />
-                                            </div>
                                             <div>
                                                 <label
                                                     class="block text-sm font-medium text-secondary-700 mb-2">Country</label>
