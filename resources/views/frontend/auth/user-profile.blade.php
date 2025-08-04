@@ -7,8 +7,9 @@
                 <!-- Welcome Content -->
                 <div class="text-center lg:text-left mb-8 lg:mb-0">
                     <div class="flex items-center justify-center lg:justify-start space-x-4 mb-4">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop"
-                            alt="User Avatar" class="w-16 h-16 rounded-full object-cover border-4 border-white shadow-card" />
+                        <div id="userAvatar"
+                            class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                        </div>
                         <div>
                             <h1 class="text-3xl font-bold text-primary">Welcome back, {{ auth()->user()->first_name }}
                                 {{ auth()->user()->last_name }}!</h1>
@@ -19,7 +20,9 @@
                         Manage your account, track your orders, and enjoy a seamless shopping experience all from your
                         personalized dashboard.
                     </p>
-
+                    <!-- Hidden values for JavaScript -->
+                    <input type="hidden" id="userFirstName" value="{{ Auth::user()->first_name }}">
+                    <input type="hidden" id="userLastName" value="{{ Auth::user()->last_name }}">
                 </div>
 
                 <!-- Quick Stats -->
