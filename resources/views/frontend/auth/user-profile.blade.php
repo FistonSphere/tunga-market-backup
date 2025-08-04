@@ -10,14 +10,16 @@
                         <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop"
                             alt="User Avatar" class="w-16 h-16 rounded-full object-cover border-4 border-white shadow-card" />
                         <div>
-                            <h1 class="text-3xl font-bold text-primary">Welcome back, John!</h1>
-                            <p class="text-secondary-600">TechStart Solutions • Premium Member</p>
+                            <h1 class="text-3xl font-bold text-primary">Welcome back, {{ auth()->user()->first_name }}
+                                {{ auth()->user()->last_name }}!</h1>
+                            <p class="text-secondary-600">Tunga Market • Normal User</p>
                         </div>
                     </div>
                     <p class="text-body-lg text-secondary-700 max-w-xl">
-                        Manage your account, track orders, and optimize your business operations from your personalized
-                        dashboard.
+                        Manage your account, track your orders, and enjoy a seamless shopping experience all from your
+                        personalized dashboard.
                     </p>
+
                 </div>
 
                 <!-- Quick Stats -->

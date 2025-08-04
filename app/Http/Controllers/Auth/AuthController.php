@@ -124,4 +124,10 @@ class AuthController extends Controller
         Session::flush();
         return redirect()->back()->with('message', 'You have been logged out successfully.');
     }
+
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('frontend.auth.user-profile', compact('user'));
+    }
 }

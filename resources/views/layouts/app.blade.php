@@ -258,22 +258,24 @@
                     @auth
                         <!-- User Profile & Actions -->
                         <div class="hidden md:flex items-center space-x-4">
-                            <div class="flex items-center space-x-3">
+                            <a href="{{ route('user.profile') }}" class="flex items-center space-x-3">
                                 <div id="userAvatar"
                                     class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                                 </div>
                                 <a href="{{ route('user.profile') }}" class="text-primary font-semibold">
-                                     Hi, {{ Auth::user()->first_name ?? 'My Account' }}
+                                    Hi, {{ Auth::user()->first_name ?? 'My Account' }}
                                 </a>
-                            </div>
+                            </a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit"
-                                    class="btn-primary">
+                                <button type="submit" class="btn-primary">
                                     Logout
                                 </button>
                             </form>
                         </div>
+                        <!-- Hidden values for JavaScript -->
+                        <input type="hidden" id="userFirstName" value="{{ Auth::user()->first_name }}">
+                        <input type="hidden" id="userLastName" value="{{ Auth::user()->last_name }}">
                     @endauth
 
                     @guest
@@ -353,22 +355,24 @@
                     @auth
                         <!-- User Profile & Actions -->
                         <div class="hidden md:flex items-center space-x-4">
-                            <div class="flex items-center space-x-3">
+                            <a href="{{ route('user.profile') }}" class="flex items-center space-x-3">
                                 <div id="userAvatar"
                                     class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                                 </div>
                                 <a href="{{ route('user.profile') }}" class="text-primary font-semibold">
-                                  Hi, {{ Auth::user()->first_name ?? 'My Account' }}
+                                    Hi, {{ Auth::user()->first_name ?? 'My Account' }}
                                 </a>
-                            </div>
+                            </a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit"
-                                    class="btn-primary">
+                                <button type="submit" class="btn-primary">
                                     Logout
                                 </button>
                             </form>
                         </div>
+                        <!-- Hidden values for JavaScript -->
+                        <input type="hidden" id="userFirstName" value="{{ Auth::user()->first_name }}">
+                        <input type="hidden" id="userLastName" value="{{ Auth::user()->last_name }}">
                     @endauth
 
                     <!-- If user is NOT authenticated -->
@@ -384,9 +388,7 @@
                 </div>
             </div>
         </nav>
-        <!-- Hidden values for JavaScript -->
-        <input type="hidden" id="userFirstName" value="{{ Auth::user()->first_name }}">
-        <input type="hidden" id="userLastName" value="{{ Auth::user()->last_name }}">
+
     </header>
 
     <!-- Full-Screen Search Overlay -->
