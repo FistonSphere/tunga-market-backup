@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\PasswordChangedNotification;
 use App\Mail\SendOtpMail;
 use App\Models\User;
 use App\Notifications\OtpRegistrationMail;
@@ -202,6 +203,8 @@ public function updatePassword(Request $request)
     }
 
     $user->password = Hash::make($request->new_password);
+    // Send notification email
+    Mail::to($user->email)->send(new PasswordChangedNotification($user, $request->new_password));
     $user->save();
 
     return response()->json(['message' => 'Password updated successfully.']);

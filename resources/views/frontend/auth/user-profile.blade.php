@@ -433,29 +433,49 @@
                                 <!-- Password Security -->
                                 <div>
                                     <h3 class="text-lg font-semibold text-primary mb-4">Password Security</h3>
-                                    <div class="space-y-4">
-                                        <div>
-                                            <label class="block text-sm font-medium text-secondary-700 mb-2">Current
-                                                Password</label>
-                                            <input type="password" class="input-field"
-                                                placeholder="Enter current password" />
-                                        </div>
-                                        <div class="grid md:grid-cols-2 gap-4">
+                                    <form id="update-password-form" method="POST"
+                                        action="{{ route('profile.update.password') }}">
+                                        @csrf
+
+                                        <div class="space-y-4">
                                             <div>
-                                                <label class="block text-sm font-medium text-secondary-700 mb-2">New
+                                                <label class="block text-sm font-medium text-secondary-700 mb-2">Current
                                                     Password</label>
-                                                <input type="password" class="input-field"
-                                                    placeholder="Enter new password" />
+                                                <input type="password" name="current_password" class="input-field"
+                                                    placeholder="Enter current password" />
+                                                <span class="text-red-600 text-sm block mt-1"
+                                                    id="error-current-password"></span>
                                             </div>
-                                            <div>
-                                                <label class="block text-sm font-medium text-secondary-700 mb-2">Confirm
-                                                    New Password</label>
-                                                <input type="password" class="input-field"
-                                                    placeholder="Confirm new password" />
+
+                                            <div class="grid md:grid-cols-2 gap-4">
+                                                <div>
+                                                    <label class="block text-sm font-medium text-secondary-700 mb-2">New
+                                                        Password</label>
+                                                    <input type="password" name="new_password" class="input-field"
+                                                        placeholder="Enter new password" />
+                                                    <span class="text-red-600 text-sm block mt-1"
+                                                        id="error-new-password"></span>
+                                                </div>
+
+                                                <div>
+                                                    <label
+                                                        class="block text-sm font-medium text-secondary-700 mb-2">Confirm
+                                                        New Password</label>
+                                                    <input type="password" name="new_password_confirmation"
+                                                        class="input-field" placeholder="Confirm new password" />
+                                                    <span class="text-red-600 text-sm block mt-1"
+                                                        id="error-new-password-confirmation"></span>
+                                                </div>
                                             </div>
+
+                                            <button type="submit" id="update-password-btn" class="btn-primary">
+                                                <span class="default-text">Update Password</span>
+                                                <span class="loading-spinner hidden"><i
+                                                        class="fas fa-spinner fa-spin"></i> Updating...</span>
+                                            </button>
                                         </div>
-                                        <button class="btn-primary">Update Password</button>
-                                    </div>
+                                    </form>
+
                                 </div>
 
                                 <!-- Two-Factor Authentication -->
@@ -522,7 +542,8 @@
                                                 <div class="w-3 h-3 bg-secondary-400 rounded-full"></div>
                                                 <div>
                                                     <h4 class="font-semibold text-primary">Mobile Session</h4>
-                                                    <p class="text-secondary-600 text-sm">Tunga Market Mobile App • Los Angeles,
+                                                    <p class="text-secondary-600 text-sm">Tunga Market Mobile App • Los
+                                                        Angeles,
                                                         CA • Last active: 2 hours ago</p>
                                                 </div>
                                             </div>
