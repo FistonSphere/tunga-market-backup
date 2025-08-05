@@ -1,6 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
+    @if (session('success'))
+        <div id="toast"
+            class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg animate-slide-in transition-opacity duration-300 ease-in-out z-50">
+            {{ session('success') }}
+        </div>
+
+        <script>
+            // Auto-hide toast after 3 seconds
+            setTimeout(() => {
+                const toast = document.getElementById('toast');
+                if (toast) {
+                    toast.classList.add('opacity-0');
+                    setTimeout(() => toast.remove(), 300); // remove from DOM
+                }
+            }, 3000);
+        </script>
+
+        <style>
+            @keyframes slide-in {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .animate-slide-in {
+                animation: slide-in 0.3s ease-out;
+            }
+        </style>
+    @endif
     <!-- Hero Section -->
     <section class="relative bg-gradient-to-br from-primary-50 to-accent-50 py-20">
         <div class="absolute inset-0 opacity-10">
@@ -146,7 +181,8 @@
                     </p>
                 </div>
 
-                <form method="POST" action="{{ route('contact.store') }}" enctype="multipart/form-data" class="space-y-6">
+                <form id="contact-request-form" method="POST" action="{{ route('contact.store') }}"
+                    enctype="multipart/form-data" class="space-y-6">
                     @csrf
                     <!-- Contact Type Display -->
                     <div id="selected-contact-type" class="hidden bg-accent-50 border border-accent-200 rounded-lg p-4">
@@ -1088,7 +1124,7 @@
             }, 5000);
         }
 
-       
+
         // Schedule visit functionality
         function scheduleVisit(office) {
             const offices = {
@@ -1355,6 +1391,87 @@
                     }
                 });
             });
+        });
+    </script>
+
+    <script>
+        document.getElementById('contact-request-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const button = document.querySelector('#submit-btn');
+            const defaultText = button.querySelector('.default-text');
+            const spinner = button.querySelector('.loading-spinner');
+
+            defaultText.classList.add('hidden');
+            spinner.classList.remove('hidden');
+
+            // Clear previous error messages
+            document.querySelectorAll('[id^=error-]').forEach(el => el.innerText = '');
+
+            fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                .then(response => response.json().then(data => ({
+                    status: response.status,
+                    body: data
+                })))
+                .then(({
+                    status,
+                    body
+                }) => {
+                    defaultText.classList.remove('hidden');
+                    spinner.classList.add('hidden');
+
+                    if (status === 200) {
+                        Toastify({
+                            text: body.message,
+                            backgroundColor: "#16a34a",
+                            className: "toast-success",
+                            duration: 3000,
+                        }).showToast();
+
+                        form.reset();
+                    } else if (status === 422) {
+                        const errors = body.errors;
+                        Object.keys(errors).forEach(key => {
+                            const errorEl = document.getElementById(
+                            `error-${key.replaceAll('_', '-')}`);
+                            if (errorEl) errorEl.innerText = errors[key][0];
+                        });
+
+                        Toastify({
+                            text: "Please fix the errors and try again.",
+                            backgroundColor: "#dc2626",
+                            className: "toast-error",
+                            duration: 3000,
+                        }).showToast();
+                    } else {
+                        Toastify({
+                            text: "An unexpected error occurred.",
+                            backgroundColor: "#dc2626",
+                            className: "toast-error",
+                            duration: 3000,
+                        }).showToast();
+                    }
+                })
+                .catch(error => {
+                    defaultText.classList.remove('hidden');
+                    spinner.classList.add('hidden');
+
+                    Toastify({
+                        text: "Network error. Please try again later.",
+                        backgroundColor: "#dc2626",
+                        className: "toast-error",
+                        duration: 3000,
+                    }).showToast();
+                });
         });
     </script>
 @endsection

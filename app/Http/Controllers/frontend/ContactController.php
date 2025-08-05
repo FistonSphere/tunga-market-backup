@@ -38,7 +38,7 @@ class ContactController extends Controller
             'priority' => 'required|in:low,medium,high',
             'contact_type_title' => 'nullable|string|max:255',
             'contact_type_description' => 'nullable|string|max:255',
-            'callback-request' => 'nullable|boolean',
+            'callback-request' => 'nullable',
             'callback-time' => 'nullable|string',
             'callback-timezone' => 'nullable|string',
             'attachments.*' => 'nullable|file|max:10240|mimes:pdf,doc,docx,xls,xlsx,png,jpg,jpeg',
@@ -88,13 +88,13 @@ class ContactController extends Controller
         Mail::to($contact->email)->send(new ContactRequestConfirmation($contact));
         Log::info("📨 Confirmation email sent to: {$contact->email}");
 
-        return response()->json(['message' => 'Your message has been sent successfully!']);
+        return redirect()->back()->with('success', 'Your message has been sent successfully. We will get back to you shortly.');
     } catch (\Exception $e) {
         Log::error('❌ Error in contact form submission', [
             'message' => $e->getMessage(),
             'trace' => $e->getTraceAsString(),
         ]);
-        return response()->json(['message' => 'Something went wrong. Please try again later.'], 500);
+        return redirect()->back()->with('error', 'Something went wrong. Please try again later.');
     }
 }
 
