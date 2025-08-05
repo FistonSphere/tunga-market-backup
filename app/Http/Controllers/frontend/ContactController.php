@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactRequestNotification;
 use App\Mail\ContactRequestConfirmation;
 use App\Models\ContactRequest;
+use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
 {
@@ -20,7 +21,10 @@ class ContactController extends Controller
    }
 
    public function store(Request $request)
-    {
+{
+    Log::debug('📥 Contact form submission received.', $request->all());
+
+    try {
         // ✅ 1. Validate input
         $validated = $request->validate([
             'first-name' => 'required|string|max:100',
@@ -40,12 +44,15 @@ class ContactController extends Controller
             'attachments.*' => 'nullable|file|max:10240|mimes:pdf,doc,docx,xls,xlsx,png,jpg,jpeg',
         ]);
 
+        Log::debug('✅ Validation passed.', $validated);
+
         // ✅ 2. Handle file uploads
         $attachmentPaths = [];
         if ($request->hasFile('attachments')) {
             foreach ($request->file('attachments') as $file) {
                 $path = $file->store('contact_attachments', 'public');
-                $attachmentPaths[] = Storage::url($path); // Generates public URL
+                $attachmentPaths[] = Storage::url($path);
+                Log::debug("📎 File uploaded: {$path}");
             }
         }
 
@@ -68,15 +75,27 @@ class ContactController extends Controller
             'callback_timezone' => $request->input('callback-timezone'),
         ]);
 
+        Log::info('💾 Contact request saved', ['id' => $contact->id]);
+
         // ✅ 4. Notify Admin(s)
-        $admins = User::where('role', 1)->get(); // Role 1 = admin
+        $admins = User::where('role', 1)->get();
         foreach ($admins as $admin) {
+            Log::info("📧 Sending notification to admin: {$admin->email}");
             Mail::to($admin->email)->send(new ContactRequestNotification($contact));
         }
 
         // ✅ 5. Notify user (confirmation)
         Mail::to($contact->email)->send(new ContactRequestConfirmation($contact));
+        Log::info("📨 Confirmation email sent to: {$contact->email}");
 
         return response()->json(['message' => 'Your message has been sent successfully!']);
+    } catch (\Exception $e) {
+        Log::error('❌ Error in contact form submission', [
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(),
+        ]);
+        return response()->json(['message' => 'Something went wrong. Please try again later.'], 500);
     }
+}
+
 }
