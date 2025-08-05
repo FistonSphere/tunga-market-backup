@@ -136,50 +136,7 @@ class AuthController extends Controller
         return view('frontend.auth.user-profile', compact('user', 'countries'));
     }
 
-    // public function update(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     Log::info('Profile update initiated for user ID: ' . $user->id);
-
-    //     try {
-    //         $validated = $request->validate([
-    //             'first_name' => 'required|string|max:50',
-    //             'last_name'  => 'required|string|max:50',
-    //             'email'      => 'required|email|max:255|unique:users,email,' . $user->id,
-    //             'profile_picture' => 'nullable|image|max:2048',
-    //         ]);
-
-    //         Log::info('Validation passed.', $validated);
-
-    //         if ($request->hasFile('profile_picture')) {
-    //             $file = $request->file('profile_picture');
-    //             $filename = time() . '.' . $file->getClientOriginalExtension();
-    //             $path = $file->storeAs('public/profile_pictures', $filename);
-
-    //             $url = asset(Storage::url('profile_pictures/' . $filename));
-    //             $user->profile_picture = $url;
-
-    //             Log::info('Profile picture uploaded.', ['path' => $path, 'url' => $url]);
-    //         } else {
-    //             Log::info('No profile picture uploaded.');
-    //         }
-
-    //         $user->first_name = $validated['first_name'];
-    //         $user->last_name  = $validated['last_name'];
-    //         $user->email      = $validated['email'];
-    //         $user->save();
-
-    //         Log::info('User profile updated successfully.', ['user_id' => $user->id]);
-
-    //         return redirect()->back()->with('success', 'Profile updated successfully!');
-    //     } catch (\Exception $e) {
-    //         Log::error('Profile update failed: ' . $e->getMessage());
-    //         return redirect()->back()->with('error', 'An error occurred while updating your profile.');
-    //     }
-    // }
-
-
-   public function update(Request $request)
+      public function update(Request $request)
 {
     $user = Auth::user();
 
