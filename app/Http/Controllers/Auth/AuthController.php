@@ -206,6 +206,7 @@ class AuthController extends Controller
     $user->first_name = $validated['first_name'];
     $user->last_name = $validated['last_name'];
     $user->email = $validated['email'];
+    $user->updated_at = Carbon::now();
     $user->save();
 
     return response()->json(['success' => true]);
