@@ -152,9 +152,18 @@
                                                 <label class="block text-sm font-medium text-secondary-700 mb-2">Profile
                                                     Picture</label>
                                                 <div class="flex items-center space-x-4">
-                                                    <img id="previewImage"
-                                                        src="{{ auth()->user()->profile_picture ?? 'https://via.placeholder.com/150' }}"
-                                                        alt="Profile" class="w-16 h-16 rounded-full object-cover" />
+                                                    {{-- Image or Abbreviation --}}
+                                                    @if (auth()->user()->profile_picture)
+                                                        <img id="previewImage" src="{{ auth()->user()->profile_picture }}"
+                                                            alt="Profile" class="w-16 h-16 rounded-full object-cover" />
+                                                    @else
+                                                        <div id="previewImage"
+                                                            class="w-16 h-16 rounded-full bg-orange-500 text-white flex items-center justify-center text-lg font-semibold uppercase shadow-md" style="background-color:#92e153">
+                                                            {{ strtoupper(substr(auth()->user()->first_name, 0, 1) . substr(auth()->user()->last_name, 0, 1)) }}
+                                                        </div>
+                                                    @endif
+
+                                                    {{-- File Input Hidden Behind Change Photo --}}
                                                     <div class="relative">
                                                         <input type="file" name="profile_picture" accept="image/*"
                                                             class="absolute inset-0 opacity-0 cursor-pointer"
@@ -164,6 +173,7 @@
                                                             Photo</span>
                                                     </div>
                                                 </div>
+
                                                 <div id="uploadProgressBar"
                                                     class="w-full h-1 bg-gray-200 rounded mt-2 hidden">
                                                     <div class="h-full bg-primary rounded" style="width: 0%"></div>
@@ -1252,5 +1262,24 @@
                     }).showToast();
                 });
         });
+    </script>
+    <script>
+        function previewProfileImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = "Profile";
+                img.className = "w-16 h-16 rounded-full object-cover";
+
+                const previewContainer = document.getElementById('previewImage');
+                previewContainer.replaceWith(img);
+                img.id = "previewImage";
+            };
+            reader.readAsDataURL(file);
+        }
     </script>
 @endsection
