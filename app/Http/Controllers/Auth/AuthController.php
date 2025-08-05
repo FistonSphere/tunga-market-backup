@@ -183,6 +183,11 @@ class AuthController extends Controller
     $validated = $request->validate([
         'first_name' => 'required|string|max:50',
         'last_name'  => 'required|string|max:50',
+        'phone'=> 'nullable|string|max:20',
+        'city' => 'nullable|string|max:50',
+        'country' => 'nullable|string|max:50',
+        'state' => 'nullable|string|max:50',
+        'address_line' => 'nullable|string|max:255',
         'email'      => 'required|email|max:255|unique:users,email,' . $user->id,
         'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
     ]);
@@ -206,6 +211,11 @@ class AuthController extends Controller
     $user->first_name = $validated['first_name'];
     $user->last_name = $validated['last_name'];
     $user->email = $validated['email'];
+    $user->phone = $validated['phone'] ?? null;
+    $user->city = $validated['city'] ?? null;
+    $user->country = $validated['country'] ?? null;
+    $user->state = $validated['state'] ?? null;
+    $user->address_line = $validated['address_line'] ?? null;
     $user->updated_at = Carbon::now();
     $user->save();
 
