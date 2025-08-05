@@ -133,7 +133,7 @@ class AuthController extends Controller
         return view('frontend.auth.user-profile', compact('user'));
     }
 
-    public function update(Request $request)
+   public function update(Request $request)
     {
         $user = Auth::user();
 
@@ -144,31 +144,26 @@ class AuthController extends Controller
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
+        // Handle image upload
         if ($request->hasFile('profile_picture')) {
             $image      = $request->file('profile_picture');
             $filename   = 'profile_' . $user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/'); // root of the public folder
+            $path       = $image->storeAs('profile_pictures', $filename, 'public');
 
-            // Delete old image if it exists (and is in public root)
-            if ($user->profile_picture) {
-                $oldImage = public_path(parse_url($user->profile_picture, PHP_URL_PATH));
-                if (File::exists($oldImage)) {
-                    File::delete($oldImage);
-                }
+            // Delete old image if exists
+            if ($user->profile_picture && Storage::disk('public')->exists($user->profile_picture)) {
+                Storage::disk('public')->delete($user->profile_picture);
             }
 
-            // Move the new image to the public root
-            $image->move($destinationPath, $filename);
-
-            // Save full URL in database
-            $user->profile_picture = url($filename); // Example: http://127.0.0.1:8000/profile_1_123456.jpg
+            $user->profile_picture = $path; // Save path (e.g., profile_pictures/profile_1_123456.jpg)
         }
 
+        // Update basic info
         $user->first_name = $validated['first_name'];
         $user->last_name = $validated['last_name'];
         $user->email = $validated['email'];
         $user->save();
 
-        return response()->json(['success' => true, 'profile_picture' => $user->profile_picture]);
+        return response()->json(['success' => true]);
     }
 }
