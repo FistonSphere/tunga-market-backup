@@ -158,7 +158,8 @@
                                                             alt="Profile" class="w-16 h-16 rounded-full object-cover" />
                                                     @else
                                                         <div id="previewImage"
-                                                            class="w-16 h-16 rounded-full bg-orange-500 text-white flex items-center justify-center text-lg font-semibold uppercase shadow-md" style="background-color:#92e153">
+                                                            class="w-16 h-16 rounded-full bg-orange-500 text-white flex items-center justify-center text-lg font-semibold uppercase shadow-md"
+                                                            style="background-color:#92e153">
                                                             {{ strtoupper(substr(auth()->user()->first_name, 0, 1) . substr(auth()->user()->last_name, 0, 1)) }}
                                                         </div>
                                                     @endif
@@ -1218,52 +1219,73 @@
             loader.classList.remove('hidden');
             progressBar.classList.remove('hidden');
 
-            fetch("{{ route('user.profile.update') }}", {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content')
-                    },
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(data => {
-                    loader.classList.add('hidden');
-                    progressBar.classList.add('hidden');
-                    progressFill.style.width = '0%';
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', "{{ route('user.profile.update') }}", true);
+            xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute(
+                'content'));
 
-                    if (data.success) {
-                        Toastify({
-                            text: "✅ Profile updated successfully!",
-                            duration: 3000,
-                            gravity: "top",
-                            position: "right",
-                            backgroundColor: "#10b981"
-                        }).showToast();
-                    } else {
-                        Toastify({
-                            text: "❌ " + (data.message || 'Failed to update.'),
-                            duration: 3000,
-                            gravity: "top",
-                            position: "right",
-                            backgroundColor: "#ef4444"
-                        }).showToast();
-                    }
-                })
-                .catch(() => {
-                    loader.classList.add('hidden');
-                    progressBar.classList.add('hidden');
+            xhr.upload.addEventListener('progress', function(e) {
+                if (e.lengthComputable) {
+                    const percent = (e.loaded / e.total) * 100;
+                    progressFill.style.width = percent + '%';
+                }
+            });
+
+            xhr.onload = function() {
+                loader.classList.add('hidden');
+                progressBar.classList.add('hidden');
+                progressFill.style.width = '0%';
+
+                let res;
+                try {
+                    res = JSON.parse(xhr.responseText);
+                } catch (error) {
                     Toastify({
-                        text: "❌ Something went wrong.",
+                        text: "❌ Unexpected server error.",
                         duration: 3000,
                         gravity: "top",
                         position: "right",
                         backgroundColor: "#ef4444"
                     }).showToast();
-                });
+                    return;
+                }
+
+                if (xhr.status === 200 && res.success) {
+                    Toastify({
+                        text: "✅ Profile updated successfully!",
+                        duration: 3000,
+                        gravity: "top",
+                        position: "right",
+                        backgroundColor: "#10b981"
+                    }).showToast();
+
+                    // Optional: refresh page or just update avatar dynamically
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    Toastify({
+                        text: "❌ " + (res.message || "Update failed."),
+                        duration: 3000,
+                        gravity: "top",
+                        position: "right",
+                        backgroundColor: "#ef4444"
+                    }).showToast();
+                }
+            };
+
+            xhr.onerror = function() {
+                loader.classList.add('hidden');
+                progressBar.classList.add('hidden');
+                Toastify({
+                    text: "❌ Network error.",
+                    duration: 3000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "#ef4444"
+                }).showToast();
+            };
+
+            xhr.send(formData);
         });
-    
-    
     </script>
     <script>
         function previewProfileImage(event) {
