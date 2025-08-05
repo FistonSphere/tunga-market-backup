@@ -133,7 +133,7 @@ class AuthController extends Controller
         return view('frontend.auth.user-profile', compact('user'));
     }
 
-   public function update(Request $request)
+    public function update(Request $request)
     {
         $user = Auth::user();
 
@@ -164,6 +164,9 @@ class AuthController extends Controller
         $user->email = $validated['email'];
         $user->save();
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'image_url' => $user->profile_picture ? asset('storage/' . $user->profile_picture) : null
+        ]);
     }
 }
