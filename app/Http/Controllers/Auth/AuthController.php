@@ -133,45 +133,82 @@ class AuthController extends Controller
         return view('frontend.auth.user-profile', compact('user'));
     }
 
-    public function update(Request $request)
-    {
-        $user = Auth::user();
-        Log::info('Profile update initiated for user ID: ' . $user->id);
+    // public function update(Request $request)
+    // {
+    //     $user = Auth::user();
+    //     Log::info('Profile update initiated for user ID: ' . $user->id);
 
-        try {
-            $validated = $request->validate([
-                'first_name' => 'required|string|max:50',
-                'last_name'  => 'required|string|max:50',
-                'email'      => 'required|email|max:255|unique:users,email,' . $user->id,
-                'profile_picture' => 'nullable|image|max:2048',
-            ]);
+    //     try {
+    //         $validated = $request->validate([
+    //             'first_name' => 'required|string|max:50',
+    //             'last_name'  => 'required|string|max:50',
+    //             'email'      => 'required|email|max:255|unique:users,email,' . $user->id,
+    //             'profile_picture' => 'nullable|image|max:2048',
+    //         ]);
 
-            Log::info('Validation passed.', $validated);
+    //         Log::info('Validation passed.', $validated);
 
-            if ($request->hasFile('profile_picture')) {
-                $file = $request->file('profile_picture');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('public/profile_pictures', $filename);
+    //         if ($request->hasFile('profile_picture')) {
+    //             $file = $request->file('profile_picture');
+    //             $filename = time() . '.' . $file->getClientOriginalExtension();
+    //             $path = $file->storeAs('public/profile_pictures', $filename);
 
-                $url = asset(Storage::url('profile_pictures/' . $filename));
-                $user->profile_picture = $url;
+    //             $url = asset(Storage::url('profile_pictures/' . $filename));
+    //             $user->profile_picture = $url;
 
-                Log::info('Profile picture uploaded.', ['path' => $path, 'url' => $url]);
-            } else {
-                Log::info('No profile picture uploaded.');
-            }
+    //             Log::info('Profile picture uploaded.', ['path' => $path, 'url' => $url]);
+    //         } else {
+    //             Log::info('No profile picture uploaded.');
+    //         }
 
-            $user->first_name = $validated['first_name'];
-            $user->last_name  = $validated['last_name'];
-            $user->email      = $validated['email'];
-            $user->save();
+    //         $user->first_name = $validated['first_name'];
+    //         $user->last_name  = $validated['last_name'];
+    //         $user->email      = $validated['email'];
+    //         $user->save();
 
-            Log::info('User profile updated successfully.', ['user_id' => $user->id]);
+    //         Log::info('User profile updated successfully.', ['user_id' => $user->id]);
 
-            return redirect()->back()->with('success', 'Profile updated successfully!');
-        } catch (\Exception $e) {
-            Log::error('Profile update failed: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while updating your profile.');
+    //         return redirect()->back()->with('success', 'Profile updated successfully!');
+    //     } catch (\Exception $e) {
+    //         Log::error('Profile update failed: ' . $e->getMessage());
+    //         return redirect()->back()->with('error', 'An error occurred while updating your profile.');
+    //     }
+    // }
+
+
+   public function update(Request $request)
+{
+    $user = Auth::user();
+
+    $validated = $request->validate([
+        'first_name' => 'required|string|max:50',
+        'last_name'  => 'required|string|max:50',
+        'email'      => 'required|email|max:255|unique:users,email,' . $user->id,
+        'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+    ]);
+
+    if ($request->hasFile('profile_picture')) {
+        $file = $request->file('profile_picture');
+        $filename = 'profile_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+
+        // Store in 'profile_pictures' folder on the 'public' disk (this maps to storage/app/public)
+        $path = $file->storeAs('profile_pictures', $filename, 'public');
+
+        // Delete old picture if exists
+        if ($user->profile_picture && Storage::disk('public')->exists(str_replace('/storage/', '', parse_url($user->profile_picture, PHP_URL_PATH)))) {
+            Storage::disk('public')->delete(str_replace('/storage/', '', parse_url($user->profile_picture, PHP_URL_PATH)));
         }
+
+        // Save full URL
+        $user->profile_picture = asset('storage/' . $path);
     }
+
+    $user->first_name = $validated['first_name'];
+    $user->last_name = $validated['last_name'];
+    $user->email = $validated['email'];
+    $user->save();
+
+    return response()->json(['success' => true]);
+}
+
 }
