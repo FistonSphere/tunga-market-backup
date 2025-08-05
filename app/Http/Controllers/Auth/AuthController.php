@@ -133,40 +133,44 @@ class AuthController extends Controller
         return view('frontend.auth.user-profile', compact('user'));
     }
 
-    public function update(Request $request)
-    {
-        $user = Auth::user();
+   public function update(Request $request)
+{
+    $user = Auth::user();
+    Log::info('Profile update initiated for user ID: ' . $user->id);
 
+    try {
         $validated = $request->validate([
             'first_name' => 'required|string|max:50',
             'last_name'  => 'required|string|max:50',
             'email'      => 'required|email|max:255|unique:users,email,' . $user->id,
-            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'profile_picture' => 'nullable|image|max:2048',
         ]);
 
-        // Handle image upload
+        Log::info('Validation passed.', $validated);
+
         if ($request->hasFile('profile_picture')) {
-            $image      = $request->file('profile_picture');
-            $filename   = 'profile_' . $user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
-            $path       = $image->storeAs('profile_pictures', $filename, 'public');
+            $file = $request->file('profile_picture');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('public/profile_pictures', $filename);
 
-            // Delete old image if exists
-            if ($user->profile_picture && Storage::disk('public')->exists($user->profile_picture)) {
-                Storage::disk('public')->delete($user->profile_picture);
-            }
+            $url = asset(Storage::url('profile_pictures/' . $filename));
+            $user->profile_picture = $url;
 
-            $user->profile_picture = $path; // Save path (e.g., profile_pictures/profile_1_123456.jpg)
+            Log::info('Profile picture uploaded.', ['path' => $path, 'url' => $url]);
+        } else {
+            Log::info('No profile picture uploaded.');
         }
 
-        // Update basic info
         $user->first_name = $validated['first_name'];
-        $user->last_name = $validated['last_name'];
-        $user->email = $validated['email'];
+        $user->last_name  = $validated['last_name'];
+        $user->email      = $validated['email'];
         $user->save();
 
-        return response()->json([
-            'success' => true,
-            'image_url' => $user->profile_picture ? asset('storage/' . $user->profile_picture) : null
-        ]);
+        Log::info('User profile updated successfully.', ['user_id' => $user->id]);
+
+        return redirect()->back()->with('success', 'Profile updated successfully!');
+    } catch (\Exception $e) {
+        Log::error('Profile update failed: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'An error occurred while updating your profile.');
     }
 }
