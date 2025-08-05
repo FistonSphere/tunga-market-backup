@@ -21,6 +21,7 @@ Route::get('/product-view', [ProductListingController::class, 'showProduct'])->n
 Route::get('/authentication', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/product-compare-center', [ComparedController::class, 'index'])->name('compare');
 Route::get('/help-center', [HelpCenterController::class, 'index'])->name('help.center');
 Route::get('/careers', [CareerController::class, 'index'])->name('careers');
