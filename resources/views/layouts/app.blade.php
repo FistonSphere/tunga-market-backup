@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tunga Market - Where Business Grows Together</title>
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
+    <!-- Toastify CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+<!-- Toastify JS -->
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description"
         content="Next-generation B2B/B2C hybrid marketplace that transcends traditional e-commerce limitations through trading ecosystem and immersive visual storytelling." />
@@ -510,7 +516,7 @@
             </div>
         </div>
     </div>
-    
+
 
     @yield('content')
 

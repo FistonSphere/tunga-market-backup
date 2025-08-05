@@ -1288,13 +1288,14 @@
                 if (xhr.status === 200 && res.success) {
                     Toastify({
                         text: "✅ Profile updated successfully!",
-                        duration: 1000,
+                        duration: 1500,
                         gravity: "top",
                         position: "right",
-                        backgroundColor: "#10b981"
+                        backgroundColor: "#10b981",
+                        callback: function() {
+                            location.reload(); // Guaranteed reload after toast ends
+                        }
                     }).showToast();
-
-                    setTimeout(() => location.reload(), 1000); // Adjust delay as you like
                 } else {
                     Toastify({
                         text: "❌ " + (res.message || "Update failed."),
@@ -1320,9 +1321,6 @@
 
             xhr.send(formData);
         });
-
-
-
     </script>
     <script>
         function previewProfileImage(event) {
