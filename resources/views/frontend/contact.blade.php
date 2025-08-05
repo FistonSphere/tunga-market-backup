@@ -146,7 +146,8 @@
                     </p>
                 </div>
 
-                <form id="contact-form" class="space-y-6">
+                <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
+                    @csrf
                     <!-- Contact Type Display -->
                     <div id="selected-contact-type" class="hidden bg-accent-50 border border-accent-200 rounded-lg p-4">
                         <div class="flex items-center space-x-3">
@@ -200,7 +201,7 @@
                             <label for="phone" class="block text-sm font-medium text-secondary-700 mb-2">Phone
                                 Number</label>
                             <input type="tel" id="phone" name="phone" class="input-field"
-                                placeholder="+1 (555) 123-4567" />
+                                placeholder="+250 78XXXXXX" />
                         </div>
                     </div>
 
@@ -287,7 +288,7 @@
                                     class="text-accent font-semibold">browse</span></p>
                             <p class="text-xs text-gray-500">Max 10MB per file. Supports: PDF, DOC, DOCX, XLS, XLSX, PNG,
                                 JPG</p>
-                            <input type="file" id="file-input" multiple
+                            <input type="file" id="file-input" multiple name="attachments[]"
                                 accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" class="hidden" />
                         </div>
                         <div id="file-list" class="mt-3 space-y-2 hidden"></div>
@@ -1087,6 +1088,7 @@
             }, 5000);
         }
 
+       
         // Schedule visit functionality
         function scheduleVisit(office) {
             const offices = {
