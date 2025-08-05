@@ -257,7 +257,7 @@
                                 <!-- Save Buttons -->
                                 <div class="mt-8 pt-6 border-t border-secondary-200 flex items-center justify-between">
                                     <div class="text-sm text-secondary-600">
-                                        Last updated: {{ auth()->user()->updated_at->format('F d, Y \a\t h:i A') }} UTC
+                                        Last updated: {{ auth()->user()->updated_at->format('F d, Y \a\t h:i A') }} 
                                     </div>
                                     <div class="flex space-x-3">
                                         <button type="reset" class="btn-secondary">Cancel</button>
