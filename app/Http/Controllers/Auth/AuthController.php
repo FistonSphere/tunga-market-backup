@@ -18,12 +18,14 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use PragmaRX\Countries\Package\Countries;
 
 class AuthController extends Controller
 {
     public function showLoginForm()
     {
         // Logic to show the login form
+        
         return view('frontend.auth.auth'); // Adjust the view name as necessary
     }
     public function register(Request $request)
@@ -130,7 +132,8 @@ class AuthController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        return view('frontend.auth.user-profile', compact('user'));
+         $countries = Countries::all()->pluck('name.common')->sort();
+        return view('frontend.auth.user-profile', compact('user', 'countries'));
     }
 
     // public function update(Request $request)

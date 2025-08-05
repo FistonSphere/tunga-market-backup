@@ -246,10 +246,13 @@
                                                     placeholder="State" value="{{ auth()->user()->state }}" />
                                             </div>
                                             <select name="country" class="input-field">
-                                                <option value="US" @selected(auth()->user()->country == 'US')>United States</option>
-                                                <option value="CA" @selected(auth()->user()->country == 'CA')>Canada</option>
-                                                <option value="UK" @selected(auth()->user()->country == 'UK')>United Kingdom</option>
+                                                @foreach ($countries as $country)
+                                                    <option value="{{ $country }}" @selected(auth()->user()->country == $country)>
+                                                        {{ $country }}
+                                                    </option>
+                                                @endforeach
                                             </select>
+
                                         </div>
                                     </div>
                                 </div>
@@ -257,7 +260,7 @@
                                 <!-- Save Buttons -->
                                 <div class="mt-8 pt-6 border-t border-secondary-200 flex items-center justify-between">
                                     <div class="text-sm text-secondary-600">
-                                        Last updated: {{ auth()->user()->updated_at->format('F d, Y \a\t h:i A') }} 
+                                        Last updated: {{ auth()->user()->updated_at->format('F d, Y \a\t h:i A') }}
                                     </div>
                                     <div class="flex space-x-3">
                                         <button type="reset" class="btn-secondary">Cancel</button>
