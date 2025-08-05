@@ -978,7 +978,7 @@
 
         // Global functions for button clicks
         function toggleCart() {
-            window.location.href = "shopping_cart.html";
+            window.location.href = "{{ route('cart') }}";
         }
 
         function toggleWishlist() {

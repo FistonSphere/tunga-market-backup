@@ -842,7 +842,7 @@
                 <span class="text-xs font-semibold">Wishlist</span>
             </button>
 
-            <button onclick="window.location.href='shopping_cart.html'"
+            <button onclick="window.location.href='{{ route('cart') }}'"
                 class="flex flex-col items-center p-2 text-secondary-600 hover:text-primary transition-fast">
                 <div class="relative">
                     <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -855,7 +855,7 @@
                 <span class="text-xs">Cart</span>
             </button>
 
-            <button onclick="window.location.href='order_tracking_center.html'"
+            <button onclick="window.location.href='{{ route('order.tracking') }}'"
                 class="flex flex-col items-center p-2 text-secondary-600 hover:text-primary transition-fast">
                 <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1527,7 +1527,7 @@
             sessionStorage.setItem('fullWishlistData', JSON.stringify(wishlistData));
 
             // Navigate to full wishlist page (would be a separate page in real implementation)
-            window.location.href = 'shopping_cart.html#wishlist';
+            window.location.href = '{{ route('cart') }}#wishlist';
         }
 
         function hideToast() {

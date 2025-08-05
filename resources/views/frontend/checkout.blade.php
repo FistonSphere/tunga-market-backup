@@ -8,7 +8,7 @@
                 <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
-                <a href="shopping_cart.html" class="text-secondary-600 hover:text-primary transition-fast">Shopping Cart</a>
+                <a href="{{ route('cart') }}" class="text-secondary-600 hover:text-primary transition-fast">Shopping Cart</a>
                 <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
@@ -1456,7 +1456,7 @@
         }
 
         function goBackToCart() {
-            window.location.href = 'shopping_cart.html';
+            window.location.href = '{{ route('cart') }}';
         }
 
         function editStep(stepNumber) {

@@ -9,6 +9,7 @@ use App\Http\Controllers\frontend\ComparedController;
 use App\Http\Controllers\frontend\ContactController;
 use App\Http\Controllers\frontend\HelpCenterController;
 use App\Http\Controllers\frontend\HomeController;
+use App\Http\Controllers\frontend\OrderTrackingController;
 use App\Http\Controllers\frontend\ProductListingController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,7 @@ Route::get('/help-center', [HelpCenterController::class, 'index'])->name('help.c
 Route::get('/careers', [CareerController::class, 'index'])->name('careers');
 Route::get('/shopping-cart', [CartController::class, 'index'])->name('cart');
 Route::get('/checkout-process', [CheckoutController::class, 'index'])->name('checkout');
+Route::get('/order-tracking', [OrderTrackingController::class, 'index'])->name('order.tracking');
 
 
 // Start Authentication routes
