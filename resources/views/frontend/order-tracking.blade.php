@@ -1011,7 +1011,7 @@
             if (orderTracker.selectedOrder) {
                 orderTracker.showToast('Adding to Cart', 'Items being added to your cart...', 'info');
                 setTimeout(() => {
-                    window.location.href = 'shopping_cart.html';
+                    window.location.href = '{{ route('cart') }}';
                 }, 1500);
             }
         }
@@ -1024,12 +1024,10 @@
             orderTracker.showToast('Customer Support', 'Connecting you to customer support...', 'info');
         }
 
-        function toggleWishlist() {
-            window.location.href = 'wishlist_popup.html';
-        }
+        
 
         function toggleCart() {
-            window.location.href = 'shopping_cart.html';
+            window.location.href = '{{ route('cart') }}';
         }
 
         function hideToast() {

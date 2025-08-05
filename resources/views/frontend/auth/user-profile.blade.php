@@ -522,7 +522,7 @@
                                                 <div class="w-3 h-3 bg-secondary-400 rounded-full"></div>
                                                 <div>
                                                     <h4 class="font-semibold text-primary">Mobile Session</h4>
-                                                    <p class="text-secondary-600 text-sm">AliMax Mobile App • Los Angeles,
+                                                    <p class="text-secondary-600 text-sm">Tunga Market Mobile App • Los Angeles,
                                                         CA • Last active: 2 hours ago</p>
                                                 </div>
                                             </div>
@@ -1079,7 +1079,7 @@
                 // Simulate logout process
                 setTimeout(() => {
                     showNotification('Logged Out Successfully',
-                        'You have been safely logged out. Thank you for using AliMax Commerce!', 'success');
+                        'You have been safely logged out. Thank you for using Tunga Market!', 'success');
 
                     // Redirect to authentication page after delay
                     setTimeout(() => {
