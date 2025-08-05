@@ -7,7 +7,6 @@
 
         #otpModal {
             backdrop-filter: blur(10px);
-            border-collapse:   collapse;
             background-color: rgb(0 0 0 / 58%);
         }
     </style>

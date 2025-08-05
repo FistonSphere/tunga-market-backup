@@ -433,620 +433,565 @@
                                 <!-- Password Security -->
                                 <div>
                                     <h3 class="text-lg font-semibold text-primary mb-4">Password Security</h3>
-                                    <form id="update-password-form" method="POST"
-                                        action="{{ route('profile.update.password') }}">
-                                        @csrf
-
-                                        <div class="space-y-4">
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-secondary-700 mb-2">Current
+                                                Password</label>
+                                            <input type="password" class="input-field"
+                                                placeholder="Enter current password" />
+                                        </div>
+                                        <div class="grid md:grid-cols-2 gap-4">
                                             <div>
-                                                <label class="block text-sm font-medium text-secondary-700 mb-2">Current
+                                                <label class="block text-sm font-medium text-secondary-700 mb-2">New
                                                     Password</label>
-                                                <input type="password" name="current_password" class="input-field"
-                                                    placeholder="Enter current password" />
-                                                <span class="text-red-600 text-sm block mt-1"
-                                                    id="error-current-password"></span>
+                                                <input type="password" class="input-field"
+                                                    placeholder="Enter new password" />
                                             </div>
-
-                                            <div class="grid md:grid-cols-2 gap-4">
-                                                <div>
-                                                    <label class="block text-sm font-medium text-secondary-700 mb-2">New
-                                                        Password</label>
-                                                    <input type="password" name="new_password" class="input-field"
-                                                        placeholder="Enter new password" />
-                                                    <span class="text-red-600 text-sm block mt-1"
-                                                        id="error-new-password"></span>
-                                                </div>
-
-                                                <div>
-                                                    <label
-                                                        class="block text-sm font-medium text-secondary-700 mb-2">Confirm
-                                                        New Password</label>
-                                                    <input type="password" name="new_password_confirmation"
-                                                        class="input-field" placeholder="Confirm new password" />
-                                                    <span class="text-red-600 text-sm block mt-1"
-                                                        id="error-new-password-confirmation"></span>
-                                                </div>
-                                            </div>
-
-                                            <button type="submit" id="update-password-btn" class="btn-primary">
-                                                <span class="default-text">Update Password</span>
-                                                <span class="loading-spinner hidden"><i
-                                                        class="fas fa-spinner fa-spin"></i> Updating...</span>
-                                            </button>
-                                        </div>
-                                    </form>
-
-
-                                    <!-- Two-Factor Authentication -->
-                                    <div class="border-t border-secondary-200 pt-8">
-                                        <h3 class="text-lg font-semibold text-primary mb-4">Two-Factor Authentication</h3>
-                                        <div class="bg-warning-50 border border-warning-200 rounded-lg p-4 mb-4">
-                                            <div class="flex items-start space-x-3">
-                                                <svg class="w-5 h-5 text-warning mt-0.5" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                                                </svg>
-                                                <div>
-                                                    <h4 class="font-semibold text-warning-700">Two-Factor Authentication
-                                                        Not
-                                                        Enabled</h4>
-                                                    <p class="text-warning-600 text-sm">Add an extra layer of security to
-                                                        your
-                                                        account by enabling 2FA</p>
-                                                </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-secondary-700 mb-2">Confirm
+                                                    New Password</label>
+                                                <input type="password" class="input-field"
+                                                    placeholder="Confirm new password" />
                                             </div>
                                         </div>
-                                        <div class="space-y-4">
-                                            <div
-                                                class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
-                                                <div>
-                                                    <h4 class="font-semibold text-primary">SMS Authentication</h4>
-                                                    <p class="text-secondary-600 text-sm">Receive codes via text message
-                                                    </p>
-                                                </div>
-                                                <button class="btn-primary">Enable</button>
-                                            </div>
-                                            <div
-                                                class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
-                                                <div>
-                                                    <h4 class="font-semibold text-primary">Authenticator App</h4>
-                                                    <p class="text-secondary-600 text-sm">Use Google Authenticator or
-                                                        similar
-                                                        apps</p>
-                                                </div>
-                                                <button class="btn-primary">Setup</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Active Sessions -->
-                                    <div class="border-t border-secondary-200 pt-8">
-                                        <h3 class="text-lg font-semibold text-primary mb-4">Active Sessions</h3>
-                                        <div class="space-y-3">
-                                            <!-- Current Session -->
-                                            <div
-                                                class="flex items-center justify-between p-4 bg-success-50 border border-success-200 rounded-lg">
-                                                <div class="flex items-center space-x-3">
-                                                    <div class="w-3 h-3 bg-success rounded-full"></div>
-                                                    <div>
-                                                        <h4 class="font-semibold text-primary">Current Session</h4>
-                                                        <p class="text-secondary-600 text-sm">Chrome on Windows • San
-                                                            Francisco, CA • Last active: Now</p>
-                                                    </div>
-                                                </div>
-                                                <span class="text-success text-sm font-semibold">This Device</span>
-                                            </div>
-
-                                            <!-- Other Sessions -->
-                                            <div
-                                                class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
-                                                <div class="flex items-center space-x-3">
-                                                    <div class="w-3 h-3 bg-secondary-400 rounded-full"></div>
-                                                    <div>
-                                                        <h4 class="font-semibold text-primary">Mobile Session</h4>
-                                                        <p class="text-secondary-600 text-sm">AliMax Mobile App • Los
-                                                            Angeles,
-                                                            CA • Last active: 2 hours ago</p>
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    class="text-error hover:text-error-600 text-sm font-semibold">Revoke</button>
-                                            </div>
-
-                                            <div
-                                                class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
-                                                <div class="flex items-center space-x-3">
-                                                    <div class="w-3 h-3 bg-secondary-400 rounded-full"></div>
-                                                    <div>
-                                                        <h4 class="font-semibold text-primary">Safari Session</h4>
-                                                        <p class="text-secondary-600 text-sm">Safari on Mac • San
-                                                            Francisco, CA
-                                                            • Last active: 1 day ago</p>
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    class="text-error hover:text-error-600 text-sm font-semibold">Revoke</button>
-                                            </div>
-                                        </div>
-                                        <div class="mt-4">
-                                            <button class="text-error hover:text-error-600 font-semibold">Revoke All Other
-                                                Sessions</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Notifications Section -->
-                        <div id="notifications-section" class="content-section hidden">
-                            <div class="card">
-                                <h2 class="text-2xl font-bold text-primary mb-6">Notification Preferences</h2>
-
-                                <div class="space-y-8">
-                                    <!-- Email Notifications -->
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-primary mb-4">Email Notifications</h3>
-                                        <div class="space-y-4">
-                                            <label class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-semibold text-secondary-700">Order Updates</div>
-                                                    <div class="text-secondary-600 text-sm">Shipping confirmations,
-                                                        delivery
-                                                        notifications</div>
-                                                </div>
-                                                <input type="checkbox" checked
-                                                    class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                            </label>
-                                            <label class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-semibold text-secondary-700">Promotional Offers</div>
-                                                    <div class="text-secondary-600 text-sm">Special deals, discounts, and
-                                                        new
-                                                        product alerts</div>
-                                                </div>
-                                                <input type="checkbox" checked
-                                                    class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                            </label>
-                                            <label class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-semibold text-secondary-700">Account Security</div>
-                                                    <div class="text-secondary-600 text-sm">Login alerts, password changes,
-                                                        security updates</div>
-                                                </div>
-                                                <input type="checkbox" checked
-                                                    class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                            </label>
-                                            <label class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-semibold text-secondary-700">Weekly Summary</div>
-                                                    <div class="text-secondary-600 text-sm">Weekly business performance and
-                                                        activity summary</div>
-                                                </div>
-                                                <input type="checkbox"
-                                                    class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <!-- SMS Notifications -->
-                                    <div class="border-t border-secondary-200 pt-8">
-                                        <h3 class="text-lg font-semibold text-primary mb-4">SMS Notifications</h3>
-                                        <div class="space-y-4">
-                                            <label class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-semibold text-secondary-700">Critical Order Updates
-                                                    </div>
-                                                    <div class="text-secondary-600 text-sm">Urgent shipping delays,
-                                                        delivery
-                                                        issues</div>
-                                                </div>
-                                                <input type="checkbox" checked
-                                                    class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                            </label>
-                                            <label class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-semibold text-secondary-700">Security Alerts</div>
-                                                    <div class="text-secondary-600 text-sm">Suspicious login attempts,
-                                                        account
-                                                        changes</div>
-                                                </div>
-                                                <input type="checkbox" checked
-                                                    class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                            </label>
-                                            <label class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-semibold text-secondary-700">Delivery Notifications
-                                                    </div>
-                                                    <div class="text-secondary-600 text-sm">Package out for delivery,
-                                                        delivered
-                                                        confirmations</div>
-                                                </div>
-                                                <input type="checkbox"
-                                                    class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <!-- Push Notifications -->
-                                    <div class="border-t border-secondary-200 pt-8">
-                                        <h3 class="text-lg font-semibold text-primary mb-4">Push Notifications</h3>
-                                        <div class="space-y-4">
-                                            <label class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-semibold text-secondary-700">Real-time Order Updates
-                                                    </div>
-                                                    <div class="text-secondary-600 text-sm">Live tracking, status changes
-                                                    </div>
-                                                </div>
-                                                <input type="checkbox" checked
-                                                    class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                            </label>
-                                            <label class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-semibold text-secondary-700">Community Activity</div>
-                                                    <div class="text-secondary-600 text-sm">New messages, forum replies,
-                                                        mentions</div>
-                                                </div>
-                                                <input type="checkbox"
-                                                    class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                            </label>
-                                            <label class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-semibold text-secondary-700">Price Alerts</div>
-                                                    <div class="text-secondary-600 text-sm">Watchlist price drops, special
-                                                        offers</div>
-                                                </div>
-                                                <input type="checkbox"
-                                                    class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                            </label>
-                                        </div>
+                                        <button class="btn-primary">Update Password</button>
                                     </div>
                                 </div>
 
-                                <div class="mt-8 pt-6 border-t border-secondary-200">
-                                    <button class="btn-primary" onclick="saveNotificationSettings()">Save
-                                        Preferences</button>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <!-- Subscription Section -->
-                        <div id="subscription-section" class="content-section hidden">
-                            <div class="card">
-                                <h2 class="text-2xl font-bold text-primary mb-6">Subscription & Billing</h2>
-
-                                <div class="space-y-8">
-                                    <!-- Current Plan -->
-                                    <div>
+                                <!-- Two-Factor Authentication -->
+                                <div class="border-t border-secondary-200 pt-8">
+                                    <h3 class="text-lg font-semibold text-primary mb-4">Two-Factor Authentication</h3>
+                                    <div class="bg-warning-50 border border-warning-200 rounded-lg p-4 mb-4">
+                                        <div class="flex items-start space-x-3">
+                                            <svg class="w-5 h-5 text-warning mt-0.5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                                            </svg>
+                                            <div>
+                                                <h4 class="font-semibold text-warning-700">Two-Factor Authentication Not
+                                                    Enabled</h4>
+                                                <p class="text-warning-600 text-sm">Add an extra layer of security to your
+                                                    account by enabling 2FA</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-4">
                                         <div
-                                            class="bg-gradient-to-r from-primary to-accent rounded-lg p-6 text-white mb-6">
-                                            <div class="flex items-center justify-between">
-                                                <div>
-                                                    <h3 class="text-2xl font-bold mb-2">Premium Business Plan</h3>
-                                                    <p class="opacity-90">Enhanced features for growing businesses</p>
-                                                </div>
-                                                <div class="text-right">
-                                                    <div class="text-3xl font-bold">$99</div>
-                                                    <div class="opacity-90">per month</div>
-                                                </div>
+                                            class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
+                                            <div>
+                                                <h4 class="font-semibold text-primary">SMS Authentication</h4>
+                                                <p class="text-secondary-600 text-sm">Receive codes via text message</p>
                                             </div>
+                                            <button class="btn-primary">Enable</button>
                                         </div>
-
-                                        <div class="grid md:grid-cols-2 gap-6">
+                                        <div
+                                            class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
                                             <div>
-                                                <h4 class="font-semibold text-primary mb-3">Plan Features</h4>
-                                                <ul class="space-y-2">
-                                                    <li class="flex items-center space-x-2">
-                                                        <svg class="w-4 h-4 text-success" fill="none"
-                                                            stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="M5 13l4 4L19 7" />
-                                                        </svg>
-                                                        <span class="text-secondary-600">Unlimited orders</span>
-                                                    </li>
-                                                    <li class="flex items-center space-x-2">
-                                                        <svg class="w-4 h-4 text-success" fill="none"
-                                                            stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="M5 13l4 4L19 7" />
-                                                        </svg>
-                                                        <span class="text-secondary-600">Priority support</span>
-                                                    </li>
-                                                    <li class="flex items-center space-x-2">
-                                                        <svg class="w-4 h-4 text-success" fill="none"
-                                                            stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="M5 13l4 4L19 7" />
-                                                        </svg>
-                                                        <span class="text-secondary-600">Advanced analytics</span>
-                                                    </li>
-                                                    <li class="flex items-center space-x-2">
-                                                        <svg class="w-4 h-4 text-success" fill="none"
-                                                            stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="M5 13l4 4L19 7" />
-                                                        </svg>
-                                                        <span class="text-secondary-600">API access</span>
-                                                    </li>
-                                                    <li class="flex items-center space-x-2">
-                                                        <svg class="w-4 h-4 text-success" fill="none"
-                                                            stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="M5 13l4 4L19 7" />
-                                                        </svg>
-                                                        <span class="text-secondary-600">Dedicated account manager</span>
-                                                    </li>
-                                                </ul>
+                                                <h4 class="font-semibold text-primary">Authenticator App</h4>
+                                                <p class="text-secondary-600 text-sm">Use Google Authenticator or similar
+                                                    apps</p>
                                             </div>
-                                            <div>
-                                                <h4 class="font-semibold text-primary mb-3">Usage This Month</h4>
-                                                <div class="space-y-3">
-                                                    <div>
-                                                        <div class="flex justify-between text-sm mb-1">
-                                                            <span class="text-secondary-600">Orders</span>
-                                                            <span class="text-primary font-semibold">12 / Unlimited</span>
-                                                        </div>
-                                                        <div class="w-full bg-secondary-200 rounded-full h-2">
-                                                            <div class="bg-success h-2 rounded-full" style="width: 25%">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="flex justify-between text-sm mb-1">
-                                                            <span class="text-secondary-600">API Calls</span>
-                                                            <span class="text-primary font-semibold">8,450 / 50,000</span>
-                                                        </div>
-                                                        <div class="w-full bg-secondary-200 rounded-full h-2">
-                                                            <div class="bg-primary h-2 rounded-full" style="width: 17%">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="flex justify-between text-sm mb-1">
-                                                            <span class="text-secondary-600">Storage</span>
-                                                            <span class="text-primary font-semibold">2.1 GB / 10 GB</span>
-                                                        </div>
-                                                        <div class="w-full bg-secondary-200 rounded-full h-2">
-                                                            <div class="bg-accent h-2 rounded-full" style="width: 21%">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <button class="btn-primary">Setup</button>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <!-- Billing Information -->
-                                    <div class="border-t border-secondary-200 pt-8">
-                                        <h3 class="text-lg font-semibold text-primary mb-4">Billing Information</h3>
-                                        <div class="grid md:grid-cols-2 gap-6">
-                                            <div>
-                                                <h4 class="font-semibold text-secondary-700 mb-3">Payment Method</h4>
-                                                <div class="border border-secondary-200 rounded-lg p-4">
-                                                    <div class="flex items-center space-x-3">
-                                                        <div
-                                                            class="w-8 h-8 bg-primary-100 rounded flex items-center justify-center">
-                                                            <svg class="w-4 h-4 text-primary" fill="none"
-                                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    stroke-width="2"
-                                                                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                                                            </svg>
-                                                        </div>
-                                                        <div>
-                                                            <div class="font-semibold text-primary">•••• •••• •••• 4532
-                                                            </div>
-                                                            <div class="text-secondary-600 text-sm">Expires 12/26</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    class="text-accent hover:text-accent-600 font-semibold text-sm mt-2">Update
-                                                    Payment Method</button>
-                                            </div>
-                                            <div>
-                                                <h4 class="font-semibold text-secondary-700 mb-3">Next Billing Date</h4>
-                                                <div class="border border-secondary-200 rounded-lg p-4">
-                                                    <div class="text-2xl font-bold text-primary">Feb 26, 2025</div>
-                                                    <div class="text-secondary-600">$99.00 will be charged</div>
+                                <!-- Active Sessions -->
+                                <div class="border-t border-secondary-200 pt-8">
+                                    <h3 class="text-lg font-semibold text-primary mb-4">Active Sessions</h3>
+                                    <div class="space-y-3">
+                                        <!-- Current Session -->
+                                        <div
+                                            class="flex items-center justify-between p-4 bg-success-50 border border-success-200 rounded-lg">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-3 h-3 bg-success rounded-full"></div>
+                                                <div>
+                                                    <h4 class="font-semibold text-primary">Current Session</h4>
+                                                    <p class="text-secondary-600 text-sm">Chrome on Windows • San
+                                                        Francisco, CA • Last active: Now</p>
                                                 </div>
                                             </div>
+                                            <span class="text-success text-sm font-semibold">This Device</span>
+                                        </div>
+
+                                        <!-- Other Sessions -->
+                                        <div
+                                            class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-3 h-3 bg-secondary-400 rounded-full"></div>
+                                                <div>
+                                                    <h4 class="font-semibold text-primary">Mobile Session</h4>
+                                                    <p class="text-secondary-600 text-sm">AliMax Mobile App • Los Angeles,
+                                                        CA • Last active: 2 hours ago</p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                class="text-error hover:text-error-600 text-sm font-semibold">Revoke</button>
+                                        </div>
+
+                                        <div
+                                            class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-3 h-3 bg-secondary-400 rounded-full"></div>
+                                                <div>
+                                                    <h4 class="font-semibold text-primary">Safari Session</h4>
+                                                    <p class="text-secondary-600 text-sm">Safari on Mac • San Francisco, CA
+                                                        • Last active: 1 day ago</p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                class="text-error hover:text-error-600 text-sm font-semibold">Revoke</button>
                                         </div>
                                     </div>
-
-                                    <!-- Billing History -->
-                                    <div class="border-t border-secondary-200 pt-8">
-                                        <h3 class="text-lg font-semibold text-primary mb-4">Billing History</h3>
-                                        <div class="space-y-3">
-                                            <div
-                                                class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
-                                                <div>
-                                                    <div class="font-semibold text-primary">Jan 26, 2025</div>
-                                                    <div class="text-secondary-600 text-sm">Premium Business Plan</div>
-                                                </div>
-                                                <div class="text-right">
-                                                    <div class="font-semibold text-primary">$99.00</div>
-                                                    <button
-                                                        class="text-accent hover:text-accent-600 text-sm">Download</button>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
-                                                <div>
-                                                    <div class="font-semibold text-primary">Dec 26, 2024</div>
-                                                    <div class="text-secondary-600 text-sm">Premium Business Plan</div>
-                                                </div>
-                                                <div class="text-right">
-                                                    <div class="font-semibold text-primary">$99.00</div>
-                                                    <button
-                                                        class="text-accent hover:text-accent-600 text-sm">Download</button>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
-                                                <div>
-                                                    <div class="font-semibold text-primary">Nov 26, 2024</div>
-                                                    <div class="text-secondary-600 text-sm">Premium Business Plan</div>
-                                                </div>
-                                                <div class="text-right">
-                                                    <div class="font-semibold text-primary">$99.00</div>
-                                                    <button
-                                                        class="text-accent hover:text-accent-600 text-sm">Download</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Plan Actions -->
-                                    <div class="border-t border-secondary-200 pt-8">
-                                        <div class="flex flex-col sm:flex-row gap-4">
-                                            <button class="btn-primary">Upgrade Plan</button>
-                                            <button class="btn-secondary">Change Plan</button>
-                                            <button class="text-error hover:text-error-600 font-semibold">Cancel
-                                                Subscription</button>
-                                        </div>
+                                    <div class="mt-4">
+                                        <button class="text-error hover:text-error-600 font-semibold">Revoke All Other
+                                            Sessions</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Support Section -->
-                        <div id="support-section" class="content-section hidden">
-                            <div class="card">
-                                <h2 class="text-2xl font-bold text-primary mb-6">Support & Help</h2>
+                    <!-- Notifications Section -->
+                    <div id="notifications-section" class="content-section hidden">
+                        <div class="card">
+                            <h2 class="text-2xl font-bold text-primary mb-6">Notification Preferences</h2>
 
-                                <div class="grid md:grid-cols-2 gap-8">
-                                    <!-- Quick Actions -->
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-primary mb-4">Quick Actions</h3>
-                                        <div class="space-y-3">
-                                            <button
-                                                class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
-                                                <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                                </svg>
-                                                <div>
-                                                    <div class="font-semibold text-primary">Start Live Chat</div>
-                                                    <div class="text-secondary-600 text-sm">Get instant help from our
-                                                        support
-                                                        team</div>
-                                                </div>
-                                            </button>
-                                            <button
-                                                class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
-                                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                                </svg>
-                                                <div>
-                                                    <div class="font-semibold text-primary">Submit Support Ticket</div>
-                                                    <div class="text-secondary-600 text-sm">Create a detailed support
-                                                        request
-                                                    </div>
-                                                </div>
-                                            </button>
-                                            <button
-                                                class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
-                                                <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                                </svg>
-                                                <div>
-                                                    <div class="font-semibold text-primary">Schedule Phone Call</div>
-                                                    <div class="text-secondary-600 text-sm">Book a call with our experts
-                                                    </div>
-                                                </div>
-                                            </button>
-                                            <button
-                                                class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
-                                                <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                                </svg>
-                                                <div>
-                                                    <div class="font-semibold text-primary">Browse Help Center</div>
-                                                    <div class="text-secondary-600 text-sm">Search our knowledge base</div>
-                                                </div>
-                                            </button>
+                            <div class="space-y-8">
+                                <!-- Email Notifications -->
+                                <div>
+                                    <h3 class="text-lg font-semibold text-primary mb-4">Email Notifications</h3>
+                                    <div class="space-y-4">
+                                        <label class="flex items-center justify-between">
+                                            <div>
+                                                <div class="font-semibold text-secondary-700">Order Updates</div>
+                                                <div class="text-secondary-600 text-sm">Shipping confirmations, delivery
+                                                    notifications</div>
+                                            </div>
+                                            <input type="checkbox" checked
+                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
+                                        </label>
+                                        <label class="flex items-center justify-between">
+                                            <div>
+                                                <div class="font-semibold text-secondary-700">Promotional Offers</div>
+                                                <div class="text-secondary-600 text-sm">Special deals, discounts, and new
+                                                    product alerts</div>
+                                            </div>
+                                            <input type="checkbox" checked
+                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
+                                        </label>
+                                        <label class="flex items-center justify-between">
+                                            <div>
+                                                <div class="font-semibold text-secondary-700">Account Security</div>
+                                                <div class="text-secondary-600 text-sm">Login alerts, password changes,
+                                                    security updates</div>
+                                            </div>
+                                            <input type="checkbox" checked
+                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
+                                        </label>
+                                        <label class="flex items-center justify-between">
+                                            <div>
+                                                <div class="font-semibold text-secondary-700">Weekly Summary</div>
+                                                <div class="text-secondary-600 text-sm">Weekly business performance and
+                                                    activity summary</div>
+                                            </div>
+                                            <input type="checkbox"
+                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- SMS Notifications -->
+                                <div class="border-t border-secondary-200 pt-8">
+                                    <h3 class="text-lg font-semibold text-primary mb-4">SMS Notifications</h3>
+                                    <div class="space-y-4">
+                                        <label class="flex items-center justify-between">
+                                            <div>
+                                                <div class="font-semibold text-secondary-700">Critical Order Updates</div>
+                                                <div class="text-secondary-600 text-sm">Urgent shipping delays, delivery
+                                                    issues</div>
+                                            </div>
+                                            <input type="checkbox" checked
+                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
+                                        </label>
+                                        <label class="flex items-center justify-between">
+                                            <div>
+                                                <div class="font-semibold text-secondary-700">Security Alerts</div>
+                                                <div class="text-secondary-600 text-sm">Suspicious login attempts, account
+                                                    changes</div>
+                                            </div>
+                                            <input type="checkbox" checked
+                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
+                                        </label>
+                                        <label class="flex items-center justify-between">
+                                            <div>
+                                                <div class="font-semibold text-secondary-700">Delivery Notifications</div>
+                                                <div class="text-secondary-600 text-sm">Package out for delivery, delivered
+                                                    confirmations</div>
+                                            </div>
+                                            <input type="checkbox"
+                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Push Notifications -->
+                                <div class="border-t border-secondary-200 pt-8">
+                                    <h3 class="text-lg font-semibold text-primary mb-4">Push Notifications</h3>
+                                    <div class="space-y-4">
+                                        <label class="flex items-center justify-between">
+                                            <div>
+                                                <div class="font-semibold text-secondary-700">Real-time Order Updates</div>
+                                                <div class="text-secondary-600 text-sm">Live tracking, status changes</div>
+                                            </div>
+                                            <input type="checkbox" checked
+                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
+                                        </label>
+                                        <label class="flex items-center justify-between">
+                                            <div>
+                                                <div class="font-semibold text-secondary-700">Community Activity</div>
+                                                <div class="text-secondary-600 text-sm">New messages, forum replies,
+                                                    mentions</div>
+                                            </div>
+                                            <input type="checkbox"
+                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
+                                        </label>
+                                        <label class="flex items-center justify-between">
+                                            <div>
+                                                <div class="font-semibold text-secondary-700">Price Alerts</div>
+                                                <div class="text-secondary-600 text-sm">Watchlist price drops, special
+                                                    offers</div>
+                                            </div>
+                                            <input type="checkbox"
+                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-8 pt-6 border-t border-secondary-200">
+                                <button class="btn-primary" onclick="saveNotificationSettings()">Save Preferences</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Subscription Section -->
+                    <div id="subscription-section" class="content-section hidden">
+                        <div class="card">
+                            <h2 class="text-2xl font-bold text-primary mb-6">Subscription & Billing</h2>
+
+                            <div class="space-y-8">
+                                <!-- Current Plan -->
+                                <div>
+                                    <div class="bg-gradient-to-r from-primary to-accent rounded-lg p-6 text-white mb-6">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <h3 class="text-2xl font-bold mb-2">Premium Business Plan</h3>
+                                                <p class="opacity-90">Enhanced features for growing businesses</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-3xl font-bold">$99</div>
+                                                <div class="opacity-90">per month</div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <!-- Account Status & History -->
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-primary mb-4">Account Status</h3>
-                                        <div class="space-y-4">
-                                            <div class="bg-success-50 border border-success-200 rounded-lg p-4">
-                                                <div class="flex items-center space-x-3">
-                                                    <svg class="w-5 h-5 text-success" fill="none"
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h4 class="font-semibold text-primary mb-3">Plan Features</h4>
+                                            <ul class="space-y-2">
+                                                <li class="flex items-center space-x-2">
+                                                    <svg class="w-4 h-4 text-success" fill="none"
                                                         stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                            stroke-width="2" d="M5 13l4 4L19 7" />
                                                     </svg>
+                                                    <span class="text-secondary-600">Unlimited orders</span>
+                                                </li>
+                                                <li class="flex items-center space-x-2">
+                                                    <svg class="w-4 h-4 text-success" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                    <span class="text-secondary-600">Priority support</span>
+                                                </li>
+                                                <li class="flex items-center space-x-2">
+                                                    <svg class="w-4 h-4 text-success" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                    <span class="text-secondary-600">Advanced analytics</span>
+                                                </li>
+                                                <li class="flex items-center space-x-2">
+                                                    <svg class="w-4 h-4 text-success" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                    <span class="text-secondary-600">API access</span>
+                                                </li>
+                                                <li class="flex items-center space-x-2">
+                                                    <svg class="w-4 h-4 text-success" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                    <span class="text-secondary-600">Dedicated account manager</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-primary mb-3">Usage This Month</h4>
+                                            <div class="space-y-3">
+                                                <div>
+                                                    <div class="flex justify-between text-sm mb-1">
+                                                        <span class="text-secondary-600">Orders</span>
+                                                        <span class="text-primary font-semibold">12 / Unlimited</span>
+                                                    </div>
+                                                    <div class="w-full bg-secondary-200 rounded-full h-2">
+                                                        <div class="bg-success h-2 rounded-full" style="width: 25%"></div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="flex justify-between text-sm mb-1">
+                                                        <span class="text-secondary-600">API Calls</span>
+                                                        <span class="text-primary font-semibold">8,450 / 50,000</span>
+                                                    </div>
+                                                    <div class="w-full bg-secondary-200 rounded-full h-2">
+                                                        <div class="bg-primary h-2 rounded-full" style="width: 17%"></div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="flex justify-between text-sm mb-1">
+                                                        <span class="text-secondary-600">Storage</span>
+                                                        <span class="text-primary font-semibold">2.1 GB / 10 GB</span>
+                                                    </div>
+                                                    <div class="w-full bg-secondary-200 rounded-full h-2">
+                                                        <div class="bg-accent h-2 rounded-full" style="width: 21%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Billing Information -->
+                                <div class="border-t border-secondary-200 pt-8">
+                                    <h3 class="text-lg font-semibold text-primary mb-4">Billing Information</h3>
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h4 class="font-semibold text-secondary-700 mb-3">Payment Method</h4>
+                                            <div class="border border-secondary-200 rounded-lg p-4">
+                                                <div class="flex items-center space-x-3">
+                                                    <div
+                                                        class="w-8 h-8 bg-primary-100 rounded flex items-center justify-center">
+                                                        <svg class="w-4 h-4 text-primary" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                                        </svg>
+                                                    </div>
                                                     <div>
-                                                        <div class="font-semibold text-success-700">Account in Good
-                                                            Standing
-                                                        </div>
-                                                        <div class="text-success-600 text-sm">All systems operational</div>
+                                                        <div class="font-semibold text-primary">•••• •••• •••• 4532</div>
+                                                        <div class="text-secondary-600 text-sm">Expires 12/26</div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <button
+                                                class="text-accent hover:text-accent-600 font-semibold text-sm mt-2">Update
+                                                Payment Method</button>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-secondary-700 mb-3">Next Billing Date</h4>
+                                            <div class="border border-secondary-200 rounded-lg p-4">
+                                                <div class="text-2xl font-bold text-primary">Feb 26, 2025</div>
+                                                <div class="text-secondary-600">$99.00 will be charged</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <!-- Billing History -->
+                                <div class="border-t border-secondary-200 pt-8">
+                                    <h3 class="text-lg font-semibold text-primary mb-4">Billing History</h3>
+                                    <div class="space-y-3">
+                                        <div
+                                            class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
                                             <div>
-                                                <h4 class="font-semibold text-secondary-700 mb-3">Recent Support Activity
-                                                </h4>
-                                                <div class="space-y-3">
-                                                    <div class="border border-secondary-200 rounded-lg p-3">
-                                                        <div class="flex justify-between items-start mb-2">
-                                                            <div class="font-semibold text-primary">Ticket #12345</div>
-                                                            <span
-                                                                class="px-2 py-1 bg-success-100 text-success-700 rounded text-xs font-semibold">Resolved</span>
-                                                        </div>
-                                                        <div class="text-secondary-600 text-sm mb-1">Payment processing
-                                                            issue
-                                                        </div>
-                                                        <div class="text-secondary-500 text-xs">Resolved on Jan 24, 2025
-                                                        </div>
-                                                    </div>
-                                                    <div class="border border-secondary-200 rounded-lg p-3">
-                                                        <div class="flex justify-between items-start mb-2">
-                                                            <div class="font-semibold text-primary">Ticket #12344</div>
-                                                            <span
-                                                                class="px-2 py-1 bg-success-100 text-success-700 rounded text-xs font-semibold">Resolved</span>
-                                                        </div>
-                                                        <div class="text-secondary-600 text-sm mb-1">API rate limit
-                                                            questions
-                                                        </div>
-                                                        <div class="text-secondary-500 text-xs">Resolved on Jan 20, 2025
-                                                        </div>
-                                                    </div>
+                                                <div class="font-semibold text-primary">Jan 26, 2025</div>
+                                                <div class="text-secondary-600 text-sm">Premium Business Plan</div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="font-semibold text-primary">$99.00</div>
+                                                <button class="text-accent hover:text-accent-600 text-sm">Download</button>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
+                                            <div>
+                                                <div class="font-semibold text-primary">Dec 26, 2024</div>
+                                                <div class="text-secondary-600 text-sm">Premium Business Plan</div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="font-semibold text-primary">$99.00</div>
+                                                <button class="text-accent hover:text-accent-600 text-sm">Download</button>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
+                                            <div>
+                                                <div class="font-semibold text-primary">Nov 26, 2024</div>
+                                                <div class="text-secondary-600 text-sm">Premium Business Plan</div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="font-semibold text-primary">$99.00</div>
+                                                <button class="text-accent hover:text-accent-600 text-sm">Download</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Plan Actions -->
+                                <div class="border-t border-secondary-200 pt-8">
+                                    <div class="flex flex-col sm:flex-row gap-4">
+                                        <button class="btn-primary">Upgrade Plan</button>
+                                        <button class="btn-secondary">Change Plan</button>
+                                        <button class="text-error hover:text-error-600 font-semibold">Cancel
+                                            Subscription</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support Section -->
+                    <div id="support-section" class="content-section hidden">
+                        <div class="card">
+                            <h2 class="text-2xl font-bold text-primary mb-6">Support & Help</h2>
+
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <!-- Quick Actions -->
+                                <div>
+                                    <h3 class="text-lg font-semibold text-primary mb-4">Quick Actions</h3>
+                                    <div class="space-y-3">
+                                        <button
+                                            class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
+                                            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                            </svg>
+                                            <div>
+                                                <div class="font-semibold text-primary">Start Live Chat</div>
+                                                <div class="text-secondary-600 text-sm">Get instant help from our support
+                                                    team</div>
+                                            </div>
+                                        </button>
+                                        <button
+                                            class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
+                                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                            </svg>
+                                            <div>
+                                                <div class="font-semibold text-primary">Submit Support Ticket</div>
+                                                <div class="text-secondary-600 text-sm">Create a detailed support request
                                                 </div>
                                             </div>
-
+                                        </button>
+                                        <button
+                                            class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
+                                            <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                            </svg>
                                             <div>
-                                                <h4 class="font-semibold text-secondary-700 mb-3">Useful Resources</h4>
-                                                <div class="space-y-2">
-                                                    <a href="#"
-                                                        class="block text-accent hover:text-accent-600 text-sm">Getting
-                                                        Started
-                                                        Guide</a>
-                                                    <a href="#"
-                                                        class="block text-accent hover:text-accent-600 text-sm">API
-                                                        Documentation</a>
-                                                    <a href="#"
-                                                        class="block text-accent hover:text-accent-600 text-sm">Video
-                                                        Tutorials</a>
-                                                    <a href="#"
-                                                        class="block text-accent hover:text-accent-600 text-sm">Community
-                                                        Forums</a>
+                                                <div class="font-semibold text-primary">Schedule Phone Call</div>
+                                                <div class="text-secondary-600 text-sm">Book a call with our experts</div>
+                                            </div>
+                                        </button>
+                                        <button
+                                            class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
+                                            <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                            </svg>
+                                            <div>
+                                                <div class="font-semibold text-primary">Browse Help Center</div>
+                                                <div class="text-secondary-600 text-sm">Search our knowledge base</div>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Account Status & History -->
+                                <div>
+                                    <h3 class="text-lg font-semibold text-primary mb-4">Account Status</h3>
+                                    <div class="space-y-4">
+                                        <div class="bg-success-50 border border-success-200 rounded-lg p-4">
+                                            <div class="flex items-center space-x-3">
+                                                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                <div>
+                                                    <div class="font-semibold text-success-700">Account in Good Standing
+                                                    </div>
+                                                    <div class="text-success-600 text-sm">All systems operational</div>
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <h4 class="font-semibold text-secondary-700 mb-3">Recent Support Activity</h4>
+                                            <div class="space-y-3">
+                                                <div class="border border-secondary-200 rounded-lg p-3">
+                                                    <div class="flex justify-between items-start mb-2">
+                                                        <div class="font-semibold text-primary">Ticket #12345</div>
+                                                        <span
+                                                            class="px-2 py-1 bg-success-100 text-success-700 rounded text-xs font-semibold">Resolved</span>
+                                                    </div>
+                                                    <div class="text-secondary-600 text-sm mb-1">Payment processing issue
+                                                    </div>
+                                                    <div class="text-secondary-500 text-xs">Resolved on Jan 24, 2025</div>
+                                                </div>
+                                                <div class="border border-secondary-200 rounded-lg p-3">
+                                                    <div class="flex justify-between items-start mb-2">
+                                                        <div class="font-semibold text-primary">Ticket #12344</div>
+                                                        <span
+                                                            class="px-2 py-1 bg-success-100 text-success-700 rounded text-xs font-semibold">Resolved</span>
+                                                    </div>
+                                                    <div class="text-secondary-600 text-sm mb-1">API rate limit questions
+                                                    </div>
+                                                    <div class="text-secondary-500 text-xs">Resolved on Jan 20, 2025</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <h4 class="font-semibold text-secondary-700 mb-3">Useful Resources</h4>
+                                            <div class="space-y-2">
+                                                <a href="#"
+                                                    class="block text-accent hover:text-accent-600 text-sm">Getting Started
+                                                    Guide</a>
+                                                <a href="#"
+                                                    class="block text-accent hover:text-accent-600 text-sm">API
+                                                    Documentation</a>
+                                                <a href="#"
+                                                    class="block text-accent hover:text-accent-600 text-sm">Video
+                                                    Tutorials</a>
+                                                <a href="#"
+                                                    class="block text-accent hover:text-accent-600 text-sm">Community
+                                                    Forums</a>
                                             </div>
                                         </div>
                                     </div>
@@ -1056,6 +1001,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </section>
 
     <script>
@@ -1446,7 +1392,7 @@
                         const errors = body.errors;
                         Object.keys(errors).forEach(key => {
                             const errorEl = document.getElementById(
-                            `error-${key.replaceAll('_', '-')}`);
+                                `error-${key.replaceAll('_', '-')}`);
                             if (errorEl) errorEl.innerText = errors[key][0];
                         });
 
