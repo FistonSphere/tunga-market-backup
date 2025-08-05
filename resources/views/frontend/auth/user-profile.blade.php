@@ -1262,6 +1262,8 @@
                     }).showToast();
                 });
         });
+    
+    
     </script>
     <script>
         function previewProfileImage(event) {
