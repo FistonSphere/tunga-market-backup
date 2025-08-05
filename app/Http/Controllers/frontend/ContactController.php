@@ -11,6 +11,7 @@ use App\Mail\ContactRequestNotification;
 use App\Mail\ContactRequestConfirmation;
 use App\Models\ContactRequest;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ContactController extends Controller
 {
@@ -47,14 +48,17 @@ class ContactController extends Controller
         Log::debug('✅ Validation passed.', $validated);
 
         // ✅ 2. Handle file uploads
-        $attachmentPaths = [];
-        if ($request->hasFile('attachments')) {
-            foreach ($request->file('attachments') as $file) {
-                $path = $file->store('contact_attachments', 'public');
-                $attachmentPaths[] = Storage::url($path);
-                Log::debug("📎 File uploaded: {$path}");
-            }
+        $attachments = [];
+
+    if ($request->hasFile('attachments')) {
+        foreach ($request->file('attachments') as $file) {
+            $filename = Str::random(40) . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('contact_attachments', $filename, 'public');
+
+            // Convert to full URL using asset()
+            $attachments[] = asset('storage/' . $path);
         }
+    }
 
         // ✅ 3. Save to database
         $contact = ContactRequest::create([
@@ -69,7 +73,7 @@ class ContactController extends Controller
             'priority' => $validated['priority'],
             'contact_type_title' => $request->input('contact_type_title'),
             'contact_type_description' => $request->input('contact_type_description'),
-            'attachments' => $attachmentPaths,
+            'attachments' => json_encode($attachments),
             'callback_requested' => $request->has('callback-request'),
             'callback_time' => $request->input('callback-time'),
             'callback_timezone' => $request->input('callback-timezone'),

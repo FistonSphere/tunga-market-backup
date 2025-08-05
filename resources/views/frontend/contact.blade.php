@@ -374,16 +374,28 @@
 
                     <!-- Submit Button -->
                     <div class="text-center">
-                        <button type="submit"
-                            class="bg-gradient-to-r from-accent to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-card hover:shadow-hover">
-                            Send Message
-                            <svg class="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                            </svg>
+                        <button id="send-message-btn" type="submit"
+                            class="bg-gradient-to-r from-accent to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-card hover:shadow-hover inline-flex items-center justify-center">
+
+                            <!-- Default button text -->
+                            <span class="default-text">Send Message</span>
+
+                            <!-- Loading spinner (hidden by default) -->
+                            <span class="loading-spinner hidden ml-2">
+                                <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                        stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                                </svg>
+                            </span>
+
                         </button>
-                        <p class="text-sm text-secondary-500 mt-3">We'll respond within the timeframe specified above</p>
+
+                        <p class="text-sm text-secondary-500 mt-3">
+                            We'll respond within the timeframe specified above
+                        </p>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -1400,7 +1412,7 @@
 
             const form = e.target;
             const formData = new FormData(form);
-            const button = document.querySelector('#submit-btn');
+            const button = document.querySelector('#send-message-btn');
             const defaultText = button.querySelector('.default-text');
             const spinner = button.querySelector('.loading-spinner');
 
@@ -1418,31 +1430,28 @@
                     },
                     body: formData
                 })
-                .then(response => response.json().then(data => ({
-                    status: response.status,
-                    body: data
-                })))
-                .then(({
-                    status,
-                    body
-                }) => {
+                .then(async (response) => {
+                    const contentType = response.headers.get("content-type");
+                    const isJson = contentType && contentType.indexOf("application/json") !== -1;
+                    const data = isJson ? await response.json() : {};
+
                     defaultText.classList.remove('hidden');
                     spinner.classList.add('hidden');
 
-                    if (status === 200) {
+                    if (response.ok) {
                         Toastify({
-                            text: body.message,
+                            text: data.message || "Message sent successfully.",
                             backgroundColor: "#16a34a",
                             className: "toast-success",
                             duration: 3000,
                         }).showToast();
 
                         form.reset();
-                    } else if (status === 422) {
-                        const errors = body.errors;
+                    } else if (response.status === 422) {
+                        const errors = data.errors || {};
                         Object.keys(errors).forEach(key => {
                             const errorEl = document.getElementById(
-                            `error-${key.replaceAll('_', '-')}`);
+                                `error-${key.replaceAll('_', '-')}`);
                             if (errorEl) errorEl.innerText = errors[key][0];
                         });
 
@@ -1466,11 +1475,12 @@
                     spinner.classList.add('hidden');
 
                     Toastify({
-                        text: "Network error. Please try again later.",
+                        text: "Network error: please try again.",
                         backgroundColor: "#dc2626",
                         className: "toast-error",
                         duration: 3000,
                     }).showToast();
+                    console.error("Network error:", error); // for debugging
                 });
         });
     </script>
