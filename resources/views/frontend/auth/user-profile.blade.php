@@ -433,16 +433,18 @@
                                 <!-- Password Security -->
                                 <div>
                                     <h3 class="text-lg font-semibold text-primary mb-4">Password Security</h3>
-                                    <div class="space-y-4">
-                                        <form id="passwordForm" method="POST"
-                                            action="{{ route('profile.password.update') }}" class="space-y-4">
-                                            @csrf
+                                    <form id="update-password-form" method="POST"
+                                        action="{{ route('profile.update.password') }}">
+                                        @csrf
 
+                                        <div class="space-y-4">
                                             <div>
                                                 <label class="block text-sm font-medium text-secondary-700 mb-2">Current
                                                     Password</label>
                                                 <input type="password" name="current_password" class="input-field"
-                                                    placeholder="Enter current password" required>
+                                                    placeholder="Enter current password" />
+                                                <span class="text-red-600 text-sm block mt-1"
+                                                    id="error-current-password"></span>
                                             </div>
 
                                             <div class="grid md:grid-cols-2 gap-4">
@@ -450,32 +452,30 @@
                                                     <label class="block text-sm font-medium text-secondary-700 mb-2">New
                                                         Password</label>
                                                     <input type="password" name="new_password" class="input-field"
-                                                        placeholder="Enter new password" required>
+                                                        placeholder="Enter new password" />
+                                                    <span class="text-red-600 text-sm block mt-1"
+                                                        id="error-new-password"></span>
                                                 </div>
+
                                                 <div>
                                                     <label
                                                         class="block text-sm font-medium text-secondary-700 mb-2">Confirm
                                                         New Password</label>
                                                     <input type="password" name="new_password_confirmation"
-                                                        class="input-field" placeholder="Confirm new password" required>
+                                                        class="input-field" placeholder="Confirm new password" />
+                                                    <span class="text-red-600 text-sm block mt-1"
+                                                        id="error-new-password-confirmation"></span>
                                                 </div>
                                             </div>
 
-                                            <button type="submit" id="updatePasswordBtn"
-                                                class="btn-primary flex items-center justify-center gap-2">
-                                                <span id="btnText">Update Password</span>
-                                                <svg id="btnLoader" class="w-4 h-4 animate-spin hidden" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <circle class="opacity-25" cx="12" cy="12" r="10"
-                                                        stroke-width="4"></circle>
-                                                    <path class="opacity-75" fill="currentColor"
-                                                        d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z">
-                                                    </path>
-                                                </svg>
+                                            <button type="submit" id="update-password-btn" class="btn-primary">
+                                                <span class="default-text">Update Password</span>
+                                                <span class="loading-spinner hidden"><i
+                                                        class="fas fa-spinner fa-spin"></i> Updating...</span>
                                             </button>
-                                        </form>
+                                        </div>
+                                    </form>
 
-                                    </div>
 
                                     <!-- Two-Factor Authentication -->
                                     <div class="border-t border-secondary-200 pt-8">
@@ -1399,29 +1399,83 @@
     </script>
 
     <script>
-        $('#passwordForm').on('submit', function() {
-            $('#btnText').addClass('hidden');
-            $('#btnLoader').removeClass('hidden');
+        document.getElementById('update-password-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const button = document.getElementById('update-password-btn');
+            const defaultText = button.querySelector('.default-text');
+            const spinner = button.querySelector('.loading-spinner');
+
+            defaultText.classList.add('hidden');
+            spinner.classList.remove('hidden');
+
+            // Clear previous errors
+            document.querySelectorAll('[id^=error-]').forEach(el => el.innerText = '');
+
+            fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                .then(response => response.json().then(data => ({
+                    status: response.status,
+                    body: data
+                })))
+                .then(({
+                    status,
+                    body
+                }) => {
+                    defaultText.classList.remove('hidden');
+                    spinner.classList.add('hidden');
+
+                    if (status === 200) {
+                        Toastify({
+                            text: body.message,
+                            backgroundColor: "#16a34a",
+                            className: "toast-success",
+                            duration: 3000,
+                        }).showToast();
+
+                        form.reset();
+                    } else if (status === 422) {
+                        const errors = body.errors;
+                        Object.keys(errors).forEach(key => {
+                            const errorEl = document.getElementById(
+                            `error-${key.replaceAll('_', '-')}`);
+                            if (errorEl) errorEl.innerText = errors[key][0];
+                        });
+
+                        Toastify({
+                            text: "Please fix the errors and try again.",
+                            backgroundColor: "#dc2626",
+                            className: "toast-error",
+                            duration: 3000,
+                        }).showToast();
+                    } else {
+                        Toastify({
+                            text: "An unexpected error occurred.",
+                            backgroundColor: "#dc2626",
+                            className: "toast-error",
+                            duration: 3000,
+                        }).showToast();
+                    }
+                })
+                .catch(error => {
+                    defaultText.classList.remove('hidden');
+                    spinner.classList.add('hidden');
+
+                    Toastify({
+                        text: "Network error. Please try again later.",
+                        backgroundColor: "#dc2626",
+                        className: "toast-error",
+                        duration: 3000,
+                    }).showToast();
+                });
         });
-
-        @if (session('success_password'))
-            Toastify({
-                text: "{{ session('success_password') }}",
-                duration: 3000,
-                gravity: "top",
-                position: "right",
-                backgroundColor: "#16a34a",
-            }).showToast();
-        @endif
-
-        @if (session('error_password'))
-            Toastify({
-                text: "{{ session('error_password') }}",
-                duration: 3000,
-                gravity: "top",
-                position: "right",
-                backgroundColor: "#dc2626",
-            }).showToast();
-        @endif
     </script>
 @endsection

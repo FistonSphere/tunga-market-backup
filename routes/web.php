@@ -37,7 +37,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/user/update-profile', [AuthController::class, 'updateProfile'])->name('user.update.profile');
     Route::post('/user/change-password', [AuthController::class, 'changePassword'])->name('user.change.password');
     Route::post('/profile/update', [AuthController::class, 'update'])->name('user.profile.update');
-    Route::post('/profile/password-update', [AuthController::class, 'updatePassword'])->name('profile.password.update');
+    Route::post('/profile/update-password', [AuthController::class, 'updatePassword'])->name('profile.update.password');
+
 
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
