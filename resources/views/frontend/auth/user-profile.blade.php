@@ -8,12 +8,12 @@
                 <div class="text-center lg:text-left mb-8 lg:mb-0">
                     @php
                         $user = auth()->user();
-                        $hasProfilePic = !empty($user->profile_image);
+                        $hasProfilePic = !empty($user->profile_picture);
                     @endphp
 
                     <div class="flex items-center justify-center lg:justify-start space-x-4 mb-4">
                         @if ($hasProfilePic)
-                            <img src="{{ $user->profile_image }}" alt="User Avatar"
+                            <img src="{{ $user->profile_picture }}" alt="User Avatar"
                                 class="w-16 h-16 rounded-full object-cover border-4 border-white shadow-card" />
                         @else
                             <div id="welcomeAvatar"

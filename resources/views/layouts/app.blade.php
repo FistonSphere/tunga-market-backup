@@ -259,14 +259,14 @@
                     @auth
                         @php
                             $user = Auth::user();
-                            $hasProfilePic = !empty($user->profile_image);
+                            $hasProfilePic = !empty($user->profile_picture);
                         @endphp
 
                         <!-- User Profile & Actions -->
                         <div class="hidden md:flex items-center space-x-4">
                             <a href="{{ route('user.profile') }}" class="flex items-center space-x-3">
                                 @if ($hasProfilePic)
-                                    <img src="{{ $user->profile_image }}" alt="User Avatar"
+                                    <img src="{{ $user->profile_picture }}" alt="User Avatar"
                                         class="w-8 h-8 rounded-full object-cover" />
                                 @else
                                     <div id="userAvatar"
@@ -372,14 +372,14 @@
                     @auth
                         @php
                             $user = Auth::user();
-                            $hasProfilePic = !empty($user->profile_image);
+                            $hasProfilePic = !empty($user->profile_picture);
                         @endphp
 
                         <!-- User Profile & Actions -->
                         <div class="hidden md:flex items-center space-x-4">
                             <a href="{{ route('user.profile') }}" class="flex items-center space-x-3">
                                 @if ($hasProfilePic)
-                                    <img src="{{ $user->profile_image }}" alt="User Avatar"
+                                    <img src="{{ $user->profile_picture }}" alt="User Avatar"
                                         class="w-8 h-8 rounded-full object-cover" />
                                 @else
                                     <div id="userAvatar"

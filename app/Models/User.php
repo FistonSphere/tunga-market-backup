@@ -23,7 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
-        'profile_image',
+        'profile_picture',
         'address_line',
         'city',
         'state',
