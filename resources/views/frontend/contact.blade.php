@@ -146,7 +146,7 @@
                     </p>
                 </div>
 
-                <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
+                <form method="POST" action="{{ route('contact.store') }}" enctype="multipart/form-data" class="space-y-6">
                     @csrf
                     <!-- Contact Type Display -->
                     <div id="selected-contact-type" class="hidden bg-accent-50 border border-accent-200 rounded-lg p-4">
