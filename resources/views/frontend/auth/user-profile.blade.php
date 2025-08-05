@@ -1,5 +1,40 @@
 @extends('layouts.app')
 @section('content')
+    @if (session('success'))
+        <div id="toast"
+            class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg animate-slide-in transition-opacity duration-300 ease-in-out z-50">
+            {{ session('success') }}
+        </div>
+
+        <script>
+            // Auto-hide toast after 3 seconds
+            setTimeout(() => {
+                const toast = document.getElementById('toast');
+                if (toast) {
+                    toast.classList.add('opacity-0');
+                    setTimeout(() => toast.remove(), 300); // remove from DOM
+                }
+            }, 3000);
+        </script>
+
+        <style>
+            @keyframes slide-in {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .animate-slide-in {
+                animation: slide-in 0.3s ease-out;
+            }
+        </style>
+    @endif
     <!-- Welcome Section -->
     <section class="bg-gradient-to-br from-primary-50 to-accent-50 py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1253,14 +1288,13 @@
                 if (xhr.status === 200 && res.success) {
                     Toastify({
                         text: "✅ Profile updated successfully!",
-                        duration: 3000,
+                        duration: 1000,
                         gravity: "top",
                         position: "right",
                         backgroundColor: "#10b981"
                     }).showToast();
 
-                    // Optional: refresh page or just update avatar dynamically
-                    setTimeout(() => location.reload(), 1500);
+                    setTimeout(() => location.reload(), 1000); // Adjust delay as you like
                 } else {
                     Toastify({
                         text: "❌ " + (res.message || "Update failed."),
@@ -1286,6 +1320,9 @@
 
             xhr.send(formData);
         });
+
+
+
     </script>
     <script>
         function previewProfileImage(event) {

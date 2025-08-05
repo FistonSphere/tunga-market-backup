@@ -510,41 +510,7 @@
             </div>
         </div>
     </div>
-    @if (session('success'))
-        <div id="toast"
-            class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg animate-slide-in transition-opacity duration-300 ease-in-out z-50">
-            {{ session('success') }}
-        </div>
-
-        <script>
-            // Auto-hide toast after 3 seconds
-            setTimeout(() => {
-                const toast = document.getElementById('toast');
-                if (toast) {
-                    toast.classList.add('opacity-0');
-                    setTimeout(() => toast.remove(), 300); // remove from DOM
-                }
-            }, 3000);
-        </script>
-
-        <style>
-            @keyframes slide-in {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            .animate-slide-in {
-                animation: slide-in 0.3s ease-out;
-            }
-        </style>
-    @endif
+    
 
     @yield('content')
 
