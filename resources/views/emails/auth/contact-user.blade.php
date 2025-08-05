@@ -78,21 +78,17 @@
     <div class="container">
         <div class="header">
             <h1>Tunga Market</h1>
-            <p>Secure Your Account</p>
         </div>
 
         <div class="content">
-            <p>Hello <strong>{{ $user->first_name }}</strong>,</p>
+            <p>Hi <strong>{{ $contact->first_name }}</strong>,</p>
 
-            <p>Thank you for signing up at <strong>Tunga Market</strong>. Use the One-Time Password (OTP) below to
-                complete your registration:</p>
+            <p>Thank you for reaching out. We've received your inquiry and will respond within the specified timeframe.
+            </p>
 
-            <div class="otp-box">{{ $user->otp }}</div>
-
-            <p>This OTP is valid for the next <strong>60 minutes</strong>. If you did not request this, please ignore
-                this message.</p>
-
-            <p>Welcome to the community! 🎉</p>
+            <p><strong>Subject:</strong> {{ $contact->subject }}</p>
+            <p><strong>Your Message:</strong></p>
+            <p>{{ $contact->message }}</p>
         </div>
 
         <div class="footer">
