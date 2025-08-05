@@ -245,6 +245,11 @@
                                                 <input type="text" name="state" class="input-field"
                                                     placeholder="State" value="{{ auth()->user()->state }}" />
                                             </div>
+                                            {{-- <select name="country" class="input-field">
+                                                <option value="US" @selected(auth()->user()->country == 'US')>United States</option>
+                                                <option value="CA" @selected(auth()->user()->country == 'CA')>Canada</option>
+                                                <option value="UK" @selected(auth()->user()->country == 'UK')>United Kingdom</option>
+                                            </select> --}}
                                             <select name="country" class="input-field">
                                                 @foreach ($countries as $country)
                                                     <option value="{{ $country }}" @selected(auth()->user()->country == $country)>
@@ -252,7 +257,6 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-
                                         </div>
                                     </div>
                                 </div>

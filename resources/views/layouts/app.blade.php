@@ -11,10 +11,7 @@
 
     <!-- Toastify JS -->
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <!-- Include in <head> -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description"
         content="Next-generation B2B/B2C hybrid marketplace that transcends traditional e-commerce limitations through trading ecosystem and immersive visual storytelling." />
@@ -1621,14 +1618,7 @@
             return `hsl(${hue}, 70%, 60%)`;
         }
     </script>
-    <script>
-        $(document).ready(function() {
-            $('select[name="country"]').select2({
-                placeholder: "Select your country",
-                allowClear: true
-            });
-        });
-    </script>
+
 
 </body>
 
