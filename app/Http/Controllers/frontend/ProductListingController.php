@@ -11,7 +11,8 @@ class ProductListingController extends Controller
     public function index()
     {
         // Logic to retrieve and display products
-        $products = Product::where('status', 'active')->get(); 
+        $products = Product::with(['category', 'brand'])
+        ->where('status', 'active')->get();
         return view('frontend.product-list', compact('products')); // Adjust the view name as necessary
     }
 
