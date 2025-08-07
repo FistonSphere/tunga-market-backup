@@ -340,14 +340,26 @@
                                     {{-- Price & MOQ --}}
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <span class="text-subheading font-bold text-primary">
-                                                ${{ number_format($product->discount_price ?? $product->price, 2) }}
-                                            </span>
+                                            @if ($product->discount_price)
+                                                <span class="line-through text-secondary-500 text-sm mr-2">
+                                                    ${{ number_format($product->price, 2) }}
+                                                </span>
+                                                <span class="text-subheading font-bold text-primary">
+                                                    ${{ number_format($product->discount_price, 2) }}
+                                                </span>
+                                            @else
+                                                <span class="text-subheading font-bold text-primary">
+                                                    ${{ number_format($product->price, 2) }}
+                                                </span>
+                                            @endif
                                             <span class="text-body-sm text-secondary-600 ml-1">/ piece</span>
                                         </div>
-                                        <span class="text-body-sm text-secondary-600">MOQ:
-                                            {{ $product->min_order_quantity }} pcs</span>
+
+                                        <span class="text-body-sm text-secondary-600">
+                                            MOQ: {{ $product->min_order_quantity }} pcs
+                                        </span>
                                     </div>
+
 
                                     {{-- Eco-Friendly (Optional) --}}
                                     @if (is_array($product->features) && in_array('eco_friendly', $product->features))
