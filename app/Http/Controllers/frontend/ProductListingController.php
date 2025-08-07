@@ -22,7 +22,8 @@ class ProductListingController extends Controller
 {
     $ids = $request->input('products', []);
 
-    $products = Product::whereIn('id', $ids)->get();
+    $products = Product::with(['category', 'brand'])
+    ->whereIn('id', $ids)->get();
 
     return response()->json($products);
 }
