@@ -292,10 +292,9 @@
 
                                 {{-- === IMAGE DISPLAY === --}}
                                 <div class="relative overflow-hidden rounded-lg mb-4">
-                                    <img src="{{ $product->main_image}}"
-                                        alt="{{ $product->name }}"
+                                    <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
                                         class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                                        loading="lazy"/>
+                                        loading="lazy" />
                                 </div>
 
                                 {{-- === PRODUCT INFO === --}}
@@ -335,7 +334,11 @@
                                     </div>
 
                                     {{-- Eco-Friendly (Optional) --}}
-                                    @if (isset($product->features) && in_array('eco_friendly', $product->features))
+                                    @php
+                                        $features = json_decode($product->features, true); // Convert JSON string to array
+                                    @endphp
+
+                                    @if (is_array($features) && in_array('eco_friendly', $features))
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center gap-1">
                                                 <div class="w-2 h-2 bg-success rounded-full"></div>
@@ -344,6 +347,7 @@
                                             <span class="text-caption text-secondary-500">Ships in 3-5 days</span>
                                         </div>
                                     @endif
+
                                 </div>
                             </div>
                         @endforeach
