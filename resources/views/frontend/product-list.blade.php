@@ -334,11 +334,7 @@
                                     </div>
 
                                     {{-- Eco-Friendly (Optional) --}}
-                                    @php
-                                        $features = json_decode($product->features, true); // Convert JSON string to array
-                                    @endphp
-
-                                    @if (is_array($features) && in_array('eco_friendly', $features))
+                                    @if (is_array($product->features) && in_array('eco_friendly', $product->features))
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center gap-1">
                                                 <div class="w-2 h-2 bg-success rounded-full"></div>
@@ -347,6 +343,7 @@
                                             <span class="text-caption text-secondary-500">Ships in 3-5 days</span>
                                         </div>
                                     @endif
+
 
                                 </div>
                             </div>
