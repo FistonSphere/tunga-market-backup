@@ -325,7 +325,7 @@
                                 </div>
 
                                 {{-- === PRODUCT INFO === --}}
-                                <div class="space-y-3">
+                                <a href="{{ route('product.view','sku') }}" class="space-y-3">
                                     <h3 class="font-semibold text-primary group-hover:text-accent transition-fast">
                                         {{ $product->name }}
                                     </h3>
@@ -383,7 +383,7 @@
                                     @endif
 
 
-                                </div>
+                                </a>
                             </div>
                         @endforeach
 
