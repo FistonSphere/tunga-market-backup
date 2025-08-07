@@ -45,6 +45,10 @@ class Product extends Model
     {
         return $this->belongsToMany(ProductTag::class, 'product_tag');
     }
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
     public function attributes()
     {
         // return $this->hasMany(ProductAttribute::class);
