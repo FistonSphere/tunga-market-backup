@@ -544,58 +544,56 @@
 
         // Render comparison table with remove buttons and features
         function renderComparisonTable(products) {
-            const features = ['Price', 'MOQ', 'Rating', 'Shipping Time', 'Sustainability'];
+            const features = ['Price', 'MOQ', 'Specifications', 'Brand', 'Features'];
             let thead = `<thead><tr><th class="py-4 px-6 font-semibold text-primary text-left">Features</th>`;
 
             products.forEach(p => {
                 thead += `
-                <th class="text-center py-4 px-6 relative">
-                    <div class="space-y-2">
-                        <img src="${p.main_image}" alt="${p.name}"
-                            class="w-16 h-16 object-cover rounded-lg mx-auto" />
-                        <div class="font-medium text-primary">${p.name}</div>
-                    </div>
-                    <button
-                        onclick="removeFromComparison(${p.id})"
-                        class="remove-product absolute top-0 right-0 text-red-600 hover:text-red-800"
-                        title="Remove product"
-                        style="position:absolute; top:4px; right:4px; background:none; border:none; cursor:pointer; font-size: 20px; line-height: 1;">
-                        &times;
-                    </button>
-                </th>`;
+            <th class="text-center py-4 px-6 relative">
+                <div class="space-y-2">
+                    <img src="${p.main_image}" alt="${p.name}"
+                        class="w-16 h-16 object-cover rounded-lg mx-auto" />
+                    <div class="font-medium text-primary">${p.name}</div>
+                </div>
+                <button
+                    onclick="removeFromComparison(${p.id})"
+                    class="remove-product absolute top-0 right-0 text-red-600 hover:text-red-800"
+                    title="Remove product"
+                    style="position:absolute; top:4px; right:4px; background:none; border:none; cursor:pointer; font-size: 20px; line-height: 1;">
+                    &times;
+                </button>
+            </th>`;
             });
 
-            // Fill empty slots for add product placeholders
             for (let i = products.length; i < maxComparison; i++) {
                 thead += `<th class="text-center py-4 px-6 text-secondary-400 opacity-50">
-                <div class="space-y-2">
-                    <div class="w-16 h-16 bg-secondary-200 rounded-lg mx-auto flex items-center justify-center">
-                        <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                    </div>
-                    <div class="font-medium text-secondary-400">Add Product</div>
+            <div class="space-y-2">
+                <div class="w-16 h-16 bg-secondary-200 rounded-lg mx-auto flex items-center justify-center">
+                    <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
                 </div>
-            </th>`;
+                <div class="font-medium text-secondary-400">Add Product</div>
+            </div>
+        </th>`;
             }
 
             thead += `</tr></thead>`;
-
             let tbody = '<tbody>';
 
             features.forEach(feature => {
                 tbody += `<tr class="border-b border-gray-100">
-                        <td class="py-4 px-6 font-medium text-secondary-700">${feature}</td>`;
+            <td class="py-4 px-6 font-medium text-secondary-700">${feature}</td>`;
 
                 products.forEach(p => {
                     switch (feature) {
                         case 'Price':
                             const price = p.discount_price ?? p.price;
                             tbody += `<td class="py-4 px-6 text-center">
-                                    <span class="text-subheading font-bold text-primary">$${price}</span>
-                                    <div class="text-body-sm text-secondary-600">per piece</div>
-                                  </td>`;
+                        <span class="text-subheading font-bold text-primary">$${price}</span>
+                        <div class="text-body-sm text-secondary-600">per piece</div>
+                    </td>`;
                             break;
 
                         case 'MOQ':
@@ -603,26 +601,35 @@
                                 `<td class="py-4 px-6 text-center text-secondary-600">${p.min_order_quantity} pcs</td>`;
                             break;
 
-                        case 'Rating':
+                        case 'Specifications':
+                            let specsHtml = '';
+                            try {
+                                const specs = JSON.parse(p.specifications);
+                                for (const [key, value] of Object.entries(specs)) {
+                                    specsHtml += `<div><strong>${key}:</strong> ${value}</div>`;
+                                }
+                            } catch (error) {
+                                specsHtml = 'N/A';
+                            }
                             tbody +=
-                                `<td class="py-4 px-6 text-center text-secondary-400">N/A</td>`; // Placeholder
+                                `<td class="py-4 px-6 text-center text-secondary-400">${specsHtml}</td>`;
                             break;
 
-                        case 'Shipping Time':
+                        case 'Brand':
                             tbody +=
-                                `<td class="py-4 px-6 text-center text-secondary-600">3-5 days</td>`; // Placeholder
+                                `<td class="py-4 px-6 text-center text-secondary-600">${p.brand_name ?? 'N/A'}</td>`;
                             break;
 
-                        case 'Sustainability':
-                            const eco = (p.features || []).includes("eco_friendly");
-                            const label = eco ? 'Eco-Friendly' : 'N/A';
-                            const color = eco ? 'success' : 'secondary-400';
-                            tbody += `<td class="py-4 px-6 text-center">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <div class="w-2 h-2 bg-${color} rounded-full"></div>
-                                        <span class="text-caption text-${color}">${label}</span>
-                                    </div>
-                                  </td>`;
+                        case 'Features':
+                            let featuresHtml = '';
+                            try {
+                                const parsedFeatures = JSON.parse(p.features);
+                                featuresHtml = parsedFeatures.map(f => `<div>${f}</div>`).join('');
+                            } catch (error) {
+                                featuresHtml = 'N/A';
+                            }
+                            tbody +=
+                                `<td class="py-4 px-6 text-center text-secondary-400">${featuresHtml}</td>`;
                             break;
 
                         default:
@@ -630,7 +637,6 @@
                     }
                 });
 
-                // Fill empty columns for the remaining slots
                 for (let i = products.length; i < maxComparison; i++) {
                     tbody += `<td class="py-4 px-6 text-center text-secondary-400">-</td>`;
                 }
@@ -643,6 +649,7 @@
             comparisonTable.innerHTML = thead + tbody;
             comparisonSection.classList.remove('hidden');
         }
+
 
         // Toast message utility
         function showToast(message, type = 'info', duration = 3000) {
