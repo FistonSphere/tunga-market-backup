@@ -605,12 +605,12 @@
 
                         case 'Rating':
                             tbody +=
-                            `<td class="py-4 px-6 text-center text-secondary-400">N/A</td>`; // Placeholder
+                                `<td class="py-4 px-6 text-center text-secondary-400">N/A</td>`; // Placeholder
                             break;
 
                         case 'Shipping Time':
                             tbody +=
-                            `<td class="py-4 px-6 text-center text-secondary-600">3-5 days</td>`; // Placeholder
+                                `<td class="py-4 px-6 text-center text-secondary-600">3-5 days</td>`; // Placeholder
                             break;
 
                         case 'Sustainability':
@@ -651,19 +651,25 @@
 
             const toast = document.createElement('div');
             toast.className = `toast-message toast-${type}`;
+
+            let bgColor = '#60A5FA'; // default info (blue)
+            if (type === 'error') bgColor = '#F87171'; // red for errors (limit exceeded)
+            else if (type === 'success') bgColor = '#ff6a34'; // orange for add product
+            else if (type === 'warning') bgColor = '#b91c1c'; // dark red for remove product
+
             toast.style = `
-            background: ${type === 'error' ? '#F87171' : type === 'success' ? '#34D399' : '#60A5FA'};
-            color: white;
-            padding: 12px 18px;
-            margin-top: 8px;
-            border-radius: 6px;
-            box-shadow: 0 2px 10px rgb(0 0 0 / 0.2);
-            opacity: 0;
-            transform: translateX(100%);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            font-weight: 600;
-            max-width: 300px;
-        `;
+        background: ${bgColor};
+        color: white;
+        padding: 12px 18px;
+        margin-top: 8px;
+        border-radius: 6px;
+        box-shadow: 0 2px 10px rgb(0 0 0 / 0.2);
+        opacity: 0;
+        transform: translateX(100%);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        font-weight: 600;
+        max-width: 300px;
+    `;
             toast.innerText = message;
             container.appendChild(toast);
 
