@@ -280,7 +280,8 @@
                                     <div
                                         class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-2">
                                         <a href="{{ route('product.view', $product->sku) }}"
-                                            class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50">
+                                            class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50"
+                                            title="View Product">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -296,7 +297,9 @@
                                                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                             </svg>
                                         </button>
-                                        <button class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50">
+                                        <button onclick="addToComparison({{ $product->id }})"
+                                            class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50"
+                                            title="Add to Compare">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -438,177 +441,137 @@
     </section>
 
     <!-- Comparison Tool Section -->
-    <section class="py-16 bg-secondary-50">
+    <section id="comparisonSection" class="py-16 bg-secondary-50 hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">Smart Product Comparison</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Compare up to 4 products side-by-side with detailed specifications, pricing, and supplier information
+                    Compare up to 4 products side-by-side with detailed specifications
                 </p>
             </div>
-
-            <div class="card">
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="border-b border-gray-200">
-                                <th class="text-left py-4 px-6 font-semibold text-primary">Features</th>
-                                <th class="text-center py-4 px-6">
-                                    <div class="space-y-2">
-                                        <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                                            alt="Wireless Earbuds" class="w-16 h-16 object-cover rounded-lg mx-auto"
-                                            loading="lazy"
-                                            onerror="this.src='https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                                        <div class="font-medium text-primary">Wireless Earbuds Pro</div>
-                                    </div>
-                                </th>
-                                <th class="text-center py-4 px-6">
-                                    <div class="space-y-2">
-                                        <img src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                            alt="Smart Home Hub" class="w-16 h-16 object-cover rounded-lg mx-auto"
-                                            loading="lazy"
-                                            onerror="this.src='https://images.pixabay.com/photo/2017/05/10/19/29/robot-2301646_1280.jpg'; this.onerror=null;" />
-                                        <div class="font-medium text-primary">Smart Home Hub</div>
-                                    </div>
-                                </th>
-                                <th class="text-center py-4 px-6">
-                                    <div class="space-y-2 opacity-50">
-                                        <div
-                                            class="w-16 h-16 bg-secondary-200 rounded-lg mx-auto flex items-center justify-center">
-                                            <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                            </svg>
-                                        </div>
-                                        <div class="font-medium text-secondary-400">Add Product</div>
-                                    </div>
-                                </th>
-                                <th class="text-center py-4 px-6">
-                                    <div class="space-y-2 opacity-50">
-                                        <div
-                                            class="w-16 h-16 bg-secondary-200 rounded-lg mx-auto flex items-center justify-center">
-                                            <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                            </svg>
-                                        </div>
-                                        <div class="font-medium text-secondary-400">Add Product</div>
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b border-gray-100">
-                                <td class="py-4 px-6 font-medium text-secondary-700">Price</td>
-                                <td class="py-4 px-6 text-center">
-                                    <span class="text-subheading font-bold text-primary">$12.50</span>
-                                    <div class="text-body-sm text-secondary-600">per piece</div>
-                                </td>
-                                <td class="py-4 px-6 text-center">
-                                    <span class="text-subheading font-bold text-primary">$89.99</span>
-                                    <div class="text-body-sm text-secondary-600">per piece</div>
-                                </td>
-                                <td class="py-4 px-6 text-center text-secondary-400">-</td>
-                                <td class="py-4 px-6 text-center text-secondary-400">-</td>
-                            </tr>
-                            <tr class="border-b border-gray-100">
-                                <td class="py-4 px-6 font-medium text-secondary-700">MOQ</td>
-                                <td class="py-4 px-6 text-center text-secondary-600">100 pcs</td>
-                                <td class="py-4 px-6 text-center text-secondary-600">50 pcs</td>
-                                <td class="py-4 px-6 text-center text-secondary-400">-</td>
-                                <td class="py-4 px-6 text-center text-secondary-400">-</td>
-                            </tr>
-                            <tr class="border-b border-gray-100">
-                                <td class="py-4 px-6 font-medium text-secondary-700">Rating</td>
-                                <td class="py-4 px-6 text-center">
-                                    <div class="flex justify-center text-warning mb-1">
-                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-secondary-300" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                    </div>
-                                    <div class="text-body-sm text-secondary-600">4.8 (2,847)</div>
-                                </td>
-                                <td class="py-4 px-6 text-center">
-                                    <div class="flex justify-center text-warning mb-1">
-                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                    </div>
-                                    <div class="text-body-sm text-secondary-600">4.9 (1,523)</div>
-                                </td>
-                                <td class="py-4 px-6 text-center text-secondary-400">-</td>
-                                <td class="py-4 px-6 text-center text-secondary-400">-</td>
-                            </tr>
-                            <tr class="border-b border-gray-100">
-                                <td class="py-4 px-6 font-medium text-secondary-700">Shipping Time</td>
-                                <td class="py-4 px-6 text-center text-secondary-600">3-5 days</td>
-                                <td class="py-4 px-6 text-center text-secondary-600">7-10 days</td>
-                                <td class="py-4 px-6 text-center text-secondary-400">-</td>
-                                <td class="py-4 px-6 text-center text-secondary-400">-</td>
-                            </tr>
-                            <tr class="border-b border-gray-100">
-                                <td class="py-4 px-6 font-medium text-secondary-700">Sustainability</td>
-                                <td class="py-4 px-6 text-center">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <div class="w-2 h-2 bg-success rounded-full"></div>
-                                        <span class="text-caption text-success">Eco-Friendly</span>
-                                    </div>
-                                </td>
-                                <td class="py-4 px-6 text-center">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <div class="w-2 h-2 bg-warning rounded-full"></div>
-                                        <span class="text-caption text-warning">Energy Star</span>
-                                    </div>
-                                </td>
-                                <td class="py-4 px-6 text-center text-secondary-400">-</td>
-                                <td class="py-4 px-6 text-center text-secondary-400">-</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="flex justify-center mt-6">
-                    <button class="btn-primary">Request Quotes for Selected Products</button>
-                </div>
+            <div class="card overflow-x-auto">
+                <table class="w-full" id="comparisonTable">
+                    <!-- Injected dynamically -->
+                </table>
             </div>
         </div>
     </section>
+
+    <script>
+        let compareList = [];
+
+        function addToComparison(productId) {
+            if (compareList.includes(productId)) return;
+
+            if (compareList.length >= 4) {
+                alert('You can only compare up to 4 products.');
+                return;
+            }
+
+            compareList.push(productId);
+            fetchComparisonData();
+        }
+
+        function fetchComparisonData() {
+            if (compareList.length === 0) return;
+
+            fetch(`/compare?products[]=${compareList.join('&products[]=')}`)
+                .then(res => res.json())
+                .then(renderComparisonTable);
+        }
+
+        function renderComparisonTable(products) {
+            const features = ['Price', 'MOQ', 'Rating', 'Shipping Time', 'Sustainability'];
+            const table = document.getElementById('comparisonTable');
+            let thead = `<thead><tr><th class="py-4 px-6 font-semibold text-primary text-left">Features</th>`;
+
+            products.forEach(p => {
+                thead += `<th class="text-center py-4 px-6">
+                        <div class="space-y-2">
+                            <img src="${p.main_image}" alt="${p.name}"
+                                 class="w-16 h-16 object-cover rounded-lg mx-auto" />
+                            <div class="font-medium text-primary">${p.name}</div>
+                        </div>
+                      </th>`;
+            });
+
+            for (let i = products.length; i < 4; i++) {
+                thead += `<th class="text-center py-4 px-6 text-secondary-400 opacity-50">
+                        <div class="space-y-2">
+                            <div class="w-16 h-16 bg-secondary-200 rounded-lg mx-auto flex items-center justify-center">
+                                <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                            </div>
+                            <div class="font-medium text-secondary-400">Add Product</div>
+                        </div>
+                      </th>`;
+            }
+
+            thead += `</tr></thead>`;
+            let tbody = '<tbody>';
+
+            features.forEach(feature => {
+                tbody += `<tr class="border-b border-gray-100">
+                        <td class="py-4 px-6 font-medium text-secondary-700">${feature}</td>`;
+
+                products.forEach(p => {
+                    switch (feature) {
+                        case 'Price':
+                            const price = p.discount_price ?? p.price;
+                            tbody += `<td class="py-4 px-6 text-center">
+                                    <span class="text-subheading font-bold text-primary">$${price}</span>
+                                    <div class="text-body-sm text-secondary-600">per piece</div>
+                                  </td>`;
+                            break;
+
+                        case 'MOQ':
+                            tbody +=
+                                `<td class="py-4 px-6 text-center text-secondary-600">${p.min_order_quantity} pcs</td>`;
+                            break;
+
+                        case 'Rating':
+                            tbody +=
+                                `<td class="py-4 px-6 text-center text-secondary-400">N/A</td>`; // Placeholder
+                            break;
+
+                        case 'Shipping Time':
+                            tbody +=
+                                `<td class="py-4 px-6 text-center text-secondary-600">3-5 days</td>`; // Or from DB if stored
+                            break;
+
+                        case 'Sustainability':
+                            const eco = (p.features || []).includes("eco_friendly");
+                            const label = eco ? 'Eco-Friendly' : 'N/A';
+                            const color = eco ? 'success' : 'secondary-400';
+                            tbody += `<td class="py-4 px-6 text-center">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <div class="w-2 h-2 bg-${color} rounded-full"></div>
+                                        <span class="text-caption text-${color}">${label}</span>
+                                    </div>
+                                  </td>`;
+                            break;
+
+                        default:
+                            tbody += `<td class="py-4 px-6 text-center text-secondary-400">-</td>`;
+                    }
+                });
+
+                for (let i = products.length; i < 4; i++) {
+                    tbody += `<td class="py-4 px-6 text-center text-secondary-400">-</td>`;
+                }
+
+                tbody += '</tr>';
+            });
+
+            tbody += '</tbody>';
+
+            table.innerHTML = thead + tbody;
+            document.getElementById('comparisonSection').classList.remove('hidden');
+        }
+    </script>
 
     <script>
         // Voice Recognition and Image Search System
