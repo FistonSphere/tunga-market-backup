@@ -142,29 +142,6 @@
                         </div>
                     </div>
 
-                    <!-- Supplier Verification -->
-                    <div class="card">
-                        <h4 class="font-medium text-primary mb-3">Supplier Verification</h4>
-                        <div class="space-y-2">
-                            <label class="flex items-center">
-                                <input type="checkbox" class="rounded border-gray-300 text-accent focus:ring-accent" />
-                                <span class="ml-2 text-body-sm">Gold Verified</span>
-                                <svg class="ml-1 w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="checkbox" class="rounded border-gray-300 text-accent focus:ring-accent" />
-                                <span class="ml-2 text-body-sm">Trade Assurance</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="checkbox" class="rounded border-gray-300 text-accent focus:ring-accent" />
-                                <span class="ml-2 text-body-sm">ISO Certified</span>
-                            </label>
-                        </div>
-                    </div>
 
                     <!-- Sustainability Score -->
                     <div class="card">
@@ -298,7 +275,8 @@
                                     <!-- Hover Actions -->
                                     <div
                                         class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-2">
-                                        <button class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50">
+                                        <a href="{{ route('product.view', $product->sku) }}"
+                                            class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -306,7 +284,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             </svg>
-                                        </button>
+                                        </a>
                                         <button class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -325,7 +303,7 @@
                                 </div>
 
                                 {{-- === PRODUCT INFO === --}}
-                                <a href="{{ route('product.view','sku') }}" class="space-y-3">
+                                <a href="{{ route('product.view', $product->sku) }}" class="space-y-3">
                                     <h3 class="font-semibold text-primary group-hover:text-accent transition-fast">
                                         {{ $product->name }}
                                     </h3>
