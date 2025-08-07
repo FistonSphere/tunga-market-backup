@@ -18,6 +18,15 @@ class ProductListingController extends Controller
         return view('frontend.product-list', compact('products')); // Adjust the view name as necessary
     }
 
+    public function compare(Request $request)
+{
+    $ids = $request->input('products', []); // expects ?products[]=1&products[]=2...
+
+    $products = Product::whereIn('id', $ids)->get();
+
+    return response()->json($products);
+}
+
     public function showProduct($request, $sku)
     {
         // Logic to show a specific product
