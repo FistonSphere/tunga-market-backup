@@ -617,7 +617,7 @@
 
                         case 'Brand':
                             tbody +=
-                                `<td class="py-4 px-6 text-center text-secondary-600">${p.brand_name ?? 'N/A'}</td>`;
+                                `<td class="py-4 px-6 text-center text-secondary-600">${p.brand?.name ?? 'N/A'}</td>`;
                             break;
 
                         case 'Features':
