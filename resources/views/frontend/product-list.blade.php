@@ -197,7 +197,11 @@
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <div>
                             <h2 class="text-heading font-semibold text-primary">Product Results</h2>
-                            <p class="text-body text-secondary-600">Showing 1-24 of 15,247 products</p>
+                            <p class="text-body text-secondary-600">
+                                Showing {{ $products->firstItem() }} - {{ $products->lastItem() }} of
+                                {{ $products->total() }} products
+                            </p>
+
                         </div>
 
                         <!-- Sort & View Options -->
@@ -359,29 +363,75 @@
 
                     <!-- Pagination -->
                     <div class="flex items-center justify-between mt-12">
+                        <!-- Showing Info -->
                         <div class="text-body text-secondary-600">
-                            Showing 1-6 of 15,247 results
+                            Showing {{ $products->firstItem() }} - {{ $products->lastItem() }} of
+                            {{ $products->total() }} results
                         </div>
 
+                        <!-- Page Buttons -->
                         <div class="flex items-center space-x-2">
-                            <button
-                                class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">
-                                Previous
-                            </button>
-                            <button class="px-3 py-2 bg-accent text-white rounded-lg">1</button>
-                            <button
-                                class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">2</button>
-                            <button
-                                class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">3</button>
-                            <span class="px-3 py-2 text-secondary-400">...</span>
-                            <button
-                                class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">2,541</button>
-                            <button
-                                class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">
-                                Next
-                            </button>
+                            <!-- Previous Page -->
+                            @if ($products->onFirstPage())
+                                <button
+                                    class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-400 cursor-not-allowed"
+                                    disabled>
+                                    Previous
+                                </button>
+                            @else
+                                <a href="{{ $products->previousPageUrl() }}"
+                                    class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">
+                                    Previous
+                                </a>
+                            @endif
+
+                            {{-- Page Links --}}
+                            @php
+                                $start = max(1, $products->currentPage() - 2);
+                                $end = min($products->lastPage(), $products->currentPage() + 2);
+                            @endphp
+
+                            @if ($start > 1)
+                                <a href="{{ $products->url(1) }}"
+                                    class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">1</a>
+                                @if ($start > 2)
+                                    <span class="px-3 py-2 text-secondary-400">...</span>
+                                @endif
+                            @endif
+
+                            @for ($i = $start; $i <= $end; $i++)
+                                @if ($i == $products->currentPage())
+                                    <span class="px-3 py-2 bg-accent text-white rounded-lg">{{ $i }}</span>
+                                @else
+                                    <a href="{{ $products->url($i) }}"
+                                        class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">{{ $i }}</a>
+                                @endif
+                            @endfor
+
+                            @if ($end < $products->lastPage())
+                                @if ($end < $products->lastPage() - 1)
+                                    <span class="px-3 py-2 text-secondary-400">...</span>
+                                @endif
+                                <a href="{{ $products->url($products->lastPage()) }}"
+                                    class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">{{ $products->lastPage() }}</a>
+                            @endif
+
+                            <!-- Next Page -->
+                            @if ($products->hasMorePages())
+                                <a href="{{ $products->nextPageUrl() }}"
+                                    class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">
+                                    Next
+                                </a>
+                            @else
+                                <button
+                                    class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-400 cursor-not-allowed"
+                                    disabled>
+                                    Next
+                                </button>
+                            @endif
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

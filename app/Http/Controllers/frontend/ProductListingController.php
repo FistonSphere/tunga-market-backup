@@ -12,7 +12,9 @@ class ProductListingController extends Controller
     {
         // Logic to retrieve and display products
         $products = Product::with(['category', 'brand'])
-        ->where('status', 'active')->paginate(6);
+        ->where('status', 'active')
+        ->orderBy('created_at', 'desc')
+        ->paginate(9);
         return view('frontend.product-list', compact('products')); // Adjust the view name as necessary
     }
 
