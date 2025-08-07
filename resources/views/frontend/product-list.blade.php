@@ -1,6 +1,33 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        .toast-message {
+            will-change: transform, opacity;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-8px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(8px);
+            }
+        }
+
+        .shake {
+            animation: shake 0.5s ease;
+        }
+    </style>
     <!-- Hero Search Section -->
     <section class="bg-gradient-to-br from-primary-50 to-accent-50 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -456,61 +483,105 @@
             </div>
         </div>
     </section>
+    <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;"></div>
 
     <script>
         let compareList = [];
 
-        function addToComparison(productId) {
-            if (compareList.includes(productId)) return;
+        // Max products allowed in comparison
+        const maxComparison = 4;
 
-            if (compareList.length >= 4) {
-                alert('You can only compare up to 4 products.');
+        // Reference the comparison section and table
+        const comparisonSection = document.getElementById('comparisonSection');
+        const comparisonTable = document.getElementById('comparisonTable');
+
+        // Add product to comparison
+        function addToComparison(productId) {
+            if (compareList.includes(productId)) {
+                showToast('Product already in comparison', 'info');
+                scrollToComparisonPanel();
+                return;
+            }
+
+            if (compareList.length >= maxComparison) {
+                animateComparisonPanel();
+                showToast(`You can only compare up to ${maxComparison} products.`, 'error');
+                scrollToComparisonPanel();
                 return;
             }
 
             compareList.push(productId);
             fetchComparisonData();
+            showToast('Product added to comparison', 'success');
+            scrollToComparisonPanel();
         }
 
+        // Remove product from comparison by id
+        function removeFromComparison(productId) {
+            compareList = compareList.filter(id => id !== productId);
+            fetchComparisonData();
+            showToast('Product removed from comparison', 'success');
+            if (compareList.length === 0) {
+                comparisonSection.classList.add('hidden');
+            }
+        }
+
+        // Fetch comparison product data from server
         function fetchComparisonData() {
-            if (compareList.length === 0) return;
+            if (compareList.length === 0) {
+                comparisonSection.classList.add('hidden');
+                comparisonTable.innerHTML = '';
+                return;
+            }
 
             fetch(`/compare?products[]=${compareList.join('&products[]=')}`)
                 .then(res => res.json())
-                .then(renderComparisonTable);
+                .then(renderComparisonTable)
+                .catch(() => {
+                    showToast('Failed to fetch comparison data.', 'error');
+                });
         }
 
+        // Render comparison table with remove buttons and features
         function renderComparisonTable(products) {
             const features = ['Price', 'MOQ', 'Rating', 'Shipping Time', 'Sustainability'];
-            const table = document.getElementById('comparisonTable');
             let thead = `<thead><tr><th class="py-4 px-6 font-semibold text-primary text-left">Features</th>`;
 
             products.forEach(p => {
-                thead += `<th class="text-center py-4 px-6">
-                        <div class="space-y-2">
-                            <img src="${p.main_image}" alt="${p.name}"
-                                 class="w-16 h-16 object-cover rounded-lg mx-auto" />
-                            <div class="font-medium text-primary">${p.name}</div>
-                        </div>
-                      </th>`;
+                thead += `
+                <th class="text-center py-4 px-6 relative">
+                    <div class="space-y-2">
+                        <img src="${p.main_image}" alt="${p.name}"
+                            class="w-16 h-16 object-cover rounded-lg mx-auto" />
+                        <div class="font-medium text-primary">${p.name}</div>
+                    </div>
+                    <button
+                        onclick="removeFromComparison(${p.id})"
+                        class="remove-product absolute top-0 right-0 text-red-600 hover:text-red-800"
+                        title="Remove product"
+                        style="position:absolute; top:4px; right:4px; background:none; border:none; cursor:pointer; font-size: 20px; line-height: 1;">
+                        &times;
+                    </button>
+                </th>`;
             });
 
-            for (let i = products.length; i < 4; i++) {
+            // Fill empty slots for add product placeholders
+            for (let i = products.length; i < maxComparison; i++) {
                 thead += `<th class="text-center py-4 px-6 text-secondary-400 opacity-50">
-                        <div class="space-y-2">
-                            <div class="w-16 h-16 bg-secondary-200 rounded-lg mx-auto flex items-center justify-center">
-                                <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor"
-                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                </svg>
-                            </div>
-                            <div class="font-medium text-secondary-400">Add Product</div>
-                        </div>
-                      </th>`;
+                <div class="space-y-2">
+                    <div class="w-16 h-16 bg-secondary-200 rounded-lg mx-auto flex items-center justify-center">
+                        <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                    </div>
+                    <div class="font-medium text-secondary-400">Add Product</div>
+                </div>
+            </th>`;
             }
 
             thead += `</tr></thead>`;
+
             let tbody = '<tbody>';
 
             features.forEach(feature => {
@@ -534,12 +605,12 @@
 
                         case 'Rating':
                             tbody +=
-                                `<td class="py-4 px-6 text-center text-secondary-400">N/A</td>`; // Placeholder
+                            `<td class="py-4 px-6 text-center text-secondary-400">N/A</td>`; // Placeholder
                             break;
 
                         case 'Shipping Time':
                             tbody +=
-                                `<td class="py-4 px-6 text-center text-secondary-600">3-5 days</td>`; // Or from DB if stored
+                            `<td class="py-4 px-6 text-center text-secondary-600">3-5 days</td>`; // Placeholder
                             break;
 
                         case 'Sustainability':
@@ -559,7 +630,8 @@
                     }
                 });
 
-                for (let i = products.length; i < 4; i++) {
+                // Fill empty columns for the remaining slots
+                for (let i = products.length; i < maxComparison; i++) {
                     tbody += `<td class="py-4 px-6 text-center text-secondary-400">-</td>`;
                 }
 
@@ -568,8 +640,62 @@
 
             tbody += '</tbody>';
 
-            table.innerHTML = thead + tbody;
-            document.getElementById('comparisonSection').classList.remove('hidden');
+            comparisonTable.innerHTML = thead + tbody;
+            comparisonSection.classList.remove('hidden');
+        }
+
+        // Toast message utility
+        function showToast(message, type = 'info', duration = 3000) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `toast-message toast-${type}`;
+            toast.style = `
+            background: ${type === 'error' ? '#F87171' : type === 'success' ? '#34D399' : '#60A5FA'};
+            color: white;
+            padding: 12px 18px;
+            margin-top: 8px;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgb(0 0 0 / 0.2);
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            font-weight: 600;
+            max-width: 300px;
+        `;
+            toast.innerText = message;
+            container.appendChild(toast);
+
+            // Show animation
+            requestAnimationFrame(() => {
+                toast.style.opacity = 1;
+                toast.style.transform = 'translateX(0)';
+            });
+
+            // Hide after duration
+            setTimeout(() => {
+                toast.style.opacity = 0;
+                toast.style.transform = 'translateX(100%)';
+                toast.addEventListener('transitionend', () => {
+                    toast.remove();
+                });
+            }, duration);
+        }
+
+        // Animate comparison panel on limit exceed (shake effect)
+        function animateComparisonPanel() {
+            if (!comparisonSection) return;
+            comparisonSection.classList.add('shake');
+            setTimeout(() => comparisonSection.classList.remove('shake'), 500);
+        }
+
+        // Scroll smoothly to comparison panel on add/remove
+        function scrollToComparisonPanel() {
+            if (!comparisonSection) return;
+            comparisonSection.scrollIntoView({
+                behavior: 'smooth'
+            });
         }
     </script>
 
