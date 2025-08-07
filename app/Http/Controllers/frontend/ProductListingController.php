@@ -20,7 +20,7 @@ class ProductListingController extends Controller
 
     public function compare(Request $request)
 {
-    $ids = $request->input('products', []); // expects ?products[]=1&products[]=2...
+    $ids = $request->input('products', []);
 
     $products = Product::whereIn('id', $ids)->get();
 
