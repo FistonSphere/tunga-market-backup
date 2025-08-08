@@ -1153,53 +1153,46 @@
         }
     </script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    fetch('/api/categories-with-count')
-        .then(res => res.json())
-        .then(categories => {
-            let container = document.getElementById('categories-list');
-            container.innerHTML = '';
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/categories-with-count')
+                .then(res => res.json())
+                .then(categories => {
+                    let container = document.querySelector('#categories-list');
+                    container.innerHTML = '';
+                    categories.forEach(cat => {
+                        container.innerHTML += `
+                <label class="flex items-center">
+                    <input type="checkbox" class="rounded border-gray-300 text-accent focus:ring-accent" data-category-id="${cat.id}" />
+                    <span class="ml-2 text-body-sm">${cat.name} (${cat.products_count})</span>
+                </label>
+            `;
+                    });
+                })
+                .catch(err => console.error('Error fetching categories:', err));
 
-            categories.forEach(cat => {
-                container.innerHTML += `
-                    <label class="flex items-center">
-                        <input type="checkbox"
-                               value="${cat.id}"
-                               class="category-filter rounded border-gray-300 text-accent focus:ring-accent" />
-                        <span class="ml-2 text-body-sm">${cat.name} (${cat.products_count})</span>
-                    </label>
-                `;
-            });
-
-            // Bind filter event after rendering
-            document.querySelectorAll('.category-filter').forEach(checkbox => {
-                checkbox.addEventListener('change', filterProducts);
-            });
-        })
-        .catch(err => console.error('Failed to fetch categories:', err));
-});
-
-function filterProducts() {
-    let selectedCategories = Array.from(document.querySelectorAll('.category-filter:checked'))
-                                  .map(cb => cb.value);
-
-    fetch(`/api/products?categories=${selectedCategories.join(',')}`)
-        .then(res => res.json())
-        .then(products => {
-            renderProducts(products);
         });
-}
 
-// Example: Replace with your actual rendering logic
-function renderProducts(products) {
-    let productContainer = document.getElementById('product-list');
-    productContainer.innerHTML = products.map(p => `
+        function filterProducts() {
+            let selectedCategories = Array.from(document.querySelectorAll('.category-filter:checked'))
+                .map(cb => cb.value);
+
+            fetch(`/api/products?categories=${selectedCategories.join(',')}`)
+                .then(res => res.json())
+                .then(products => {
+                    renderProducts(products);
+                });
+        }
+
+        // Example: Replace with your actual rendering logic
+        function renderProducts(products) {
+            let productContainer = document.getElementById('product-list');
+            productContainer.innerHTML = products.map(p => `
         <div class="p-4 border rounded">
             <h3 class="text-lg font-bold">${p.name}</h3>
             <p class="text-sm text-gray-500">${p.price} USD</p>
         </div>
     `).join('');
-}
-</script>
+        }
+    </script>
 @endsection
