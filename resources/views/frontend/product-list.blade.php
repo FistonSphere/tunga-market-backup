@@ -135,327 +135,325 @@
                     <!-- Category Filter -->
                     <div class="card">
                         <h4 class="font-medium text-primary mb-3">Categories</h4>
-                        <div class="space-y-2" id="categories-list"></div>
+                        <div class="space-y-2" id="categories-list">
 
-
-                        <!-- Price Range -->
-                        <div class="card">
-                            <h4 class="font-medium text-primary mb-3">Price Range (USD)</h4>
-                            <div class="space-y-3">
-                                <div class="flex gap-2">
-                                    <input type="number" placeholder="Min" class="input-field flex-1" />
-                                    <input type="number" placeholder="Max" class="input-field flex-1" />
-                                </div>
-                                <div class="bg-secondary-100 h-2 rounded-full">
-                                    <div class="bg-accent h-2 rounded-full w-1/3"></div>
-                                </div>
-                            </div>
                         </div>
+                    </div>
 
-
-                        <!-- Sustainability Score -->
-                        <div class="card">
-                            <h4 class="font-medium text-primary mb-3">Sustainability Score</h4>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="sustainability" class="text-accent focus:ring-accent" />
-                                    <span class="ml-2 text-body-sm">Excellent (90-100)</span>
-                                    <div class="ml-auto flex">
-                                        <div class="w-2 h-2 bg-success rounded-full"></div>
-                                    </div>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="sustainability" class="text-accent focus:ring-accent" />
-                                    <span class="ml-2 text-body-sm">Good (70-89)</span>
-                                    <div class="ml-auto flex">
-                                        <div class="w-2 h-2 bg-warning rounded-full"></div>
-                                    </div>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="sustainability" class="text-accent focus:ring-accent" />
-                                    <span class="ml-2 text-body-sm">Fair (50-69)</span>
-                                    <div class="ml-auto flex">
-                                        <div class="w-2 h-2 bg-accent rounded-full"></div>
-                                    </div>
-                                </label>
+                    <!-- Price Range -->
+                    <div class="card">
+                        <h4 class="font-medium text-primary mb-3">Price Range (USD)</h4>
+                        <div class="space-y-3">
+                            <div class="flex gap-2">
+                                <input type="number" placeholder="Min" class="input-field flex-1" />
+                                <input type="number" placeholder="Max" class="input-field flex-1" />
                             </div>
-                        </div>
-
-                        <!-- Cultural Fit Indicators -->
-                        <div class="card">
-                            <h4 class="font-medium text-primary mb-3">Cultural Fit</h4>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="checkbox"
-                                        class="rounded border-gray-300 text-accent focus:ring-accent" />
-                                    <span class="ml-2 text-body-sm">Same Time Zone</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox"
-                                        class="rounded border-gray-300 text-accent focus:ring-accent" />
-                                    <span class="ml-2 text-body-sm">English Speaking</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox"
-                                        class="rounded border-gray-300 text-accent focus:ring-accent" />
-                                    <span class="ml-2 text-body-sm">Similar Business Culture</span>
-                                </label>
+                            <div class="bg-secondary-100 h-2 rounded-full">
+                                <div class="bg-accent h-2 rounded-full w-1/3"></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Product Results -->
-                    <div class="flex-1">
-                        <!-- Results Header -->
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                            <div>
-                                <h2 class="text-heading font-semibold text-primary">Product Results</h2>
-                                <p class="text-body text-secondary-600">
-                                    Showing {{ $products->firstItem() }} - {{ $products->lastItem() }} of
-                                    {{ $products->total() }} products
-                                </p>
 
-                            </div>
-
-                            <!-- Sort & View Options -->
-                            <div class="flex items-center gap-4">
-                                <select id="sortSelect" class="input-field min-w-40">
-                                    <option value="best">Best Match</option>
-                                    <option value="price_asc">Price: Low to High</option>
-                                    <option value="price_desc">Price: High to Low</option>
-                                    <option value="newest">Newest First</option>
-                                    <option value="top_rated">Top Rated</option>
-                                </select>
-
-
-                                <!-- View Toggle -->
-                                <div class="flex border border-gray-300 rounded-lg">
-                                    <button class="p-2 bg-accent text-white rounded-l-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                                        </svg>
-                                    </button>
-                                    <button class="p-2 text-secondary-600 hover:bg-secondary-50 rounded-r-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                                        </svg>
-                                    </button>
+                    <!-- Sustainability Score -->
+                    <div class="card">
+                        <h4 class="font-medium text-primary mb-3">Sustainability Score</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="sustainability" class="text-accent focus:ring-accent" />
+                                <span class="ml-2 text-body-sm">Excellent (90-100)</span>
+                                <div class="ml-auto flex">
+                                    <div class="w-2 h-2 bg-success rounded-full"></div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Product Grid -->
-                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <!-- Product Card 1 -->
-                            @foreach ($products as $product)
-                                <script>
-                                    let allProducts = @json($products);
-                                </script>
-                                <div
-                                    class="card group cursor-pointer hover:shadow-hover transition-all duration-300 relative">
-
-                                    {{-- === BADGES === --}}
-                                    @if ($product->has_3d_model)
-                                        <div
-                                            class="absolute top-3 right-3 bg-primary text-white px-2 py-1 rounded-full text-caption font-medium z-10">
-                                            3D Model
-                                        </div>
-                                    @elseif($product->is_featured)
-                                        <div
-                                            class="absolute top-3 right-3 bg-error text-white px-2 py-1 rounded-full text-caption font-medium z-10">
-                                            Hot Deal
-                                        </div>
-                                    @elseif($product->is_new)
-                                        <div
-                                            class="absolute top-3 right-3 bg-success text-white px-2 py-1 rounded-full text-caption font-medium z-10">
-                                            New Arrival
-                                        </div>
-                                    @elseif($product->is_best_seller)
-                                        <div
-                                            class="absolute top-3 right-3 bg-warning text-white px-2 py-1 rounded-full text-caption font-medium z-10">
-                                            Best Seller
-                                        </div>
-                                    @elseif($product->stock_quantity <= 5)
-                                        <div
-                                            class="absolute top-3 right-3 bg-accent text-white px-2 py-1 rounded-full text-caption font-medium z-10">
-                                            Limited Stock
-                                        </div>
-                                    @else
-                                        <div
-                                            class="absolute top-3 right-3 bg-accent text-white px-2 py-1 rounded-full text-caption font-medium z-10">
-                                            AR Preview
-                                        </div>
-                                    @endif
-
-                                    {{-- === IMAGE DISPLAY === --}}
-                                    <div class="relative overflow-hidden rounded-lg mb-4">
-                                        <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
-                                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                                            loading="lazy" />
-                                        <!-- Hover Actions -->
-                                        <div
-                                            class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-2">
-                                            <a href="{{ route('product.view', $product->sku) }}"
-                                                class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50"
-                                                title="View Product">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                </svg>
-                                            </a>
-                                            <button class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                                </svg>
-                                            </button>
-                                            <button onclick="addToComparison({{ $product->id }})"
-                                                class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50"
-                                                title="Add to Compare">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {{-- === PRODUCT INFO === --}}
-                                    <a href="{{ route('product.view', $product->sku) }}" class="space-y-3">
-                                        <h3 class="font-semibold text-primary group-hover:text-accent transition-fast">
-                                            {{ $product->name }}
-                                        </h3>
-
-
-                                        {{-- Price & MOQ --}}
-                                        <div class="space-y-1">
-                                            {{-- Price Section --}}
-                                            <div>
-                                                @if ($product->discount_price)
-                                                    <span class="line-through text-secondary-500 text-sm mr-2">
-                                                        ${{ number_format($product->price, 2) }}
-                                                    </span>
-                                                    <span class="text-subheading font-bold text-primary">
-                                                        ${{ number_format($product->discount_price, 2) }}
-                                                    </span>
-                                                @else
-                                                    <span class="text-subheading font-bold text-primary">
-                                                        ${{ number_format($product->price, 2) }}
-                                                    </span>
-                                                @endif
-                                                <span class="text-body-sm text-secondary-600 ml-1">/ piece</span>
-                                            </div>
-
-                                            {{-- MOQ Section --}}
-                                            <div>
-                                                <span class="text-body-sm text-secondary-600">
-                                                    MOQ: {{ $product->min_order_quantity }} pcs
-                                                </span>
-                                            </div>
-                                        </div>
-
-
-
-                                        {{-- Eco-Friendly (Optional) --}}
-                                        @if (is_array($product->features) && in_array('eco_friendly', $product->features))
-                                            <div class="flex items-center justify-between">
-                                                <div class="flex items-center gap-1">
-                                                    <div class="w-2 h-2 bg-success rounded-full"></div>
-                                                    <span class="text-caption text-success">Eco-Friendly</span>
-                                                </div>
-                                                <span class="text-caption text-secondary-500">Ships in 3-5 days</span>
-                                            </div>
-                                        @endif
-
-
-                                    </a>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="sustainability" class="text-accent focus:ring-accent" />
+                                <span class="ml-2 text-body-sm">Good (70-89)</span>
+                                <div class="ml-auto flex">
+                                    <div class="w-2 h-2 bg-warning rounded-full"></div>
                                 </div>
-                            @endforeach
-
-
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="sustainability" class="text-accent focus:ring-accent" />
+                                <span class="ml-2 text-body-sm">Fair (50-69)</span>
+                                <div class="ml-auto flex">
+                                    <div class="w-2 h-2 bg-accent rounded-full"></div>
+                                </div>
+                            </label>
                         </div>
+                    </div>
 
-                        <!-- Pagination -->
-                        <div class="flex items-center justify-between mt-12">
-                            <!-- Showing Info -->
-                            <div class="text-body text-secondary-600">
-                                Showing {{ $products->firstItem() }} - {{ $products->lastItem() }} of
-                                {{ $products->total() }} results
-                            </div>
-
-                            <!-- Page Buttons -->
-                            <div class="flex items-center space-x-2">
-                                <!-- Previous Page -->
-                                @if ($products->onFirstPage())
-                                    <button
-                                        class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-400 cursor-not-allowed"
-                                        disabled>
-                                        Previous
-                                    </button>
-                                @else
-                                    <a href="{{ $products->previousPageUrl() }}"
-                                        class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">
-                                        Previous
-                                    </a>
-                                @endif
-
-                                {{-- Page Links --}}
-                                @php
-                                    $start = max(1, $products->currentPage() - 2);
-                                    $end = min($products->lastPage(), $products->currentPage() + 2);
-                                @endphp
-
-                                @if ($start > 1)
-                                    <a href="{{ $products->url(1) }}"
-                                        class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">1</a>
-                                    @if ($start > 2)
-                                        <span class="px-3 py-2 text-secondary-400">...</span>
-                                    @endif
-                                @endif
-
-                                @for ($i = $start; $i <= $end; $i++)
-                                    @if ($i == $products->currentPage())
-                                        <span class="px-3 py-2 bg-accent text-white rounded-lg">{{ $i }}</span>
-                                    @else
-                                        <a href="{{ $products->url($i) }}"
-                                            class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">{{ $i }}</a>
-                                    @endif
-                                @endfor
-
-                                @if ($end < $products->lastPage())
-                                    @if ($end < $products->lastPage() - 1)
-                                        <span class="px-3 py-2 text-secondary-400">...</span>
-                                    @endif
-                                    <a href="{{ $products->url($products->lastPage()) }}"
-                                        class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">{{ $products->lastPage() }}</a>
-                                @endif
-
-                                <!-- Next Page -->
-                                @if ($products->hasMorePages())
-                                    <a href="{{ $products->nextPageUrl() }}"
-                                        class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">
-                                        Next
-                                    </a>
-                                @else
-                                    <button
-                                        class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-400 cursor-not-allowed"
-                                        disabled>
-                                        Next
-                                    </button>
-                                @endif
-                            </div>
+                    <!-- Cultural Fit Indicators -->
+                    <div class="card">
+                        <h4 class="font-medium text-primary mb-3">Cultural Fit</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-accent focus:ring-accent" />
+                                <span class="ml-2 text-body-sm">Same Time Zone</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-accent focus:ring-accent" />
+                                <span class="ml-2 text-body-sm">English Speaking</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-accent focus:ring-accent" />
+                                <span class="ml-2 text-body-sm">Similar Business Culture</span>
+                            </label>
                         </div>
-
                     </div>
                 </div>
+
+                <!-- Product Results -->
+                <div class="flex-1">
+                    <!-- Results Header -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                        <div>
+                            <h2 class="text-heading font-semibold text-primary">Product Results</h2>
+                            <p class="text-body text-secondary-600">
+                                Showing {{ $products->firstItem() }} - {{ $products->lastItem() }} of
+                                {{ $products->total() }} products
+                            </p>
+
+                        </div>
+
+                        <!-- Sort & View Options -->
+                        <div class="flex items-center gap-4">
+                            <select id="sortSelect" class="input-field min-w-40">
+                                <option value="best">Best Match</option>
+                                <option value="price_asc">Price: Low to High</option>
+                                <option value="price_desc">Price: High to Low</option>
+                                <option value="newest">Newest First</option>
+                                <option value="top_rated">Top Rated</option>
+                            </select>
+
+
+                            <!-- View Toggle -->
+                            <div class="flex border border-gray-300 rounded-lg">
+                                <button class="p-2 bg-accent text-white rounded-l-lg">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                                    </svg>
+                                </button>
+                                <button class="p-2 text-secondary-600 hover:bg-secondary-50 rounded-r-lg">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Grid -->
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Product Card 1 -->
+                        @foreach ($products as $product)
+                            <script>
+                                let allProducts = @json($products);
+                            </script>
+                            <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300 relative">
+
+                                {{-- === BADGES === --}}
+                                @if ($product->has_3d_model)
+                                    <div
+                                        class="absolute top-3 right-3 bg-primary text-white px-2 py-1 rounded-full text-caption font-medium z-10">
+                                        3D Model
+                                    </div>
+                                @elseif($product->is_featured)
+                                    <div
+                                        class="absolute top-3 right-3 bg-error text-white px-2 py-1 rounded-full text-caption font-medium z-10">
+                                        Hot Deal
+                                    </div>
+                                @elseif($product->is_new)
+                                    <div
+                                        class="absolute top-3 right-3 bg-success text-white px-2 py-1 rounded-full text-caption font-medium z-10">
+                                        New Arrival
+                                    </div>
+                                @elseif($product->is_best_seller)
+                                    <div
+                                        class="absolute top-3 right-3 bg-warning text-white px-2 py-1 rounded-full text-caption font-medium z-10">
+                                        Best Seller
+                                    </div>
+                                @elseif($product->stock_quantity <= 5)
+                                    <div
+                                        class="absolute top-3 right-3 bg-accent text-white px-2 py-1 rounded-full text-caption font-medium z-10">
+                                        Limited Stock
+                                    </div>
+                                @else
+                                    <div
+                                        class="absolute top-3 right-3 bg-accent text-white px-2 py-1 rounded-full text-caption font-medium z-10">
+                                        AR Preview
+                                    </div>
+                                @endif
+
+                                {{-- === IMAGE DISPLAY === --}}
+                                <div class="relative overflow-hidden rounded-lg mb-4">
+                                    <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
+                                        class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
+                                        loading="lazy" />
+                                    <!-- Hover Actions -->
+                                    <div
+                                        class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-2">
+                                        <a href="{{ route('product.view', $product->sku) }}"
+                                            class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50"
+                                            title="View Product">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </a>
+                                        <button class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                            </svg>
+                                        </button>
+                                        <button onclick="addToComparison({{ $product->id }})"
+                                            class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50"
+                                            title="Add to Compare">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {{-- === PRODUCT INFO === --}}
+                                <a href="{{ route('product.view', $product->sku) }}" class="space-y-3">
+                                    <h3 class="font-semibold text-primary group-hover:text-accent transition-fast">
+                                        {{ $product->name }}
+                                    </h3>
+
+
+                                    {{-- Price & MOQ --}}
+                                    <div class="space-y-1">
+                                        {{-- Price Section --}}
+                                        <div>
+                                            @if ($product->discount_price)
+                                                <span class="line-through text-secondary-500 text-sm mr-2">
+                                                    ${{ number_format($product->price, 2) }}
+                                                </span>
+                                                <span class="text-subheading font-bold text-primary">
+                                                    ${{ number_format($product->discount_price, 2) }}
+                                                </span>
+                                            @else
+                                                <span class="text-subheading font-bold text-primary">
+                                                    ${{ number_format($product->price, 2) }}
+                                                </span>
+                                            @endif
+                                            <span class="text-body-sm text-secondary-600 ml-1">/ piece</span>
+                                        </div>
+
+                                        {{-- MOQ Section --}}
+                                        <div>
+                                            <span class="text-body-sm text-secondary-600">
+                                                MOQ: {{ $product->min_order_quantity }} pcs
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+
+                                    {{-- Eco-Friendly (Optional) --}}
+                                    @if (is_array($product->features) && in_array('eco_friendly', $product->features))
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-1">
+                                                <div class="w-2 h-2 bg-success rounded-full"></div>
+                                                <span class="text-caption text-success">Eco-Friendly</span>
+                                            </div>
+                                            <span class="text-caption text-secondary-500">Ships in 3-5 days</span>
+                                        </div>
+                                    @endif
+
+
+                                </a>
+                            </div>
+                        @endforeach
+
+
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex items-center justify-between mt-12">
+                        <!-- Showing Info -->
+                        <div class="text-body text-secondary-600">
+                            Showing {{ $products->firstItem() }} - {{ $products->lastItem() }} of
+                            {{ $products->total() }} results
+                        </div>
+
+                        <!-- Page Buttons -->
+                        <div class="flex items-center space-x-2">
+                            <!-- Previous Page -->
+                            @if ($products->onFirstPage())
+                                <button
+                                    class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-400 cursor-not-allowed"
+                                    disabled>
+                                    Previous
+                                </button>
+                            @else
+                                <a href="{{ $products->previousPageUrl() }}"
+                                    class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">
+                                    Previous
+                                </a>
+                            @endif
+
+                            {{-- Page Links --}}
+                            @php
+                                $start = max(1, $products->currentPage() - 2);
+                                $end = min($products->lastPage(), $products->currentPage() + 2);
+                            @endphp
+
+                            @if ($start > 1)
+                                <a href="{{ $products->url(1) }}"
+                                    class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">1</a>
+                                @if ($start > 2)
+                                    <span class="px-3 py-2 text-secondary-400">...</span>
+                                @endif
+                            @endif
+
+                            @for ($i = $start; $i <= $end; $i++)
+                                @if ($i == $products->currentPage())
+                                    <span class="px-3 py-2 bg-accent text-white rounded-lg">{{ $i }}</span>
+                                @else
+                                    <a href="{{ $products->url($i) }}"
+                                        class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">{{ $i }}</a>
+                                @endif
+                            @endfor
+
+                            @if ($end < $products->lastPage())
+                                @if ($end < $products->lastPage() - 1)
+                                    <span class="px-3 py-2 text-secondary-400">...</span>
+                                @endif
+                                <a href="{{ $products->url($products->lastPage()) }}"
+                                    class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">{{ $products->lastPage() }}</a>
+                            @endif
+
+                            <!-- Next Page -->
+                            @if ($products->hasMorePages())
+                                <a href="{{ $products->nextPageUrl() }}"
+                                    class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-600 hover:bg-secondary-50 transition-fast">
+                                    Next
+                                </a>
+                            @else
+                                <button
+                                    class="px-3 py-2 border border-gray-300 rounded-lg text-secondary-400 cursor-not-allowed"
+                                    disabled>
+                                    Next
+                                </button>
+                            @endif
+                        </div>
+                    </div>
+
+                </div>
             </div>
+        </div>
     </section>
 
     <!-- Comparison Tool Section -->
@@ -1153,10 +1151,9 @@
             });
         }
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('/api/categories-with-count')
+            fetch('/categories-with-count')
                 .then(res => res.json())
                 .then(categories => {
                     let container = document.querySelector('#categories-list');
