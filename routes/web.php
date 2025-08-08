@@ -12,6 +12,7 @@ use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\OrderTrackingController;
 use App\Http\Controllers\frontend\ProductListingController;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +20,16 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/product-discovery-hub', [ProductListingController::class, 'index'])->name('product.discovery');
 Route::get('/product-view/{sku}', [ProductListingController::class, 'showProduct'])->name('product.view');
-Route::get('/categories-with-count', function () {
-    return Category::withCount('products')->get();
+Route::get('/categories-with-count', [ProductListingController::class, 'getCategoriesWithProductCount']);
+Route::get('/products', function (\Illuminate\Http\Request $request) {
+    $query = Product::with('category', 'brand');
+
+    if ($request->has('categories') && $request->categories != '') {
+        $categoryIds = explode(',', $request->categories);
+        $query->whereIn('category_id', $categoryIds);
+    }
+
+    return $query->get();
 });
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
 Route::get('/authentication', [AuthController::class, 'showLoginForm'])->name('login');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -33,5 +34,13 @@ class ProductListingController extends Controller
         // Logic to show a specific product
         $product = Product::where('sku', $sku)->firstOrFail();
         return view('frontend.product-view', compact('product')); // Adjust the view name as necessary
+    }
+
+    public function getCategoriesWithProductCount()
+    {
+        // Eager load product count for each category
+        $categories = Category::withCount('products')->get();
+
+        return response()->json($categories);
     }
 }
