@@ -47,29 +47,12 @@ class ProductListingController extends Controller
 }
 
 
-  public function filterProducts(Request $request)
+    public function filterProducts(Request $request)
 {
     $query = Product::with('brand');
 
-    // handle categories safely
     if ($request->has('categories') && is_array($request->categories)) {
-        $categoryIds = array_filter($request->categories, function($v){ return $v !== '' && $v !== null; });
-        if (!empty($categoryIds)) {
-            $query->whereIn('category_id', $categoryIds);
-        }
-    }
-
-    // currency
-    if ($request->filled('currency')) {
-        $query->where('currency', $request->currency);
-    }
-
-    // price range
-    if ($request->filled('min_price') && is_numeric($request->min_price)) {
-        $query->where('price', '>=', (float)$request->min_price);
-    }
-    if ($request->filled('max_price') && is_numeric($request->max_price)) {
-        $query->where('price', '<=', (float)$request->max_price);
+        $query->whereIn('category_id', $request->categories);
     }
 
     $products = $query->latest()->paginate(12);
@@ -79,8 +62,6 @@ class ProductListingController extends Controller
         'pagination' => view('partials.pagination', compact('products'))->render()
     ]);
 }
-
-
 
 public function getPriceRange(Request $request)
 {
