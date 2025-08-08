@@ -65,11 +65,10 @@ class ProductListingController extends Controller
 
 public function filterByPrice(Request $request)
 {
-    $currency = $request->currency;
-    $minPrice = $request->min_price;
-    $maxPrice = $request->max_price;
+    $currency = $request->get('currency');
+    $minPrice = $request->get('min_price');
+    $maxPrice = $request->get('max_price');
 
-    // Start query
     $query = Product::with('brand', 'category');
 
     if ($currency && in_array($currency, ['$', 'RWF'])) {
@@ -80,14 +79,14 @@ public function filterByPrice(Request $request)
         $query->whereBetween('price', [$minPrice, $maxPrice]);
     }
 
-    // Paginate for better handling with partials
-    $products = $query->paginate(12);
+    $products = $query->latest()->paginate(12);
 
     return response()->json([
         'html' => view('partials.product-grid', compact('products'))->render(),
         'pagination' => view('partials.pagination', compact('products'))->render()
     ]);
 }
+
 
 
 

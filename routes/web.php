@@ -23,13 +23,6 @@ Route::get('/product-view/{sku}', [ProductListingController::class, 'showProduct
 Route::get('/categories-with-count', [ProductListingController::class, 'getCategoriesWithProductCount']);
 Route::get('/products/filter', [ProductListingController::class, 'filterProducts'])->name('products.filter');
 Route::get('/products/filter-by-price', [ProductListingController::class, 'filterByPrice'])->name('products.filterByPrice');
-Route::get('/products/min-max-price', function () {
-    return response()->json([
-        'min' => Product::min('price'),
-        'max' => Product::max('price')
-    ]);
-});
-
 Route::get('/products/price-range', [ProductListingController::class, 'getPriceRange']);
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
 Route::get('/authentication', [AuthController::class, 'showLoginForm'])->name('login');
