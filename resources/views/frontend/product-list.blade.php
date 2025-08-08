@@ -135,7 +135,8 @@
                     <!-- Category Filter -->
                     <div class="card">
                         <h4 class="font-medium text-primary mb-3">Categories</h4>
-                        <div id="categories-list" class="space-y-2"></div>
+                        <div class="space-y-2" id="categories-list"></div>
+
 
                         <!-- Price Range -->
                         <div class="card">
