@@ -1066,6 +1066,9 @@
 
             // 3️⃣ Fetch products (combined filters)
             function fetchFilteredProducts() {
+                const loader = document.getElementById('loader');
+                loader.classList.remove('hidden'); // Show loader
+                productGrid.innerHTML = '';
                 let currency = currencySelect.value;
                 let min = minPriceInput.value || dbMinPrice;
                 let max = maxPriceInput.value || dbMaxPrice;
@@ -1079,8 +1082,15 @@
                 fetch(`/products/filter?${params.toString()}`)
                     .then(res => res.json())
                     .then(data => {
+                        loader.classList.add('hidden');
                         productsContainer.innerHTML = data.html;
                         document.getElementById('pagination').innerHTML = data.pagination;
+                    })
+                    .catch(err => {
+                        loader.classList.add('hidden'); // Hide loader
+                        productGrid.innerHTML = '<p>Error fetching products.</p>';
+                        pagination.innerHTML = '';
+                        console.error(err);
                     });
             }
 
@@ -1127,6 +1137,9 @@
             }
 
             function fetchFilteredProducts() {
+                const loader = document.getElementById('loader');
+                loader.classList.remove('hidden'); // Show loader
+                productGrid.innerHTML = '';
                 let currency = currencySelect.value;
                 let min = minPriceInput.value;
                 let max = maxPriceInput.value;
@@ -1134,10 +1147,12 @@
                 fetch(`/products/filter-by-price?currency=${currency}&min_price=${min}&max_price=${max}`)
                     .then(res => res.json())
                     .then(data => {
+                        loader.classList.add('hidden');
                         productGrid.innerHTML = data.html;
                         pagination.innerHTML = data.pagination;
                     })
                     .catch(err => {
+                        loader.classList.add('hidden'); 
                         productGrid.innerHTML = '<p>Error fetching products.</p>';
                         pagination.innerHTML = '';
                         console.error(err);
