@@ -975,16 +975,20 @@
 
         });
 
-        function filterProducts() {
-            let selectedCategories = Array.from(document.querySelectorAll('.category-filter:checked'))
-                .map(cb => cb.value);
+        document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('category-checkbox')) {
+                const selected = Array.from(document.querySelectorAll('.category-checkbox:checked'))
+                    .map(cb => cb.value);
 
-            fetch(`/api/products?categories=${selectedCategories.join(',')}`)
-                .then(res => res.json())
-                .then(products => {
-                    renderProducts(products);
-                });
-        }
+                fetch(`products/filter?categories[]=` + selected.join('&categories[]='))
+                    .then(res => res.json())
+                    .then(data => {
+                        document.getElementById('product-grid').innerHTML = data.html;
+                        document.getElementById('pagination').innerHTML = data.pagination;
+                    });
+            }
+        });
+
 
         // Example: Replace with your actual rendering logic
         function renderProducts(products) {
