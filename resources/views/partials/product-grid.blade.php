@@ -2,9 +2,6 @@
 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <!-- Product Card 1 -->
     @foreach ($products as $product)
-        <script>
-            let allProducts = @json($products);
-        </script>
         <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300 relative">
 
             {{-- === BADGES === --}}
@@ -139,3 +136,6 @@
 
 
 </div>
+<script>
+    let allProducts = @json($products);
+</script>
