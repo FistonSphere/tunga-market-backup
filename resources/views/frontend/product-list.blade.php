@@ -354,7 +354,11 @@
                                                 </span>
                                             @else
                                                 <span class="text-subheading font-bold text-primary">
-                                                    ${{ number_format($product->price, 2) }}
+                                                    @if ($product->currency === '$')
+                                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                    @elseif($product->currency === 'Rwf')
+                                                        {{ number_format($product->price) }} {{ $product->currency }}
+                                                    @endif
                                                 </span>
                                             @endif
                                             <span class="text-body-sm text-secondary-600 ml-1">/ piece</span>
