@@ -80,10 +80,15 @@ public function filterByPrice(Request $request)
         $query->whereBetween('price', [$minPrice, $maxPrice]);
     }
 
-    $products = $query->get();
+    // Paginate for better handling with partials
+    $products = $query->paginate(12);
 
-    return response()->json($products);
+    return response()->json([
+        'html' => view('partials.product-grid', compact('products'))->render(),
+        'pagination' => view('partials.pagination', compact('products'))->render()
+    ]);
 }
+
 
 
 }
