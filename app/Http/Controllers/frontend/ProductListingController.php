@@ -63,17 +63,26 @@ class ProductListingController extends Controller
     ]);
 }
 
-public function getPriceRange(Request $request)
+public function filterByPrice(Request $request)
 {
-    $currency = $request->get('currency', 'USD');
+    $currency = $request->currency;
+    $minPrice = $request->min_price;
+    $maxPrice = $request->max_price;
 
-    $min = Product::where('currency', $currency)->min('price');
-    $max = Product::where('currency', $currency)->max('price');
+    // Start query
+    $query = Product::with('brand', 'category');
 
-    return response()->json([
-        'min' => $min ?? 0,
-        'max' => $max ?? 0,
-    ]);
+    if ($currency && in_array($currency, ['$', 'RWF'])) {
+        $query->where('currency', $currency);
+    }
+
+    if ($minPrice !== null && $maxPrice !== null) {
+        $query->whereBetween('price', [$minPrice, $maxPrice]);
+    }
+
+    $products = $query->get();
+
+    return response()->json($products);
 }
 
 

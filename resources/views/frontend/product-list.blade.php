@@ -146,7 +146,8 @@
 
                         <!-- Currency Selector -->
                         <select id="currency-select" class="input-field w-full mb-3">
-                            <option value="$" selected>USD ($)</option>
+                            <option value="" selected>Currency</option>
+                            <option value="$">USD ($)</option>
                             <option value="RWF">RWF (₣)</option>
                         </select>
 
@@ -1000,6 +1001,70 @@
                     })
                     .catch(err => console.error('Error filtering products:', err));
             }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currencySelect = document.getElementById('currency-select');
+            const minPriceInput = document.getElementById('min-price');
+            const maxPriceInput = document.getElementById('max-price');
+            const priceProgress = document.getElementById('price-progress');
+
+            let dbMinPrice = 0;
+            let dbMaxPrice = 0;
+
+            // Get DB Min/Max Price for progress bar
+            fetch('/products/min-max-price')
+                .then(res => res.json())
+                .then(data => {
+                    dbMinPrice = data.min;
+                    dbMaxPrice = data.max;
+                });
+
+            function updateProgress() {
+                let min = parseFloat(minPriceInput.value) || dbMinPrice;
+                let max = parseFloat(maxPriceInput.value) || dbMaxPrice;
+                let range = dbMaxPrice - dbMinPrice;
+                let progressWidth = ((max - min) / range) * 100;
+                priceProgress.style.width = `${progressWidth}%`;
+            }
+
+            function fetchFilteredProducts() {
+                let currency = currencySelect.value;
+                let min = minPriceInput.value;
+                let max = maxPriceInput.value;
+
+                fetch(`/products/filter-by-price?currency=${currency}&min_price=${min}&max_price=${max}`)
+                    .then(res => res.json())
+                    .then(products => {
+                        const productsContainer = document.getElementById('products-list');
+                        productsContainer.innerHTML = '';
+
+                        if (products.length === 0) {
+                            productsContainer.innerHTML = '<p>No products found in this price range.</p>';
+                            return;
+                        }
+
+                        products.forEach(p => {
+                            productsContainer.innerHTML += `
+                        <div class="product-card">
+                            <img src="${p.image_url}" alt="${p.name}" />
+                            <h3>${p.name}</h3>
+                            <p>${p.currency} ${p.price}</p>
+                            <p>${p.brand?.name ?? 'N/A'}</p>
+                        </div>
+                    `;
+                        });
+                    });
+            }
+
+            [currencySelect, minPriceInput, maxPriceInput].forEach(el => {
+                el.addEventListener('input', () => {
+                    updateProgress();
+                    fetchFilteredProducts();
+                });
+            });
         });
     </script>
 @endsection
