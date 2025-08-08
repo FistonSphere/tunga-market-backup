@@ -21,7 +21,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product-discovery-hub', [ProductListingController::class, 'index'])->name('product.discovery');
 Route::get('/product-view/{sku}', [ProductListingController::class, 'showProduct'])->name('product.view');
 Route::get('/categories-with-count', [ProductListingController::class, 'getCategoriesWithProductCount']);
-Route::get('/products/filter', [ProductListingController::class, 'filterProducts']);
+Route::get('/products/filter', [ProductListingController::class, 'filterProducts'])->name('products.filter');
 Route::get('/products', function (\Illuminate\Http\Request $request) {
     $query = Product::with('category', 'brand');
 

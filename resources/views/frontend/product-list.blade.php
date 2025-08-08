@@ -135,7 +135,7 @@
                     <!-- Category Filter -->
                     <div class="card">
                         <h4 class="font-medium text-primary mb-3">Categories</h4>
-                        <div class="space-y-2" id="categories-list category-filters">
+                        <div class="space-y-2" id="categories-list">
 
                         </div>
                     </div>
