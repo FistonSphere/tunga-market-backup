@@ -14,6 +14,7 @@ class Product extends Model
         'long_description',
         'price',
         'discount_price',
+        'currency',
         'sku',
         'stock_quantity',
         'main_image',
