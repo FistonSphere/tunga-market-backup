@@ -964,12 +964,15 @@
                     container.innerHTML = '';
                     categories.forEach(cat => {
                         container.innerHTML += `
-                <label class="flex items-center">
-                    <input type="checkbox" class="rounded border-gray-300 text-accent focus:ring-accent" data-category-id="${cat.id}" />
-                    <span class="ml-2 text-body-sm">${cat.name} (${cat.products_count})</span>
-                </label>
-            `;
+        <label class="flex items-center">
+            <input type="checkbox"
+                   class="rounded border-gray-300 text-accent focus:ring-accent category-checkbox"
+                   value="${cat.id}" />
+            <span class="ml-2 text-body-sm">${cat.name} (${cat.products_count})</span>
+        </label>
+    `;
                     });
+
                 })
                 .catch(err => console.error('Error fetching categories:', err));
 
@@ -980,25 +983,14 @@
                 const selected = Array.from(document.querySelectorAll('.category-checkbox:checked'))
                     .map(cb => cb.value);
 
-                fetch(`products/filter?categories[]=` + selected.join('&categories[]='))
+                fetch(`/products/filter?` + selected.map(id => `categories[]=${id}`).join('&'))
                     .then(res => res.json())
                     .then(data => {
                         document.getElementById('product-grid').innerHTML = data.html;
                         document.getElementById('pagination').innerHTML = data.pagination;
-                    });
+                    })
+                    .catch(err => console.error('Error filtering products:', err));
             }
         });
-
-
-        // Example: Replace with your actual rendering logic
-        function renderProducts(products) {
-            let productContainer = document.getElementById('product-list');
-            productContainer.innerHTML = products.map(p => `
-        <div class="p-4 border rounded">
-            <h3 class="text-lg font-bold">${p.name}</h3>
-            <p class="text-sm text-gray-500">${p.price} USD</p>
-        </div>
-    `).join('');
-        }
     </script>
 @endsection

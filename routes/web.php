@@ -22,16 +22,7 @@ Route::get('/product-discovery-hub', [ProductListingController::class, 'index'])
 Route::get('/product-view/{sku}', [ProductListingController::class, 'showProduct'])->name('product.view');
 Route::get('/categories-with-count', [ProductListingController::class, 'getCategoriesWithProductCount']);
 Route::get('/products/filter', [ProductListingController::class, 'filterProducts'])->name('products.filter');
-Route::get('/products', function (\Illuminate\Http\Request $request) {
-    $query = Product::with('category', 'brand');
 
-    if ($request->has('categories') && $request->categories != '') {
-        $categoryIds = explode(',', $request->categories);
-        $query->whereIn('category_id', $categoryIds);
-    }
-
-    return $query->get();
-});
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
 Route::get('/authentication', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/about', [AboutController::class, 'index'])->name('about');

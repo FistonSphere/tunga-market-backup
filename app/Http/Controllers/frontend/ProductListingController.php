@@ -37,15 +37,15 @@ class ProductListingController extends Controller
     }
 
     public function getCategoriesWithProductCount()
-    {
-        // Eager load product count for each category
-        $categories = Category::having('products_count', '>', 0)
-        ->withCount('products')
+{
+    $categories = Category::withCount('products')
+        ->having('products_count', '>', 0)
         ->orderByDesc('products_count')
         ->get();
 
-        return response()->json($categories);
-    }
+    return response()->json($categories);
+}
+
 
     public function filterProducts(Request $request)
 {
