@@ -46,4 +46,21 @@ class ProductListingController extends Controller
 
         return response()->json($categories);
     }
+
+    public function filterProducts(Request $request)
+{
+    $query = Product::with('brand');
+
+    if ($request->has('categories') && is_array($request->categories)) {
+        $query->whereIn('category_id', $request->categories);
+    }
+
+    $products = $query->latest()->paginate(12);
+
+    return response()->json([
+        'html' => view('partials.product-grid', compact('products'))->render(),
+        'pagination' => view('partials.pagination', compact('products'))->render()
+    ]);
+}
+
 }
