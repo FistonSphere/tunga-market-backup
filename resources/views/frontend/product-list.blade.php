@@ -1155,6 +1155,40 @@
                 }
             });
         });
+
+        //categpry filtering functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const categorySelect = document.getElementById('categorySelect');
+            const searchBtn = document.getElementById('searchBtn');
+            const productContainer = document.getElementById('product-grid');
+            const loader = document.getElementById('loader');
+
+            searchBtn.addEventListener('click', function() {
+                const selectedCategoryId = categorySelect.value;
+
+                // Show loader and dim product container
+                if (loader) loader.classList.remove('hidden');
+                if (productContainer) productContainer.style.opacity = '0.5';
+
+                // Build params for filtering products
+                let params = new URLSearchParams();
+
+                // Only add category filter if not "All Categories"
+                if (selectedCategoryId && selectedCategoryId !== 'All Categories') {
+                    params.append('category_id', selectedCategoryId);
+                }
+
+                fetch(`/products/main-filter?${params.toString()}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        productContainer.innerHTML = data.html;
+                        if (loader) loader.classList.add('hidden');
+                        if (productContainer) productContainer.style.opacity = '1';
+                    });
+            });
+        });
+
+        //categpry filtering functionality
         //advanced searching
     </script>
 @endsection
