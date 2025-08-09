@@ -181,6 +181,31 @@ public function getTrendingSuggestions()
 }
 
 
+public function filter(Request $request)
+{
+    $query = Product::query();
+
+    if ($request->filled('category_id')) {
+        $query->where('category_id', $request->category_id);
+    }
+
+    if ($request->filled('product_id')) {
+        $query->where('id', $request->product_id);
+    }
+
+    if ($request->filled('supplier_id')) {
+        $query->where('supplier_id', $request->supplier_id);
+    }
+
+    // Add other filters if needed (price, brand, etc.)
+
+    $products = $query->paginate(20);
+
+     return response()->json([
+        'html' => view('partials.product-grid', compact('products'))->render(),
+        'pagination' => view('partials.pagination', compact('products'))->render()
+    ]);
+}
 
 
 

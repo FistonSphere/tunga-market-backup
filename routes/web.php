@@ -11,6 +11,7 @@ use App\Http\Controllers\frontend\HelpCenterController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\OrderTrackingController;
 use App\Http\Controllers\frontend\ProductListingController;
+use App\Http\Controllers\SearchController;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
@@ -35,7 +36,8 @@ Route::get('/brands/list', [ProductListingController::class, 'brandList'])->name
 Route::get('/trending-suggestions', [ProductListingController::class, 'getTrendingSuggestions']);
 Route::get('/products/price-range', [ProductListingController::class, 'getPriceRange']);
 Route::get('/products/search', [ProductListingController::class, 'search'])->name('products.search');
-
+Route::get('/products/main-filter', [ProductListingController::class, 'filter']);
+Route::get('/search/suggestions', [SearchController::class, 'suggestions']);
 
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
 Route::get('/authentication', [AuthController::class, 'showLoginForm'])->name('login');

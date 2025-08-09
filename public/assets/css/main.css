@@ -4512,5 +4512,25 @@ h6 {
 }
 
 #loader {
-  height: 100px; /* or any fixed height to avoid layout jump */
+    height: 100px; /* or any fixed height to avoid layout jump */
+}
+#searchSuggestions > div.p-2.font-semibold.border-b {
+    background-color: #fef5f1;
+    color: #ff6a34;
+}
+#searchSuggestions {
+    border: 1px solid #ff6a34;
+    border-radius: 8px;
+}
+/* Suggestion items default text color */
+#searchSuggestions .suggestion-item {
+    color: #333;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Hover/focus effect on suggestions */
+#searchSuggestions .suggestion-item:hover,
+#searchSuggestions .suggestion-item:focus {
+    background-color: #fef5f1;
+    color: #ff6a34;
 }
