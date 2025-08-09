@@ -1373,5 +1373,26 @@
         });
 
         //brand filtering functionality
+
+        //trending Suggestions
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch("/trending-suggestions")
+                .then(res => res.json())
+                .then(data => {
+                    let container = document.getElementById("ai-suggestions");
+
+                    data.forEach(product => {
+                        let button = document.createElement("button");
+                        button.textContent = product.name;
+                        button.className =
+                            "px-3 py-1 bg-accent-50 text-accent rounded-full text-body-sm hover:bg-accent-100 transition-fast";
+                        button.onclick = () => {
+                            window.location.href = `/products/${product.id}`;
+                        };
+                        container.appendChild(button);
+                    });
+                });
+        });
+        //trending Suggestions
     </script>
 @endsection
