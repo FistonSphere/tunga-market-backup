@@ -101,17 +101,17 @@ public function sortProducts(Request $request)
             $query->orderBy('price', 'desc');
             break;
         case 'newest':
-            $query->latest();
+            $query->orderBy('created_at', 'desc');
             break;
         case 'top_viewed':
-            $query->orderBy('views_count', 'desc');
+            $query->orderBy('views_count', 'desc'); // use your actual column name
             break;
-        default: // best match
+        default:
             $query->latest();
-            break;
     }
 
-    $products = $query->paginate(12);
+    // paginate and append the 'sort' param so links keep it
+    $products = $query->paginate(12)->appends(['sort' => $sort]);
 
     return response()->json([
         'html' => view('partials.product-grid', compact('products'))->render(),

@@ -1,5 +1,5 @@
 <!-- Pagination -->
-<div class="flex items-center justify-between mt-12" id="pagination">
+<div class="flex items-center justify-between mt-12">
     <!-- Showing Info -->
     <div class="text-body text-secondary-600">
         Showing {{ $products->firstItem() }} - {{ $products->lastItem() }} of

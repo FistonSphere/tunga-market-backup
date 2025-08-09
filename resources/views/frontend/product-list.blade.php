@@ -1022,7 +1022,7 @@
             const maxPriceInput = document.getElementById('max-price');
             const priceProgress = document.getElementById('price-progress');
             const categoriesContainer = document.getElementById('categories-list');
-            const productsContainer = document.getElementById('products-list');
+            const productsContainer = document.getElementById('product-grid');
 
             let dbMinPrice = 0;
             let dbMaxPrice = 0;
@@ -1168,29 +1168,186 @@
 
         //price range filtering functionality
 
-        document.getElementById('sortSelection').addEventListener('change', function() {
-            let sortOption = this.value;
-            let loader = document.getElementById('loader');
-            let productGrid = document.getElementById('productGrid');
+        document.addEventListener('DOMContentLoaded', () => {
+            const sortSelect = document.getElementById('sortSelection'); // make sure your <select> has id="sortSelect"
+            if (!sortSelect) return;
 
-            loader.classList.remove('hidden');
+            // Candidate product container ids -- we'll look for one that exists
+            function findProductContainer() {
+                return document.getElementById('product-grid') // the id your partial uses in responses
+                    ||
+                    document.getElementById('productGrid') ||
+                    document.getElementById('product-grid') ||
+                    document.querySelector('#product-grid-wrapper') ||
+                    document.querySelector('.product-grid');
+            }
 
-            fetch(`/products/sort?sort=${sortOption}`, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    productGrid.innerHTML = data.html;
-                    loader.classList.add('hidden');
-                })
-                .catch(error => {
-                    console.error('Error fetching products:', error);
-                    loader.classList.add('hidden');
+            function findPaginationContainer() {
+                return document.getElementById('pagination') || document.getElementById('paginationWrapper') ||
+                    document.querySelector('.pagination');
+            }
+
+            // Tailwind loader element
+            const loaderEl = document.createElement('div');
+            loaderEl.className = 'flex justify-center items-center py-8';
+            loaderEl.innerHTML = `
+    <svg class="animate-spin h-8 w-8 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+    </svg>
+  `;
+
+            // Helper: safely inject HTML into container and execute scripts inside returned HTML
+            function injectHtmlAndRun(container, html) {
+                // Parse html into a temp container
+                const tmp = document.createElement('div');
+                tmp.innerHTML = html;
+
+                // Extract scripts (external src and inline)
+                const scriptNodes = Array.from(tmp.querySelectorAll('script'));
+                const externalSrcs = [];
+                const inlineCodes = [];
+                scriptNodes.forEach(s => {
+                    if (s.src) externalSrcs.push(s.src);
+                    else inlineCodes.push(s.textContent);
+                    s.remove(); // remove script from tmp so it doesn't get injected twice
                 });
+
+                // Inject markup (without scripts)
+                container.innerHTML = tmp.innerHTML;
+
+                // Load external scripts sequentially (if any) then run inline scripts
+                // Usually partials do not have external scripts, but this is robust
+                const loadExternalSequentially = externalSrcs.reduce((p, src) => {
+                    return p.then(() => new Promise((resolve, reject) => {
+                        const s = document.createElement('script');
+                        s.src = src;
+                        s.onload = () => resolve();
+                        s.onerror = () => {
+                            console.warn('Failed to load script:', src);
+                            resolve(); // don't block on error
+                        };
+                        document.head.appendChild(s);
+                    }));
+                }, Promise.resolve());
+
+                loadExternalSequentially.then(() => {
+                    inlineCodes.forEach(code => {
+                        try {
+                            const s = document.createElement('script');
+                            s.textContent = code;
+                            document.body.appendChild(s);
+                            // remove script tag to keep DOM clean
+                            s.remove();
+                        } catch (err) {
+                            console.error('Error executing inline script from partial:', err);
+                        }
+                    });
+                    // wire pagination anchors now that markup exists
+                    attachAjaxPagination();
+                });
+            }
+
+            // current sort state (keeps selected sort between pages)
+            let currentSort = sortSelect.value || 'best';
+
+            // show/hide loader in product container
+            function showLoaderIn(container) {
+                // clear but keep loader element outside replacement if container is null
+                container.innerHTML = '';
+                container.appendChild(loaderEl);
+            }
+
+            // Perform a fetch for sorted products (page optional)
+            function fetchSortedProducts(page = 1) {
+                const container = findProductContainer();
+                const paginationContainer = findPaginationContainer();
+                if (!container) {
+                    console.error(
+                        'Product container not found. Ensure an element with id="product-grid" or productGrid exists.'
+                        );
+                    return;
+                }
+
+                // show loader
+                showLoaderIn(container);
+                if (paginationContainer) paginationContainer.innerHTML = '';
+
+                const params = new URLSearchParams();
+                if (currentSort) params.append('sort', currentSort);
+                if (page) params.append('page', page);
+
+                fetch(`/products/sort?${params.toString()}`, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(res => {
+                        if (!res.ok) throw new Error('Network response not OK');
+                        return res.json();
+                    })
+                    .then(data => {
+                        // If backend returns 'html' and 'pagination' keys (recommended)
+                        if (data.html) {
+                            const productContainer = findProductContainer();
+                            injectHtmlAndRun(productContainer, data.html);
+                        } else {
+                            // fallback: raw HTML
+                            const productContainer = findProductContainer();
+                            productContainer.innerHTML = data;
+                            attachAjaxPagination();
+                        }
+
+                        if (data.pagination && findPaginationContainer()) {
+                            findPaginationContainer().innerHTML = data.pagination;
+                            attachAjaxPagination();
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error fetching sorted products:', err);
+                        const productContainer = findProductContainer();
+                        if (productContainer) productContainer.innerHTML =
+                            `<p class="text-red-500 text-center py-6">Error loading products.</p>`;
+                    });
+            }
+
+            // Wire pagination anchors inside pagination container to do AJAX preserving currentSort
+            function attachAjaxPagination() {
+                const paginationContainer = findPaginationContainer();
+                if (!paginationContainer) return;
+
+                // handle anchors
+                const anchors = paginationContainer.querySelectorAll('a');
+                anchors.forEach(a => {
+                    // avoid double-binding
+                    a.removeEventListener('click', anchorClickHandler);
+                    a.addEventListener('click', anchorClickHandler);
+                });
+
+                function anchorClickHandler(ev) {
+                    ev.preventDefault();
+                    const href = this.href || this.getAttribute('href');
+                    if (!href) return;
+                    const url = new URL(href, location.origin);
+                    const page = url.searchParams.get('page') || 1;
+                    fetchSortedProducts(page);
+                    // update scroll to top of products (optional):
+                    const productContainer = findProductContainer();
+                    if (productContainer) productContainer.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+
+            // initial attach and change handler
+            sortSelect.addEventListener('change', () => {
+                currentSort = sortSelect.value;
+                fetchSortedProducts(1); // load page 1 for new sort
+            });
+
+            // optional: initial call to ensure pagination links are AJAX-enabled
+            attachAjaxPagination();
         });
-
-
     </script>
 @endsection
