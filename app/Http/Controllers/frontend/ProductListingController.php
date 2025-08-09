@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -119,7 +120,49 @@ public function sortProducts(Request $request)
     ]);
 }
 
+public function brandList()
+{
+    // Get only brands that have products in stock
+    $brands = Brand::whereHas('products', function($q){
+        $q->where('stock_quantity', '>', 0);
+    })->select('id', 'name')->get();
 
+    return response()->json($brands);
+}
+
+public function brandFilter(Request $request)
+{
+    $query = Product::query();
+
+    // Brand filter
+    if ($request->filled('brand_ids')) {
+        $query->whereIn('brand_id', $request->brand_ids);
+    }
+
+    // Availability filter
+    if ($request->filled('in_stock') && $request->in_stock == 1) {
+        $query->where('stock_quantity', '>', 0);
+    }
+
+    // Keep your existing category, price, sorting filters here...
+    // Example sorting:
+    if ($request->filled('sort')) {
+        $sort = $request->sort;
+        if ($sort == 'price_asc') {
+            $query->orderBy('price', 'asc');
+        } elseif ($sort == 'price_desc') {
+            $query->orderBy('price', 'desc');
+        } elseif ($sort == 'latest') {
+            $query->orderBy('created_at', 'desc');
+        }
+    }
+
+    $products = $query->get();
+
+    return response()->json([
+        'html' => view('partials.product_cards', compact('products'))->render()
+    ]);
+}
 
 
 
