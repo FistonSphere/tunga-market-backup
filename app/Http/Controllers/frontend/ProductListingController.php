@@ -182,6 +182,38 @@ public function getTrendingSuggestions()
 
 
 
+public function search(Request $request)
+{
+    $query = Product::query();
+
+    if ($request->filled('q')) {
+        $search = $request->q;
+        $query->where(function($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('short_description', 'like', "%{$search}%")
+              ->orWhereHas('category', function($q2) use ($search) {
+                  $q2->where('name', 'like', "%{$search}%");
+              })
+              ->orWhereHas('brand', function($q3) use ($search) {
+                  $q3->where('name', 'like', "%{$search}%");
+              });
+        });
+    }
+
+    if ($request->filled('category_id')) {
+        $query->where('category_id', $request->category_id);
+    }
+
+    $products = $query->paginate(20);
+
+    $html = view('partials.product-grid', compact('products'))->render();
+    $pagination = view('partials.pagination', compact('products'))->render();
+
+    return response()->json([
+        'html' => $html,
+        'pagination' => $pagination,
+    ]);
+}
 
 
 }

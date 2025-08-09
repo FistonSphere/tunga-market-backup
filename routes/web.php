@@ -34,6 +34,9 @@ Route::get('/products/brand/filter', [ProductListingController::class, 'brandFil
 Route::get('/brands/list', [ProductListingController::class, 'brandList'])->name('brands.list');
 Route::get('/trending-suggestions', [ProductListingController::class, 'getTrendingSuggestions']);
 Route::get('/products/price-range', [ProductListingController::class, 'getPriceRange']);
+Route::get('/products/search', [ProductListingController::class, 'search'])->name('products.search');
+Route::post('/products/image-search', [ProductListingController::class, 'imageSearch'])->name('products.imageSearch');
+
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
 Route::get('/authentication', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
