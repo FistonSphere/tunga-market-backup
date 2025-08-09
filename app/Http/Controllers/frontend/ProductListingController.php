@@ -87,9 +87,9 @@ public function filterByPrice(Request $request)
     ]);
 }
 
-public function sort(Request $request)
+public function sortProducts(Request $request)
 {
-    $sort = $request->get('sort');
+    $sort = $request->get('sort', 'best');
 
     $query = Product::with('brand', 'category');
 
@@ -104,10 +104,11 @@ public function sort(Request $request)
             $query->latest();
             break;
         case 'top_viewed':
-            $query->orderBy('views', 'desc');
+            $query->orderBy('views_count', 'desc');
             break;
-        default:
-            $query->latest(); // best match fallback
+        default: // best match
+            $query->latest();
+            break;
     }
 
     $products = $query->paginate(12);
@@ -117,6 +118,8 @@ public function sort(Request $request)
         'pagination' => view('partials.pagination', compact('products'))->render()
     ]);
 }
+
+
 
 
 

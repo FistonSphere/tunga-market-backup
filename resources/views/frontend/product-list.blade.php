@@ -262,7 +262,10 @@
                             </div>
                         </div>
                     </div>
-
+                    <!-- Loader -->
+                    <div id="loader" class="hidden flex justify-center items-center my-8">
+                        <div class="w-8 h-8 border-4 border-t-transparent border-blue-500 rounded-full animate-spin"></div>
+                    </div>
                     <!-- Product Grid -->
                     <div id="product-grid">
                         @include('partials.product-grid', ['products' => $products])
@@ -1165,44 +1168,29 @@
 
         //price range filtering functionality
 
+        document.getElementById('sortSelection').addEventListener('change', function() {
+            let sortOption = this.value;
+            let loader = document.getElementById('loader');
+            let productGrid = document.getElementById('productGrid');
 
+            loader.classList.remove('hidden');
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const sortSelect = document.getElementById('sortSelection');
-            const productGrid = document.getElementById('productGrid');
-            const paginationWrapper = document.getElementById('paginationWrapper');
-            const loader = document.createElement('div');
-
-            // Tailwind CSS Loader
-            loader.innerHTML = `
-        <div class="flex justify-center items-center py-10 w-full">
-            <svg class="animate-spin h-8 w-8 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor"
-                    d="M4 12a8 8 0 018-8v8H4z"></path>
-            </svg>
-        </div>
-    `;
-
-            sortSelect.addEventListener('change', function() {
-                let sortValue = sortSelect.value;
-
-                // // Show loader
-                productGrid.innerHTML = loader.innerHTML;
-                paginationWrapper.innerHTML = '';
-
-                fetch(`/products/sort?sort=${sortValue}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        productGrid.innerHTML = data.html;
-                        paginationWrapper.innerHTML = data.pagination;
-                    })
-                    .catch(error => {
-                        console.error('Sorting error:', error);
-                        productGrid.innerHTML =
-                            `<p class="text-red-500 text-center py-10">Error loading products</p>`;
-                    });
-            });
+            fetch(`/products/sort?sort=${sortOption}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    productGrid.innerHTML = data.html;
+                    loader.classList.add('hidden');
+                })
+                .catch(error => {
+                    console.error('Error fetching products:', error);
+                    loader.classList.add('hidden');
+                });
         });
+
+
     </script>
 @endsection
