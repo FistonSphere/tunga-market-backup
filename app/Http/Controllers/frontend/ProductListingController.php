@@ -136,16 +136,16 @@ public function brandFilter(Request $request)
 
     // Brand filter
     if ($request->filled('brand_ids')) {
-        $query->whereIn('brand_id', $request->brand_ids);
+        $brandIds = (array) $request->input('brand_ids'); // cast to array
+        $query->whereIn('brand_id', $brandIds);
     }
 
     // Availability filter
-    if ($request->filled('in_stock') && $request->in_stock == 1) {
+    if ($request->boolean('in_stock')) {
         $query->where('stock_quantity', '>', 0);
     }
 
-    // Keep your existing category, price, sorting filters here...
-    // Example sorting:
+    // Example sorting logic
     if ($request->filled('sort')) {
         $sort = $request->sort;
         if ($sort == 'price_asc') {
@@ -157,13 +157,14 @@ public function brandFilter(Request $request)
         }
     }
 
-    $products = $query->get();
+    $products = $query->paginate(12); // use paginate to support pagination partials
 
     return response()->json([
         'html' => view('partials.product-grid', compact('products'))->render(),
         'pagination' => view('partials.pagination', compact('products'))->render()
     ]);
 }
+
 
 
 

@@ -171,24 +171,15 @@
                         <div class="space-y-2" id="Brand-list"></div>
                     </div>
 
-                    <!-- Cultural Fit Indicators -->
-                    <div class="card">
-                        <h4 class="font-medium text-primary mb-3">Cultural Fit</h4>
-                        <div class="space-y-2">
-                            <label class="flex items-center">
-                                <input type="checkbox" class="rounded border-gray-300 text-accent focus:ring-accent" />
-                                <span class="ml-2 text-body-sm">Same Time Zone</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="checkbox" class="rounded border-gray-300 text-accent focus:ring-accent" />
-                                <span class="ml-2 text-body-sm">English Speaking</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="checkbox" class="rounded border-gray-300 text-accent focus:ring-accent" />
-                                <span class="ml-2 text-body-sm">Similar Business Culture</span>
-                            </label>
-                        </div>
+                    <!-- Availability Filter -->
+                    <div class="card mt-5">
+                        <h4 class="font-medium text-primary mb-3">Availability</h4>
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" id="in-stock" class="form-checkbox text-primary">
+                            <span>In Stock Only</span>
+                        </label>
                     </div>
+
                 </div>
 
                 <!-- Product Results -->
@@ -1328,5 +1319,71 @@
             // optional: initial call to ensure pagination links are AJAX-enabled
             attachAjaxPagination();
         });
+
+
+        //brand filtering functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const brandList = document.getElementById('Brand-list');
+            const inStockCheckbox = document.getElementById('in-stock');
+            const productContainer = document.getElementById('product-grid');
+            const loader = document.getElementById('loader');
+
+            // Load brands dynamically
+            fetch('/brands/list')
+                .then(res => res.json())
+                .then(brands => {
+                    brands.forEach(brand => {
+                        const div = document.createElement('div');
+                        div.innerHTML = `
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="brand-checkbox form-checkbox text-primary" value="${brand.id}">
+                        <span>${brand.name}</span>
+                    </label>
+                `;
+                        brandList.appendChild(div);
+                    });
+
+                    // Add event listener to all brand checkboxes
+                    document.querySelectorAll('.brand-checkbox').forEach(cb => {
+                        cb.addEventListener('change', applyFilters);
+                    });
+                });
+
+            // Listen for availability filter change
+            if (inStockCheckbox) {
+                inStockCheckbox.addEventListener('change', applyFilters);
+            }
+
+            function applyFilters() {
+                loader.classList.remove('hidden');
+                productContainer.style.opacity = '0.5';
+
+                let params = new URLSearchParams();
+
+                // Send brand_ids[] instead of comma-separated string
+                let brandIds = Array.from(document.querySelectorAll('.brand-checkbox:checked')).map(cb => cb.value);
+                brandIds.forEach(id => params.append('brand_ids[]', id));
+
+                // Availability filter
+                if (inStockCheckbox && inStockCheckbox.checked) {
+                    params.append('in_stock', 1);
+                }
+
+                fetch(`/products/brand/filter?${params.toString()}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        productContainer.innerHTML = data.html;
+                        loader.classList.add('hidden');
+                        productContainer.style.opacity = '1';
+                    })
+                    .catch(err => {
+                        console.error('Filter error:', err);
+                        loader.classList.add('hidden');
+                        productContainer.style.opacity = '1';
+                    });
+            }
+        });
+
+        //brand filtering functionality
     </script>
 @endsection
