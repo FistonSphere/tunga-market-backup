@@ -172,7 +172,7 @@ public function brandFilter(Request $request)
 public function getTrendingSuggestions()
 {
     $trendingProducts = Product::select('id', 'name')
-        ->orderByDesc('view_count') // or click_count
+        ->orderByDesc('view_count') 
         ->limit(10)
         ->get();
 

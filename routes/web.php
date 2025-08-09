@@ -32,7 +32,7 @@ Route::get('/products/min-max-price', function () {
 Route::get('/products/sort', [ProductListingController::class, 'sortProducts']);
 Route::get('/products/brand/filter', [ProductListingController::class, 'brandFilter'])->name('products.filter');
 Route::get('/brands/list', [ProductListingController::class, 'brandList'])->name('brands.list');
-
+Route::get('/trending-suggestions', [ProductListingController::class, 'getTrendingSuggestions']);
 Route::get('/products/price-range', [ProductListingController::class, 'getPriceRange']);
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
 Route::get('/authentication', [AuthController::class, 'showLoginForm'])->name('login');
