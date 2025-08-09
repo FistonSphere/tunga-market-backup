@@ -168,9 +168,7 @@
                     <!-- Brand Filter -->
                     <div class="card">
                         <h4 class="font-medium text-primary mb-3">Brand</h4>
-                        <div class="space-y-2" id="Brand-list">
-
-                        </div>
+                        <div class="space-y-2" id="Brand-list"></div>
                     </div>
 
                     <!-- Cultural Fit Indicators -->
