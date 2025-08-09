@@ -165,31 +165,11 @@
 
 
 
-                    <!-- Sustainability Score -->
+                    <!-- Brand Filter -->
                     <div class="card">
-                        <h4 class="font-medium text-primary mb-3">Sustainability Score</h4>
-                        <div class="space-y-2">
-                            <label class="flex items-center">
-                                <input type="radio" name="sustainability" class="text-accent focus:ring-accent" />
-                                <span class="ml-2 text-body-sm">Excellent (90-100)</span>
-                                <div class="ml-auto flex">
-                                    <div class="w-2 h-2 bg-success rounded-full"></div>
-                                </div>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="radio" name="sustainability" class="text-accent focus:ring-accent" />
-                                <span class="ml-2 text-body-sm">Good (70-89)</span>
-                                <div class="ml-auto flex">
-                                    <div class="w-2 h-2 bg-warning rounded-full"></div>
-                                </div>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="radio" name="sustainability" class="text-accent focus:ring-accent" />
-                                <span class="ml-2 text-body-sm">Fair (50-69)</span>
-                                <div class="ml-auto flex">
-                                    <div class="w-2 h-2 bg-accent rounded-full"></div>
-                                </div>
-                            </label>
+                        <h4 class="font-medium text-primary mb-3">Brand</h4>
+                        <div class="space-y-2" id="Brand-list">
+
                         </div>
                     </div>
 
@@ -1169,7 +1149,8 @@
         //price range filtering functionality
 
         document.addEventListener('DOMContentLoaded', () => {
-            const sortSelect = document.getElementById('sortSelection'); // make sure your <select> has id="sortSelect"
+            const sortSelect = document.getElementById(
+                'sortSelection'); // make sure your <select> has id="sortSelect"
             if (!sortSelect) return;
 
             // Candidate product container ids -- we'll look for one that exists
@@ -1265,7 +1246,7 @@
                 if (!container) {
                     console.error(
                         'Product container not found. Ensure an element with id="product-grid" or productGrid exists.'
-                        );
+                    );
                     return;
                 }
 
