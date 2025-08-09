@@ -90,10 +90,9 @@
                         <div class="flex gap-2">
                             <select class="input-field min-w-32">
                                 <option>All Categories</option>
-                                <option>Electronics</option>
-                                <option>Fashion</option>
-                                <option>Home & Garden</option>
-                                <option>Industrial</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
                             </select>
                             <button class="btn-primary px-8">Search</button>
                         </div>
@@ -129,7 +128,7 @@
                     <!-- Filter Header -->
                     <div class="flex items-center justify-between">
                         <h3 class="font-semibold text-primary">Advanced Filters</h3>
-                        <button class="text-accent hover:text-accent-600 text-body-sm">Reset All</button>
+                        <button class="text-accent hover:text-accent-600 text-body-sm" onclick="window.location.reload();">Reset All</button>
                     </div>
 
                     <!-- Category Filter -->

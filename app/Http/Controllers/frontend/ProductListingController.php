@@ -17,7 +17,11 @@ class ProductListingController extends Controller
         ->where('status', 'active')
         ->orderBy('created_at', 'desc')
         ->paginate(9);
-        return view('frontend.product-list', compact('products')); // Adjust the view name as necessary
+        $categories = Category::withCount('products')
+            ->having('products_count', '>', 0)
+            ->orderByDesc('products_count')
+            ->get();
+        return view('frontend.product-list', compact('products','categories')); // Adjust the view name as necessary
     }
 
     public function compare(Request $request)
