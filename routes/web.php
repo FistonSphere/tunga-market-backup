@@ -29,7 +29,7 @@ Route::get('/products/min-max-price', function () {
         'max' => Product::max('price')
     ]);
 });
-Route::get('/products/filter/sort', [ProductListingController::class, 'sort'])->name('products.sort');
+Route::get('/products/sort', [ProductListingController::class, 'sort'])->name('products.sort');
 
 Route::get('/products/price-range', [ProductListingController::class, 'getPriceRange']);
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
