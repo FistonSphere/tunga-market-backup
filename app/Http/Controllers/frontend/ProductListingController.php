@@ -103,7 +103,7 @@ public function sort(Request $request)
             $query->orderBy('created_at', 'desc');
             break;
         case 'top_viewed':
-            $query->orderBy('views', 'desc');
+            $query->orderBy('views_count', 'desc');
             break;
         default:
             $query->latest();
@@ -111,10 +111,10 @@ public function sort(Request $request)
     }
 
     return response()->json([
-        'html' => view('partials.product-grid', compact('products'))->render(),
-        'pagination' => view('partials.pagination', compact('products'))->render()
+        'products' => $query->get()
     ]);
 }
+
 
 
 
