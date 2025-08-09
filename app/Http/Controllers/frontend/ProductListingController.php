@@ -87,6 +87,34 @@ public function filterByPrice(Request $request)
     ]);
 }
 
+public function sort(Request $request)
+{
+    $sort = $request->get('sort', 'best');
+    $query = Product::query();
+
+    switch ($sort) {
+        case 'price_asc':
+            $query->orderBy('price', 'asc');
+            break;
+        case 'price_desc':
+            $query->orderBy('price', 'desc');
+            break;
+        case 'newest':
+            $query->orderBy('created_at', 'desc');
+            break;
+        case 'top_viewed':
+            $query->orderBy('views', 'desc');
+            break;
+        default:
+            $query->latest();
+            break;
+    }
+
+    return response()->json([
+        'html' => view('partials.product-grid', compact('products'))->render(),
+        'pagination' => view('partials.pagination', compact('products'))->render()
+    ]);
+}
 
 
 
