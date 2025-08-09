@@ -88,13 +88,13 @@
 
                         <!-- Quick Filters -->
                         <div class="flex gap-2">
-                            <select class="input-field min-w-32">
+                            <select id="categorySelect" class="input-field min-w-32">
                                 <option>All Categories</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
-                            <button class="btn-primary px-8">Search</button>
+                            <button id="searchBtn" class="btn-primary px-8">Search</button>
                         </div>
                     </div>
 
