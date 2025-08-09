@@ -1167,5 +1167,46 @@
         });
 
         //price range filtering functionality
+
+        //sorting functionality
+        document.getElementById('sortSelect').addEventListener('change', function() {
+            const sortValue = this.value;
+            const loader = document.getElementById('sortLoader');
+            const productContainer = document.getElementById('product-list');
+
+            // Show loader & clear current products temporarily
+            loader.classList.remove('hidden');
+            productContainer.innerHTML = '';
+
+            fetch(`/products/filter/sort?sort=${sortValue}`)
+                .then(response => response.json())
+                .then(data => {
+                    productContainer.innerHTML = '';
+
+                    if (data.products.length > 0) {
+                        data.products.forEach(product => {
+                            productContainer.innerHTML += `
+                        <div class="border rounded-lg p-4 bg-white shadow hover:shadow-lg transition">
+                            <img src="${product.image_url}" alt="${product.name}" class="w-full h-40 object-cover rounded">
+                            <h3 class="mt-2 text-lg font-semibold">${product.name}</h3>
+                            <p class="text-gray-500">$${product.price}</p>
+                        </div>
+                    `;
+                        });
+                    } else {
+                        productContainer.innerHTML = `<p class="text-gray-500">No products found.</p>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching sorted products:', error);
+                    productContainer.innerHTML = `<p class="text-red-500">Error loading products.</p>`;
+                })
+                .finally(() => {
+                    // Hide loader
+                    loader.classList.add('hidden');
+                });
+        });
+
+        //sorting functionality
     </script>
 @endsection
