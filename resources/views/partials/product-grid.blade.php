@@ -54,7 +54,7 @@
                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
                     </a>
-                    <button class="wishlist-btn bg-white text-primary p-2 rounded-full hover:bg-secondary-50"
+                    <button class="wishlistBtn bg-white text-primary p-2 rounded-full hover:bg-secondary-50"
                         data-product-id="{{ $product->id }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -141,4 +141,44 @@
 </div>
 <script>
     let allProducts = @json($products);
+
+    //add to wishlist functionality
+    function showToast(message) {
+        // Your toast implementation or temporary alert
+        alert(message);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.wishlistBtn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                console.log('Wishlist button clicked:', btn);
+                const productId = btn.getAttribute('data-product-id');
+                if (!productId) return;
+
+                fetch('/wishlist/add', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector(
+                                'meta[name="csrf-token"]').getAttribute('content'),
+                        },
+                        body: JSON.stringify({
+                            product_id: productId
+                        }),
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            showToast('Added to Wishlist!');
+                        } else {
+                            showToast('Failed to add to Wishlist.');
+                        }
+                    })
+                    .catch(() => {
+                        showToast('Error occurred. Try again.');
+                    });
+            });
+        });
+    });
+    //add to wishlist functionality
 </script>
