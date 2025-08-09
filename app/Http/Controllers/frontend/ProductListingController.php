@@ -160,7 +160,8 @@ public function brandFilter(Request $request)
     $products = $query->get();
 
     return response()->json([
-        'html' => view('partials.product_cards', compact('products'))->render()
+        'html' => view('partials.product-grid', compact('products'))->render(),
+        'pagination' => view('partials.pagination', compact('products'))->render()
     ]);
 }
 
