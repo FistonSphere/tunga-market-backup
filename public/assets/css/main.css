@@ -4511,3 +4511,6 @@ h6 {
     }
 }
 
+#loader {
+  height: 100px; /* or any fixed height to avoid layout jump */
+}
