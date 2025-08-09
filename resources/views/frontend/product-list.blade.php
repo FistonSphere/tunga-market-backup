@@ -1166,42 +1166,42 @@
         //price range filtering functionality
 
         //sorting functionality
-        document.getElementById('sortSelect').addEventListener('change', function() {
-            const sortValue = this.value;
-            const loader = document.getElementById('sortLoader');
-            const productContainer = document.getElementById('product-list');
+        document.addEventListener('DOMContentLoaded', function() {
+            const sortSelect = document.getElementById('sortSelect');
+            const productGrid = document.getElementById('productGrid');
+            const paginationWrapper = document.getElementById('paginationWrapper');
+            const loader = document.createElement('div');
 
-            // Show loader & clear current products temporarily
-            loader.classList.remove('hidden');
-            productContainer.innerHTML = '';
+            // Tailwind CSS Loader
+            loader.innerHTML = `
+        <div class="flex justify-center items-center py-10 w-full">
+            <svg class="animate-spin h-8 w-8 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+        </div>
+    `;
 
-            fetch(`/products/filter/sort?sort=${sortValue}`)
-                .then(response => response.json())
-                .then(data => {
-                    productContainer.innerHTML = '';
+            sortSelect.addEventListener('change', function() {
+                let sortValue = sortSelect.value;
 
-                    if (data.products.length > 0) {
-                        data.products.forEach(product => {
-                            productContainer.innerHTML += `
-                        <div class="border rounded-lg p-4 bg-white shadow hover:shadow-lg transition">
-                            <img src="${product.image_url}" alt="${product.name}" class="w-full h-40 object-cover rounded">
-                            <h3 class="mt-2 text-lg font-semibold">${product.name}</h3>
-                            <p class="text-gray-500">$${product.price}</p>
-                        </div>
-                    `;
-                        });
-                    } else {
-                        productContainer.innerHTML = `<p class="text-gray-500">No products found.</p>`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching sorted products:', error);
-                    productContainer.innerHTML = `<p class="text-red-500">Error loading products.</p>`;
-                })
-                .finally(() => {
-                    // Hide loader
-                    loader.classList.add('hidden');
-                });
+                // Show loader
+                productGrid.innerHTML = loader.innerHTML;
+                paginationWrapper.innerHTML = '';
+
+                fetch(`/products/sort?sort=${sortValue}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        productGrid.innerHTML = data.html;
+                        paginationWrapper.innerHTML = data.pagination;
+                    })
+                    .catch(error => {
+                        console.error('Sorting error:', error);
+                        productGrid.innerHTML =
+                            `<p class="text-red-500 text-center py-10">Error loading products</p>`;
+                    });
+            });
         });
 
         //sorting functionality
