@@ -12,6 +12,7 @@ use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\OrderTrackingController;
 use App\Http\Controllers\frontend\ProductListingController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\WishlistController;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
@@ -39,6 +40,7 @@ Route::get('/products/search', [ProductListingController::class, 'search'])->nam
 Route::get('/products/main-filter', [ProductListingController::class, 'filter']);
 Route::get('/search/suggestions', [SearchController::class, 'suggestions']);
 
+Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
 Route::get('/authentication', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
