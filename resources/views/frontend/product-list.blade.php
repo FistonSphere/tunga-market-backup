@@ -99,20 +99,8 @@
                     </div>
 
                     <!-- AI Suggestions -->
-                    <div class="mt-4 flex flex-wrap gap-2">
+                    <div class="mt-4 flex flex-wrap gap-2" id="ai-suggestions">
                         <span class="text-body-sm text-secondary-600">Trending:</span>
-                        <button
-                            class="px-3 py-1 bg-accent-50 text-accent rounded-full text-body-sm hover:bg-accent-100 transition-fast">Wireless
-                            Earbuds</button>
-                        <button
-                            class="px-3 py-1 bg-accent-50 text-accent rounded-full text-body-sm hover:bg-accent-100 transition-fast">Smart
-                            Home Devices</button>
-                        <button
-                            class="px-3 py-1 bg-accent-50 text-accent rounded-full text-body-sm hover:bg-accent-100 transition-fast">Sustainable
-                            Fashion</button>
-                        <button
-                            class="px-3 py-1 bg-accent-50 text-accent rounded-full text-body-sm hover:bg-accent-100 transition-fast">Solar
-                            Panels</button>
                     </div>
                 </div>
             </div>
@@ -128,7 +116,8 @@
                     <!-- Filter Header -->
                     <div class="flex items-center justify-between">
                         <h3 class="font-semibold text-primary">Advanced Filters</h3>
-                        <button class="text-accent hover:text-accent-600 text-body-sm" onclick="window.location.reload();">Reset All</button>
+                        <button class="text-accent hover:text-accent-600 text-body-sm"
+                            onclick="window.location.reload();">Reset All</button>
                     </div>
 
                     <!-- Category Filter -->

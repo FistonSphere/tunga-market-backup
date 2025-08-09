@@ -38,6 +38,7 @@ class ProductListingController extends Controller
     {
         // Logic to show a specific product
         $product = Product::where('sku', $sku)->firstOrFail();
+         $product->increment('view_count');
         return view('frontend.product-view', compact('product')); // Adjust the view name as necessary
     }
 
@@ -172,7 +173,7 @@ public function brandFilter(Request $request)
 public function getTrendingSuggestions()
 {
     $trendingProducts = Product::select('id', 'name')
-        ->orderByDesc('view_count') 
+        ->orderByDesc('view_count')
         ->limit(10)
         ->get();
 
