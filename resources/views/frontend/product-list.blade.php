@@ -50,34 +50,37 @@
                         <!-- Main Search Input -->
                         <div class="flex-1 relative">
                             <input type="text" placeholder="Search products, suppliers, or categories..."
-                                class="input-field pl-12 pr-16" id="mainSearch" />
+                                class="input-field pl-12 pr-16" id="mainSearch" autocomplete="off" />
                             <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
 
+                            <!-- Suggestions Container -->
+                            <div id="searchSuggestions"
+                                class="absolute left-0 right-0 bg-white border border-gray-300 mt-1 rounded shadow max-h-60 overflow-y-auto z-50 hidden">
+                            </div>
+
+                            <!-- Quick Filters -->
+                            <div class="flex gap-2">
+                                <select id="categorySelect" class="input-field min-w-32">
+                                    <option>All Categories</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                                <button id="searchBtn" class="btn-primary px-8">Search</button>
+                            </div>
                         </div>
 
-                        <!-- Quick Filters -->
-                        <div class="flex gap-2">
-                            <select id="categorySelect" class="input-field min-w-32">
-                                <option>All Categories</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                            <button id="searchBtn" class="btn-primary px-8">Search</button>
+                        <!-- AI Suggestions -->
+                        <div class="mt-4 flex flex-wrap gap-2" id="ai-suggestions">
+                            <span class="text-body-sm text-secondary-600">Trending:</span>
                         </div>
-                    </div>
-
-                    <!-- AI Suggestions -->
-                    <div class="mt-4 flex flex-wrap gap-2" id="ai-suggestions">
-                        <span class="text-body-sm text-secondary-600">Trending:</span>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 
     <!-- Main Content Area -->
@@ -456,7 +459,7 @@
         }
     </script>
 
-   
+
 
     <script>
         const productGrid = document.getElementById('productGrid');
@@ -1030,6 +1033,105 @@
         //trending Suggestions
 
         //advanced searching
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("mainSearch");
+            const suggestionsContainer = document.getElementById("searchSuggestions");
+
+            let debounceTimeout;
+
+            searchInput.addEventListener("input", function() {
+                const query = this.value.trim();
+
+                clearTimeout(debounceTimeout);
+
+                if (query.length < 2) {
+                    suggestionsContainer.innerHTML = "";
+                    suggestionsContainer.classList.add("hidden");
+                    return;
+                }
+
+                // Debounce to avoid too many requests
+                debounceTimeout = setTimeout(() => {
+                    fetch(`/search/suggestions?q=${encodeURIComponent(query)}`)
+                        .then((res) => res.json())
+                        .then((data) => {
+                            renderSuggestions(data);
+                        });
+                }, 300);
+            });
+
+            function renderSuggestions(data) {
+                if (
+                    !data.products.length &&
+                    !data.suppliers.length &&
+                    !data.categories.length
+                ) {
+                    suggestionsContainer.innerHTML =
+                        '<div class="p-3 text-gray-500">No suggestions found.</div>';
+                    suggestionsContainer.classList.remove("hidden");
+                    return;
+                }
+
+                let html = "";
+
+                if (data.categories.length) {
+                    html += '<div class="p-2 font-semibold border-b">Categories</div>';
+                    data.categories.forEach((category) => {
+                        html +=
+                            `<div class="p-2 hover:bg-gray-100 cursor-pointer suggestion-item" data-type="category" data-id="${category.id}">${category.name}</div>`;
+                    });
+                }
+
+                if (data.products.length) {
+                    html += '<div class="p-2 font-semibold border-b">Products</div>';
+                    data.products.forEach((product) => {
+                        html +=
+                            `<div class="p-2 hover:bg-gray-100 cursor-pointer suggestion-item" data-type="product" data-id="${product.id}">${product.name}</div>`;
+                    });
+                }
+
+                if (data.suppliers.length) {
+                    html += '<div class="p-2 font-semibold border-b">Suppliers</div>';
+                    data.suppliers.forEach((supplier) => {
+                        html +=
+                            `<div class="p-2 hover:bg-gray-100 cursor-pointer suggestion-item" data-type="supplier" data-id="${supplier.id}">${supplier.name}</div>`;
+                    });
+                }
+
+                suggestionsContainer.innerHTML = html;
+                suggestionsContainer.classList.remove("hidden");
+
+                // Add click event to suggestions
+                document.querySelectorAll(".suggestion-item").forEach((item) => {
+                    item.addEventListener("click", () => {
+                        const type = item.getAttribute("data-type");
+                        const id = item.getAttribute("data-id");
+
+                        suggestionsContainer.classList.add("hidden");
+                        searchInput.value = item.textContent;
+
+                        // Redirect or fetch filtered products based on suggestion clicked
+                        if (type === "category") {
+                            // Redirect or fetch products in category
+                            window.location.href = `/products/category/${id}`;
+                        } else if (type === "product") {
+                            // Redirect to product detail page
+                            window.location.href = `/products/${id}`;
+                        } else if (type === "supplier") {
+                            // Redirect or filter products by supplier
+                            window.location.href = `/products/supplier/${id}`;
+                        }
+                    });
+                });
+            }
+
+            // Hide suggestions when clicking outside
+            document.addEventListener("click", (e) => {
+                if (!suggestionsContainer.contains(e.target) && e.target !== searchInput) {
+                    suggestionsContainer.classList.add("hidden");
+                }
+            });
+        });
 
         //advanced searching
     </script>
