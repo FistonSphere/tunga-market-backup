@@ -89,8 +89,9 @@ public function filterByPrice(Request $request)
 
 public function sort(Request $request)
 {
-    $sort = $request->get('sort', 'best');
-    $query = Product::query();
+    $sort = $request->get('sort');
+
+    $query = Product::with('brand', 'category');
 
     switch ($sort) {
         case 'price_asc':
@@ -100,20 +101,23 @@ public function sort(Request $request)
             $query->orderBy('price', 'desc');
             break;
         case 'newest':
-            $query->orderBy('created_at', 'desc');
-            break;
-        case 'top_viewed':
-            $query->orderBy('views_count', 'desc');
-            break;
-        default:
             $query->latest();
             break;
+        case 'top_viewed':
+            $query->orderBy('views', 'desc');
+            break;
+        default:
+            $query->latest(); // best match fallback
     }
 
+    $products = $query->paginate(12);
+
     return response()->json([
-        'products' => $query->get()
+        'html' => view('partials.product-grid', compact('products'))->render(),
+        'pagination' => view('partials.pagination', compact('products'))->render()
     ]);
 }
+
 
 
 
