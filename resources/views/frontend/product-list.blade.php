@@ -233,7 +233,7 @@
                                 <option value="price_asc">Price: Low to High</option>
                                 <option value="price_desc">Price: High to Low</option>
                                 <option value="newest">Newest First</option>
-                                <option value="top_rated">Top Rated</option>
+                                <option value="top_viewed">Most Viewed</option>
                             </select>
 
 
