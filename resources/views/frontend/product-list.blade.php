@@ -1190,5 +1190,82 @@
 
         //categpry filtering functionality
         //advanced searching
+
+        //add to wishlist functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            // Toast container
+            const toastContainer = document.createElement('div');
+            toastContainer.id = 'toastContainer';
+            toastContainer.style.position = 'fixed';
+            toastContainer.style.top = '20px';
+            toastContainer.style.right = '20px';
+            toastContainer.style.zIndex = '9999';
+            document.body.appendChild(toastContainer);
+
+            // Function to show toast
+            function showToast(message, duration = 3000) {
+                const toast = document.createElement('div');
+                toast.textContent = message;
+                toast.style.background = '#ff6a34'; // your color
+                toast.style.color = '#fff';
+                toast.style.padding = '10px 20px';
+                toast.style.marginTop = '10px';
+                toast.style.borderRadius = '8px';
+                toast.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+
+                toastContainer.appendChild(toast);
+
+                // Animate in
+                requestAnimationFrame(() => {
+                    toast.style.opacity = '1';
+                    toast.style.transform = 'translateX(0)';
+                });
+
+                // Animate out after duration
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateX(100%)';
+                    toast.addEventListener('transitionend', () => {
+                        toast.remove();
+                    });
+                }, duration);
+            }
+
+            // Add to wishlist button event
+            document.querySelectorAll('.wishlist-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const productId = btn.getAttribute('data-product-id');
+                    if (!productId) return;
+
+                    fetch('/wishlist/add', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector(
+                                    'meta[name="csrf-token"]').getAttribute('content'),
+                            },
+                            body: JSON.stringify({
+                                product_id: productId
+                            }),
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                showToast('Added to Wishlist!');
+                            } else {
+                                showToast('Failed to add to Wishlist.');
+                            }
+                        })
+                        .catch(() => {
+                            showToast('Error occurred. Try again.');
+                        });
+                });
+            });
+        });
+
+        //add to wishlist functionality
     </script>
 @endsection
