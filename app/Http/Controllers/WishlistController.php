@@ -74,6 +74,7 @@ public function clearAll(Request $request)
     ], 404);
 }
 
+
     public function getWishlist()
     {
         $wishlist = Wishlist::with('product')
