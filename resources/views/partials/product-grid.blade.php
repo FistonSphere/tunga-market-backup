@@ -145,38 +145,5 @@
 <script>
     let allProducts = @json($products);
 
-    //add to wishlist functionality
-    function addToWishlist(productId) {
-        fetch("{{ route('wishlist.add') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({
-                    product_id: productId
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.status);
-            })
-            .catch(err => console.error(err));
-    }
 
-    function showToast(message, type = 'success') {
-        const toast = document.createElement('div');
-        toast.className = `fixed bottom-5 right-5 px-4 py-3 rounded-lg shadow-lg text-white
-        ${type === 'success' ? 'bg-green-500' : type === 'info' ? 'bg-blue-500' : 'bg-red-500'}
-        animate-slide-up`;
-        toast.textContent = message;
-
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-            toast.classList.add('opacity-0', 'transition', 'duration-500');
-            setTimeout(() => toast.remove(), 500);
-        }, 2500);
-    }
-    //add to wishlist functionality
 </script>
