@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,25 +46,14 @@ class WishlistController extends Controller
     }
 
     // Remove product from wishlist
-    public function remove(Request $request)
-    {
-        $user = Auth::user();
-        $productId = $request->input('product_id');
+    public function destroy(Product $product)
+{
+    Wishlist::where('user_id', auth()->id())
+        ->where('product_id', $product->id)
+        ->delete();
 
-        if (!$user) {
-            return response()->json(['status' => 'error', 'message' => 'Unauthorized'], 401);
-        }
-
-        Wishlist::where('user_id', $user->id)
-                ->where('product_id', $productId)
-                ->delete();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Product removed from wishlist',
-            'count' => Wishlist::where('user_id', $user->id)->count(),
-        ]);
-    }
+    return response()->json(['success' => true, 'message' => 'Removed from wishlist']);
+}
 public function clear()
     {
         Wishlist::where('user_id', Auth::id())->delete();

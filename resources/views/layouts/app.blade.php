@@ -1611,6 +1611,51 @@
             const hue = Math.abs(hash % 360);
             return `hsl(${hue}, 70%, 60%)`;
         }
+
+        //remove product from wishlist
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.remove-wishlist').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    let productId = this.dataset.id;
+
+                    fetch(`/wishlist/${productId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector(
+                                    'meta[name="csrf-token"]').content,
+                                'Accept': 'application/json'
+                            }
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Remove item from DOM
+                                document.querySelector(`.wishlist-item[data-id="${productId}"]`)
+                                    .remove();
+
+                                // Show toast
+                                showToast(data.message);
+                            }
+                        })
+                        .catch(err => console.error(err));
+                });
+            });
+        });
+
+        function showToast(message) {
+            let toast = document.createElement('div');
+            toast.className = 'fixed bottom-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        //remove product from wishlist
     </script>
 
 
