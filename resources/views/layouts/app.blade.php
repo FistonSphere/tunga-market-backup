@@ -1430,7 +1430,7 @@
                 return;
             }
 
-            fetch('/wishlist/clear', {
+            fetch('/wishlist-clear', {
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
