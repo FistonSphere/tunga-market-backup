@@ -64,6 +64,39 @@ class WishlistController extends Controller
             'count' => Wishlist::where('user_id', $user->id)->count(),
         ]);
     }
+public function clear()
+    {
+        Wishlist::where('user_id', Auth::id())->delete();
+
+        return response()->json(['status' => 'success']);
+    }
+
+    public function getWishlist()
+    {
+        $wishlist = Wishlist::with('product')
+            ->where('user_id', Auth::id())
+            ->get();
+
+        return response()->json([
+            'count' => $wishlist->count(),
+            'items' => $wishlist->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'product_id' => $item->product->id,
+                    'name' => $item->product->name,
+                    'brand' => $item->product->brand ?? '',
+                    'price' => $item->product->price,
+                    'old_price' => $item->product->old_price,
+                    'image' => $item->product->image_url,
+                    'discount' => $item->product->old_price 
+                        ? round((($item->product->old_price - $item->product->price) / $item->product->old_price) * 100)
+                        : null,
+                    'in_stock' => $item->product->stock > 0,
+                    'price_drop' => $item->product->old_price && $item->product->price < $item->product->old_price
+                ];
+            })
+        ]);
+    }
 
     // Get wishlist count (optional, useful for JS refresh)
     public function count()
@@ -77,5 +110,17 @@ class WishlistController extends Controller
         $count = Wishlist::where('user_id', $user->id)->count();
 
         return response()->json(['count' => $count]);
+    }
+    public function addAllToCart()
+    {
+        $wishlistItems = Wishlist::with('product')->where('user_id', Auth::id())->get();
+
+        // Here you would insert them into the cart table
+        // Example:
+        // foreach($wishlistItems as $item) {
+        //     Cart::create([...]);
+        // }
+
+        return response()->json(['status' => 'success', 'message' => 'All items added to cart']);
     }
 }

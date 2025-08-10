@@ -676,12 +676,69 @@
                     </button>
                 </div>
             </div>
-
+            @php
+                $product = \App\Models\Product::find($wishlist);
+            @endphp
             <!-- Wishlist Items Container -->
             <div class="p-6 max-h-96 overflow-y-auto">
                 <div id="wishlist-items" class="space-y-4">
                     <!-- Wishlist Item 1 -->
-                    <div
+                    @foreach ($wishlists as $wishlist)
+                        @if ($product)
+                            <div
+                                class="wishlist-item flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface transition-fast group">
+                                <div class="relative flex-shrink-0">
+                                    <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
+                                        class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
+                                    @if ($product->discount > 0)
+                                        <div
+                                            class="absolute -top-1 -right-1 bg-success text-white text-xs rounded-full px-1.5 py-0.5 font-semibold">
+                                            -{{ $product->discount }}%
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-semibold text-primary mb-1 truncate">
+                                        {{ $product->name }}
+                                    </h3>
+                                    <p class="text-body-sm text-secondary-600 mb-2">
+                                        {{ $product->brand->name ?? 'Unknown Brand' }}
+                                    </p>
+
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex items-baseline space-x-2">
+                                            <span class="text-lg font-bold text-primary">
+                                                ${{ number_format($product->price, 2) }}
+                                            </span>
+                                            @if ($product->discount > 0)
+                                                <span class="text-body-sm text-secondary-500 line-through">
+                                                    ${{ number_format($product->original_price, 2) }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="flex items-center text-success text-body-sm">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            In Stock
+                                        </div>
+                                        @if ($product->has_price_drop)
+                                            <div class="flex items-center text-warning text-body-sm">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                                                </svg>
+                                                Price Drop!
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                        @endforeach
+                        {{-- <div
                         class="wishlist-item flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface transition-fast group">
                         <div class="relative flex-shrink-0">
                             <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
@@ -735,51 +792,7 @@
                                 Remove
                             </button>
                         </div>
-                    </div>
-
-                    <!-- Wishlist Item 2 -->
-                    <div
-                        class="wishlist-item flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface transition-fast group">
-                        <div class="relative flex-shrink-0">
-                            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2684&auto=format&fit=crop"
-                                alt="Portable Bluetooth Speaker" class="w-16 h-16 rounded-lg object-cover"
-                                loading="lazy" />
-                        </div>
-
-                        <div class="flex-1 min-w-0">
-                            <h3 class="font-semibold text-primary mb-1 truncate">
-                                Portable Bluetooth Speaker Pro
-                            </h3>
-                            <p class="text-body-sm text-secondary-600 mb-2">
-                                AudioMax Solutions
-                            </p>
-
-                            <div class="flex items-center space-x-4">
-                                <div class="flex items-baseline space-x-2">
-                                    <span class="text-lg font-bold text-primary">$89.99</span>
-                                    <span class="text-body-sm text-secondary-500 line-through">$119.99</span>
-                                </div>
-                                <div class="flex items-center text-success text-body-sm">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    In Stock
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col space-y-2">
-                            <button onclick="addToCartFromWishlist(this)" class="btn-primary px-4 py-2 text-body-sm">
-                                Add to Cart
-                            </button>
-                            <button onclick="removeFromWishlist(this)"
-                                class="text-secondary-600 hover:text-error transition-fast text-body-sm">
-                                Remove
-                            </button>
-                        </div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>
@@ -881,7 +894,7 @@
             </button>
         </div>
     </div>
- 
+
 
     <script>
         // Enhanced Navigation Functionality
@@ -1207,7 +1220,7 @@
         // Hide wishlist popup function
         function closeWishlistPopup() {
             const overlay = document.getElementById('wishlist-overlay').style.display = 'none';
-          
+
         }
 
         // Close popup on clicking outside the inner popup content
@@ -1220,13 +1233,10 @@
         // Close popup on pressing ESC key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                const overlay = document.getElementById('wishlist-overlay').style.display='none';
-              
+                const overlay = document.getElementById('wishlist-overlay').style.display = 'none';
+
             }
         });
-
-
-
 
         class WishlistPopupManager {
             constructor() {
@@ -1410,7 +1420,7 @@
         // Global Functions
         function closeWishlistPopup() {
             const overlay = document.getElementById('wishlist-overlay').style.display = 'none';
-         
+
 
         }
 
@@ -1630,8 +1640,6 @@
             const hue = Math.abs(hash % 360);
             return `hsl(${hue}, 70%, 60%)`;
         }
-
-
     </script>
 
 
