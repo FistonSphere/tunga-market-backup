@@ -871,45 +871,51 @@
         Added to Wishlist!
     </div>
     <!-- Clear Wishlist Confirmation Modal (hidden by default) -->
-    <div id="clear-wishlist-modal-wrapper" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center">
+    <div id="clear-wishlist-modal-wrapper"
+        class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center" role="dialog"
+        aria-modal="true" aria-labelledby="clear-wishlist-title" aria-describedby="clear-wishlist-desc">
         <div id="clear-wishlist-modal"
-            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 scale-95 opacity-0">
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 scale-95 opacity-0"
+            role="document" tabindex="-1">
             <div class="relative p-6 text-center">
                 <!-- Close -->
-                <button id="clear-wishlist-close"
-                    class="absolute top-4 right-4 p-1 rounded-full text-gray-400 hover:bg-gray-100">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button id="clear-wishlist-close" aria-label="Close clear wishlist confirmation"
+                    class="absolute top-4 right-4 p-1 rounded-full text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-#ff6a34">
+                    <svg class="w-5 h-5" fill="none" stroke="#ff6a34" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
 
                 <!-- Warning icon -->
-                <div class="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-16 h-16 bg-[#ff6a34]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-[#ff6a34]" fill="none" stroke="#ff6a34" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 9v2m0 4h.01M21 12A9 9 0 1112 3a9 9 0 019 9z" />
                     </svg>
                 </div>
 
-                <h3 class="text-xl font-semibold text-primary mb-2">Clear wishlist?</h3>
-                <p class="text-body-sm text-secondary-600 mb-6">
+                <h3 id="clear-wishlist-title" class="text-xl font-semibold text-primary mb-2">Clear wishlist?</h3>
+                <p id="clear-wishlist-desc" class="text-body-sm text-secondary-600 mb-6">
                     This will permanently remove all items from your wishlist. Are you sure you want to continue?
                 </p>
 
                 <div class="flex gap-3 justify-center">
                     <button id="confirm-clear-wishlist"
-                        class="btn-primary px-6 py-2 rounded-lg transform transition hover:scale-105">
+                        class="btn-primary px-6 py-2 rounded-lg transform transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#ff6a34]">
                         Yes, clear all
                     </button>
                     <button id="cancel-clear-wishlist"
-                        class="bg-secondary-100 text-secondary-700 px-6 py-2 rounded-lg hover:bg-secondary-200 transition">
+                        class="bg-secondary-100 text-secondary-700 px-6 py-2 rounded-lg hover:bg-secondary-200 transition focus:outline-none focus:ring-2 focus:ring-[#ff6a34]">
                         Cancel
                     </button>
                 </div>
             </div>
         </div>
     </div>
+
 
     <script>
         // Enhanced Navigation Functionality
@@ -1567,7 +1573,7 @@
                             // try to read JSON message
                             if (err.json) {
                                 err.json().then(j => showToast(j.message || 'Error', 'error')).catch(
-                                () => showToast('Error', 'error'));
+                                    () => showToast('Error', 'error'));
                             } else {
                                 showToast('Network error, try again', 'error');
                             }
