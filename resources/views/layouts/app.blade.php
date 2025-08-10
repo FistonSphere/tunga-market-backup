@@ -719,12 +719,29 @@
                                 <!-- Price & Stock Info -->
                                 <div class="flex items-center space-x-4">
                                     <div class="flex items-baseline space-x-2">
-                                        <span class="text-lg font-bold text-primary">
-                                            ${{ number_format($product->price, 2) }}
-                                        </span>
-                                        @if ($product->discount > 0)
-                                            <span class="text-body-sm text-secondary-500 line-through">
-                                                ${{ number_format($product->original_price, 2) }}
+                                        @if ($product->discount_price)
+                                            <span class="line-through text-secondary-500 text-sm mr-2">
+                                                @if ($product->currency === '$')
+                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                @elseif($product->currency === 'Rwf')
+                                                    {{ number_format($product->price) }} {{ $product->currency }}
+                                                @endif
+
+                                            </span>
+                                            <span class="text-md font-bold text-primary">
+                                                @if ($product->currency === '$')
+                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                @elseif($product->currency === 'Rwf')
+                                                    {{ number_format($product->price) }} {{ $product->currency }}
+                                                @endif
+                                            </span>
+                                        @else
+                                            <span class="text-md font-bold text-primary">
+                                                @if ($product->currency === '$')
+                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                @elseif($product->currency === 'Rwf')
+                                                    {{ number_format($product->price) }} {{ $product->currency }}
+                                                @endif
                                             </span>
                                         @endif
                                     </div>
