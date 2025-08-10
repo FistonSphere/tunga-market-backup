@@ -149,7 +149,7 @@
     <div id="login-warning-modal"
         class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
         <!-- Close Button -->
-        <button onclick="closeLoginWarning();"
+        <button id="close-login-warning-modal"
             class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -205,7 +205,8 @@
                 .then(response => {
                     if (response.status === 401) {
                         // User not authenticated — show login modal
-                        document.getElementById('login-warning-modal-wrapper').classList.remove('hidden');
+                        document.getElementById('login-warning-modal-wrapper').classList.remove(
+                            'hidden');
                     }
                     return response.json();
                 })
@@ -253,17 +254,17 @@
             }, 2500);
         }
 
-        function showLoginWarning() {
-            if (loginWarningModalWrapper) {
-                loginWarningModalWrapper.classList.remove("hidden");
+       
+
+        function closeLoginWarning() {
+            let closeModal = document.getElementById('close-login-warning-modal');
+            if (closeModal) {
+                closeModal.addEventListener('click', function() {
+                    document.getElementById('login-warning-modal-wrapper').classList.add(
+                            'hidden');
+                });
             }
         }
-
-        window.closeLoginWarning = function() {
-            // if (loginWarningModalWrapper) {
-            // }
-            loginWarningModalWrapper.classList.add("hidden");
-        };
 
         window.goToSignIn = function() {
             window.location.href = "{{ route('login') }}"; // adjust route if needed
