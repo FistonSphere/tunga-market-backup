@@ -243,6 +243,16 @@
                         </svg>
                     </button>
                     <!-- Wishlist Icon -->
+                    @php
+                        $wishlist = [];
+
+                        if (auth()->check()) {
+                            $wishlist = \App\Models\Wishlist::where('user_id', auth()->id())
+                                ->pluck('product_id')
+                                ->toArray();
+                        }
+                    @endphp
+
                     <button id="open-wishlist-btn"
                         class="relative text-secondary-600 hover:text-accent transition-fast p-2" title="Wishlist">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -251,7 +261,7 @@
                         </svg>
                         <span id="wishlist-count"
                             class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
-                            {{ count($wishlist) ?? 0 }}
+                            {{ is_countable($wishlist) ? count($wishlist) : 0 }}
                         </span>
                     </button>
 
@@ -1665,93 +1675,7 @@
             return `hsl(${hue}, 70%, 60%)`;
         }
 
-        //add to wishlist
-        document.addEventListener("DOMContentLoaded", function() {
-            const wishlistCountSpan = document.getElementById("wishlist-count");
-            const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
-
-            window.addToWishlist = function(productId) {
-                fetch(`/wishlist/add`, {
-                        method: "POST",
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            product_id: productId
-                        })
-                    })
-                    .then(response => {
-                        if (response.status === 401) {
-                            // User not authenticated — show login modal
-                            showLoginWarning();
-                            throw new Error("Unauthorized");
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.status === "success") {
-                            updateWishlistCount(data.count);
-                            showToast(data.message, "success");
-                        } else if (data.status === "info") {
-                            showToast(data.message, "info");
-                        }
-                    })
-                    .catch(err => {
-                        if (err.message !== "Unauthorized") {
-                            showToast("An error occurred. Please try again.", "error");
-                            console.error(err);
-                        }
-                    });
-            };
-
-            function updateWishlistCount(count) {
-                wishlistCountSpan.textContent = count;
-            }
-
-            // Show toast notification (simple Tailwind styled popup)
-            function showToast(message, type = "info") {
-                const toast = document.createElement("div");
-                toast.textContent = message;
-                toast.className = `
-            fixed top-10 left-1/2 transform -translate-x-1/2
-            px-6 py-3 rounded-lg text-white font-semibold shadow-lg
-            z-50 transition-opacity duration-300
-            ${type === "success" ? "bg-green-600" : ""}
-            ${type === "info" ? "bg-blue-600" : ""}
-            ${type === "error" ? "bg-red-600" : ""}
-            opacity-100
-        `;
-                document.body.appendChild(toast);
-
-                setTimeout(() => {
-                    toast.style.opacity = "0";
-                    setTimeout(() => toast.remove(), 300);
-                }, 2500);
-            }
-
-            // Show login warning modal
-            function showLoginWarning() {
-                loginWarningModalWrapper.classList.remove("hidden");
-            }
-
-            // Close modal function for button
-            window.closeLoginWarning = function() {
-                loginWarningModalWrapper.classList.add("hidden");
-            };
-
-            // Redirect to login route
-            window.goToSignIn = function() {
-                window.location.href = "/login"; // change to your login route if different
-            };
-
-            // Close modal and continue browsing
-            window.continueBrowsing = function() {
-                closeLoginWarning();
-            };
-        });
-
-        //add to wishlist
+        
     </script>
 
 
