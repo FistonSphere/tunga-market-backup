@@ -6,23 +6,26 @@ use Illuminate\Http\Request;
 
 class WishlistController extends Controller
 {
-     public function add(Request $request)
+    public function add(Request $request)
     {
         $productId = $request->input('product_id');
 
-        if (!$productId) {
-            return response()->json(['success' => false, 'message' => 'Product ID missing']);
-        }
-
-        // Get current wishlist from session or empty array
+        // Get existing wishlist from session
         $wishlist = session()->get('wishlist', []);
 
         // Avoid duplicates
         if (!in_array($productId, $wishlist)) {
             $wishlist[] = $productId;
-            session(['wishlist' => $wishlist]);
+            session()->put('wishlist', $wishlist);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Product added to wishlist!'
+            ]);
         }
 
-        return response()->json(['success' => true, 'wishlist' => $wishlist]);
+        return response()->json([
+            'status' => 'info',
+            'message' => 'Product already in wishlist.'
+        ]);
     }
 }
