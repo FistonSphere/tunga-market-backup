@@ -241,10 +241,6 @@
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </button>
-                    @php
-                        $wishlist = session('wishlist', []);
-                    @endphp
-
                     <!-- Wishlist Icon -->
                     <button id="open-wishlist-btn"
                         class="relative text-secondary-600 hover:text-accent transition-fast p-2" title="Wishlist">
@@ -253,12 +249,8 @@
                                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                         </svg>
                         <span id="wishlist-count"
-                            class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
-                            {{ count($wishlist) }}
-                        </span>
+                            class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">0</span>
                     </button>
-
-
 
                     <!-- Cart Icon -->
                     <a href="{{ route('cart') }}" id="open-cart-btn"
@@ -1628,37 +1620,7 @@
             return `hsl(${hue}, 70%, 60%)`;
         }
 
-        //updating counting of wishlist
-        document.addEventListener("DOMContentLoaded", function() {
-            const wishlistButtons = document.querySelectorAll(".add-to-wishlist-btn");
-            const wishlistCounter = document.querySelector("#open-wishlist-btn span");
-
-            wishlistButtons.forEach(button => {
-                button.addEventListener("click", function() {
-                    let productId = this.dataset.id;
-
-                    fetch(`/wishlist/add/${productId}`, {
-                            method: "POST",
-                            headers: {
-                                "X-CSRF-TOKEN": document.querySelector(
-                                    'meta[name="csrf-token"]').content,
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({})
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                // Update wishlist counter instantly
-                                wishlistCounter.textContent = data.count;
-                            }
-                        })
-                        .catch(err => console.error(err));
-                });
-            });
-        });
-
-        //updating counting of wishlist
+        
     </script>
 
 
