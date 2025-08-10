@@ -241,6 +241,10 @@
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </button>
+                    @php
+                        $wishlist = session('wishlist', []);
+                    @endphp
+
                     <!-- Wishlist Icon -->
                     <button id="open-wishlist-btn"
                         class="relative text-secondary-600 hover:text-accent transition-fast p-2" title="Wishlist">
@@ -249,8 +253,12 @@
                                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                         </svg>
                         <span id="wishlist-count"
-                            class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">0</span>
+                            class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+                            {{ count($wishlist) }}
+                        </span>
                     </button>
+
+
 
                     <!-- Cart Icon -->
                     <a href="{{ route('cart') }}" id="open-cart-btn"
@@ -1620,7 +1628,34 @@
             return `hsl(${hue}, 70%, 60%)`;
         }
 
-        
+        //updating counting of wishlist
+        document.addEventListener('DOMContentLoaded', function() {
+            const wishlistCountEl = document.getElementById('wishlist-counting');
+
+            // Load wishlist from sessionStorage or empty array
+            let wishlist = JSON.parse(sessionStorage.getItem('wishlist') || '[]');
+            updateWishlistCount();
+
+            // Handle Add to Wishlist
+            document.querySelectorAll('.add-to-wishlist').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+
+                    // Avoid duplicates
+                    if (!wishlist.includes(productId)) {
+                        wishlist.push(productId);
+                        sessionStorage.setItem('wishlist', JSON.stringify(wishlist));
+                        updateWishlistCount();
+                    }
+                });
+            });
+
+            function updateWishlistCount() {
+                wishlistCountEl.textContent = wishlist.length;
+            }
+        });
+
+        //updating counting of wishlist
     </script>
 
 
