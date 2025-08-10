@@ -1633,6 +1633,76 @@
             const hue = Math.abs(hash % 360);
             return `hsl(${hue}, 70%, 60%)`;
         }
+
+        //add to wishlist
+        document.addEventListener("DOMContentLoaded", () => {
+            const wishlistCount = document.getElementById("wishlist-count");
+            const authPopup = document.getElementById("auth-warning-popup");
+            const loginRedirectBtn = document.getElementById("login-redirect-btn");
+            const closePopupBtn = document.getElementById("close-popup-btn");
+
+            window.addToWishlist = function(productId) {
+                fetch("/wishlist/add", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            product_id: productId
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === "success") {
+                            // Update wishlist count
+                            wishlistCount.textContent = data.count;
+
+                            // Optionally: show a small toast or alert that product added
+                            showToast("Product added to wishlist!");
+                        } else if (data.status === "info") {
+                            showToast(data.message);
+                        } else if (data.status === "error" && data.message === "Unauthorized") {
+                            // Show auth popup
+                            authPopup.classList.remove("hidden");
+                        } else {
+                            showToast("An error occurred. Please try again.");
+                        }
+                    })
+                    .catch(() => showToast("Network error. Please try again."));
+            };
+
+            // Login redirect button click
+            loginRedirectBtn.addEventListener("click", () => {
+                window.location.href = "/login"; // Adjust login URL if needed
+            });
+
+            // Close popup button click
+            closePopupBtn.addEventListener("click", () => {
+                authPopup.classList.add("hidden");
+            });
+
+            // Optional: Click outside popup closes it
+            authPopup.addEventListener("click", e => {
+                if (e.target === authPopup) authPopup.classList.add("hidden");
+            });
+
+            // Simple toast function (bottom-center)
+            function showToast(message) {
+                let toast = document.createElement("div");
+                toast.textContent = message;
+                toast.className =
+                    "fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-accent text-white px-4 py-2 rounded shadow-lg opacity-0 transition-opacity duration-300";
+                document.body.appendChild(toast);
+                setTimeout(() => (toast.style.opacity = 1), 10);
+                setTimeout(() => {
+                    toast.style.opacity = 0;
+                    setTimeout(() => document.body.removeChild(toast), 300);
+                }, 2500);
+            }
+        });
+
+        //add to wishlist
     </script>
 
 
