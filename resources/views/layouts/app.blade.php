@@ -693,85 +693,78 @@
             <div class="p-6 max-h-96 overflow-y-auto">
                 <div id="wishlist-items" class="space-y-4">
                     @forelse ($wishlists as $product)
-                        <div
-                            class="wishlist-item flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface transition-fast group">
-                            <!-- Product Image -->
-                            <div class="relative flex-shrink-0">
-                                <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
-                                    class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
-                                @if ($product->discount > 0)
-                                    <div
-                                        class="absolute -top-1 -right-1 bg-success text-white text-xs rounded-full px-1.5 py-0.5 font-semibold">
-                                        -{{ $product->discount }}%
-                                    </div>
-                                @endif
-                            </div>
+                        <div class="wishlist-item flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface transition-fast group relative"
+                            data-id="{{ $product->id }}">
 
-                            <!-- Product Info -->
-                            <div class="flex-1 min-w-0">
-                                <h3 class="font-semibold text-primary mb-1 truncate">
-                                    {{ $product->name }}
-                                </h3>
-                                <p class="text-body-sm text-secondary-600 mb-2">
-                                    {{ $product->brand->name ?? '' }}
-                                </p>
-
-                                <!-- Price & Stock Info -->
-                                <div class="flex items-center space-x-4">
-                                    <div class="flex items-baseline space-x-2">
-                                        @if ($product->discount_price)
-                                            <span class="line-through text-secondary-500 text-sm mr-2">
-                                                @if ($product->currency === '$')
-                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
-                                                @elseif($product->currency === 'Rwf')
-                                                    {{ number_format($product->price) }} {{ $product->currency }}
-                                                @endif
-
-                                            </span>
-                                            <span class="text-md font-bold text-primary">
-                                                @if ($product->currency === '$')
-                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
-                                                @elseif($product->currency === 'Rwf')
-                                                    {{ number_format($product->price) }} {{ $product->currency }}
-                                                @endif
-                                            </span>
-                                        @else
-                                            <span class="text-md font-bold text-primary">
-                                                @if ($product->currency === '$')
-                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
-                                                @elseif($product->currency === 'Rwf')
-                                                    {{ number_format($product->price) }} {{ $product->currency }}
-                                                @endif
-                                            </span>
-                                        @endif
-                                    </div>
-
-                                    <div class="flex items-center text-success text-body-sm">
-                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M5 13l4 4L19 7" />
-                                        </svg>
-                                        In Stock
-                                    </div>
-
-                                    @if ($product->has_price_drop)
-                                        <div class="flex items-center text-warning text-body-sm">
-                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
-                                            </svg>
-                                            Price Drop!
+                            <!-- Product Link -->
+                            <a href="{{ route('product.view', $product->sku) }}" class="flex flex-1 space-x-4">
+                                <!-- Product Image -->
+                                <div class="relative flex-shrink-0">
+                                    <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
+                                        class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
+                                    @if ($product->discount > 0)
+                                        <div
+                                            class="absolute -top-1 -right-1 bg-success text-white text-xs rounded-full px-1.5 py-0.5 font-semibold">
+                                            -{{ $product->discount }}%
                                         </div>
                                     @endif
                                 </div>
-                            </div>
+
+                                <!-- Product Info -->
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-semibold text-primary mb-1 truncate">{{ $product->name }}</h3>
+                                    <p class="text-body-sm text-secondary-600 mb-2">{{ $product->brand->name ?? '' }}
+                                    </p>
+
+                                    <!-- Price & Stock Info -->
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex items-baseline space-x-2">
+                                            <span class="text-md font-bold text-primary">
+                                                {{ $product->currency === '$'
+                                                    ? $product->currency . number_format($product->price, 2)
+                                                    : number_format($product->price) . ' ' . $product->currency }}
+                                            </span>
+                                        </div>
+
+                                        <div class="flex items-center text-success text-body-sm">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            In Stock
+                                        </div>
+
+                                        @if ($product->has_price_drop)
+                                            <div class="flex items-center text-warning text-body-sm">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                                                </svg>
+                                                Price Drop!
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- Remove Button -->
+                            <button
+                                class="absolute top-3 right-3 text-gray-400 hover:text-red-500 transition remove-wishlist"
+                                data-id="{{ $product->id }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     @empty
                         <p class="text-center text-secondary-500">Your wishlist is empty.</p>
                     @endforelse
                 </div>
+
             </div>
 
 
