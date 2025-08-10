@@ -21,19 +21,7 @@
 </head>
 
 <body class="bg-background text-text-primary">
-    <!-- Auth Warning Popup -->
-    <div id="auth-warning-popup"
-        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center animate-fade-in scale-up">
-            <p class="text-lg font-semibold mb-4 text-red-600">Please login first to add to wishlist.</p>
-            <button id="login-redirect-btn"
-                class="bg-accent hover:bg-accent-dark text-white px-4 py-2 rounded transition">
-                Go to Login
-            </button>
-            <button id="close-popup-btn"
-                class="absolute top-2 right-3 text-gray-400 hover:text-gray-700 text-2xl font-bold">&times;</button>
-        </div>
-    </div>
+
     <!-- Navigation Header -->
     <header class="bg-white shadow-card sticky top-0 z-50">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -880,6 +868,46 @@
             </button>
         </div>
     </div>
+    <!-- Login Warning Modal (hidden by default) -->
+    <div id="login-warning-modal-wrapper"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div id="login-warning-modal"
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
+            <!-- Close Button -->
+            <button onclick="closeLoginWarning()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Warning Icon -->
+            <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+            </div>
+
+            <!-- Main Message -->
+            <h2 class="text-2xl font-bold text-primary mb-3">Sign in to save your favorites</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Join us to unlock your personalized shopping experience and never lose track of the products you love.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button onclick="goToSignIn()"
+                    class="w-full btn-primary py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Sign In to My Account
+                </button>
+                <button onclick="continueBrowsing()"
+                    class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
+                    Continue Browsing Without Account
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Enhanced Navigation Functionality
@@ -1633,76 +1661,6 @@
             const hue = Math.abs(hash % 360);
             return `hsl(${hue}, 70%, 60%)`;
         }
-
-        //add to wishlist
-        document.addEventListener("DOMContentLoaded", () => {
-            const wishlistCount = document.getElementById("wishlist-count");
-            const authPopup = document.getElementById("auth-warning-popup");
-            const loginRedirectBtn = document.getElementById("login-redirect-btn");
-            const closePopupBtn = document.getElementById("close-popup-btn");
-
-            window.addToWishlist = function(productId) {
-                fetch("/wishlist/add", {
-                        method: "POST",
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            product_id: productId
-                        })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.status === "success") {
-                            // Update wishlist count
-                            wishlistCount.textContent = data.count;
-
-                            // Optionally: show a small toast or alert that product added
-                            showToast("Product added to wishlist!");
-                        } else if (data.status === "info") {
-                            showToast(data.message);
-                        } else if (data.status === "error" && data.message === "Unauthorized") {
-                            // Show auth popup
-                            authPopup.classList.remove("hidden");
-                        } else {
-                            showToast("An error occurred. Please try again.");
-                        }
-                    })
-                    .catch(() => showToast("Network error. Please try again."));
-            };
-
-            // Login redirect button click
-            loginRedirectBtn.addEventListener("click", () => {
-                window.location.href = "/login"; // Adjust login URL if needed
-            });
-
-            // Close popup button click
-            closePopupBtn.addEventListener("click", () => {
-                authPopup.classList.add("hidden");
-            });
-
-            // Optional: Click outside popup closes it
-            authPopup.addEventListener("click", e => {
-                if (e.target === authPopup) authPopup.classList.add("hidden");
-            });
-
-            // Simple toast function (bottom-center)
-            function showToast(message) {
-                let toast = document.createElement("div");
-                toast.textContent = message;
-                toast.className =
-                    "fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-accent text-white px-4 py-2 rounded shadow-lg opacity-0 transition-opacity duration-300";
-                document.body.appendChild(toast);
-                setTimeout(() => (toast.style.opacity = 1), 10);
-                setTimeout(() => {
-                    toast.style.opacity = 0;
-                    setTimeout(() => document.body.removeChild(toast), 300);
-                }, 2500);
-            }
-        });
-
-        //add to wishlist
     </script>
 
 
