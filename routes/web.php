@@ -54,9 +54,7 @@ Route::get('/shopping-cart', [CartController::class, 'index'])->name('cart');
 Route::get('/checkout-process', [CheckoutController::class, 'index'])->name('checkout');
 Route::get('/order-tracking', [OrderTrackingController::class, 'index'])->name('order.tracking');
 
-Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
-Route::get('/wishlist/count', [WishlistController::class, 'count'])->name('wishlist.count');
-Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
+
 
 // Start Authentication routes
 Route::post('/register', [AuthController::class, 'register'])->name('register-user');
@@ -69,7 +67,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/user/change-password', [AuthController::class, 'changePassword'])->name('user.change.password');
     Route::post('/profile/update', [AuthController::class, 'update'])->name('user.profile.update');
     Route::post('/profile/update-password', [AuthController::class, 'updatePassword'])->name('profile.update.password');
-
+Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+Route::get('/wishlist/count', [WishlistController::class, 'count'])->name('wishlist.count');
+Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

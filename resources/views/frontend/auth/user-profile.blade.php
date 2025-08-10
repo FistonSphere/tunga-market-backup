@@ -1027,10 +1027,10 @@
 
     <script>
         // Mobile menu toggle
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            mobileMenu.classList.toggle('hidden');
-        });
+        // document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        //     const mobileMenu = document.getElementById('mobileMenu');
+        //     mobileMenu.classList.toggle('hidden');
+        // });
 
         // Session timer
         let sessionMinutes = 24;
@@ -1116,7 +1116,7 @@
                 'warning');
 
             setTimeout(() => {
-                window.location.href = 'authentication_portal.html';
+                window.location.href = '{{ route('login') }}';
             }, 3000);
         }
 
@@ -1191,6 +1191,7 @@
             }, 5000);
         }
 
+        
         function hideDashboardNotification() {
             const notification = document.getElementById('dashboard-notification');
             if (notification) {
@@ -1198,6 +1199,7 @@
             }
         }
 
+        
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
             // Set default active section
@@ -1208,8 +1210,8 @@
         });
 
         // Add CSS for active nav items
-        const style = document.createElement('style');
-        style.textContent = `
+        const styling = document.createElement('style');
+        styling.textContent = `
             .nav-item.active {
                 background-color: var(--color-primary);
                 color: white;
@@ -1224,7 +1226,9 @@
                 to { opacity: 1; transform: translateY(0); }
             }
         `;
-        document.head.appendChild(style);
+        document.head.appendChild(styling);
+    
+    
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1363,6 +1367,7 @@
             };
             reader.readAsDataURL(file);
         }
+    
     </script>
 
     <script>

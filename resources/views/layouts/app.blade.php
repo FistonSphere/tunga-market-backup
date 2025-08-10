@@ -1206,11 +1206,8 @@
 
         // Hide wishlist popup function
         function closeWishlistPopup() {
-            const overlay = document.getElementById('wishlist-overlay');
-            overlay.style.animation = 'fadeOut 0.3s ease-out forwards';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 300);
+            const overlay = document.getElementById('wishlist-overlay').style.display = 'none';
+          
         }
 
         // Close popup on clicking outside the inner popup content
@@ -1223,10 +1220,8 @@
         // Close popup on pressing ESC key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                const overlay = document.getElementById('wishlist-overlay');
-                if (overlay.style.display === 'flex') {
-                    closeWishlistPopup();
-                }
+                const overlay = document.getElementById('wishlist-overlay').style.display='none';
+              
             }
         });
 
@@ -1414,8 +1409,8 @@
 
         // Global Functions
         function closeWishlistPopup() {
-            const overlay = document.getElementById('wishlist-overlay');
-            overlay.style.animation = 'fadeOut 0.3s ease-out forwards';
+            const overlay = document.getElementById('wishlist-overlay').style.display = 'none';
+         
 
         }
 

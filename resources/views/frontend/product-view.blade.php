@@ -9,7 +9,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
                 <a href="{{ route('product.discovery') }}"
-                    class="text-secondary-600 hover:text-primary transition-fast">Electronics</a>
+                    class="text-secondary-600 hover:text-primary transition-fast">{{ $product->category->name }}</a>
                 <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
@@ -19,7 +19,7 @@
     </section>
 
     <!-- Product Detail Section -->
-    <section class="py-8 bg-white">
+    {{-- <section class="py-8 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12">
                 <!-- Image Gallery -->
@@ -253,10 +253,10 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <!-- Product Details Tabs -->
-    <section class="py-8 bg-surface">
+    {{-- <section class="py-8 bg-surface">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Tab Navigation -->
             <div class="border-b border-border mb-8">
@@ -524,10 +524,10 @@
                     </div>
                 </div>
             </div>
-    </section>
+    </section> --}}
 
     <!-- Inquiry Form Section -->
-    <section class="py-8 bg-white">
+    {{-- <section class="py-8 bg-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="card">
                 <h2 class="text-2xl font-bold text-primary mb-6">Send Inquiry</h2>
@@ -608,10 +608,10 @@
                 </form>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <!-- Related Products Section -->
-    <section class="py-16 bg-surface">
+    {{-- <section class="py-16 bg-surface">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-2xl font-bold text-primary mb-8">Related Products</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -816,9 +816,9 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- Toast Notification (Hidden by default) -->
-    <div id="toast" class="fixed top-4 right-4 transform translate-x-full transition-transform duration-300 z-50">
+    {{-- <div id="toast" class="fixed top-4 right-4 transform translate-x-full transition-transform duration-300 z-50">
         <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 border-success max-w-sm">
             <div class="flex items-start space-x-3">
                 <svg class="w-6 h-6 text-success flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
@@ -837,7 +837,7 @@
                 </button>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <script>
         // Cart and Wishlist Management System
