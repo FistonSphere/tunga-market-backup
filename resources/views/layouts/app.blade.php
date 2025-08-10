@@ -1631,35 +1631,27 @@
         //updating counting of wishlist
         document.addEventListener("DOMContentLoaded", function() {
             const wishlistButtons = document.querySelectorAll(".add-to-wishlist-btn");
-            const wishlistCounter = document.querySelector("#wishlist-count");
+            const wishlistCounter = document.querySelector("#open-wishlist-btn span");
 
             wishlistButtons.forEach(button => {
                 button.addEventListener("click", function() {
                     let productId = this.dataset.id;
 
-                    fetch(`/wishlist/add`, {
+                    fetch(`/wishlist/add/${productId}`, {
                             method: "POST",
                             headers: {
                                 "X-CSRF-TOKEN": document.querySelector(
                                     'meta[name="csrf-token"]').content,
                                 "Content-Type": "application/json"
                             },
-                            body: JSON.stringify({
-                                product_id: productId
-                            })
+                            body: JSON.stringify({})
                         })
                         .then(response => response.json())
                         .then(data => {
-                            // Update wishlist count instantly
-                            wishlistCounter.textContent = data.count;
-
-                            // Optional: animated toast
-                            let toast = document.createElement("div");
-                            toast.textContent = data.message;
-                            toast.className =
-                                "fixed top-4 right-4 bg-accent text-white px-4 py-2 rounded shadow-lg animate-fade";
-                            document.body.appendChild(toast);
-                            setTimeout(() => toast.remove(), 2000);
+                            if (data.success) {
+                                // Update wishlist counter instantly
+                                wishlistCounter.textContent = data.count;
+                            }
                         })
                         .catch(err => console.error(err));
                 });
