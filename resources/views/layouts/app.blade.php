@@ -1629,30 +1629,33 @@
         }
 
         //updating counting of wishlist
-        document.addEventListener('DOMContentLoaded', function() {
-            const wishlistCountEl = document.getElementById('wishlist-counting');
+        document.addEventListener("DOMContentLoaded", function() {
+            const wishlistButtons = document.querySelectorAll(".add-to-wishlist-btn");
+            const wishlistCounter = document.querySelector("#open-wishlist-btn span");
 
-            // Load wishlist from sessionStorage or empty array
-            let wishlist = JSON.parse(sessionStorage.getItem('wishlist') || '[]');
-            updateWishlistCount();
+            wishlistButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    let productId = this.dataset.id;
 
-            // Handle Add to Wishlist
-            document.querySelectorAll('.add-to-wishlist').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const productId = this.getAttribute('data-id');
-
-                    // Avoid duplicates
-                    if (!wishlist.includes(productId)) {
-                        wishlist.push(productId);
-                        sessionStorage.setItem('wishlist', JSON.stringify(wishlist));
-                        updateWishlistCount();
-                    }
+                    fetch(`/wishlist/add/${productId}`, {
+                            method: "POST",
+                            headers: {
+                                "X-CSRF-TOKEN": document.querySelector(
+                                    'meta[name="csrf-token"]').content,
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({})
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Update wishlist counter instantly
+                                wishlistCounter.textContent = data.count;
+                            }
+                        })
+                        .catch(err => console.error(err));
                 });
             });
-
-            function updateWishlistCount() {
-                wishlistCountEl.textContent = wishlist.length;
-            }
         });
 
         //updating counting of wishlist

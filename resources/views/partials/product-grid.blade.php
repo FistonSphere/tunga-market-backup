@@ -55,7 +55,7 @@
                         </svg>
                     </a>
                     <button onclick="addToWishlist({{ $product->id }})"
-                        class="wishlist-btn bg-white text-primary p-2 rounded-full hover:bg-secondary-50"
+                        class="add-to-wishlist-btn bg-white text-primary p-2 rounded-full hover:bg-secondary-50"
                         title="Add to Wishlist">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
