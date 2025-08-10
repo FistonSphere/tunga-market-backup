@@ -649,7 +649,7 @@
                     <div>
                         <h2 class="text-xl font-bold text-primary">My Wishlist</h2>
                         <p class="text-body-sm text-secondary-600">
-                            <span id="total-wishlist-count">12</span> items saved
+                            <span id="total-wishlist-count">{{ is_countable($wishlist) ? count($wishlist) : 0 }}</span> items saved
                         </p>
                     </div>
                 </div>
@@ -677,80 +677,86 @@
                 </div>
             </div>
             @php
-                $wishlist = [];
-
+                $wishlists = [];
                 if (auth()->check()) {
-                    $wishlists = \App\Models\Wishlist::where('user_id', auth()->id())
-                        ->pluck('product_id')
-                        ->toArray();
+                    $wishlists = \App\Models\Product::whereIn('id', function ($query) {
+                        $query
+                            ->select('product_id')
+                            ->from('wishlists')
+                            ->where('user_id', auth()->id());
+                    })
+                        ->with('brand')
+                        ->get();
                 }
-                $product = \App\Models\Product::find($wishlist);
             @endphp
             <!-- Wishlist Items Container -->
             <div class="p-6 max-h-96 overflow-y-auto">
                 <div id="wishlist-items" class="space-y-4">
-                    <!-- Wishlist Item 1 -->
-                    @foreach ($wishlists as $wishlist)
-                        @if ($product)
-                            <div
-                                class="wishlist-item flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface transition-fast group">
-                                <div class="relative flex-shrink-0">
-                                    <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
-                                        class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
-                                    @if ($product->discount > 0)
-                                        <div
-                                            class="absolute -top-1 -right-1 bg-success text-white text-xs rounded-full px-1.5 py-0.5 font-semibold">
-                                            -{{ $product->discount }}%
-                                        </div>
-                                    @endif
-                                </div>
+                    @forelse ($wishlists as $product)
+                        <div
+                            class="wishlist-item flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface transition-fast group">
+                            <!-- Product Image -->
+                            <div class="relative flex-shrink-0">
+                                <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
+                                    class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
+                                @if ($product->discount > 0)
+                                    <div
+                                        class="absolute -top-1 -right-1 bg-success text-white text-xs rounded-full px-1.5 py-0.5 font-semibold">
+                                        -{{ $product->discount }}%
+                                    </div>
+                                @endif
+                            </div>
 
-                                <div class="flex-1 min-w-0">
-                                    <h3 class="font-semibold text-primary mb-1 truncate">
-                                        {{ $product->name }}
-                                    </h3>
-                                    <p class="text-body-sm text-secondary-600 mb-2">
-                                        {{ $product->brand->name ?? 'Unknown Brand' }}
-                                    </p>
+                            <!-- Product Info -->
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-semibold text-primary mb-1 truncate">
+                                    {{ $product->name }}
+                                </h3>
+                                <p class="text-body-sm text-secondary-600 mb-2">
+                                    {{ $product->brand->name ?? 'Unknown Brand' }}
+                                </p>
 
-                                    <div class="flex items-center space-x-4">
-                                        <div class="flex items-baseline space-x-2">
-                                            <span class="text-lg font-bold text-primary">
-                                                ${{ number_format($product->price, 2) }}
+                                <!-- Price & Stock Info -->
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex items-baseline space-x-2">
+                                        <span class="text-lg font-bold text-primary">
+                                            ${{ number_format($product->price, 2) }}
+                                        </span>
+                                        @if ($product->discount > 0)
+                                            <span class="text-body-sm text-secondary-500 line-through">
+                                                ${{ number_format($product->original_price, 2) }}
                                             </span>
-                                            @if ($product->discount > 0)
-                                                <span class="text-body-sm text-secondary-500 line-through">
-                                                    ${{ number_format($product->original_price, 2) }}
-                                                </span>
-                                            @endif
-                                        </div>
-                                        <div class="flex items-center text-success text-body-sm">
+                                        @endif
+                                    </div>
+
+                                    <div class="flex items-center text-success text-body-sm">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        In Stock
+                                    </div>
+
+                                    @if ($product->has_price_drop)
+                                        <div class="flex items-center text-warning text-body-sm">
                                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M5 13l4 4L19 7" />
+                                                    d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
                                             </svg>
-                                            In Stock
+                                            Price Drop!
                                         </div>
-                                        @if ($product->has_price_drop)
-                                            <div class="flex items-center text-warning text-body-sm">
-                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
-                                                </svg>
-                                                Price Drop!
-                                            </div>
-                                        @endif
-                                    </div>
+                                    @endif
                                 </div>
                             </div>
-                        @endif
-                    @endforeach
-
-
+                        </div>
+                    @empty
+                        <p class="text-center text-secondary-500">Your wishlist is empty.</p>
+                    @endforelse
                 </div>
             </div>
+
 
             <!-- Popup Footer -->
             <div class="border-t border-border p-6 bg-surface">
