@@ -4534,17 +4534,25 @@ h6 {
     background-color: #fef5f1;
     color: #ff6a34;
 }
-@keyframes slideUp {
+@keyframes fade-in {
     from {
-        transform: translateY(20px);
         opacity: 0;
     }
     to {
-        transform: translateY(0);
         opacity: 1;
     }
 }
-
-.animate-slide-up {
-    animation: slideUp 0.4s ease-out;
+.animate-fade-in {
+    animation: fade-in 0.3s ease forwards;
+}
+@keyframes scale-up {
+    from {
+        transform: scale(0.9);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+.scale-up {
+    animation: scale-up 0.3s ease forwards;
 }

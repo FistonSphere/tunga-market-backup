@@ -21,6 +21,19 @@
 </head>
 
 <body class="bg-background text-text-primary">
+    <!-- Auth Warning Popup -->
+    <div id="auth-warning-popup"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center animate-fade-in scale-up">
+            <p class="text-lg font-semibold mb-4 text-red-600">Please login first to add to wishlist.</p>
+            <button id="login-redirect-btn"
+                class="bg-accent hover:bg-accent-dark text-white px-4 py-2 rounded transition">
+                Go to Login
+            </button>
+            <button id="close-popup-btn"
+                class="absolute top-2 right-3 text-gray-400 hover:text-gray-700 text-2xl font-bold">&times;</button>
+        </div>
+    </div>
     <!-- Navigation Header -->
     <header class="bg-white shadow-card sticky top-0 z-50">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -867,6 +880,7 @@
             </button>
         </div>
     </div>
+
     <script>
         // Enhanced Navigation Functionality
         class EnhancedNavigation {
@@ -1619,8 +1633,6 @@
             const hue = Math.abs(hash % 360);
             return `hsl(${hue}, 70%, 60%)`;
         }
-
-        
     </script>
 
 

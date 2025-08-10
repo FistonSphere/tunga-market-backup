@@ -41,7 +41,7 @@ Route::get('/products/main-filter', [ProductListingController::class, 'filter'])
 Route::get('/search/suggestions', [SearchController::class, 'suggestions']);
 
 
-Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
 Route::get('/authentication', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -66,7 +66,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/user/change-password', [AuthController::class, 'changePassword'])->name('user.change.password');
     Route::post('/profile/update', [AuthController::class, 'update'])->name('user.profile.update');
     Route::post('/profile/update-password', [AuthController::class, 'updatePassword'])->name('profile.update.password');
-
+ Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::get('/wishlist/count', [WishlistController::class, 'count'])->name('wishlist.count');
 
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
