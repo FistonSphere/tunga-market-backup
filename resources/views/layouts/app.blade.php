@@ -677,6 +677,13 @@
                 </div>
             </div>
             @php
+                $wishlist = [];
+
+                if (auth()->check()) {
+                    $wishlists = \App\Models\Wishlist::where('user_id', auth()->id())
+                        ->pluck('product_id')
+                        ->toArray();
+                }
                 $product = \App\Models\Product::find($wishlist);
             @endphp
             <!-- Wishlist Items Container -->
@@ -737,62 +744,10 @@
                                         @endif
                                     </div>
                                 </div>
-                        @endforeach
-                        {{-- <div
-                        class="wishlist-item flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface transition-fast group">
-                        <div class="relative flex-shrink-0">
-                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                                alt="Premium Wireless Earbuds Pro" class="w-16 h-16 rounded-lg object-cover"
-                                loading="lazy" />
-                            <div
-                                class="absolute -top-1 -right-1 bg-success text-white text-xs rounded-full px-1.5 py-0.5 font-semibold">
-                                -25%
                             </div>
-                        </div>
+                        @endif
+                    @endforeach
 
-                        <div class="flex-1 min-w-0">
-                            <h3 class="font-semibold text-primary mb-1 truncate">
-                                Premium Wireless Earbuds Pro
-                            </h3>
-                            <p class="text-body-sm text-secondary-600 mb-2">
-                                TechSound Electronics
-                            </p>
-
-                            <div class="flex items-center space-x-4">
-                                <div class="flex items-baseline space-x-2">
-                                    <span class="text-lg font-bold text-primary">$149.99</span>
-                                    <span class="text-body-sm text-secondary-500 line-through">$199.99</span>
-                                </div>
-                                <div class="flex items-center text-success text-body-sm">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    In Stock
-                                </div>
-                                <div class="flex items-center text-warning text-body-sm">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
-                                    </svg>
-                                    Price Drop!
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Item Actions -->
-                        <div class="flex flex-col space-y-2">
-                            <button onclick="addToCartFromWishlist(this)" class="btn-primary px-4 py-2 text-body-sm">
-                                Add to Cart
-                            </button>
-                            <button onclick="removeFromWishlist(this)"
-                                class="text-secondary-600 hover:text-error transition-fast text-body-sm">
-                                Remove
-                            </button>
-                        </div>
-                    </div> --}}
 
                 </div>
             </div>
