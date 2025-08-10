@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wishlist extends Model
 {
-    use SoftDeletes
     protected $fillable = [
         'user_id',
         'product_id',
