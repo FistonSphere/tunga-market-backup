@@ -865,7 +865,10 @@
             </button>
         </div>
     </div>
-
+    <div id="toast-success"
+        class="hidden fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 opacity-0">
+        Added to Wishlist!
+    </div>
 
     <script>
         // Enhanced Navigation Functionality
@@ -1645,14 +1648,14 @@
         });
 
         function showToast(message) {
-            let toast = document.createElement('div');
-            toast.className = 'fixed bottom-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow';
+            let toast = document.getElementById('toast-success');
             toast.textContent = message;
-            document.body.appendChild(toast);
-
+            toast.classList.remove('hidden', 'opacity-0');
+            toast.classList.add('opacity-100');
             setTimeout(() => {
-                toast.remove();
-            }, 3000);
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 2000);
         }
 
         //remove product from wishlist
