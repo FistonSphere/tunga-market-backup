@@ -40,11 +40,7 @@ Route::get('/products/search', [ProductListingController::class, 'search'])->nam
 Route::get('/products/main-filter', [ProductListingController::class, 'filter']);
 Route::get('/search/suggestions', [SearchController::class, 'suggestions']);
 
-Route::get('/wishlist/count', function () {
-    return response()->json([
-        'count' => auth()->check() ? auth()->user()->wishlist()->count() : 0
-    ]);
-});
+
 Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
 Route::get('/authentication', [AuthController::class, 'showLoginForm'])->name('login');
