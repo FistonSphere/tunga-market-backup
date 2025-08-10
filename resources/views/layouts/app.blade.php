@@ -1477,77 +1477,51 @@
             const btnConfirm = document.getElementById('confirm-clear-wishlist');
             const btnCancel = document.getElementById('cancel-clear-wishlist');
             const btnClose = document.getElementById('clear-wishlist-close');
-            const wishlistItemsContainer = document.getElementById('wishlist-items');
+            const wishlistItemsContainer = document.getElementById('wishlist-items'); // contains .wishlist-item
             const wishlistCountSpan = document.getElementById('wishlist-count');
 
-            let undoTimeoutId = null;
-            let deletedItemsBackup = [];
-
-            // === Modal open/close and focus trap helpers ===
+            // ===== utility functions =====
             function openModal() {
                 if (!modalWrapper) return;
                 modalWrapper.classList.remove('hidden');
+                // animate modal in
                 requestAnimationFrame(() => {
                     modal.classList.remove('scale-95', 'opacity-0');
                     modal.classList.add('scale-100', 'opacity-100');
-                    modal.focus();
                 });
             }
 
             function closeModal() {
                 if (!modalWrapper) return;
+                // animate out
                 modal.classList.remove('scale-100', 'opacity-100');
                 modal.classList.add('scale-95', 'opacity-0');
                 setTimeout(() => modalWrapper.classList.add('hidden'), 200);
             }
 
-            // === Toast with Undo button ===
-            function showToast(message, type = 'info', undoCallback = null) {
+            function showToast(message, type = 'info') {
+                // reuse your showToast or re-define; this one is small fallback
                 const toast = document.createElement('div');
+                toast.textContent = message;
                 toast.className = `
       fixed top-10 left-1/2 transform -translate-x-1/2
-      bg-white border border-gray-300 shadow-lg rounded-lg px-6 py-3 flex items-center space-x-4
-      text-gray-900 font-semibold z-50 max-w-md
-      ${type === 'success' ? 'border-green-500' : ''}
-      ${type === 'error' ? 'border-red-500' : ''}
-      ${type === 'info' ? 'border-[#ff6a34]' : ''}
+      px-6 py-3 rounded-lg text-white font-semibold shadow-lg z-50 transition-opacity duration-300
+      ${type === 'success' ? 'bg-green-600' : ''}
+      ${type === 'error' ? 'bg-red-600' : ''}
+      ${type === 'info' ? 'bg-orange-500' : ''}
+      opacity-100
     `;
-
-                // message span
-                const msgSpan = document.createElement('span');
-                msgSpan.textContent = message;
-                toast.appendChild(msgSpan);
-
-                // if undo available, add button
-                if (undoCallback) {
-                    const undoBtn = document.createElement('button');
-                    undoBtn.textContent = 'Undo';
-                    undoBtn.className = `
-        text-[#ff6a34] font-semibold hover:underline focus:outline-none ml-auto
-      `;
-                    undoBtn.onclick = () => {
-                        undoCallback();
-                        clearTimeout(undoTimeoutId);
-                        toast.remove();
-                    };
-                    toast.appendChild(undoBtn);
-                }
-
                 document.body.appendChild(toast);
-
-                // Auto-remove after 4.5 seconds
-                undoTimeoutId = setTimeout(() => {
+                setTimeout(() => {
                     toast.style.opacity = '0';
                     setTimeout(() => toast.remove(), 300);
-                }, 4500);
+                }, 2200);
             }
 
-            // Animate and remove wishlist items with stagger
             function animateAndRemoveAllItems() {
                 const items = document.querySelectorAll('.wishlist-item');
-                deletedItemsBackup = []; // reset backup
                 items.forEach((item, i) => {
-                    deletedItemsBackup.push(item.outerHTML);
+                    // staggered slide out
                     setTimeout(() => {
                         item.style.transition = 'transform 300ms ease, opacity 300ms ease';
                         item.style.transform = 'translateX(-20px) scale(0.98)';
@@ -1559,46 +1533,12 @@
                 });
             }
 
-            // Restore deleted items after Undo
-            function restoreDeletedItems() {
-                if (!wishlistItemsContainer) return;
-                wishlistItemsContainer.innerHTML = deletedItemsBackup.join('');
-                deletedItemsBackup = [];
-                if (wishlistCountSpan) wishlistCountSpan.textContent = wishlistItemsContainer.children.length;
-            }
-
-            // API call for undo clearing wishlist (soft restore)
-            function undoClearWishlist() {
-                fetch('/wishlist/undo-clear', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                            'Accept': 'application/json'
-                        }
-                    })
-                    .then(res => {
-                        if (!res.ok) throw res;
-                        return res.json();
-                    })
-                    .then(data => {
-                        if (data.status === 'success') {
-                            restoreDeletedItems();
-                            showToast('Wishlist restored', 'success');
-                        } else {
-                            showToast(data.message || 'Undo failed', 'error');
-                        }
-                    })
-                    .catch(() => {
-                        showToast('Undo failed, please try again', 'error');
-                    });
-            }
-
-            // Show modal from outside
+            // ===== public functions =====
             window.showClearWishlistModal = function() {
                 openModal();
             };
 
-            // Confirm Clear Wishlist
+            // confirm -> send request to server
             if (btnConfirm) {
                 btnConfirm.addEventListener('click', function() {
                     btnConfirm.disabled = true;
@@ -1620,18 +1560,20 @@
                         })
                         .then(data => {
                             if (data.status === 'success') {
+                                // nice animation, update UI and counter
                                 animateAndRemoveAllItems();
                                 if (wishlistCountSpan) wishlistCountSpan.textContent = 0;
-                                showToast('Wishlist cleared', 'success', undoClearWishlist);
+                                showToast(data.message, 'success');
                             } else {
                                 showToast(data.message || 'Could not clear wishlist', 'error');
                             }
                             closeModal();
                         })
                         .catch(err => {
+                            // try to read JSON message
                             if (err.json) {
                                 err.json().then(j => showToast(j.message || 'Error', 'error')).catch(
-                                () => showToast('Error', 'error'));
+                                    () => showToast('Error', 'error'));
                             } else {
                                 showToast('Network error, try again', 'error');
                             }
@@ -1642,18 +1584,17 @@
                 });
             }
 
-            // Cancel and Close modal handlers
+            // cancel/close
             if (btnCancel) btnCancel.addEventListener('click', closeModal);
             if (btnClose) btnClose.addEventListener('click', closeModal);
 
+            // close when clicking outside modal content
             if (modalWrapper) {
-                modalWrapper.addEventListener('click', e => {
+                modalWrapper.addEventListener('click', function(e) {
                     if (e.target === modalWrapper) closeModal();
                 });
             }
         });
-
-
 
         function shareWishlist() {
             if (navigator.share) {
