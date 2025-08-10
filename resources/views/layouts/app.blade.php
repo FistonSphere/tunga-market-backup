@@ -649,7 +649,7 @@
                     <div>
                         <h2 class="text-xl font-bold text-primary">My Wishlist</h2>
                         <p class="text-body-sm text-secondary-600">
-                            <span id="total-wishlist-count">{{ is_countable($wishlist) ? count($wishlist) : 0 }}</span> items saved
+                            <span>{{ is_countable($wishlist) ? count($wishlist) : 0 }}</span> items saved
                         </p>
                     </div>
                 </div>
@@ -713,7 +713,7 @@
                                     {{ $product->name }}
                                 </h3>
                                 <p class="text-body-sm text-secondary-600 mb-2">
-                                    {{ $product->brand->name ?? 'Unknown Brand' }}
+                                    {{ $product->brand->name ?? '' }}
                                 </p>
 
                                 <!-- Price & Stock Info -->
