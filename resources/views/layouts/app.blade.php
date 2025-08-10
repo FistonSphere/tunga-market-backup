@@ -1538,7 +1538,7 @@
                     btnConfirm.disabled = true;
                     btnConfirm.classList.add('opacity-70', 'cursor-wait');
 
-                    fetch('/wishlist/clear', {
+                    fetch('/wishlist-clear', {
                             method: 'DELETE',
                             headers: {
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
