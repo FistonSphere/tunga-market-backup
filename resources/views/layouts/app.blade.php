@@ -656,7 +656,7 @@
 
                 <!-- Header Actions -->
                 <div class="flex items-center space-x-3">
-                    <button onclick="clearAllWishlist()"
+                    <button onclick="showClearWishlistModal()"
                         class="text-secondary-600 hover:text-error transition-fast text-body-sm font-medium">
                         Clear All
                     </button>
@@ -869,6 +869,46 @@
         class="hidden fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 opacity-0"
         style="z-index: 9999;">
         Added to Wishlist!
+    </div>
+    <!-- Clear Wishlist Confirmation Modal (hidden by default) -->
+    <div id="clear-wishlist-modal-wrapper" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center">
+        <div id="clear-wishlist-modal"
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 scale-95 opacity-0">
+            <div class="relative p-6 text-center">
+                <!-- Close -->
+                <button id="clear-wishlist-close"
+                    class="absolute top-4 right-4 p-1 rounded-full text-gray-400 hover:bg-gray-100">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                <!-- Warning icon -->
+                <div class="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v2m0 4h.01M21 12A9 9 0 1112 3a9 9 0 019 9z" />
+                    </svg>
+                </div>
+
+                <h3 class="text-xl font-semibold text-primary mb-2">Clear wishlist?</h3>
+                <p class="text-body-sm text-secondary-600 mb-6">
+                    This will permanently remove all items from your wishlist. Are you sure you want to continue?
+                </p>
+
+                <div class="flex gap-3 justify-center">
+                    <button id="confirm-clear-wishlist"
+                        class="btn-primary px-6 py-2 rounded-lg transform transition hover:scale-105">
+                        Yes, clear all
+                    </button>
+                    <button id="cancel-clear-wishlist"
+                        class="bg-secondary-100 text-secondary-700 px-6 py-2 rounded-lg hover:bg-secondary-200 transition">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1425,47 +1465,130 @@
             wishlistManager.removeItemFromWishlist(item);
         }
 
-        function clearAllWishlist() {
-            if (!confirm('Are you sure you want to clear your entire wishlist? This action cannot be undone.')) {
-                return;
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalWrapper = document.getElementById('clear-wishlist-modal-wrapper');
+            const modal = document.getElementById('clear-wishlist-modal');
+            const btnConfirm = document.getElementById('confirm-clear-wishlist');
+            const btnCancel = document.getElementById('cancel-clear-wishlist');
+            const btnClose = document.getElementById('clear-wishlist-close');
+            const wishlistItemsContainer = document.getElementById('wishlist-items'); // contains .wishlist-item
+            const wishlistCountSpan = document.getElementById('wishlist-count');
+
+            // ===== utility functions =====
+            function openModal() {
+                if (!modalWrapper) return;
+                modalWrapper.classList.remove('hidden');
+                // animate modal in
+                requestAnimationFrame(() => {
+                    modal.classList.remove('scale-95', 'opacity-0');
+                    modal.classList.add('scale-100', 'opacity-100');
+                });
             }
 
-            fetch('/wishlist-clear', {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        // Animate removal of each wishlist item
-                        const items = document.querySelectorAll('.wishlist-item');
-                        items.forEach((item, index) => {
-                            setTimeout(() => {
-                                item.style.transform = 'translateX(-100%)';
-                                item.style.opacity = '0';
-                                setTimeout(() => item.remove(), 300);
-                            }, index * 100);
-                        });
+            function closeModal() {
+                if (!modalWrapper) return;
+                // animate out
+                modal.classList.remove('scale-100', 'opacity-100');
+                modal.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => modalWrapper.classList.add('hidden'), 200);
+            }
 
-                        // Reset counters and show toast
-                        wishlistManager.wishlistCount = 0;
-                        wishlistManager.setStoredCount('wishlistCount', 0);
-                        wishlistManager.updateCounts();
-                        wishlistManager.showToast('Wishlist Cleared', data.message);
-                    } else {
-                        wishlistManager.showToast('Error', data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Clear wishlist error:', error);
-                    wishlistManager.showToast('Error', 'Something went wrong while clearing your wishlist.');
+            function showToast(message, type = 'info') {
+                // reuse your showToast or re-define; this one is small fallback
+                const toast = document.createElement('div');
+                toast.textContent = message;
+                toast.className = `
+      fixed top-10 left-1/2 transform -translate-x-1/2
+      px-6 py-3 rounded-lg text-white font-semibold shadow-lg z-50 transition-opacity duration-300
+      ${type === 'success' ? 'bg-green-600' : ''}
+      ${type === 'error' ? 'bg-red-600' : ''}
+      ${type === 'info' ? 'bg-orange-500' : ''}
+      opacity-100
+    `;
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, 2200);
+            }
+
+            function animateAndRemoveAllItems() {
+                const items = document.querySelectorAll('.wishlist-item');
+                items.forEach((item, i) => {
+                    // staggered slide out
+                    setTimeout(() => {
+                        item.style.transition = 'transform 300ms ease, opacity 300ms ease';
+                        item.style.transform = 'translateX(-20px) scale(0.98)';
+                        item.style.opacity = '0';
+                        setTimeout(() => {
+                            item.remove();
+                        }, 300);
+                    }, i * 80);
                 });
-        }
+            }
 
+            // ===== public functions =====
+            window.showClearWishlistModal = function() {
+                openModal();
+            };
 
+            // confirm -> send request to server
+            if (btnConfirm) {
+                btnConfirm.addEventListener('click', function() {
+                    btnConfirm.disabled = true;
+                    btnConfirm.classList.add('opacity-70', 'cursor-wait');
+
+                    fetch('/wishlist/clear', {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .content,
+                                'Accept': 'application/json'
+                            }
+                        })
+                        .then(res => {
+                            btnConfirm.disabled = false;
+                            btnConfirm.classList.remove('opacity-70', 'cursor-wait');
+                            if (!res.ok) throw res;
+                            return res.json();
+                        })
+                        .then(data => {
+                            if (data.status === 'success') {
+                                // nice animation, update UI and counter
+                                animateAndRemoveAllItems();
+                                if (wishlistCountSpan) wishlistCountSpan.textContent = 0;
+                                showToast(data.message, 'success');
+                            } else {
+                                showToast(data.message || 'Could not clear wishlist', 'error');
+                            }
+                            closeModal();
+                        })
+                        .catch(err => {
+                            // try to read JSON message
+                            if (err.json) {
+                                err.json().then(j => showToast(j.message || 'Error', 'error')).catch(
+                                () => showToast('Error', 'error'));
+                            } else {
+                                showToast('Network error, try again', 'error');
+                            }
+                            btnConfirm.disabled = false;
+                            btnConfirm.classList.remove('opacity-70', 'cursor-wait');
+                            closeModal();
+                        });
+                });
+            }
+
+            // cancel/close
+            if (btnCancel) btnCancel.addEventListener('click', closeModal);
+            if (btnClose) btnClose.addEventListener('click', closeModal);
+
+            // close when clicking outside modal content
+            if (modalWrapper) {
+                modalWrapper.addEventListener('click', function(e) {
+                    if (e.target === modalWrapper) closeModal();
+                });
+            }
+        });
 
         function shareWishlist() {
             if (navigator.share) {
