@@ -4534,3 +4534,17 @@ h6 {
     background-color: #fef5f1;
     color: #ff6a34;
 }
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+}

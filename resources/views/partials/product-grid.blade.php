@@ -54,7 +54,9 @@
                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
                     </a>
-                    <button onclick="addToWishlist({{ $product->id }})" class="wishlist-btn bg-white text-primary p-2 rounded-full hover:bg-secondary-50" title="Add to Wishlist">
+                    <button onclick="addToWishlist({{ $product->id }})"
+                        class="wishlist-btn bg-white text-primary p-2 rounded-full hover:bg-secondary-50"
+                        title="Add to Wishlist">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -142,79 +144,37 @@
     let allProducts = @json($products);
 
     //add to wishlist functionality
-    document.addEventListener('DOMContentLoaded', () => {
-        // Toast container
-        const toastContainer = document.createElement('div');
-        toastContainer.id = 'toastContainer';
-        toastContainer.style.position = 'fixed';
-        toastContainer.style.top = '20px';
-        toastContainer.style.right = '20px';
-        toastContainer.style.zIndex = '9999';
-        document.body.appendChild(toastContainer);
+    function addToWishlist(productId) {
+        fetch("{{ route('wishlist.add') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    product_id: productId
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                showToast(data.message, data.status);
+            })
+            .catch(err => console.error(err));
+    }
 
-        // Function to show toast
-        function showToast(message, duration = 3000) {
-            const toast = document.createElement('div');
-            toast.textContent = message;
-            toast.style.background = '#ff6a34'; // your color
-            toast.style.color = '#fff';
-            toast.style.padding = '10px 20px';
-            toast.style.marginTop = '10px';
-            toast.style.borderRadius = '8px';
-            toast.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-            toast.style.opacity = '0';
-            toast.style.transform = 'translateX(100%)';
-            toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `fixed bottom-5 right-5 px-4 py-3 rounded-lg shadow-lg text-white
+        ${type === 'success' ? 'bg-green-500' : type === 'info' ? 'bg-blue-500' : 'bg-red-500'}
+        animate-slide-up`;
+        toast.textContent = message;
 
-            toastContainer.appendChild(toast);
+        document.body.appendChild(toast);
 
-            // Animate in
-            requestAnimationFrame(() => {
-                toast.style.opacity = '1';
-                toast.style.transform = 'translateX(0)';
-            });
-
-            // Animate out after duration
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateX(100%)';
-                toast.addEventListener('transitionend', () => {
-                    toast.remove();
-                });
-            }, duration);
-        }
-
-        // Add to wishlist button event
-        document.querySelectorAll('.wishlist-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const productId = btn.getAttribute('data-product-id');
-                if (!productId) return;
-
-                fetch('/wishlist/add', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector(
-                                'meta[name="csrf-token"]').getAttribute('content'),
-                        },
-                        body: JSON.stringify({
-                            product_id: productId
-                        }),
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success) {
-                            showToast('Added to Wishlist!');
-                        } else {
-                            showToast('Failed to add to Wishlist.');
-                        }
-                    })
-                    .catch(() => {
-                        showToast('Error occurred. Try again.');
-                    });
-            });
-        });
-    });
-
+        setTimeout(() => {
+            toast.classList.add('opacity-0', 'transition', 'duration-500');
+            setTimeout(() => toast.remove(), 500);
+        }, 2500);
+    }
     //add to wishlist functionality
 </script>

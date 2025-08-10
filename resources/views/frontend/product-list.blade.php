@@ -230,7 +230,7 @@
             </div>
         </div>
     </section>
-    <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;"></div>
+    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
 
     <script>
         let compareList = [];
@@ -406,7 +406,7 @@
             const toast = document.createElement('div');
             toast.className = `toast-message toast-${type}`;
 
-            let bgColor = '#60A5FA'; // default info (blue)
+            let bgColor = '#011528'; // default info (blue)
             if (type === 'error') bgColor = '#F87171'; // red for errors (limit exceeded)
             else if (type === 'success') bgColor = '#ff6a34'; // orange for add product
             else if (type === 'warning') bgColor = '#b91c1c'; // dark red for remove product
@@ -1191,6 +1191,6 @@
         //categpry filtering functionality
         //advanced searching
 
-        
+
     </script>
 @endsection
