@@ -149,7 +149,7 @@
     <div id="login-warning-modal"
         class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
         <!-- Close Button -->
-        <button id="close-login-warning-modal"
+        <button onclick="continueBrowsing()"
             class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -189,6 +189,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         const wishlistCountSpan = document.getElementById("wishlist-count");
         const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
+        const closeModalBtn = document.getElementById('close-login-warning-modal');
 
         window.addToWishlist = function(productId) {
             fetch(`/wishlist/add`, {
@@ -223,7 +224,7 @@
                 .catch(err => {
                     if (err.message !== "Unauthorized") {
                         showToast("An error occurred. Please try again.", "error");
-                        console.error(err);
+                        
                     }
                 });
         };
@@ -254,24 +255,14 @@
             }, 2500);
         }
 
-       
 
-        function closeLoginWarning() {
-            let closeModal = document.getElementById('close-login-warning-modal');
-            if (closeModal) {
-                closeModal.addEventListener('click', function() {
-                    document.getElementById('login-warning-modal-wrapper').classList.add(
-                            'hidden');
-                });
-            }
-        }
 
         window.goToSignIn = function() {
             window.location.href = "{{ route('login') }}"; // adjust route if needed
         };
 
         window.continueBrowsing = function() {
-            window.closeLoginWarning();
+             document.getElementById('login-warning-modal-wrapper').classList.add('hidden');
         };
     });
 
