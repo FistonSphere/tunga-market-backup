@@ -866,7 +866,7 @@
         </div>
     </div>
     <div id="toast-success"
-        class="hidden fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 opacity-0">
+        class="hidden fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 opacity-0" style="z-index: 9999;">
         Added to Wishlist!
     </div>
 
@@ -1442,6 +1442,8 @@
             }
         }
 
+        
+        
         function shareWishlist() {
             if (navigator.share) {
                 navigator.share({
