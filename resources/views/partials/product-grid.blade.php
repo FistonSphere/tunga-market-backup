@@ -63,6 +63,8 @@
                         </svg>
                     </button>
 
+
+
                     <button onclick="addToComparison({{ $product->id }})"
                         class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50" title="Add to Compare">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

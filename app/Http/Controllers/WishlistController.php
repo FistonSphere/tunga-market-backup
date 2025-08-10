@@ -19,17 +19,18 @@ class WishlistController extends Controller
         session()->put('wishlist', $wishlist);
 
         return response()->json([
-            'status' => 'success',
+            'success' => true,
             'message' => 'Product added to wishlist!',
-            'count' => count($wishlist) // ✅ Send updated count
+            'count' => count($wishlist)
         ]);
     }
 
     return response()->json([
-        'status' => 'info',
+        'success' => false,
         'message' => 'Product already in wishlist.',
-        'count' => count($wishlist) // ✅ Still return count
+        'count' => count($wishlist)
     ]);
 }
+
 
 }
