@@ -175,6 +175,8 @@
                         showToast(data.message, "success");
                     } else if (data.status === "info") {
                         showToast(data.message, "info");
+                    } else if (data.status === "error") {
+                        showToast(data.message, "error");
                     }
                 })
                 .catch(err => {
@@ -186,10 +188,11 @@
         };
 
         function updateWishlistCount(count) {
-            wishlistCountSpan.textContent = count;
+            if (wishlistCountSpan) {
+                wishlistCountSpan.textContent = count;
+            }
         }
 
-        // Show toast notification (simple Tailwind styled popup)
         function showToast(message, type = "info") {
             const toast = document.createElement("div");
             toast.textContent = message;
@@ -210,26 +213,27 @@
             }, 2500);
         }
 
-        // Show login warning modal
         function showLoginWarning() {
-            loginWarningModalWrapper.classList.remove("hidden");
+            if (loginWarningModalWrapper) {
+                loginWarningModalWrapper.classList.remove("hidden");
+            }
         }
 
-        // Close modal function for button
         window.closeLoginWarning = function() {
-            loginWarningModalWrapper.classList.add("hidden");
+            if (loginWarningModalWrapper) {
+                loginWarningModalWrapper.classList.add("hidden");
+            }
         };
 
-        // Redirect to login route
         window.goToSignIn = function() {
-            window.location.href = "/login"; // change to your login route if different
+            window.location.href = "/login"; // adjust route if needed
         };
 
-        // Close modal and continue browsing
         window.continueBrowsing = function() {
-            closeLoginWarning();
+            window.closeLoginWarning();
         };
     });
+
 
     //add to wishlist
 </script>
