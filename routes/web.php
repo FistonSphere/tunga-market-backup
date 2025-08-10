@@ -72,7 +72,7 @@ Route::get('/wishlist/count', [WishlistController::class, 'count'])->name('wishl
    Route::get('/wishlist', [WishlistController::class, 'getWishlist'])->name('wishlist.get');
     Route::delete('/wishlist/{product}', [WishlistController::class, 'destroy'])
     ->name('wishlist.remove');
-    Route::delete('/wishlist/clear', [WishlistController::class, 'clear'])->name('wishlist.clear');
+    Route::delete('wishlist/clear', [WishlistController::class, 'clearAll'])->name('wishlist.clear');
     Route::post('/wishlist/add-all-to-cart', [WishlistController::class, 'addAllToCart'])->name('wishlist.addAllToCart');
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

@@ -54,12 +54,25 @@ class WishlistController extends Controller
 
     return response()->json(['success' => true, 'message' => 'Removed from wishlist']);
 }
-public function clear()
-    {
-        Wishlist::where('user_id', Auth::id())->delete();
+public function clearAll(Request $request)
+{
+    $user = $request->user();
 
-        return response()->json(['status' => 'success']);
+    // Delete all wishlist items for the logged-in user
+    $deleted = $user->wishlistItems()->delete();
+
+    if ($deleted) {
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Your wishlist has been cleared.'
+        ]);
     }
+
+    return response()->json([
+        'status'  => 'error',
+        'message' => 'No items found in your wishlist.'
+    ], 404);
+}
 
     public function getWishlist()
     {

@@ -47,6 +47,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function wishlistItems()
+{
+    return $this->hasMany(Wishlist::class); 
+}
     /**
      * Get the attributes that should be cast.
      *

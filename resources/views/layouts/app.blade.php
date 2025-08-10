@@ -866,7 +866,8 @@
         </div>
     </div>
     <div id="toast-success"
-        class="hidden fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 opacity-0" style="z-index: 9999;">
+        class="hidden fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 opacity-0"
+        style="z-index: 9999;">
         Added to Wishlist!
     </div>
 
@@ -1425,25 +1426,47 @@
         }
 
         function clearAllWishlist() {
-            if (confirm('Are you sure you want to clear your entire wishlist? This action cannot be undone.')) {
-                const items = document.querySelectorAll('.wishlist-item');
-                items.forEach((item, index) => {
-                    setTimeout(() => {
-                        item.style.transform = 'translateX(-100%)';
-                        item.style.opacity = '0';
-                        setTimeout(() => item.remove(), 300);
-                    }, index * 100);
-                });
-
-                wishlistManager.wishlistCount = 0;
-                wishlistManager.setStoredCount('wishlistCount', 0);
-                wishlistManager.updateCounts();
-                wishlistManager.showToast('Wishlist Cleared', 'All items removed from wishlist');
+            if (!confirm('Are you sure you want to clear your entire wishlist? This action cannot be undone.')) {
+                return;
             }
+
+            fetch('/wishlist/clear', {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Animate removal of each wishlist item
+                        const items = document.querySelectorAll('.wishlist-item');
+                        items.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.style.transform = 'translateX(-100%)';
+                                item.style.opacity = '0';
+                                setTimeout(() => item.remove(), 300);
+                            }, index * 100);
+                        });
+
+                        // Reset counters and show toast
+                        wishlistManager.wishlistCount = 0;
+                        wishlistManager.setStoredCount('wishlistCount', 0);
+                        wishlistManager.updateCounts();
+                        wishlistManager.showToast('Wishlist Cleared', data.message);
+                    } else {
+                        wishlistManager.showToast('Error', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Clear wishlist error:', error);
+                    wishlistManager.showToast('Error', 'Something went wrong while clearing your wishlist.');
+                });
         }
 
-        
-        
+
+
         function shareWishlist() {
             if (navigator.share) {
                 navigator.share({
