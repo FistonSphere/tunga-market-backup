@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class WishlistController extends Controller
 {
@@ -115,16 +117,37 @@ public function clearAll(Request $request)
 
         return response()->json(['count' => $count]);
     }
-    public function addAllToCart()
+     public function addAllToCart(Request $request)
     {
-        $wishlistItems = Wishlist::with('product')->where('user_id', Auth::id())->get();
+        $userId = Auth::id();
 
-        // Here you would insert them into the cart table
-        // Example:
-        // foreach($wishlistItems as $item) {
-        //     Cart::create([...]);
-        // }
+        // Fetch all wishlist items for the user
+        $wishlistItems = Wishlist::where('user_id', $userId)->get();
 
-        return response()->json(['status' => 'success', 'message' => 'All items added to cart']);
+        if ($wishlistItems->isEmpty()) {
+            return response()->json([
+                'status' => 'warning',
+                'message' => 'Your wishlist is empty. Nothing to add to cart.',
+            ], 200);
+        }
+
+        DB::transaction(function () use ($wishlistItems, $userId) {
+            foreach ($wishlistItems as $item) {
+                // Add to cart
+                Cart::create([
+                    'user_id'    => $userId,
+                    'product_id' => $item->product_id,
+                    'quantity'   => 1, // You can adjust this based on your logic
+                ]);
+
+                // Soft delete wishlist item
+                $item->delete();
+            }
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'message' => count($wishlistItems) . ' items added to cart successfully.',
+        ], 200);
     }
 }
