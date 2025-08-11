@@ -836,7 +836,7 @@
                             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                     <span
-                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">12</span>
+                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">{{ is_countable($wishlist) ? count($wishlist) : 0 }}</span>
                 </div>
                 <span class="text-xs font-semibold">Wishlist</span>
             </button>
@@ -1153,83 +1153,10 @@
         }
 
 
-        function openVoiceSearch() {
-            // Open voice search interface in new window or redirect
-            window.open('voice_search_recognition_interface.html', '_blank',
-                'width=600,height=800,resizable=yes,scrollbars=yes');
-        }
+       
 
-        function openImageSearch() {
-            const overlay = document.getElementById('image-search-overlay');
-            const modal = document.getElementById('image-search-modal');
 
-            overlay.classList.add('opacity-100', 'visible');
-            overlay.classList.remove('opacity-0', 'invisible');
-            modal.classList.add('scale-100');
-            modal.classList.remove('scale-95');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeImageSearch() {
-            window.enhancedNav.closeImageSearch();
-        }
-
-        function removeImage() {
-            window.enhancedNav.resetImageSearch();
-        }
-
-        function performImageSearch() {
-            const results = document.getElementById('image-search-results');
-            const resultsContainer = results.querySelector('.grid');
-
-            // Simulate image search results
-            resultsContainer.innerHTML = `
-            <div class="bg-white rounded-lg border border-gray-200 p-3 hover:shadow-md transition-fast cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=300&auto=format&fit=crop" class="w-full h-20 object-cover rounded mb-2" />
-                <p class="text-xs text-secondary-600">Wireless Earbuds</p>
-                <p class="text-sm font-semibold text-primary">$29.99</p>
-            </div>
-            <div class="bg-white rounded-lg border border-gray-200 p-3 hover:shadow-md transition-fast cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=300&auto=format&fit=crop" class="w-full h-20 object-cover rounded mb-2" />
-                <p class="text-xs text-secondary-600">Bluetooth Headphones</p>
-                <p class="text-sm font-semibold text-primary">$49.99</p>
-            </div>
-            <div class="bg-white rounded-lg border border-gray-200 p-3 hover:shadow-md transition-fast cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1590658165737-15a047b6c74d?q=80&w=300&auto=format&fit=crop" class="w-full h-20 object-cover rounded mb-2" />
-                <p class="text-xs text-secondary-600">Audio Speakers</p>
-                <p class="text-sm font-semibold text-primary">$79.99</p>
-            </div>
-        `;
-
-            results.classList.remove('hidden');
-        }
-
-        function handleSearchInput() {
-            const searchValue = document.getElementById('search-input').value.toLowerCase();
-            // Handle search suggestions logic here
-        }
-
-        function selectSuggestion(suggestion) {
-            document.getElementById('search-input').value = suggestion;
-            setTimeout(() => {
-                closeSearchOverlay();
-                // Redirect to product discovery with search query
-                window.location.href = `product_discovery_hub.html?search=${encodeURIComponent(suggestion)}`;
-            }, 300);
-        }
-
-        function toggleWishlist() {
-            console.log('Wishlist toggled');
-        }
-
-        function toggleCart() {
-            console.log('Cart toggled');
-        }
-
-        // Initialize Enhanced Navigation
-        document.addEventListener('DOMContentLoaded', function() {
-            window.enhancedNav = new EnhancedNavigation();
-        });
+       
     </script>
     <script>
         // Show wishlist popup on button click
