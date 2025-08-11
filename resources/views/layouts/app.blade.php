@@ -914,6 +914,8 @@
             </div>
         </div>
     </div>
+<div id="toast-container" aria-live="polite" aria-atomic="true"
+     style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;"></div>
 
 
     <script>
@@ -1619,37 +1621,7 @@
             });
         }
 
-        window.wishlistManager = {
-            showToast: function(title, message, type = 'success') {
-                const toastWrapper = document.createElement('div');
-                toastWrapper.className = `fixed top-6 right-6 z-50 animate-fade-in-down`;
-
-                let bgColor = 'bg-green-500';
-                if (type === 'error') bgColor = 'bg-red-500';
-                if (type === 'warning') bgColor = 'bg-yellow-500';
-
-                toastWrapper.innerHTML = `
-            <div class="${bgColor} text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-3">
-                <span class="font-semibold">${title}</span>
-                <span class="text-sm">${message}</span>
-            </div>
-        `;
-
-                document.body.appendChild(toastWrapper);
-
-                setTimeout(() => {
-                    toastWrapper.remove();
-                }, 3000);
-            },
-
-            wishlistCount: 0,
-
-            updateCounts: function() {
-                const countEls = document.querySelectorAll('.wishlist-count');
-                countEls.forEach(el => el.textContent = this.wishlistCount);
-            }
-        };
-
+       
         function addAllToCart() {
             const items = document.querySelectorAll('.wishlist-item');
 
