@@ -1620,34 +1620,31 @@
         }
 
         function addAllToCart() {
-            const items = document.querySelectorAll('.wishlist-item');
-            if (items.length === 0) {
-                wishlistManager.showToast('Empty Wishlist', 'No items to add to cart', 'warning');
-                return;
-            }
-
-            let addedCount = 0;
-            items.forEach((item, index) => {
-                setTimeout(() => {
-                    item.style.transform = 'translateX(100%)';
-                    item.style.opacity = '0';
-                    addedCount++;
-
-                    if (addedCount === items.length) {
-                        wishlistManager.cartCount += addedCount;
+            fetch('/wishlist/add-all-to-cart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        wishlistManager.showToast('All Added', data.message, 'success');
+                        document.querySelectorAll('.wishlist-item').forEach(item => item.remove());
                         wishlistManager.wishlistCount = 0;
-                        wishlistManager.setStoredCount('cartCount', wishlistManager.cartCount);
-                        wishlistManager.setStoredCount('wishlistCount', 0);
                         wishlistManager.updateCounts();
-                        wishlistManager.showToast('All Added', `${addedCount} items added to cart`);
+                    } else {
+                        wishlistManager.showToast('Empty Wishlist', data.message, 'warning');
                     }
-
-                    setTimeout(() => item.remove(), 300);
-                }, index * 150);
-            });
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                    wishlistManager.showToast('Error', 'Something went wrong while adding to cart.', 'error');
+                });
         }
 
-        
+
         function compareItems() {
             const selectedItems = document.querySelectorAll('.wishlist-item');
             if (selectedItems.length < 2) {

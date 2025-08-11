@@ -137,6 +137,7 @@ public function clearAll(Request $request)
                 Cart::create([
                     'user_id'    => $userId,
                     'product_id' => $item->product_id,
+                    'price' => $item->product->discount_price ?? $item->product->price,
                     'quantity'   => 1, // You can adjust this based on your logic
                 ]);
 
