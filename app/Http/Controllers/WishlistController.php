@@ -117,48 +117,38 @@ public function clearAll(Request $request)
 
         return response()->json(['count' => $count]);
     }
-  public function addAllToCart()
-{
-    try {
-        $userId = auth()->id();
+     public function addAllToCart(Request $request)
+    {
+        $userId = Auth::id();
+
+        // Fetch all wishlist items for the user
         $wishlistItems = Wishlist::where('user_id', $userId)->get();
 
         if ($wishlistItems->isEmpty()) {
             return response()->json([
                 'status' => 'warning',
-                'message' => 'No items to add. Your wishlist is empty.'
+                'message' => 'Your wishlist is empty. Nothing to add to cart.',
             ], 200);
         }
 
-        foreach ($wishlistItems as $item) {
-            Cart::create([
-                'user_id' => $userId,
-                'product_id' => $item->product_id,
-                'price' => $item->price,
-                'quantity' => 1
-            ]);
-        }
+        DB::transaction(function () use ($wishlistItems, $userId) {
+            foreach ($wishlistItems as $item) {
+                // Add to cart
+                Cart::create([
+                    'user_id'    => $userId,
+                    'product_id' => $item->product_id,
+                    'price' => $item->product->discount_price ?? $item->product->price,
+                    'quantity'   => 1, // You can adjust this based on your logic
+                ]);
 
-        Wishlist::where('user_id', $userId)->delete();
+                // Soft delete wishlist item
+                $item->delete();
+            }
+        });
 
         return response()->json([
             'status' => 'success',
-            'message' => count($wishlistItems) . ' items successfully added to your cart.'
+            'message' => count($wishlistItems) . ' items added to cart successfully.',
         ], 200);
-
-    } catch (\Illuminate\Database\QueryException $e) {
-        if ($e->errorInfo[1] == 1062) { // MySQL Duplicate Entry
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Something went wrong. One or more items are already in your cart.'
-            ], 409);
-        }
-
-        return response()->json([
-            'status' => 'error',
-            'message' => 'One or more items are already in your cart.'
-        ], 500);
     }
-}
-
 }
