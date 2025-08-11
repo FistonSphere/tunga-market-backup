@@ -1575,48 +1575,42 @@
         };
 
         function addAllToCart() {
+            const items = document.querySelectorAll('.wishlist-item');
+            if (items.length === 0) {
+                wishlistManager.showToast('Empty Wishlist', 'No items to add to cart', 'warning');
+                return;
+            }
+
             fetch('/wishlist/add-all-to-cart', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Content-Type': 'application/json'
                     }
                 })
                 .then(res => res.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        const items = document.querySelectorAll('.wishlist-item');
                         let addedCount = 0;
-
                         items.forEach((item, index) => {
                             setTimeout(() => {
                                 item.style.transform = 'translateX(100%)';
                                 item.style.opacity = '0';
                                 addedCount++;
-
                                 if (addedCount === items.length) {
-                                    wishlistManager.cartCount += addedCount;
                                     wishlistManager.wishlistCount = 0;
-                                    wishlistManager.setStoredCount('cartCount', wishlistManager
-                                        .cartCount);
-                                    wishlistManager.setStoredCount('wishlistCount', 0);
                                     wishlistManager.updateCounts();
-                                    wishlistManager.showToast('All Added',
-                                        `${addedCount} items added to cart`, 'success');
+                                    wishlistManager.showToast('All Added', data.message, 'success');
                                 }
-
                                 setTimeout(() => item.remove(), 300);
                             }, index * 150);
                         });
-                    } else if (data.status === 'warning') {
-                        wishlistManager.showToast('Empty Wishlist', data.message, 'warning');
                     } else {
-                        wishlistManager.showToast('Error', data.message || 'Something went wrong', 'error');
+                        wishlistManager.showToast('Error', data.message, 'error');
                     }
                 })
-                .catch(err => {
-                    console.error('Error:', err);
-                    wishlistManager.showToast('Error', 'Something went wrong while adding to cart.', 'error');
+                .catch(() => {
+                    wishlistManager.showToast('Error', 'Could not process request. Try again.', 'error');
                 });
         }
 
