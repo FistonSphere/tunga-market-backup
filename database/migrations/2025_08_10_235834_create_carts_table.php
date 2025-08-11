@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
            Schema::create('carts', function (Blueprint $table) {
             $table->id();
 
@@ -34,7 +33,6 @@ return new class extends Migration
 
             // Unique constraint to prevent duplicate product in cart per user
             $table->unique(['user_id', 'product_id']);
-        });
         });
     }
 
