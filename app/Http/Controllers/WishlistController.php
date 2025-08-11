@@ -150,13 +150,13 @@ public function clearAll(Request $request)
         if ($e->errorInfo[1] == 1062) { // MySQL Duplicate Entry
             return response()->json([
                 'status' => 'error',
-                'message' => 'One or more items are already in your cart.'
+                'message' => 'Something went wrong. One or more items are already in your cart.'
             ], 409);
         }
 
         return response()->json([
             'status' => 'error',
-            'message' => 'Something went wrong. Please try again.'
+            'message' => 'One or more items are already in your cart.'
         ], 500);
     }
 }
