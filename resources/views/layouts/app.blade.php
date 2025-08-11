@@ -1647,6 +1647,7 @@
             });
         }
 
+        
         function compareItems() {
             const selectedItems = document.querySelectorAll('.wishlist-item');
             if (selectedItems.length < 2) {
