@@ -1619,32 +1619,8 @@
             });
         }
 
-        function addAllToCart() {
-            fetch('/wishlist/add-all-to-cart', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    },
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        wishlistManager.showToast('All Added', data.message, 'success');
-                        document.querySelectorAll('.wishlist-item').forEach(item => item.remove());
-                        wishlistManager.wishlistCount = 0;
-                        wishlistManager.updateCounts();
-                    } else {
-                        wishlistManager.showToast('Empty Wishlist', data.message, 'warning');
-                    }
-                })
-                .catch(err => {
-                    console.error('Error:', err);
-                    wishlistManager.showToast('Error', 'Something went wrong while adding to cart.', 'error');
-                });
-        }
-
-
+        
+        
         function compareItems() {
             const selectedItems = document.querySelectorAll('.wishlist-item');
             if (selectedItems.length < 2) {
