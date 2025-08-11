@@ -1619,8 +1619,94 @@
             });
         }
 
-        
-        
+        window.wishlistManager = {
+            showToast: function(title, message, type = 'success') {
+                const toastWrapper = document.createElement('div');
+                toastWrapper.className = `fixed top-6 right-6 z-50 animate-fade-in-down`;
+
+                let bgColor = 'bg-green-500';
+                if (type === 'error') bgColor = 'bg-red-500';
+                if (type === 'warning') bgColor = 'bg-yellow-500';
+
+                toastWrapper.innerHTML = `
+            <div class="${bgColor} text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-3">
+                <span class="font-semibold">${title}</span>
+                <span class="text-sm">${message}</span>
+            </div>
+        `;
+
+                document.body.appendChild(toastWrapper);
+
+                setTimeout(() => {
+                    toastWrapper.remove();
+                }, 3000);
+            },
+
+            wishlistCount: 0,
+
+            updateCounts: function() {
+                const countEls = document.querySelectorAll('.wishlist-count');
+                countEls.forEach(el => el.textContent = this.wishlistCount);
+            }
+        };
+
+        function addAllToCart() {
+            const items = document.querySelectorAll('.wishlist-item');
+
+            // Check if empty before sending request
+            if (items.length === 0) {
+                wishlistManager.showToast('Empty Wishlist', 'No items to add to cart', 'warning');
+                return;
+            }
+
+            fetch('/wishlist/add-all-to-cart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Animate swipe for each item
+                        let removedCount = 0;
+                        items.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                                item.style.transform = 'translateX(100%)';
+                                item.style.opacity = '0';
+
+                                setTimeout(() => {
+                                    item.remove();
+                                    removedCount++;
+                                    if (removedCount === items.length) {
+                                        wishlistManager.cartCount += removedCount;
+                                        wishlistManager.wishlistCount = 0;
+                                        wishlistManager.setStoredCount('cartCount',
+                                            wishlistManager.cartCount);
+                                        wishlistManager.setStoredCount('wishlistCount', 0);
+                                        wishlistManager.updateCounts();
+                                        wishlistManager.showToast('All Added', data.message,
+                                            'success');
+                                    }
+                                }, 300);
+                            }, index * 150);
+                        });
+                    } else if (data.status === 'warning') {
+                        wishlistManager.showToast('Empty Wishlist', data.message, 'warning');
+                    } else {
+                        wishlistManager.showToast('Error', data.message || 'Something went wrong', 'error');
+                    }
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                    wishlistManager.showToast('Error', 'Something went wrong while adding to cart.', 'error');
+                });
+        }
+
+
+
         function compareItems() {
             const selectedItems = document.querySelectorAll('.wishlist-item');
             if (selectedItems.length < 2) {
