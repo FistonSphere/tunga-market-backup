@@ -914,8 +914,8 @@
             </div>
         </div>
     </div>
-<div id="toast-container" aria-live="polite" aria-atomic="true"
-     style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;"></div>
+    <div id="toast-container2" aria-live="polite" aria-atomic="true"
+        style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;"></div>
 
 
     <script>
@@ -1151,12 +1151,6 @@
             const input = document.getElementById('search-input');
             if (input) input.value = '';
         }
-
-
-       
-
-
-       
     </script>
     <script>
         // Show wishlist popup on button click
@@ -1548,16 +1542,39 @@
             });
         }
 
-       
+        wishlistManager.showToast = function(title, message, type = 'info') {
+            const container = document.getElementById('toast-container2');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `toast-message toast-${type}`;
+            toast.innerHTML = `
+        <strong>${title}</strong><br>${message}
+    `;
+
+            toast.style.cssText = `
+        background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#17a2b8'};
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    `;
+
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.style.opacity = '1';
+            });
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        };
+
         function addAllToCart() {
-            const items = document.querySelectorAll('.wishlist-item');
-
-            // Check if empty before sending request
-            if (items.length === 0) {
-                wishlistManager.showToast('Empty Wishlist', 'No items to add to cart', 'warning');
-                return;
-            }
-
             fetch('/wishlist/add-all-to-cart', {
                     method: 'POST',
                     headers: {
@@ -1568,28 +1585,27 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        // Animate swipe for each item
-                        let removedCount = 0;
+                        const items = document.querySelectorAll('.wishlist-item');
+                        let addedCount = 0;
+
                         items.forEach((item, index) => {
                             setTimeout(() => {
-                                item.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
                                 item.style.transform = 'translateX(100%)';
                                 item.style.opacity = '0';
+                                addedCount++;
 
-                                setTimeout(() => {
-                                    item.remove();
-                                    removedCount++;
-                                    if (removedCount === items.length) {
-                                        wishlistManager.cartCount += removedCount;
-                                        wishlistManager.wishlistCount = 0;
-                                        wishlistManager.setStoredCount('cartCount',
-                                            wishlistManager.cartCount);
-                                        wishlistManager.setStoredCount('wishlistCount', 0);
-                                        wishlistManager.updateCounts();
-                                        wishlistManager.showToast('All Added', data.message,
-                                            'success');
-                                    }
-                                }, 300);
+                                if (addedCount === items.length) {
+                                    wishlistManager.cartCount += addedCount;
+                                    wishlistManager.wishlistCount = 0;
+                                    wishlistManager.setStoredCount('cartCount', wishlistManager
+                                        .cartCount);
+                                    wishlistManager.setStoredCount('wishlistCount', 0);
+                                    wishlistManager.updateCounts();
+                                    wishlistManager.showToast('All Added',
+                                        `${addedCount} items added to cart`, 'success');
+                                }
+
+                                setTimeout(() => item.remove(), 300);
                             }, index * 150);
                         });
                     } else if (data.status === 'warning') {
@@ -1603,7 +1619,6 @@
                     wishlistManager.showToast('Error', 'Something went wrong while adding to cart.', 'error');
                 });
         }
-
 
 
         function compareItems() {
