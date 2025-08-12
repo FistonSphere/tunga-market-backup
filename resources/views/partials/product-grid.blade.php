@@ -94,13 +94,12 @@
                                 @elseif($product->currency === 'Rwf')
                                     {{ number_format($product->price) }} {{ $product->currency }}
                                 @endif
-
                             </span>
                             <span class="text-subheading font-bold text-primary">
                                 @if ($product->currency === '$')
-                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                    {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
                                 @elseif($product->currency === 'Rwf')
-                                    {{ number_format($product->price) }} {{ $product->currency }}
+                                    {{ number_format($product->discount_price) }} {{ $product->currency }}
                                 @endif
                             </span>
                         @else
@@ -112,6 +111,7 @@
                                 @endif
                             </span>
                         @endif
+
                         <span class="text-body-sm text-secondary-600 ml-1">/ piece</span>
                     </div>
 
