@@ -104,224 +104,114 @@
 
                     <!-- Supplier Group 1: TechSound Manufacturing -->
                     <div class="card">
+                        @forelse($cartItems as $item)
+                            <div class="cart-item border-b border-border pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0">
+                                <div class="flex items-start space-x-4">
+                                    <input type="checkbox"
+                                        class="item-checkbox w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-4" />
 
-                        <!-- Cart Item 1 -->
-                        <div class="cart-item border-b border-border pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0">
-                            <div class="flex items-start space-x-4">
-                                <input type="checkbox"
-                                    class="item-checkbox w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-4" />
-                                <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                                    alt="Premium Wireless Earbuds Pro"
-                                    class="w-24 h-24 rounded-lg object-cover flex-shrink-0" loading="lazy" />
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex flex-col lg:flex-row lg:items-start justify-between">
-                                        <div class="flex-1">
-                                            <h4 class="font-semibold text-primary mb-2">
-                                                <a href="product_detail_view.html"
-                                                    class="hover:text-accent transition-fast">Premium Wireless Earbuds
-                                                    Pro</a>
-                                            </h4>
-                                            <div class="space-y-2 text-body-sm text-secondary-600">
-                                                <div>Color: <span class="font-medium text-primary">Midnight Black</span>
+                                    <img src="{{ asset($item->product->main_image ?? 'images/no-image.png') }}"
+                                        alt="{{ $item->product->name }}"
+                                        class="w-24 h-24 rounded-lg object-cover flex-shrink-0" loading="lazy" />
+
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex flex-col lg:flex-row lg:items-start justify-between">
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-primary mb-2">
+                                                    <a href="{{ route('products.show', $item->product->slug) }}"
+                                                        class="hover:text-accent transition-fast">
+                                                        {{ $item->product->name }}
+                                                    </a>
+                                                </h4>
+
+                                                <div class="space-y-2 text-body-sm text-secondary-600">
+                                                    <div>SKU: <span
+                                                            class="font-medium text-primary">{{ $item->product->sku }}</span>
+                                                    </div>
+                                                    <div>Stock:
+                                                        @if ($item->product->stock_quantity > 0)
+                                                            <span class="text-success">✓ In Stock</span>
+                                                        @else
+                                                            <span class="text-error">Out of Stock</span>
+                                                        @endif
+                                                    </div>
                                                 </div>
-                                                <div>Warranty: <span class="font-medium text-primary">12 months</span>
+                                            </div>
+
+                                            <div class="flex flex-col items-end space-y-3 mt-4 lg:mt-0">
+                                                <!-- Price -->
+                                                <div class="text-right">
+                                                    <div class="text-xl font-bold text-primary">
+                                                        {{ $item->product->currency }}{{ number_format($item->price, 2) }}
+                                                    </div>
+                                                    @if ($item->product->discount_price)
+                                                        <div class="text-body-sm text-secondary-500 line-through">
+                                                            {{ $item->product->currency }}{{ number_format($item->product->price, 2) }}
+                                                        </div>
+                                                    @endif
                                                 </div>
-                                                <div class="flex items-center space-x-4">
-                                                    <span class="flex items-center text-warning">
-                                                        <svg class="w-4 h-4 fill-current mr-1" viewBox="0 0 20 20">
-                                                            <path
-                                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                        4.8 (2,847)
-                                                    </span>
-                                                    <span class="text-success">✓ In Stock</span>
+
+                                                <!-- Quantity Controls -->
+                                                <div class="flex items-center space-x-3">
+                                                    <label class="text-body-sm text-secondary-600">Qty:</label>
+                                                    <div class="flex items-center border border-border rounded-lg">
+                                                        <button class="p-2 hover:bg-surface transition-fast"
+                                                            onclick="updateQuantity({{ $item->id }}, -1)">
+                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                                viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2" d="M20 12H4" />
+                                                            </svg>
+                                                        </button>
+                                                        <input type="number" value="{{ $item->quantity }}"
+                                                            min="1" max="99"
+                                                            class="w-16 text-center border-0 py-2 focus:ring-0 focus:outline-none"
+                                                            onchange="updateItemTotal(this)" />
+                                                        <button class="p-2 hover:bg-surface transition-fast"
+                                                            onclick="updateQuantity({{ $item->id }}, 1)">
+                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                                viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Item Total -->
+                                                <div class="text-right">
+                                                    <div class="text-lg font-bold text-primary item-total">
+                                                        {{ $item->product->currency }}{{ number_format($item->price * $item->quantity, 2) }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="flex flex-col items-end space-y-3 mt-4 lg:mt-0">
-                                            <!-- Price -->
-                                            <div class="text-right">
-                                                <div class="text-xl font-bold text-primary">$149.99</div>
-                                                <div class="text-body-sm text-secondary-500 line-through">$199.99</div>
-                                                <div class="text-body-sm text-success">25% OFF</div>
-                                            </div>
-
-                                            <!-- Quantity Controls -->
-                                            <div class="flex items-center space-x-3">
-                                                <label class="text-body-sm text-secondary-600">Qty:</label>
-                                                <div class="flex items-center border border-border rounded-lg">
-                                                    <button class="p-2 hover:bg-surface transition-fast"
-                                                        onclick="updateQuantity(this, -1)">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                            viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="M20 12H4" />
-                                                        </svg>
-                                                    </button>
-                                                    <input type="number" value="2" min="1" max="99"
-                                                        class="w-16 text-center border-0 py-2 focus:ring-0 focus:outline-none"
-                                                        onchange="updateItemTotal(this)" />
-                                                    <button class="p-2 hover:bg-surface transition-fast"
-                                                        onclick="updateQuantity(this, 1)">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                            viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <!-- Item Total -->
-                                            <div class="text-right">
-                                                <div class="text-lg font-bold text-primary item-total">$299.98</div>
-                                                <div class="text-body-sm text-secondary-600">Save $99.98</div>
-                                            </div>
+                                        <!-- Item Actions -->
+                                        <div class="flex items-center space-x-4 mt-4 pt-4 border-t border-border">
+                                            <form action="{{ route('cart.remove', $item->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="text-error hover:text-error-600 transition-fast text-body-sm">
+                                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                    Remove
+                                                </button>
+                                            </form>
                                         </div>
-                                    </div>
-
-                                    <!-- Item Actions -->
-                                    <div class="flex items-center space-x-4 mt-4 pt-4 border-t border-border">
-                                        <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
-                                            onclick="saveForLater(this)">
-                                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                            </svg>
-                                            Save for Later
-                                        </button>
-                                        <button class="text-error hover:text-error-600 transition-fast text-body-sm"
-                                            onclick="removeItem(this)">
-                                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                            Remove
-                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Cart Item 2 -->
-                        <div class="cart-item border-b border-border pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0">
-                            <div class="flex items-start space-x-4">
-                                <input type="checkbox"
-                                    class="item-checkbox w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-4" />
-                                <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2684&auto=format&fit=crop"
-                                    alt="Portable Bluetooth Speaker"
-                                    class="w-24 h-24 rounded-lg object-cover flex-shrink-0" loading="lazy" />
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex flex-col lg:flex-row lg:items-start justify-between">
-                                        <div class="flex-1">
-                                            <h4 class="font-semibold text-primary mb-2">
-                                                <a href="#" class="hover:text-accent transition-fast">Portable
-                                                    Bluetooth Speaker Pro</a>
-                                            </h4>
-                                            <div class="space-y-2 text-body-sm text-secondary-600">
-                                                <div>Color: <span class="font-medium text-primary">Space Gray</span></div>
-                                                <div>Warranty: <span class="font-medium text-primary">18 months</span>
-                                                </div>
-                                                <div class="flex items-center space-x-4">
-                                                    <span class="flex items-center text-warning">
-                                                        <svg class="w-4 h-4 fill-current mr-1" viewBox="0 0 20 20">
-                                                            <path
-                                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                        4.7 (1,234)
-                                                    </span>
-                                                    <span class="text-success">✓ In Stock</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex flex-col items-end space-y-3 mt-4 lg:mt-0">
-                                            <div class="text-right">
-                                                <div class="text-xl font-bold text-primary">$89.99</div>
-                                                <div class="text-body-sm text-secondary-500 line-through">$119.99</div>
-                                                <div class="text-body-sm text-success">25% OFF</div>
-                                            </div>
-
-                                            <div class="flex items-center space-x-3">
-                                                <label class="text-body-sm text-secondary-600">Qty:</label>
-                                                <div class="flex items-center border border-border rounded-lg">
-                                                    <button class="p-2 hover:bg-surface transition-fast"
-                                                        onclick="updateQuantity(this, -1)">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                            viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="M20 12H4" />
-                                                        </svg>
-                                                    </button>
-                                                    <input type="number" value="1" min="1" max="99"
-                                                        class="w-16 text-center border-0 py-2 focus:ring-0 focus:outline-none"
-                                                        onchange="updateItemTotal(this)" />
-                                                    <button class="p-2 hover:bg-surface transition-fast"
-                                                        onclick="updateQuantity(this, 1)">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                            viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-right">
-                                                <div class="text-lg font-bold text-primary item-total">$89.99</div>
-                                                <div class="text-body-sm text-secondary-600">Save $30.00</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-center space-x-4 mt-4 pt-4 border-t border-border">
-                                        <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
-                                            onclick="saveForLater(this)">
-                                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                            </svg>
-                                            Save for Later
-                                        </button>
-                                        <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
-                                            onclick="contactSupplier()">
-                                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                            </svg>
-                                            Message Supplier
-                                        </button>
-                                        <button class="text-error hover:text-error-600 transition-fast text-body-sm"
-                                            onclick="removeItem(this)">
-                                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                            Remove
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Supplier Group Total -->
-                        <div class="bg-surface rounded-lg p-4 mt-4">
-                            <div class="flex items-center justify-between">
-                                <div class="text-body-sm text-secondary-600">Subtotal from TechSound Manufacturing:</div>
-                                <div class="font-semibold text-primary">$389.97</div>
-                            </div>
-                            <div class="flex items-center justify-between mt-2">
-                                <div class="text-body-sm text-secondary-600">Shipping:</div>
-                                <div class="font-semibold text-success">FREE</div>
-                            </div>
-                        </div>
+                        @empty
+                            <p class="text-center text-secondary-600">Your cart is empty.</p>
+                        @endforelse
                     </div>
+
 
                     <!-- Wishlist Integration Panel -->
                     <div class="card">
