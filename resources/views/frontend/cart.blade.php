@@ -118,8 +118,7 @@
                                         <div class="flex flex-col lg:flex-row lg:items-start justify-between">
                                             <div class="flex-1">
                                                 <h4 class="font-semibold text-primary mb-2">
-                                                    <a href=""
-                                                        class="hover:text-accent transition-fast">
+                                                    <a href="" class="hover:text-accent transition-fast">
                                                         {{ $item->product->name }}
                                                     </a>
                                                 </h4>
@@ -155,7 +154,8 @@
                                                 <div class="flex items-center space-x-3">
                                                     <label class="text-body-sm text-secondary-600">Qty:</label>
                                                     <div class="flex items-center border border-border rounded-lg">
-                                                        <button class="p-2 hover:bg-surface transition-fast"
+                                                        <button type="button"
+                                                            class="p-2 hover:bg-surface transition-fast"
                                                             onclick="updateQuantity({{ $item->id }}, -1)">
                                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                                 viewBox="0 0 24 24">
@@ -163,11 +163,15 @@
                                                                     stroke-width="2" d="M20 12H4" />
                                                             </svg>
                                                         </button>
-                                                        <input type="number" value="{{ $item->quantity }}"
+
+                                                        <input type="number" id="qty-{{ $item->id }}"
+                                                            data-id="{{ $item->id }}" value="{{ $item->quantity }}"
                                                             min="1" max="99"
                                                             class="w-16 text-center border-0 py-2 focus:ring-0 focus:outline-none"
                                                             onchange="updateItemTotal(this)" />
-                                                        <button class="p-2 hover:bg-surface transition-fast"
+
+                                                        <button type="button"
+                                                            class="p-2 hover:bg-surface transition-fast"
                                                             onclick="updateQuantity({{ $item->id }}, 1)">
                                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                                 viewBox="0 0 24 24">
@@ -177,6 +181,7 @@
                                                         </button>
                                                     </div>
                                                 </div>
+
 
                                                 <!-- Item Total -->
                                                 <div class="text-right">
@@ -455,40 +460,48 @@
         }
 
         // Cart Management Functions
-        function updateQuantity(button, change) {
-            const input = button.parentElement.querySelector('input[type="number"]');
-            const currentValue = parseInt(input.value);
-            const newValue = Math.max(1, currentValue + change);
-            input.value = newValue;
-            updateItemTotal(input);
+        function updateQuantity(itemId, change) {
+            const qtyInput = document.querySelector(`#qty-${itemId}`);
+            let currentQty = parseInt(qtyInput.value);
+            let newQty = currentQty + change;
+
+            if (newQty < 1) return; // prevent going below 1
+
+            qtyInput.value = newQty;
+            sendQuantityUpdate(itemId, newQty);
         }
 
         function updateItemTotal(input) {
-            const cartItem = input.closest('.cart-item');
-            const priceElement = cartItem.querySelector('.text-xl.font-bold.text-primary');
-            const totalElement = cartItem.querySelector('.item-total');
-
-            const price = parseFloat(priceElement.textContent.replace('$', ''));
-            const quantity = parseInt(input.value);
-            const total = price * quantity;
-
-            totalElement.textContent = `$${total.toFixed(2)}`;
-            updateCartSummary();
+            const itemId = input.dataset.id;
+            let newQty = parseInt(input.value);
+            if (newQty < 1) {
+                input.value = 1;
+                newQty = 1;
+            }
+            sendQuantityUpdate(itemId, newQty);
         }
 
-        function updateCartSummary() {
-            // This would recalculate the entire cart total
-            // For demo purposes, we'll just show a toast
-            showToast('Cart Updated', 'Your cart totals have been recalculated.');
-        }
+        function sendQuantityUpdate(itemId, quantity) {
+            fetch(`/cart/update-quantity/${itemId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        quantity
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    // Update item total
+                    document.querySelector(`#item-total-${itemId}`).textContent = data.item_total;
 
-        function toggleSelectAll() {
-            const selectAll = document.getElementById('select-all');
-            const itemCheckboxes = document.querySelectorAll('.item-checkbox');
-
-            itemCheckboxes.forEach(checkbox => {
-                checkbox.checked = selectAll.checked;
-            });
+                    // Update order summary
+                    document.querySelector("#order-subtotal").textContent = data.subtotal;
+                    document.querySelector("#order-total").textContent = data.total;
+                })
+                .catch(err => console.error(err));
         }
 
         function moveSelectedToWishlist() {
