@@ -184,7 +184,13 @@
     </div>
 </div>
 <!-- Toast Wrapper -->
-<div id="toast" class="fixed top-5 right-5 z-[9999] hidden">
+<div id="toast" class="fixed top-5 right-5 z-[9999] hidden"
+    style="
+bottom: 780px;
+    right: 0;
+    margin-right: 30px;
+    color: white;
+    border-radius: 8px;background: #ff6b35e6;">
     <div
         class="toast-message flex items-center p-4 max-w-xs w-full text-white rounded-lg shadow-lg transition transform duration-300 ease-in-out opacity-0 scale-95">
         <span id="toast-text" class="flex-1 text-sm font-medium"></span>
@@ -278,6 +284,9 @@
                 setTimeout(() => toastWrapper.classList.add("hidden"), 300);
             }, 3000);
         }
+
+
+
 
         window.goToSignIn = function() {
             window.location.href = "{{ route('login') }}";
