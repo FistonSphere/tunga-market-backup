@@ -118,7 +118,7 @@
                                         <div class="flex flex-col lg:flex-row lg:items-start justify-between">
                                             <div class="flex-1">
                                                 <h4 class="font-semibold text-primary mb-2">
-                                                    <a href="{{ route('products.show', $item->product->slug) }}"
+                                                    <a href=""
                                                         class="hover:text-accent transition-fast">
                                                         {{ $item->product->name }}
                                                     </a>
@@ -189,7 +189,7 @@
 
                                         <!-- Item Actions -->
                                         <div class="flex items-center space-x-4 mt-4 pt-4 border-t border-border">
-                                            <form action="{{ route('cart.remove', $item->id) }}" method="POST">
+                                            <form action="" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
@@ -308,7 +308,7 @@
                             </div>
 
                             <!-- Checkout Button -->
-                            <form action="{{ route('checkout.index') }}" method="GET">
+                            <form action="" method="GET">
                                 <button class="btn-primary w-full mt-6">Proceed to Checkout</button>
                             </form>
 
