@@ -20,6 +20,6 @@ class CartController extends Controller
         return $item->price * $item->quantity;
     });
 
-       return view('frontend.cart');
+       return view('frontend.cart',compact('cartItems', 'subtotal'));
    }
 }
