@@ -41,4 +41,26 @@ class CartController extends Controller
         'totalItems'
     ));
    }
+   public function updateQuantity(Request $request, $id)
+{
+    $cartItem = Cart::where('user_id', auth()->id())->findOrFail($id);
+    $cartItem->quantity = $request->quantity;
+    $cartItem->save();
+
+    // Recalculate order summary
+    $cartItems = Cart::where('user_id', auth()->id())->get();
+    $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
+    $totalItems = $cartItems->sum('quantity');
+    $bulkDiscount = $subtotal > 200 ? $subtotal * 0.1 : 0;
+    $shipping = 15;
+    $tax = $subtotal * 0.05;
+    $total = $subtotal - $bulkDiscount + $shipping + $tax;
+
+    $summaryHtml = view('partials.order-summary', compact(
+        'subtotal', 'totalItems', 'bulkDiscount', 'shipping', 'tax', 'total'
+    ))->render();
+
+    return response()->json(['summaryHtml' => $summaryHtml]);
+}
+
 }
