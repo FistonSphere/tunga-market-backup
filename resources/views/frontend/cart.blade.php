@@ -218,15 +218,6 @@
                                             </svg>
                                             Save for Later
                                         </button>
-                                        <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
-                                            onclick="contactSupplier()">
-                                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                            </svg>
-                                            Message Supplier
-                                        </button>
                                         <button class="text-error hover:text-error-600 transition-fast text-body-sm"
                                             onclick="removeItem(this)">
                                             <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
@@ -670,7 +661,7 @@
         </div>
     </div>
 
-    <!-- Toast Notification -->
+    {{-- <!-- Toast Notification -->
     <div id="toast" class="fixed top-4 right-4 transform translate-x-full transition-transform duration-300 z-50">
         <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 border-success max-w-sm">
             <div class="flex items-start space-x-3">
@@ -690,87 +681,10 @@
                 </button>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <script>
         // Cart and Wishlist Management System
-        class CartWishlistManager {
-            constructor() {
-                this.cartCount = this.getStoredCount('cartCount', 7);
-                this.wishlistCount = this.getStoredCount('wishlistCount', 12);
-                this.updateDisplays();
-            }
-
-            getStoredCount(key, defaultValue = 0) {
-                try {
-                    const stored = localStorage.getItem(key);
-                    return stored ? parseInt(stored) : defaultValue;
-                } catch (e) {
-                    return defaultValue;
-                }
-            }
-
-            setStoredCount(key, value) {
-                try {
-                    localStorage.setItem(key, value.toString());
-                } catch (e) {
-                    console.warn('Could not store count in localStorage');
-                }
-            }
-
-            updateDisplays() {
-                this.updateCartDisplay();
-                this.updateWishlistDisplay();
-            }
-
-            updateCartDisplay() {
-                const cartCountElement = document.getElementById('cart-count');
-                const cartItemCountElement = document.getElementById('cart-item-count');
-
-                if (cartCountElement) {
-                    const displayCount = this.cartCount > 99 ? '99+' : this.cartCount.toString();
-                    cartCountElement.textContent = displayCount;
-                    cartCountElement.style.display = this.cartCount > 0 ? 'flex' : 'none';
-                }
-
-                if (cartItemCountElement) {
-                    cartItemCountElement.textContent = this.cartCount;
-                }
-            }
-
-            updateWishlistDisplay() {
-                const wishlistCountElement = document.getElementById('wishlist-count');
-                if (wishlistCountElement) {
-                    const displayCount = this.wishlistCount > 99 ? '99+' : this.wishlistCount.toString();
-                    wishlistCountElement.textContent = displayCount;
-                    wishlistCountElement.style.display = this.wishlistCount > 0 ? 'flex' : 'none';
-                }
-            }
-
-            addToCart(quantity = 1) {
-                this.cartCount = Math.max(0, this.cartCount + quantity);
-                this.setStoredCount('cartCount', this.cartCount);
-                this.updateCartDisplay();
-            }
-
-            removeFromCart(quantity = 1) {
-                this.cartCount = Math.max(0, this.cartCount - quantity);
-                this.setStoredCount('cartCount', this.cartCount);
-                this.updateCartDisplay();
-            }
-
-            addToWishlist(quantity = 1) {
-                this.wishlistCount = Math.max(0, this.wishlistCount + quantity);
-                this.setStoredCount('wishlistCount', this.wishlistCount);
-                this.updateWishlistDisplay();
-            }
-
-            removeFromWishlist(quantity = 1) {
-                this.wishlistCount = Math.max(0, this.wishlistCount - quantity);
-                this.setStoredCount('wishlistCount', this.wishlistCount);
-                this.updateWishlistDisplay();
-            }
-        }
 
         // Initialize cart and wishlist manager
         const cartWishlistManager = new CartWishlistManager();
