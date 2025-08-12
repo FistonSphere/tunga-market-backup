@@ -104,32 +104,6 @@
 
                     <!-- Supplier Group 1: TechSound Manufacturing -->
                     <div class="card">
-                        <div class="flex items-center justify-between mb-4 pb-4 border-b border-border">
-                            <div class="flex items-center space-x-3">
-                                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2940&auto=format&fit=crop"
-                                    alt="TechSound Manufacturing" class="w-12 h-12 rounded-lg object-cover"
-                                    loading="lazy" />
-                                <div>
-                                    <h3 class="font-semibold text-primary">TechSound Manufacturing Co.</h3>
-                                    <div class="flex items-center space-x-3 text-body-sm text-secondary-600">
-                                        <span class="flex items-center">
-                                            <svg class="w-4 h-4 text-success mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            Verified Supplier
-                                        </span>
-                                        <span>📍 Shenzhen, China</span>
-                                        <span>🚚 Free shipping over $200</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-body-sm text-secondary-600">Estimated Delivery</div>
-                                <div class="font-semibold text-primary">5-7 business days</div>
-                            </div>
-                        </div>
 
                         <!-- Cart Item 1 -->
                         <div class="cart-item border-b border-border pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0">
