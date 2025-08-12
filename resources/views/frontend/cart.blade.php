@@ -19,15 +19,29 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between">
                 <div>
+                    @php
+                        $cartCount = 0;
+                        if (auth()->check()) {
+                            $cartCount = \App\Models\Cart::where('user_id', auth()->id())->count();
+                        }
+                    @endphp
                     <h1 class="text-3xl font-bold text-primary mb-2">Shopping Cart</h1>
                     <div class="flex items-center space-x-6 text-body-sm">
                         <span class="text-secondary-600"><span class="font-semibold text-primary"
-                                id="cart-item-count">7</span> items in cart</span>
+                                id="cart-item-count">{{ $cartCount }}</span> items in cart</span>
                         <span class="text-success">💰 You're saving <span class="font-semibold">$89.50</span> with bulk
                             discounts!</span>
                     </div>
                 </div>
+                @php
+                    $wishlist = [];
 
+                    if (auth()->check()) {
+                        $wishlist = \App\Models\Wishlist::where('user_id', auth()->id())
+                            ->pluck('product_id')
+                            ->toArray();
+                    }
+                @endphp
                 <!-- Quick Actions -->
                 <div class="flex items-center space-x-3 mt-4 lg:mt-0">
                     <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm">
@@ -35,7 +49,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                         </svg>
-                        View Wishlist (12)
+                        View Wishlist ({{ is_countable($wishlist) ? count($wishlist) : 0 }})
                     </button>
                     <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm">
                         <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -352,27 +366,7 @@
         </div>
     </div>
 
-    {{-- <!-- Toast Notification -->
-    <div id="toast" class="fixed top-4 right-4 transform translate-x-full transition-transform duration-300 z-50">
-        <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 border-success max-w-sm">
-            <div class="flex items-start space-x-3">
-                <svg class="w-6 h-6 text-success flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <div>
-                    <h4 class="font-semibold text-primary">Success!</h4>
-                    <p class="text-body-sm text-secondary-600 mt-1" id="toast-message">Action completed successfully.</p>
-                </div>
-                <button onclick="hideToast()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div> --}}
+
 
     <script>
         // Cart and Wishlist Management System
@@ -436,7 +430,7 @@
 
 
 
-       
+
         function applyCoupon() {
             const couponCode = document.getElementById('coupon-code').value.trim().toUpperCase();
 
