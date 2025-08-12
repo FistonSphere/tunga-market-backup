@@ -183,33 +183,7 @@
         </div>
     </div>
 </div>
-<style>
-    #toast {
-        position: fixed;
-        top: 20px;
-        /*  top-5 */
-        right: 20px;
-        /* right-5 */
-        margin-right: 30px;
-        color: white;
-        border-radius: 8px;
-        z-index: 9999;
-        bottom: auto;
-        /* reset bottom */
-    }
 
-    @media (max-width: 450px) {
-        #toast {
-            top: auto;
-            /* disable top */
-            bottom: 950px;
-            /* move toast down */
-            right: 0;
-            /* you can adjust this */
-            margin-right: 30px;
-        }
-    }
-</style>
 
 <!-- Toast Wrapper -->
 <div id="toast" class="hidden">
