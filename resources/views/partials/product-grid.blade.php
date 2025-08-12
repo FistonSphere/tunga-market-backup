@@ -183,14 +183,36 @@
         </div>
     </div>
 </div>
+<style>
+    #toast {
+        position: fixed;
+        top: 20px;
+        /*  top-5 */
+        right: 20px;
+        /* right-5 */
+        margin-right: 30px;
+        color: white;
+        border-radius: 8px;
+        z-index: 9999;
+        bottom: auto;
+        /* reset bottom */
+    }
+
+    @media (max-width: 450px) {
+        #toast {
+            top: auto;
+            /* disable top */
+            bottom: 950px;
+            /* move toast down */
+            right: 0;
+            /* you can adjust this */
+            margin-right: 30px;
+        }
+    }
+</style>
+
 <!-- Toast Wrapper -->
-<div id="toast" class="fixed top-5 right-5 z-[9999] hidden"
-    style="
-bottom: 780px;
-    right: 0;
-    margin-right: 30px;
-    color: white;
-    border-radius: 8px;background: #ff6b35e6;">
+<div id="toast" class="hidden">
     <div
         class="toast-message flex items-center p-4 max-w-xs w-full text-white rounded-lg shadow-lg transition transform duration-300 ease-in-out opacity-0 scale-95">
         <span id="toast-text" class="flex-1 text-sm font-medium"></span>
@@ -200,6 +222,7 @@ bottom: 780px;
         </button>
     </div>
 </div>
+
 
 
 
