@@ -395,93 +395,48 @@
 
         // Cart Management Functions
         function updateQuantity(itemId, change) {
-            const qtyInput = document.querySelector(`#qty-${itemId}`);
-            let currentQty = parseInt(qtyInput.value);
-            let newQty = currentQty + change;
-
-            if (newQty < 1) return; // prevent going below 1
+            let qtyInput = document.getElementById(`qty-${itemId}`);
+            let newQty = parseInt(qtyInput.value) + change;
+            if (newQty < 1) return; // prevent negative
 
             qtyInput.value = newQty;
             sendQuantityUpdate(itemId, newQty);
         }
 
-        function updateItemTotal(input) {
-            const itemId = input.dataset.id;
-            let newQty = parseInt(input.value);
+        function manualQuantityChange(itemId) {
+            let qtyInput = document.getElementById(`qty-${itemId}`);
+            let newQty = parseInt(qtyInput.value);
             if (newQty < 1) {
-                input.value = 1;
+                qtyInput.value = 1;
                 newQty = 1;
             }
             sendQuantityUpdate(itemId, newQty);
         }
 
-        function sendQuantityUpdate(itemId, quantity) {
+        function sendQuantityUpdate(itemId, newQty) {
             fetch(`/cart/update-quantity/${itemId}`, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        quantity
+                        quantity: newQty
                     })
                 })
                 .then(res => res.json())
                 .then(data => {
-                    // Update item total
-                    document.querySelector(`#item-total-${itemId}`).textContent = data.item_total;
-
-                    // Update order summary
-                    document.querySelector("#order-subtotal").textContent = data.subtotal;
-                    document.querySelector("#order-total").textContent = data.total;
+                    // Replace order summary HTML
+                    document.getElementById("order-summary").innerHTML = data.summaryHtml;
                 })
                 .catch(err => console.error(err));
         }
 
-        function moveSelectedToWishlist() {
-            const selectedItems = document.querySelectorAll('.item-checkbox:checked');
-            if (selectedItems.length === 0) {
-                showToast('No Items Selected', 'Please select items to move to wishlist.', 'warning');
-                return;
-            }
 
-            cartWishlistManager.addToWishlist(selectedItems.length);
-            cartWishlistManager.removeFromCart(selectedItems.length);
 
-            showToast('Moved to Wishlist', `${selectedItems.length} item(s) moved to your wishlist.`);
-            // Remove selected items from cart (demo)
-            selectedItems.forEach(checkbox => {
-                checkbox.closest('.cart-item').remove();
-            });
-        }
 
-        function removeSelectedItems() {
-            const selectedItems = document.querySelectorAll('.item-checkbox:checked');
-            if (selectedItems.length === 0) {
-                showToast('No Items Selected', 'Please select items to remove.', 'warning');
-                return;
-            }
 
-            if (confirm(`Are you sure you want to remove ${selectedItems.length} item(s) from your cart?`)) {
-                cartWishlistManager.removeFromCart(selectedItems.length);
-                selectedItems.forEach(checkbox => {
-                    checkbox.closest('.cart-item').remove();
-                });
-                showToast('Items Removed', `${selectedItems.length} item(s) removed from cart.`);
-                updateCartItemCount();
-            }
-        }
-
-        function requestGroupQuote() {
-            const selectedItems = document.querySelectorAll('.item-checkbox:checked');
-            if (selectedItems.length === 0) {
-                showToast('No Items Selected', 'Please select items for group quote.', 'warning');
-                return;
-            }
-
-            showToast('Quote Requested', 'Your group quote request has been sent to suppliers.');
-        }
-
+       
         function applyCoupon() {
             const couponCode = document.getElementById('coupon-code').value.trim().toUpperCase();
 
