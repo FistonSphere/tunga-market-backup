@@ -67,39 +67,3 @@
     </div>
 </div>
 
-{{-- <script>
-function updateQuantity(itemId, change) {
-    let input = document.querySelector(`#item-qty-${itemId}`);
-    let newQty = parseInt(input.value) + change;
-    if (newQty < 1) return;
-    input.value = newQty;
-
-    // Send AJAX request to update quantity in the backend
-    fetch(`/cart/update/${itemId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify({ quantity: newQty })
-    })
-    .then(res => res.json())
-    .then(data => {
-        // Update order summary live
-        document.getElementById('summary-total-items').textContent = data.totalItems;
-        document.getElementById('summary-subtotal').textContent = `$${data.subtotal.toFixed(2)}`;
-        document.getElementById('summary-discount').textContent = `-$${data.bulkDiscount.toFixed(2)}`;
-        document.getElementById('summary-shipping').textContent = `$${data.shipping.toFixed(2)}`;
-        document.getElementById('summary-tax').textContent = `$${data.tax.toFixed(2)}`;
-        document.getElementById('summary-total').textContent = `$${data.total.toFixed(2)}`;
-
-        let saveMsg = document.getElementById('summary-save-message');
-        if (data.bulkDiscount > 0) {
-            saveMsg.classList.remove('hidden');
-            saveMsg.textContent = `You save $${data.bulkDiscount.toFixed(2)} with bulk pricing!`;
-        } else {
-            saveMsg.classList.add('hidden');
-        }
-    });
-}
-</script> --}}
