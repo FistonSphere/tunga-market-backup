@@ -349,55 +349,6 @@
                         </div>
                     </div>
 
-                    <!-- Supplier Group 2: GlobalTech Solutions -->
-                    <div class="card">
-                        <div class="flex items-center justify-between mb-4 pb-4 border-b border-border">
-                            <div class="flex items-center space-x-3">
-                                <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                    alt="GlobalTech Solutions" class="w-12 h-12 rounded-lg object-cover"
-                                    loading="lazy" />
-                                <div>
-                                    <h3 class="font-semibold text-primary">GlobalTech Solutions Ltd.</h3>
-                                    <div class="flex items-center space-x-3 text-body-sm text-secondary-600">
-                                        <span class="flex items-center">
-                                            <svg class="w-4 h-4 text-success mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            Verified Supplier
-                                        </span>
-                                        <span>📍 Guangzhou, China</span>
-                                        <span>🚚 $12.99 shipping</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-body-sm text-secondary-600">Estimated Delivery</div>
-                                <div class="font-semibold text-primary">7-10 business days</div>
-                            </div>
-                        </div>
-
-                        <!-- Additional items from this supplier would go here -->
-                        <div class="text-center py-8 text-secondary-600">
-                            <div class="text-body">3 more items from this supplier...</div>
-                            <button class="text-accent hover:text-accent-600 transition-fast text-body-sm mt-2">View All
-                                Items</button>
-                        </div>
-
-                        <!-- Supplier Group Total -->
-                        <div class="bg-surface rounded-lg p-4 mt-4">
-                            <div class="flex items-center justify-between">
-                                <div class="text-body-sm text-secondary-600">Subtotal from GlobalTech Solutions:</div>
-                                <div class="font-semibold text-primary">$245.97</div>
-                            </div>
-                            <div class="flex items-center justify-between mt-2">
-                                <div class="text-body-sm text-secondary-600">Shipping:</div>
-                                <div class="font-semibold text-primary">$12.99</div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Wishlist Integration Panel -->
                     <div class="card">
                         <div class="flex items-center justify-between mb-4">
