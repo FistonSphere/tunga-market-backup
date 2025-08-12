@@ -183,14 +183,28 @@
         </div>
     </div>
 </div>
+<!-- Toast Wrapper -->
+<div id="toast" class="fixed top-5 right-5 z-[9999] hidden">
+    <div
+        class="toast-message flex items-center p-4 max-w-xs w-full text-white rounded-lg shadow-lg transition transform duration-300 ease-in-out opacity-0 scale-95">
+        <span id="toast-text" class="flex-1 text-sm font-medium"></span>
+        <button onclick="document.getElementById('toast').classList.add('hidden')"
+            class="ml-3 text-white hover:text-gray-200 focus:outline-none">
+            ✕
+        </button>
+    </div>
+</div>
+
+
 <script>
     let allProducts = @json($products);
     //add to wishlist
+
     document.addEventListener("DOMContentLoaded", function() {
         const wishlistCountSpan = document.getElementById("wishlist-count");
         const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
-        const closeModalBtn = document.getElementById('close-login-warning-modal');
 
+        // Define globally so inline onclick can call it
         window.addToWishlist = function(productId) {
             fetch(`/wishlist/add`, {
                     method: "POST",
@@ -205,13 +219,17 @@
                 })
                 .then(response => {
                     if (response.status === 401) {
-                        // User not authenticated — show login modal
+                        // Show modal for unauthenticated user
                         document.getElementById('login-warning-modal-wrapper').classList.remove(
                             'hidden');
+                        // Stop further processing — no JSON parse
+                        return null;
                     }
                     return response.json();
                 })
                 .then(data => {
+                    if (!data) return; // Skip if already handled (401)
+
                     if (data.status === "success") {
                         updateWishlistCount(data.count);
                         showToast(data.message, "success");
@@ -222,10 +240,8 @@
                     }
                 })
                 .catch(err => {
-                    if (err.message !== "Unauthorized") {
-                        showToast("An error occurred. Please try again.", "error");
-                        
-                    }
+                    console.error(err);
+                    showToast("An error occurred. Please try again.", "error");
                 });
         };
 
@@ -235,36 +251,48 @@
             }
         }
 
-        function showToast(message, type = "info") {
-            const toast = document.createElement("div");
-            toast.textContent = message;
-            toast.className = `
-            fixed top-10 left-1/2 transform -translate-x-1/2
-            px-6 py-3 rounded-lg text-white font-semibold shadow-lg
-            z-50 transition-opacity duration-300
-            ${type === "success" ? "bg-green-600" : ""}
-            ${type === "info" ? "bg-blue-600" : ""}
-            ${type === "error" ? "bg-red-600" : ""}
-            opacity-100
-        `;
-            document.body.appendChild(toast);
+        function showToast(message, type = "success") {
+            const toastWrapper = document.getElementById("toast");
+            const toastMessage = toastWrapper.querySelector(".toast-message");
+            const textSpan = document.getElementById("toast-text");
 
+            // Reset base styles
+            toastMessage.className =
+                "toast-message flex items-center p-4 max-w-xs w-full text-white rounded-lg shadow-lg transition transform duration-300 ease-in-out opacity-0 scale-95";
+
+            // Add color
+            if (type === "success") toastMessage.classList.add("bg-green-500");
+            if (type === "error") toastMessage.classList.add("bg-red-500");
+            if (type === "info") toastMessage.classList.add("bg-blue-500");
+
+            // Set text
+            textSpan.textContent = message;
+
+            // Show
+            toastWrapper.classList.remove("hidden");
             setTimeout(() => {
-                toast.style.opacity = "0";
-                setTimeout(() => toast.remove(), 300);
-            }, 2500);
+                toastMessage.classList.remove("opacity-0", "scale-95");
+                toastMessage.classList.add("opacity-100", "scale-100");
+            }, 50);
+
+            // Auto-hide
+            setTimeout(() => {
+                toastMessage.classList.remove("opacity-100", "scale-100");
+                toastMessage.classList.add("opacity-0", "scale-95");
+                setTimeout(() => toastWrapper.classList.add("hidden"), 300);
+            }, 3000);
         }
 
-
-
         window.goToSignIn = function() {
-            window.location.href = "{{ route('login') }}"; // adjust route if needed
+            window.location.href = "{{ route('login') }}";
         };
 
         window.continueBrowsing = function() {
-             document.getElementById('login-warning-modal-wrapper').classList.add('hidden');
+            loginWarningModalWrapper?.classList.add('hidden');
         };
     });
+
+
 
 
     //add to wishlist
