@@ -266,34 +266,51 @@
 
                             <div class="space-y-3 text-body-sm">
                                 <div class="flex justify-between">
-                                    <span class="text-secondary-600">Subtotal (7 items):</span>
-                                    <span class="font-medium text-primary">$735.93</span>
+                                    <span class="text-secondary-600">
+                                        Subtotal ({{ $totalItems }} {{ Str::plural('item', $totalItems) }}):
+                                    </span>
+                                    <span class="font-medium text-primary">
+                                        ${{ number_format($subtotal, 2) }}
+                                    </span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Bulk Discount:</span>
-                                    <span class="font-medium text-success">-$89.50</span>
+                                    <span
+                                        class="font-medium {{ $bulkDiscount > 0 ? 'text-success' : 'text-secondary-500' }}">
+                                        -${{ number_format($bulkDiscount, 2) }}
+                                    </span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Shipping:</span>
-                                    <span class="font-medium text-primary">$12.99</span>
+                                    <span class="font-medium text-primary">
+                                        ${{ number_format($shipping, 2) }}
+                                    </span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Tax (estimated):</span>
-                                    <span class="font-medium text-primary">$52.94</span>
+                                    <span class="font-medium text-primary">
+                                        ${{ number_format($tax, 2) }}
+                                    </span>
                                 </div>
                                 <div class="border-t border-border pt-3">
                                     <div class="flex justify-between">
                                         <span class="font-semibold text-primary">Total:</span>
-                                        <span class="text-xl font-bold text-primary">$711.36</span>
+                                        <span class="text-xl font-bold text-primary">
+                                            ${{ number_format($total, 2) }}
+                                        </span>
                                     </div>
-                                    <div class="text-success text-body-sm mt-1">You save $89.50 with bulk pricing!</div>
+                                    @if ($bulkDiscount > 0)
+                                        <div class="text-success text-body-sm mt-1">
+                                            You save ${{ number_format($bulkDiscount, 2) }} with bulk pricing!
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
 
                             <!-- Checkout Button -->
-                            <button class="btn-primary w-full mt-6" onclick="proceedToCheckout()">
-                                Proceed to Checkout
-                            </button>
+                            <form action="{{ route('checkout.index') }}" method="GET">
+                                <button class="btn-primary w-full mt-6">Proceed to Checkout</button>
+                            </form>
 
                             <!-- Payment Options -->
                             <div class="mt-4">
@@ -301,101 +318,21 @@
                                 <div class="flex items-center space-x-3">
                                     <div
                                         class="w-10 h-6 bg-primary rounded text-white text-xs flex items-center justify-center font-bold">
-                                        VISA</div>
+                                        VISA
+                                    </div>
                                     <div
                                         class="w-10 h-6 bg-accent rounded text-white text-xs flex items-center justify-center font-bold">
-                                        MC</div>
+                                        MC
+                                    </div>
                                     <div
                                         class="w-10 h-6 bg-secondary rounded text-white text-xs flex items-center justify-center font-bold">
-                                        PP</div>
+                                        PP
+                                    </div>
                                     <div class="text-body-sm text-secondary-600">+ more</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Shipping Calculator -->
-                        <div class="card">
-                            <h3 class="font-semibold text-primary mb-4">Shipping Calculator</h3>
-                            <div class="space-y-3">
-                                <div>
-                                    <label class="block text-body-sm font-medium text-primary mb-1">Country/Region</label>
-                                    <select class="input-field">
-                                        <option>United States</option>
-                                        <option>Canada</option>
-                                        <option>United Kingdom</option>
-                                        <option>Australia</option>
-                                        <option>Germany</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-body-sm font-medium text-primary mb-1">ZIP/Postal Code</label>
-                                    <input type="text" class="input-field" placeholder="Enter postal code" />
-                                </div>
-                                <button class="btn-secondary w-full" onclick="calculateShipping()">Calculate
-                                    Shipping</button>
-                            </div>
-
-                            <!-- Shipping Options -->
-                            <div class="mt-4 pt-4 border-t border-border">
-                                <div class="text-body-sm font-medium text-primary mb-3">Available Shipping Options:</div>
-                                <div class="space-y-2">
-                                    <label class="flex items-center space-x-3">
-                                        <input type="radio" name="shipping" value="standard"
-                                            class="text-accent focus:ring-accent-500 border-border" checked />
-                                        <span class="flex-1 text-body-sm">Standard (7-14 days) - $12.99</span>
-                                    </label>
-                                    <label class="flex items-center space-x-3">
-                                        <input type="radio" name="shipping" value="express"
-                                            class="text-accent focus:ring-accent-500 border-border" />
-                                        <span class="flex-1 text-body-sm">Express (3-5 days) - $24.99</span>
-                                    </label>
-                                    <label class="flex items-center space-x-3">
-                                        <input type="radio" name="shipping" value="overnight"
-                                            class="text-accent focus:ring-accent-500 border-border" />
-                                        <span class="flex-1 text-body-sm">Overnight (1-2 days) - $49.99</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Trust & Security -->
-                        <div class="card">
-                            <h3 class="font-semibold text-primary mb-4">Your Purchase is Protected</h3>
-                            <div class="space-y-3">
-                                <div class="flex items-center space-x-3">
-                                    <svg class="w-5 h-5 text-success flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m5.09-5.09A10 10 0 0019.49 5 8.5 8.5 0 0013 8a10 10 0 00-7.07 7.07A8.5 8.5 0 003 12.5a10 10 0 007.07-7.07zM12 12a5.5 5.5 0 1111 0 5.5 5.5 0 01-11 0z" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-700">SSL Encrypted Checkout</span>
-                                </div>
-                                <div class="flex items-center space-x-3">
-                                    <svg class="w-5 h-5 text-success flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-700">30-Day Money Back Guarantee</span>
-                                </div>
-                                <div class="flex items-center space-x-3">
-                                    <svg class="w-5 h-5 text-success flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-700">Buyer Protection Program</span>
-                                </div>
-                                <div class="flex items-center space-x-3">
-                                    <svg class="w-5 h-5 text-success flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-700">24/7 Customer Support</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
