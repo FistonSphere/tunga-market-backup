@@ -702,10 +702,10 @@
                                 <div class="relative flex-shrink-0">
                                     <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
                                         class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
-                                    @if ($product->discount > 0)
+                                    @if ($product->discount_price > 0)
                                         <div
                                             class="absolute -top-1 -right-1 bg-success text-white text-xs rounded-full px-1.5 py-0.5 font-semibold">
-                                            -{{ $product->discount }}%
+                                            -{{ number_format((($product->price - $product->discount_price) * 100) / $product->discount_price, 2) }}%
                                         </div>
                                     @endif
                                 </div>
@@ -719,11 +719,32 @@
                                     <!-- Price & Stock Info -->
                                     <div class="flex items-center space-x-4">
                                         <div class="flex items-baseline space-x-2">
-                                            <span class="text-md font-bold text-primary">
-                                                {{ $product->currency === '$'
-                                                    ? $product->currency . number_format($product->price, 2)
-                                                    : number_format($product->price) . ' ' . $product->currency }}
-                                            </span>
+                                            @if ($product->discount_price)
+                                                <span class="line-through text-secondary-500 text-sm mr-2">
+                                                    @if ($product->currency === '$')
+                                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                    @elseif($product->currency === 'Rwf')
+                                                        {{ number_format($product->price) }} {{ $product->currency }}
+                                                    @endif
+                                                </span>
+                                                <span class="text-md font-bold text-primary">
+                                                    @if ($product->currency === '$')
+                                                        {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
+                                                    @elseif($product->currency === 'Rwf')
+                                                        {{ number_format($product->discount_price) }}
+                                                        {{ $product->currency }}
+                                                    @endif
+                                                </span>
+                                            @else
+                                                <span class="text-md font-bold text-primary">
+                                                    @if ($product->currency === '$')
+                                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                    @elseif($product->currency === 'Rwf')
+                                                        {{ number_format($product->price) }} {{ $product->currency }}
+                                                    @endif
+                                                </span>
+                                            @endif
+
                                         </div>
 
                                         <div class="flex items-center text-success text-body-sm">
