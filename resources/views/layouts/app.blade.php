@@ -267,6 +267,13 @@
 
 
                     <!-- Cart Icon -->
+                    @php
+                        $cartCount = 0;
+                        if (auth()->check()) {
+                            $cartCount = \App\Models\Cart::where('user_id', auth()->id())->count();
+                        }
+                    @endphp
+
                     <a href="{{ route('cart') }}" id="open-cart-btn"
                         class="relative text-secondary-600 hover:text-accent transition-fast p-2 mr-2"
                         title="Shopping Cart">
@@ -275,8 +282,11 @@
                                 d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7m0 0h9.5M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7" />
                         </svg>
                         <span id="cart-count"
-                            class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">0</span>
+                            class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+                            {{ $cartCount }}
+                        </span>
                     </a>
+
                     <!-- If user is authenticated -->
                     @auth
                         @php
@@ -705,7 +715,7 @@
                                     @if ($product->discount_price > 0)
                                         <div
                                             class="absolute -top-1 -right-1 bg-success text-white text-xs rounded-full px-1.5 py-0.5 font-semibold">
-                                            -{{ number_format((($product->price - $product->discount_price) * 100) / $product->discount_price, 2) }}%
+                                            -{{ number_format((($product->price - $product->discount_price) * 100) / $product->price, 2) }}%
                                         </div>
                                     @endif
                                 </div>
