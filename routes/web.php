@@ -74,7 +74,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/wishlist-clear', [WishlistController::class, 'clearAll'])->name('wishlist.clear');
     Route::post('/wishlist/undo-clear', [WishlistController::class, 'undoClear'])->name('wishlist.undoClear');
     Route::post('/wishlist/add-all-to-cart', [WishlistController::class, 'addAllToCart'])->name('wishlist.addAllToCart');
-    
+    Route::post('/cart/update-quantity/{id}', [CartController::class, 'updateQuantity']);
+
+
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
