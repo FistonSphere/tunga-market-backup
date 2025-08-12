@@ -154,8 +154,7 @@
                                                 <div class="flex items-center space-x-3">
                                                     <label class="text-body-sm text-secondary-600">Qty:</label>
                                                     <div class="flex items-center border border-border rounded-lg">
-                                                        <button type="button"
-                                                            class="p-2 hover:bg-surface transition-fast"
+                                                        <button class="p-2 hover:bg-surface transition-fast"
                                                             onclick="updateQuantity({{ $item->id }}, -1)">
                                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                                 viewBox="0 0 24 24">
@@ -163,15 +162,11 @@
                                                                     stroke-width="2" d="M20 12H4" />
                                                             </svg>
                                                         </button>
-
                                                         <input type="number" id="qty-{{ $item->id }}"
-                                                            data-id="{{ $item->id }}" value="{{ $item->quantity }}"
-                                                            min="1" max="99"
+                                                            value="{{ $item->quantity }}" min="1" max="99"
                                                             class="w-16 text-center border-0 py-2 focus:ring-0 focus:outline-none"
-                                                            onchange="updateItemTotal(this)" />
-
-                                                        <button type="button"
-                                                            class="p-2 hover:bg-surface transition-fast"
+                                                            onchange="manualQuantityChange({{ $item->id }})" />
+                                                        <button class="p-2 hover:bg-surface transition-fast"
                                                             onclick="updateQuantity({{ $item->id }}, 1)">
                                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                                 viewBox="0 0 24 24">
