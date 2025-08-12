@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<script>
+{{-- <script>
 function updateQuantity(itemId, change) {
     let input = document.querySelector(`#item-qty-${itemId}`);
     let newQty = parseInt(input.value) + change;
@@ -102,4 +102,4 @@ function updateQuantity(itemId, change) {
         }
     });
 }
-</script>
+</script> --}}
