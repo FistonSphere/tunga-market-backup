@@ -196,6 +196,8 @@
 </div>
 
 
+
+
 <script>
     let allProducts = @json($products);
     //add to wishlist
@@ -256,26 +258,20 @@
             const toastMessage = toastWrapper.querySelector(".toast-message");
             const textSpan = document.getElementById("toast-text");
 
-            // Reset base styles
-            toastMessage.className =
-                "toast-message flex items-center p-4 max-w-xs w-full text-white rounded-lg shadow-lg transition transform duration-300 ease-in-out opacity-0 scale-95";
+            textSpan.textContent = message;
 
-            // Add color
+            // Set color
+            toastMessage.classList.remove("bg-green-500", "bg-red-500", "bg-blue-500");
             if (type === "success") toastMessage.classList.add("bg-green-500");
             if (type === "error") toastMessage.classList.add("bg-red-500");
             if (type === "info") toastMessage.classList.add("bg-blue-500");
 
-            // Set text
-            textSpan.textContent = message;
-
-            // Show
+            // Show instantly
             toastWrapper.classList.remove("hidden");
-            setTimeout(() => {
-                toastMessage.classList.remove("opacity-0", "scale-95");
-                toastMessage.classList.add("opacity-100", "scale-100");
-            }, 50);
+            toastMessage.classList.remove("opacity-0", "scale-95");
+            toastMessage.classList.add("opacity-100", "scale-100");
 
-            // Auto-hide
+            // Hide after 3s
             setTimeout(() => {
                 toastMessage.classList.remove("opacity-100", "scale-100");
                 toastMessage.classList.add("opacity-0", "scale-95");
