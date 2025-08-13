@@ -151,52 +151,6 @@ public function clearAll(Request $request)
             'message' => count($wishlistItems) . ' items added to cart successfully.',
         ], 200);
     }
-public function removeItem($id)
-{
-    $cartItem = Cart::where('id', $id)
-        ->where('user_id', Auth::id())
-        ->first();
 
-    if (!$cartItem) {
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Cart item not found.'
-        ], 404);
-    }
-
-    $cartItem->delete();
-
-    // Get updated cart items
-    $cartItems = Cart::with('product.taxClass')
-        ->where('user_id', Auth::id())
-        ->get();
-
-    $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
-    $totalItems = $cartItems->sum('quantity');
-    $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
-    $shipping = 12.99;
-
-    // Calculate tax based on each product's tax_class
-    $tax = $cartItems->sum(function ($item) use ($bulkDiscount, $shipping, $subtotal) {
-        $taxRate = $item->product->taxClass->rate ?? 0;
-        return ($item->price * $item->quantity) * ($taxRate / 100);
-    });
-
-    $total = $subtotal - $bulkDiscount + $shipping + $tax;
-
-    return response()->json([
-        'status' => 'success',
-        'message' => 'Item removed from cart.',
-        'cart' => [
-            'items' => $cartItems,
-            'subtotal' => number_format($subtotal, 2),
-            'bulkDiscount' => number_format($bulkDiscount, 2),
-            'shipping' => number_format($shipping, 2),
-            'tax' => number_format($tax, 2),
-            'total' => number_format($total, 2),
-            'totalItems' => $totalItems
-        ]
-    ]);
-}
 
 }
