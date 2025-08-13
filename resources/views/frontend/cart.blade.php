@@ -241,7 +241,8 @@
                     <div class="card">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="font-semibold text-primary">From Your Wishlist</h3>
-                            <a href="#" class="text-accent hover:text-accent-600 transition-fast text-body-sm">View
+                            <button id="open-wishlist-btn"
+                                class="text-accent hover:text-accent-600 transition-fast text-body-sm">View
                                 Full Wishlist ({{ is_countable($wishlist) ? count($wishlist) : 0 }})</a>
                         </div>
 
