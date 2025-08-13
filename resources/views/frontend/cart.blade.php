@@ -276,7 +276,7 @@
                 <div class="lg:col-span-1">
                     <div class="sticky top-24 space-y-6">
                         <!-- Order Summary -->
-                        <div id="order-summary" class="card">
+                        <div id="order-summary">
                             @include('partials.order-summary', [
                                 'totalItems' => $totalItems,
                                 'subtotal' => $subtotal,
