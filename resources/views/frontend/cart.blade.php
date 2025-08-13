@@ -238,6 +238,7 @@
                                 ->toArray();
                         }
                     @endphp
+                    
                     <div class="card">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="font-semibold text-primary">From Your Wishlist</h3>
