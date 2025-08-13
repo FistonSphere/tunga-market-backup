@@ -152,5 +152,54 @@ public function clearAll(Request $request)
         ], 200);
     }
 
+public function addToCart(Product $product)
+{
+    $userId = Auth::id();
 
+    // Check if the product is already in cart
+    $cartItem = Cart::where('user_id', $userId)
+        ->where('product_id', $product->id)
+        ->first();
+
+    if ($cartItem) {
+        // Increase quantity by 1
+        $cartItem->quantity += 1;
+        $cartItem->save();
+    } else {
+        // Add new cart item
+        Cart::create([
+            'user_id' => $userId,
+            'product_id' => $product->id,
+            'price' => $product->price,
+            'quantity' => 1
+        ]);
+    }
+
+    // Optional: remove from wishlist
+    \App\Models\Wishlist::where('user_id', $userId)
+        ->where('product_id', $product->id)
+        ->delete();
+
+    // Return updated cart data for live update
+    $cartItems = Cart::with('product')->where('user_id', $userId)->get();
+    $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
+    $totalItems = $cartItems->sum('quantity');
+    $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
+    $shipping = 12.99;
+    $tax = $cartItems->sum(fn($item) => $item->price * ($item->product->taxClass->rate ?? 0) / 100);
+    $total = $subtotal - $bulkDiscount + $shipping + $tax;
+
+    return response()->json([
+        'status' => 'success',
+        'message' => "{$product->name} added to cart",
+        'cart' => [
+            'subtotal' => number_format($subtotal, 2),
+            'bulkDiscount' => number_format($bulkDiscount, 2),
+            'shipping' => number_format($shipping, 2),
+            'tax' => number_format($tax, 2),
+            'total' => number_format($total, 2),
+            'totalItems' => $totalItems
+        ]
+    ]);
+}
 }

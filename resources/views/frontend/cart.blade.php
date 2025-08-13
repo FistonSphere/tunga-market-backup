@@ -247,8 +247,7 @@
                         <div class="card">
                             <div class="flex items-center justify-between mb-4">
                                 <h3 class="font-semibold text-primary">From Your Wishlist</h3>
-                                <a href=""
-                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm">
+                                <a href="" class="text-accent hover:text-accent-600 transition-fast text-body-sm">
                                     View Full Wishlist ({{ $wishlistProducts->count() }})
                                 </a>
                             </div>
@@ -722,5 +721,66 @@
 
 
         //remove to cart
+
+        //ad to wishlist from cart
+        function addToCartFromWishlist(button, productId) {
+            const item = button.closest('.wishlist-item');
+
+            fetch(`/wishlist/add-to-cart/${productId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(async res => {
+                    let data = await res.json().catch(() => null);
+                    if (!res.ok || !data) throw new Error(data?.message || 'Server error');
+                    return data;
+                })
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Swipe animation
+                        item.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                        item.style.transform = 'translateX(100%)';
+                        item.style.opacity = '0';
+
+                        setTimeout(() => item.remove(), 300);
+
+                        // Update cart summary if present on page
+                        const cartSummary = document.querySelector('#order-summary');
+                        if (cartSummary) {
+                            const c = data.cart;
+                            document.querySelector("#summary-subtotal").innerText = `$${c.subtotal}`;
+                            document.querySelector("#summary-discount").innerText = `-$${c.bulkDiscount}`;
+                            document.querySelector("#summary-shipping").innerText = `$${c.shipping}`;
+                            document.querySelector("#summary-tax").innerText = `$${c.tax}`;
+                            document.querySelector("#summary-total").innerText = `$${c.total}`;
+                            document.querySelector("#summary-total-items").innerText = c.totalItems;
+
+                            const saveMessage = document.querySelector("#summary-save-message");
+                            if (c.bulkDiscount > 0) saveMessage.classList.remove('hidden');
+                            else saveMessage.classList.add('hidden');
+                        }
+
+                        showToast('Success', data.message);
+                    } else {
+                        showToast('Error', data.message);
+                    }
+                })
+                .catch(err => showToast('Error', err.message || 'Something went wrong!'));
+        }
+
+        // Toast function
+        function showToast(title, message, type = 'success') {
+            let toast = document.createElement('div');
+            toast.className =
+                `fixed top-5 right-5 px-4 py-2 rounded shadow text-white z-50 ${type==='success'?'bg-green-500':'bg-red-500'}`;
+            toast.innerHTML = `<strong>${title}:</strong> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        //ad to wishlist from cart
     </script>
 @endsection
