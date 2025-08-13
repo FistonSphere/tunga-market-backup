@@ -719,5 +719,32 @@
 
 
         //remove to cart
+
+        document.getElementById('open-wishlist-btn').addEventListener('click', () => {
+            const overlay = document.getElementById('wishlist-overlay');
+            overlay.style.display = 'flex';
+            overlay.style.animation = 'fadeIn 0.3s ease-out forwards';
+        });
+
+        // Hide wishlist popup function
+        function closeWishlistPopup() {
+            const overlay = document.getElementById('wishlist-overlay').style.display = 'none';
+
+        }
+
+        // Close popup on clicking outside the inner popup content
+        document.getElementById('wishlist-overlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeWishlistPopup();
+            }
+        });
+
+        // Close popup on pressing ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const overlay = document.getElementById('wishlist-overlay').style.display = 'none';
+
+            }
+        });
     </script>
 @endsection
