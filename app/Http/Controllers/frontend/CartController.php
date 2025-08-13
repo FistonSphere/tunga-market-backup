@@ -98,7 +98,7 @@ public function removeItem($id)
     $total = $subtotal - $bulkDiscount + $shipping + $tax;
 
     return response()->json([
-        'status' => 'success',
+        'status' => '200',
         'message' => 'Item removed from cart.',
         'cart' => [
             'items' => $cartItems,

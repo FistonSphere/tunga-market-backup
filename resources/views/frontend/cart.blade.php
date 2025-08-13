@@ -657,7 +657,7 @@
                     return data;
                 })
                 .then(data => {
-                    if (data.status === "success") {
+                    if (data.status === 200) {
                         // Remove from DOM
                         let cartItem = buttonElement.closest(".cart-item");
                         if (cartItem) cartItem.remove();
