@@ -649,14 +649,20 @@
                         "Accept": "application/json"
                     }
                 })
-                .then(res => res.json())
+                .then(async res => {
+                    let data = await res.json().catch(() => null);
+                    if (!res.ok || !data) {
+                        throw new Error(data?.message || "Server error");
+                    }
+                    return data;
+                })
                 .then(data => {
                     if (data.status === "success") {
                         // Remove from DOM
                         let cartItem = buttonElement.closest(".cart-item");
                         if (cartItem) cartItem.remove();
 
-                        // Update summary
+                        // Live update prices
                         document.querySelector("#subtotal").innerText = `$${data.cart.subtotal}`;
                         document.querySelector("#bulkDiscount").innerText = `-$${data.cart.bulkDiscount}`;
                         document.querySelector("#shipping").innerText = `$${data.cart.shipping}`;
@@ -668,7 +674,9 @@
                         showToast(data.message, "error");
                     }
                 })
-                .catch(() => showToast("Something went wrong!", "error"));
+                .catch(err => {
+                    showToast(err.message || "Something went wrong!", "error");
+                });
         }
 
         function showToast(message, type = "success") {
