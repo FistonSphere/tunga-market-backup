@@ -271,7 +271,7 @@
                                                     @endif
                                                 </div>
                                                 <button class="btn-primary text-body-sm px-3 py-1"
-                                                    onclick="addToCartFromWishlist(this, {{ $product->id }})">
+                                                    onclick="addToCartFromWishlistItem(this, {{ $product->id }})">
                                                     Add to Cart
                                                 </button>
                                             </div>
@@ -489,16 +489,16 @@
             }
         }
 
-        function addToCartFromWishlist(button) {
-            const wishlistItem = button.closest('div');
-            const productName = wishlistItem.querySelector('h4').textContent;
+        // function addToCartFromWishlist(button) {
+        //     const wishlistItem = button.closest('div');
+        //     const productName = wishlistItem.querySelector('h4').textContent;
 
-            cartWishlistManager.addToCart(1);
-            cartWishlistManager.removeFromWishlist(1);
+        //     cartWishlistManager.addToCart(1);
+        //     cartWishlistManager.removeFromWishlist(1);
 
-            showToast('Added to Cart', `${productName} has been added to your cart.`);
-            updateCartItemCount();
-        }
+        //     showToast('Added to Cart', `${productName} has been added to your cart.`);
+        //     updateCartItemCount();
+        // }
 
         function calculateShipping() {
             showToast('Shipping Calculated', 'Shipping options have been updated based on your location.');
@@ -723,8 +723,14 @@
         //remove to cart
 
         //ad to wishlist from cart
-        function addToCartFromWishlist(button, productId) {
+        function addToCartFromWishlistItem(button, productId) {
             const item = button.closest('.wishlist-item');
+
+            // Safely get product name and price
+            const productNameEl = item.querySelector('h4') || item.querySelector('h3');
+            const priceEl = item.querySelector('.text-body-sm span, .text-lg.font-bold.text-primary');
+            const productName = productNameEl ? productNameEl.textContent.trim() : 'Product';
+            const price = priceEl ? priceEl.textContent.trim() : '';
 
             fetch(`/wishlist/add-to-cart/${productId}`, {
                     method: 'POST',
@@ -744,10 +750,9 @@
                         item.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
                         item.style.transform = 'translateX(100%)';
                         item.style.opacity = '0';
-
                         setTimeout(() => item.remove(), 300);
 
-                        // Update cart summary if present on page
+                        // Update cart summary if present
                         const cartSummary = document.querySelector('#order-summary');
                         if (cartSummary) {
                             const c = data.cart;
@@ -763,22 +768,12 @@
                             else saveMessage.classList.add('hidden');
                         }
 
-                        showToast('Success', data.message);
+                        showToast('Success', `${productName} (${price}) added to cart`);
                     } else {
                         showToast('Error', data.message);
                     }
                 })
                 .catch(err => showToast('Error', err.message || 'Something went wrong!'));
-        }
-
-        // Toast function
-        function showToast(title, message, type = 'success') {
-            let toast = document.createElement('div');
-            toast.className =
-                `fixed top-5 right-5 px-4 py-2 rounded shadow text-white z-50 ${type==='success'?'bg-green-500':'bg-red-500'}`;
-            toast.innerHTML = `<strong>${title}:</strong> ${message}`;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
         }
 
         //ad to wishlist from cart
