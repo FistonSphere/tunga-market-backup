@@ -233,53 +233,56 @@
                         $wishlist = [];
 
                         if (auth()->check()) {
+                            // Fetch wishlist product IDs for logged-in user
                             $wishlist = \App\Models\Wishlist::where('user_id', auth()->id())
                                 ->pluck('product_id')
                                 ->toArray();
+
+                            // Fetch actual product details
+                            $wishlistProducts = \App\Models\Product::whereIn('id', $wishlist)->get();
                         }
                     @endphp
-                    
-                    <div class="card">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="font-semibold text-primary">From Your Wishlist</h3>
-                            <a href="javascript:void(0);" class="text-accent hover:text-accent-600 transition-fast text-body-sm">View
-                                Full Wishlist ({{ is_countable($wishlist) ? count($wishlist) : 0 }})</a>
-                        </div>
 
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <!-- Wishlist Item 1 -->
-                            <div class="border border-border rounded-lg p-4 hover:bg-surface transition-fast">
-                                <div class="flex items-center space-x-3">
-                                    <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=2832&auto=format&fit=crop"
-                                        alt="Noise Cancelling Headphones" class="w-16 h-16 rounded-lg object-cover"
-                                        loading="lazy" />
-                                    <div class="flex-1">
-                                        <h4 class="font-medium text-primary mb-1">Noise Cancelling Headphones</h4>
-                                        <div class="text-body-sm text-secondary-600 mb-2">$199.99 <span
-                                                class="text-success">✓ Available</span></div>
-                                        <button class="btn-primary text-body-sm px-3 py-1"
-                                            onclick="addToCartFromWishlist(this)">Add to Cart</button>
-                                    </div>
-                                </div>
+                    @if (isset($wishlistProducts) && $wishlistProducts->count() > 0)
+                        <div class="card">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-semibold text-primary">From Your Wishlist</h3>
+                                <a href=""
+                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm">
+                                    View Full Wishlist ({{ $wishlistProducts->count() }})
+                                </a>
                             </div>
 
-                            <!-- Wishlist Item 2 -->
-                            <div class="border border-border rounded-lg p-4 hover:bg-surface transition-fast">
-                                <div class="flex items-center space-x-3">
-                                    <img src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                        alt="Smart Fitness Watch" class="w-16 h-16 rounded-lg object-cover"
-                                        loading="lazy" />
-                                    <div class="flex-1">
-                                        <h4 class="font-medium text-primary mb-1">Smart Fitness Watch</h4>
-                                        <div class="text-body-sm text-secondary-600 mb-2">$129.99 <span
-                                                class="text-warning">⚡ Price Alert</span></div>
-                                        <button class="btn-primary text-body-sm px-3 py-1"
-                                            onclick="addToCartFromWishlist(this)">Add to Cart</button>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                @foreach ($wishlistProducts as $product)
+                                    <div
+                                        class="wishlist-item border border-border rounded-lg p-4 hover:bg-surface transition-fast">
+                                        <div class="flex items-center space-x-3">
+                                            <img src="{{ asset($product->main_image ?? 'images/no-image.png') }}"
+                                                alt="{{ $product->name }}" class="w-16 h-16 rounded-lg object-cover"
+                                                loading="lazy" />
+                                            <div class="flex-1">
+                                                <h4 class="font-medium text-primary mb-1">{{ $product->name }}</h4>
+                                                <div class="text-body-sm text-secondary-600 mb-2">
+                                                    {{ $product->currency ?? '$' }}{{ number_format($product->price, 2) }}
+                                                    @if ($product->stock_quantity > 0)
+                                                        <span class="text-success">✓ Available</span>
+                                                    @else
+                                                        <span class="text-error">Out of Stock</span>
+                                                    @endif
+                                                </div>
+                                                <button class="btn-primary text-body-sm px-3 py-1"
+                                                    onclick="addToCartFromWishlist(this, {{ $product->id }})">
+                                                    Add to Cart
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
-                    </div>
+                    @endif
+
                 </div>
 
                 <!-- Order Summary Sidebar -->
