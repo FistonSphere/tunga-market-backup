@@ -641,59 +641,45 @@
         }
 
         //remove to cart
-        function RemoveItem() {
-            document.addEventListener("DOMContentLoaded", function() {
-                document.body.addEventListener("click", function(e) {
-                    if (e.target.closest(".remove-item-btn")) {
-                        let button = e.target.closest(".remove-item-btn");
-                        let itemId = button.getAttribute("data-id");
-
-                        fetch(`/cart/remove/${itemId}`, {
-                                method: "DELETE",
-                                headers: {
-                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                                        .content,
-                                    "Accept": "application/json"
-                                }
-                            })
-                            .then(res => res.json())
-                            .then(data => {
-                                if (data.status === "success") {
-                                    // Remove the item from the DOM
-                                    let cartItem = button.closest(".cart-item");
-                                    if (cartItem) cartItem.remove();
-
-                                    // Update order summary
-                                    document.querySelector("#subtotal").innerText =
-                                        `$${data.cart.subtotal}`;
-                                    document.querySelector("#bulkDiscount").innerText =
-                                        `-$${data.cart.bulkDiscount}`;
-                                    document.querySelector("#shipping").innerText =
-                                        `$${data.cart.shipping}`;
-                                    document.querySelector("#tax").innerText = `$${data.cart.tax}`;
-                                    document.querySelector("#total").innerText = `$${data.cart.total}`;
-
-                                    showToast(data.message, "success");
-                                } else {
-                                    showToast(data.message, "error");
-                                }
-                            })
-                            .catch(() => showToast("Something went wrong!", "error"));
+        function removeCartItem(itemId, buttonElement) {
+            fetch(`/cart/remove/${itemId}`, {
+                    method: "DELETE",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                        "Accept": "application/json"
                     }
-                });
-            });
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        // Remove from DOM
+                        let cartItem = buttonElement.closest(".cart-item");
+                        if (cartItem) cartItem.remove();
 
-            // Toast function
-            function showToast(message, type = "success") {
-                let toast = document.createElement("div");
-                toast.className = `fixed top-5 right-5 px-4 py-2 rounded shadow text-white z-50
-        ${type === "success" ? "bg-green-500" : "bg-red-500"}`;
-                toast.textContent = message;
-                document.body.appendChild(toast);
-                setTimeout(() => toast.remove(), 3000);
-            }
+                        // Update summary
+                        document.querySelector("#subtotal").innerText = `$${data.cart.subtotal}`;
+                        document.querySelector("#bulkDiscount").innerText = `-$${data.cart.bulkDiscount}`;
+                        document.querySelector("#shipping").innerText = `$${data.cart.shipping}`;
+                        document.querySelector("#tax").innerText = `$${data.cart.tax}`;
+                        document.querySelector("#total").innerText = `$${data.cart.total}`;
 
+                        showToast(data.message, "success");
+                    } else {
+                        showToast(data.message, "error");
+                    }
+                })
+                .catch(() => showToast("Something went wrong!", "error"));
         }
+
+        function showToast(message, type = "success") {
+            let toast = document.createElement("div");
+            toast.className = `fixed top-5 right-5 px-4 py-2 rounded shadow text-white z-50
+        ${type === "success" ? "bg-green-500" : "bg-red-500"}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
         //remove to cart
     </script>
 @endsection
