@@ -678,11 +678,15 @@
                         // Animate swipe left
                         innerWrapper.style.transform = 'translateX(-100%)';
                         innerWrapper.style.opacity = '0';
-
+                        if (data.item && document.querySelector(`#item-total-${data.item.id}`)) {
+                            document.querySelector(`#item-total-${data.item.id}`).innerText =
+                                `${data.item.currency}${data.item.total_price}`;
+                        }
                         setTimeout(() => {
                             cartItem.remove();
 
                             // Update summary
+                            const c = data.cart;
                             document.querySelector("#summary-total-items").innerText = data.cart.totalItems;
                             document.querySelector("#summary-subtotal").innerText = `$${data.cart.subtotal}`;
                             document.querySelector("#summary-discount").innerText =
@@ -690,6 +694,7 @@
                             document.querySelector("#summary-shipping").innerText = `$${data.cart.shipping}`;
                             document.querySelector("#summary-tax").innerText = `$${data.cart.tax}`;
                             document.querySelector("#summary-total").innerText = `$${data.cart.total}`;
+                            document.querySelector("#summary-total-items").innerText = c.totalItems;
 
                             const saveMsg = document.querySelector("#summary-save-message");
                             if (parseFloat(data.cart.bulkDiscount) > 0) {
