@@ -642,10 +642,7 @@
 
         //remove to cart
         document.addEventListener("DOMContentLoaded", function() {
-            const cartContainer = document.querySelector(
-            "#cart-items-container"); // parent element of all cart items
-
-            cartContainer.addEventListener("click", function(e) {
+            document.body.addEventListener("click", function(e) {
                 if (e.target.closest(".remove-item-btn")) {
                     let button = e.target.closest(".remove-item-btn");
                     let itemId = button.getAttribute("data-id");
@@ -661,8 +658,9 @@
                         .then(res => res.json())
                         .then(data => {
                             if (data.status === "success") {
-                                // Remove item from DOM
-                                button.closest(".cart-item").remove();
+                                // Remove the item from the DOM
+                                let cartItem = button.closest(".cart-item");
+                                if (cartItem) cartItem.remove();
 
                                 // Update order summary
                                 document.querySelector("#subtotal").innerText =
@@ -674,7 +672,6 @@
                                 document.querySelector("#tax").innerText = `$${data.cart.tax}`;
                                 document.querySelector("#total").innerText = `$${data.cart.total}`;
 
-                                // Toast message
                                 showToast(data.message, "success");
                             } else {
                                 showToast(data.message, "error");
