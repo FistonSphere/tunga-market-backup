@@ -641,8 +641,8 @@
         }
 
         //remove to cart
-        function removeCartItem(itemId, buttonElement) {
-            let cartItem = buttonElement.closest(".cart-item");
+        function removeCartItem(itemId, button) {
+            const cartItem = button.closest('.cart-item');
             if (!cartItem) return;
 
             fetch(`/cart/remove/${itemId}`, {
@@ -654,19 +654,20 @@
                 })
                 .then(async res => {
                     let data = await res.json().catch(() => null);
-                    if (!res.ok || !data) {
-                        throw new Error(data?.message || "Server error");
-                    }
+                    if (!res.ok || !data) throw new Error(data?.message || "Server error");
                     return data;
                 })
                 .then(data => {
                     if (data.status === 200) {
-                        // Animate swipe out before removal
-                        cartItem.classList.add("swipe-left");
-                        cartItem.addEventListener("transitionend", () => {
+                        // Animate swipe left like wishlist
+                        cartItem.style.transform = 'translateX(-100%)';
+                        cartItem.style.opacity = '0';
+
+                        // Remove after animation
+                        setTimeout(() => {
                             cartItem.remove();
 
-                            // Update prices live
+                            // Update order summary
                             document.querySelector("#summary-total-items").innerText = data.cart.totalItems;
                             document.querySelector("#summary-subtotal").innerText = `$${data.cart.subtotal}`;
                             document.querySelector("#summary-discount").innerText =
@@ -675,7 +676,7 @@
                             document.querySelector("#summary-tax").innerText = `$${data.cart.tax}`;
                             document.querySelector("#summary-total").innerText = `$${data.cart.total}`;
 
-                            let saveMsg = document.querySelector("#summary-save-message");
+                            const saveMsg = document.querySelector("#summary-save-message");
                             if (parseFloat(data.cart.bulkDiscount) > 0) {
                                 saveMsg.classList.remove("hidden");
                                 saveMsg.innerText = `You save $${data.cart.bulkDiscount} with bulk pricing!`;
@@ -683,25 +684,22 @@
                                 saveMsg.classList.add("hidden");
                             }
 
-                            showToast(data.message, "success");
-                        }, {
-                            once: true
-                        });
+                            showToast('Item removed', `Item removed from cart successfully`);
+                        }, 300);
 
                     } else {
-                        showToast(data.message, "error");
+                        showToast(data.message || "Failed to remove item", "error");
                     }
                 })
-                .catch(err => {
-                    showToast(err.message || "Something went wrong!", "error");
-                });
+                .catch(err => showToast(err.message || "Something went wrong!", "error"));
         }
 
-        function showToast(message, type = "success") {
-            let toast = document.createElement("div");
+        // Toast function
+        function showToast(title, message = '', type = "success") {
+            const toast = document.createElement("div");
             toast.className = `fixed top-5 right-5 px-4 py-2 rounded shadow text-white z-50
-    ${type === "success" ? "bg-green-500" : "bg-red-500"}`;
-            toast.textContent = message;
+        ${type === "success" ? "bg-green-500" : "bg-red-500"}`;
+            toast.innerHTML = `<strong>${title}</strong> ${message}`;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
