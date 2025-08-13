@@ -203,7 +203,7 @@
 
                                         <!-- Item Actions -->
                                         <div class="flex items-center space-x-4 mt-4 pt-4 border-t border-border">
-                                            <form action="" method="POST">
+                                            <form action="{{ route('cart.remove', $item->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"

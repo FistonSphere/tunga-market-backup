@@ -46,7 +46,7 @@
 
     <!-- Checkout Button -->
     <form action="" method="GET">
-        <button class="btn-primary w-full mt-6" onclick="proceedToCheckout()">Proceed to Checkout</button>
+        <button class="btn-primary w-full mt-6">Proceed to Checkout</button>
     </form>
 
     <!-- Payment Options -->
