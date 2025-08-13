@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('carts', function (Blueprint $table) {
-            //
+            $table->enum('currency', ['$', 'Rwf'])
+                ->default('Rwf')
+                ->after('price');
         });
     }
 
@@ -22,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('carts', function (Blueprint $table) {
-            //
+            $table->dropColumn('currency');
         });
     }
 };
