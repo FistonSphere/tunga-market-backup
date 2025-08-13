@@ -100,6 +100,11 @@ public function removeItem($id)
     return response()->json([
         'status' => '200',
         'message' => 'Item removed from cart.',
+        'item' => [
+        'id' => $cartItem->id,
+        'currency' => $cartItem->product->currency,
+        'total_price' => number_format($cartItem->price * $cartItem->quantity, 2)
+    ],
         'cart' => [
             'items' => $cartItems,
             'subtotal' => number_format($subtotal, 2),
