@@ -120,100 +120,104 @@
                     <div class="card">
                         @forelse($cartItems as $item)
                             <div class="cart-item border-b border-border pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0">
-                                <div class="flex items-start space-x-4">
-                                    <input type="checkbox"
-                                        class="item-checkbox w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-4" />
+                                <div class="cart-item-inner transition-transform duration-300 ease-out">
+                                    <div class="flex items-start space-x-4">
+                                        <input type="checkbox"
+                                            class="item-checkbox w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-4" />
 
-                                    <img src="{{ asset($item->product->main_image ?? 'images/no-image.png') }}"
-                                        alt="{{ $item->product->name }}"
-                                        class="w-24 h-24 rounded-lg object-cover flex-shrink-0" loading="lazy" />
+                                        <img src="{{ asset($item->product->main_image ?? 'images/no-image.png') }}"
+                                            alt="{{ $item->product->name }}"
+                                            class="w-24 h-24 rounded-lg object-cover flex-shrink-0" loading="lazy" />
 
-                                    <div class="flex-1 min-w-0">
-                                        <div class="flex flex-col lg:flex-row lg:items-start justify-between">
-                                            <div class="flex-1">
-                                                <h4 class="font-semibold text-primary mb-2">
-                                                    <a href="" class="hover:text-accent transition-fast">
-                                                        {{ $item->product->name }}
-                                                    </a>
-                                                </h4>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex flex-col lg:flex-row lg:items-start justify-between">
+                                                <div class="flex-1">
+                                                    <h4 class="font-semibold text-primary mb-2">
+                                                        <a href="" class="hover:text-accent transition-fast">
+                                                            {{ $item->product->name }}
+                                                        </a>
+                                                    </h4>
 
-                                                <div class="space-y-2 text-body-sm text-secondary-600">
-                                                    <div>SKU: <span
-                                                            class="font-medium text-primary">{{ $item->product->sku }}</span>
+                                                    <div class="space-y-2 text-body-sm text-secondary-600">
+                                                        <div>SKU: <span
+                                                                class="font-medium text-primary">{{ $item->product->sku }}</span>
+                                                        </div>
+                                                        <div>Stock:
+                                                            @if ($item->product->stock_quantity > 0)
+                                                                <span class="text-success">✓ In Stock</span>
+                                                            @else
+                                                                <span class="text-error">Out of Stock</span>
+                                                            @endif
+                                                        </div>
                                                     </div>
-                                                    <div>Stock:
-                                                        @if ($item->product->stock_quantity > 0)
-                                                            <span class="text-success">✓ In Stock</span>
-                                                        @else
-                                                            <span class="text-error">Out of Stock</span>
+                                                </div>
+
+                                                <div class="flex flex-col items-end space-y-3 mt-4 lg:mt-0">
+                                                    <!-- Price -->
+                                                    <div class="text-right">
+                                                        <div class="text-xl font-bold text-primary">
+                                                            {{ $item->product->currency }}{{ number_format($item->price, 2) }}
+                                                        </div>
+                                                        @if ($item->product->discount_price)
+                                                            <div class="text-body-sm text-secondary-500 line-through">
+                                                                {{ $item->product->currency }}{{ number_format($item->product->price, 2) }}
+                                                            </div>
                                                         @endif
                                                     </div>
-                                                </div>
-                                            </div>
 
-                                            <div class="flex flex-col items-end space-y-3 mt-4 lg:mt-0">
-                                                <!-- Price -->
-                                                <div class="text-right">
-                                                    <div class="text-xl font-bold text-primary">
-                                                        {{ $item->product->currency }}{{ number_format($item->price, 2) }}
-                                                    </div>
-                                                    @if ($item->product->discount_price)
-                                                        <div class="text-body-sm text-secondary-500 line-through">
-                                                            {{ $item->product->currency }}{{ number_format($item->product->price, 2) }}
+                                                    <!-- Quantity Controls -->
+                                                    <div class="flex items-center space-x-3">
+                                                        <label class="text-body-sm text-secondary-600">Qty:</label>
+                                                        <div class="flex items-center border border-border rounded-lg">
+                                                            <button class="p-2 hover:bg-surface transition-fast"
+                                                                onclick="updateQuantity({{ $item->id }}, -1)">
+                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2" d="M20 12H4" />
+                                                                </svg>
+                                                            </button>
+                                                            <input type="number" id="qty-{{ $item->id }}"
+                                                                value="{{ $item->quantity }}" min="1"
+                                                                max="99"
+                                                                class="w-16 text-center border-0 py-2 focus:ring-0 focus:outline-none"
+                                                                onchange="manualQuantityChange({{ $item->id }})" />
+                                                            <button class="p-2 hover:bg-surface transition-fast"
+                                                                onclick="updateQuantity({{ $item->id }}, 1)">
+                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                                </svg>
+                                                            </button>
                                                         </div>
-                                                    @endif
-                                                </div>
-
-                                                <!-- Quantity Controls -->
-                                                <div class="flex items-center space-x-3">
-                                                    <label class="text-body-sm text-secondary-600">Qty:</label>
-                                                    <div class="flex items-center border border-border rounded-lg">
-                                                        <button class="p-2 hover:bg-surface transition-fast"
-                                                            onclick="updateQuantity({{ $item->id }}, -1)">
-                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                                viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    stroke-width="2" d="M20 12H4" />
-                                                            </svg>
-                                                        </button>
-                                                        <input type="number" id="qty-{{ $item->id }}"
-                                                            value="{{ $item->quantity }}" min="1" max="99"
-                                                            class="w-16 text-center border-0 py-2 focus:ring-0 focus:outline-none"
-                                                            onchange="manualQuantityChange({{ $item->id }})" />
-                                                        <button class="p-2 hover:bg-surface transition-fast"
-                                                            onclick="updateQuantity({{ $item->id }}, 1)">
-                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                                viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                            </svg>
-                                                        </button>
                                                     </div>
-                                                </div>
 
 
-                                                <!-- Item Total -->
-                                                <div class="text-right">
-                                                    <div class="text-lg font-bold text-primary item-total">
-                                                        {{ $item->product->currency }}{{ number_format($item->price * $item->quantity, 2) }}
+                                                    <!-- Item Total -->
+                                                    <div class="text-right">
+                                                        <div class="text-lg font-bold text-primary item-total">
+                                                            {{ $item->product->currency }}{{ number_format($item->price * $item->quantity, 2) }}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <!-- Item Actions -->
-                                        <div class="flex items-center space-x-4 mt-4 pt-4 border-t border-border">
-                                            <button type="button"
-                                                class="text-error hover:text-error-600 transition-fast text-body-sm"
-                                                onclick="removeCartItem({{ $item->id }}, this)">
-                                                <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                                Remove
-                                            </button>
+                                            <!-- Item Actions -->
+                                            <div class="flex items-center space-x-4 mt-4 pt-4 border-t border-border">
+                                                <button type="button"
+                                                    class="text-error hover:text-error-600 transition-fast text-body-sm"
+                                                    onclick="removeCartItem({{ $item->id }}, this)">
+                                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                    Remove
+                                                </button>
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -643,7 +647,7 @@
         //remove to cart
         function removeCartItem(itemId, button) {
             const cartItem = button.closest('.cart-item');
-            if (!cartItem) return;
+            const innerWrapper = cartItem.querySelector('.cart-item-inner');
 
             fetch(`/cart/remove/${itemId}`, {
                     method: "DELETE",
@@ -659,15 +663,14 @@
                 })
                 .then(data => {
                     if (data.status === 200) {
-                        // Animate swipe left like wishlist
-                        cartItem.style.transform = 'translateX(-100%)';
-                        cartItem.style.opacity = '0';
+                        // Animate swipe left
+                        innerWrapper.style.transform = 'translateX(-100%)';
+                        innerWrapper.style.opacity = '0';
 
-                        // Remove after animation
                         setTimeout(() => {
                             cartItem.remove();
 
-                            // Update order summary
+                            // Update summary
                             document.querySelector("#summary-total-items").innerText = data.cart.totalItems;
                             document.querySelector("#summary-subtotal").innerText = `$${data.cart.subtotal}`;
                             document.querySelector("#summary-discount").innerText =
@@ -686,13 +689,13 @@
 
                             showToast('Item removed', `Item removed from cart successfully`);
                         }, 300);
-
                     } else {
                         showToast(data.message || "Failed to remove item", "error");
                     }
                 })
                 .catch(err => showToast(err.message || "Something went wrong!", "error"));
         }
+
 
         // Toast function
         function showToast(title, message = '', type = "success") {
