@@ -229,11 +229,20 @@
 
 
                     <!-- Wishlist Integration Panel -->
+                    @php
+                        $wishlist = [];
+
+                        if (auth()->check()) {
+                            $wishlist = \App\Models\Wishlist::where('user_id', auth()->id())
+                                ->pluck('product_id')
+                                ->toArray();
+                        }
+                    @endphp
                     <div class="card">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="font-semibold text-primary">From Your Wishlist</h3>
                             <a href="#" class="text-accent hover:text-accent-600 transition-fast text-body-sm">View
-                                Full Wishlist (12)</a>
+                                Full Wishlist ({{ is_countable($wishlist) ? count($wishlist) : 0 }})</a>
                         </div>
 
                         <div class="grid md:grid-cols-2 gap-4">
