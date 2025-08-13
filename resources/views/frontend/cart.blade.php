@@ -377,7 +377,199 @@
         </div>
     </div>
 
+    <!-- Wishlist overlay popup hidden initially -->
+    <div id="wishlist-overlay" style="display: none"
+        class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-modal max-w-2xl w-full max-h-screen overflow-hidden animate-fade-in">
+            <!-- Popup Header -->
+            <div class="flex items-center justify-between p-6 border-b border-border">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-accent-100 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-primary">My Wishlist</h2>
+                        <p class="text-body-sm text-secondary-600">
+                            <span>{{ is_countable($wishlist) ? count($wishlist) : 0 }}</span> items saved
+                        </p>
+                    </div>
+                </div>
 
+                <!-- Header Actions -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="showClearWishlistModal()"
+                        class="text-secondary-600 hover:text-error transition-fast text-body-sm font-medium">
+                        Clear All
+                    </button>
+                    <button onclick="shareWishlist()" class="text-secondary-600 hover:text-accent transition-fast p-2"
+                        title="Share Wishlist">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                        </svg>
+                    </button>
+                    <button onclick="closeWishlistPopup()"
+                        class="text-secondary-600 hover:text-primary transition-fast p-2" title="Close">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            @php
+                $wishlists = [];
+                if (auth()->check()) {
+                    $wishlists = \App\Models\Product::whereIn('id', function ($query) {
+                        $query
+                            ->select('product_id')
+                            ->from('wishlists')
+                            ->where('user_id', auth()->id());
+                    })
+                        ->with('brand')
+                        ->get();
+                }
+            @endphp
+            <!-- Wishlist Items Container -->
+            <div class="p-6 max-h-96 overflow-y-auto">
+                <div id="wishlist-items" class="space-y-4">
+                    @forelse ($wishlists as $product)
+                        <div class="wishlist-item flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface transition-fast group relative"
+                            data-id="{{ $product->id }}">
+
+                            <!-- Product Link -->
+                            <a href="{{ route('product.view', $product->sku) }}" class="flex flex-1 space-x-4">
+                                <!-- Product Image -->
+                                <div class="relative flex-shrink-0">
+                                    <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
+                                        class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
+                                    @if ($product->discount_price > 0)
+                                        <div
+                                            class="absolute -top-1 -right-1 bg-success text-white text-xs rounded-full px-1.5 py-0.5 font-semibold">
+                                            -{{ number_format((($product->price - $product->discount_price) * 100) / $product->price, 2) }}%
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <!-- Product Info -->
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-semibold text-primary mb-1 truncate">{{ $product->name }}</h3>
+                                    <p class="text-body-sm text-secondary-600 mb-2">{{ $product->brand->name ?? '' }}
+                                    </p>
+
+                                    <!-- Price & Stock Info -->
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex items-baseline space-x-2">
+                                            @if ($product->discount_price)
+                                                <span class="line-through text-secondary-500 text-sm mr-2">
+                                                    @if ($product->currency === '$')
+                                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                    @elseif($product->currency === 'Rwf')
+                                                        {{ number_format($product->price) }} {{ $product->currency }}
+                                                    @endif
+                                                </span>
+                                                <span class="text-md font-bold text-primary">
+                                                    @if ($product->currency === '$')
+                                                        {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
+                                                    @elseif($product->currency === 'Rwf')
+                                                        {{ number_format($product->discount_price) }}
+                                                        {{ $product->currency }}
+                                                    @endif
+                                                </span>
+                                            @else
+                                                <span class="text-md font-bold text-primary">
+                                                    @if ($product->currency === '$')
+                                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                    @elseif($product->currency === 'Rwf')
+                                                        {{ number_format($product->price) }} {{ $product->currency }}
+                                                    @endif
+                                                </span>
+                                            @endif
+
+                                        </div>
+
+                                        <div class="flex items-center text-success text-body-sm">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            In Stock
+                                        </div>
+
+                                        @if ($product->has_price_drop)
+                                            <div class="flex items-center text-warning text-body-sm">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                                                </svg>
+                                                Price Drop!
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- Remove Button -->
+                            <button
+                                class="absolute top-3 right-3 text-gray-400 hover:text-red-500 transition remove-wishlist"
+                                data-id="{{ $product->id }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    @empty
+                        <p class="text-center text-secondary-500">Your wishlist is empty.</p>
+                    @endforelse
+                </div>
+
+            </div>
+
+
+            <!-- Popup Footer -->
+            <div class="border-t border-border p-6 bg-surface">
+                <div class="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+                    <!-- Quick Actions -->
+                    <div class="flex items-center space-x-4">
+                        <button onclick="addAllToCart()"
+                            class="text-accent hover:text-accent-600 transition-fast font-semibold text-body-sm">
+                            <svg class="w-4 h-4 mr-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7m0 0h9.5M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7" />
+                            </svg>
+                            Add All to Cart
+                        </button>
+                    </div>
+
+                    <!-- See More Button -->
+                    <a href="{{ route('compare') }}" class="btn-primary flex items-center space-x-2 px-6 py-3">
+                        <span>Compare</span>
+                        @if (is_countable($wishlist) && count($wishlist) > 5)
+                            <span class="bg-white bg-opacity-20 rounded-full px-2 py-1 text-xs font-semibold">
+                                +{{ count($wishlist) }}
+                            </span>
+                        @elseif (is_countable($wishlist))
+                            <span class="bg-white bg-opacity-20 rounded-full px-2 py-1 text-xs font-semibold">
+                                {{ count($wishlist) }}
+                            </span>
+                        @endif
+                        <svg class="w-4 h-4 mr-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <script>
         // Cart and Wishlist Management System
