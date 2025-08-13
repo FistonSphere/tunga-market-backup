@@ -14,6 +14,9 @@ class Cart extends Model
         'product_id',
         'quantity',
         'price',
+        'currency',
+        'shipping_fee',
+        'coupon_code',
     ];
 
     protected $dates = ['deleted_at'];
