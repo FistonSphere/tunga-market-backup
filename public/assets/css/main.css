@@ -4581,3 +4581,11 @@ h6 {
         margin-right: 30px;
     }
 }
+.cart-item {
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.cart-item.swipe-left {
+    transform: translateX(-100%);
+    opacity: 0;
+}

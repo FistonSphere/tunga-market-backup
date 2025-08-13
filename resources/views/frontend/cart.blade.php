@@ -642,6 +642,9 @@
 
         //remove to cart
         function removeCartItem(itemId, buttonElement) {
+            let cartItem = buttonElement.closest(".cart-item");
+            if (!cartItem) return;
+
             fetch(`/cart/remove/${itemId}`, {
                     method: "DELETE",
                     headers: {
@@ -658,18 +661,33 @@
                 })
                 .then(data => {
                     if (data.status === 200) {
-                        // Remove from DOM
-                        let cartItem = buttonElement.closest(".cart-item");
-                        if (cartItem) cartItem.remove();
+                        // Animate swipe out before removal
+                        cartItem.classList.add("swipe-left");
+                        cartItem.addEventListener("transitionend", () => {
+                            cartItem.remove();
 
-                        // Live update prices
-                        document.querySelector("#subtotal").innerText = `$${data.cart.subtotal}`;
-                        document.querySelector("#bulkDiscount").innerText = `-$${data.cart.bulkDiscount}`;
-                        document.querySelector("#shipping").innerText = `$${data.cart.shipping}`;
-                        document.querySelector("#tax").innerText = `$${data.cart.tax}`;
-                        document.querySelector("#total").innerText = `$${data.cart.total}`;
+                            // Update prices live
+                            document.querySelector("#summary-total-items").innerText = data.cart.totalItems;
+                            document.querySelector("#summary-subtotal").innerText = `$${data.cart.subtotal}`;
+                            document.querySelector("#summary-discount").innerText =
+                                `-$${data.cart.bulkDiscount}`;
+                            document.querySelector("#summary-shipping").innerText = `$${data.cart.shipping}`;
+                            document.querySelector("#summary-tax").innerText = `$${data.cart.tax}`;
+                            document.querySelector("#summary-total").innerText = `$${data.cart.total}`;
 
-                        showToast(data.message, "success");
+                            let saveMsg = document.querySelector("#summary-save-message");
+                            if (parseFloat(data.cart.bulkDiscount) > 0) {
+                                saveMsg.classList.remove("hidden");
+                                saveMsg.innerText = `You save $${data.cart.bulkDiscount} with bulk pricing!`;
+                            } else {
+                                saveMsg.classList.add("hidden");
+                            }
+
+                            showToast(data.message, "success");
+                        }, {
+                            once: true
+                        });
+
                     } else {
                         showToast(data.message, "error");
                     }
@@ -682,11 +700,12 @@
         function showToast(message, type = "success") {
             let toast = document.createElement("div");
             toast.className = `fixed top-5 right-5 px-4 py-2 rounded shadow text-white z-50
-        ${type === "success" ? "bg-green-500" : "bg-red-500"}`;
+    ${type === "success" ? "bg-green-500" : "bg-red-500"}`;
             toast.textContent = message;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
+
 
         //remove to cart
     </script>
