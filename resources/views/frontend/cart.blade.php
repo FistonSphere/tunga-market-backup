@@ -203,8 +203,8 @@
 
                                         <!-- Item Actions -->
                                         <div class="flex items-center space-x-4 mt-4 pt-4 border-t border-border">
-                                            <button type="button"
-                                                class="remove-item-btn text-error hover:text-error-600 transition-fast text-body-sm"
+                                            <button type="button" onclick="RemoveItem();"
+                                                class="text-error hover:text-error-600 transition-fast text-body-sm"
                                                 data-id="{{ $item->id }}">
                                                 <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
@@ -641,57 +641,12 @@
         }
 
         //remove to cart
-        document.addEventListener("DOMContentLoaded", function() {
-            document.body.addEventListener("click", function(e) {
-                if (e.target.closest(".remove-item-btn")) {
-                    let button = e.target.closest(".remove-item-btn");
-                    let itemId = button.getAttribute("data-id");
-
-                    fetch(`/cart/remove/${itemId}`, {
-                            method: "DELETE",
-                            headers: {
-                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                                    .content,
-                                "Accept": "application/json"
-                            }
-                        })
-                        .then(res => res.json())
-                        .then(data => {
-                            if (data.status === "success") {
-                                // Remove the item from the DOM
-                                let cartItem = button.closest(".cart-item");
-                                if (cartItem) cartItem.remove();
-
-                                // Update order summary
-                                document.querySelector("#subtotal").innerText =
-                                `$${data.cart.subtotal}`;
-                                document.querySelector("#bulkDiscount").innerText =
-                                    `-$${data.cart.bulkDiscount}`;
-                                document.querySelector("#shipping").innerText =
-                                `$${data.cart.shipping}`;
-                                document.querySelector("#tax").innerText = `$${data.cart.tax}`;
-                                document.querySelector("#total").innerText = `$${data.cart.total}`;
-
-                                showToast(data.message, "success");
-                            } else {
-                                showToast(data.message, "error");
-                            }
-                        })
-                        .catch(() => showToast("Something went wrong!", "error"));
-                }
+        function RemoveItem() {
+            document.addEventListener('click', function() {
+                console.log('Remove item clicked');
+                
             });
-        });
-
-        // Toast function
-        function showToast(message, type = "success") {
-            let toast = document.createElement("div");
-            toast.className = `fixed top-5 right-5 px-4 py-2 rounded shadow text-white z-50
-        ${type === "success" ? "bg-green-500" : "bg-red-500"}`;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
         }
-
         //remove to cart
     </script>
 @endsection
