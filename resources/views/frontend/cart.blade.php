@@ -642,15 +642,19 @@
 
         //remove to cart
         document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll(".remove-item-btn").forEach(button => {
-                button.addEventListener("click", function() {
-                    let itemId = this.getAttribute("data-id");
+            const cartContainer = document.querySelector(
+            "#cart-items-container"); // parent element of all cart items
+
+            cartContainer.addEventListener("click", function(e) {
+                if (e.target.closest(".remove-item-btn")) {
+                    let button = e.target.closest(".remove-item-btn");
+                    let itemId = button.getAttribute("data-id");
 
                     fetch(`/cart/remove/${itemId}`, {
                             method: "DELETE",
                             headers: {
-                                "X-CSRF-TOKEN": document.querySelector(
-                                    'meta[name="csrf-token"]').content,
+                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                                    .content,
                                 "Accept": "application/json"
                             }
                         })
@@ -658,18 +662,17 @@
                         .then(data => {
                             if (data.status === "success") {
                                 // Remove item from DOM
-                                this.closest(".cart-item").remove();
+                                button.closest(".cart-item").remove();
 
                                 // Update order summary
                                 document.querySelector("#subtotal").innerText =
-                                    `$${data.cart.subtotal}`;
+                                `$${data.cart.subtotal}`;
                                 document.querySelector("#bulkDiscount").innerText =
                                     `-$${data.cart.bulkDiscount}`;
                                 document.querySelector("#shipping").innerText =
-                                    `$${data.cart.shipping}`;
+                                `$${data.cart.shipping}`;
                                 document.querySelector("#tax").innerText = `$${data.cart.tax}`;
-                                document.querySelector("#total").innerText =
-                                    `$${data.cart.total}`;
+                                document.querySelector("#total").innerText = `$${data.cart.total}`;
 
                                 // Toast message
                                 showToast(data.message, "success");
@@ -678,7 +681,7 @@
                             }
                         })
                         .catch(() => showToast("Something went wrong!", "error"));
-                });
+                }
             });
         });
 
@@ -691,6 +694,7 @@
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
+
         //remove to cart
     </script>
 @endsection
