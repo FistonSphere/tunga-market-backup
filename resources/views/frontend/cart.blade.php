@@ -205,7 +205,7 @@
                                         <div class="flex items-center space-x-4 mt-4 pt-4 border-t border-border">
                                             <button type="button"
                                                 class="text-error hover:text-error-600 transition-fast text-body-sm"
-                                                onclick="removeCartItem('{{ $item->id }}', this)">
+                                                onclick="removeCartItem({{ $item->id }})">
                                                 <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
