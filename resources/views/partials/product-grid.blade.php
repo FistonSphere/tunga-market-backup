@@ -308,34 +308,92 @@
 
     //add to wishlist
     //quick add to cart
-    function quickAddToCart(productId) {
-        fetch(`/cart/add/${productId}`, {
+    function quickAddToCart(btn) {
+        const productId = btn.dataset.productId;
+        const qty = parseInt(btn.dataset.minQty || '1', 10);
+        const name = btn.dataset.name || 'Item';
+        const currency = btn.dataset.currency || '$';
+        const uiPrice = btn.dataset.price; // ONLY for toast text
+
+        fetch(`{{ route('cart.quickAdd') }}`, {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    quantity: 1
+                    product_id: productId,
+                    qty: qty
                 })
             })
-            .then(res => res.json())
+            .then(async res => {
+                const data = await res.json().catch(() => null);
+                if (!res.ok || !data?.success) throw new Error(data?.message || 'Failed to add');
+                return data;
+            })
             .then(data => {
-                if (data.success) {
-                    // Update cart count live
-                    document.querySelector('#cart-count').innerText = data.cartCount;
+                // Update cart badge
+                const countEl = document.querySelector('#cart-count');
+                if (countEl) countEl.textContent = data.cartCount;
 
-                    // Show toast or feedback
-                    showToast('Added to Cart', data.message || 'Product added successfully!');
-                } else {
-                    showToast('Error', data.message || 'Could not add to cart');
+                // Update order summary if it's on the page
+                const map = {
+                    '#summary-total-items': data.cart.totalItems,
+                    '#summary-subtotal': `$${data.cart.subtotal}`,
+                    '#summary-discount': `-$${data.cart.bulkDiscount}`,
+                    '#summary-shipping': `$${data.cart.shipping}`,
+                    '#summary-tax': `$${data.cart.tax}`,
+                    '#summary-total': `$${data.cart.total}`
+                };
+                Object.entries(map).forEach(([sel, val]) => {
+                    const el = document.querySelector(sel);
+                    if (el) el.textContent = val;
+                });
+
+                // Toggle discount color & save message
+                const discountEl = document.querySelector('#summary-discount');
+                const saveMsgEl = document.querySelector('#summary-save-message');
+                const discountNum = parseFloat((data.cart.bulkDiscount || '0').toString().replace(/,/g, ''));
+                if (discountEl) {
+                    discountEl.classList.toggle('text-success', discountNum > 0);
+                    discountEl.classList.toggle('text-secondary-500', discountNum <= 0);
                 }
+                if (saveMsgEl) {
+                    if (discountNum > 0) {
+                        saveMsgEl.classList.remove('hidden');
+                        saveMsgEl.textContent = `You save $${data.cart.bulkDiscount} with bulk pricing!`;
+                    } else {
+                        saveMsgEl.classList.add('hidden');
+                    }
+                }
+
+                // Micro feedback on button
+                btn.classList.add('ring-2', 'ring-accent', 'scale-95');
+                setTimeout(() => btn.classList.remove('ring-2', 'ring-accent', 'scale-95'), 200);
+
+                // Toast
+                const formattedPrice = (() => {
+                    const isRwf = currency === 'Rwf';
+                    const n = Number(uiPrice || 0);
+                    return isRwf ?
+                        `${n.toLocaleString()} ${currency}` :
+                        `${currency}${n.toFixed(2)}`;
+                })();
+                showToast('Added to Cart', `${name} (${formattedPrice}) added to cart`);
             })
             .catch(err => {
-                console.error(err);
-                showToast('Error', 'Something went wrong.');
+                showToast('Error', err.message || 'Something went wrong');
             });
     }
 
+    // Simple toast helper
+    function showToast(title, message) {
+        const box = document.createElement('div');
+        box.className = 'fixed top-5 right-5 z-50 bg-primary text-white rounded-xl shadow px-4 py-3 max-w-sm';
+        box.innerHTML = `<div class="font-semibold">${title}</div><div class="text-sm opacity-90">${message}</div>`;
+        document.body.appendChild(box);
+        setTimeout(() => box.remove(), 3000);
+    }
     //quick add to cart
 </script>
