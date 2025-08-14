@@ -496,25 +496,6 @@
             }
         }
 
-        // function addToCartFromWishlist(button) {
-        //     const wishlistItem = button.closest('div');
-        //     const productName = wishlistItem.querySelector('h4').textContent;
-
-        //     cartWishlistManager.addToCart(1);
-        //     cartWishlistManager.removeFromWishlist(1);
-
-        //     showToast('Added to Cart', `${productName} has been added to your cart.`);
-        //     updateCartItemCount();
-        // }
-
-        function calculateShipping() {
-            showToast('Shipping Calculated', 'Shipping options have been updated based on your location.');
-        }
-
-        function proceedToCheckout() {
-            window.location.href = '{{ route('checkout') }}';
-        }
-
         function quickAddToCart(button) {
             const productCard = button.closest('.card');
             const productName = productCard.querySelector('h3').textContent;
@@ -780,7 +761,7 @@
                             else saveMessage.classList.add('hidden');
                         }
 
-                        showToast('Success', `${productName} (${price}) added to cart`);
+                        showToast(`${productName} (${price}) added to cart`);
                     } else {
                         showToast('Error', data.message);
                     }
