@@ -1274,5 +1274,18 @@
         if (window.innerWidth <= 768) {
             enableVoiceInput();
         }
+
+        function trackRecentlyViewed(productId) {
+            let viewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+
+            // Remove if already exists, then add to the front
+            viewed = viewed.filter(id => id !== productId);
+            viewed.unshift(productId);
+
+            // Keep only latest 20 products
+            if (viewed.length > 20) viewed = viewed.slice(0, 20);
+
+            localStorage.setItem('recentlyViewed', JSON.stringify(viewed));
+        }
     </script>
 @endsection
