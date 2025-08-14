@@ -51,7 +51,7 @@
 
             {{-- === IMAGE DISPLAY === --}}
             <div class="relative overflow-hidden rounded-lg mb-4">
-                <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
+                <img src="{{ $product->main_image ?? asset('assets/images/no-image.png') }}" alt="{{ $product->name }}"
                     class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300" loading="lazy" />
                 <!-- Hover Actions -->
                 <div
