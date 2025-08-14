@@ -38,9 +38,7 @@ Route::get('/trending-suggestions', [ProductListingController::class, 'getTrendi
 Route::get('/products/price-range', [ProductListingController::class, 'getPriceRange']);
 Route::get('/products/search', [ProductListingController::class, 'search'])->name('products.search');
 Route::get('/products/main-filter', [ProductListingController::class, 'filter']);
-Route::get('/recently-viewed', [ProductListingController::class, 'recentlyViewed'])->name('products.recentlyViewed');
 Route::get('/search/suggestions', [SearchController::class, 'suggestions']);
-
 
 
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
