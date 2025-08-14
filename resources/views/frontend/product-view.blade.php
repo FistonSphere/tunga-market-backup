@@ -1275,17 +1275,14 @@
             enableVoiceInput();
         }
 
-        function trackRecentlyViewed(productId) {
-            let viewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
-
-            // Remove if already exists, then add to the front
-            viewed = viewed.filter(id => id !== productId);
-            viewed.unshift(productId);
-
-            // Keep only latest 20 products
-            if (viewed.length > 20) viewed = viewed.slice(0, 20);
-
-            localStorage.setItem('recentlyViewed', JSON.stringify(viewed));
+        function trackRecentlyViewed(id) {
+            try {
+                let list = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+                list = list.filter(v => String(v) !== String(id)); // dedupe
+                list.unshift(id); // most recent first
+                if (list.length > 40) list = list.slice(0, 40); // cap
+                localStorage.setItem('recentlyViewed', JSON.stringify(list));
+            } catch (e) {}
         }
     </script>
 @endsection
