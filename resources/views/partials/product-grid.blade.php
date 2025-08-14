@@ -356,7 +356,7 @@
                     const n = Number(uiPrice || 0);
                     return isRwf ? `${n.toLocaleString()} ${currency}` : `${currency}${n.toFixed(2)}`;
                 })();
-                showToast('Added to Cart', `${name} (${formattedPrice}) added to cart`);
+                showToast(`Added to Cart ${name} (${formattedPrice}) added to cart`);
             })
             .catch(err => {
                 // ✅ Warning toast instead of generic error
