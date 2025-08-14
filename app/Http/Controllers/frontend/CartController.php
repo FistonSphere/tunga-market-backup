@@ -182,9 +182,9 @@ public function quickAdd(Request $request)
     $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
     $totalItems = $cartItems->sum('quantity');
     $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
-    $shipping = 12.99;
-    $tax = ($subtotal - $bulkDiscount + $shipping) * 0.072;
-    $total = $subtotal - $bulkDiscount + $shipping + $tax;
+    // $shipping = 12.99;
+    $tax = ($subtotal - $bulkDiscount) * 0.072;
+    $total = $subtotal - $bulkDiscount + $tax;
 
     return response()->json([
         'success' => true,
