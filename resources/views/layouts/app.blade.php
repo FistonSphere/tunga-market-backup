@@ -1811,6 +1811,62 @@
         }
 
         //remove product from wishlist
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+    loadRecentlyViewed(1);
+});
+
+function loadRecentlyViewed(page = 1) {
+    const viewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+    if (!viewed.length) return;
+
+    fetch(`/recently-viewed?ids[]=${viewed.join('&ids[]=')}`)
+        .then(res => res.json())
+        .then(products => {
+            const perPage = 8;
+            const start = (page - 1) * perPage;
+            const paginated = products.slice(start, start + perPage);
+
+            renderRecentlyViewed(paginated);
+            renderPagination(products.length, perPage, page);
+        });
+}
+
+function renderRecentlyViewed(products) {
+    const container = document.querySelector('#recently-viewed-container');
+    container.innerHTML = products.map(p => `
+        <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
+            <div class="relative overflow-hidden rounded-lg mb-4">
+                <img src="${p.image_url}" alt="${p.name}"
+                    class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300" />
+            </div>
+            <h3 class="font-semibold text-primary mb-2">${p.name}</h3>
+            <div class="flex items-center justify-between">
+                <span class="text-xl font-bold text-primary">${p.price}</span>
+                <button class="btn-primary text-body-sm px-3 py-1" 
+                        data-product-id="${p.id}"
+                        onclick="quickAddToCart(this)">Add to Cart</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderPagination(totalItems, perPage, currentPage) {
+    const pagination = document.querySelector('#recently-viewed-pagination');
+    const totalPages = Math.ceil(totalItems / perPage);
+    if (totalPages <= 1) {
+        pagination.innerHTML = '';
+        return;
+    }
+
+    pagination.innerHTML = Array.from({ length: totalPages }, (_, i) => {
+        const page = i + 1;
+        return `<button class="px-3 py-1 border rounded ${page === currentPage ? 'bg-primary text-white' : ''}" 
+                        onclick="loadRecentlyViewed(${page})">${page}</button>`;
+    }).join('');
+}
+
     </script>
 
 
