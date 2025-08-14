@@ -116,11 +116,14 @@ public function removeItem($id)
         ]
     ]);
 }
-public function updateTotal(Request $request)
+public function updateItem(Request $request, $id)
 {
-    $cartItems = Cart::with('product')
-        ->where('user_id', Auth::id())
-        ->get();
+    $cartItem = Cart::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+    $cartItem->quantity = $request->quantity;
+    $cartItem->save();
+
+    // Recalculate totals
+    $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
 
     $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
     $totalItems = $cartItems->sum('quantity');
@@ -130,11 +133,13 @@ public function updateTotal(Request $request)
     $total = $subtotal - $bulkDiscount + $shipping + $tax;
 
     return response()->json([
+        'itemTotal' => $cartItem->product->currency . number_format($cartItem->price * $cartItem->quantity, 2),
         'subtotal' => number_format($subtotal, 2),
         'bulkDiscount' => number_format($bulkDiscount, 2),
         'shipping' => number_format($shipping, 2),
         'tax' => number_format($tax, 2),
-        'total' => number_format($total, 2)
+        'total' => number_format($total, 2),
+        'totalItems' => $totalItems
     ]);
 }
 
