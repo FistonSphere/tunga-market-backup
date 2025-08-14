@@ -313,7 +313,7 @@
         const qty = parseInt(btn.dataset.minQty || '1', 10);
         const name = btn.dataset.name || 'Item';
         const currency = btn.dataset.currency || '$';
-        const uiPrice = btn.dataset.price; // ONLY for toast text
+        const uiPrice = btn.dataset.price;
 
         fetch(`{{ route('cart.quickAdd') }}`, {
                 method: 'POST',
@@ -333,11 +333,10 @@
                 return data;
             })
             .then(data => {
-                // Update cart badge
+                // ✅ UPDATE CART UI
                 const countEl = document.querySelector('#cart-count');
                 if (countEl) countEl.textContent = data.cartCount;
 
-                // Update order summary if it's on the page
                 const map = {
                     '#summary-total-items': data.cart.totalItems,
                     '#summary-subtotal': `$${data.cart.subtotal}`,
@@ -351,43 +350,20 @@
                     if (el) el.textContent = val;
                 });
 
-                // Toggle discount color & save message
-                const discountEl = document.querySelector('#summary-discount');
-                const saveMsgEl = document.querySelector('#summary-save-message');
-                const discountNum = parseFloat((data.cart.bulkDiscount || '0').toString().replace(/,/g, ''));
-                if (discountEl) {
-                    discountEl.classList.toggle('text-success', discountNum > 0);
-                    discountEl.classList.toggle('text-secondary-500', discountNum <= 0);
-                }
-                if (saveMsgEl) {
-                    if (discountNum > 0) {
-                        saveMsgEl.classList.remove('hidden');
-                        saveMsgEl.textContent = `You save $${data.cart.bulkDiscount} with bulk pricing!`;
-                    } else {
-                        saveMsgEl.classList.add('hidden');
-                    }
-                }
-
-                // Micro feedback on button
-                btn.classList.add('ring-2', 'ring-accent', 'scale-95');
-                setTimeout(() => btn.classList.remove('ring-2', 'ring-accent', 'scale-95'), 200);
-
-                // Toast
+                // ✅ Toast success
                 const formattedPrice = (() => {
                     const isRwf = currency === 'Rwf';
                     const n = Number(uiPrice || 0);
-                    return isRwf ?
-                        `${n.toLocaleString()} ${currency}` :
-                        `${currency}${n.toFixed(2)}`;
+                    return isRwf ? `${n.toLocaleString()} ${currency}` : `${currency}${n.toFixed(2)}`;
                 })();
                 showToast('Added to Cart', `${name} (${formattedPrice}) added to cart`);
             })
             .catch(err => {
-                showToast('Error', err.message || 'Something went wrong');
+                // ✅ Warning toast instead of generic error
+                showToast('Warning', err.message || 'Already in your cart');
             });
     }
 
-    // Simple toast helper
     function showToast(title, message) {
         const box = document.createElement('div');
         box.className = 'fixed top-5 right-5 z-50 bg-primary text-white rounded-xl shadow px-4 py-3 max-w-sm';
@@ -395,5 +371,6 @@
         document.body.appendChild(box);
         setTimeout(() => box.remove(), 3000);
     }
+
     //quick add to cart
 </script>
