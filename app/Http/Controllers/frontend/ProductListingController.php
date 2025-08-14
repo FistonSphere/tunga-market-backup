@@ -207,43 +207,6 @@ public function filter(Request $request)
     ]);
 }
 
-public function recentlyViewed(\Illuminate\Http\Request $request)
-{
-    $ids = $request->input('ids', []);
-    if (!is_array($ids) || empty($ids)) {
-        return response()->json(['products' => []]);
-    }
 
-    // sanitize -> numeric & unique & reindex
-    $ids = array_values(array_unique(array_filter($ids, fn ($v) => is_numeric($v))));
-    if (empty($ids)) {
-        return response()->json(['products' => []]);
-    }
-
-    $products = \App\Models\Product::query()
-        ->select(['id','name','sku','main_image','price','discount_price','currency','min_order_quantity'])
-        ->whereIn('id', $ids)
-        ->get();
-
-    // keep original ordering from $ids
-    $sorted = $products->sortBy(fn($p) => array_search($p->id, $ids))->values();
-
-    // shape for frontend
-    $payload = $sorted->map(function ($p) {
-        return [
-            'id'        => $p->id,
-            'name'      => $p->name,
-            'sku'       => $p->sku,
-            'image'     => $p->main_image ? asset($p->main_image) : asset('images/no-image.png'),
-            'price'     => (float) $p->price,
-            'discount'  => $p->discount_price ? (float) $p->discount_price : null,
-            'currency'  => $p->currency ?? '$',
-            'minQty'    => $p->min_order_quantity ?? 1,
-            'url'       => route('product.view', $p->sku),
-        ];
-    })->all();
-
-    return response()->json(['products' => $payload]);
-}
 
 }
