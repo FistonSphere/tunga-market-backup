@@ -308,11 +308,14 @@
     </section>
 
     <!-- Recently Viewed Products -->
-    <section class="py-16 bg-surface">
+    <section id="rv-section" class="py-16 bg-surface hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-2xl font-bold text-primary mb-8">Recently Viewed</h2>
-            <div id="recently-viewed-container" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
-            <div id="recently-viewed-pagination" class="flex space-x-2 mt-6"></div>
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl font-bold text-primary">Recently Viewed</h2>
+                <div id="rv-pagination" class="flex gap-2"></div>
+            </div>
+
+            <div id="rv-grid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
         </div>
     </section>
 
