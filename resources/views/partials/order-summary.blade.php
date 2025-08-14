@@ -34,7 +34,7 @@
             <div class="flex justify-between">
                 <span class="font-semibold text-primary">Total:</span>
                 <span class="text-xl font-bold text-primary" id="summary-total">
-                    Rwf {{ number_format($total, 2) }} Rwf
+                     {{ number_format($total, 2) }} Rwf
                 </span>
             </div>
             <div id="summary-save-message"
