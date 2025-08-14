@@ -4591,6 +4591,12 @@ h6 {
 }
 .quick-add-cart {
     transition: opacity 0.3s ease;
+    color: #ff6a34;
+    background-color: white;
+    border-radius: 50%;
+    border:none;
+    outline: none;
+    z-index: 9999;
 }
 .group:hover .quick-add-cart {
     opacity: 1;
