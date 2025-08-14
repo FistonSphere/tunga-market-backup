@@ -404,42 +404,47 @@
 
         // Cart Management Functions
         function updateQuantity(itemId, change) {
-            let qtyInput = document.getElementById(`qty-${itemId}`);
+            const qtyInput = document.getElementById(`qty-${itemId}`);
             let newQty = parseInt(qtyInput.value) + change;
-            if (newQty < 1) return; // prevent negative
-
+            if (newQty < 1) newQty = 1;
             qtyInput.value = newQty;
-            sendQuantityUpdate(itemId, newQty);
+            saveQuantity(itemId, newQty);
         }
 
         function manualQuantityChange(itemId) {
-            let qtyInput = document.getElementById(`qty-${itemId}`);
+            const qtyInput = document.getElementById(`qty-${itemId}`);
             let newQty = parseInt(qtyInput.value);
-            if (newQty < 1) {
-                qtyInput.value = 1;
-                newQty = 1;
-            }
-            sendQuantityUpdate(itemId, newQty);
+            if (isNaN(newQty) || newQty < 1) newQty = 1;
+            qtyInput.value = newQty;
+            saveQuantity(itemId, newQty);
         }
 
-        function sendQuantityUpdate(itemId, newQty) {
-            fetch(`/cart/update-quantity/${itemId}`, {
+        function saveQuantity(itemId, qty) {
+            fetch(`/cart/update-item/${itemId}`, {
                     method: "POST",
                     headers: {
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
                     },
                     body: JSON.stringify({
-                        quantity: newQty
+                        quantity: qty
                     })
                 })
                 .then(res => res.json())
                 .then(data => {
-                    // Replace order summary HTML
-                    document.getElementById("order-summary").innerHTML = data.summaryHtml;
-                })
-                .catch(err => console.error(err));
+                    // update just this item's total
+                    document.getElementById(`item-total-${itemId}`).textContent = data.itemTotal;
+
+                    // also update order summary since you already have it working
+                    document.getElementById("summary-total-items").textContent = data.totalItems;
+                    document.getElementById("summary-subtotal").textContent = `$${data.subtotal}`;
+                    document.getElementById("summary-discount").textContent = `-$${data.bulkDiscount}`;
+                    document.getElementById("summary-shipping").textContent = `$${data.shipping}`;
+                    document.getElementById("summary-tax").textContent = `$${data.tax}`;
+                    document.getElementById("summary-total").textContent = `$${data.total}`;
+                });
         }
+
 
 
 
