@@ -125,7 +125,7 @@
                                         <input type="checkbox"
                                             class="item-checkbox w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-4" />
 
-                                        <img src="{{ asset($item->product->main_image ?? 'images/no-image.png') }}"
+                                        <img src="{{ asset($item->product->main_image ?? '{{ asset('assets/images/no-image.png') }}') }}"
                                             alt="{{ $item->product->name }}"
                                             class="w-24 h-24 rounded-lg object-cover flex-shrink-0" loading="lazy" />
 
