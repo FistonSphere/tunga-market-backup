@@ -147,20 +147,22 @@ public function updateItem(Request $request, $id)
 
 public function quickAdd(Request $request, Product $product)
 {
-    $quantity = $request->input('quantity', 1);
+    dd($request->all());
+    // $quantity = $request->input('quantity', 1);
+    // // $price= $product->
 
-    $cartItem = Cart::updateOrCreate(
-        ['user_id' => auth()->id(), 'product_id' => $product->id],
-        ['quantity' => DB::raw("quantity + {$quantity}"), 'price' => $product->final_price]
-    );
+    // $cartItem = Cart::updateOrCreate(
+    //     ['user_id' => auth()->id(), 'product_id' => $product->id],
+    //     ['quantity' => DB::raw("quantity + {$quantity}"), 'price' => $product->final_price]
+    // );
 
-    $cartCount = Cart::where('user_id', auth()->id())->sum('quantity');
+    // $cartCount = Cart::where('user_id', auth()->id())->sum('quantity');
 
-    return response()->json([
-        'success' => true,
-        'cartCount' => $cartCount,
-        'message' => "{$product->name} added to cart."
-    ]);
+    // return response()->json([
+    //     'success' => true,
+    //     'cartCount' => $cartCount,
+    //     'message' => "{$product->name} added to cart."
+    // ]);
 }
 
 }

@@ -4,15 +4,18 @@
     <!-- Product Card 1 -->
     @foreach ($products as $product)
         <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300 relative">
-            <button onclick="quickAddToCart({{ $product->id }})"
+            <button onclick="quickAddToCart(this)"
                 class="quick-add-cart absolute top-3 left-3 z-20 bg-white/90 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-fast opacity-0 group-hover:opacity-100"
-                title="Quick Add to Cart">
+                title="Quick Add to Cart" data-product-id="{{ $product->id }}" data-name="{{ e($product->name) }}"
+                data-currency="{{ $product->currency }}" data-price="{{ $product->discount_price ?: $product->price }}"
+                data-min-qty="{{ $product->min_order_quantity ?? 1 }}">
                 <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7m0 0h9.5M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7">
                     </path>
                 </svg>
             </button>
+
             {{-- === BADGES === --}}
             @if ($product->has_3d_model)
                 <div
