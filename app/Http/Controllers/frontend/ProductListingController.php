@@ -207,6 +207,22 @@ public function filter(Request $request)
     ]);
 }
 
+public function recentlyViewed(Request $request)
+{
+    $ids = $request->query('ids', []);
+    if (!is_array($ids) || empty($ids)) {
+        return response()->json([]);
+    }
 
+    // Keep the same order as in the browser's localStorage
+    $products = Product::whereIn('id', $ids)
+        ->get()
+        ->sortBy(function ($product) use ($ids) {
+            return array_search($product->id, $ids);
+        })
+        ->values();
+
+    return response()->json($products);
+}
 
 }
