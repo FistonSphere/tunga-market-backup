@@ -8,22 +8,22 @@
                 Subtotal (<span id="summary-total-items">{{ $totalItems }}</span> {{ Str::plural('item', $totalItems) }}):
             </span>
             <span class="font-medium text-primary" id="summary-subtotal">
-                ${{ number_format($subtotal, 2) }}
+                {{ number_format($subtotal, 2) }} Rwf
             </span>
         </div>
         <div class="flex justify-between">
             <span class="text-secondary-600">Bulk Discount:</span>
             <span id="summary-discount"
                 class="font-medium {{ $bulkDiscount > 0 ? 'text-success' : 'text-secondary-500' }}">
-                -${{ number_format($bulkDiscount, 2) }}
+                -{{ number_format($bulkDiscount, 2) }} Rwf
             </span>
         </div>
-        <div class="flex justify-between">
+        {{-- <div class="flex justify-between">
             <span class="text-secondary-600">Shipping:</span>
             <span class="font-medium text-primary" id="summary-shipping">
                 ${{ number_format($shipping, 2) }}
             </span>
-        </div>
+        </div> --}}
         <div class="flex justify-between">
             <span class="text-secondary-600">Tax (estimated):</span>
             <span class="font-medium text-primary" id="summary-tax">

@@ -27,18 +27,18 @@ class CartController extends Controller
     $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
 
     // Example: Shipping flat rate
-    $shipping = 12.99;
+    // $shipping = 12.99;
 
     // Example: Tax calculation (7.2%)
-    $tax = ($subtotal - $bulkDiscount + $shipping) * 0.072;
+    $tax = ($subtotal - $bulkDiscount) * 0.072;
 
-    $total = $subtotal - $bulkDiscount + $shipping + $tax;
+    $total = $subtotal - $bulkDiscount + $tax;
 
     return view('frontend.cart', compact(
         'cartItems',
         'subtotal',
         'bulkDiscount',
-        'shipping',
+        // 'shipping',
         'tax',
         'total',
         'totalItems'
@@ -56,9 +56,9 @@ class CartController extends Controller
     $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
     $totalItems = $cartItems->sum('quantity');
     $bulkDiscount = $subtotal > 200 ? $subtotal * 0.1 : 0;
-    $shipping = 15;
+    // $shipping = 15;
     $tax = $subtotal * 0.05;
-    $total = $subtotal - $bulkDiscount + $shipping + $tax;
+    $total = $subtotal - $bulkDiscount + $tax;
 
     $summaryHtml = view('partials.order-summary', compact(
         'subtotal', 'totalItems', 'bulkDiscount', 'shipping', 'tax', 'total'

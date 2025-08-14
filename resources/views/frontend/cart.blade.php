@@ -295,7 +295,7 @@
                                 'totalItems' => $totalItems,
                                 'subtotal' => $subtotal,
                                 'bulkDiscount' => $bulkDiscount,
-                                'shipping' => $shipping,
+                                // 'shipping' => $shipping,
                                 'tax' => $tax,
                                 'total' => $total,
                             ])
