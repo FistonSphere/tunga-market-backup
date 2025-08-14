@@ -27,7 +27,7 @@
         <div class="flex justify-between">
             <span class="text-secondary-600">Tax (estimated):</span>
             <span class="font-medium text-primary" id="summary-tax">
-                ${{ number_format($tax, 2) }}
+                {{ number_format($tax, 2) }} Rwf
             </span>
         </div>
         <div class="border-t border-border pt-3">
