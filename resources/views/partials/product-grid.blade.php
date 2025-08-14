@@ -303,7 +303,36 @@
     });
 
 
-
-
     //add to wishlist
+    //quick add to cart
+    function quickAddToCart(productId) {
+        fetch(`/cart/add/${productId}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    quantity: 1
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    // Update cart count live
+                    document.querySelector('#cart-count').innerText = data.cartCount;
+
+                    // Show toast or feedback
+                    showToast('Added to Cart', data.message || 'Product added successfully!');
+                } else {
+                    showToast('Error', data.message || 'Could not add to cart');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                showToast('Error', 'Something went wrong.');
+            });
+    }
+
+    //quick add to cart
 </script>
