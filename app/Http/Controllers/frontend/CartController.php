@@ -4,8 +4,10 @@ namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -143,5 +145,22 @@ public function updateItem(Request $request, $id)
     ]);
 }
 
+public function quickAdd(Request $request, Product $product)
+{
+    $quantity = $request->input('quantity', 1);
+
+    $cartItem = Cart::updateOrCreate(
+        ['user_id' => auth()->id(), 'product_id' => $product->id],
+        ['quantity' => DB::raw("quantity + {$quantity}"), 'price' => $product->final_price]
+    );
+
+    $cartCount = Cart::where('user_id', auth()->id())->sum('quantity');
+
+    return response()->json([
+        'success' => true,
+        'cartCount' => $cartCount,
+        'message' => "{$product->name} added to cart."
+    ]);
+}
 
 }

@@ -4589,3 +4589,9 @@ h6 {
     transform: translateX(-100%);
     opacity: 0;
 }
+.quick-add-cart {
+    transition: opacity 0.3s ease;
+}
+.group:hover .quick-add-cart {
+    opacity: 1;
+}
