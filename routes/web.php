@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/wishlist/add-to-cart/{product}', [WishlistController::class, 'addToCart'])->name('wishlist.addToCart');
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeItem'])->name('cart.remove');
     Route::post('/cart/update-quantity/{id}', [CartController::class, 'updateQuantity'])->name('cart.update.quantity');
+    Route::post('/cart/update-total', [CartController::class, 'updateTotal'])->name('cart.updateTotal');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.place.order');
