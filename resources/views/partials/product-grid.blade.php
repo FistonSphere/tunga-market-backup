@@ -360,7 +360,7 @@
             })
             .catch(err => {
                 // ✅ Warning toast instead of generic error
-                showToast('Warning', err.message || 'Already in your cart');
+                showToast('This product is already in your cart. You can adjust its quantity from the cart page.');
             });
     }
 
