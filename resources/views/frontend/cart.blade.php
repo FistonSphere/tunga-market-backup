@@ -196,9 +196,11 @@
 
                                                     <!-- Item Total -->
                                                     <div class="text-right">
-                                                        <div class="text-lg font-bold text-primary item-total">
+                                                        <div class="text-lg font-bold text-primary item-total"
+                                                            id="item-total-{{ $item->id }}">
                                                             {{ $item->product->currency }}{{ number_format($item->price * $item->quantity, 2) }}
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             </div>
