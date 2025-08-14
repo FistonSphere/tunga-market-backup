@@ -145,7 +145,7 @@ public function updateItem(Request $request, $id)
     ]);
 }
 
-public function quickAdd(\Illuminate\Http\Request $request)
+public function quickAdd(Request $request)
 {
     $request->validate([
         'product_id' => ['required', 'exists:products,id'],
