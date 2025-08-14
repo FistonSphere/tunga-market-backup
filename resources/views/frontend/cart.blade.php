@@ -361,8 +361,6 @@
                             Cart</button>
                     </div>
                 </div>
-
-                <!-- Additional recently viewed products would follow the same pattern -->
             </div>
         </div>
     </section>
