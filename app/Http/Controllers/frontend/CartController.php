@@ -116,6 +116,27 @@ public function removeItem($id)
         ]
     ]);
 }
+public function updateTotal(Request $request)
+{
+    $cartItems = Cart::with('product')
+        ->where('user_id', Auth::id())
+        ->get();
+
+    $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
+    $totalItems = $cartItems->sum('quantity');
+    $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
+    $shipping = 12.99;
+    $tax = ($subtotal - $bulkDiscount + $shipping) * 0.072;
+    $total = $subtotal - $bulkDiscount + $shipping + $tax;
+
+    return response()->json([
+        'subtotal' => number_format($subtotal, 2),
+        'bulkDiscount' => number_format($bulkDiscount, 2),
+        'shipping' => number_format($shipping, 2),
+        'tax' => number_format($tax, 2),
+        'total' => number_format($total, 2)
+    ]);
+}
 
 
 }
