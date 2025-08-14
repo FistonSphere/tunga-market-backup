@@ -145,24 +145,60 @@ public function updateItem(Request $request, $id)
     ]);
 }
 
-public function quickAdd(Request $request, Product $product)
+public function quickAdd(\Illuminate\Http\Request $request)
 {
-    dd($request->all());
-    // $quantity = $request->input('quantity', 1);
-    // // $price= $product->
+    $request->validate([
+        'product_id' => ['required', 'exists:products,id'],
+        'qty'        => ['nullable', 'integer', 'min:1'],
+    ]);
 
-    // $cartItem = Cart::updateOrCreate(
-    //     ['user_id' => auth()->id(), 'product_id' => $product->id],
-    //     ['quantity' => DB::raw("quantity + {$quantity}"), 'price' => $product->final_price]
-    // );
+    $product = \App\Models\Product::with('taxClass')->findOrFail($request->product_id);
 
-    // $cartCount = Cart::where('user_id', auth()->id())->sum('quantity');
+    // Enforce MOQ on the server
+    $qty = (int)($request->input('qty', 1));
+    $min = (int)($product->min_order_quantity ?? 1);
+    if ($qty < $min) $qty = $min;
 
-    // return response()->json([
-    //     'success' => true,
-    //     'cartCount' => $cartCount,
-    //     'message' => "{$product->name} added to cart."
-    // ]);
+    // Price source of truth
+    $unitPrice = $product->discount_price ?? $product->price;
+
+    // Upsert cart item
+    $cartItem = \App\Models\Cart::firstOrNew([
+        'user_id'    => auth()->id(),
+        'product_id' => $product->id,
+    ]);
+    $cartItem->price    = $unitPrice;
+    $cartItem->quantity = ($cartItem->exists ? $cartItem->quantity : 0) + $qty;
+    $cartItem->save();
+
+    // Recompute order summary
+    $cartItems   = \App\Models\Cart::with('product.taxClass')->where('user_id', auth()->id())->get();
+    $subtotal    = $cartItems->sum(fn($i) => $i->price * $i->quantity);
+    $totalItems  = $cartItems->sum('quantity');
+    $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.10 : 0;
+    $shipping    = 12.99;
+
+    // Per-item tax using tax_class rate
+    $tax = $cartItems->sum(function ($i) {
+        $rate = $i->product->taxClass->rate ?? 0;
+        return ($i->price * $i->quantity) * ($rate / 100);
+    });
+
+    $total = $subtotal - $bulkDiscount + $shipping + $tax;
+
+    return response()->json([
+        'success'   => true,
+        'message'   => "{$product->name} added to cart.",
+        'cartCount' => $totalItems,
+        'cart'      => [
+            'subtotal'     => number_format($subtotal, 2),
+            'bulkDiscount' => number_format($bulkDiscount, 2),
+            'shipping'     => number_format($shipping, 2),
+            'tax'          => number_format($tax, 2),
+            'total'        => number_format($total, 2),
+            'totalItems'   => $totalItems,
+        ],
+    ]);
 }
 
 }
