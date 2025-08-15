@@ -33,19 +33,21 @@ class CartController extends Controller
     $tax = ($subtotal - $bulkDiscount) * 0.072;
 
     $total = $subtotal - $bulkDiscount + $tax;
+    $featureProducts = Product::where('status', 'active')
+    ->inRandomOrder()
+    ->take(4)
+    ->get();
 
-    return view('frontend.cart', compact(
-        'cartItems',
-        'subtotal',
-        'bulkDiscount',
-        // 'shipping',
-        'tax',
-        'total',
-        'totalItems'
-    ));
-   }
-
-   public function updateQuantity(Request $request, $id)
+return view('frontend.cart', compact(
+    'cartItems',
+    'subtotal',
+    'bulkDiscount',
+    // 'shipping',
+    'tax',
+    'total',
+    'totalItems',
+    'featureProducts'
+));
 {
     $cartItem = Cart::where('user_id', auth()->id())->findOrFail($id);
     $cartItem->quantity = $request->quantity;
