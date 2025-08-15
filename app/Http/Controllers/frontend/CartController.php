@@ -49,7 +49,7 @@ class CartController extends Controller
     ));
    }
 
-   public function updateQuantity(Request $request, $id)
+ public function updateQuantity(Request $request, $id)
 {
     $cartItem = Cart::where('user_id', auth()->id())->findOrFail($id);
     $cartItem->quantity = $request->quantity;
@@ -64,12 +64,17 @@ class CartController extends Controller
     $tax = $subtotal * 0.05;
     $total = $subtotal - $bulkDiscount + $tax;
 
-    $summaryHtml = view('partials.order-summary', compact(
-        'subtotal', 'totalItems', 'bulkDiscount', 'shipping', 'tax', 'total'
-    ))->render();
-
-    return response()->json(['summaryHtml' => $summaryHtml]);
+    return response()->json([
+        'totalItems'    => $totalItems,
+        'subtotal'      => number_format($subtotal, 2),
+        'bulkDiscount'  => number_format($bulkDiscount, 2),
+        // 'shipping'      => number_format($shipping, 2),
+        'tax'           => number_format($tax, 2),
+        'total'         => number_format($total, 2),
+        'itemTotal'     => number_format($cartItem->price * $cartItem->quantity, 2),
+    ]);
 }
+
 public function removeItem($id)
 {
     $cartItem = Cart::where('id', $id)
