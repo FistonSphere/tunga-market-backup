@@ -323,7 +323,7 @@
                                     loading="lazy" />
                             </a>
                             <button onclick="addToWishlist({{ $featureProduct->id }})"
-                                class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
+                                class="add-to-wishlist-btn absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
                                 <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -548,21 +548,7 @@
             }
         }
 
-        function saveForLater(button) {
-            const cartItem = button.closest('.cart-item');
-            const productName = cartItem.querySelector('h4 a').textContent;
-
-            cartWishlistManager.addToWishlist(1);
-            cartWishlistManager.removeFromCart(1);
-
-            cartItem.remove();
-            showToast('Saved for Later', `${productName} has been saved for later.`);
-            updateCartItemCount();
-        }
-
-        function contactSupplier() {
-            showToast('Message Sent', 'Your message has been sent to the supplier.');
-        }
+       
 
         function removeItem(button) {
             const cartItem = button.closest('.cart-item');
