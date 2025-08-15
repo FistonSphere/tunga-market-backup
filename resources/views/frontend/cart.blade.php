@@ -364,9 +364,9 @@
                                 data-product-id="{{ $product->id }}" data-name="{{ e($product->name) }}"
                                 data-currency="{{ $product->currency }}"
                                 data-price="{{ $product->discount_price ?: $product->price }}" data-min-qty="{{ $product->min_order_quantity ?? 1 }}>Add to
-                                    Cart</button>
+                                        Cart</button>
+                                </div>
                             </div>
-                        </div>
      @endforeach
 
                         </div>
@@ -490,14 +490,72 @@
             }
         }
 
-        function quickAddToCart(button) {
-            const productCard = button.closest('.card');
-            const productName = productCard.querySelector('h3').textContent;
+        //quick add to cart
+        function quickAddToCart(btn) {
+            const productId = btn.dataset.productId;
+            const qty = parseInt(btn.dataset.minQty || '1', 10);
+            const name = btn.dataset.name || 'Item';
+            const currency = btn.dataset.currency || '$';
+            const uiPrice = btn.dataset.price;
 
-            cartWishlistManager.addToCart(1);
-            showToast('Added to Cart', `${productName} has been added to your cart.`);
-            updateCartItemCount();
+            fetch(`{{ route('cart.quickAdd') }}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        product_id: productId,
+                        qty: qty
+                    })
+                })
+                .then(async res => {
+                    const data = await res.json().catch(() => null);
+                    if (!res.ok || !data?.success) throw new Error(data?.message || 'Failed to add');
+                    return data;
+                })
+                .then(data => {
+                    // ✅ UPDATE CART UI
+                    const countEl = document.querySelector('#cart-count');
+                    if (countEl) countEl.textContent = data.cartCount;
+
+                    const map = {
+                        '#summary-total-items': data.cart.totalItems,
+                        '#summary-subtotal': `$${data.cart.subtotal}`,
+                        '#summary-discount': `-$${data.cart.bulkDiscount}`,
+                        '#summary-shipping': `$${data.cart.shipping}`,
+                        '#summary-tax': `$${data.cart.tax}`,
+                        '#summary-total': `$${data.cart.total}`
+                    };
+                    Object.entries(map).forEach(([sel, val]) => {
+                        const el = document.querySelector(sel);
+                        if (el) el.textContent = val;
+                    });
+
+                    // ✅ Toast success
+                    const formattedPrice = (() => {
+                        const isRwf = currency === 'Rwf';
+                        const n = Number(uiPrice || 0);
+                        return isRwf ? `${n.toLocaleString()} ${currency}` : `${currency}${n.toFixed(2)}`;
+                    })();
+                    showToast(`Added to Cart ${name} (${formattedPrice}) added to cart`);
+                })
+                .catch(err => {
+                    // ✅ Warning toast instead of generic error
+                    showToast('This product is already in your cart. You can adjust its quantity from the cart page.');
+                });
         }
+
+        function showToast(title, message) {
+            const box = document.createElement('div');
+            box.className = 'fixed top-5 right-5 z-50 bg-primary text-white rounded-xl shadow px-4 py-3 max-w-sm';
+            box.innerHTML = `<div class="font-semibold">${title}</div><div class="text-sm opacity-90">${message}</div>`;
+            document.body.appendChild(box);
+            setTimeout(() => box.remove(), 3000);
+        }
+
+        //quick add to cart
 
         function updateCartItemCount() {
             const cartItems = document.querySelectorAll('.cart-item').length;
