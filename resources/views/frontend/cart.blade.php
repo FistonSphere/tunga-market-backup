@@ -905,88 +905,81 @@
         //ad to wishlist from cart
 
         //add to wishlist
-        document.addEventListener("DOMContentLoaded", function() {
-            const wishlistCountSpan = document.getElementById("wishlist-count");
-            const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
+        const wishlistCountSpan = document.getElementById("wishlist-count");
+        const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
 
-            // ✅ Define globally so inline onclick works
-            window.addToWishlist = function(featureProductId) {
-                fetch(`/wishlist/add`, {
-                        method: "POST",
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                            "Content-Type": "application/json",
-                            "X-Requested-With": "XMLHttpRequest"
-                        },
-                        body: JSON.stringify({
-                            product_id: featureProductId
-                        })
+        // ✅ Declare on window so onclick finds it
+        window.addToWishlist = function(featureProductId) {
+            fetch(`/wishlist/add`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                        "Content-Type": "application/json",
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: JSON.stringify({
+                        product_id: featureProductId
                     })
-                    .then(response => {
-                        if (response.status === 401) {
-                            loginWarningModalWrapper?.classList.remove('hidden');
-                            return null; // Stop further processing
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (!data) return;
+                })
+                .then(response => {
+                    if (response.status === 401) {
+                        loginWarningModalWrapper?.classList.remove('hidden');
+                        return null;
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data) return;
+                    if (data.status === "success") {
+                        updateWishlistCount(data.count);
+                        showToast(data.message, "success");
+                    } else if (data.status === "info") {
+                        showToast(data.message, "info");
+                    } else if (data.status === "error") {
+                        showToast(data.message, "error");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    showToast("An error occurred. Please try again.", "error");
+                });
+        };
 
-                        if (data.status === "success") {
-                            updateWishlistCount(data.count);
-                            showToast(data.message, "success");
-                        } else if (data.status === "info") {
-                            showToast(data.message, "info");
-                        } else if (data.status === "error") {
-                            showToast(data.message, "error");
-                        }
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        showToast("An error occurred. Please try again.", "error");
-                    });
-            };
-
-            // ✅ Make wishlist count updater use the local variable
-            function updateWishlistCount(count) {
-                if (wishlistCountSpan) {
-                    wishlistCountSpan.textContent = count;
-                }
+        function updateWishlistCount(count) {
+            if (wishlistCountSpan) {
+                wishlistCountSpan.textContent = count;
             }
+        }
 
-            // ✅ Toast display function
-            function showToast(message, type = "success") {
-                const toastWrapper = document.getElementById("toast");
-                const toastMessage = toastWrapper.querySelector(".toast-message");
-                const textSpan = document.getElementById("toast-text");
+        function showToast(message, type = "success") {
+            const toastWrapper = document.getElementById("toast");
+            const toastMessage = toastWrapper.querySelector(".toast-message");
+            const textSpan = document.getElementById("toast-text");
 
-                textSpan.textContent = message;
+            textSpan.textContent = message;
+            toastMessage.classList.remove("bg-green-500", "bg-red-500", "bg-blue-500");
+            if (type === "success") toastMessage.classList.add("bg-green-500");
+            if (type === "error") toastMessage.classList.add("bg-red-500");
+            if (type === "info") toastMessage.classList.add("bg-blue-500");
 
-                toastMessage.classList.remove("bg-green-500", "bg-red-500", "bg-blue-500");
-                if (type === "success") toastMessage.classList.add("bg-green-500");
-                if (type === "error") toastMessage.classList.add("bg-red-500");
-                if (type === "info") toastMessage.classList.add("bg-blue-500");
+            toastWrapper.classList.remove("hidden");
+            toastMessage.classList.remove("opacity-0", "scale-95");
+            toastMessage.classList.add("opacity-100", "scale-100");
 
-                toastWrapper.classList.remove("hidden");
-                toastMessage.classList.remove("opacity-0", "scale-95");
-                toastMessage.classList.add("opacity-100", "scale-100");
+            setTimeout(() => {
+                toastMessage.classList.remove("opacity-100", "scale-100");
+                toastMessage.classList.add("opacity-0", "scale-95");
+                setTimeout(() => toastWrapper.classList.add("hidden"), 300);
+            }, 3000);
+        }
 
-                setTimeout(() => {
-                    toastMessage.classList.remove("opacity-100", "scale-100");
-                    toastMessage.classList.add("opacity-0", "scale-95");
-                    setTimeout(() => toastWrapper.classList.add("hidden"), 300);
-                }, 3000);
-            }
+        window.goToSignIn = function() {
+            window.location.href = "{{ route('login') }}";
+        };
 
-            // ✅ Global helper for login modal actions
-            window.goToSignIn = function() {
-                window.location.href = "{{ route('login') }}";
-            };
-
-            window.continueBrowsing = function() {
-                loginWarningModalWrapper?.classList.add('hidden');
-            };
-        });
+        window.continueBrowsing = function() {
+            loginWarningModalWrapper?.classList.add('hidden');
+        };
 
 
 
