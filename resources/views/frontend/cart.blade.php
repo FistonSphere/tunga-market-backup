@@ -316,7 +316,7 @@
                 @foreach ($featureProducts as $featureProduct)
                     <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
                     <div class="relative overflow-hidden rounded-lg mb-4">
-                        <img src="{{$featureProduct->main_image ?? {{ asset('assets/images/no-image.png') }} }}"
+                        <img src="{{ $featureProduct->main_image ? asset($featureProduct->main_image) : asset('assets/images/no-image.png') }}"
                             alt="{{ $featureProduct->product_name }}"
                             class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
                             loading="lazy" />
@@ -330,8 +330,30 @@
                     <h3 class="font-semibold text-primary mb-2">{{ $featureProduct->product_name }}</h3>
                     <div class="flex items-center justify-between">
                         <div class="flex items-baseline space-x-2">
-                            <span class="text-xl font-bold text-primary">$39.99</span>
-                            <span class="text-body-sm text-secondary-500 line-through">$59.99</span>
+                             @if ($featureProduct->discount_price)
+                            <span class="line-through text-secondary-500 text-sm mr-2">
+                                @if ($featureProduct->currency === '$')
+                                    {{ $featureProduct->currency }}{{ number_format($featureProduct->price, 2) }}
+                                @elseif($featureProduct->currency === 'Rwf')
+                                    {{ number_format($featureProduct->price) }} {{ $featureProduct->currency }}
+                                @endif
+                            </span>
+                            <span class="text-sm font-bold text-primary">
+                                @if ($featureProduct->currency === '$')
+                                    {{ $featureProduct->currency }}{{ number_format($featureProduct->discount_price, 2) }}
+                                @elseif($featureProduct->currency === 'Rwf')
+                                    {{ number_format($featureProduct->discount_price) }} {{ $featureProduct->currency }}
+                                @endif
+                            </span>
+                        @else
+                            <span class="text-sm font-bold text-primary">
+                                @if ($featureProduct->currency === '$')
+                                    {{ $featureProduct->currency }}{{ number_format($featureProduct->price, 2) }}
+                                @elseif($featureProduct->currency === 'Rwf')
+                                    {{ number_format($featureProduct->price) }} {{ $featureProduct->currency }}
+                                @endif
+                            </span>
+                        @endif
                         </div>
                         <button class="btn-primary text-body-sm px-3 py-1" onclick="quickAddToCart(this)">Add to
                             Cart</button>
