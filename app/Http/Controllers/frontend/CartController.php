@@ -197,7 +197,6 @@ public function quickAdd(Request $request)
             'totalItems' => $totalItems,
             'subtotal' => number_format($subtotal, 2),
             'bulkDiscount' => number_format($bulkDiscount, 2),
-            'shipping' => number_format($shipping, 2),
             'tax' => number_format($tax, 2),
             'total' => number_format($total, 2),
         ]
