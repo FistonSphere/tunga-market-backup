@@ -310,57 +310,60 @@
     <!-- Recently Viewed Products -->
     <section class="py-16 bg-surface">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-2xl font-bold text-primary mb-8">Recently Viewed</h2>
+            <h2 class="text-2xl font-bold text-primary mb-8">Featured Products</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Recently Viewed Product 1 -->
                 @foreach ($featureProducts as $featureProduct)
                     <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
-                    <div class="relative overflow-hidden rounded-lg mb-4">
-                        <img src="{{ $featureProduct->main_image ? asset($featureProduct->main_image) : asset('assets/images/no-image.png') }}"
-                            alt="{{ $featureProduct->product_name }}"
-                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                            loading="lazy" />
-                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                            </svg>
+                        <div class="relative overflow-hidden rounded-lg mb-4">
+                            <img src="{{ $featureProduct->main_image ? asset($featureProduct->main_image) : asset('assets/images/no-image.png') }}"
+                                alt="{{ $featureProduct->product_name }}"
+                                class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
+                                loading="lazy" />
+                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
+                                <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <a href="{{ route('product.view', $featureProduct->sku) }}"
+                            class="font-semibold text-primary mb-2">{{ $featureProduct->name }}</a>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-baseline space-x-2">
+                                @if ($featureProduct->discount_price)
+                                    <span class="line-through text-secondary-500 text-sm mr-2">
+                                        @if ($featureProduct->currency === '$')
+                                            {{ $featureProduct->currency }}{{ number_format($featureProduct->price, 2) }}
+                                        @elseif($featureProduct->currency === 'Rwf')
+                                            {{ number_format($featureProduct->price) }} {{ $featureProduct->currency }}
+                                        @endif
+                                    </span>
+                                    <span class="text-md font-bold text-primary">
+                                        @if ($featureProduct->currency === '$')
+                                            {{ $featureProduct->currency }}{{ number_format($featureProduct->discount_price, 2) }}
+                                        @elseif($featureProduct->currency === 'Rwf')
+                                            {{ number_format($featureProduct->discount_price) }}
+                                            {{ $featureProduct->currency }}
+                                        @endif
+                                    </span>
+                                @else
+                                    <span class="text-md font-bold text-primary">
+                                        @if ($featureProduct->currency === '$')
+                                            {{ $featureProduct->currency }}{{ number_format($featureProduct->price, 2) }}
+                                        @elseif($featureProduct->currency === 'Rwf')
+                                            {{ number_format($featureProduct->price) }} {{ $featureProduct->currency }}
+                                        @endif
+                                    </span>
+                                @endif
+                            </div>
+                            <button class="btn-primary text-body-sm px-3 py-1" onclick="quickAddToCart(this)">Add to
+                                Cart</button>
                         </div>
                     </div>
-                    <h3 class="font-semibold text-primary mb-2">{{ $featureProduct->product_name }}</h3>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-baseline space-x-2">
-                             @if ($featureProduct->discount_price)
-                            <span class="line-through text-secondary-500 text-sm mr-2">
-                                @if ($featureProduct->currency === '$')
-                                    {{ $featureProduct->currency }}{{ number_format($featureProduct->price, 2) }}
-                                @elseif($featureProduct->currency === 'Rwf')
-                                    {{ number_format($featureProduct->price) }} {{ $featureProduct->currency }}
-                                @endif
-                            </span>
-                            <span class="text-md font-bold text-primary">
-                                @if ($featureProduct->currency === '$')
-                                    {{ $featureProduct->currency }}{{ number_format($featureProduct->discount_price, 2) }}
-                                @elseif($featureProduct->currency === 'Rwf')
-                                    {{ number_format($featureProduct->discount_price) }} {{ $featureProduct->currency }}
-                                @endif
-                            </span>
-                        @else
-                            <span class="text-md font-bold text-primary">
-                                @if ($featureProduct->currency === '$')
-                                    {{ $featureProduct->currency }}{{ number_format($featureProduct->price, 2) }}
-                                @elseif($featureProduct->currency === 'Rwf')
-                                    {{ number_format($featureProduct->price) }} {{ $featureProduct->currency }}
-                                @endif
-                            </span>
-                        @endif
-                        </div>
-                        <button class="btn-primary text-body-sm px-3 py-1" onclick="quickAddToCart(this)">Add to
-                            Cart</button>
-                    </div>
-                </div>
                 @endforeach
-                
+
             </div>
         </div>
     </section>
