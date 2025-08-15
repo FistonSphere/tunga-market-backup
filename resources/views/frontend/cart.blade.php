@@ -322,13 +322,14 @@
                                     class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
                                     loading="lazy" />
                             </a>
-                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
+                            <button onclick="addToWishlist({{ $featureProduct->id }})"
+                                class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
                                 <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                 </svg>
-                            </div>
+                            </button>
                         </div>
                         <a href="{{ route('product.view', $featureProduct->sku) }}"
                             class="font-semibold text-primary mb-2">{{ $featureProduct->name }}</a>
@@ -375,7 +376,59 @@
         </div>
     </section>
 
+    <!-- Login Warning Modal (hidden by default) -->
+    <div id="login-warning-modal-wrapper"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div id="login-warning-modal"
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
+            <!-- Close Button -->
+            <button onclick="continueBrowsing()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
 
+            <!-- Warning Icon -->
+            <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+            </div>
+
+            <!-- Main Message -->
+            <h2 class="text-2xl font-bold text-primary mb-3">Sign in to save your favorites</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Join us to unlock your personalized shopping experience and never lose track of the products you love.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button onclick="goToSignIn()"
+                    class="w-full btn-primary py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Sign In to My Account
+                </button>
+                <button onclick="continueBrowsing()"
+                    class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
+                    Continue Browsing Without Account
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Toast Wrapper -->
+    <div id="toast" class="hidden">
+        <div
+            class="toast-message flex items-center p-4 max-w-xs w-full text-white rounded-lg shadow-lg transition transform duration-300 ease-in-out opacity-0 scale-95">
+            <span id="toast-text" class="flex-1 text-sm font-medium"></span>
+            <button onclick="document.getElementById('toast').classList.add('hidden')"
+                class="ml-3 text-white hover:text-gray-200 focus:outline-none">
+                ✕
+            </button>
+        </div>
+    </div>
 
 
 
@@ -864,5 +917,99 @@
         }
 
         //ad to wishlist from cart
+
+        //add to wishlist
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const wishlistCountSpan = document.getElementById("wishlist-count");
+            const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
+
+            // Define globally so inline onclick can call it
+            window.addToWishlist = function(productId) {
+                fetch(`/wishlist/add`, {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest"
+                        },
+                        body: JSON.stringify({
+                            product_id: productId
+                        })
+                    })
+                    .then(response => {
+                        if (response.status === 401) {
+                            // Show modal for unauthenticated user
+                            document.getElementById('login-warning-modal-wrapper').classList.remove(
+                                'hidden');
+                            // Stop further processing — no JSON parse
+                            return null;
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (!data) return; // Skip if already handled (401)
+
+                        if (data.status === "success") {
+                            updateWishlistCount(data.count);
+                            showToast(data.message, "success");
+                        } else if (data.status === "info") {
+                            showToast(data.message, "info");
+                        } else if (data.status === "error") {
+                            showToast(data.message, "error");
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        showToast("An error occurred. Please try again.", "error");
+                    });
+            };
+
+            function updateWishlistCount(count) {
+                if (wishlistCountSpan) {
+                    wishlistCountSpan.textContent = count;
+                }
+            }
+
+            function showToast(message, type = "success") {
+                const toastWrapper = document.getElementById("toast");
+                const toastMessage = toastWrapper.querySelector(".toast-message");
+                const textSpan = document.getElementById("toast-text");
+
+                textSpan.textContent = message;
+
+                // Set color
+                toastMessage.classList.remove("bg-green-500", "bg-red-500", "bg-blue-500");
+                if (type === "success") toastMessage.classList.add("bg-green-500");
+                if (type === "error") toastMessage.classList.add("bg-red-500");
+                if (type === "info") toastMessage.classList.add("bg-blue-500");
+
+                // Show instantly
+                toastWrapper.classList.remove("hidden");
+                toastMessage.classList.remove("opacity-0", "scale-95");
+                toastMessage.classList.add("opacity-100", "scale-100");
+
+                // Hide after 3s
+                setTimeout(() => {
+                    toastMessage.classList.remove("opacity-100", "scale-100");
+                    toastMessage.classList.add("opacity-0", "scale-95");
+                    setTimeout(() => toastWrapper.classList.add("hidden"), 300);
+                }, 3000);
+            }
+
+
+
+
+            window.goToSignIn = function() {
+                window.location.href = "{{ route('login') }}";
+            };
+
+            window.continueBrowsing = function() {
+                loginWarningModalWrapper?.classList.add('hidden');
+            };
+        });
+
+
+        //add to wishlist
     </script>
 @endsection
