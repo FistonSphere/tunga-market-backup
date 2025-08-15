@@ -338,7 +338,7 @@
                                     {{ number_format($featureProduct->price) }} {{ $featureProduct->currency }}
                                 @endif
                             </span>
-                            <span class="text-sm font-bold text-primary">
+                            <span class="text-md font-bold text-primary">
                                 @if ($featureProduct->currency === '$')
                                     {{ $featureProduct->currency }}{{ number_format($featureProduct->discount_price, 2) }}
                                 @elseif($featureProduct->currency === 'Rwf')
@@ -346,7 +346,7 @@
                                 @endif
                             </span>
                         @else
-                            <span class="text-sm font-bold text-primary">
+                            <span class="text-md font-bold text-primary">
                                 @if ($featureProduct->currency === '$')
                                     {{ $featureProduct->currency }}{{ number_format($featureProduct->price, 2) }}
                                 @elseif($featureProduct->currency === 'Rwf')
