@@ -18,12 +18,6 @@
                 -{{ number_format($bulkDiscount, 2) }} Rwf
             </span>
         </div>
-        {{-- <div class="flex justify-between">
-            <span class="text-secondary-600">Shipping:</span>
-            <span class="font-medium text-primary" id="summary-shipping">
-                ${{ number_format($shipping, 2) }}
-            </span>
-        </div> --}}
         <div class="flex justify-between">
             <span class="text-secondary-600">Tax (estimated):</span>
             <span class="font-medium text-primary" id="summary-tax">
