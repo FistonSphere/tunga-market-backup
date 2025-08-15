@@ -34,7 +34,7 @@ class CartController extends Controller
 
     $total = $subtotal - $bulkDiscount + $tax;
     $featureProducts= Product::where('status', 'active')
-        ->orderBy('created_at', 'desc')
+        ->inRandomOrder()
         ->take(4)
         ->get();
     return view('frontend.cart', compact(
@@ -44,7 +44,8 @@ class CartController extends Controller
         // 'shipping',
         'tax',
         'total',
-        'totalItems'
+        'totalItems',
+        'featureProducts'
     ));
    }
 
