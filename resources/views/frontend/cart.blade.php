@@ -317,11 +317,11 @@
                     <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
                         <div class="relative overflow-hidden rounded-lg mb-4">
                             <a href="{{ route('product.view', $featureProduct->sku) }}">
-                            <img src="{{ $featureProduct->main_image ? asset($featureProduct->main_image) : asset('assets/images/no-image.png') }}"
-                                alt="{{ $featureProduct->product_name }}"
-                                class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                                loading="lazy" />
-                                </a>
+                                <img src="{{ $featureProduct->main_image ? asset($featureProduct->main_image) : asset('assets/images/no-image.png') }}"
+                                    alt="{{ $featureProduct->product_name }}"
+                                    class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
+                                    loading="lazy" />
+                            </a>
                             <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
                                 <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -360,17 +360,20 @@
                                     </span>
                                 @endif
                             </div>
-                            <button class="btn-primary text-body-sm px-3 py-1" onclick="quickAddToCart(this)">Add to
-                                Cart</button>
+                            <button class="btn-primary text-body-sm px-3 py-1" title="Quick Add to Cart"
+                                data-product-id="{{ $product->id }}" data-name="{{ e($product->name) }}"
+                                data-currency="{{ $product->currency }}"
+                                data-price="{{ $product->discount_price ?: $product->price }}" data-min-qty="{{ $product->min_order_quantity ?? 1 }}>Add to
+                                    Cart</button>
+                            </div>
+                        </div>
+     @endforeach
+
                         </div>
                     </div>
-                @endforeach
-
-            </div>
-        </div>
     </section>
 
-    
+
 
 
 
