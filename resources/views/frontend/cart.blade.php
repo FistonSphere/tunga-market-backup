@@ -360,10 +360,10 @@
                                     </span>
                                 @endif
                             </div>
-                            <button class="btn-primary text-body-sm px-3 py-1" title="Quick Add to Cart"
-                                data-product-id="{{ $product->id }}" data-name="{{ e($product->name) }}"
-                                data-currency="{{ $product->currency }}"
-                                data-price="{{ $product->discount_price ?: $product->price }}" data-min-qty="{{ $product->min_order_quantity ?? 1 }}>Add to
+                            <button onclick="quickAddToCart(this)" class="btn-primary text-body-sm px-3 py-1" title="Quick Add to Cart"
+                                data-product-id="{{ $featureProduct->id }}" data-name="{{ e($featureProduct->name) }}"
+                                data-currency="{{ $featureProduct->currency }}"
+                                data-price="{{ $featureProduct->discount_price ?: $featureProduct->price }}" data-min-qty="{{ $featureProduct->min_order_quantity ?? 1 }} ">Add to
                                         Cart</button>
                                 </div>
                             </div>
