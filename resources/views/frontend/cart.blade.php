@@ -548,7 +548,7 @@
             }
         }
 
-       
+
 
         function removeItem(button) {
             const cartItem = button.closest('.cart-item');
@@ -905,13 +905,12 @@
         //ad to wishlist from cart
 
         //add to wishlist
-
         document.addEventListener("DOMContentLoaded", function() {
             const wishlistCountSpan = document.getElementById("wishlist-count");
             const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
 
-            // Define globally so inline onclick can call it
-            window.addToWishlist = function(productId) {
+            // ✅ Define globally so inline onclick works
+            window.addToWishlist = function(featureProductId) {
                 fetch(`/wishlist/add`, {
                         method: "POST",
                         headers: {
@@ -920,21 +919,18 @@
                             "X-Requested-With": "XMLHttpRequest"
                         },
                         body: JSON.stringify({
-                            product_id: productId
+                            product_id: featureProductId
                         })
                     })
                     .then(response => {
                         if (response.status === 401) {
-                            // Show modal for unauthenticated user
-                            document.getElementById('login-warning-modal-wrapper').classList.remove(
-                                'hidden');
-                            // Stop further processing — no JSON parse
-                            return null;
+                            loginWarningModalWrapper?.classList.remove('hidden');
+                            return null; // Stop further processing
                         }
                         return response.json();
                     })
                     .then(data => {
-                        if (!data) return; // Skip if already handled (401)
+                        if (!data) return;
 
                         if (data.status === "success") {
                             updateWishlistCount(data.count);
@@ -951,12 +947,14 @@
                     });
             };
 
+            // ✅ Make wishlist count updater use the local variable
             function updateWishlistCount(count) {
                 if (wishlistCountSpan) {
                     wishlistCountSpan.textContent = count;
                 }
             }
 
+            // ✅ Toast display function
             function showToast(message, type = "success") {
                 const toastWrapper = document.getElementById("toast");
                 const toastMessage = toastWrapper.querySelector(".toast-message");
@@ -964,18 +962,15 @@
 
                 textSpan.textContent = message;
 
-                // Set color
                 toastMessage.classList.remove("bg-green-500", "bg-red-500", "bg-blue-500");
                 if (type === "success") toastMessage.classList.add("bg-green-500");
                 if (type === "error") toastMessage.classList.add("bg-red-500");
                 if (type === "info") toastMessage.classList.add("bg-blue-500");
 
-                // Show instantly
                 toastWrapper.classList.remove("hidden");
                 toastMessage.classList.remove("opacity-0", "scale-95");
                 toastMessage.classList.add("opacity-100", "scale-100");
 
-                // Hide after 3s
                 setTimeout(() => {
                     toastMessage.classList.remove("opacity-100", "scale-100");
                     toastMessage.classList.add("opacity-0", "scale-95");
@@ -983,9 +978,7 @@
                 }, 3000);
             }
 
-
-
-
+            // ✅ Global helper for login modal actions
             window.goToSignIn = function() {
                 window.location.href = "{{ route('login') }}";
             };
@@ -994,6 +987,7 @@
                 loginWarningModalWrapper?.classList.add('hidden');
             };
         });
+
 
 
         //add to wishlist
