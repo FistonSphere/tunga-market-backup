@@ -360,17 +360,19 @@
                                     </span>
                                 @endif
                             </div>
-                            <button onclick="quickAddToCart(this)" class="btn-primary text-body-sm px-3 py-1" title="Quick Add to Cart"
-                                data-product-id="{{ $featureProduct->id }}" data-name="{{ e($featureProduct->name) }}"
+                            <button onclick="quickAddToCart(this)" class="btn-primary text-body-sm px-3 py-1"
+                                title="Quick Add to Cart" data-product-id="{{ $featureProduct->id }}"
+                                data-name="{{ e($featureProduct->name) }}"
                                 data-currency="{{ $featureProduct->currency }}"
-                                data-price="{{ $featureProduct->discount_price ?: $featureProduct->price }}" data-min-qty="{{ $featureProduct->min_order_quantity ?? 1 }} ">Add to
-                                        Cart</button>
-                                </div>
-                            </div>
-     @endforeach
-
+                                data-price="{{ $featureProduct->discount_price ?: $featureProduct->price }}"
+                                data-min-qty="{{ $featureProduct->min_order_quantity ?? 1 }} ">Add to
+                                Cart</button>
                         </div>
                     </div>
+                @endforeach
+
+            </div>
+        </div>
     </section>
 
 
@@ -426,18 +428,49 @@
                 })
                 .then(res => res.json())
                 .then(data => {
-                    // update just this item's total
-                    document.getElementById(`item-total-${itemId}`).textContent = data.itemTotal;
+                    // Update just this item's total
+                    const itemTotalEl = document.getElementById(`item-total-${itemId}`);
+                    if (itemTotalEl) itemTotalEl.textContent = data.itemTotal;
 
-                    // also update order summary since you already have it working
-                    document.getElementById("summary-total-items").textContent = data.totalItems;
-                    document.getElementById("summary-subtotal").textContent = `$${data.subtotal}`;
-                    document.getElementById("summary-discount").textContent = `-$${data.bulkDiscount}`;
-                    document.getElementById("summary-shipping").textContent = `$${data.shipping}`;
-                    document.getElementById("summary-tax").textContent = `$${data.tax}`;
-                    document.getElementById("summary-total").textContent = `$${data.total}`;
+                    // Update order summary fields
+                    const totalItemsEl = document.getElementById("summary-total-items");
+                    const subtotalEl = document.getElementById("summary-subtotal");
+                    const discountEl = document.getElementById("summary-discount");
+                    const shippingEl = document.getElementById("summary-shipping");
+                    const taxEl = document.getElementById("summary-tax");
+                    const totalEl = document.getElementById("summary-total");
+                    const saveMsgEl = document.getElementById("summary-save-message");
+
+                    if (totalItemsEl) totalItemsEl.textContent = data.totalItems;
+                    if (subtotalEl) subtotalEl.textContent = `${data.subtotal} Rwf`;
+                    if (shippingEl) shippingEl.textContent = `${data.shipping} Rwf`;
+                    if (taxEl) taxEl.textContent = `${data.tax} Rwf`;
+                    if (totalEl) totalEl.textContent = `${data.total} Rwf`;
+
+                    // Update discount color & save message
+                    if (discountEl) {
+                        discountEl.textContent = `-${data.bulkDiscount} Rwf`;
+                        const bulkNum = parseFloat(data.bulkDiscount.replace(/,/g, ''));
+                        discountEl.classList.toggle('text-success', bulkNum > 0);
+                        discountEl.classList.toggle('text-secondary-500', bulkNum <= 0);
+                    }
+
+                    if (saveMsgEl) {
+                        const bulkNum = parseFloat(data.bulkDiscount.replace(/,/g, ''));
+                        if (bulkNum > 0) {
+                            saveMsgEl.classList.remove('hidden');
+                            saveMsgEl.textContent = `You save ${data.bulkDiscount} Rwf with bulk pricing!`;
+                        } else {
+                            saveMsgEl.classList.add('hidden');
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Failed to update quantity. Please try again.');
                 });
         }
+
 
 
 
@@ -499,61 +532,61 @@
             const uiPrice = btn.dataset.price;
 
             fetch(`{{ route('cart.quickAdd') }}`, {
-                method: 'POST',
-                headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                product_id: productId,
-                qty: qty
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        product_id: productId,
+                        qty: qty
+                    })
                 })
-            })
-            .then(async res => {
-                if (res.status === 401) {
-                // Unauthenticated
-                showToast('Please login to add items to your cart.', 'warning');
-                throw new Error('Unauthenticated');
-                }
-                const data = await res.json().catch(() => null);
-                if (!res.ok || !data?.success) throw new Error(data?.message || 'Failed to add');
-                return data;
-            })
-            .then(data => {
-                // ✅ UPDATE CART UI
-                const countEl = document.querySelector('#cart-count');
-                if (countEl) countEl.textContent = data.cartCount;
+                .then(async res => {
+                    if (res.status === 401) {
+                        // Unauthenticated
+                        showToast('Please login to add items to your cart.', 'warning');
+                        throw new Error('Unauthenticated');
+                    }
+                    const data = await res.json().catch(() => null);
+                    if (!res.ok || !data?.success) throw new Error(data?.message || 'Failed to add');
+                    return data;
+                })
+                .then(data => {
+                    // ✅ UPDATE CART UI
+                    const countEl = document.querySelector('#cart-count');
+                    if (countEl) countEl.textContent = data.cartCount;
 
-                const map = {
-                '#summary-total-items': data.cart.totalItems,
-                '#summary-subtotal': `$${data.cart.subtotal}`,
-                '#summary-discount': `-$${data.cart.bulkDiscount}`,
-                '#summary-shipping': `$${data.cart.shipping}`,
-                '#summary-tax': `$${data.cart.tax}`,
-                '#summary-total': `$${data.cart.total}`
-                };
-                Object.entries(map).forEach(([sel, val]) => {
-                const el = document.querySelector(sel);
-                if (el) el.textContent = val;
+                    const map = {
+                        '#summary-total-items': data.cart.totalItems,
+                        '#summary-subtotal': `$${data.cart.subtotal}`,
+                        '#summary-discount': `-$${data.cart.bulkDiscount}`,
+                        '#summary-shipping': `$${data.cart.shipping}`,
+                        '#summary-tax': `$${data.cart.tax}`,
+                        '#summary-total': `$${data.cart.total}`
+                    };
+                    Object.entries(map).forEach(([sel, val]) => {
+                        const el = document.querySelector(sel);
+                        if (el) el.textContent = val;
+                    });
+
+                    // ✅ Toast success
+                    const formattedPrice = (() => {
+                        const isRwf = currency === 'Rwf';
+                        const n = Number(uiPrice || 0);
+                        return isRwf ? `${n.toLocaleString()} ${currency}` : `${currency}${n.toFixed(2)}`;
+                    })();
+                    showToast(`Added to Cart ${name} (${formattedPrice}) added to cart`);
+                })
+                .catch(err => {
+                    if (err.message === 'Unauthenticated') {
+                        // Already handled above
+                        return;
+                    }
+                    // ✅ Warning toast instead of generic error
+                    showToast('This product is already in your cart. You can adjust its quantity from the cart page.');
                 });
-
-                // ✅ Toast success
-                const formattedPrice = (() => {
-                const isRwf = currency === 'Rwf';
-                const n = Number(uiPrice || 0);
-                return isRwf ? `${n.toLocaleString()} ${currency}` : `${currency}${n.toFixed(2)}`;
-                })();
-                showToast(`Added to Cart ${name} (${formattedPrice}) added to cart`);
-            })
-            .catch(err => {
-                if (err.message === 'Unauthenticated') {
-                // Already handled above
-                return;
-                }
-                // ✅ Warning toast instead of generic error
-                showToast('This product is already in your cart. You can adjust its quantity from the cart page.');
-            });
         }
 
         function showToast(title, message) {
