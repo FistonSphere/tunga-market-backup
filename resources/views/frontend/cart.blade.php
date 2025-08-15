@@ -370,19 +370,7 @@
         </div>
     </section>
 
-    <!-- Mobile Sticky Cart Summary -->
-    <div id="mobile-cart-summary"
-        class="fixed bottom-0 left-0 right-0 bg-white border-t border-border shadow-modal p-4 md:hidden z-40">
-        <div class="flex items-center justify-between mb-3">
-            <div>
-                <div class="font-semibold text-primary">Total: $711.36</div>
-                <div class="text-body-sm text-secondary-600">7 items • You save $89.50</div>
-            </div>
-            <button class="btn-primary" onclick="proceedToCheckout()">
-                Checkout
-            </button>
-        </div>
-    </div>
+    
 
 
 
