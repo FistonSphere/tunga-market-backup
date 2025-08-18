@@ -998,7 +998,26 @@
         //     };
         // });
 
-
+        function addToWishlist(productId) {
+            fetch(`/wishlist/add/${productId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Item added to wishlist!");
+                    } else {
+                        alert("Failed to add to wishlist.");
+                    }
+                })
+                .catch(err => {
+                    console.error("Error adding to wishlist:", err);
+                });
+        }
 
         //add to wishlist
     </script>
