@@ -4594,10 +4594,23 @@ h6 {
     color: #ff6a34;
     background-color: white;
     border-radius: 50%;
-    border:none;
+    border: none;
     outline: none;
     z-index: 9999;
 }
 .group:hover .quick-add-cart {
     opacity: 1;
+}
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.animate-fade-in-down {
+    animation: fadeInDown 0.5s ease forwards;
 }
