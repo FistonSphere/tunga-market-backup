@@ -910,50 +910,53 @@
             const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
             const btn = document.getElementById("add-to-wishlist-btn");
             // Define globally so inline onclick can call it
-            add-to-wishlist-btn.addEventListener("click", function() {
-                const productId = btn.dataset.productId;
-                if (!productId) {
-                    showToast('Error', 'Product ID is missing.', 'error');
-                    return;
-                }
-                fetch(`/wishlist/add`, {
-                        method: "POST",
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                            "Content-Type": "application/json",
-                            "X-Requested-With": "XMLHttpRequest"
-                        },
-                        body: JSON.stringify({
-                            product_id: productId
+            if (btn) {
+                btn.addEventListener("click", function() {
+                    const productId = btn.dataset.productId;
+                    if (!productId) {
+                        showToast('Error', 'Product ID is missing.', 'error');
+                        return;
+                    }
+                    fetch(`/wishlist/add`, {
+                            method: "POST",
+                            headers: {
+                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                                    .content,
+                                "Content-Type": "application/json",
+                                "X-Requested-With": "XMLHttpRequest"
+                            },
+                            body: JSON.stringify({
+                                product_id: productId
+                            })
                         })
-                    })
-                    .then(response => {
-                        if (response.status === 401) {
-                            // Show modal for unauthenticated user
-                            document.getElementById('login-warning-modal-wrapper').classList.remove(
-                                'hidden');
-                            // Stop further processing — no JSON parse
-                            return null;
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (!data) return; // Skip if already handled (401)
+                        .then(response => {
+                            if (response.status === 401) {
+                                // Show modal for unauthenticated user
+                                document.getElementById('login-warning-modal-wrapper').classList.remove(
+                                    'hidden');
+                                // Stop further processing — no JSON parse
+                                return null;
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (!data) return; // Skip if already handled (401)
 
-                        if (data.status === "success") {
-                            updateWishlistCount(data.count);
-                            showToast(data.message, "success");
-                        } else if (data.status === "info") {
-                            showToast(data.message, "info");
-                        } else if (data.status === "error") {
-                            showToast(data.message, "error");
-                        }
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        showToast("An error occurred. Please try again.", "error");
-                    });
-            });
+                            if (data.status === "success") {
+                                updateWishlistCount(data.count);
+                                showToast(data.message, "success");
+                            } else if (data.status === "info") {
+                                showToast(data.message, "info");
+                            } else if (data.status === "error") {
+                                showToast(data.message, "error");
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            showToast("An error occurred. Please try again.", "error");
+                        });
+                });
+            }
 
             function updateWishlistCount(count) {
                 if (wishlistCountSpan) {
