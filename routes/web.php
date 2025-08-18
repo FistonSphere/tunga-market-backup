@@ -67,6 +67,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/profile/update', [AuthController::class, 'update'])->name('user.profile.update');
     Route::post('/profile/update-password', [AuthController::class, 'updatePassword'])->name('profile.update.password');
     Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::post('/wishlist/add/{id}', [WishlistController::class, 'add2'])->name('wishlist.add');
     Route::get('/wishlist/count', [WishlistController::class, 'count'])->name('wishlist.count');
     Route::get('/wishlist', [WishlistController::class, 'getWishlist'])->name('wishlist.get');
     Route::delete('/wishlist/{product}', [WishlistController::class, 'destroy'])->name('wishlist.remove');
