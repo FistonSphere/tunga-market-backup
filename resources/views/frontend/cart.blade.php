@@ -322,7 +322,7 @@
                                     class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
                                     loading="lazy" />
                             </a>
-                            <button onclick="addToWishlist({{ $featureProduct->id }})"
+                            <button onclick="addToWishlist('{{ $featureProduct->id }}')"
                                 class="add-to-wishlist-btn absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
                                 <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
