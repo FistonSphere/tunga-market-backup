@@ -1045,7 +1045,7 @@
 
                 const result = await response.json();
 
-                if (result.status === 'unauthenticated') {
+                if (result.status === '302') {
                     // 🚨 User is not logged in
                     showLoginModal();
                 } else if (result.status === 'success') {
