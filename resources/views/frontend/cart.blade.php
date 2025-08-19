@@ -1021,97 +1021,120 @@
         //add to wishlist
 
 
-        // ✅ Select/Deselect All Items
+        // Select/Deselect All
         function toggleSelectAll() {
-            const masterCheckbox = document.getElementById("select-all");
-            const checkboxes = document.querySelectorAll(".item-checkbox");
-            checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+            const master = document.getElementById("select-all");
+            document.querySelectorAll(".item-checkbox").forEach(cb => (cb.checked = master.checked));
         }
 
+        // Simple toast (uses #toast-container)
+        function showToast(message, type = "success") {
+            const container = document.getElementById("toast-container");
+            if (!container) return;
+
+            const el = document.createElement("div");
+            el.className = `
+        flex items-center px-4 py-3 rounded-lg shadow-lg text-white
+        ${type === "success" ? "bg-green-500" :
+           type === "error"   ? "bg-red-500"   :
+           type === "info"    ? "bg-blue-500"  : "bg-gray-700"}
+        animate-slide-in
+    `;
+            el.textContent = message;
+            container.appendChild(el);
+
+            setTimeout(() => {
+                el.classList.add("opacity-0", "translate-x-5");
+                setTimeout(() => el.remove(), 300);
+            }, 1500);
+        }
+
+        // Get auth user's first_name (for modal greeting)
         async function getAuthUser() {
             try {
-                const response = await fetch("/auth/user");
-                if (!response.ok) throw new Error("Not authenticated");
-
-                const data = await response.json();
-                if (data.status === "success" && data.user) {
-                    return data.user.first_name;
-                }
-            } catch (error) {
-                console.warn("User not logged in:", error);
-            }
-            return "Dear Customer"; // fallback
+                const res = await fetch("/auth/user", {
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                });
+                if (!res.ok) throw 0;
+                const data = await res.json();
+                if (data?.status === "success" && data?.user?.first_name) return data.user.first_name;
+            } catch (_) {}
+            return "Customer";
         }
-        // ✅ Open Remove All Confirmation Modal
+
+        // Open the confirmation modal with personalized message
         async function RemoveAllItem() {
-            const selectedItems = document.querySelectorAll(".item-checkbox:checked");
-            if (selectedItems.length === 0) {
+            const selected = document.querySelectorAll(".item-checkbox:checked");
+            if (selected.length === 0) {
                 showToast("No items selected", "info");
                 return;
             }
 
-            // Example: get user name from dataset (pass from backend like <body data-username="{{ auth()->user()->name }}">)
             const username = await getAuthUser();
-
-            // Update modal text dynamically
-            document.getElementById("remove-all-message").innerText =
+            const msgEl = document.getElementById("remove-all-message");
+            if (msgEl) msgEl.textContent =
                 `Dear ${username}, are you sure you want to remove all selected items from your cart?`;
 
-            document.getElementById("remove-all-modal-wrapper").classList.remove("hidden");
+            document.getElementById("remove-all-modal-wrapper")?.classList.remove("hidden");
         }
 
-        // ✅ Close Modal
+        // Close modal
         function closeRemoveAllModal() {
-            document.getElementById("remove-all-modal-wrapper").classList.add("hidden");
+            document.getElementById("remove-all-modal-wrapper")?.classList.add("hidden");
         }
 
-        // ✅ Confirm Remove All
+        // Confirm removal → call backend, show success toast, then reload
         async function confirmRemoveAll() {
             try {
-                const selectedItems = Array.from(document.querySelectorAll(".item-checkbox:checked"))
-                    .map(cb => cb.closest(".cart-item"));
+                const selectedCheckboxes = Array.from(document.querySelectorAll(".item-checkbox:checked"));
+                const selectedRows = selectedCheckboxes.map(cb => cb.closest(".cart-item"));
+                const itemIds = selectedRows
+                    .map(row => row?.dataset?.itemId)
+                    .filter(Boolean);
 
-                const itemIds = selectedItems.map(item => item.dataset.itemId);
+                // If the master is checked or everything is selected, set all=true
+                const allChecked = document.getElementById("select-all")?.checked === true ||
+                    itemIds.length === document.querySelectorAll(".item-checkbox").length;
 
-                const response = await fetch("/cart/remove-all", {
+                const res = await fetch("/cart/remove-all", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                        "X-Requested-With": "XMLHttpRequest"
                     },
                     body: JSON.stringify({
-                        items: itemIds
+                        items: itemIds,
+                        all: allChecked
                     })
                 });
 
-                // 🚨 If unauthorized
-                if (response.status === 401) {
-                    showToast("You must be logged in to remove items.", "error");
+                // Unauthorized
+                if (res.status === 401) {
+                    closeRemoveAllModal();
+                    showToast("Please sign in to manage your cart.", "error");
                     return;
                 }
 
-                const data = await response.json();
+                // Parse JSON if possible
+                let data = null;
+                try {
+                    data = await res.json();
+                } catch (_) {}
 
-                if (data.status === "success") {
-                    // ✅ Remove items from DOM
-                    selectedItems.forEach(item => item.remove());
-
-                    // ✅ Update summary with server-calculated values
-                    document.getElementById("order-total").innerText = `$${data.cart.total}`;
-                    document.getElementById("wishlist-count").innerText = data.cartCount;
-
-                    // Or replace whole summary partial if you prefer:
-                    // document.getElementById("order-summary").innerHTML = data.summaryHtml;
-
-                    showToast(data.message, "success");
-
-                    // ✅ Reload the page to reflect all changes
-                    window.location.reload();
+                if (res.ok && data?.status === "success") {
+                    // Show success toast from server message (or fallback), then reload for a clean, synced UI
+                    showToast(data.message || "Items removed successfully.", "success");
+                    setTimeout(() => window.location.reload(), 900);
                 } else {
-                    showToast(data.message || "Something went wrong", "error");
+                    // Server responded but not success
+                    const msg = data?.message || "Failed to remove items.";
+                    showToast(msg, "error");
                 }
-            } catch (error) {
-                console.error(error);
+            } catch (err) {
+                console.error(err);
                 showToast("Failed to remove items. Please try again.", "error");
             } finally {
                 closeRemoveAllModal();
