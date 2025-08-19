@@ -432,7 +432,7 @@
             </div>
 
             <!-- Dynamic Message -->
-            <h2 class="text-2xl font-bold text-primary mb-3">Remove All Items?</h2>
+            <h2 class="text-2xl font-bold text-primary mb-3 text-center">Remove All Items?</h2>
             <p id="remove-all-message" class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
                 Are you sure you want to remove all items from your cart?
             </p>
