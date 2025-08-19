@@ -112,7 +112,7 @@
                     <!-- Item listing -->
                     <div class="card">
                         @forelse($cartItems as $item)
-                            <div class="cart-item border-b border-border pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0">
+                            <div class="cart-item border-b border-border pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0" data-item-id="{{ $item->id }}">
                                 <div class="cart-item-inner transition-transform duration-300 ease-out">
                                     <div class="flex items-start space-x-4">
                                         <input type="checkbox"
