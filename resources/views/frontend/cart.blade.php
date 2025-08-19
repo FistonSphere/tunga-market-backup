@@ -1043,7 +1043,7 @@
             return "Dear Customer"; // fallback
         }
         // ✅ Open Remove All Confirmation Modal
-        function RemoveAllItem() {
+        async function RemoveAllItem() {
             const selectedItems = document.querySelectorAll(".item-checkbox:checked");
             if (selectedItems.length === 0) {
                 showToast("No items selected", "info");
