@@ -210,6 +210,26 @@ public function updatePassword(Request $request)
     return response()->json(['message' => 'Password updated successfully.']);
 }
 
+ public function getUser(Request $request)
+    {
+        $user = Auth::user();
 
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthenticated',
+                'user' => null,
+            ], 401);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'user' => [
+                'id' => $user->id,
+                'first_name' => $user->first_name,
+                'email' => $user->email,
+            ]
+        ]);
+    }
 
 }
