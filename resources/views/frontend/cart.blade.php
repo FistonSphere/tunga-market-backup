@@ -1001,10 +1001,8 @@
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
+            if (!container) return;
 
-            if (!container) return; // safeguard
-
-            // create toast
             const toast = document.createElement('div');
             toast.className = `
         flex items-center px-4 py-3 rounded-lg shadow-lg text-white 
@@ -1014,14 +1012,21 @@
         animate-slide-in
     `;
             toast.innerText = message;
-
             container.appendChild(toast);
 
-            // auto remove after 3s
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'translate-x-5');
                 setTimeout(() => toast.remove(), 500);
             }, 3000);
+        }
+
+        // ✅ Show / Close Modal
+        function showLoginModal() {
+            document.getElementById("login-warning-modal-wrapper").classList.remove("hidden");
+        }
+
+        function closeLoginModal() {
+            document.getElementById("login-warning-modal-wrapper").classList.add("hidden");
         }
 
         // ✅ AddToWishlist function
@@ -1040,7 +1045,10 @@
 
                 const result = await response.json();
 
-                if (result.status === 'success') {
+                if (result.status === 'unauthenticated') {
+                    // 🚨 User is not logged in
+                    showLoginModal();
+                } else if (result.status === 'success') {
                     document.getElementById('wishlist-count').innerText = result.count;
                     showToast(result.message, 'success');
                 } else if (result.status === 'info') {
