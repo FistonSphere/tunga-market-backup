@@ -1051,7 +1051,7 @@
             }
 
             // Example: get user name from dataset (pass from backend like <body data-username="{{ auth()->user()->name }}">)
-            const username = document.body.dataset.username || "Dear Customer";
+            const username = await getAuthUser();
 
             // Update modal text dynamically
             document.getElementById("remove-all-message").innerText =
