@@ -26,7 +26,7 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         // Logic to show the login form
-        
+
         return view('frontend.auth.auth'); // Adjust the view name as necessary
     }
     public function register(Request $request)
@@ -209,5 +209,7 @@ public function updatePassword(Request $request)
 
     return response()->json(['message' => 'Password updated successfully.']);
 }
+
+
 
 }
