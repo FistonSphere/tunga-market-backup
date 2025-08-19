@@ -1055,7 +1055,7 @@
 
             // Update modal text dynamically
             document.getElementById("remove-all-message").innerText =
-                `${username}, are you sure you want to remove all selected items from your cart?`;
+                `Dear ${username}, are you sure you want to remove all selected items from your cart?`;
 
             document.getElementById("remove-all-modal-wrapper").classList.remove("hidden");
         }
