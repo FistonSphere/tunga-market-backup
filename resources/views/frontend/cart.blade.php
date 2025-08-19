@@ -431,7 +431,7 @@
     </div>
 
 
-<div id="notification-container" class="fixed top-5 right-5 space-y-3 z-50"></div>
+<div id="toast-container" class="fixed top-5 right-5 z-50 space-y-3"></div>
 
     <script>
         // Cart and Wishlist Management System
@@ -999,69 +999,7 @@
         //     };
         // });
 
-       function showNotification(type, message) {
-    const container = document.getElementById("notification-container");
-
-    // Create the notification element
-    const notif = document.createElement("div");
-    notif.className = `flex items-center px-4 py-3 rounded-lg shadow-lg text-white animate-fade-in-down`;
-
-    // Different colors for different types
-    if (type === "success") {
-        notif.classList.add("bg-green-500");
-    } else if (type === "error") {
-        notif.classList.add("bg-red-500");
-    } else {
-        notif.classList.add("bg-blue-500");
-    }
-
-    // Insert message
-    notif.innerHTML = `
-        <span class="mr-2">🔔</span>
-        <span>${message}</span>
-    `;
-
-    // Append to container
-    container.appendChild(notif);
-
-    // Remove after 3 seconds with fade-out animation
-    setTimeout(() => {
-        notif.classList.add("opacity-0", "translate-x-5", "transition-all", "duration-500");
-        setTimeout(() => notif.remove(), 500);
-    }, 3000);
-}
-
-async function addToWishlist(productId) {
-    try {
-        const response = await fetch(`/wishlist/add`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-            },
-            body: JSON.stringify({ product_id: productId })
-        });
-
-        const data = await response.json();
-
-        if (data.status === "success") {
-            // Update wishlist count dynamically
-            const wishlistCount = document.getElementById("wishlist-count");
-            if (wishlistCount) {
-                wishlistCount.textContent = data.count;
-            }
-            showNotification("success", data.message);
-        } else if (data.status === "info") {
-            showNotification("info", data.message);
-        } else {
-            showNotification("error", data.message || "Something went wrong");
-        }
-    } catch (error) {
-        console.error("Error:", error);
-        showNotification("error", "Failed to add product to wishlist.");
-    }
-}
-
+      
 
         //add to wishlist
     </script>
