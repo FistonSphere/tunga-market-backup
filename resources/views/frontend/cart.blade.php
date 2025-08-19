@@ -981,7 +981,7 @@
 
         // ✅ Redirect user to login page
         function goToSignIn() {
-            window.location.href = "/login"; // Adjust if your login route differs
+            window.location.href = "{{ route('login') }}"; // Adjust if your login route differs
         }
         //add to wishlist
     </script>
