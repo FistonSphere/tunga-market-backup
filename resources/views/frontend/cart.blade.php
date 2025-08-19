@@ -1096,9 +1096,7 @@
                 document.getElementById("wishlist-count").innerText = "0";
 
                 showToast("All selected items have been removed.", "success");
-            } catch (error) {
-                console.error(error);
-                showToast("Failed to remove items. Please try again.", "error");
+                window.location.reload(); 
             } finally {
                 closeRemoveAllModal();
             }
