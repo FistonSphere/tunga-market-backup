@@ -112,7 +112,8 @@
                     <!-- Item listing -->
                     <div class="card">
                         @forelse($cartItems as $item)
-                            <div class="cart-item border-b border-border pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0" data-item-id="{{ $item->id }}">
+                            <div class="cart-item border-b border-border pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0"
+                                data-item-id="{{ $item->id }}">
                                 <div class="cart-item-inner transition-transform duration-300 ease-out">
                                     <div class="flex items-start space-x-4">
                                         <input type="checkbox"
@@ -1027,6 +1028,20 @@
             checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
         }
 
+        async function getAuthUser() {
+            try {
+                const response = await fetch("/auth/user");
+                if (!response.ok) throw new Error("Not authenticated");
+
+                const data = await response.json();
+                if (data.status === "success" && data.user) {
+                    return data.user.first_name;
+                }
+            } catch (error) {
+                console.warn("User not logged in:", error);
+            }
+            return "Dear Customer"; // fallback
+        }
         // ✅ Open Remove All Confirmation Modal
         function RemoveAllItem() {
             const selectedItems = document.querySelectorAll(".item-checkbox:checked");
