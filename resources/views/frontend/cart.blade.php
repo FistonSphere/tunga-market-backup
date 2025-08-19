@@ -431,7 +431,7 @@
     </div>
 
 
-<div id="toast-container" class="fixed top-5 right-5 z-50 space-y-3"></div>
+    <div id="toast-container" class="fixed top-5 right-5 z-50 space-y-3"></div>
 
     <script>
         // Cart and Wishlist Management System
@@ -999,7 +999,60 @@
         //     };
         // });
 
-      
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+
+            if (!container) return; // safeguard
+
+            // create toast
+            const toast = document.createElement('div');
+            toast.className = `
+        flex items-center px-4 py-3 rounded-lg shadow-lg text-white 
+        ${type === 'success' ? 'bg-green-500' : 
+          type === 'error' ? 'bg-red-500' : 
+          type === 'info' ? 'bg-blue-500' : 'bg-gray-700'}
+        animate-slide-in
+    `;
+            toast.innerText = message;
+
+            container.appendChild(toast);
+
+            // auto remove after 3s
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-5');
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        // ✅ AddToWishlist function
+        async function addToWishlist(productId) {
+            try {
+                const response = await fetch('/wishlist/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        product_id: productId
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    document.getElementById('wishlist-count').innerText = result.count;
+                    showToast(result.message, 'success');
+                } else if (result.status === 'info') {
+                    showToast(result.message, 'info');
+                } else {
+                    showToast(result.message || 'Something went wrong', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                showToast('Failed to add product to wishlist', 'error');
+            }
+        }
 
         //add to wishlist
     </script>
