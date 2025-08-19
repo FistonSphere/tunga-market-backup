@@ -18,6 +18,6 @@ class CheckoutController extends Controller
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
         }
-        return view('frontend.checkout'); // Adjust the view name as necessary
+        return view('frontend.checkout', compact('cartItems')); // Adjust the view name as necessary
     }
 }
