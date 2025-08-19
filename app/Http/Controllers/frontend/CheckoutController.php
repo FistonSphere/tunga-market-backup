@@ -46,4 +46,47 @@ class CheckoutController extends Controller
 
         return redirect()->route('checkout.index')->with('step', 3);
     }
+
+     // Step 4: Complete Order
+    // public function complete()
+    // {
+    //     $cartItems = Cart::with('product')
+    //         ->where('user_id', Auth::id())
+    //         ->get();
+
+    //     if ($cartItems->isEmpty()) {
+    //         return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
+    //     }
+
+    //     $shipping = session('checkout.shipping');
+    //     $payment = session('checkout.payment');
+
+    //     // Create Order
+    //     $order = Order::create([
+    //         'user_id'   => Auth::id(),
+    //         'total'     => $cartItems->sum(fn($item) => $item->quantity * $item->price),
+    //         'currency'  => 'Rwf',
+    //         'status'    => 'pending',
+    //         'address'   => $shipping['address'],
+    //         'city'      => $shipping['city'],
+    //         'country'   => $shipping['country'],
+    //         'phone'     => $shipping['phone'],
+    //         'payment_method' => $payment['payment_method'] ?? 'cash',
+    //     ]);
+
+    //     // Create Order Items
+    //     foreach ($cartItems as $item) {
+    //         OrderItem::create([
+    //             'order_id'   => $order->id,
+    //             'product_id' => $item->product_id,
+    //             'quantity'   => $item->quantity,
+    //             'price'      => $item->price,
+    //         ]);
+    //     }
+
+    //     // Clear cart
+    //     Cart::where('user_id', Auth::id())->delete();
+
+    //     return redirect()->route('orders.show', $order->id)->with('success', 'Order placed successfully!');
+    // }
 }
