@@ -1071,10 +1071,8 @@
                 const selectedItems = Array.from(document.querySelectorAll(".item-checkbox:checked"))
                     .map(cb => cb.closest(".cart-item"));
 
-                // Collect IDs if needed for backend
                 const itemIds = selectedItems.map(item => item.dataset.itemId);
 
-                // Send DELETE request to backend
                 const response = await fetch("/cart/remove-all", {
                     method: "POST",
                     headers: {
@@ -1086,17 +1084,32 @@
                     })
                 });
 
-                if (!response.ok) throw new Error("Failed to remove items");
+                // 🚨 If unauthorized
+                if (response.status === 401) {
+                    showToast("You must be logged in to remove items.", "error");
+                    return;
+                }
 
-                // ✅ Remove items from DOM
-                selectedItems.forEach(item => item.remove());
+                const data = await response.json();
 
-                // ✅ Reset summary to 0
-                document.getElementById("order-total").innerText = "$0.00";
-                document.getElementById("wishlist-count").innerText = "0";
+                if (data.status === "success") {
+                    // ✅ Remove items from DOM
+                    selectedItems.forEach(item => item.remove());
 
-                showToast("All selected items have been removed.", "success");
-                window.location.reload(); 
+                    // ✅ Update summary with server-calculated values
+                    document.getElementById("order-total").innerText = `$${data.cart.total}`;
+                    document.getElementById("wishlist-count").innerText = data.cartCount;
+
+                    // Or replace whole summary partial if you prefer:
+                    // document.getElementById("order-summary").innerHTML = data.summaryHtml;
+
+                    showToast(data.message, "success");
+                } else {
+                    showToast(data.message || "Something went wrong", "error");
+                }
+            } catch (error) {
+                console.error(error);
+                showToast("Failed to remove items. Please try again.", "error");
             } finally {
                 closeRemoveAllModal();
             }
