@@ -243,13 +243,13 @@ public function removeSelected(Request $request)
         $subtotal    = $cartItems->sum(fn ($i) => $i->price * $i->quantity);
         $totalItems  = $cartItems->sum('quantity');
         $bulkDiscount = $subtotal > 200 ? $subtotal * 0.10 : 0;
-        $shipping    = 0;           // adjust if you have shipping rules
+        // $shipping    = 0;           // adjust if you have shipping rules
         $tax         = $subtotal * 0.05;
         $total       = $subtotal - $bulkDiscount + $shipping + $tax;
 
         // (Optional) also return a rendered summary partial if you want to replace the HTML
         $summaryHtml = view('partials.order-summary', compact(
-            'subtotal', 'totalItems', 'bulkDiscount', 'shipping', 'tax', 'total'
+            'subtotal', 'totalItems', 'bulkDiscount', 'tax', 'total'
         ))->render();
 
         return response()->json([
@@ -262,7 +262,7 @@ public function removeSelected(Request $request)
                 'totalItems'   => $totalItems,
                 'subtotal'     => number_format($subtotal, 2),
                 'bulkDiscount' => number_format($bulkDiscount, 2),
-                'shipping'     => number_format($shipping, 2),
+                // 'shipping'     => number_format($shipping, 2),
                 'tax'          => number_format($tax, 2),
                 'total'        => number_format($total, 2),
             ],
