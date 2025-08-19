@@ -1018,6 +1018,76 @@
             window.location.href = "{{ route('login') }}"; // Adjust if your login route differs
         }
         //add to wishlist
+
+
+        // ✅ Select/Deselect All Items
+        function toggleSelectAll() {
+            const masterCheckbox = document.getElementById("select-all");
+            const checkboxes = document.querySelectorAll(".item-checkbox");
+            checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+        }
+
+        // ✅ Open Remove All Confirmation Modal
+        function requestGroupQuote() {
+            const selectedItems = document.querySelectorAll(".item-checkbox:checked");
+            if (selectedItems.length === 0) {
+                showToast("No items selected", "info");
+                return;
+            }
+
+            // Example: get user name from dataset (pass from backend like <body data-username="{{ auth()->user()->name }}">)
+            const username = document.body.dataset.username || "Dear Customer";
+
+            // Update modal text dynamically
+            document.getElementById("remove-all-message").innerText =
+                `${username}, are you sure you want to remove all selected items from your cart?`;
+
+            document.getElementById("remove-all-modal-wrapper").classList.remove("hidden");
+        }
+
+        // ✅ Close Modal
+        function closeRemoveAllModal() {
+            document.getElementById("remove-all-modal-wrapper").classList.add("hidden");
+        }
+
+        // ✅ Confirm Remove All
+        async function confirmRemoveAll() {
+            try {
+                const selectedItems = Array.from(document.querySelectorAll(".item-checkbox:checked"))
+                    .map(cb => cb.closest(".cart-item"));
+
+                // Collect IDs if needed for backend
+                const itemIds = selectedItems.map(item => item.dataset.itemId);
+
+                // Send DELETE request to backend
+                const response = await fetch("/cart/remove-all", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    },
+                    body: JSON.stringify({
+                        items: itemIds
+                    })
+                });
+
+                if (!response.ok) throw new Error("Failed to remove items");
+
+                // ✅ Remove items from DOM
+                selectedItems.forEach(item => item.remove());
+
+                // ✅ Reset summary to 0
+                document.getElementById("order-total").innerText = "$0.00";
+                document.getElementById("wishlist-count").innerText = "0";
+
+                showToast("All selected items have been removed.", "success");
+            } catch (error) {
+                console.error(error);
+                showToast("Failed to remove items. Please try again.", "error");
+            } finally {
+                closeRemoveAllModal();
+            }
+        }
     </script>
 
 
