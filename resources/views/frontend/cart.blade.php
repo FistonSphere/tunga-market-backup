@@ -1104,6 +1104,9 @@
                     // document.getElementById("order-summary").innerHTML = data.summaryHtml;
 
                     showToast(data.message, "success");
+
+                    // ✅ Reload the page to reflect all changes
+                    window.location.reload();
                 } else {
                     showToast(data.message || "Something went wrong", "error");
                 }
