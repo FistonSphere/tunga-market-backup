@@ -1045,7 +1045,7 @@
 
                 const result = await response.json();
 
-                if (result.status === '302') {
+                if (result.status === '401') {
                     // 🚨 User is not logged in
                     showLoginModal();
                 } else if (result.status === 'success') {
