@@ -905,99 +905,6 @@
 
         //ad to wishlist from cart
 
-        //add to wishlist
-        // document.addEventListener("DOMContentLoaded", function() {
-        //     const wishlistCountSpan = document.getElementById("wishlist-count");
-        //     const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
-
-        //     /**
-        //      * Global function so inline onclick="addToWishlist(productId)" works
-        //      */
-        //     window.addToWishlist = function(productId) {
-        //         if (!productId) {
-        //             showToast("Error: Product ID is missing.", "error");
-        //             return;
-        //         }
-
-        //         fetch(`/wishlist/add`, {
-        //                 method: "POST",
-        //                 headers: {
-        //                     "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-        //                     "Content-Type": "application/json",
-        //                     "X-Requested-With": "XMLHttpRequest"
-        //                 },
-        //                 body: JSON.stringify({
-        //                     product_id: productId
-        //                 })
-        //             })
-        //             .then(response => {
-        //                 if (response.status === 401) {
-        //                     // Show modal for unauthenticated user
-        //                     document.getElementById("login-warning-modal-wrapper")
-        //                         .classList.remove("hidden");
-        //                     return null; // Stop further processing
-        //                 }
-        //                 return response.json();
-        //             })
-        //             .then(data => {
-        //                 if (!data) return; // Skip if already handled (401)
-
-        //                 if (data.status === "success") {
-        //                     updateWishlistCount(data.count);
-        //                     showToast(data.message, "success");
-        //                 } else if (data.status === "info") {
-        //                     showToast(data.message, "info");
-        //                 } else if (data.status === "error") {
-        //                     showToast(data.message, "error");
-        //                 }
-        //             })
-        //             .catch(err => {
-        //                 console.error(err);
-        //                 showToast("An error occurred. Please try again.", "error");
-        //             });
-        //     };
-
-        //     function updateWishlistCount(count) {
-        //         if (wishlistCountSpan) {
-        //             wishlistCountSpan.textContent = count;
-        //         }
-        //     }
-
-        //     function showToast(message, type = "success") {
-        //         const toastWrapper = document.getElementById("toast");
-        //         const toastMessage = toastWrapper.querySelector(".toast-message");
-        //         const textSpan = document.getElementById("toast-text");
-
-        //         textSpan.textContent = message;
-
-        //         // Reset color
-        //         toastMessage.classList.remove("bg-green-500", "bg-red-500", "bg-blue-500");
-        //         if (type === "success") toastMessage.classList.add("bg-green-500");
-        //         if (type === "error") toastMessage.classList.add("bg-red-500");
-        //         if (type === "info") toastMessage.classList.add("bg-blue-500");
-
-        //         // Show instantly
-        //         toastWrapper.classList.remove("hidden");
-        //         toastMessage.classList.remove("opacity-0", "scale-95");
-        //         toastMessage.classList.add("opacity-100", "scale-100");
-
-        //         // Hide after 3s
-        //         setTimeout(() => {
-        //             toastMessage.classList.remove("opacity-100", "scale-100");
-        //             toastMessage.classList.add("opacity-0", "scale-95");
-        //             setTimeout(() => toastWrapper.classList.add("hidden"), 300);
-        //         }, 3000);
-        //     }
-
-        //     // Global functions for login modal buttons
-        //     window.goToSignIn = function() {
-        //         window.location.href = "{{ route('login') }}";
-        //     };
-
-        //     window.continueBrowsing = function() {
-        //         loginWarningModalWrapper?.classList.add("hidden");
-        //     };
-        // });
 
         // ✅ Toast function
         function showToast(message, type = 'success') {
@@ -1066,7 +973,16 @@
                 showToast('Failed to add product to wishlist', 'error');
             }
         }
+        // ✅ Close modal → Continue Browsing
+        function continueBrowsing() {
+            const modal = document.getElementById("login-warning-modal-wrapper");
+            if (modal) modal.classList.add("hidden");
+        }
 
+        // ✅ Redirect user to login page
+        function goToSignIn() {
+            window.location.href = "/login"; // Adjust if your login route differs
+        }
         //add to wishlist
     </script>
 
