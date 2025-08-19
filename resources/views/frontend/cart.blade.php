@@ -88,7 +88,7 @@
                             </div>
                             <div class="flex items-center space-x-3">
 
-                                <button class="btn-secondary text-body-sm px-4 py-2" onclick="requestGroupQuote()">
+                                <button class="btn-secondary text-body-sm px-4 py-2" onclick="RemoveAllItem()">
                                     Remove Selected
                                 </button>
                             </div>
@@ -1028,7 +1028,7 @@
         }
 
         // ✅ Open Remove All Confirmation Modal
-        function requestGroupQuote() {
+        function RemoveAllItem() {
             const selectedItems = document.querySelectorAll(".item-checkbox:checked");
             if (selectedItems.length === 0) {
                 showToast("No items selected", "info");
