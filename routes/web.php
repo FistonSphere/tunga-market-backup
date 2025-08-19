@@ -82,6 +82,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.place.order');
+     Route::post('/cart/remove-all', [CartController::class, 'removeSelected'])
+        ->name('cart.removeSelected');
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
