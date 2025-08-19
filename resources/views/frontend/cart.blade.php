@@ -999,6 +999,7 @@
         //     };
         // });
 
+        // ✅ Toast function
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             if (!container) return;
@@ -1029,26 +1030,30 @@
             document.getElementById("login-warning-modal-wrapper").classList.add("hidden");
         }
 
-        // ✅ AddToWishlist function
+        // ✅ Add To Wishlist
         async function addToWishlist(productId) {
             try {
                 const response = await fetch('/wishlist/add', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
                     body: JSON.stringify({
                         product_id: productId
                     })
                 });
 
+                // 🚨 Handle unauthenticated user directly from status code
+                if (response.status === 401) {
+                    showLoginModal();
+                    return;
+                }
+
                 const result = await response.json();
 
-                if (result.status === '401') {
-                    // 🚨 User is not logged in
-                    showLoginModal();
-                } else if (result.status === 'success') {
+                if (result.status === 'success') {
                     document.getElementById('wishlist-count').innerText = result.count;
                     showToast(result.message, 'success');
                 } else if (result.status === 'info') {
