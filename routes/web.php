@@ -51,6 +51,9 @@ Route::get('/help-center', [HelpCenterController::class, 'index'])->name('help.c
 Route::get('/careers', [CareerController::class, 'index'])->name('careers');
 Route::get('/shopping-cart', [CartController::class, 'index'])->name('cart');
 Route::get('/checkout-process', [CheckoutController::class, 'index'])->name('checkout');
+Route::post('/checkout/shipping', [CheckoutController::class, 'storeShipping'])->name('checkout.shipping');
+Route::post('/checkout/payment', [CheckoutController::class, 'storePayment'])->name('checkout.payment');
+Route::post('/checkout/complete', [CheckoutController::class, 'complete'])->name('checkout.complete');
 Route::get('/order-tracking', [OrderTrackingController::class, 'index'])->name('order.tracking');
 
 
