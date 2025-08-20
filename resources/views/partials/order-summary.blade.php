@@ -51,7 +51,7 @@
                 <svg class="w-12 h-12 text-primary drop-shadow" fill="none" stroke="currentColor" stroke-width="2.2"
                     viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
+                    <circle cx="10" cy="7" r="4"></circle>
                 </svg>
                 <span
                     class="absolute -top-2 -right-2 bg-accent text-white text-xs px-2 py-0.5 rounded-full shadow">Guest</span>
