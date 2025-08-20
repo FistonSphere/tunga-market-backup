@@ -76,27 +76,12 @@
                                                 <div class="text-body-sm text-success">Save $99.98</div>
                                             </div>
                                         </div>
-
-                                        <div class="flex items-center space-x-4">
-                                            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2684&auto=format&fit=crop"
-                                                alt="Portable Bluetooth Speaker" class="w-16 h-16 rounded-lg object-cover"
-                                                loading="lazy" />
-                                            <div class="flex-1">
-                                                <h4 class="font-medium text-primary">Portable Bluetooth Speaker Pro</h4>
-                                                <div class="text-body-sm text-secondary-600">Color: Space Gray • Qty: 1
-                                                </div>
-                                            </div>
-                                            <div class="text-right">
-                                                <div class="font-semibold text-primary">$89.99</div>
-                                                <div class="text-body-sm text-success">Save $30.00</div>
-                                            </div>
-                                        </div>
                                     </div>
 
                                     <div class="bg-surface rounded-lg p-3 mt-4">
                                         <div class="flex justify-between text-body-sm">
                                             <span class="text-secondary-600">Subtotal:</span>
-                                            <span class="font-medium text-primary">$389.97</span>
+                                            <span class="font-medium text-primary">99.98</span>
                                         </div>
                                     </div>
                                 </div>
@@ -186,7 +171,6 @@
                                                     class="text-accent hover:text-accent-600 transition-fast text-body-sm mt-2">Edit</button>
                                             </div>
                                         </label>
-
                                         <!-- Add New Address -->
                                         <label
                                             class="flex items-start space-x-3 p-4 border-2 border-dashed border-border rounded-lg hover:bg-surface cursor-pointer">
