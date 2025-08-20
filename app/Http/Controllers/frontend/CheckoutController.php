@@ -4,6 +4,8 @@ namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,45 +50,45 @@ class CheckoutController extends Controller
     }
 
      // Step 4: Complete Order
-    // public function complete()
-    // {
-    //     $cartItems = Cart::with('product')
-    //         ->where('user_id', Auth::id())
-    //         ->get();
+    public function complete()
+    {
+        $cartItems = Cart::with('product')
+            ->where('user_id', Auth::id())
+            ->get();
 
-    //     if ($cartItems->isEmpty()) {
-    //         return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
-    //     }
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
+        }
 
-    //     $shipping = session('checkout.shipping');
-    //     $payment = session('checkout.payment');
+        $shipping = session('checkout.shipping');
+        $payment = session('checkout.payment');
 
-    //     // Create Order
-    //     $order = Order::create([
-    //         'user_id'   => Auth::id(),
-    //         'total'     => $cartItems->sum(fn($item) => $item->quantity * $item->price),
-    //         'currency'  => 'Rwf',
-    //         'status'    => 'pending',
-    //         'address'   => $shipping['address'],
-    //         'city'      => $shipping['city'],
-    //         'country'   => $shipping['country'],
-    //         'phone'     => $shipping['phone'],
-    //         'payment_method' => $payment['payment_method'] ?? 'cash',
-    //     ]);
+        // Create Order
+        $order = Order::create([
+            'user_id'   => Auth::id(),
+            'total'     => $cartItems->sum(fn($item) => $item->quantity * $item->price),
+            'currency'  => 'Rwf',
+            'status'    => 'pending',
+            'address'   => $shipping['address'],
+            'city'      => $shipping['city'],
+            'country'   => $shipping['country'],
+            'phone'     => $shipping['phone'],
+            'payment_method' => $payment['payment_method'] ?? 'cash',
+        ]);
 
-    //     // Create Order Items
-    //     foreach ($cartItems as $item) {
-    //         OrderItem::create([
-    //             'order_id'   => $order->id,
-    //             'product_id' => $item->product_id,
-    //             'quantity'   => $item->quantity,
-    //             'price'      => $item->price,
-    //         ]);
-    //     }
+        // Create Order Items
+        foreach ($cartItems as $item) {
+            OrderItem::create([
+                'order_id'   => $order->id,
+                'product_id' => $item->product_id,
+                'quantity'   => $item->quantity,
+                'price'      => $item->price,
+            ]);
+        }
 
-    //     // Clear cart
-    //     Cart::where('user_id', Auth::id())->delete();
+        // Clear cart
+        Cart::where('user_id', Auth::id())->delete();
 
-    //     return redirect()->route('orders.show', $order->id)->with('success', 'Order placed successfully!');
-    // }
+        return redirect()->route('orders.show', $order->id)->with('success', 'Order placed successfully!');
+    }
 }
