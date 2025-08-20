@@ -187,27 +187,6 @@
                                             </div>
                                         </label>
 
-                                        <!-- Saved Address 2 -->
-                                        <label
-                                            class="flex items-start space-x-3 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer">
-                                            <input type="radio" name="shipping-address" value="work"
-                                                class="mt-1 text-accent focus:ring-accent-500 border-border" />
-                                            <div class="flex-1">
-                                                <div class="flex items-center space-x-2 mb-1">
-                                                    <span class="font-medium text-primary">Work</span>
-                                                </div>
-                                                <div class="text-body-sm text-secondary-700">
-                                                    John Smith<br />
-                                                    456 Business Ave, Suite 200<br />
-                                                    New York, NY 10002<br />
-                                                    United States<br />
-                                                    Phone: +1 (555) 987-6543
-                                                </div>
-                                                <button
-                                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm mt-2">Edit</button>
-                                            </div>
-                                        </label>
-
                                         <!-- Add New Address -->
                                         <label
                                             class="flex items-start space-x-3 p-4 border-2 border-dashed border-border rounded-lg hover:bg-surface cursor-pointer">
