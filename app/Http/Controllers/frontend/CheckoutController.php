@@ -34,7 +34,7 @@ class CheckoutController extends Controller
 
         session(['checkout.shipping' => $request->all()]);
 
-        return redirect()->route('checkout.index')->with('step', 2);
+        return redirect()->route('frontend.checkout')->with('step', 2);
     }
 
     // Step 3: Store Payment
