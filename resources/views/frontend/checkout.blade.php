@@ -933,7 +933,7 @@
                             <div class="space-y-3 mb-4">
                                 @foreach ($cartItems as $item)
                                     <div class="flex items-center space-x-3">
-                                        <img src="{{ $item->product->image ?? 'default.jpg' }}"
+                                        <img src="{{ $item->product->main_image ?? 'default.jpg' }}"
                                             alt="{{ $item->product->name }}" class="w-12 h-12 rounded-lg object-cover"
                                             loading="lazy" />
 

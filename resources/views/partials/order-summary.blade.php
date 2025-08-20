@@ -41,8 +41,13 @@
 
     <!-- Checkout Button -->
     @auth
+    
         <form action="{{ route('checkout.index') }}" method="GET" class="mt-6">
-            <button class="btn-primary w-full">Proceed to Checkout</button>
+            <button 
+                class="btn-primary w-full {{ $totalItems == 0 ? 'bg-gray-200 text-gray-400 cursor-not-allowed border-gray-200 hover:bg-gray-200 hover:text-gray-400 hover:scale-100 focus:ring-0' : '' }}" 
+                {{ $totalItems == 0 ? 'disabled' : '' }}>
+                Proceed to Checkout
+            </button>
         </form>
     @else
         <div
