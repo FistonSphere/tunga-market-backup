@@ -931,65 +931,72 @@
 
                             <!-- Items Summary -->
                             <div class="space-y-3 mb-4">
-                                <div class="flex items-center space-x-3">
-                                    <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                                        alt="Premium Wireless Earbuds Pro" class="w-12 h-12 rounded-lg object-cover"
-                                        loading="lazy" />
-                                    <div class="flex-1">
-                                        <div class="font-medium text-primary text-body-sm">Premium Wireless Earbuds Pro
-                                        </div>
-                                        <div class="text-body-sm text-secondary-600">Qty: 2 • $149.99 each</div>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="font-medium text-primary">$299.98</div>
-                                    </div>
-                                </div>
+                                @foreach ($cartItems as $item)
+                                    <div class="flex items-center space-x-3">
+                                        <img src="{{ $item->product->image ?? 'default.jpg' }}"
+                                            alt="{{ $item->product->name }}" class="w-12 h-12 rounded-lg object-cover"
+                                            loading="lazy" />
 
-                                <div class="flex items-center space-x-3">
-                                    <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2684&auto=format&fit=crop"
-                                        alt="Portable Bluetooth Speaker" class="w-12 h-12 rounded-lg object-cover"
-                                        loading="lazy" />
-                                    <div class="flex-1">
-                                        <div class="font-medium text-primary text-body-sm">Portable Bluetooth Speaker Pro
+                                        <div class="flex-1">
+                                            <div class="font-medium text-primary text-body-sm">
+                                                {{ $item->product->name }}
+                                            </div>
+                                            <div class="text-body-sm text-secondary-600">
+                                                Qty: {{ $item->quantity }} •
+                                                ${{ number_format($item->product->price, 2) }} each
+                                            </div>
                                         </div>
-                                        <div class="text-body-sm text-secondary-600">Qty: 1 • $89.99 each</div>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="font-medium text-primary">$89.99</div>
-                                    </div>
-                                </div>
 
-                                <div class="text-center text-body-sm text-secondary-600 py-2">
-                                    + 3 more items from GlobalTech Solutions
-                                </div>
+                                        <div class="text-right">
+                                            <div class="font-medium text-primary">
+                                                ${{ number_format($item->product->price * $item->quantity, 2) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
 
+                            <!-- Totals -->
                             <div class="border-t border-border pt-4 space-y-3 text-body-sm">
                                 <div class="flex justify-between">
-                                    <span class="text-secondary-600">Subtotal (7 items):</span>
-                                    <span class="font-medium text-primary">$735.93</span>
+                                    <span class="text-secondary-600">Subtotal ({{ $cartItems->sum('quantity') }}
+                                        items):</span>
+                                    <span class="font-medium text-primary">${{ number_format($subtotal, 2) }}</span>
                                 </div>
-                                <div class="flex justify-between">
-                                    <span class="text-secondary-600">Bulk Discount:</span>
-                                    <span class="font-medium text-success">-$89.50</span>
-                                </div>
+
+                                @if ($discount > 0)
+                                    <div class="flex justify-between">
+                                        <span class="text-secondary-600">Bulk Discount:</span>
+                                        <span class="font-medium text-success">- ${{ number_format($discount, 2) }}</span>
+                                    </div>
+                                @endif
+
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Shipping:</span>
-                                    <span class="font-medium text-primary" id="shipping-cost">$12.99</span>
+                                    <span class="font-medium text-primary">${{ number_format($shipping, 2) }}</span>
                                 </div>
+
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Tax (estimated):</span>
-                                    <span class="font-medium text-primary">$52.94</span>
+                                    <span class="font-medium text-primary">${{ number_format($tax, 2) }}</span>
                                 </div>
+
                                 <div class="border-t border-border pt-3">
                                     <div class="flex justify-between">
                                         <span class="font-semibold text-primary">Total:</span>
-                                        <span class="text-xl font-bold text-primary" id="order-total">$711.36</span>
+                                        <span
+                                            class="text-xl font-bold text-primary">${{ number_format($total, 2) }}</span>
                                     </div>
-                                    <div class="text-success text-body-sm mt-1">You save $89.50!</div>
+
+                                    @if ($discount > 0)
+                                        <div class="text-success text-body-sm mt-1">
+                                            You save ${{ number_format($discount, 2) }}!
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- Security & Trust -->
                         <div class="card">
