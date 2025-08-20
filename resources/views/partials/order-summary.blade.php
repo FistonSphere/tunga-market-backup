@@ -61,7 +61,7 @@
                 <span>Welcome! Please <span class="text-primary font-semibold">log in</span> to complete your order.</span>
             </p>
             <a href="{{ route('login') }}"
-                class="btn-primary w-full max-w-xs font-semibold transition-transform hover:scale-105 focus:ring-2 focus:ring-primary/50">
+                class="btn-primary w-full max-w-xs font-semibold transition-transform hover:scale-105 focus:ring-2 focus:ring-primary/50 text-center">
                 Log in to Checkout
             </a>
 

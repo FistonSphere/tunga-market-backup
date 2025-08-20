@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
-    public function index()
-    {
-         $cartItems = Cart::with('product')
+   public function index()
+{
+    $cartItems = Cart::with('product')
         ->where('user_id', Auth::id())
         ->get();
 
@@ -22,9 +22,29 @@ class CheckoutController extends Controller
             ->with('error', 'Your cart is empty!');
     }
 
+    // Subtotal
     $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
-        return view('frontend.checkout', compact('cartItems', 'subtotal')); // Adjust the view name as necessary
-    }
+
+    // Bulk discount (reusing your cart logic)
+    $totalItems = $cartItems->sum('quantity');
+    $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
+
+    // Tax (7.2%)
+    $tax = ($subtotal - $bulkDiscount) * 0.072;
+
+    // Final total
+    $total = $subtotal - $bulkDiscount + $tax;
+
+    return view('frontend.checkout', compact(
+        'cartItems',
+        'subtotal',
+        'bulkDiscount',
+        'tax',
+        'total',
+        'totalItems'
+    ));
+}
+
 
      public function storeShipping(Request $request)
     {
