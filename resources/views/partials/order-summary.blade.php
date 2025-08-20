@@ -39,9 +39,19 @@
     </div>
 
     <!-- Checkout Button -->
-    <form action="" method="GET">
-        <button class="btn-primary w-full mt-6">Proceed to Checkout</button>
+    @auth
+    <form action="{{ route('checkout.index') }}" method="GET" class="mt-6">
+        <button class="btn-primary w-full">Proceed to Checkout</button>
     </form>
+    @else
+    <div class="text-center text-secondary-600 mt-4">
+        <p class="text-body-sm">Please <a href="{{ route('login') }}" class="text-primary font-semibold">log in</a> to proceed to checkout.</p>
+    </div>
+    
+    @endauth
+    {{-- <form action="" method="GET">
+        <button class="btn-primary w-full mt-6">Proceed to Checkout</button>
+    </form> --}}
 
     <!-- Payment Options -->
     <div class="mt-4">

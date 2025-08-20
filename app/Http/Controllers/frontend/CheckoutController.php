@@ -13,14 +13,17 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        $cartItems = Cart::with('product')
-            ->where('user_id', Auth::id())
-            ->get();
+         $cartItems = Cart::with('product')
+        ->where('user_id', Auth::id())
+        ->get();
 
-        if ($cartItems->isEmpty()) {
-            return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
-        }
-        return view('frontend.checkout', compact('cartItems')); // Adjust the view name as necessary
+    if ($cartItems->isEmpty()) {
+        return redirect()->route('cart.index')
+            ->with('error', 'Your cart is empty!');
+    }
+
+    $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
+        return view('frontend.checkout', compact('cartItems', 'subtotal')); // Adjust the view name as necessary
     }
 
      public function storeShipping(Request $request)

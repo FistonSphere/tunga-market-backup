@@ -82,60 +82,57 @@
                         <div class="card">
                             <div class="flex items-center justify-between mb-6">
                                 <h2 class="text-2xl font-bold text-primary">1. Order Review</h2>
-                                <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
-                                    onclick="goBackToCart()">
+                                <a href="{{ route('cart.index') }}"
+                                    class="text-secondary-600 hover:text-primary transition-fast text-body-sm">
                                     <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M11 17l-5-5m0 0l5-5m-5 5h12" />
                                     </svg>
                                     Edit Cart
-                                </button>
+                                </a>
                             </div>
 
                             <!-- Order Items -->
                             <div class="space-y-4">
-                                <!-- Supplier Group 1 -->
                                 <div class="border border-border rounded-lg p-4">
-                                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-border">
-                                        <div class="flex items-center space-x-3">
-                                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2940&auto=format&fit=crop"
-                                                alt="TechSound Manufacturing" class="w-10 h-10 rounded-lg object-cover"
-                                                loading="lazy" />
-                                            <div>
-                                                <h3 class="font-semibold text-primary">TechSound Manufacturing Co.</h3>
-                                                <div class="text-body-sm text-secondary-600">📍 Shenzhen, China • 🚚 Free
-                                                    Shipping</div>
-                                            </div>
-                                        </div>
-                                        <div class="text-right">
-                                            <div class="text-body-sm text-secondary-600">Delivery</div>
-                                            <div class="font-medium text-primary">5-7 days</div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Items from this supplier -->
+                                    <!-- Items -->
                                     <div class="space-y-3">
-                                        <div class="flex items-center space-x-4">
-                                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                                                alt="Premium Wireless Earbuds Pro" class="w-16 h-16 rounded-lg object-cover"
-                                                loading="lazy" />
-                                            <div class="flex-1">
-                                                <h4 class="font-medium text-primary">Premium Wireless Earbuds Pro</h4>
-                                                <div class="text-body-sm text-secondary-600">Color: Midnight Black • Qty: 2
+                                        @foreach ($cartItems as $item)
+                                            <div class="flex items-center space-x-4">
+                                                <img src="{{ $item->product->main_image ?? 'default-product.jpg' }}"
+                                                    alt="{{ $item->product->name }}"
+                                                    class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
+                                                <div class="flex-1">
+                                                    <h4 class="font-medium text-primary">{{ $item->product->name }}</h4>
+                                                    <div class="text-body-sm text-secondary-600">
+                                                        Qty: {{ $item->quantity }}
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="font-semibold text-primary">
+                                                        {{ number_format($item->price * $item->quantity, 2) }}
+                                                        {{ $item->currency }}
+                                                    </div>
+                                                    @if ($item->product->discount_price)
+                                                        <div class="text-body-sm text-success">
+                                                            Save
+                                                            {{ number_format(($item->product->price - $item->product->discount_price) * $item->quantity, 2) }}
+                                                            {{ $item->currency }}
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
-                                            <div class="text-right">
-                                                <div class="font-semibold text-primary">$299.98</div>
-                                                <div class="text-body-sm text-success">Save $99.98</div>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
 
+                                    <!-- Subtotal -->
                                     <div class="bg-surface rounded-lg p-3 mt-4">
                                         <div class="flex justify-between text-body-sm">
                                             <span class="text-secondary-600">Subtotal:</span>
-                                            <span class="font-medium text-primary">99.98</span>
+                                            <span class="font-medium text-primary">
+                                                {{ number_format($subtotal, 2) }} Rwf
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -143,10 +140,14 @@
 
                             <!-- Continue Button -->
                             <div class="flex justify-end mt-6">
-                                <button class="btn-primary" onclick="nextStep(2)">Continue to Shipping</button>
+                                <form action="{{ route('checkout.shipping') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn-primary">Continue to Shipping</button>
+                                </form>
                             </div>
                         </div>
                     </div>
+
 
                     <!-- Step 2: Shipping & Address -->
                     <div id="step-2" class="checkout-step hidden">

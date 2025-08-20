@@ -86,7 +86,7 @@
                                 <label for="select-all" class="text-body-sm font-medium text-primary">Select All
                                     Items</label>
                             </div>
-                            <div class="flex items-center space-x-3">
+                            <div class="flex items-center space-x-3p">
 
                                 <button class="btn-secondary text-body-sm px-4 py-2" onclick="RemoveAllItem()">
                                     Remove Selected
