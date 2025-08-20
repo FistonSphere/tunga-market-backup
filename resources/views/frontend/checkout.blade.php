@@ -85,39 +85,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Supplier Group 2 -->
-                                <div class="border border-border rounded-lg p-4">
-                                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-border">
-                                        <div class="flex items-center space-x-3">
-                                            <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                                alt="GlobalTech Solutions" class="w-10 h-10 rounded-lg object-cover"
-                                                loading="lazy" />
-                                            <div>
-                                                <h3 class="font-semibold text-primary">GlobalTech Solutions Ltd.</h3>
-                                                <div class="text-body-sm text-secondary-600">📍 Guangzhou, China • 🚚 $12.99
-                                                    shipping</div>
-                                            </div>
-                                        </div>
-                                        <div class="text-right">
-                                            <div class="text-body-sm text-secondary-600">Delivery</div>
-                                            <div class="font-medium text-primary">7-10 days</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="text-center py-4 text-secondary-600">
-                                        <div class="text-body">3 items from this supplier</div>
-                                        <button class="text-accent hover:text-accent-600 transition-fast text-body-sm mt-1"
-                                            onclick="expandSupplierItems(this)">View Details</button>
-                                    </div>
-
-                                    <div class="bg-surface rounded-lg p-3 mt-4">
-                                        <div class="flex justify-between text-body-sm">
-                                            <span class="text-secondary-600">Subtotal:</span>
-                                            <span class="font-medium text-primary">$245.97</span>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
 
                             <!-- Continue Button -->
@@ -326,50 +293,6 @@
                                                     </div>
                                                     <div class="text-right">
                                                         <div class="font-semibold text-primary">$15.99</div>
-                                                        <div class="text-body-sm text-secondary-600">Insurance included
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <!-- GlobalTech Solutions Shipping -->
-                                        <div class="border border-border rounded-lg p-4">
-                                            <h4 class="font-medium text-primary mb-3">GlobalTech Solutions Ltd.</h4>
-                                            <div class="space-y-2">
-                                                <label
-                                                    class="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-surface cursor-pointer">
-                                                    <div class="flex items-center space-x-3">
-                                                        <input type="radio" name="shipping-globaltech" value="standard"
-                                                            class="text-accent focus:ring-accent-500 border-border"
-                                                            checked />
-                                                        <div>
-                                                            <div class="font-medium text-primary">Standard Shipping</div>
-                                                            <div class="text-body-sm text-secondary-600">7-10 business days
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-right">
-                                                        <div class="font-semibold text-primary">$12.99</div>
-                                                        <div class="text-body-sm text-secondary-600">Tracking included
-                                                        </div>
-                                                    </div>
-                                                </label>
-
-                                                <label
-                                                    class="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-surface cursor-pointer">
-                                                    <div class="flex items-center space-x-3">
-                                                        <input type="radio" name="shipping-globaltech"
-                                                            value="expedited"
-                                                            class="text-accent focus:ring-accent-500 border-border" />
-                                                        <div>
-                                                            <div class="font-medium text-primary">Expedited Shipping</div>
-                                                            <div class="text-body-sm text-secondary-600">4-6 business days
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-right">
-                                                        <div class="font-semibold text-primary">$24.99</div>
                                                         <div class="text-body-sm text-secondary-600">Insurance included
                                                         </div>
                                                     </div>
