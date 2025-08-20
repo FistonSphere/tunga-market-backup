@@ -20,33 +20,34 @@
         </div>
 
     </section>
+    <!-- Checkout Header -->
     <div class="bg-white shadow-card sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
 
                 <!-- Checkout Progress Indicator -->
-                <div class="hidden md:flex items-center space-x-4">
+                <div class="flex items-center space-x-4 overflow-x-auto whitespace-nowrap">
                     <div class="flex items-center space-x-2">
                         <div
                             class="w-8 h-8 bg-accent text-white rounded-full flex items-center justify-center text-body-sm font-semibold">
                             1</div>
                         <span class="text-body-sm font-medium text-accent">Review Order</span>
                     </div>
-                    <div class="w-8 h-0.5 bg-border"></div>
+                    <div class="w-8 h-0.5 bg-border flex-shrink-0"></div>
                     <div class="flex items-center space-x-2">
                         <div
                             class="w-8 h-8 bg-border text-secondary-600 rounded-full flex items-center justify-center text-body-sm font-semibold">
                             2</div>
                         <span class="text-body-sm text-secondary-600">Shipping</span>
                     </div>
-                    <div class="w-8 h-0.5 bg-border"></div>
+                    <div class="w-8 h-0.5 bg-border flex-shrink-0"></div>
                     <div class="flex items-center space-x-2">
                         <div
                             class="w-8 h-8 bg-border text-secondary-600 rounded-full flex items-center justify-center text-body-sm font-semibold">
                             3</div>
                         <span class="text-body-sm text-secondary-600">Payment</span>
                     </div>
-                    <div class="w-8 h-0.5 bg-border"></div>
+                    <div class="w-8 h-0.5 bg-border flex-shrink-0"></div>
                     <div class="flex items-center space-x-2">
                         <div
                             class="w-8 h-8 bg-border text-secondary-600 rounded-full flex items-center justify-center text-body-sm font-semibold">
@@ -56,7 +57,7 @@
                 </div>
 
                 <!-- Security Badge -->
-                <div class="hidden md:flex items-center space-x-2 text-success">
+                <div class="hidden md:flex items-center space-x-2 text-success ml-4 flex-shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -66,6 +67,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Checkout Header -->
+
     <!-- Main Checkout Content -->
     <section class="py-8">
 
@@ -1075,7 +1079,7 @@
     </div>
 
 
-   
+
 
     <script>
         let currentStep = 1;
