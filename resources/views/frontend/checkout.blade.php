@@ -1,5 +1,46 @@
 @extends('layouts.app')
 @section('content')
+    <div class="flex justify-between items-center h-16">
+        <!-- Checkout Progress Indicator -->
+        <div class="hidden md:flex items-center space-x-4">
+            <div class="flex items-center space-x-2">
+                <div
+                    class="w-8 h-8 bg-accent text-white rounded-full flex items-center justify-center text-body-sm font-semibold">
+                    1</div>
+                <span class="text-body-sm font-medium text-accent">Review Order</span>
+            </div>
+            <div class="w-8 h-0.5 bg-border"></div>
+            <div class="flex items-center space-x-2">
+                <div
+                    class="w-8 h-8 bg-border text-secondary-600 rounded-full flex items-center justify-center text-body-sm font-semibold">
+                    2</div>
+                <span class="text-body-sm text-secondary-600">Shipping</span>
+            </div>
+            <div class="w-8 h-0.5 bg-border"></div>
+            <div class="flex items-center space-x-2">
+                <div
+                    class="w-8 h-8 bg-border text-secondary-600 rounded-full flex items-center justify-center text-body-sm font-semibold">
+                    3</div>
+                <span class="text-body-sm text-secondary-600">Payment</span>
+            </div>
+            <div class="w-8 h-0.5 bg-border"></div>
+            <div class="flex items-center space-x-2">
+                <div
+                    class="w-8 h-8 bg-border text-secondary-600 rounded-full flex items-center justify-center text-body-sm font-semibold">
+                    4</div>
+                <span class="text-body-sm text-secondary-600">Confirmation</span>
+            </div>
+        </div>
+
+        <!-- Security Badge -->
+        <div class="hidden md:flex items-center space-x-2 text-success">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            <span class="text-body-sm font-medium">Secure Checkout</span>
+        </div>
+    </div>
     <!-- Breadcrumb Navigation -->
     <section class="bg-surface py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -8,7 +49,8 @@
                 <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
-                <a href="{{ route('cart') }}" class="text-secondary-600 hover:text-primary transition-fast">Shopping Cart</a>
+                <a href="{{ route('cart') }}" class="text-secondary-600 hover:text-primary transition-fast">Shopping
+                    Cart</a>
                 <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
@@ -1428,7 +1470,8 @@
             // For demo purposes, show success message
             setTimeout(() => {
                 alert(
-                    `Thank you! Your order #${orderNumber} has been placed successfully. You will receive a confirmation email shortly.`);
+                    `Thank you! Your order #${orderNumber} has been placed successfully. You will receive a confirmation email shortly.`
+                );
             }, 1000);
         }
 
