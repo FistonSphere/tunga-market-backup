@@ -31,7 +31,10 @@ class CheckoutController extends Controller
 
     // Tax (7.2%)
     $tax = ($subtotal - $bulkDiscount) * 0.072;
-
+//discount
+$discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
+//shipping
+$shipping = 12.99;
     // Final total
     $total = $subtotal - $bulkDiscount + $tax;
 
@@ -40,6 +43,8 @@ class CheckoutController extends Controller
         'subtotal',
         'bulkDiscount',
         'tax',
+        'shipping',
+        'discount',
         'total',
         'totalItems'
     ));
