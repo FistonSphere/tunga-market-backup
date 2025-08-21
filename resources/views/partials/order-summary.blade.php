@@ -44,7 +44,7 @@
     
         <form action="{{ route('checkout.index') }}" method="GET" class="mt-6">
             <button 
-                class="btn-primary w-full {{ $totalItems == 0 ? 'bg-gray-200 text-gray-400 cursor-not-allowed border-gray-200 hover:bg-gray-200 hover:text-gray-400 hover:scale-100 focus:ring-0' : '' }}" 
+                class="btn-primary w-full {{ $totalItems == 0 ? 'bg-gray-200 text-white cursor-not-allowed border-gray-200 hover:bg-gray-200 hover:text-white hover:scale-100 focus:ring-0' : '' }}" 
                 {{ $totalItems == 0 ? 'disabled' : '' }}>
                 Proceed to Checkout
             </button>
