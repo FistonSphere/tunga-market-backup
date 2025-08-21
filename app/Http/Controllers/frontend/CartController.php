@@ -26,7 +26,7 @@ class CartController extends Controller
     $totalItems = $cartItems->sum('quantity');
     $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
 
-    // Example: Shipping flat rate
+    // Example: Shipping flat rate.
     // $shipping = 12.99;
 
     // Example: Tax calculation (7.2%)
