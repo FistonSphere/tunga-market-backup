@@ -943,13 +943,13 @@
                                             </div>
                                             <div class="text-body-sm text-secondary-600">
                                                 Qty: {{ $item->quantity }} •
-                                                {{ number_format($item->product->price, 2) }} {{ $items->product->currency }} each
+                                                {{ number_format($item->product->price, 2) }} {{ $item->product->currency }} each
                                             </div>
                                         </div>
 
                                         <div class="text-right">
                                             <div class="font-medium text-primary">
-                                                {{ number_format($item->product->price * $item->quantity, 2) }} {{ $items->product->currency }}
+                                                {{ number_format($item->product->price * $item->quantity, 2) }} {{ $item->product->currency }}
                                             </div>
                                         </div>
                                     </div>
@@ -961,36 +961,36 @@
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Subtotal ({{ $cartItems->sum('quantity') }}
                                         items):</span>
-                                    <span class="font-medium text-primary">{{ number_format($subtotal, 2) }} {{ $items->product->currency }}</span>
+                                    <span class="font-medium text-primary">{{ number_format($subtotal, 2) }} {{ $item->product->currency }}</span>
                                 </div>
 
                                 @if ($discount > 0)
                                     <div class="flex justify-between">
                                         <span class="text-secondary-600">Bulk Discount:</span>
-                                        <span class="font-medium text-success">- {{ number_format($discount, 2) }} {{ $items->product->currency }}</span>
+                                        <span class="font-medium text-success">- {{ number_format($discount, 2) }} {{ $item->product->currency }}</span>
                                     </div>
                                 @endif
 
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Shipping:</span>
-                                    <span class="font-medium text-primary">{{ number_format($shipping, 2) }} {{ $items->product->currency }}</span>
+                                    <span class="font-medium text-primary">{{ number_format($shipping, 2) }} {{ $item->product->currency }}</span>
                                 </div>
 
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Tax (estimated):</span>
-                                    <span class="font-medium text-primary">{{ number_format($tax, 2) }} {{ $items->product->currency }}</span>
+                                    <span class="font-medium text-primary">{{ number_format($tax, 2) }} {{ $item->product->currency }}</span>
                                 </div>
 
                                 <div class="border-t border-border pt-3">
                                     <div class="flex justify-between">
                                         <span class="font-semibold text-primary">Total:</span>
                                         <span
-                                            class="text-xl font-bold text-primary">{{ number_format($total, 2) }} {{ $items->product->currency }}</span>
+                                            class="text-xl font-bold text-primary">{{ number_format($total, 2) }} {{ $item->product->currency }}</span>
                                     </div>
 
                                     @if ($discount > 0)
                                         <div class="text-success text-body-sm mt-1">
-                                            You save {{ number_format($discount, 2) }} {{ $items->product->currency }}!
+                                            You save {{ number_format($discount, 2) }} {{ $item->product->currency }}!
                                         </div>
                                     @endif
                                 </div>
