@@ -13,10 +13,10 @@
             </span>
         </div>
         <div class="flex justify-between">
-            <span class="text-secondary-600">Bulk Discount:</span>
-            <span id="summary-discount"
-                class="font-medium {{ $bulkDiscount > 0 ? 'text-success' : 'text-secondary-500' }}">
-                -{{ number_format($bulkDiscount, 2) }} Rwf
+            <span class="text-secondary-600">Shipping Fee:</span>
+            <span id="shipping-fee"
+                class="text-success">
+                Free
             </span>
         </div>
         <div class="flex justify-between">
@@ -41,10 +41,10 @@
 
     <!-- Checkout Button -->
     @auth
-    
+
         <form action="{{ route('checkout.index') }}" method="GET" class="mt-6">
-            <button 
-                class="btn-primary w-full {{ $totalItems == 0 ? 'bg-gray-200 text-white cursor-not-allowed border-gray-200 hover:bg-gray-200 hover:text-white hover:scale-100 focus:ring-0' : '' }}" 
+            <button
+                class="btn-primary w-full {{ $totalItems == 0 ? 'bg-gray-200 text-white cursor-not-allowed border-gray-200 hover:bg-gray-200 hover:text-white hover:scale-100 focus:ring-0' : '' }}"
                 {{ $totalItems == 0 ? 'disabled' : '' }}>
                 Proceed to Checkout
             </button>
