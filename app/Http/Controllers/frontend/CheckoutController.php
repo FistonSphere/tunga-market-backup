@@ -144,7 +144,7 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
 
     ShippingAddress::create($validated);
 
-    return redirect()->route('checkout.index')->with('success', 'New address added successfully.');
+    return redirect()->back()->with('success', 'New address added successfully.');
 }
 
 }
