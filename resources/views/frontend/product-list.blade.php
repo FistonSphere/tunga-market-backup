@@ -111,14 +111,14 @@
                         <!-- Currency Selector -->
                         <select id="currency-select" class="input-field w-full mb-3">
                             <option value="" selected>Currency</option>
-                            <option value="$">USD ($)</option>
+                            {{-- <option value="$">USD ($)</option> --}}
                             <option value="RWF">RWF (₣)</option>
                         </select>
 
                         <div class="space-y-3">
                             <div class="flex gap-2">
-                                <input type="number" id="min-price" placeholder="Min" class="input-field flex-1" />
-                                <input type="number" id="max-price" placeholder="Max" class="input-field flex-1" />
+                                <input type="number" id="min-price" placeholder="Min" min="10" class="input-field flex-1" />
+                                <input type="number" id="max-price" placeholder="Max" min="100" class="input-field flex-1" />
                             </div>
 
                             <div class="bg-secondary-100 h-2 rounded-full relative">
