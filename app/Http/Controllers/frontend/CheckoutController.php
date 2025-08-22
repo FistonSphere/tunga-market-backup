@@ -27,23 +27,21 @@ class CheckoutController extends Controller
 
     // Bulk discount (reusing your cart logic)
     $totalItems = $cartItems->sum('quantity');
-    $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
+    // $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
 
     // Tax (7.2%)
-    $tax = ($subtotal - $bulkDiscount) * 0.072;
+    $tax = ($subtotal) * 0.1;
 //discount
 $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
 //shipping
-$shipping = 12.99;
+// $shipping = 12.99;
     // Final total
-    $total = $subtotal - $bulkDiscount + $tax;
+    $total = $subtotal + $tax;
 
     return view('frontend.checkout', compact(
         'cartItems',
         'subtotal',
-        'bulkDiscount',
         'tax',
-        'shipping',
         'discount',
         'total',
         'totalItems'
