@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\ShippingAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,7 +38,8 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
 // $shipping = 12.99;
     // Final total
     $total = $subtotal + $tax;
-
+ // ✅ Get user saved addresses
+    $addresses = ShippingAddress::where('user_id', Auth::id())->get();
     return view('frontend.checkout', compact(
         'cartItems',
         'subtotal',
