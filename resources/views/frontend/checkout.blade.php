@@ -168,32 +168,46 @@
                                 <div>
                                     <h3 class="font-semibold text-primary mb-4">Select Shipping Address</h3>
                                     <div class="space-y-3">
-                                        <!-- Saved Address 1 -->
-                                        <label
-                                            class="flex items-start space-x-3 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer">
-                                            <input type="radio" name="shipping-address" value="home"
-                                                class="mt-1 text-accent focus:ring-accent-500 border-border" checked />
-                                            <div class="flex-1">
-                                                <div class="flex items-center space-x-2 mb-1">
-                                                    <span class="font-medium text-primary">Home</span>
-                                                    <span
-                                                        class="bg-success text-white px-2 py-0.5 rounded-full text-xs">Default</span>
+                                        @forelse($addresses as $address)
+                                            <label
+                                                class="flex items-start space-x-3 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer">
+                                                <input type="radio" name="shipping_address_id"
+                                                    value="{{ $address->id }}"
+                                                    class="mt-1 text-accent focus:ring-accent-500 border-border"
+                                                    {{ $address->is_default ? 'checked' : '' }} />
+                                                <div class="flex-1">
+                                                    <div class="flex items-center space-x-2 mb-1">
+                                                        <span class="font-medium text-primary">
+                                                            {{ $address->first_name }} {{ $address->last_name }}
+                                                        </span>
+                                                        @if ($address->is_default)
+                                                            <span
+                                                                class="bg-success text-white px-2 py-0.5 rounded-full text-xs">Default</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="text-body-sm text-secondary-700">
+                                                        {{ $address->company ? $address->company . '<br>' : '' }}
+                                                        {{ $address->address_line1 }} {{ $address->address_line2 }}<br />
+                                                        {{ $address->city }}, {{ $address->state }}
+                                                        {{ $address->postal_code }}<br />
+                                                        {{ $address->country }}<br />
+                                                        Phone: {{ $address->phone }}
+                                                    </div>
+                                                    <button type="button"
+                                                        class="text-accent hover:text-accent-600 transition-fast text-body-sm mt-2">
+                                                        Edit
+                                                    </button>
                                                 </div>
-                                                <div class="text-body-sm text-secondary-700">
-                                                    John Smith<br />
-                                                    123 Main Street, Apt 4B<br />
-                                                    New York, NY 10001<br />
-                                                    United States<br />
-                                                    Phone: +1 (555) 123-4567
-                                                </div>
-                                                <button
-                                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm mt-2">Edit</button>
-                                            </div>
-                                        </label>
+                                            </label>
+                                        @empty
+                                            <p class="text-body-sm text-secondary-600">No saved addresses. Please add one
+                                                below.</p>
+                                        @endforelse
+
                                         <!-- Add New Address -->
                                         <label
                                             class="flex items-start space-x-3 p-4 border-2 border-dashed border-border rounded-lg hover:bg-surface cursor-pointer">
-                                            <input type="radio" name="shipping-address" value="new"
+                                            <input type="radio" name="shipping_address_id" value="new"
                                                 class="mt-1 text-accent focus:ring-accent-500 border-border" />
                                             <div class="flex-1">
                                                 <div class="flex items-center space-x-2 mb-1">
@@ -210,6 +224,7 @@
                                             </div>
                                         </label>
                                     </div>
+
                                 </div>
 
                                 <!-- New Address Form (Hidden by default) -->
