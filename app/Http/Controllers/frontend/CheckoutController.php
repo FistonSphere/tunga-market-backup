@@ -120,4 +120,31 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
 
         return redirect()->route('orders.show', $order->id)->with('success', 'Order placed successfully!');
     }
+
+    public function storeAddress(Request $request)
+{
+    $validated = $request->validate([
+        'first_name' => 'required|string|max:50',
+        'last_name' => 'required|string|max:50',
+        'address_line1' => 'required|string|max:255',
+        'address_line2' => 'nullable|string|max:255',
+        'city' => 'required|string|max:100',
+        'state' => 'required|string|max:100',
+        'postal_code' => 'required|string|max:20',
+        'country' => 'required|string|max:100',
+        'phone' => 'required|string|max:20',
+        'company' => 'nullable|string|max:100',
+    ]);
+
+    $validated['user_id'] = Auth::id();
+    if ($request->has('is_default')) {
+        ShippingAddress::where('user_id', Auth::id())->update(['is_default' => false]);
+        $validated['is_default'] = true;
+    }
+
+    ShippingAddress::create($validated);
+
+    return redirect()->route('checkout.index')->with('success', 'New address added successfully.');
+}
+
 }
