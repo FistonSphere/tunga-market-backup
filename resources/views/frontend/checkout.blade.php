@@ -933,7 +933,7 @@
                             <div class="space-y-3 mb-4">
                                 @foreach ($cartItems as $item)
                                     <div class="flex items-center space-x-3">
-                                        <img src="{{ $item->product->main_image ?? 'default.jpg' }}"
+                                        <img src="{{ $item->product->main_image ?? '{{ asset('assets/images/no-image.png') }}' }}"
                                             alt="{{ $item->product->name }}" class="w-12 h-12 rounded-lg object-cover"
                                             loading="lazy" />
 
@@ -943,7 +943,7 @@
                                             </div>
                                             <div class="text-body-sm text-secondary-600">
                                                 Qty: {{ $item->quantity }} •
-                                                ${{ number_format($item->product->price, 2) }} each
+                                                {{ number_format($item->product->price, 2) }} {{ $items->product->currency }} each
                                             </div>
                                         </div>
 
