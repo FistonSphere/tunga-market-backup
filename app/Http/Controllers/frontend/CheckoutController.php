@@ -46,7 +46,8 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
         'tax',
         'discount',
         'total',
-        'totalItems'
+        'totalItems',
+        'addresses'
     ));
 }
 
