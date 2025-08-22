@@ -32,10 +32,10 @@
                     {{ number_format($total, 2) }} Rwf
                 </span>
             </div>
-            <div id="summary-save-message"
+            {{-- <div id="summary-save-message"
                 class="text-success text-body-sm mt-1 {{ $bulkDiscount <= 0 ? 'hidden' : '' }}">
                 You save {{ number_format($bulkDiscount, 2) }} Rwf with bulk pricing!
-            </div>
+            </div> --}}
         </div>
     </div>
 
