@@ -23,7 +23,7 @@
 <body class="bg-background text-text-primary">
 
     <!-- Navigation Header -->
-    <header class="bg-white shadow-card sticky top-0 z-50">
+    <header class="bg-white shadow-card sticky top-0" style="z-index: 99999;">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
@@ -1813,7 +1813,7 @@
         //remove product from wishlist
 
 
-        
+
     </script>
 
 
