@@ -949,7 +949,7 @@
 
                                         <div class="text-right">
                                             <div class="font-medium text-primary">
-                                                ${{ number_format($item->product->price * $item->quantity, 2) }}
+                                                {{ number_format($item->product->price * $item->quantity, 2) }} {{ $items->product->currency }}
                                             </div>
                                         </div>
                                     </div>
@@ -961,13 +961,13 @@
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Subtotal ({{ $cartItems->sum('quantity') }}
                                         items):</span>
-                                    <span class="font-medium text-primary">${{ number_format($subtotal, 2) }}</span>
+                                    <span class="font-medium text-primary">{{ number_format($subtotal, 2) }} {{ $items->product->currency }}</span>
                                 </div>
 
                                 @if ($discount > 0)
                                     <div class="flex justify-between">
                                         <span class="text-secondary-600">Bulk Discount:</span>
-                                        <span class="font-medium text-success">- ${{ number_format($discount, 2) }}</span>
+                                        <span class="font-medium text-success">- {{ number_format($discount, 2) }} {{ $items->product->currency }}</span>
                                     </div>
                                 @endif
 
