@@ -140,10 +140,7 @@
 
                             <!-- Continue Button -->
                             <div class="flex justify-end mt-6">
-                                <form action="{{ route('checkout.shipping') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn-primary">Continue to Shipping</button>
-                                </form>
+                                <button class="btn-primary" onclick="nextStep(2)">Continue to Shipping</button>
                             </div>
                         </div>
                     </div>
