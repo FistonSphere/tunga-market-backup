@@ -933,7 +933,7 @@
                             <div class="space-y-3 mb-4">
                                 @foreach ($cartItems as $item)
                                     <div class="flex items-center space-x-3">
-                                        <img src="{{ $item->product->main_image ?? '{{ asset('assets/images/no-image.png') }}' }}"
+                                        <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}"
                                             alt="{{ $item->product->name }}" class="w-12 h-12 rounded-lg object-cover"
                                             loading="lazy" />
 
@@ -973,24 +973,24 @@
 
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Shipping:</span>
-                                    <span class="font-medium text-primary">${{ number_format($shipping, 2) }}</span>
+                                    <span class="font-medium text-primary">{{ number_format($shipping, 2) }} {{ $items->product->currency }}</span>
                                 </div>
 
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Tax (estimated):</span>
-                                    <span class="font-medium text-primary">${{ number_format($tax, 2) }}</span>
+                                    <span class="font-medium text-primary">{{ number_format($tax, 2) }} {{ $items->product->currency }}</span>
                                 </div>
 
                                 <div class="border-t border-border pt-3">
                                     <div class="flex justify-between">
                                         <span class="font-semibold text-primary">Total:</span>
                                         <span
-                                            class="text-xl font-bold text-primary">${{ number_format($total, 2) }}</span>
+                                            class="text-xl font-bold text-primary">{{ number_format($total, 2) }} {{ $items->product->currency }}</span>
                                     </div>
 
                                     @if ($discount > 0)
                                         <div class="text-success text-body-sm mt-1">
-                                            You save ${{ number_format($discount, 2) }}!
+                                            You save {{ number_format($discount, 2) }} {{ $items->product->currency }}!
                                         </div>
                                     @endif
                                 </div>
