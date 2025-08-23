@@ -260,6 +260,7 @@
                                             <label class="block text-body-sm font-medium text-primary mb-1">Country
                                                 *</label>
                                             <select class="input-field" required>
+                                                <option value="">Select</option>
                                                 <option value="US">United States</option>
                                                 <option value="CA">Canada</option>
                                                 <option value="GB">United Kingdom</option>
