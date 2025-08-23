@@ -272,6 +272,7 @@
                                                 *</label>
                                             <select class="input-field" required>
                                                 <option value>Select State</option>
+                                                <option value="">Select</option>
                                                 <option value="NY">New York</option>
                                                 <option value="CA">California</option>
                                                 <option value="TX">Texas</option>
