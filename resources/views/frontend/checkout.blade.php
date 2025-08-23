@@ -207,7 +207,7 @@
                                         <!-- Add New Address -->
                                         <label
                                             class="flex items-start space-x-3 p-4 border-2 border-dashed border-border rounded-lg hover:bg-surface cursor-pointer">
-                                            <input type="radio" name="shipping_address_id" value="new"
+                                            <input type="radio" name="shipping-address" value="new"
                                                 class="mt-1 text-accent focus:ring-accent-500 border-border" />
                                             <div class="flex-1">
                                                 <div class="flex items-center space-x-2 mb-1">
@@ -257,8 +257,14 @@
                                             <input type="text" class="input-field" />
                                         </div>
                                         <div>
-                                            <label class="block text-body-sm font-medium text-primary mb-1">City *</label>
-                                            <input type="text" class="input-field" required />
+                                            <label class="block text-body-sm font-medium text-primary mb-1">Country
+                                                *</label>
+                                            <select class="input-field" required>
+                                                <option value="US">United States</option>
+                                                <option value="CA">Canada</option>
+                                                <option value="GB">United Kingdom</option>
+                                                <option value="AU">Australia</option>
+                                            </select>
                                         </div>
                                         <div>
                                             <label class="block text-body-sm font-medium text-primary mb-1">State/Province
@@ -272,19 +278,14 @@
                                             </select>
                                         </div>
                                         <div>
+                                            <label class="block text-body-sm font-medium text-primary mb-1">City *</label>
+                                            <input type="text" class="input-field" required />
+                                        </div>
+
+                                        <div>
                                             <label class="block text-body-sm font-medium text-primary mb-1">ZIP/Postal Code
                                                 *</label>
                                             <input type="text" class="input-field" required />
-                                        </div>
-                                        <div>
-                                            <label class="block text-body-sm font-medium text-primary mb-1">Country
-                                                *</label>
-                                            <select class="input-field" required>
-                                                <option value="US">United States</option>
-                                                <option value="CA">Canada</option>
-                                                <option value="GB">United Kingdom</option>
-                                                <option value="AU">Australia</option>
-                                            </select>
                                         </div>
                                         <div class="md:col-span-2">
                                             <label class="block text-body-sm font-medium text-primary mb-1">Phone Number
