@@ -259,30 +259,27 @@
                                         <div>
                                             <label class="block text-body-sm font-medium text-primary mb-1">Country
                                                 *</label>
-                                            <select class="input-field" required>
-                                                <option value="">Select</option>
-                                                <option value="US">United States</option>
-                                                <option value="CA">Canada</option>
-                                                <option value="GB">United Kingdom</option>
-                                                <option value="AU">Australia</option>
+                                            <select class="input-field" id="country-select" required>
+                                                <option value="">Select Country</option>
+                                                <!-- Country options will be loaded here -->
                                             </select>
                                         </div>
+
                                         <div>
                                             <label class="block text-body-sm font-medium text-primary mb-1">State/Province
                                                 *</label>
-                                            <select class="input-field" required>
-                                                <option value>Select State</option>
-                                                <option value="">Select</option>
-                                                <option value="NY">New York</option>
-                                                <option value="CA">California</option>
-                                                <option value="TX">Texas</option>
-                                                <option value="FL">Florida</option>
+                                            <select class="input-field" id="state-select" required disabled>
+                                                <option value="">Select State</option>
+                                                <!-- States/Provinces options will be loaded here -->
                                             </select>
                                         </div>
+
                                         <div>
                                             <label class="block text-body-sm font-medium text-primary mb-1">City *</label>
-                                            <input type="text" class="input-field" required />
+                                            <input type="text" class="input-field" id="city-input" required
+                                                disabled />
                                         </div>
+
 
                                         <div>
                                             <label class="block text-body-sm font-medium text-primary mb-1">ZIP/Postal Code
@@ -1666,5 +1663,72 @@
 
         // Auto-save every 30 seconds
         setInterval(autoSaveFormData, 30000);
+
+
+        //loading countries dynamically
+        const countrySelect = document.getElementById('country-select');
+        const stateSelect = document.getElementById('state-select');
+        const cityInput = document.getElementById('city-input');
+
+        // Load countries from REST Countries API
+        fetch('https://restcountries.com/v3.1/all')
+            .then(res => res.json())
+            .then(data => {
+                const sortedCountries = data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+                sortedCountries.forEach(country => {
+                    const option = document.createElement('option');
+                    option.value = country.cca2; // Country code (e.g. US, CA)
+                    option.textContent = country.name.common;
+                    countrySelect.appendChild(option);
+                });
+            });
+
+        countrySelect.addEventListener('change', () => {
+            const countryCode = countrySelect.value;
+            if (!countryCode) {
+                stateSelect.disabled = true;
+                cityInput.disabled = true;
+                return;
+            }
+
+            fetchStates(countryCode);
+        });
+
+        function fetchStates(countryCode) {
+            stateSelect.innerHTML = '<option value="">Loading...</option>';
+            stateSelect.disabled = true;
+            cityInput.disabled = true;
+
+            // Replace with your GeoDB API key
+            const API_KEY = 'YOUR_RAPIDAPI_KEY';
+
+            fetch(`https://wft-geo-db.p.rapidapi.com/v1/geo/countries/${countryCode}/regions`, {
+                    method: 'GET',
+                    headers: {
+                        'X-RapidAPI-Key': API_KEY,
+                        'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    const regions = data.data;
+                    stateSelect.innerHTML = '<option value="">Select State</option>';
+                    regions.forEach(region => {
+                        const option = document.createElement('option');
+                        option.value = region.code;
+                        option.textContent = region.name;
+                        stateSelect.appendChild(option);
+                    });
+                    stateSelect.disabled = false;
+                    cityInput.disabled = false;
+                })
+                .catch(err => {
+                    console.error('Error fetching states:', err);
+                    stateSelect.innerHTML = '<option value="">No states found</option>';
+                    stateSelect.disabled = true;
+                    cityInput.disabled = true;
+                });
+        }
+        //loading countries dynamically
     </script>
 @endsection
