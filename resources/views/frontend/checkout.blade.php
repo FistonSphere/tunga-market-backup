@@ -1738,7 +1738,7 @@
 
             let formData = new FormData(this);
 
-            let response = await fetch("{{ route('checkout.storeAddress') }}", {
+            let response = await fetch("{{ route('shipping-address.store') }}", {
                 method: "POST",
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
