@@ -229,7 +229,7 @@
 
                                 <!-- New Address Form (Hidden by default) -->
                                 <div id="new-address-form" class="hidden">
-                                    <form id="shipping-address-form" method="POST"
+                                    <form id="add-address-form" method="POST"
                                         action="{{ route('shipping-address.store') }}">
                                         @csrf
                                         <h4 class="font-semibold text-primary mb-4">New Shipping Address</h4>
@@ -288,7 +288,7 @@
                                             <div>
                                                 <label class="block text-body-sm font-medium text-primary mb-1">ZIP/Postal
                                                     Code *</label>
-                                                <input type="text" name="postal_code" class="input-field" required />
+                                                <input type="text" name="postal_code" class="input-field" />
                                             </div>
                                             <div class="md:col-span-2">
                                                 <label class="block text-body-sm font-medium text-primary mb-1">Phone
@@ -300,16 +300,16 @@
                                         <div class="flex items-center space-x-3 mt-4">
                                             <input type="checkbox" id="save-address" name="save" value="1"
                                                 class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded" />
-                                            <label for="save-address" class="text-body-sm text-secondary-700">Save this
-                                                address for future orders</label>
+                                            <label for="save-address" class="text-body-sm text-secondary-700">
+                                                Save this address for future orders
+                                            </label>
                                         </div>
 
-                                        <button type="submit"
+                                        <button type="button" onclick="openAddressConfirmModal()"
                                             class="mt-4 px-4 py-2 bg-accent text-white rounded-lg shadow hover:bg-accent-dark">
                                             Save Address
                                         </button>
                                     </form>
-
                                 </div>
 
                                 <!-- Billing Address -->
@@ -1114,50 +1114,45 @@
         </div>
     </div>
 
-    <!-- 📦 Add Address Modal -->
-    <div id="add-address-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <!-- 🛑 Save Address Confirmation Modal -->
+    <div id="save-address-modal-wrapper"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div
-            class="bg-white rounded-2xl shadow-modal w-full max-w-lg mx-auto transform transition-all duration-300 relative p-8">
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
 
             <!-- Close Button -->
-            <button onclick="closeAddressModal()"
+            <button onclick="closeAddressConfirmModal()"
                 class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
 
-            <!-- Title -->
-            <h2 class="text-2xl font-bold text-primary mb-6 text-center">Add Shipping Address</h2>
+            <!-- Warning Icon -->
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856C19.07 19 20 18.07 20 16.938V7.062C20 5.93 19.07 5 17.938 5H6.062C4.93 5 4 5.93 4 7.062v9.876C4 18.07 4.93 19 6.062 19z" />
+                </svg>
+            </div>
 
-            <!-- Form -->
-            <form id="add-address-form" class="space-y-4">
-                <input type="text" name="full_name" placeholder="Full Name"
-                    class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary-500" />
+            <!-- Message -->
+            <h2 class="text-2xl font-bold text-primary mb-3 text-center">Save this Address?</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Are you sure this shipping address is correct?
+            </p>
 
-                <input type="text" name="phone" placeholder="Phone Number"
-                    class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary-500" />
-
-                <select id="country" name="country" class="w-full border rounded-lg p-3"></select>
-                <select id="state" name="state" class="w-full border rounded-lg p-3"></select>
-
-                <input type="text" name="city" placeholder="City"
-                    class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary-500" />
-                <input type="text" name="street" placeholder="Street Address"
-                    class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary-500" />
-
-                <!-- Buttons -->
-                <div class="space-y-3 pt-4">
-                    <button type="submit"
-                        class="w-full bg-primary text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                        Save Address
-                    </button>
-                    <button type="button" onclick="closeAddressModal()"
-                        class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
-                        Cancel
-                    </button>
-                </div>
-            </form>
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button onclick="confirmSaveAddress()"
+                    class="w-full bg-accent text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Yes, Save Address
+                </button>
+                <button onclick="closeAddressConfirmModal()"
+                    class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
+                    Cancel
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1723,36 +1718,15 @@
         setInterval(autoSaveFormData, 30000);
 
         //warning for shipping address:
-        // Show/Hide Modal
-        function openAddressModal() {
-            document.getElementById('add-address-modal').classList.remove('hidden');
-        }
-
-        function closeAddressModal() {
-            document.getElementById('add-address-modal').classList.add('hidden');
-        }
-
-        // Handle Form Submit
-        document.getElementById('add-address-form').addEventListener('submit', async function(e) {
+        document.getElementById('shipping-address-form').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            let formData = new FormData(this);
-
-            let response = await fetch("{{ route('shipping-address.store') }}", {
-                method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                },
-                body: formData
-            });
-
-            let result = await response.json();
-
-            if (result.success) {
-                alert("Address added successfully and set as default!");
-                location.reload(); // Refresh to show latest default
+            if (document.getElementById('save-address').checked) {
+                if (confirm('Are you sure about this shipping address?')) {
+                    this.submit();
+                }
             } else {
-                alert("Failed to add address");
+                alert('Please check "Save this address for future orders" before saving.');
             }
         });
     </script>
