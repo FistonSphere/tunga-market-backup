@@ -1674,5 +1674,18 @@
 
         // Auto-save every 30 seconds
         setInterval(autoSaveFormData, 30000);
+
+        //warning for shipping address:
+        document.getElementById('shipping-address-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (document.getElementById('save-address').checked) {
+                if (confirm('Are you sure about this shipping address?')) {
+                    this.submit();
+                }
+            } else {
+                alert('Please check "Save this address for future orders" before saving.');
+            }
+        });
     </script>
 @endsection
