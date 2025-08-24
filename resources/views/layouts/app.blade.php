@@ -13,7 +13,7 @@
     </script>
     <!-- Toastify JS -->
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="{{ asset('assets/js/CountryStateDistrictCityData.js') }}"></script>
+    
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description"

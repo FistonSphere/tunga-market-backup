@@ -1104,7 +1104,7 @@
     </div>
 
 
-
+    <script src="{{ asset('assets/js/CountryStateDistrictCityData.js') }}"></script>
 
     <script>
         let currentStep = 1;
