@@ -129,7 +129,7 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
             'address_line1' => 'required|string|max:255',
             'city'          => 'required|string|max:255',
             'state'         => 'required|string|max:255',
-            'postal_code'   => 'required|string|max:20',
+            'postal_code'   => 'nullable|string|max:20',
             'country'       => 'required|string|max:255',
             'phone'         => 'required|string|max:20',
         ]);
