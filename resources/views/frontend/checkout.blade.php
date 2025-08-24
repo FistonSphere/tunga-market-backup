@@ -287,7 +287,7 @@
 
                                             <div>
                                                 <label class="block text-body-sm font-medium text-primary mb-1">ZIP/Postal
-                                                    Code *</label>
+                                                    Code</label>
                                                 <input type="text" name="postal_code" class="input-field" />
                                             </div>
                                             <div class="md:col-span-2">
@@ -1718,16 +1718,21 @@
         setInterval(autoSaveFormData, 30000);
 
         //warning for shipping address:
-        document.getElementById('shipping-address-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            if (document.getElementById('save-address').checked) {
-                if (confirm('Are you sure about this shipping address?')) {
-                    this.submit();
-                }
-            } else {
+        function openAddressConfirmModal() {
+            // check if save checkbox is ticked
+            if (!document.getElementById('save-address').checked) {
                 alert('Please check "Save this address for future orders" before saving.');
+                return;
             }
-        });
+            document.getElementById('save-address-modal-wrapper').classList.remove('hidden');
+        }
+
+        function closeAddressConfirmModal() {
+            document.getElementById('save-address-modal-wrapper').classList.add('hidden');
+        }
+
+        function confirmSaveAddress() {
+            document.getElementById('add-address-form').submit();
+        }
     </script>
 @endsection
