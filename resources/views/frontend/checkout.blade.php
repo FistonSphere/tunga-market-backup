@@ -1114,6 +1114,53 @@
         </div>
     </div>
 
+    <!-- 📦 Add Address Modal -->
+    <div id="add-address-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div
+            class="bg-white rounded-2xl shadow-modal w-full max-w-lg mx-auto transform transition-all duration-300 relative p-8">
+
+            <!-- Close Button -->
+            <button onclick="closeAddressModal()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Title -->
+            <h2 class="text-2xl font-bold text-primary mb-6 text-center">Add Shipping Address</h2>
+
+            <!-- Form -->
+            <form id="add-address-form" class="space-y-4">
+                <input type="text" name="full_name" placeholder="Full Name"
+                    class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary-500" />
+
+                <input type="text" name="phone" placeholder="Phone Number"
+                    class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary-500" />
+
+                <select id="country" name="country" class="w-full border rounded-lg p-3"></select>
+                <select id="state" name="state" class="w-full border rounded-lg p-3"></select>
+
+                <input type="text" name="city" placeholder="City"
+                    class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary-500" />
+                <input type="text" name="street" placeholder="Street Address"
+                    class="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary-500" />
+
+                <!-- Buttons -->
+                <div class="space-y-3 pt-4">
+                    <button type="submit"
+                        class="w-full bg-primary text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                        Save Address
+                    </button>
+                    <button type="button" onclick="closeAddressModal()"
+                        class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 
     <script src="{{ asset('assets/js/CountryStateDistrictCityData.js') }}"></script>
 
