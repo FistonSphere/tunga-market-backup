@@ -133,7 +133,8 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
             'country'       => 'required|string|max:255',
             'phone'         => 'required|string|max:20',
         ]);
-
+// Reset all other addresses to not default
+    ShippingAddress::where('user_id', auth()->id())->update(['is_default' => 0]);
         ShippingAddress::create([
             'user_id'       => Auth::id(),
             'first_name'    => $request->first_name,
@@ -146,7 +147,7 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
             'postal_code'   => $request->postal_code,
             'country'       => $request->country,
             'phone'         => $request->phone,
-            'is_default'    => $request->has('save') ? 1 : 0,
+            'is_default'    => 1,
         ]);
 
         return redirect()->back()->with('success', 'Shipping address saved successfully!');
