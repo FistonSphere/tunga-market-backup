@@ -259,30 +259,27 @@
                                         <div>
                                             <label class="block text-body-sm font-medium text-primary mb-1">Country
                                                 *</label>
-                                            <select class="input-field" required>
-                                                <option value="">Select</option>
-                                                <option value="US">United States</option>
-                                                <option value="CA">Canada</option>
-                                                <option value="GB">United Kingdom</option>
-                                                <option value="AU">Australia</option>
+                                            <select id="countySel" name="country" class="input-field" required>
+                                                <option value="">Select Country</option>
                                             </select>
                                         </div>
+
                                         <div>
                                             <label class="block text-body-sm font-medium text-primary mb-1">State/Province
                                                 *</label>
-                                            <select class="input-field" required>
-                                                <option value>Select State</option>
-                                                <option value="">Select</option>
-                                                <option value="NY">New York</option>
-                                                <option value="CA">California</option>
-                                                <option value="TX">Texas</option>
-                                                <option value="FL">Florida</option>
+                                            <select id="stateSel" name="state" class="input-field" required>
+                                                <option value="">Select State</option>
                                             </select>
                                         </div>
+
                                         <div>
-                                            <label class="block text-body-sm font-medium text-primary mb-1">City *</label>
-                                            <input type="text" class="input-field" required />
+                                            <label class="block text-body-sm font-medium text-primary mb-1">City/District
+                                                *</label>
+                                            <select id="districtSel" name="city" class="input-field" required>
+                                                <option value="">Select City/District</option>
+                                            </select>
                                         </div>
+
 
                                         <div>
                                             <label class="block text-body-sm font-medium text-primary mb-1">ZIP/Postal Code

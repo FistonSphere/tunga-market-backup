@@ -116904,28 +116904,28 @@
                     "Eastern Province": [
 
                        "Bugesera",
-  "Gatsibo",
-  "Kayonza",
-  "Kirehe",
-  "Ngoma",
-  "Nyagatare",
-  "Rwamagana"
+                       "Gatsibo",
+                       "Kayonza",
+                       "Kirehe",
+                       "Ngoma",
+                       "Nyagatare",
+                       "Rwamagana"
                     ],
 
                     "Kigali district": [
 
                          "Gasabo",
-  "Kicukiro",
-  "Nyarugenge"
+                         "Kicukiro",
+                         "Nyarugenge"
                     ],
 
                     "Northern Province": [
 
                         "Burera",
-  "Gakenke",
-  "Gicumbi",
-  "Musanze",
-  "Rulindo"
+                        "Gakenke",
+                        "Gicumbi",
+                        "Musanze",
+                        "Rulindo"
                     ],
 
                     "Southern Province": [
@@ -116934,10 +116934,10 @@
                         "Muhanga",
                         "Ruhango",
                         "Nyanza",
-                      "Huye",
-                      "Nyamagabe",
-                      "Gisagara",
-                      "Nyaruguru"
+                        "Huye",
+                        "Nyamagabe",
+                        "Gisagara",
+                        "Nyaruguru"
                     ],
 
                     "Western Province": [
@@ -116945,10 +116945,10 @@
                         "Karongi",
                         "Ngororero",
                         "Nyabihu",
-                      "Nyamasheke",
-                      "Rubavu",
-                      "Rusizi",
-                      "Rutsiro"
+                        "Nyamasheke",
+                        "Rubavu",
+                        "Rusizi",
+                        "Rutsiro"
                     ]
                 },
 
