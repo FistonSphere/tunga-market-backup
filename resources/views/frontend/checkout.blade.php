@@ -1723,15 +1723,36 @@
         setInterval(autoSaveFormData, 30000);
 
         //warning for shipping address:
-        document.getElementById('shipping-address-form').addEventListener('submit', function(e) {
+        // Show/Hide Modal
+        function openAddressModal() {
+            document.getElementById('add-address-modal').classList.remove('hidden');
+        }
+
+        function closeAddressModal() {
+            document.getElementById('add-address-modal').classList.add('hidden');
+        }
+
+        // Handle Form Submit
+        document.getElementById('add-address-form').addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            if (document.getElementById('save-address').checked) {
-                if (confirm('Are you sure about this shipping address?')) {
-                    this.submit();
-                }
+            let formData = new FormData(this);
+
+            let response = await fetch("{{ route('checkout.storeAddress') }}", {
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                body: formData
+            });
+
+            let result = await response.json();
+
+            if (result.success) {
+                alert("Address added successfully and set as default!");
+                location.reload(); // Refresh to show latest default
             } else {
-                alert('Please check "Save this address for future orders" before saving.');
+                alert("Failed to add address");
             }
         });
     </script>
