@@ -186,7 +186,7 @@
                                                         @endif
                                                     </div>
                                                     <div class="text-body-sm text-secondary-700">
-                                                        {{ $address->company ? $address->company . '<br>' : '' }}
+                                                        {!! $address->company ? $address->company . '<br>' : '' !!}
                                                         {{ $address->address_line1 }} {{ $address->address_line2 }}<br />
                                                         {{ $address->city }}, {{ $address->state }}
                                                         {{ $address->postal_code }}<br />

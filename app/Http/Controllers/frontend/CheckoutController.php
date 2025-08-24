@@ -9,6 +9,7 @@ use App\Models\OrderItem;
 use App\Models\ShippingAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
@@ -122,7 +123,11 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
     }
 
   public function store(Request $request)
-    {
+{
+    Log::info('--- Shipping Address Store Started ---');
+    Log::info('Incoming request data:', $request->all());
+
+    try {
         $request->validate([
             'first_name'    => 'required|string|max:255',
             'last_name'     => 'required|string|max:255',
@@ -133,10 +138,18 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
             'country'       => 'required|string|max:255',
             'phone'         => 'required|string|max:20',
         ]);
-// Reset all other addresses to not default
-    ShippingAddress::where('user_id', auth()->id())->update(['is_default' => 0]);
-        ShippingAddress::create([
-            'user_id'       => Auth::id(),
+        Log::info('Validation passed');
+
+        $userId = Auth::id();
+        Log::info('Authenticated user ID:', [$userId]);
+
+        // Reset other addresses
+        $updated = ShippingAddress::where('user_id', $userId)->update(['is_default' => 0]);
+        Log::info('Reset default addresses:', ['count' => $updated]);
+
+        // Create new address
+        $shipping = ShippingAddress::create([
+            'user_id'       => $userId,
             'first_name'    => $request->first_name,
             'last_name'     => $request->last_name,
             'company'       => $request->company,
@@ -149,8 +162,18 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
             'phone'         => $request->phone,
             'is_default'    => 1,
         ]);
+        Log::info('New Shipping Address created:', $shipping->toArray());
 
+        Log::info('--- Shipping Address Store Completed ---');
         return redirect()->back()->with('success', 'Shipping address saved successfully!');
+
+    } catch (\Exception $e) {
+        Log::error('Error in ShippingAddress store:', [
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ]);
+        return redirect()->back()->withErrors(['error' => 'Something went wrong.']);
     }
+}
 
 }
