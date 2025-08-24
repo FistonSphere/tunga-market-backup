@@ -229,76 +229,87 @@
 
                                 <!-- New Address Form (Hidden by default) -->
                                 <div id="new-address-form" class="hidden">
-                                    <h4 class="font-semibold text-primary mb-4">New Shipping Address</h4>
-                                    <div class="grid md:grid-cols-2 gap-4">
-                                        <div>
-                                            <label class="block text-body-sm font-medium text-primary mb-1">First Name
-                                                *</label>
-                                            <input type="text" class="input-field" required />
-                                        </div>
-                                        <div>
-                                            <label class="block text-body-sm font-medium text-primary mb-1">Last Name
-                                                *</label>
-                                            <input type="text" class="input-field" required />
-                                        </div>
-                                        <div class="md:col-span-2">
-                                            <label class="block text-body-sm font-medium text-primary mb-1">Company
-                                                (Optional)</label>
-                                            <input type="text" class="input-field" />
-                                        </div>
-                                        <div class="md:col-span-2">
-                                            <label class="block text-body-sm font-medium text-primary mb-1">Address Line 1
-                                                *</label>
-                                            <input type="text" class="input-field" required />
-                                        </div>
-                                        <div class="md:col-span-2">
-                                            <label class="block text-body-sm font-medium text-primary mb-1">Address Line 2
-                                                (Optional)</label>
-                                            <input type="text" class="input-field" />
-                                        </div>
-                                        <div>
-                                            <label class="block text-body-sm font-medium text-primary mb-1">Country
-                                                *</label>
-                                            <select id="countySel" name="country" class="input-field" required>
-                                                <option value="">Select Country</option>
-                                            </select>
+                                    <form id="shipping-address-form" method="POST"
+                                        action="{{ route('shipping-address.store') }}">
+                                        @csrf
+                                        <h4 class="font-semibold text-primary mb-4">New Shipping Address</h4>
+                                        <div class="grid md:grid-cols-2 gap-4">
+                                            <div>
+                                                <label class="block text-body-sm font-medium text-primary mb-1">First Name
+                                                    *</label>
+                                                <input type="text" name="first_name" class="input-field" required />
+                                            </div>
+                                            <div>
+                                                <label class="block text-body-sm font-medium text-primary mb-1">Last Name
+                                                    *</label>
+                                                <input type="text" name="last_name" class="input-field" required />
+                                            </div>
+                                            <div class="md:col-span-2">
+                                                <label class="block text-body-sm font-medium text-primary mb-1">Company
+                                                    (Optional)</label>
+                                                <input type="text" name="company" class="input-field" />
+                                            </div>
+                                            <div class="md:col-span-2">
+                                                <label class="block text-body-sm font-medium text-primary mb-1">Address
+                                                    Line 1 *</label>
+                                                <input type="text" name="address_line1" class="input-field"
+                                                    required />
+                                            </div>
+                                            <div class="md:col-span-2">
+                                                <label class="block text-body-sm font-medium text-primary mb-1">Address
+                                                    Line 2 (Optional)</label>
+                                                <input type="text" name="address_line2" class="input-field" />
+                                            </div>
+
+                                            <div>
+                                                <label class="block text-body-sm font-medium text-primary mb-1">Country
+                                                    *</label>
+                                                <select id="countySel" name="country" class="input-field" required>
+                                                    <option value="">Select Country</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-body-sm font-medium text-primary mb-1">State/Province
+                                                    *</label>
+                                                <select id="stateSel" name="state" class="input-field" required>
+                                                    <option value="">Select State</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-body-sm font-medium text-primary mb-1">City/District
+                                                    *</label>
+                                                <select id="districtSel" name="city" class="input-field" required>
+                                                    <option value="">Select City/District</option>
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label class="block text-body-sm font-medium text-primary mb-1">ZIP/Postal
+                                                    Code *</label>
+                                                <input type="text" name="postal_code" class="input-field" required />
+                                            </div>
+                                            <div class="md:col-span-2">
+                                                <label class="block text-body-sm font-medium text-primary mb-1">Phone
+                                                    Number *</label>
+                                                <input type="tel" name="phone" class="input-field" required />
+                                            </div>
                                         </div>
 
-                                        <div>
-                                            <label class="block text-body-sm font-medium text-primary mb-1">State/Province
-                                                *</label>
-                                            <select id="stateSel" name="state" class="input-field" required>
-                                                <option value="">Select State</option>
-                                            </select>
+                                        <div class="flex items-center space-x-3 mt-4">
+                                            <input type="checkbox" id="save-address" name="save" value="1"
+                                                class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded" />
+                                            <label for="save-address" class="text-body-sm text-secondary-700">Save this
+                                                address for future orders</label>
                                         </div>
 
-                                        <div>
-                                            <label class="block text-body-sm font-medium text-primary mb-1">City/District
-                                                *</label>
-                                            <select id="districtSel" name="city" class="input-field" required>
-                                                <option value="">Select City/District</option>
-                                            </select>
-                                        </div>
+                                        <button type="submit"
+                                            class="mt-4 px-4 py-2 bg-accent text-white rounded-lg shadow hover:bg-accent-dark">
+                                            Save Address
+                                        </button>
+                                    </form>
 
-
-                                        <div>
-                                            <label class="block text-body-sm font-medium text-primary mb-1">ZIP/Postal Code
-                                                *</label>
-                                            <input type="text" class="input-field" required />
-                                        </div>
-                                        <div class="md:col-span-2">
-                                            <label class="block text-body-sm font-medium text-primary mb-1">Phone Number
-                                                *</label>
-                                            <input type="tel" class="input-field" required />
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-center space-x-3 mt-4">
-                                        <input type="checkbox" id="save-address"
-                                            class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded" />
-                                        <label for="save-address" class="text-body-sm text-secondary-700">Save this
-                                            address for future orders</label>
-                                    </div>
                                 </div>
 
                                 <!-- Billing Address -->
