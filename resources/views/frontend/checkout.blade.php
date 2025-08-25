@@ -1943,7 +1943,8 @@
                 fetch(`/shipping-address/update/${id}`, {
                         method: "POST", // Laravel sees _method=PUT
                         headers: {
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                            "Accept": "application/json"  
                         },
                         body: formData // ✅ don't stringify, let browser set headers
                     })
