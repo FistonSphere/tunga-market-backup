@@ -172,8 +172,7 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
             'message' => $e->getMessage(),
             'trace' => $e->getTraceAsString()
         ]);
-        return redirect()->back()->withErrors(['error' => 'Something went wrong.']);
-    }
+       return response()->json(['success' => true]);
 }
-
+    }
 }
