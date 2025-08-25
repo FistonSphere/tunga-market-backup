@@ -215,9 +215,6 @@ public function editShippingAddress($id)
     }
 public function updateShippingAddress(Request $request, $id)
     {
-    //     if (!$request->expectsJson()) {
-    //     return response()->json(['error' => 'Invalid request type'], 400);
-    // }
         // Validate request
         $validated = $request->validate([
             'first_name'   => 'required|string|max:100',
