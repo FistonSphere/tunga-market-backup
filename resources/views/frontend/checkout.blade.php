@@ -1934,21 +1934,30 @@
                 let formData = new FormData(editForm);
                 let id = formData.get("id");
 
+                // Add spoofed PUT method
+                formData.append("_method", "PUT");
+
                 // UI feedback
                 editSpinner.classList.remove("hidden");
                 editBtnText.textContent = "Saving...";
 
-                formData.append("_method", "PUT");
-
                 fetch(`/shipping-address/update/${id}`, {
-                        method: "POST", // Laravel sees it as PUT because of spoofing
+                        method: "POST", // Laravel sees _method=PUT
                         headers: {
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                            "Content-Type": "application/x-www-form-urlencoded"
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                            // DO NOT set Content-Type manually, browser sets it with FormData
                         },
-                        body: new URLSearchParams(formData) // properly encoded
+                        body: formData
                     })
-                    .then(res => res.json())
+                    .then(async res => {
+                        // If Laravel redirected (302), it's probably HTML → try json first
+                        try {
+                            return await res.json();
+                        } catch (e) {
+                            throw new Error(
+                                "Non-JSON response. Possibly a redirect (are you logged in?)");
+                        }
+                    })
                     .then(data => {
                         if (data.success) {
                             editBtnText.textContent = "Saved!";
@@ -1960,9 +1969,15 @@
                             editBtnText.textContent = "Save Changes";
                             editSpinner.classList.add("hidden");
                         }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Error saving address. Check console.");
+                        editBtnText.textContent = "Save Changes";
+                        editSpinner.classList.add("hidden");
                     });
-
             });
+
         });
     </script>
 @endsection
