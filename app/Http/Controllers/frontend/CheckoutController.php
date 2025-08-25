@@ -165,14 +165,29 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
         Log::info('New Shipping Address created:', $shipping->toArray());
 
         Log::info('--- Shipping Address Store Completed ---');
-        return redirect()->back()->with('success', 'Shipping address saved successfully!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Shipping address saved successfully!',
+            'data'    => $shipping
+        ]);
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        Log::error('Validation failed:', $e->errors());
+        return response()->json([
+            'success' => false,
+            'errors'  => $e->errors(),
+        ], 422);
 
     } catch (\Exception $e) {
         Log::error('Error in ShippingAddress store:', [
             'message' => $e->getMessage(),
             'trace' => $e->getTraceAsString()
         ]);
-       return response()->json(['success' => true]);
-}
+        return response()->json([
+            'success' => false,
+            'message' => 'Something went wrong. Please try again later.'
+        ], 500);
     }
+}
+
 }
