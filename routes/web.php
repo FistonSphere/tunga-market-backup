@@ -56,7 +56,7 @@ Route::post('/checkout/payment', [CheckoutController::class, 'storePayment'])->n
 Route::post('/checkout/complete', [CheckoutController::class, 'complete'])->name('checkout.complete');
 Route::get('/order-tracking', [OrderTrackingController::class, 'index'])->name('order.tracking');
 Route::post('/shipping-address/store', [CheckoutController::class, 'store'])->name('shipping-address.store');
-Route::get('/shipping-address/edit/{id}', [CheckoutController::class, 'editShippingAddress'])->name('shipping-address.edit');
+Route::get('/shipping-addresses/{id}/edit', [CheckoutController::class, 'editShippingAddress'])->name('shipping-address.edit');
 Route::post('/shipping-address/update/{id}', [CheckoutController::class, 'updateShippingAddress'])->name('shipping-address.update');
 
 
