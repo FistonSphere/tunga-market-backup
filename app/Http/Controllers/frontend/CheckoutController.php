@@ -122,7 +122,7 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
         return redirect()->route('orders.show', $order->id)->with('success', 'Order placed successfully!');
     }
 
-  public function store(Request $request)
+ public function store(Request $request)
 {
     Log::info('--- Shipping Address Store Started ---');
     Log::info('Incoming request data:', $request->all());
@@ -165,29 +165,42 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
         Log::info('New Shipping Address created:', $shipping->toArray());
 
         Log::info('--- Shipping Address Store Completed ---');
-        return response()->json([
-            'success' => true,
-            'message' => 'Shipping address saved successfully!',
-            'data'    => $shipping
-        ]);
+
+        // 🔹 If AJAX request → return JSON
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Shipping address saved successfully!',
+                'data'    => $shipping
+            ]);
+        }
+
+        // Normal form request
+        return redirect()->back()->with('success', 'Shipping address saved successfully!');
 
     } catch (\Illuminate\Validation\ValidationException $e) {
-        Log::error('Validation failed:', $e->errors());
-        return response()->json([
-            'success' => false,
-            'errors'  => $e->errors(),
-        ], 422);
-
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => false,
+                'errors'  => $e->errors(),
+            ], 422);
+        }
+        throw $e; // let Laravel handle normal request
     } catch (\Exception $e) {
         Log::error('Error in ShippingAddress store:', [
             'message' => $e->getMessage(),
-            'trace' => $e->getTraceAsString()
+            'trace'   => $e->getTraceAsString()
         ]);
-        return response()->json([
-            'success' => false,
-            'message' => 'Something went wrong. Please try again later.'
-        ], 500);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong while saving address.',
+            ], 500);
+        }
+        return redirect()->back()->withErrors('Something went wrong while saving address.');
     }
 }
+
 
 }
