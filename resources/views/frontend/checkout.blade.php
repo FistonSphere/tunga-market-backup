@@ -1938,7 +1938,7 @@
                 editSpinner.classList.remove("hidden");
                 editBtnText.textContent = "Saving...";
 
-                formData.append("_method", "PUT"); // Add Laravel spoofing method
+                formData.append("_method", "PUT");
 
                 fetch(`/shipping-address/update/${id}`, {
                         method: "POST", // Laravel sees it as PUT because of spoofing
