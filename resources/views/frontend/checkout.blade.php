@@ -1934,45 +1934,36 @@
                 let formData = new FormData(editForm);
                 let id = formData.get("id");
 
-                // Add spoofed PUT method
-                formData.append("_method", "PUT");
-
                 // UI feedback
                 editSpinner.classList.remove("hidden");
                 editBtnText.textContent = "Saving...";
+
+                formData.append("_method", "PUT");
 
                 fetch(`/shipping-address/update/${id}`, {
                         method: "POST", // Laravel sees _method=PUT
                         headers: {
                             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-                            // DO NOT set Content-Type manually, browser sets it with FormData
                         },
-                        body: formData
+                        body: formData // ✅ don't stringify, let browser set headers
                     })
                     .then(async res => {
-                        // If Laravel redirected (302), it's probably HTML → try json first
-                        try {
-                            return await res.json();
-                        } catch (e) {
-                            throw new Error(
-                                "Non-JSON response. Possibly a redirect (are you logged in?)");
+                        if (!res.ok) {
+                            throw new Error("Network or validation error");
                         }
+                        return res.json();
                     })
                     .then(data => {
                         if (data.success) {
                             editBtnText.textContent = "Saved!";
-                            setTimeout(() => {
-                                location.reload(); // reload after 3s
-                            }, 3000);
+                            setTimeout(() => location.reload(), 3000);
                         } else {
-                            alert("Something went wrong!");
-                            editBtnText.textContent = "Save Changes";
-                            editSpinner.classList.add("hidden");
+                            alert(data.message || "Something went wrong!");
                         }
+                        editSpinner.classList.add("hidden");
                     })
                     .catch(err => {
-                        console.error(err);
-                        alert("Error saving address. Check console.");
+                        console.error("Update failed:", err);
                         editBtnText.textContent = "Save Changes";
                         editSpinner.classList.add("hidden");
                     });
