@@ -227,7 +227,7 @@ public function updateShippingAddress(Request $request, $id)
             'address_line2'=> 'nullable|string|max:255',
             'city'         => 'required|string|max:100',
             'state'        => 'required|string|max:100',
-            'postal_code'  => 'required|string|max:20',
+            'postal_code'  => 'nullable|string|max:20',
             'country'      => 'required|string|max:100',
             'phone'        => 'required|string|max:20',
         ]);
