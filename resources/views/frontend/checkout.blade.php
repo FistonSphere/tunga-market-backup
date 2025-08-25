@@ -1165,7 +1165,7 @@
         class="hidden fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
         style="z-index: 999999;background: #ff5f0e;color: #fff;top: 8px;right: 4px;">
     </div>
- 
+
 
     <script src="{{ asset('assets/js/CountryStateDistrictCityData.js') }}"></script>
 
@@ -1728,58 +1728,54 @@
         setInterval(autoSaveFormData, 30000);
 
         //warning for shipping address:
-        function openAddressConfirmModal() {
-            // check if save checkbox is ticked
-            if (!document.getElementById('save-address').checked) {
-                alert('Please check "Save this address for future orders" before saving.');
-                return;
-            }
-            document.getElementById('save-address-modal-wrapper').classList.remove('hidden');
-        }
-
-        function closeAddressConfirmModal() {
-            document.getElementById('save-address-modal-wrapper').classList.add('hidden');
+        function showToast(message, type = "success") {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.className =
+                `fixed bottom-6 right-6 px-4 py-2 rounded-lg shadow-lg text-white transition-opacity duration-300
+            ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
+            toast.classList.remove("hidden");
+            setTimeout(() => toast.classList.add("hidden"), 3000);
         }
 
         function confirmSaveAddress() {
-            document.getElementById('add-address-form').submit();
-        }
+            const btn = document.getElementById("confirm-save-btn");
+            const text = document.getElementById("confirm-save-text");
+            const spinner = document.getElementById("confirm-save-spinner");
 
-        document.getElementById('add-address-form').addEventListener('submit', function(e) {
-            e.preventDefault();
+            // show spinner
+            text.classList.add("hidden");
+            spinner.classList.remove("hidden");
+            btn.disabled = true;
 
-            let form = this;
-            let formData = new FormData(form);
+            // Grab form data
+            const form = document.getElementById("add-address-form");
+            const formData = new FormData(form);
 
             fetch(form.action, {
                     method: "POST",
+                    body: formData,
                     headers: {
-                        "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
-                    },
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showToast('toast-success');
-                        form.reset();
-                        closeAddressConfirmModal();
-                    } else {
-                        showToast('toast-error');
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
                     }
                 })
-                .catch(() => showToast('toast-error'));
-        });
-
-        function showToast(id) {
-            let toast = document.getElementById(id);
-            toast.classList.remove('hidden');
-            toast.classList.add('flex');
-
-            setTimeout(() => {
-                toast.classList.add('hidden');
-                toast.classList.remove('flex');
-            }, 3000);
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast("Address saved successfully!", "success");
+                        closeAddressConfirmModal();
+                    } else {
+                        showToast(data.message || "Failed to save address.", "error");
+                    }
+                })
+                .catch(() => showToast("An error occurred. Please try again.", "error"))
+                .finally(() => {
+                    // hide spinner
+                    text.classList.remove("hidden");
+                    spinner.classList.add("hidden");
+                    btn.disabled = false;
+                });
         }
     </script>
 @endsection
