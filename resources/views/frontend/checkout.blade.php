@@ -1164,8 +1164,11 @@
     <div id="toast"
         class="hidden fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
         style="z-index: 999999;background: #ff5f0e;color: #fff;top: 8px;right: 4px;">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <span>Shipping address has been saved successfully!</span>
     </div>
-
 
     <script src="{{ asset('assets/js/CountryStateDistrictCityData.js') }}"></script>
 
@@ -1728,29 +1731,20 @@
         setInterval(autoSaveFormData, 30000);
 
         //warning for shipping address:
-        function showToast(message, type = "success") {
-            const toast = document.getElementById("toast");
-            toast.innerText = message;
-            toast.className =
-                `fixed bottom-6 right-6 px-4 py-2 rounded-lg shadow-lg text-white transition-opacity duration-300
-            ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
-            toast.classList.remove("hidden");
-            setTimeout(() => toast.classList.add("hidden"), 3000);
-        }
-
         function confirmSaveAddress() {
-            const btn = document.getElementById("confirm-save-btn");
-            const text = document.getElementById("confirm-save-text");
-            const spinner = document.getElementById("confirm-save-spinner");
+            let btn = document.getElementById('confirm-save-btn');
+            let text = document.getElementById('confirm-save-text');
+            let spinner = document.getElementById('confirm-save-spinner');
+            let form = document.getElementById('add-address-form');
+            let toast = document.getElementById('toast');
 
-            // show spinner
-            text.classList.add("hidden");
-            spinner.classList.remove("hidden");
+            // show spinner + disable button
+            text.textContent = "Saving...";
+            spinner.classList.remove('hidden');
             btn.disabled = true;
 
-            // Grab form data
-            const form = document.getElementById("add-address-form");
-            const formData = new FormData(form);
+            // prepare AJAX request
+            let formData = new FormData(form);
 
             fetch(form.action, {
                     method: "POST",
@@ -1760,21 +1754,36 @@
                         "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
                     }
                 })
-                .then(res => res.json())
+                .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
-                        showToast("Address saved successfully!", "success");
-                        closeAddressConfirmModal();
-                    } else {
-                        showToast(data.message || "Failed to save address.", "error");
+                    // hide modal
+                    closeAddressConfirmModal();
+
+                    // reset button
+                    text.textContent = "Yes, Save Address";
+                    spinner.classList.add('hidden');
+                    btn.disabled = false;
+
+                    // show toast
+                    toast.classList.remove("hidden");
+                    setTimeout(() => {
+                        toast.classList.add("hidden");
+                    }, 3000);
+
+                    // ✅ update address list dynamically without page reload
+                    if (data.new_address_html) {
+                        document.getElementById("saved-addresses").insertAdjacentHTML("beforeend", data
+                            .new_address_html);
                     }
                 })
-                .catch(() => showToast("An error occurred. Please try again.", "error"))
-                .finally(() => {
-                    // hide spinner
-                    text.classList.remove("hidden");
-                    spinner.classList.add("hidden");
+                .catch(error => {
+                    console.error("Error:", error);
+
+                    // reset button
+                    text.textContent = "Yes, Save Address";
+                    spinner.classList.add('hidden');
                     btn.disabled = false;
+                    alert("Something went wrong. Please try again.");
                 });
         }
     </script>
