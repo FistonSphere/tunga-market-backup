@@ -1144,15 +1144,23 @@
 
             <!-- Action Buttons -->
             <div class="space-y-3">
-                <button onclick="confirmSaveAddress()"
-                    class="w-full bg-accent text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                    Yes, Save Address
+                <button id="confirm-save-btn" onclick="confirmSaveAddress()"
+                    class="w-full bg-accent text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 flex justify-center items-center gap-2">
+                    <span id="confirm-save-text">Yes, Save Address</span>
+                    <svg id="confirm-save-spinner" class="animate-spin h-5 w-5 text-white hidden"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                            stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                    </svg>
                 </button>
+
                 <button onclick="closeAddressConfirmModal()"
                     class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
                     Cancel
                 </button>
             </div>
+
         </div>
     </div>
     <div id="toast-success"
