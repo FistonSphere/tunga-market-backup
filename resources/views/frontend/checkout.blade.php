@@ -1172,7 +1172,7 @@
     </div>
 
     <!-- Edit Address Modal -->
-    <div id="editAddressModal" class="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+    <div id="editAddressModal" class="fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center">
         <div class="bg-white rounded-2xl shadow-lg w-full max-w-xl p-4 relative">
             <!-- Close Button -->
             <button type="button" id="closeEditModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-lg">
