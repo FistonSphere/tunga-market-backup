@@ -202,5 +202,35 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
     }
 }
 
+public function updateShippingAddress(Request $request, $id)
+    {
+        // Validate request
+        $validated = $request->validate([
+            'first_name'   => 'required|string|max:100',
+            'last_name'    => 'required|string|max:100',
+            'company'      => 'nullable|string|max:150',
+            'address_line1'=> 'required|string|max:255',
+            'address_line2'=> 'nullable|string|max:255',
+            'city'         => 'required|string|max:100',
+            'state'        => 'required|string|max:100',
+            'postal_code'  => 'required|string|max:20',
+            'country'      => 'required|string|max:100',
+            'phone'        => 'required|string|max:20',
+        ]);
 
+        // Find address for current user
+        $address = ShippingAddress::where('id', $id)
+            ->where('user_id', Auth::id()) // security check
+            ->firstOrFail();
+
+        // Update the record
+        $address->update($validated);
+
+        // Return success JSON for AJAX
+        return response()->json([
+            'success' => true,
+            'message' => 'Shipping address updated successfully!',
+            'address' => $address
+        ]);
+    }
 }

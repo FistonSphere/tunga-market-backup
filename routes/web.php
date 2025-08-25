@@ -56,7 +56,7 @@ Route::post('/checkout/payment', [CheckoutController::class, 'storePayment'])->n
 Route::post('/checkout/complete', [CheckoutController::class, 'complete'])->name('checkout.complete');
 Route::get('/order-tracking', [OrderTrackingController::class, 'index'])->name('order.tracking');
 Route::post('/shipping-address/store', [CheckoutController::class, 'store'])->name('shipping-address.store');
-Route::post('/shipping-address/update/{id}', [CheckoutController::class, 'update'])->name('shipping-address.update');
+Route::post('/shipping-address/update/{id}', [CheckoutController::class, 'updateShippingAddress'])->name('shipping-address.update');
 
 
 // Start Authentication routes
