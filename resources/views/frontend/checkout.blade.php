@@ -194,7 +194,8 @@
                                                         Phone: {{ $address->phone }}
                                                     </div>
                                                     <button type="button"
-                                                        class="text-accent hover:text-accent-600 transition-fast text-body-sm mt-2" data-id="{{ $address->id }}">
+                                                        class="text-accent hover:text-accent-600 transition-fast text-body-sm mt-2"
+                                                        data-id="{{ $address->id }}">
                                                         Edit
                                                     </button>
                                                 </div>
@@ -1168,6 +1169,77 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
         <span>Shipping address has been saved successfully!</span>
+    </div>
+
+    <!-- Edit Address Modal -->
+    <div id="editAddressModal" class="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-2xl shadow-lg w-full max-w-xl p-4 relative">
+            <!-- Close Button -->
+            <button type="button" id="closeEditModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-lg">
+                ✕
+            </button>
+
+            <h2 class="text-lg font-semibold mb-3 text-primary">Edit Shipping Address</h2>
+
+            <form id="editAddressForm" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                @csrf
+                <input type="hidden" id="edit_id" name="id">
+
+                <div>
+                    <label class="block text-xs mb-1">First Name</label>
+                    <input type="text" id="edit_first_name" name="first_name" class="w-full border rounded p-1 text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs mb-1">Last Name</label>
+                    <input type="text" id="edit_last_name" name="last_name" class="w-full border rounded p-1 text-sm">
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-xs mb-1">Address Line 1</label>
+                    <input type="text" id="edit_address_line1" name="address_line1" class="w-full border rounded p-1 text-sm">
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-xs mb-1">Address Line 2</label>
+                    <input type="text" id="edit_address_line2" name="address_line2" class="w-full border rounded p-1 text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs mb-1">City</label>
+                    <input type="text" id="edit_city" name="city" class="w-full border rounded p-1 text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs mb-1">State</label>
+                    <input type="text" id="edit_state" name="state" class="w-full border rounded p-1 text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs mb-1">Postal Code</label>
+                    <input type="text" id="edit_postal_code" name="postal_code" class="w-full border rounded p-1 text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs mb-1">Country</label>
+                    <input type="text" id="edit_country" name="country" class="w-full border rounded p-1 text-sm">
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-xs mb-1">Phone</label>
+                    <input type="text" id="edit_phone" name="phone" class="w-full border rounded p-1 text-sm">
+                </div>
+
+                <div class="md:col-span-2 flex justify-end">
+                    <button type="submit"
+                        class="bg-accent text-white px-4 py-2 rounded flex items-center justify-center space-x-2 text-sm">
+                        <span id="editBtnText">Save</span>
+                        <span id="editSpinner"
+                            class="hidden animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="{{ asset('assets/js/CountryStateDistrictCityData.js') }}"></script>
