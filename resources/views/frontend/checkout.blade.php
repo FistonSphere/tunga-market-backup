@@ -1731,6 +1731,22 @@
         setInterval(autoSaveFormData, 30000);
 
         //warning for shipping address:
+        // ✅ Show the modal
+        function openAddressConfirmModal() {
+            // check if save checkbox is ticked
+            if (!document.getElementById('save-address').checked) {
+                alert('Please check "Save this address for future orders" before saving.');
+                return;
+            }
+            document.getElementById('save-address-modal-wrapper').classList.remove('hidden');
+        }
+
+        // ✅ Hide the modal
+        function closeAddressConfirmModal() {
+            document.getElementById('save-address-modal-wrapper').classList.add('hidden');
+        }
+
+        // ✅ Confirm save with AJAX
         function confirmSaveAddress() {
             let btn = document.getElementById('confirm-save-btn');
             let text = document.getElementById('confirm-save-text');
@@ -1770,7 +1786,7 @@
                         toast.classList.add("hidden");
                     }, 3000);
 
-                    // ✅ update address list dynamically without page reload
+                    // ✅ update address list dynamically without reload
                     if (data.new_address_html) {
                         document.getElementById("saved-addresses").insertAdjacentHTML("beforeend", data
                             .new_address_html);
