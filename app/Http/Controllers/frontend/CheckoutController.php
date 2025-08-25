@@ -202,6 +202,17 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
     }
 }
 
+public function editShippingAddress($id)
+    {
+        $address = ShippingAddress::where('id', $id)
+            ->where('user_id', Auth::id()) // security check
+            ->firstOrFail();
+
+        return response()->json([
+            'success' => true,
+            'data' => $address
+        ]);
+    }
 public function updateShippingAddress(Request $request, $id)
     {
         // Validate request
