@@ -1784,6 +1784,7 @@
                     toast.classList.remove("hidden");
                     setTimeout(() => {
                         toast.classList.add("hidden");
+                        location.reload();
                     }, 3000);
 
                     // ✅ update address list dynamically without reload
