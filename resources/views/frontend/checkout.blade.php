@@ -1170,6 +1170,14 @@
         </svg>
         <span>Shipping address has been saved successfully!</span>
     </div>
+    <div id="toast2"
+        class="hidden fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
+        style="z-index: 999999;background: #ff5f0e;color: #fff;top: 8px;right: 4px;">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <span>Shipping address has been updated successfully!</span>
+    </div>
 
     <!-- Edit Address Modal -->
     <div id="editAddressModal" class="fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center">
@@ -1941,12 +1949,12 @@
                 formData.append("_method", "PUT");
 
                 fetch(`/shipping-address/update/${id}`, {
-                        method: "POST", // Laravel sees _method=PUT
+                        method: "POST",
                         headers: {
                             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                            "Accept": "application/json"  
+                            "Accept": "application/json"
                         },
-                        body: formData // ✅ don't stringify, let browser set headers
+                        body: formData //
                     })
                     .then(async res => {
                         if (!res.ok) {
@@ -1957,7 +1965,12 @@
                     .then(data => {
                         if (data.success) {
                             editBtnText.textContent = "Saved!";
-                            setTimeout(() => location.reload(), 3000);
+                            const toast2 = document.getElementById("toast2");
+                            toast2.classList.remove("hidden");
+                            setTimeout(() => {
+                                toast2.classList.add("hidden");
+                                location.reload(); // reload after 3s
+                            }, 3000);
                         } else {
                             alert(data.message || "Something went wrong!");
                         }
