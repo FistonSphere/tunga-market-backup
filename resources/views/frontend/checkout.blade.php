@@ -1145,40 +1145,27 @@
             <!-- Action Buttons -->
             <div class="space-y-3">
                 <button id="confirm-save-btn" onclick="confirmSaveAddress()"
-                    class="w-full bg-accent text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 flex justify-center items-center gap-2">
+                    class="w-full bg-accent text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
                     <span id="confirm-save-text">Yes, Save Address</span>
-                    <svg id="confirm-save-spinner" class="animate-spin h-5 w-5 text-white hidden"
+                    <svg id="confirm-save-spinner" class="animate-spin h-5 w-5 ml-2 text-white hidden"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
                             stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
                     </svg>
                 </button>
-
                 <button onclick="closeAddressConfirmModal()"
                     class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
                     Cancel
                 </button>
             </div>
-
         </div>
     </div>
-    <div id="toast-success"
+    <div id="toast"
         class="hidden fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
         style="z-index: 999999;background: #ff5f0e;color: #fff;top: 8px;right: 4px;">
-        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-        </svg>
-        <span>Shipping address has been saved successfully!</span>
     </div>
-    <div id="toast-error"
-        class="hidden fixed bottom-5 right-5 bg-red-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
-        style="z-index: 999999; --tw-bg-opacity: 1; background-color: rgb(220 38 38 / var(--tw-bg-opacity, 1)); color: #fff;top: 8px;right: 4px;">
-        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-        <span>Failed to save shipping address!</span>
-    </div>
+ 
 
     <script src="{{ asset('assets/js/CountryStateDistrictCityData.js') }}"></script>
 
