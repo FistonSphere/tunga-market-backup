@@ -1175,7 +1175,8 @@
     <div id="editAddressModal" class="fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center">
         <div class="bg-white rounded-2xl shadow-lg w-full max-w-xl p-4 relative">
             <!-- Close Button -->
-            <button type="button" id="closeEditModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-lg">
+            <button type="button" id="closeEditModal"
+                class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-lg">
                 ✕
             </button>
 
@@ -1187,22 +1188,26 @@
 
                 <div>
                     <label class="block text-xs mb-1">First Name</label>
-                    <input type="text" id="edit_first_name" name="first_name" class="w-full border rounded p-1 text-sm">
+                    <input type="text" id="edit_first_name" name="first_name"
+                        class="w-full border rounded p-1 text-sm">
                 </div>
 
                 <div>
                     <label class="block text-xs mb-1">Last Name</label>
-                    <input type="text" id="edit_last_name" name="last_name" class="w-full border rounded p-1 text-sm">
+                    <input type="text" id="edit_last_name" name="last_name"
+                        class="w-full border rounded p-1 text-sm">
                 </div>
 
                 <div class="md:col-span-2">
                     <label class="block text-xs mb-1">Address Line 1</label>
-                    <input type="text" id="edit_address_line1" name="address_line1" class="w-full border rounded p-1 text-sm">
+                    <input type="text" id="edit_address_line1" name="address_line1"
+                        class="w-full border rounded p-1 text-sm">
                 </div>
 
                 <div class="md:col-span-2">
                     <label class="block text-xs mb-1">Address Line 2</label>
-                    <input type="text" id="edit_address_line2" name="address_line2" class="w-full border rounded p-1 text-sm">
+                    <input type="text" id="edit_address_line2" name="address_line2"
+                        class="w-full border rounded p-1 text-sm">
                 </div>
 
                 <div>
@@ -1217,7 +1222,8 @@
 
                 <div>
                     <label class="block text-xs mb-1">Postal Code</label>
-                    <input type="text" id="edit_postal_code" name="postal_code" class="w-full border rounded p-1 text-sm">
+                    <input type="text" id="edit_postal_code" name="postal_code"
+                        class="w-full border rounded p-1 text-sm">
                 </div>
 
                 <div>
@@ -1875,5 +1881,80 @@
                     alert("Something went wrong. Please try again.");
                 });
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("editAddressModal");
+            const closeModal = document.getElementById("closeEditModal");
+            const editForm = document.getElementById("editAddressForm");
+            const editSpinner = document.getElementById("editSpinner");
+            const editBtnText = document.getElementById("editBtnText");
+
+            // Open modal & fetch existing data
+            document.querySelectorAll(".edit-address-btn").forEach(btn => {
+                btn.addEventListener("click", function() {
+                    let id = this.dataset.id;
+
+                    // Fetch address details
+                    fetch(`/shipping-addresses/${id}/edit`)
+                        .then(res => res.json())
+                        .then(data => {
+                            document.getElementById("edit_id").value = data.id;
+                            document.getElementById("edit_first_name").value = data.first_name;
+                            document.getElementById("edit_last_name").value = data.last_name;
+                            document.getElementById("edit_address_line1").value = data
+                                .address_line1;
+                            document.getElementById("edit_address_line2").value = data
+                                .address_line2 ?? '';
+                            document.getElementById("edit_city").value = data.city;
+                            document.getElementById("edit_state").value = data.state;
+                            document.getElementById("edit_postal_code").value = data
+                            .postal_code;
+                            document.getElementById("edit_country").value = data.country;
+                            document.getElementById("edit_phone").value = data.phone;
+
+                            modal.classList.remove("hidden");
+                            modal.classList.add("flex");
+                        });
+                });
+            });
+
+            // Close modal
+            closeModal.addEventListener("click", () => {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            });
+
+            // Save changes
+            editForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+                let formData = new FormData(editForm);
+                let id = formData.get("id");
+
+                // UI feedback
+                editSpinner.classList.remove("hidden");
+                editBtnText.textContent = "Saving...";
+
+                fetch(`/shipping-addresses/${id}`, {
+                        method: "POST", // Laravel expects POST for update with _method=PUT
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: new URLSearchParams(formData) + "&_method=PUT"
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            editBtnText.textContent = "Saved!";
+                            setTimeout(() => {
+                                location.reload();
+                            }, 3000);
+                        } else {
+                            alert("Something went wrong!");
+                            editBtnText.textContent = "Save Changes";
+                            editSpinner.classList.add("hidden");
+                        }
+                    });
+            });
+        });
     </script>
 @endsection
