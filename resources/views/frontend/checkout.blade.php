@@ -1897,24 +1897,28 @@
                     // Fetch address details
                     fetch(`/shipping-addresses/${id}/edit`)
                         .then(res => res.json())
-                        .then(data => {
-                            document.getElementById("edit_id").value = data.id;
-                            document.getElementById("edit_first_name").value = data.first_name;
-                            document.getElementById("edit_last_name").value = data.last_name;
-                            document.getElementById("edit_address_line1").value = data
+                        .then(response => {
+                            let address = response.data; // ✅ access the "data" object
+
+                            document.getElementById("edit_id").value = address.id;
+                            document.getElementById("edit_first_name").value = address
+                                .first_name;
+                            document.getElementById("edit_last_name").value = address.last_name;
+                            document.getElementById("edit_address_line1").value = address
                                 .address_line1;
-                            document.getElementById("edit_address_line2").value = data
+                            document.getElementById("edit_address_line2").value = address
                                 .address_line2 ?? '';
-                            document.getElementById("edit_city").value = data.city;
-                            document.getElementById("edit_state").value = data.state;
-                            document.getElementById("edit_postal_code").value = data
-                            .postal_code;
-                            document.getElementById("edit_country").value = data.country;
-                            document.getElementById("edit_phone").value = data.phone;
+                            document.getElementById("edit_city").value = address.city;
+                            document.getElementById("edit_state").value = address.state;
+                            document.getElementById("edit_postal_code").value = address
+                                .postal_code;
+                            document.getElementById("edit_country").value = address.country;
+                            document.getElementById("edit_phone").value = address.phone;
 
                             modal.classList.remove("hidden");
                             modal.classList.add("flex");
                         });
+
                 });
             });
 
@@ -1934,19 +1938,22 @@
                 editSpinner.classList.remove("hidden");
                 editBtnText.textContent = "Saving...";
 
-                fetch(`/shipping-addresses/${id}`, {
-                        method: "POST", // Laravel expects POST for update with _method=PUT
+                formData.append("_method", "PUT"); // Add Laravel spoofing method
+
+                fetch(`/shipping-address/update/${id}`, {
+                        method: "POST", // Laravel sees it as PUT because of spoofing
                         headers: {
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                            "Content-Type": "application/x-www-form-urlencoded"
                         },
-                        body: new URLSearchParams(formData) + "&_method=PUT"
+                        body: new URLSearchParams(formData) // properly encoded
                     })
                     .then(res => res.json())
                     .then(data => {
                         if (data.success) {
                             editBtnText.textContent = "Saved!";
                             setTimeout(() => {
-                                location.reload();
+                                location.reload(); // reload after 3s
                             }, 3000);
                         } else {
                             alert("Something went wrong!");
@@ -1954,6 +1961,7 @@
                             editSpinner.classList.add("hidden");
                         }
                     });
+
             });
         });
     </script>
