@@ -194,7 +194,7 @@
                                                         Phone: {{ $address->phone }}
                                                     </div>
                                                     <button type="button"
-                                                        class="text-accent hover:text-accent-600 transition-fast text-body-sm mt-2"
+                                                        class="edit-address-btn text-accent hover:text-accent-600 transition-fast text-body-sm mt-2"
                                                         data-id="{{ $address->id }}">
                                                         Edit
                                                     </button>
