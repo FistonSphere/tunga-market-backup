@@ -1156,14 +1156,20 @@
         </div>
     </div>
     <div id="toast-success"
-        class="fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
-        style="z-index: 999999;background: #ff5f0e;color: #fff;top: 0;right: 0;">
+        class="hidden fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
+        style="z-index: 999999;background: #ff5f0e;color: #fff;top: 8px;right: 4px;">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
         <span>Shipping address has been saved successfully!</span>
     </div>
-
+    <div id="toast-error"
+        class="hidden fixed bottom-5 right-5 bg-red-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        <span>Failed to save shipping address!</span>
+    </div>
 
     <script src="{{ asset('assets/js/CountryStateDistrictCityData.js') }}"></script>
 
