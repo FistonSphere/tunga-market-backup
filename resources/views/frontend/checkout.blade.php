@@ -319,7 +319,7 @@
                                     <div class="space-y-3">
                                         <!-- TechSound Manufacturing Shipping -->
                                         <div class="border border-border rounded-lg p-4">
-                                            <h4 class="font-medium text-primary mb-3">Tunga Market.</h4>
+                                            <h4 class="font-medium text-primary mb-3">Tunga Market Shipping Co Ltd.</h4>
                                             <div class="space-y-2">
                                                 <label
                                                     class="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-surface cursor-pointer">
