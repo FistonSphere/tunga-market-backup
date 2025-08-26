@@ -1181,7 +1181,7 @@
 
                 <h2 class="text-lg font-semibold mb-4 text-primary">Edit Shipping Address</h2>
 
-                <form id="editAddressForm" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[70vh] overflow-y-auto">
+                <form id="editAddressForm" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[70vh] overflow-y-auto p-2">
                     @csrf
                     <input type="hidden" id="edit_id" name="id">
 
@@ -1240,12 +1240,12 @@
                         <input type="tel" id="edit_phone" name="phone" class="input-field py-1 text-sm" required>
                     </div>
 
-                    <div class="md:col-span-2 flex justify-end mt-2">
+                    <div class="md:col-span-2 flex justify-end mt-4">
                         <button type="submit"
-                            class="bg-accent text-white px-4 py-1 rounded-lg shadow hover:bg-accent-dark flex items-center space-x-2 text-xs">
+                            class="bg-accent text-white px-6 py-3 rounded-lg shadow hover:bg-accent-dark flex items-center space-x-2 text-base font-semibold">
                             <span id="editBtnText">Save</span>
                             <span id="editSpinner"
-                                class="hidden animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
+                                class="hidden animate-spin border-2 border-white border-t-transparent rounded-full w-5 h-5"></span>
                         </button>
                     </div>
                 </form>
