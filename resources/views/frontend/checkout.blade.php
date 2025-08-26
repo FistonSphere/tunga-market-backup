@@ -376,7 +376,9 @@
                     <div id="step-3" class="checkout-step hidden">
                         <div class="card">
                             <div class="flex items-center justify-between mb-6">
-                                <h2 class="text-2xl font-bold text-primary">3. Payment Method</h2>
+                                <h2 class="text-2xl font-bold text-primary">
+                                    3. Payment Method
+                                </h2>
                                 <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
                                     onclick="previousStep(2)">
                                     <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
@@ -397,9 +399,13 @@
                                             d="M9 12l2 2 4-4m5.09-5.09A10 10 0 0019.49 5 8.5 8.5 0 0013 8a10 10 0 00-7.07 7.07A8.5 8.5 0 003 12.5a10 10 0 007.07-7.07zM12 12a5.5 5.5 0 1111 0 5.5 5.5 0 01-11 0z" />
                                     </svg>
                                     <div>
-                                        <h4 class="font-semibold text-success mb-1">Your payment is protected</h4>
-                                        <p class="text-body-sm text-success-700">256-bit SSL encryption • PCI DSS compliant
-                                            • Buyer protection guarantee</p>
+                                        <h4 class="font-semibold text-success mb-1">
+                                            Your payment is protected
+                                        </h4>
+                                        <p class="text-body-sm text-success-700">
+                                            256-bit SSL encryption • PCI DSS compliant • Buyer
+                                            protection guarantee
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -415,20 +421,25 @@
                                         <div class="flex items-center space-x-2 ml-auto">
                                             <div
                                                 class="w-8 h-5 bg-primary rounded text-white text-xs flex items-center justify-center font-bold">
-                                                VISA</div>
+                                                VISA
+                                            </div>
                                             <div
                                                 class="w-8 h-5 bg-accent rounded text-white text-xs flex items-center justify-center font-bold">
-                                                MC</div>
+                                                MC
+                                            </div>
                                             <div
                                                 class="w-8 h-5 bg-secondary rounded text-white text-xs flex items-center justify-center font-bold">
-                                                AMEX</div>
+                                                AMEX
+                                            </div>
                                         </div>
                                     </label>
 
                                     <div id="card-form" class="space-y-4 pl-7">
                                         <!-- Saved Cards -->
                                         <div class="space-y-3">
-                                            <h4 class="font-medium text-primary">Saved Payment Methods</h4>
+                                            <h4 class="font-medium text-primary">
+                                                Saved Payment Methods
+                                            </h4>
 
                                             <label
                                                 class="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-surface cursor-pointer">
@@ -437,15 +448,21 @@
                                                         class="text-accent focus:ring-accent-500 border-border" />
                                                     <div
                                                         class="w-8 h-5 bg-primary rounded text-white text-xs flex items-center justify-center font-bold">
-                                                        VISA</div>
+                                                        VISA
+                                                    </div>
                                                     <div>
-                                                        <div class="font-medium text-primary">•••• •••• •••• 1234</div>
-                                                        <div class="text-body-sm text-secondary-600">Expires 12/26 • John
-                                                            Smith</div>
+                                                        <div class="font-medium text-primary">
+                                                            •••• •••• •••• 1234
+                                                        </div>
+                                                        <div class="text-body-sm text-secondary-600">
+                                                            Expires 12/26 • John Smith
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <button
-                                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm">Edit</button>
+                                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm">
+                                                    Edit
+                                                </button>
                                             </label>
 
                                             <label
@@ -455,15 +472,21 @@
                                                         class="text-accent focus:ring-accent-500 border-border" />
                                                     <div
                                                         class="w-8 h-5 bg-accent rounded text-white text-xs flex items-center justify-center font-bold">
-                                                        MC</div>
+                                                        MC
+                                                    </div>
                                                     <div>
-                                                        <div class="font-medium text-primary">•••• •••• •••• 5678</div>
-                                                        <div class="text-body-sm text-secondary-600">Expires 08/27 • John
-                                                            Smith</div>
+                                                        <div class="font-medium text-primary">
+                                                            •••• •••• •••• 5678
+                                                        </div>
+                                                        <div class="text-body-sm text-secondary-600">
+                                                            Expires 08/27 • John Smith
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <button
-                                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm">Edit</button>
+                                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm">
+                                                    Edit
+                                                </button>
                                             </label>
 
                                             <label
@@ -529,13 +552,16 @@
                                         <div class="flex items-center space-x-2 ml-auto">
                                             <div
                                                 class="w-12 h-6 bg-gradient-to-r from-green-500 to-blue-500 rounded text-white text-xs flex items-center justify-center font-bold">
-                                                IREMBO</div>
+                                                IREMBO
+                                            </div>
                                             <div
                                                 class="w-8 h-5 bg-yellow-500 rounded text-white text-xs flex items-center justify-center font-bold">
-                                                MTN</div>
+                                                MTN
+                                            </div>
                                             <div
                                                 class="w-10 h-5 bg-red-500 rounded text-white text-xs flex items-center justify-center font-bold">
-                                                AIRTEL</div>
+                                                AIRTEL
+                                            </div>
                                         </div>
                                     </label>
 
@@ -548,10 +574,13 @@
                                                         d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                                 </svg>
                                                 <div>
-                                                    <h4 class="font-semibold text-primary mb-1">IREMBO Pay - Mobile Money
+                                                    <h4 class="font-semibold text-primary mb-1">
+                                                        IREMBO Pay - Mobile Money
                                                     </h4>
-                                                    <p class="text-body-sm text-primary-700">Secure mobile money payments
-                                                        in Rwanda. Supports MTN Mobile Money and Airtel Money.</p>
+                                                    <p class="text-body-sm text-primary-700">
+                                                        Secure mobile money payments in Rwanda. Supports
+                                                        MTN Mobile Money and Airtel Money.
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -570,8 +599,12 @@
                                                             class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-2">
                                                             <span class="text-white font-bold text-sm">MTN</span>
                                                         </div>
-                                                        <div class="font-semibold text-primary">MTN Mobile Money</div>
-                                                        <div class="text-sm text-secondary-600">*182# or App</div>
+                                                        <div class="font-semibold text-primary">
+                                                            MTN Mobile Money
+                                                        </div>
+                                                        <div class="text-sm text-secondary-600">
+                                                            *182# or App
+                                                        </div>
                                                     </div>
                                                 </label>
 
@@ -584,8 +617,12 @@
                                                             class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-2">
                                                             <span class="text-white font-bold text-sm">AIRTEL</span>
                                                         </div>
-                                                        <div class="font-semibold text-primary">Airtel Money</div>
-                                                        <div class="text-sm text-secondary-600">*175# or App</div>
+                                                        <div class="font-semibold text-primary">
+                                                            Airtel Money
+                                                        </div>
+                                                        <div class="text-sm text-secondary-600">
+                                                            *175# or App
+                                                        </div>
                                                     </div>
                                                 </label>
                                             </div>
@@ -613,8 +650,8 @@
                                                                 Number</span>
                                                         </div>
                                                         <div class="text-body-sm text-secondary-600">
-                                                            Enter your mobile money phone number. You'll receive a payment
-                                                            request on your phone.
+                                                            Enter your mobile money phone number. You'll
+                                                            receive a payment request on your phone.
                                                         </div>
                                                     </div>
                                                 </label>
@@ -640,8 +677,8 @@
                                                                 Only</span>
                                                         </div>
                                                         <div class="text-body-sm text-secondary-600">
-                                                            Generate a payment code from MTN Mobile Money app or *182# and
-                                                            enter it here.
+                                                            Generate a payment code from MTN Mobile Money
+                                                            app or *182# and enter it here.
                                                         </div>
                                                     </div>
                                                 </label>
@@ -661,8 +698,9 @@
                                                     class="flex-1 input-field rounded-l-none" placeholder="7xxxxxxxx"
                                                     maxlength="9" required />
                                             </div>
-                                            <p class="text-body-sm text-secondary-600 mt-1">Enter your 9-digit mobile
-                                                number (without +250)</p>
+                                            <p class="text-body-sm text-secondary-600 mt-1">
+                                                Enter your 9-digit mobile number (without +250)
+                                            </p>
                                         </div>
 
                                         <!-- Mobile Money Code Input -->
@@ -672,14 +710,19 @@
                                             <input type="text" id="mobile-code" class="input-field"
                                                 placeholder="Enter 6-digit payment code" maxlength="6" required />
                                             <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-2">
-                                                <h5 class="font-medium text-yellow-800 mb-1">How to get your payment code:
+                                                <h5 class="font-medium text-yellow-800 mb-1">
+                                                    How to get your payment code:
                                                 </h5>
                                                 <ol class="text-body-sm text-yellow-700 space-y-1">
                                                     <li>1. Dial *182# on your MTN phone</li>
                                                     <li>2. Select "Pay Bill" or "Send Money"</li>
-                                                    <li>3. Enter merchant code: <strong>123456</strong></li>
-                                                    <li>4. Enter amount: <strong>$<span
-                                                                id="payment-amount">711.36</span></strong></li>
+                                                    <li>
+                                                        3. Enter merchant code: <strong>123456</strong>
+                                                    </li>
+                                                    <li>
+                                                        4. Enter amount:
+                                                        <strong>$<span id="payment-amount">711.36</span></strong>
+                                                    </li>
                                                     <li>5. Generate payment code and enter it above</li>
                                                 </ol>
                                             </div>
@@ -691,31 +734,45 @@
                                                 PIN *</label>
                                             <input type="password" id="mobile-pin" class="input-field"
                                                 placeholder="Enter your 4-digit PIN" maxlength="4" required />
-                                            <p class="text-body-sm text-secondary-600 mt-1">Your mobile money PIN for
-                                                transaction authorization</p>
+                                            <p class="text-body-sm text-secondary-600 mt-1">
+                                                Your mobile money PIN for transaction authorization
+                                            </p>
                                         </div>
 
                                         <!-- Payment Instructions -->
                                         <div id="payment-instructions"
                                             class="hidden bg-accent-50 border border-accent-200 rounded-lg p-4">
-                                            <h5 class="font-semibold text-accent mb-2">Payment Instructions</h5>
+                                            <h5 class="font-semibold text-accent mb-2">
+                                                Payment Instructions
+                                            </h5>
                                             <div id="phone-instructions" class="hidden">
-                                                <p class="text-body-sm text-accent-700 mb-2">When you click "Place Order":
+                                                <p class="text-body-sm text-accent-700 mb-2">
+                                                    When you click "Place Order":
                                                 </p>
                                                 <ol
                                                     class="text-body-sm text-accent-700 space-y-1 list-decimal list-inside">
-                                                    <li>You'll receive a payment request on your phone</li>
+                                                    <li>
+                                                        You'll receive a payment request on your phone
+                                                    </li>
                                                     <li>Enter your Mobile Money PIN to confirm</li>
                                                     <li>Your order will be processed immediately</li>
                                                 </ol>
                                             </div>
                                             <div id="code-instructions" class="hidden">
-                                                <p class="text-body-sm text-accent-700 mb-2">Your payment will be processed
-                                                    using the provided code:</p>
+                                                <p class="text-body-sm text-accent-700 mb-2">
+                                                    Your payment will be processed using the provided
+                                                    code:
+                                                </p>
                                                 <ul class="text-body-sm text-accent-700 space-y-1 list-disc list-inside">
-                                                    <li>Ensure your mobile money account has sufficient balance</li>
+                                                    <li>
+                                                        Ensure your mobile money account has sufficient
+                                                        balance
+                                                    </li>
                                                     <li>Payment code is valid for 15 minutes</li>
-                                                    <li>Your order will be confirmed once payment is successful</li>
+                                                    <li>
+                                                        Your order will be confirmed once payment is
+                                                        successful
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -730,10 +787,14 @@
                                         <span class="font-semibold text-primary">PayPal</span>
                                         <div
                                             class="w-16 h-6 bg-primary rounded text-white text-xs flex items-center justify-center font-bold ml-auto">
-                                            PayPal</div>
+                                            PayPal
+                                        </div>
                                     </label>
                                     <div class="pl-7 text-body-sm text-secondary-600">
-                                        <p>You'll be redirected to PayPal to complete your payment securely.</p>
+                                        <p>
+                                            You'll be redirected to PayPal to complete your payment
+                                            securely.
+                                        </p>
                                     </div>
                                 </div>
 
@@ -748,7 +809,9 @@
                                             days processing</span>
                                     </label>
                                     <div class="pl-7 text-body-sm text-secondary-600">
-                                        <p>Direct bank transfer. Your order will be processed after payment confirmation.
+                                        <p>
+                                            Direct bank transfer. Your order will be processed after
+                                            payment confirmation.
                                         </p>
                                     </div>
                                 </div>
@@ -764,15 +827,22 @@
                                             $2,500</span>
                                     </label>
                                     <div class="pl-7 text-body-sm text-secondary-600">
-                                        <p>Use your approved trade credit balance for this purchase.</p>
+                                        <p>
+                                            Use your approved trade credit balance for this
+                                            purchase.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Navigation Buttons -->
                             <div class="flex justify-between mt-8">
-                                <button class="btn-secondary" onclick="previousStep(2)">Back to Shipping</button>
-                                <button class="btn-primary" onclick="nextStep(4)">Review & Place Order</button>
+                                <button class="btn-secondary" onclick="previousStep(2)">
+                                    Back to Shipping
+                                </button>
+                                <button class="btn-primary" onclick="nextStep(4)">
+                                    Review & Place Order
+                                </button>
                             </div>
                         </div>
                     </div>
