@@ -1162,7 +1162,8 @@
     </div>
 
     <!-- Edit Address Modal -->
-    <div id="editAddressModal" style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));"
+    <div id="editAddressModal"
+        style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));"
         class="fixed inset-0 hidden items-center justify-center 
             backdrop-blur-sm transition-opacity duration-300 ease-out">
 
@@ -1252,8 +1253,8 @@
             </div>
 
             <!-- Right Side: Illustration -->
-            <div
-                class="hidden md:flex flex-col justify-center items-center bg-surface rounded-r-2xl w-80 p-8 border-l border-border" style="border-top-right-radius: 16px; border-bottom-right-radius: 16px;">
+            <div class="hidden md:flex flex-col justify-center items-center bg-surface rounded-r-2xl w-80 p-8 border-l border-border"
+                style="border-top-right-radius: 16px; border-bottom-right-radius: 16px;">
                 <svg class="w-24 h-24 text-accent mb-4" fill="none" stroke="currentColor" viewBox="0 0 48 48">
                     <rect x="8" y="12" width="32" height="24" rx="4" stroke-width="2" />
                     <path d="M16 20h16M16 28h8" stroke-width="2" />
@@ -1956,6 +1957,60 @@
                     modal.classList.add("hidden");
                     modal.classList.remove("flex");
                 }, 300);
+            });
+
+            // Submit form
+            editForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+                let formData = new FormData(editForm);
+                let id = formData.get("id");
+
+                // UI feedback
+                editSpinner.classList.remove("hidden");
+                editBtnText.textContent = "Saving...";
+
+                formData.append("_method", "PUT");
+
+                fetch(`/shipping-address/update/${id}`, {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                            "Accept": "application/json"
+                        },
+                        body: formData
+                    })
+                    .then(async res => {
+                        if (!res.ok) {
+                            throw new Error("Network or validation error");
+                        }
+                        return res.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            editBtnText.textContent = "Saved!";
+
+                            // ✅ Show toast if you have #toast2
+                            const toast2 = document.getElementById("toast2");
+                            if (toast2) {
+                                toast2.classList.remove("hidden");
+                                setTimeout(() => toast2.classList.add("hidden"), 3000);
+                            }
+
+                            // Close modal smoothly
+                            closeModal.click();
+
+                            // Refresh addresses list (or reload if needed)
+                            setTimeout(() => location.reload(), 1500);
+                        } else {
+                            alert(data.message || "Something went wrong!");
+                        }
+                        editSpinner.classList.add("hidden");
+                    })
+                    .catch(err => {
+                        console.error("Update failed:", err);
+                        editBtnText.textContent = "Save Changes";
+                        editSpinner.classList.add("hidden");
+                    });
             });
         });
     </script>
