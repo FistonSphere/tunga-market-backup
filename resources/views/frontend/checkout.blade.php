@@ -1163,80 +1163,93 @@
 
     <!-- Edit Address Modal -->
     <div id="editAddressModal" class="fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center">
-        <div class="bg-white rounded-2xl shadow-lg w-full max-w-xl p-4 relative">
-            <!-- Close Button -->
-            <button type="button" id="closeEditModal"
-                class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-lg">
-                ✕
-            </button>
+        <div class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row">
+            <!-- Left Side: Form -->
+            <div class="flex-1 p-8">
+                <!-- Close Button -->
+                <button type="button" id="closeEditModal"
+                    class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-lg">
+                    ✕
+                </button>
 
-            <h2 class="text-lg font-semibold mb-3 text-primary">Edit Shipping Address</h2>
+                <h2 class="text-lg font-semibold mb-4 text-primary">Edit Shipping Address</h2>
 
-            <form id="editAddressForm" class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                @csrf
-                <input type="hidden" id="edit_id" name="id">
+                <form id="editAddressForm" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[70vh] overflow-y-auto">
+                    @csrf
+                    <input type="hidden" id="edit_id" name="id">
 
-                <div>
-                    <label class="block text-xs mb-1">First Name</label>
-                    <input type="text" id="edit_first_name" name="first_name"
-                        class="w-full border rounded p-1 text-sm">
-                </div>
+                    <div>
+                        <label class="block text-xs font-medium text-primary mb-1">First Name *</label>
+                        <input type="text" id="edit_first_name" name="first_name" class="input-field py-1 text-sm" required>
+                    </div>
 
-                <div>
-                    <label class="block text-xs mb-1">Last Name</label>
-                    <input type="text" id="edit_last_name" name="last_name"
-                        class="w-full border rounded p-1 text-sm">
-                </div>
+                    <div>
+                        <label class="block text-xs font-medium text-primary mb-1">Last Name *</label>
+                        <input type="text" id="edit_last_name" name="last_name" class="input-field py-1 text-sm" required>
+                    </div>
 
-                <div class="md:col-span-2">
-                    <label class="block text-xs mb-1">Address Line 1</label>
-                    <input type="text" id="edit_address_line1" name="address_line1"
-                        class="w-full border rounded p-1 text-sm">
-                </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-medium text-primary mb-1">Company (Optional)</label>
+                        <input type="text" id="edit_company" name="company" class="input-field py-1 text-sm">
+                    </div>
 
-                <div class="md:col-span-2">
-                    <label class="block text-xs mb-1">Address Line 2</label>
-                    <input type="text" id="edit_address_line2" name="address_line2"
-                        class="w-full border rounded p-1 text-sm">
-                </div>
+                    <div>
+                        <label class="block text-xs font-medium text-primary mb-1">Address Line 1 *</label>
+                        <input type="text" id="edit_address_line1" name="address_line1" class="input-field py-1 text-sm" required>
+                    </div>
 
-                <div>
-                    <label class="block text-xs mb-1">City</label>
-                    <input type="text" id="edit_city" name="city" class="w-full border rounded p-1 text-sm">
-                </div>
+                    <div>
+                        <label class="block text-xs font-medium text-primary mb-1">Address Line 2 (Optional)</label>
+                        <input type="text" id="edit_address_line2" name="address_line2" class="input-field py-1 text-sm">
+                    </div>
 
-                <div>
-                    <label class="block text-xs mb-1">State</label>
-                    <input type="text" id="edit_state" name="state" class="w-full border rounded p-1 text-sm">
-                </div>
+                    <div>
+                        <label class="block text-xs font-medium text-primary mb-1">Country *</label>
+                        <input type="text" id="edit_country" name="country" class="input-field py-1 text-sm" required>
+                    </div>
 
-                <div>
-                    <label class="block text-xs mb-1">Postal Code</label>
-                    <input type="text" id="edit_postal_code" name="postal_code"
-                        class="w-full border rounded p-1 text-sm">
-                </div>
+                    <div>
+                        <label class="block text-xs font-medium text-primary mb-1">State/Province *</label>
+                        <input type="text" id="edit_state" name="state" class="input-field py-1 text-sm" required>
+                    </div>
 
-                <div>
-                    <label class="block text-xs mb-1">Country</label>
-                    <input type="text" id="edit_country" name="country" class="w-full border rounded p-1 text-sm">
-                </div>
+                    <div>
+                        <label class="block text-xs font-medium text-primary mb-1">City/District *</label>
+                        <input type="text" id="edit_city" name="city" class="input-field py-1 text-sm" required>
+                    </div>
 
-                <div class="md:col-span-2">
-                    <label class="block text-xs mb-1">Phone</label>
-                    <input type="text" id="edit_phone" name="phone" class="w-full border rounded p-1 text-sm">
-                </div>
+                    <div>
+                        <label class="block text-xs font-medium text-primary mb-1">ZIP/Postal Code</label>
+                        <input type="text" id="edit_postal_code" name="postal_code" class="input-field py-1 text-sm">
+                    </div>
 
-                <div class="md:col-span-2 flex justify-end">
-                    <button type="submit"
-                        class="bg-accent text-white px-4 py-2 rounded flex items-center justify-center space-x-2 text-sm">
-                        <span id="editBtnText">Save</span>
-                        <span id="editSpinner"
-                            class="hidden animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
-                    </button>
-                </div>
-            </form>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-medium text-primary mb-1">Phone Number *</label>
+                        <input type="tel" id="edit_phone" name="phone" class="input-field py-1 text-sm" required>
+                    </div>
+
+                    <div class="md:col-span-2 flex justify-end mt-2">
+                        <button type="submit"
+                            class="bg-accent text-white px-4 py-1 rounded-lg shadow hover:bg-accent-dark flex items-center space-x-2 text-xs">
+                            <span id="editBtnText">Save</span>
+                            <span id="editSpinner"
+                                class="hidden animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- Right Side: Illustration or Info (optional, can be removed or replaced) -->
+            <div class="hidden md:flex flex-col justify-center items-center bg-surface rounded-r-2xl w-80 p-8 border-l border-border">
+                <svg class="w-24 h-24 text-accent mb-4" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+                    <rect x="8" y="12" width="32" height="24" rx="4" stroke-width="2" />
+                    <path d="M16 20h16M16 28h8" stroke-width="2" />
+                </svg>
+                <div class="text-primary font-semibold text-lg mb-2 text-center">Keep your address up to date!</div>
+                <div class="text-secondary-600 text-sm text-center">Accurate shipping details ensure fast and secure delivery of your orders.</div>
+            </div>
         </div>
     </div>
+
 
     <script src="{{ asset('assets/js/CountryStateDistrictCityData.js') }}"></script>
 
@@ -1966,5 +1979,8 @@
             });
 
         });
-    </script>
+   
+   
+   
+   </script>
 @endsection
