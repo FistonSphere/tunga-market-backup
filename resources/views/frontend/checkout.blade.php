@@ -1162,10 +1162,17 @@
     </div>
 
     <!-- Edit Address Modal -->
-    <div id="editAddressModal" class="fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center">
-        <div class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row">
+    <div id="editAddressModal" style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));"
+        class="fixed inset-0 hidden items-center justify-center 
+            backdrop-blur-sm transition-opacity duration-300 ease-out">
+
+        <!-- Animated Modal Card -->
+        <div id="editAddressCard"
+            class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row 
+               transform scale-95 opacity-0 transition-all duration-300 ease-out">
+
             <!-- Left Side: Form -->
-            <div class="flex-1 p-8">
+            <div class="flex-1 p-8 relative">
                 <!-- Close Button -->
                 <button type="button" id="closeEditModal"
                     class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-lg">
@@ -1180,12 +1187,14 @@
 
                     <div>
                         <label class="block text-xs font-medium text-primary mb-1">First Name *</label>
-                        <input type="text" id="edit_first_name" name="first_name" class="input-field py-1 text-sm" required>
+                        <input type="text" id="edit_first_name" name="first_name" class="input-field py-1 text-sm"
+                            required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-primary mb-1">Last Name *</label>
-                        <input type="text" id="edit_last_name" name="last_name" class="input-field py-1 text-sm" required>
+                        <input type="text" id="edit_last_name" name="last_name" class="input-field py-1 text-sm"
+                            required>
                     </div>
 
                     <div class="md:col-span-2">
@@ -1195,17 +1204,20 @@
 
                     <div>
                         <label class="block text-xs font-medium text-primary mb-1">Address Line 1 *</label>
-                        <input type="text" id="edit_address_line1" name="address_line1" class="input-field py-1 text-sm" required>
+                        <input type="text" id="edit_address_line1" name="address_line1"
+                            class="input-field py-1 text-sm" required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-primary mb-1">Address Line 2 (Optional)</label>
-                        <input type="text" id="edit_address_line2" name="address_line2" class="input-field py-1 text-sm">
+                        <input type="text" id="edit_address_line2" name="address_line2"
+                            class="input-field py-1 text-sm">
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-primary mb-1">Country *</label>
-                        <input type="text" id="edit_country" name="country" class="input-field py-1 text-sm" required>
+                        <input type="text" id="edit_country" name="country" class="input-field py-1 text-sm"
+                            required>
                     </div>
 
                     <div>
@@ -1238,17 +1250,21 @@
                     </div>
                 </form>
             </div>
-            <!-- Right Side: Illustration or Info (optional, can be removed or replaced) -->
-            <div class="hidden md:flex flex-col justify-center items-center bg-surface rounded-r-2xl w-80 p-8 border-l border-border">
+
+            <!-- Right Side: Illustration -->
+            <div
+                class="hidden md:flex flex-col justify-center items-center bg-surface rounded-r-2xl w-80 p-8 border-l border-border" style="border-top-right-radius: 16px; border-bottom-right-radius: 16px;">
                 <svg class="w-24 h-24 text-accent mb-4" fill="none" stroke="currentColor" viewBox="0 0 48 48">
                     <rect x="8" y="12" width="32" height="24" rx="4" stroke-width="2" />
                     <path d="M16 20h16M16 28h8" stroke-width="2" />
                 </svg>
                 <div class="text-primary font-semibold text-lg mb-2 text-center">Keep your address up to date!</div>
-                <div class="text-secondary-600 text-sm text-center">Accurate shipping details ensure fast and secure delivery of your orders.</div>
+                <div class="text-secondary-600 text-sm text-center">Accurate shipping details ensure fast and secure
+                    delivery of your orders.</div>
             </div>
         </div>
     </div>
+
 
 
     <script src="{{ asset('assets/js/CountryStateDistrictCityData.js') }}"></script>
@@ -1887,22 +1903,23 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             const modal = document.getElementById("editAddressModal");
+            const modalCard = document.getElementById("editAddressCard");
             const closeModal = document.getElementById("closeEditModal");
             const editForm = document.getElementById("editAddressForm");
             const editSpinner = document.getElementById("editSpinner");
             const editBtnText = document.getElementById("editBtnText");
 
-            // Open modal & fetch existing data
+            // Open modal
             document.querySelectorAll(".edit-address-btn").forEach(btn => {
                 btn.addEventListener("click", function() {
                     let id = this.dataset.id;
 
-                    // Fetch address details
                     fetch(`/shipping-addresses/${id}/edit`)
                         .then(res => res.json())
                         .then(response => {
-                            let address = response.data; // ✅ access the "data" object
+                            let address = response.data;
 
+                            // Fill inputs
                             document.getElementById("edit_id").value = address.id;
                             document.getElementById("edit_first_name").value = address
                                 .first_name;
@@ -1918,69 +1935,28 @@
                             document.getElementById("edit_country").value = address.country;
                             document.getElementById("edit_phone").value = address.phone;
 
+                            // Show modal with animation
                             modal.classList.remove("hidden");
-                            modal.classList.add("flex");
+                            setTimeout(() => {
+                                modal.classList.add("flex", "opacity-100");
+                                modalCard.classList.remove("scale-95", "opacity-0");
+                                modalCard.classList.add("scale-100", "opacity-100");
+                            }, 10);
                         });
-
                 });
             });
 
             // Close modal
             closeModal.addEventListener("click", () => {
-                modal.classList.add("hidden");
-                modal.classList.remove("flex");
+                modalCard.classList.remove("scale-100", "opacity-100");
+                modalCard.classList.add("scale-95", "opacity-0");
+                modal.classList.remove("opacity-100");
+
+                setTimeout(() => {
+                    modal.classList.add("hidden");
+                    modal.classList.remove("flex");
+                }, 300);
             });
-
-            // Save changes
-            editForm.addEventListener("submit", function(e) {
-                e.preventDefault();
-                let formData = new FormData(editForm);
-                let id = formData.get("id");
-
-                // UI feedback
-                editSpinner.classList.remove("hidden");
-                editBtnText.textContent = "Saving...";
-
-                formData.append("_method", "PUT");
-
-                fetch(`/shipping-address/update/${id}`, {
-                        method: "POST",
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                            "Accept": "application/json"
-                        },
-                        body: formData //
-                    })
-                    .then(async res => {
-                        if (!res.ok) {
-                            throw new Error("Network or validation error");
-                        }
-                        return res.json();
-                    })
-                    .then(data => {
-                        if (data.success) {
-                            editBtnText.textContent = "Saved!";
-                            const toast2 = document.getElementById("toast2");
-                            toast2.classList.remove("hidden");
-                            setTimeout(() => {
-                                toast2.classList.add("hidden");
-                                location.reload(); // reload after 3s
-                            }, 3000);
-                        } else {
-                            alert(data.message || "Something went wrong!");
-                        }
-                        editSpinner.classList.add("hidden");
-                    })
-                    .catch(err => {
-                        console.error("Update failed:", err);
-                        editBtnText.textContent = "Save Changes";
-                        editSpinner.classList.add("hidden");
-                    });
-            });
-
         });
-   
-   
-   
-   </script>
+    </script>
 @endsection
