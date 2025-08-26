@@ -1358,12 +1358,12 @@
 
         function showStep(step) {
             // Hide all steps
-            document.querySelectorAll('.checkout-step').forEach(el => {
-                el.classList.add('hidden');
+            document.querySelectorAll(".checkout-step").forEach((el) => {
+                el.classList.add("hidden");
             });
 
             // Show target step
-            document.getElementById(`step-${step}`).classList.remove('hidden');
+            document.getElementById(`step-${step}`).classList.remove("hidden");
             currentStep = step;
 
             // Update progress indicators
@@ -1372,8 +1372,8 @@
 
         function updateProgress(step) {
             const progress = (step / 4) * 100;
-            const mobileProgress = document.getElementById('mobile-progress');
-            const mobileStep = document.getElementById('mobile-step');
+            const mobileProgress = document.getElementById("mobile-progress");
+            const mobileStep = document.getElementById("mobile-step");
 
             if (mobileProgress) mobileProgress.style.width = `${progress}%`;
             if (mobileStep) mobileStep.textContent = step;
@@ -1381,16 +1381,18 @@
 
         function updateProgressIndicators(step) {
             // Update desktop progress
-            const steps = document.querySelectorAll('[class*="w-8"][class*="h-8"][class*="rounded-full"]');
+            const steps = document.querySelectorAll(
+                '[class*="w-8"][class*="h-8"][class*="rounded-full"]'
+            );
 
             steps.forEach((stepEl, index) => {
                 const stepNumber = index + 1;
                 if (stepNumber <= step) {
-                    stepEl.classList.remove('bg-border', 'text-secondary-600');
-                    stepEl.classList.add('bg-accent', 'text-white');
+                    stepEl.classList.remove("bg-border", "text-secondary-600");
+                    stepEl.classList.add("bg-accent", "text-white");
                 } else {
-                    stepEl.classList.remove('bg-accent', 'text-white');
-                    stepEl.classList.add('bg-border', 'text-secondary-600');
+                    stepEl.classList.remove("bg-accent", "text-white");
+                    stepEl.classList.add("bg-border", "text-secondary-600");
                 }
             });
         }
@@ -1411,18 +1413,29 @@
         }
 
         function validateShippingStep() {
-            const shippingAddress = document.querySelector('input[name="shipping-address"]:checked');
+            const shippingAddress = document.querySelector(
+                'input[name="shipping-address"]:checked'
+            );
             if (!shippingAddress) {
-                showToast('Address Required', 'Please select a shipping address.', 'warning');
+                showToast(
+                    "Address Required",
+                    "Please select a shipping address.",
+                    "warning"
+                );
                 return false;
             }
 
-            if (shippingAddress.value === 'new') {
+            if (shippingAddress.value === "new") {
                 const requiredFields = document.querySelectorAll(
-                    '#new-address-form input[required], #new-address-form select[required]');
+                    "#new-address-form input[required], #new-address-form select[required]"
+                );
                 for (let field of requiredFields) {
                     if (!field.value.trim()) {
-                        showToast('Complete Address', 'Please fill in all required address fields.', 'warning');
+                        showToast(
+                            "Complete Address",
+                            "Please fill in all required address fields.",
+                            "warning"
+                        );
                         field.focus();
                         return false;
                     }
@@ -1433,25 +1446,39 @@
         }
 
         function validatePaymentStep() {
-            const paymentMethod = document.querySelector('input[name="payment-method"]:checked');
+            const paymentMethod = document.querySelector(
+                'input[name="payment-method"]:checked'
+            );
             if (!paymentMethod) {
-                showToast('Payment Required', 'Please select a payment method.', 'warning');
+                showToast(
+                    "Payment Required",
+                    "Please select a payment method.",
+                    "warning"
+                );
                 return false;
             }
 
-            if (paymentMethod.value === 'card') {
-                const savedCard = document.querySelector('input[name="saved-card"]:checked');
-                if (savedCard && savedCard.value === 'new-card') {
-                    const requiredFields = document.querySelectorAll('#new-card-form input[required]');
+            if (paymentMethod.value === "card") {
+                const savedCard = document.querySelector(
+                    'input[name="saved-card"]:checked'
+                );
+                if (savedCard && savedCard.value === "new-card") {
+                    const requiredFields = document.querySelectorAll(
+                        "#new-card-form input[required]"
+                    );
                     for (let field of requiredFields) {
                         if (!field.value.trim()) {
-                            showToast('Complete Payment Info', 'Please fill in all required payment fields.', 'warning');
+                            showToast(
+                                "Complete Payment Info",
+                                "Please fill in all required payment fields.",
+                                "warning"
+                            );
                             field.focus();
                             return false;
                         }
                     }
                 }
-            } else if (paymentMethod.value === 'irembo-pay') {
+            } else if (paymentMethod.value === "irembo-pay") {
                 return validateIREMBOPay();
             }
 
@@ -1459,37 +1486,61 @@
         }
 
         function validateIREMBOPay() {
-            const provider = document.querySelector('input[name="mobile-provider"]:checked');
+            const provider = document.querySelector(
+                'input[name="mobile-provider"]:checked'
+            );
             if (!provider) {
-                showToast('Provider Required', 'Please select a mobile money provider.', 'warning');
+                showToast(
+                    "Provider Required",
+                    "Please select a mobile money provider.",
+                    "warning"
+                );
                 return false;
             }
 
-            const paymentType = document.querySelector('input[name="payment-type"]:checked');
+            const paymentType = document.querySelector(
+                'input[name="payment-type"]:checked'
+            );
             if (!paymentType) {
-                showToast('Payment Type Required', 'Please select how you want to pay.', 'warning');
+                showToast(
+                    "Payment Type Required",
+                    "Please select how you want to pay.",
+                    "warning"
+                );
                 return false;
             }
 
-            if (paymentType.value === 'phone') {
-                const phoneInput = document.getElementById('mobile-phone');
+            if (paymentType.value === "phone") {
+                const phoneInput = document.getElementById("mobile-phone");
                 if (!phoneInput.value.trim() || phoneInput.value.length !== 9) {
-                    showToast('Valid Phone Required', 'Please enter a valid 9-digit phone number.', 'warning');
+                    showToast(
+                        "Valid Phone Required",
+                        "Please enter a valid 9-digit phone number.",
+                        "warning"
+                    );
                     phoneInput.focus();
                     return false;
                 }
-            } else if (paymentType.value === 'code') {
-                const codeInput = document.getElementById('mobile-code');
+            } else if (paymentType.value === "code") {
+                const codeInput = document.getElementById("mobile-code");
                 if (!codeInput.value.trim() || codeInput.value.length !== 6) {
-                    showToast('Valid Code Required', 'Please enter a valid 6-digit payment code.', 'warning');
+                    showToast(
+                        "Valid Code Required",
+                        "Please enter a valid 6-digit payment code.",
+                        "warning"
+                    );
                     codeInput.focus();
                     return false;
                 }
             }
 
-            const pinInput = document.getElementById('mobile-pin');
+            const pinInput = document.getElementById("mobile-pin");
             if (!pinInput.value.trim() || pinInput.value.length !== 4) {
-                showToast('PIN Required', 'Please enter your 4-digit mobile money PIN.', 'warning');
+                showToast(
+                    "PIN Required",
+                    "Please enter your 4-digit mobile money PIN.",
+                    "warning"
+                );
                 pinInput.focus();
                 return false;
             }
@@ -1498,11 +1549,17 @@
         }
 
         function validateConfirmationStep() {
-            const termsChecked = document.getElementById('terms-conditions')?.checked;
-            const supplierTermsChecked = document.getElementById('supplier-terms')?.checked;
+            const termsChecked =
+                document.getElementById("terms-conditions")?.checked;
+            const supplierTermsChecked =
+                document.getElementById("supplier-terms")?.checked;
 
             if (!termsChecked || !supplierTermsChecked) {
-                showToast('Accept Terms', 'Please accept the terms and conditions to continue.', 'warning');
+                showToast(
+                    "Accept Terms",
+                    "Please accept the terms and conditions to continue.",
+                    "warning"
+                );
                 return false;
             }
 
@@ -1511,49 +1568,59 @@
 
         // IREMBO Pay specific functions
         function handlePaymentMethodChange() {
-            const paymentMethods = document.querySelectorAll('input[name="payment-method"]');
-            const iremboForm = document.getElementById('irembo-form');
-            const cardForm = document.getElementById('card-form');
+            const paymentMethods = document.querySelectorAll(
+                'input[name="payment-method"]'
+            );
+            const iremboForm = document.getElementById("irembo-form");
+            const cardForm = document.getElementById("card-form");
 
-            paymentMethods.forEach(method => {
-                method.addEventListener('change', function() {
+            paymentMethods.forEach((method) => {
+                method.addEventListener("change", function() {
                     // Hide all payment forms first
-                    if (iremboForm) iremboForm.classList.add('hidden');
-                    if (cardForm) cardForm.classList.add('hidden');
+                    if (iremboForm) iremboForm.classList.add("hidden");
+                    if (cardForm) cardForm.classList.add("hidden");
 
                     // Show relevant form
-                    if (this.value === 'irembo-pay' && iremboForm) {
-                        iremboForm.classList.remove('hidden');
-                    } else if (this.value === 'card' && cardForm) {
-                        cardForm.classList.remove('hidden');
+                    if (this.value === "irembo-pay" && iremboForm) {
+                        iremboForm.classList.remove("hidden");
+                    } else if (this.value === "card" && cardForm) {
+                        cardForm.classList.remove("hidden");
                     }
                 });
             });
         }
 
         function handleMobileProviderChange() {
-            const providers = document.querySelectorAll('input[name="mobile-provider"]');
-            const paymentMethodSelection = document.getElementById('payment-method-selection');
-            const codePaymentOption = document.getElementById('code-payment-option');
+            const providers = document.querySelectorAll(
+                'input[name="mobile-provider"]'
+            );
+            const paymentMethodSelection = document.getElementById(
+                "payment-method-selection"
+            );
+            const codePaymentOption = document.getElementById(
+                "code-payment-option"
+            );
 
-            providers.forEach(provider => {
-                provider.addEventListener('change', function() {
+            providers.forEach((provider) => {
+                provider.addEventListener("change", function() {
                     // Show payment method selection
                     if (paymentMethodSelection) {
-                        paymentMethodSelection.classList.remove('hidden');
+                        paymentMethodSelection.classList.remove("hidden");
                     }
 
                     // Show/hide code payment option based on provider
                     if (codePaymentOption) {
-                        if (this.value === 'mtn') {
-                            codePaymentOption.style.display = 'flex';
+                        if (this.value === "mtn") {
+                            codePaymentOption.style.display = "flex";
                         } else {
-                            codePaymentOption.style.display = 'none';
+                            codePaymentOption.style.display = "none";
                             // If code was selected and we switch to Airtel, select phone
                             const codeRadio = document.querySelector(
-                                'input[name="payment-type"][value="code"]');
+                                'input[name="payment-type"][value="code"]'
+                            );
                             const phoneRadio = document.querySelector(
-                                'input[name="payment-type"][value="phone"]');
+                                'input[name="payment-type"][value="phone"]'
+                            );
                             if (codeRadio && codeRadio.checked && phoneRadio) {
                                 phoneRadio.checked = true;
                                 handlePaymentTypeChange();
@@ -1562,64 +1629,83 @@
                     }
 
                     // Update provider-specific styling
-                    providers.forEach(p => {
-                        const label = p.closest('label');
+                    providers.forEach((p) => {
+                        const label = p.closest("label");
                         if (label) {
-                            label.classList.remove('ring-2', 'ring-accent', 'bg-accent-50');
+                            label.classList.remove("ring-2", "ring-accent", "bg-accent-50");
                         }
                     });
 
-                    const selectedLabel = this.closest('label');
+                    const selectedLabel = this.closest("label");
                     if (selectedLabel) {
-                        selectedLabel.classList.add('ring-2', 'ring-accent', 'bg-accent-50');
+                        selectedLabel.classList.add(
+                            "ring-2",
+                            "ring-accent",
+                            "bg-accent-50"
+                        );
                     }
                 });
             });
         }
 
         function handlePaymentTypeChange() {
-            const paymentTypes = document.querySelectorAll('input[name="payment-type"]');
-            const phoneInputSection = document.getElementById('phone-input-section');
-            const codeInputSection = document.getElementById('code-input-section');
-            const pinInputSection = document.getElementById('pin-input-section');
-            const paymentInstructions = document.getElementById('payment-instructions');
-            const phoneInstructions = document.getElementById('phone-instructions');
-            const codeInstructions = document.getElementById('code-instructions');
+            const paymentTypes = document.querySelectorAll(
+                'input[name="payment-type"]'
+            );
+            const phoneInputSection = document.getElementById(
+                "phone-input-section"
+            );
+            const codeInputSection = document.getElementById("code-input-section");
+            const pinInputSection = document.getElementById("pin-input-section");
+            const paymentInstructions = document.getElementById(
+                "payment-instructions"
+            );
+            const phoneInstructions = document.getElementById("phone-instructions");
+            const codeInstructions = document.getElementById("code-instructions");
 
-            paymentTypes.forEach(type => {
-                type.addEventListener('change', function() {
+            paymentTypes.forEach((type) => {
+                type.addEventListener("change", function() {
                     // Hide all input sections first
-                    if (phoneInputSection) phoneInputSection.classList.add('hidden');
-                    if (codeInputSection) codeInputSection.classList.add('hidden');
-                    if (pinInputSection) pinInputSection.classList.add('hidden');
-                    if (paymentInstructions) paymentInstructions.classList.add('hidden');
-                    if (phoneInstructions) phoneInstructions.classList.add('hidden');
-                    if (codeInstructions) codeInstructions.classList.add('hidden');
+                    if (phoneInputSection) phoneInputSection.classList.add("hidden");
+                    if (codeInputSection) codeInputSection.classList.add("hidden");
+                    if (pinInputSection) pinInputSection.classList.add("hidden");
+                    if (paymentInstructions)
+                        paymentInstructions.classList.add("hidden");
+                    if (phoneInstructions) phoneInstructions.classList.add("hidden");
+                    if (codeInstructions) codeInstructions.classList.add("hidden");
 
                     // Show relevant sections based on payment type
-                    if (this.value === 'phone') {
-                        if (phoneInputSection) phoneInputSection.classList.remove('hidden');
-                        if (pinInputSection) pinInputSection.classList.remove('hidden');
-                        if (paymentInstructions) paymentInstructions.classList.remove('hidden');
-                        if (phoneInstructions) phoneInstructions.classList.remove('hidden');
-                    } else if (this.value === 'code') {
-                        if (codeInputSection) codeInputSection.classList.remove('hidden');
-                        if (pinInputSection) pinInputSection.classList.remove('hidden');
-                        if (paymentInstructions) paymentInstructions.classList.remove('hidden');
-                        if (codeInstructions) codeInstructions.classList.remove('hidden');
+                    if (this.value === "phone") {
+                        if (phoneInputSection)
+                            phoneInputSection.classList.remove("hidden");
+                        if (pinInputSection) pinInputSection.classList.remove("hidden");
+                        if (paymentInstructions)
+                            paymentInstructions.classList.remove("hidden");
+                        if (phoneInstructions)
+                            phoneInstructions.classList.remove("hidden");
+                    } else if (this.value === "code") {
+                        if (codeInputSection) codeInputSection.classList.remove("hidden");
+                        if (pinInputSection) pinInputSection.classList.remove("hidden");
+                        if (paymentInstructions)
+                            paymentInstructions.classList.remove("hidden");
+                        if (codeInstructions) codeInstructions.classList.remove("hidden");
                     }
 
                     // Update payment type styling
-                    paymentTypes.forEach(p => {
-                        const label = p.closest('label');
+                    paymentTypes.forEach((p) => {
+                        const label = p.closest("label");
                         if (label) {
-                            label.classList.remove('ring-2', 'ring-accent', 'bg-accent-50');
+                            label.classList.remove("ring-2", "ring-accent", "bg-accent-50");
                         }
                     });
 
-                    const selectedLabel = this.closest('label');
+                    const selectedLabel = this.closest("label");
                     if (selectedLabel) {
-                        selectedLabel.classList.add('ring-2', 'ring-accent', 'bg-accent-50');
+                        selectedLabel.classList.add(
+                            "ring-2",
+                            "ring-accent",
+                            "bg-accent-50"
+                        );
                     }
                 });
             });
@@ -1627,15 +1713,15 @@
 
         // Form handling functions
         function expandSupplierItems(button) {
-            button.textContent = 'Hide Details';
+            button.textContent = "Hide Details";
             button.onclick = () => {
-                button.textContent = 'View Details';
+                button.textContent = "View Details";
                 button.onclick = () => expandSupplierItems(button);
             };
         }
 
         function goBackToCart() {
-            window.location.href = '{{ route('cart') }}';
+            window.location.href = "shopping_cart.html";
         }
 
         function editStep(stepNumber) {
@@ -1649,14 +1735,16 @@
                 return;
             }
 
-            const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
+            const paymentMethod = document.querySelector(
+                'input[name="payment-method"]:checked'
+            )?.value;
 
             // Show loading state
             const button = event.target;
             const originalText = button.textContent;
             button.disabled = true;
 
-            if (paymentMethod === 'irembo-pay') {
+            if (paymentMethod === "irembo-pay") {
                 button.innerHTML = `
                 <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -1667,23 +1755,31 @@
 
                 // Simulate IREMBO Pay processing
                 setTimeout(() => {
-                    const provider = document.querySelector('input[name="mobile-provider"]:checked')?.value;
-                    const paymentType = document.querySelector('input[name="payment-type"]:checked')?.value;
+                    const provider = document.querySelector(
+                        'input[name="mobile-provider"]:checked'
+                    )?.value;
+                    const paymentType = document.querySelector(
+                        'input[name="payment-type"]:checked'
+                    )?.value;
 
-                    if (paymentType === 'phone') {
-                        showToast('Payment Request Sent',
-                            'Check your phone for the payment request. Enter your PIN to complete the transaction.',
-                            'success');
+                    if (paymentType === "phone") {
+                        showToast(
+                            "Payment Request Sent",
+                            "Check your phone for the payment request. Enter your PIN to complete the transaction.",
+                            "success"
+                        );
                     } else {
-                        showToast('Code Verified', 'Payment code verified successfully. Processing payment...',
-                            'success');
+                        showToast(
+                            "Code Verified",
+                            "Payment code verified successfully. Processing payment...",
+                            "success"
+                        );
                     }
 
                     // Complete the order after mobile payment simulation
                     setTimeout(() => {
                         completeOrder();
                     }, 3000);
-
                 }, 2000);
             } else {
                 button.innerHTML = `
@@ -1703,20 +1799,28 @@
 
         function completeOrder() {
             // Generate order number
-            const orderNumber = 'AM' + Date.now().toString().slice(-8);
+            const orderNumber = "AM" + Date.now().toString().slice(-8);
 
             // Store order details for thank you page
-            localStorage.setItem('orderDetails', JSON.stringify({
-                orderNumber: orderNumber,
-                total: '$711.36',
-                items: 7,
-                email: 'john.smith@email.com',
-                shippingAddress: '123 Main Street, Apt 4B, New York, NY 10001',
-                estimatedDelivery: '5-7 business days',
-                paymentMethod: document.querySelector('input[name="payment-method"]:checked')?.value || 'card'
-            }));
+            localStorage.setItem(
+                "orderDetails",
+                JSON.stringify({
+                    orderNumber: orderNumber,
+                    total: "$711.36",
+                    items: 7,
+                    email: "john.smith@email.com",
+                    shippingAddress: "123 Main Street, Apt 4B, New York, NY 10001",
+                    estimatedDelivery: "5-7 business days",
+                    paymentMethod: document.querySelector('input[name="payment-method"]:checked')
+                        ?.value || "card",
+                })
+            );
 
-            showToast('Order Placed Successfully!', `Order #${orderNumber} has been confirmed.`, 'success');
+            showToast(
+                "Order Placed Successfully!",
+                `Order #${orderNumber} has been confirmed.`,
+                "success"
+            );
 
             // For demo purposes, show success message
             setTimeout(() => {
@@ -1728,10 +1832,10 @@
 
         // Phone number formatting for IREMBO Pay
         function formatPhoneNumber() {
-            const phoneInput = document.getElementById('mobile-phone');
+            const phoneInput = document.getElementById("mobile-phone");
             if (phoneInput) {
-                phoneInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\D/g, '');
+                phoneInput.addEventListener("input", function(e) {
+                    let value = e.target.value.replace(/\D/g, "");
                     if (value.length > 9) {
                         value = value.substring(0, 9);
                     }
@@ -1742,10 +1846,10 @@
 
         // PIN formatting
         function formatPIN() {
-            const pinInput = document.getElementById('mobile-pin');
+            const pinInput = document.getElementById("mobile-pin");
             if (pinInput) {
-                pinInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\D/g, '');
+                pinInput.addEventListener("input", function(e) {
+                    let value = e.target.value.replace(/\D/g, "");
                     if (value.length > 4) {
                         value = value.substring(0, 4);
                     }
@@ -1756,10 +1860,10 @@
 
         // Code formatting
         function formatCode() {
-            const codeInput = document.getElementById('mobile-code');
+            const codeInput = document.getElementById("mobile-code");
             if (codeInput) {
-                codeInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\D/g, '');
+                codeInput.addEventListener("input", function(e) {
+                    let value = e.target.value.replace(/\D/g, "");
                     if (value.length > 6) {
                         value = value.substring(0, 6);
                     }
@@ -1770,23 +1874,29 @@
 
         // Card number formatting
         function formatCardNumber() {
-            const cardInput = document.querySelector('input[placeholder="1234 5678 9012 3456"]');
+            const cardInput = document.querySelector(
+                'input[placeholder="1234 5678 9012 3456"]'
+            );
             if (cardInput) {
-                cardInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-                    let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                cardInput.addEventListener("input", function(e) {
+                    let value = e.target.value
+                        .replace(/\s+/g, "")
+                        .replace(/[^0-9]/gi, "");
+                    let formattedValue = value.match(/.{1,4}/g)?.join(" ") || value;
                     e.target.value = formattedValue;
                 });
             }
         }
 
         function formatExpiry() {
-            const expiryInput = document.querySelector('input[placeholder="MM/YY"]');
+            const expiryInput = document.querySelector(
+                'input[placeholder="MM/YY"]'
+            );
             if (expiryInput) {
-                expiryInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\D/g, '');
+                expiryInput.addEventListener("input", function(e) {
+                    let value = e.target.value.replace(/\D/g, "");
                     if (value.length >= 2) {
-                        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                        value = value.substring(0, 2) + "/" + value.substring(2, 4);
                     }
                     e.target.value = value;
                 });
@@ -1795,16 +1905,18 @@
 
         // Address form toggle
         function handleAddressToggle() {
-            const addressRadios = document.querySelectorAll('input[name="shipping-address"]');
-            const newAddressForm = document.getElementById('new-address-form');
+            const addressRadios = document.querySelectorAll(
+                'input[name="shipping-address"]'
+            );
+            const newAddressForm = document.getElementById("new-address-form");
 
             if (addressRadios.length && newAddressForm) {
-                addressRadios.forEach(radio => {
-                    radio.addEventListener('change', function() {
-                        if (this.value === 'new') {
-                            newAddressForm.classList.remove('hidden');
+                addressRadios.forEach((radio) => {
+                    radio.addEventListener("change", function() {
+                        if (this.value === "new") {
+                            newAddressForm.classList.remove("hidden");
                         } else {
-                            newAddressForm.classList.add('hidden');
+                            newAddressForm.classList.add("hidden");
                         }
                     });
                 });
@@ -1812,33 +1924,33 @@
         }
 
         // Toast notification functions
-        function showToast(title, message, type = 'success') {
-            const toast = document.getElementById('toast');
+        function showToast(title, message, type = "success") {
+            const toast = document.getElementById("toast");
             if (!toast) return;
 
             const colors = {
                 success: {
-                    border: 'border-success',
-                    icon: 'text-success'
+                    border: "border-success",
+                    icon: "text-success"
                 },
                 warning: {
-                    border: 'border-warning',
-                    icon: 'text-warning'
+                    border: "border-warning",
+                    icon: "text-warning"
                 },
                 error: {
-                    border: 'border-error',
-                    icon: 'text-error'
-                }
+                    border: "border-error",
+                    icon: "text-error"
+                },
             };
 
-            const toastContent = toast.querySelector('div');
+            const toastContent = toast.querySelector("div");
             toastContent.className = `bg-white shadow-modal rounded-lg p-4 ${colors[type].border} border-l-4 max-w-sm`;
 
-            toast.querySelector('h4').textContent = title;
-            const messageEl = toast.querySelector('#toast-message');
+            toast.querySelector("h4").textContent = title;
+            const messageEl = toast.querySelector("#toast-message");
             if (messageEl) messageEl.textContent = message;
 
-            toast.classList.remove('translate-x-full');
+            toast.classList.remove("translate-x-full");
 
             setTimeout(() => {
                 hideToast();
@@ -1846,23 +1958,23 @@
         }
 
         function hideToast() {
-            const toast = document.getElementById('toast');
+            const toast = document.getElementById("toast");
             if (toast) {
-                toast.classList.add('translate-x-full');
+                toast.classList.add("translate-x-full");
             }
         }
 
         // Mobile responsiveness
         function handleMobileView() {
             if (window.innerWidth <= 768) {
-                document.body.style.paddingBottom = '100px';
+                document.body.style.paddingBottom = "100px";
             } else {
-                document.body.style.paddingBottom = '0';
+                document.body.style.paddingBottom = "0";
             }
         }
 
         // Initialize everything
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener("DOMContentLoaded", function() {
             handleMobileView();
             handlePaymentMethodChange();
             handleMobileProviderChange();
@@ -1877,21 +1989,25 @@
         });
 
         // Handle window resize
-        window.addEventListener('resize', handleMobileView);
+        window.addEventListener("resize", handleMobileView);
 
         // Auto-save form data (demo)
         function autoSaveFormData() {
             const formData = {
                 step: currentStep,
-                shippingAddress: document.querySelector('input[name="shipping-address"]:checked')?.value,
-                paymentMethod: document.querySelector('input[name="payment-method"]:checked')?.value,
-                timestamp: Date.now()
+                shippingAddress: document.querySelector(
+                    'input[name="shipping-address"]:checked'
+                )?.value,
+                paymentMethod: document.querySelector(
+                    'input[name="payment-method"]:checked'
+                )?.value,
+                timestamp: Date.now(),
             };
 
             try {
-                localStorage.setItem('checkoutProgress', JSON.stringify(formData));
+                localStorage.setItem("checkoutProgress", JSON.stringify(formData));
             } catch (e) {
-                console.warn('Could not save checkout progress');
+                console.warn("Could not save checkout progress");
             }
         }
 
