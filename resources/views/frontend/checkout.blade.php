@@ -313,24 +313,6 @@
                                     </form>
                                 </div>
 
-                                <!-- Billing Address -->
-                                <div>
-                                    <h3 class="font-semibold text-primary mb-4">Billing Address</h3>
-                                    <div class="space-y-3">
-                                        <label class="flex items-center space-x-3">
-                                            <input type="radio" name="billing-address" value="same"
-                                                class="text-accent focus:ring-accent-500 border-border" checked />
-                                            <span class="text-body text-secondary-700">Same as shipping address</span>
-                                        </label>
-                                        <label class="flex items-center space-x-3">
-                                            <input type="radio" name="billing-address" value="different"
-                                                class="text-accent focus:ring-accent-500 border-border" />
-                                            <span class="text-body text-secondary-700">Use a different billing
-                                                address</span>
-                                        </label>
-                                    </div>
-                                </div>
-
                                 <!-- Shipping Options -->
                                 <div>
                                     <h3 class="font-semibold text-primary mb-4">Shipping Options</h3>
@@ -348,7 +330,7 @@
                                                         <div>
                                                             <div class="font-medium text-primary">Free Standard Shipping
                                                             </div>
-                                                            <div class="text-body-sm text-secondary-600">5-7 business days
+                                                            <div class="text-body-sm text-secondary-600">30 min -24 hrs
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1164,7 +1146,7 @@
     </div>
     <div id="toast"
         class="hidden fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
-        style="z-index: 999999;background: #ff5f0e;color: #fff;top: 8px;right: 4px;">
+        style="z-index: 999999;--tw-bg-opacity: 1;background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1)); color: #fff;top: 8px;right: 4px;">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
@@ -1172,7 +1154,7 @@
     </div>
     <div id="toast2"
         class="hidden fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
-        style="z-index: 999999;background: #ff5f0e;color: #fff;top: 8px;right: 4px;">
+        style="z-index: 999999;--tw-bg-opacity: 1;background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1));color: #fff;top: 8px;right: 4px;">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
