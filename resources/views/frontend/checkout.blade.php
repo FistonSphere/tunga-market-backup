@@ -319,7 +319,7 @@
                                     <div class="space-y-3">
                                         <!-- TechSound Manufacturing Shipping -->
                                         <div class="border border-border rounded-lg p-4">
-                                            <h4 class="font-medium text-primary mb-3">TechSound Manufacturing Co.</h4>
+                                            <h4 class="font-medium text-primary mb-3">Tunga Market.</h4>
                                             <div class="space-y-2">
                                                 <label
                                                     class="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-surface cursor-pointer">
@@ -330,7 +330,7 @@
                                                         <div>
                                                             <div class="font-medium text-primary">Free Standard Shipping
                                                             </div>
-                                                            <div class="text-body-sm text-secondary-600">30 min -24 hrs
+                                                            <div class="text-body-sm text-secondary-600">30 min - 24 hrs
                                                             </div>
                                                         </div>
                                                     </div>
@@ -341,7 +341,7 @@
                                                     </div>
                                                 </label>
 
-                                                <label
+                                                {{-- <label
                                                     class="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-surface cursor-pointer">
                                                     <div class="flex items-center space-x-3">
                                                         <input type="radio" name="shipping-techsound" value="express"
@@ -357,7 +357,7 @@
                                                         <div class="text-body-sm text-secondary-600">Insurance included
                                                         </div>
                                                     </div>
-                                                </label>
+                                                </label> --}}
                                             </div>
                                         </div>
                                     </div>
