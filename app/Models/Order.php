@@ -14,10 +14,7 @@ class Order extends Model
         'total',
         'currency',
         'status',
-        'address',
-        'city',
-        'country',
-        'phone',
+        'shipping_address_id',
         'payment_method',
     ];
 
@@ -30,5 +27,9 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+    public function shippingAddress()
+    {
+        return $this->belongsTo(ShippingAddress::class);
     }
 }
