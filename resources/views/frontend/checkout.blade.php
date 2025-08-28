@@ -340,24 +340,6 @@
                                                         </div>
                                                     </div>
                                                 </label>
-
-                                                {{-- <label
-                                                    class="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-surface cursor-pointer">
-                                                    <div class="flex items-center space-x-3">
-                                                        <input type="radio" name="shipping-techsound" value="express"
-                                                            class="text-accent focus:ring-accent-500 border-border" />
-                                                        <div>
-                                                            <div class="font-medium text-primary">Express Shipping</div>
-                                                            <div class="text-body-sm text-secondary-600">2-3 business days
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-right">
-                                                        <div class="font-semibold text-primary">$15.99</div>
-                                                        <div class="text-body-sm text-secondary-600">Insurance included
-                                                        </div>
-                                                    </div>
-                                                </label> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -1343,41 +1325,84 @@
     <script>
         let currentStep = 1;
 
-        // Step Navigation Functions
-        function nextStep(step) {
-            if (validateCurrentStep()) {
-                showStep(step);
-                updateProgress(step);
-            }
-        }
-
-        function previousStep(step) {
-            showStep(step);
-            updateProgress(step);
-        }
-
+        // Show a given step
         function showStep(step) {
-            // Hide all steps
+            // hide all
             document.querySelectorAll(".checkout-step").forEach((el) => {
                 el.classList.add("hidden");
             });
 
-            // Show target step
+            // show target step
             document.getElementById(`step-${step}`).classList.remove("hidden");
+
+            // update tracker
             currentStep = step;
-
-            // Update progress indicators
-            updateProgressIndicators(step);
+            updateProgress(step);
         }
 
+        // Next button handler
+        function nextStep(step) {
+            // validate the CURRENT step before moving forward
+            if (!validateStep(currentStep)) return;
+
+            showStep(step);
+        }
+
+        // Previous button handler
+        function previousStep(step) {
+            showStep(step);
+        }
+
+        // Validation per step
+        function validateStep(step) {
+            if (step === 1) {
+                // Example: check if cart has items
+                // if (document.querySelectorAll(".cart-item").length === 0) {
+                //     alert("Your cart is empty!");
+                //     return false;
+                // }
+            }
+
+            if (step === 2) {
+                // Ensure a shipping address is selected
+                const addressSelected = document.querySelector('input[name="shipping_address_id"]:checked');
+                if (!addressSelected) {
+                    alert("Please select a shipping address.");
+                    return false;
+                }
+
+                // Ensure a shipping option is selected
+                const shippingSelected = document.querySelector('input[name^="shipping-"]:checked');
+                if (!shippingSelected) {
+                    alert("Please select a shipping option.");
+                    return false;
+                }
+            }
+
+            if (step === 3) {
+                // Ensure a payment method is selected
+                const paymentSelected = document.querySelector('input[name="payment-method"]:checked');
+                if (!paymentSelected) {
+                    alert("Please select a payment method.");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Progress indicator (optional, if you have step UI)
         function updateProgress(step) {
-            const progress = (step / 4) * 100;
-            const mobileProgress = document.getElementById("mobile-progress");
-            const mobileStep = document.getElementById("mobile-step");
-
-            if (mobileProgress) mobileProgress.style.width = `${progress}%`;
-            if (mobileStep) mobileStep.textContent = step;
+            document.querySelectorAll(".progress-step").forEach((el, idx) => {
+                el.classList.toggle("active", idx + 1 <= step);
+            });
         }
+
+        // init
+        document.addEventListener("DOMContentLoaded", () => {
+            showStep(1);
+        });
+
 
         function updateProgressIndicators(step) {
             // Update desktop progress
@@ -2013,7 +2038,7 @@
 
         // Auto-save every 30 seconds
         setInterval(autoSaveFormData, 30000);
- 
+
         //warning for shipping address:
         // ✅ Show the modal
         function openAddressConfirmModal() {
