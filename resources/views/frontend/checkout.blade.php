@@ -448,30 +448,6 @@
                                             </label>
 
                                             <label
-                                                class="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-surface cursor-pointer">
-                                                <div class="flex items-center space-x-3">
-                                                    <input type="radio" name="saved-card" value="card2"
-                                                        class="text-accent focus:ring-accent-500 border-border" />
-                                                    <div
-                                                        class="w-8 h-5 bg-accent rounded text-white text-xs flex items-center justify-center font-bold">
-                                                        MC
-                                                    </div>
-                                                    <div>
-                                                        <div class="font-medium text-primary">
-                                                            •••• •••• •••• 5678
-                                                        </div>
-                                                        <div class="text-body-sm text-secondary-600">
-                                                            Expires 08/27 • John Smith
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm">
-                                                    Edit
-                                                </button>
-                                            </label>
-
-                                            <label
                                                 class="flex items-center space-x-3 p-4 border-2 border-dashed border-border rounded-lg hover:bg-surface cursor-pointer">
                                                 <input type="radio" name="saved-card" value="new-card"
                                                     class="text-accent focus:ring-accent-500 border-border" checked />
