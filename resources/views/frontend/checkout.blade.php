@@ -760,61 +760,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- PayPal -->
-                                <div>
-                                    <label class="flex items-center space-x-3 mb-4">
-                                        <input type="radio" name="payment-method" value="paypal"
-                                            class="text-accent focus:ring-accent-500 border-border" />
-                                        <span class="font-semibold text-primary">PayPal</span>
-                                        <div
-                                            class="w-16 h-6 bg-primary rounded text-white text-xs flex items-center justify-center font-bold ml-auto">
-                                            PayPal
-                                        </div>
-                                    </label>
-                                    <div class="pl-7 text-body-sm text-secondary-600">
-                                        <p>
-                                            You'll be redirected to PayPal to complete your payment
-                                            securely.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Bank Transfer -->
-                                <div>
-                                    <label class="flex items-center space-x-3 mb-4">
-                                        <input type="radio" name="payment-method" value="bank-transfer"
-                                            class="text-accent focus:ring-accent-500 border-border" />
-                                        <span class="font-semibold text-primary">Bank Transfer</span>
-                                        <span
-                                            class="bg-warning-100 text-warning-800 px-2 py-1 rounded-full text-xs ml-auto">3-5
-                                            days processing</span>
-                                    </label>
-                                    <div class="pl-7 text-body-sm text-secondary-600">
-                                        <p>
-                                            Direct bank transfer. Your order will be processed after
-                                            payment confirmation.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Trade Credit -->
-                                <div>
-                                    <label class="flex items-center space-x-3 mb-4">
-                                        <input type="radio" name="payment-method" value="trade-credit"
-                                            class="text-accent focus:ring-accent-500 border-border" />
-                                        <span class="font-semibold text-primary">Trade Credit</span>
-                                        <span
-                                            class="bg-success-100 text-success-800 px-2 py-1 rounded-full text-xs ml-auto">Available:
-                                            $2,500</span>
-                                    </label>
-                                    <div class="pl-7 text-body-sm text-secondary-600">
-                                        <p>
-                                            Use your approved trade credit balance for this
-                                            purchase.
-                                        </p>
-                                    </div>
-                                </div>
                             </div>
 
                             <!-- Navigation Buttons -->
