@@ -1355,13 +1355,6 @@
 
         // Validation per step
         function validateStep(step) {
-            if (step === 1) {
-                // Example: check if cart has items
-                // if (document.querySelectorAll(".cart-item").length === 0) {
-                //     alert("Your cart is empty!");
-                //     return false;
-                // }
-            }
 
             if (step === 2) {
                 // Ensure a shipping address is selected
