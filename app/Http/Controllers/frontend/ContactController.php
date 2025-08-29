@@ -106,18 +106,10 @@ class ContactController extends Controller
 
 public function storeEnquiry(Request $request){
     // app/Http/Controllers/EnquiryController.php
-namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Enquiry;
-
-class EnquiryController extends Controller
-{
-    public function store(Request $request)
-    {
         $request->validate([
             'name'        => 'required|string|max:255',
-            'company'     => 'required|string|max:255',
+            'company'     => 'nullable|string|max:255',
             'email'       => 'required|email',
             'phone'       => 'nullable|string|max:20',
             'quantity'    => 'required|string',

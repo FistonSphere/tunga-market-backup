@@ -385,8 +385,7 @@
             <div class="card">
                 <h2 class="text-2xl font-bold text-primary mb-6">Send Inquiry</h2>
 
-                <form id="enquiryForm" enctype="multipart/form-data"
-                    class="space-y-6">
+                <form id="enquiryForm" enctype="multipart/form-data" class="space-y-6">
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
 
@@ -471,9 +470,9 @@
                         <input type="checkbox" id="terms" name="terms"
                             class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded" required>
                         <label for="terms" class="text-body-sm text-secondary-700">
-                            I agree to the <a href="{{ route('terms') }}" class="text-accent hover:underline">Terms of
+                            I agree to the <a href="#" class="text-accent hover:underline">Terms of
                                 Service</a> and
-                            <a href="{{ route('privacy') }}" class="text-accent hover:underline">Privacy Policy</a>
+                            <a href="#" class="text-accent hover:underline">Privacy Policy</a>
                         </label>
                     </div>
 
@@ -1169,5 +1168,48 @@
                 localStorage.setItem('recentlyViewed', JSON.stringify(list));
             } catch (e) {}
         }
+
+
+        document.getElementById("enquiryForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            let form = this;
+            let submitBtn = form.querySelector(".btn-primary");
+            let btnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = "Sending... <span class='spinner'></span>";
+            submitBtn.disabled = true;
+
+            let formData = new FormData(form);
+
+            fetch("{{ route('enquiries.store') }}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                    },
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    submitBtn.innerHTML = btnText;
+                    submitBtn.disabled = false;
+
+                    if (data.success) {
+                        document.getElementById("toastMsg").textContent = data.message;
+                        let toast = document.getElementById("toast");
+                        toast.classList.remove("hidden");
+                        setTimeout(() => toast.classList.add("hidden"), 3000);
+
+                        form.reset();
+                    } else {
+                        alert("Something went wrong!");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    submitBtn.innerHTML = btnText;
+                    submitBtn.disabled = false;
+                    alert("Server error occurred!");
+                });
+        });
     </script>
 @endsection
