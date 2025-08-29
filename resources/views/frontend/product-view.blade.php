@@ -394,17 +394,13 @@
                             <label class="block text-body-sm font-semibold text-primary mb-2">Your Name *</label>
                             <input type="text" name="name" class="input-field" value="{{ old('name') }}"
                                 placeholder="Enter your full name" required>
-                            @error('name')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
+                            <span class="text-red-500 text-sm mt-1 error-message"></span>
                         </div>
                         <div>
                             <label class="block text-body-sm font-semibold text-primary mb-2">Company (Optional)</label>
                             <input type="text" name="company" class="input-field" value="{{ old('company') }}"
                                 placeholder="Your company name">
-                            @error('company')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
+                           <span class="text-red-500 text-sm mt-1 error-message"></span>
                         </div>
                     </div>
 
@@ -413,17 +409,13 @@
                             <label class="block text-body-sm font-semibold text-primary mb-2">Email *</label>
                             <input type="email" name="email" class="input-field" value="{{ old('email') }}"
                                 placeholder="your.email@company.com" required>
-                            @error('email')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
+                            <span class="text-red-500 text-sm mt-1 error-message"></span>
                         </div>
                         <div>
                             <label class="block text-body-sm font-semibold text-primary mb-2">Phone</label>
                             <input type="tel" name="phone" class="input-field" value="{{ old('phone') }}"
                                 placeholder="+1 (555) 123-4567">
-                            @error('phone')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
+                            <span class="text-red-500 text-sm mt-1 error-message"></span>
                         </div>
                     </div>
 
@@ -443,17 +435,13 @@
                                 <option value="1000+" {{ old('quantity') == '1000+' ? 'selected' : '' }}>1000+ pieces
                                 </option>
                             </select>
-                            @error('quantity')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
+                            <span class="text-red-500 text-sm mt-1 error-message"></span>
                         </div>
                         <div>
                             <label class="block text-body-sm font-semibold text-primary mb-2">Target Price</label>
                             <input type="text" name="target_price" class="input-field"
                                 value="{{ old('target_price') }}" placeholder="$0.00 per unit">
-                            @error('target_price')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
+                            <span class="text-red-500 text-sm mt-1 error-message"></span>
                         </div>
                     </div>
 
@@ -461,9 +449,7 @@
                         <label class="block text-body-sm font-semibold text-primary mb-2">Message *</label>
                         <textarea name="message" class="input-field resize-none" rows="4"
                             placeholder="Please include any specific requirements, colors, customization needs, or other details..." required>{{ old('message') }}</textarea>
-                        @error('message')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                        <span class="text-red-500 text-sm mt-1 error-message"></span>
                     </div>
 
                     <div class="flex items-center space-x-3">
