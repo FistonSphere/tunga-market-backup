@@ -400,7 +400,7 @@
                             <label class="block text-body-sm font-semibold text-primary mb-2">Company (Optional)</label>
                             <input type="text" name="company" class="input-field" value="{{ old('company') }}"
                                 placeholder="Your company name">
-                           <span class="text-red-500 text-sm mt-1 error-message"></span>
+                            <span class="text-red-500 text-sm mt-1 error-message"></span>
                         </div>
                     </div>
 
@@ -702,13 +702,14 @@
     </div> --}}
 
     <div id="toast"
-        class="hidden fixed bottom-5 right-5 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
-        style="z-index: 999999;--tw-bg-opacity: 1;background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1)); color: #fff;top: 8px;right: 4px;">
+        class="fixed bottom-5 right-5 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-[9999] opacity-0 transition-opacity duration-500"
+        style="background-color: rgb(22 163 74); top: 8px;">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
         <span>Enquiry Sent Successfully</span>
     </div>
+
 
     <script>
         // Cart and Wishlist Management System
@@ -1164,6 +1165,9 @@
             let submitBtn = form.querySelector(".btn-primary");
             let btnText = submitBtn.innerHTML;
 
+            // Clear previous inline errors
+            form.querySelectorAll('.error-message').forEach(span => span.innerHTML = '');
+
             // show loader
             submitBtn.innerHTML = "Sending... <span class='spinner'></span>";
             submitBtn.disabled = true;
@@ -1186,13 +1190,20 @@
                     submitBtn.disabled = false;
 
                     if (res.ok && data.success) {
-                        // show success toast
                         showToast(data.message, 'success');
                         form.reset(); // reset form
                     } else if (res.status === 422) {
-                        // validation errors
-                        let messages = Object.values(data.errors).flat().join('<br>');
-                        showToast(messages, 'error');
+                        // display per-field errors
+                        for (let field in data.errors) {
+                            let input = form.querySelector(`[name="${field}"]`);
+                            if (input) {
+                                let errorSpan = input.closest('div').querySelector('.error-message');
+                                if (errorSpan) errorSpan.innerHTML = data.errors[field][
+                                    0
+                                ]; // show first error
+                            }
+                        }
+                        showToast('Please fix the errors below.', 'error');
                     } else {
                         showToast('Something went wrong. Please try again!', 'error');
                     }
@@ -1208,18 +1219,23 @@
         // toast function
         function showToast(message, type = 'success') {
             let toast = document.getElementById("toast");
-            toast.querySelector('span').innerHTML = message;
+            let span = toast.querySelector('span');
+            span.innerHTML = message;
 
+            // Change color based on type
             if (type === 'success') {
-                toast.classList.remove('bg-red-600');
-                toast.classList.add('bg-green-600');
+                toast.style.backgroundColor = 'rgb(22 163 74)'; // green
             } else {
-                toast.classList.remove('bg-green-600');
-                toast.classList.add('bg-red-600');
+                toast.style.backgroundColor = 'rgb(220 38 38)'; // red
             }
 
-            toast.classList.remove("hidden");
-            setTimeout(() => toast.classList.add("hidden"), 4000);
+            // Show toast
+            toast.style.opacity = '1';
+
+            // Hide after 4 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 4000);
         }
     </script>
 @endsection
