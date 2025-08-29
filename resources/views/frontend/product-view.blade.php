@@ -702,13 +702,14 @@
     </div> --}}
 
     <div id="toast"
-        class="fixed bottom-5 right-5 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-[9999] opacity-0 transition-opacity duration-500"
+        class="fixed bottom-5 right-5 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-[9999] opacity-0 translate-x-full transition-all duration-500"
         style="background-color: rgb(22 163 74); top: 8px;">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
         <span>Enquiry Sent Successfully</span>
     </div>
+
 
 
     <script>
@@ -1222,19 +1223,21 @@
             let span = toast.querySelector('span');
             span.innerHTML = message;
 
-            // Change color based on type
+            // Set color based on type
             if (type === 'success') {
                 toast.style.backgroundColor = 'rgb(22 163 74)'; // green
             } else {
                 toast.style.backgroundColor = 'rgb(220 38 38)'; // red
             }
 
-            // Show toast
-            toast.style.opacity = '1';
+            // Slide in
+            toast.classList.remove('opacity-0', 'translate-x-full');
+            toast.classList.add('opacity-100', 'translate-x-0');
 
-            // Hide after 4 seconds
+            // Slide out after 4 seconds
             setTimeout(() => {
-                toast.style.opacity = '0';
+                toast.classList.remove('opacity-100', 'translate-x-0');
+                toast.classList.add('opacity-0', 'translate-x-full');
             }, 4000);
         }
     </script>
