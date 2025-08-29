@@ -702,13 +702,14 @@
     </div> --}}
 
     <div id="toast"
-        class="hidden fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
-        style="z-index: 999999;--tw-bg-opacity: 1;background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1)); color: #fff;top: 8px;right: 4px;">
+        class="hidden fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50 transform translate-x-full transition-all duration-500"
+        style="top: 8px;">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
         <span>Enquiry Sent Successfully</span>
     </div>
+
 
 
 
@@ -1169,7 +1170,7 @@
             // Clear previous inline errors
             form.querySelectorAll('.error-message').forEach(span => span.innerHTML = '');
 
-            // show loader
+            // Show loader
             submitBtn.innerHTML = "Sending... <span class='spinner'></span>";
             submitBtn.disabled = true;
 
@@ -1186,7 +1187,6 @@
                 .then(async res => {
                     let data = await res.json();
 
-                    // stop loader
                     submitBtn.innerHTML = btnText;
                     submitBtn.disabled = false;
 
@@ -1194,14 +1194,11 @@
                         showToast(data.message, 'success');
                         form.reset(); // reset form
                     } else if (res.status === 422) {
-                        // display per-field errors
                         for (let field in data.errors) {
                             let input = form.querySelector(`[name="${field}"]`);
                             if (input) {
                                 let errorSpan = input.closest('div').querySelector('.error-message');
-                                if (errorSpan) errorSpan.innerHTML = data.errors[field][
-                                    0
-                                ]; // show first error
+                                if (errorSpan) errorSpan.innerHTML = data.errors[field][0];
                             }
                         }
                         showToast('Please fix the errors below.', 'error');
@@ -1217,13 +1214,11 @@
                 });
         });
 
-        // toast function
         function showToast(message, type = 'success') {
             const toast = document.getElementById("toast");
-            const span = toast.querySelector('span');
-            span.innerHTML = message;
+            toast.querySelector('span').innerHTML = message;
 
-            // Set color based on type
+            // Set color
             if (type === 'success') {
                 toast.classList.remove('bg-red-600');
                 toast.classList.add('bg-green-600');
@@ -1232,16 +1227,15 @@
                 toast.classList.add('bg-red-600');
             }
 
-            // Show toast
-            toast.classList.remove('hidden'); // remove hidden
-            toast.classList.remove('translate-x-full'); // slide in
+            // Show and slide in
+            toast.classList.remove('hidden', 'translate-x-full');
             toast.classList.add('translate-x-0', 'opacity-100');
 
-            // Hide after 4 seconds
+            // Hide after 4s
             setTimeout(() => {
-                toast.classList.add('translate-x-full'); // slide out
                 toast.classList.remove('translate-x-0', 'opacity-100');
-                setTimeout(() => toast.classList.add('hidden'), 500); // hide completely after animation
+                toast.classList.add('translate-x-full');
+                setTimeout(() => toast.classList.add('hidden'), 500);
             }, 4000);
         }
     </script>
