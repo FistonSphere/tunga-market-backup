@@ -716,13 +716,14 @@
     </div> --}}
 
     <div id="toast"
-        class="hidden fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
-        style="z-index: 999999;--tw-bg-opacity: 1;background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1)); color: #fff;top: 8px;right: 4px;">
+        class=" fixed bottom-5 right-5 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
+        style="z-index:999999;">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
-        <span>Enquiry Sent successfully!</span>
+        <span>Message</span>
     </div>
+
     <script>
         // Cart and Wishlist Management System
         class CartWishlistManager {
@@ -1176,6 +1177,8 @@
             let form = this;
             let submitBtn = form.querySelector(".btn-primary");
             let btnText = submitBtn.innerHTML;
+
+            // show loader
             submitBtn.innerHTML = "Sending... <span class='spinner'></span>";
             submitBtn.disabled = true;
 
@@ -1184,32 +1187,53 @@
             fetch("{{ route('enquiries.store') }}", {
                     method: "POST",
                     headers: {
-                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value,
+                        "Accept": "application/json"
                     },
                     body: formData
                 })
-                .then(res => res.json())
-                .then(data => {
+                .then(async res => {
+                    let data = await res.json();
+
+                    // stop loader
                     submitBtn.innerHTML = btnText;
                     submitBtn.disabled = false;
 
-                    if (data.success) {
-                        document.getElementById("toastMsg").textContent = data.message;
-                        let toast = document.getElementById("toast");
-                        toast.classList.remove("hidden");
-                        setTimeout(() => toast.classList.add("hidden"), 3000);
-
-                        form.reset();
+                    if (res.ok && data.success) {
+                        // show success toast
+                        showToast(data.message, 'success');
+                        form.reset(); // reset form
+                    } else if (res.status === 422) {
+                        // validation errors
+                        let messages = Object.values(data.errors).flat().join('<br>');
+                        showToast(messages, 'error');
                     } else {
-                        alert("Something went wrong!");
+                        showToast('Something went wrong. Please try again!', 'error');
                     }
                 })
                 .catch(err => {
                     console.error(err);
                     submitBtn.innerHTML = btnText;
                     submitBtn.disabled = false;
-                    alert("Server error occurred!");
+                    showToast('Server error occurred!', 'error');
                 });
         });
+
+        // toast function
+        function showToast(message, type = 'success') {
+            let toast = document.getElementById("toast");
+            toast.querySelector('span').innerHTML = message;
+
+            if (type === 'success') {
+                toast.classList.remove('bg-red-600');
+                toast.classList.add('bg-green-600');
+            } else {
+                toast.classList.remove('bg-green-600');
+                toast.classList.add('bg-red-600');
+            }
+
+            toast.classList.remove("hidden");
+            setTimeout(() => toast.classList.add("hidden"), 4000);
+        }
     </script>
 @endsection
