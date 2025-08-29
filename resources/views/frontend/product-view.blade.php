@@ -45,7 +45,7 @@
                             class="w-full h-96 object-cover" loading="lazy"
                             onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
 
-                            @if ($product->has_3d_model)
+                        @if ($product->has_3d_model)
                             <!-- AR Preview Button-->
                             <button
                                 class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-fast"
@@ -94,7 +94,8 @@
                                 <button
                                     class="thumbnail-btn {{ $index === 0 ? 'active border-accent' : 'border-transparent hover:border-accent' }} rounded-lg overflow-hidden border-2 transition-fast"
                                     onclick="changeMainImage(this, '{{ $image }}')">
-                                    <img src="{{ $image }}" alt="{{ $product->name }} thumbnail {{ $index + 1 }}"
+                                    <img src="{{ $image }}"
+                                        alt="{{ $product->name }} thumbnail {{ $index + 1 }}"
                                         class="w-full h-20 object-cover" loading="lazy"
                                         onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
                                 </button>
@@ -213,200 +214,99 @@
 
 
     <!-- Product Details Tabs -->
-    {{-- <section class="py-8 bg-surface">
+
+    <section class="py-8 bg-surface">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
             <!-- Tab Navigation -->
             <div class="border-b border-border mb-8">
                 <nav class="flex space-x-8">
                     <button class="tab-btn active py-4 px-1 border-b-2 border-accent font-semibold text-accent"
                         onclick="showTab('specifications')">Specifications</button>
+
                     <button
                         class="tab-btn py-4 px-1 border-b-2 border-transparent font-semibold text-secondary-600 hover:text-primary hover:border-secondary-300 transition-fast"
-                        onclick="showTab('reviews')">Reviews (2,847)</button>
-
+                        onclick="showTab('reviews')">
+                        Reviews ({{ $product->reviews_count ?? 0 }})
+                    </button>
                 </nav>
             </div>
 
-            <!-- Tab Content -->
+            <!-- Specifications Tab -->
             <div id="specifications" class="tab-content">
                 <div class="grid md:grid-cols-2 gap-8">
-                    <div class="card">
-                        <h3 class="font-semibold text-primary mb-4">Audio Specifications</h3>
-                        <div class="space-y-3">
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Driver Size:</span>
-                                <span class="font-medium">13mm Dynamic</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Frequency Response:</span>
-                                <span class="font-medium">20Hz - 20kHz</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Impedance:</span>
-                                <span class="font-medium">32Ω</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Sensitivity:</span>
-                                <span class="font-medium">98dB ± 3dB</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">ANC Depth:</span>
-                                <span class="font-medium">-35dB</span>
-                            </div>
-                        </div>
-                    </div>
+                    @php
+                        $specifications = json_decode($product->specifications, true) ?? [];
+                    @endphp
 
-                    <div class="card">
-                        <h3 class="font-semibold text-primary mb-4">Technical Details</h3>
-                        <div class="space-y-3">
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Bluetooth Version:</span>
-                                <span class="font-medium">5.3</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Supported Codecs:</span>
-                                <span class="font-medium">SBC, AAC, LDAC</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Connection Range:</span>
-                                <span class="font-medium">10m (33ft)</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Charging Port:</span>
-                                <span class="font-medium">USB-C</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Wireless Charging:</span>
-                                <span class="font-medium">Yes (Qi Compatible)</span>
+                    @forelse ($specifications as $section => $details)
+                        <div class="card">
+                            <h3 class="font-semibold text-primary mb-4">{{ ucfirst($section) }}</h3>
+                            <div class="space-y-3">
+                                @foreach ($details as $label => $value)
+                                    <div class="flex justify-between">
+                                        <span class="text-secondary-600">{{ $label }}:</span>
+                                        <span class="font-medium">{{ $value }}</span>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
-                    </div>
-
-                    <div class="card">
-                        <h3 class="font-semibold text-primary mb-4">Battery Life</h3>
-                        <div class="space-y-3">
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Earbuds Only:</span>
-                                <span class="font-medium">8 hours</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">With Charging Case:</span>
-                                <span class="font-medium">30 hours</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Quick Charge:</span>
-                                <span class="font-medium">15 min = 3 hours</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Full Charge Time:</span>
-                                <span class="font-medium">1.5 hours</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3 class="font-semibold text-primary mb-4">Physical Dimensions</h3>
-                        <div class="space-y-3">
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Earbuds:</span>
-                                <span class="font-medium">26.5 × 21.6 × 24.8mm</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Charging Case:</span>
-                                <span class="font-medium">61.6 × 45.2 × 25.2mm</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Weight (Each Earbud):</span>
-                                <span class="font-medium">4.4g</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Weight (Case):</span>
-                                <span class="font-medium">48g</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Water Resistance:</span>
-                                <span class="font-medium">IPX7</span>
-                            </div>
-                        </div>
-                    </div>
+                    @empty
+                        <p class="text-secondary-600">No specifications available for this product.</p>
+                    @endforelse
                 </div>
             </div>
 
+            <!-- Reviews Tab -->
             <div id="reviews" class="tab-content hidden">
                 <div class="grid lg:grid-cols-3 gap-8">
+
                     <!-- Review Summary -->
                     <div class="card">
                         <h3 class="font-semibold text-primary mb-4">Review Summary</h3>
                         <div class="text-center mb-6">
-                            <div class="text-4xl font-bold text-primary mb-2">4.8</div>
+                            <div class="text-4xl font-bold text-primary mb-2">
+                                {{ number_format($product->average_rating ?? 0, 1) }}</div>
                             <div class="flex justify-center text-warning mb-2">
-                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <svg class="w-5 h-5 text-secondary-300" fill="currentColor" viewBox="0 0 20 20">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <svg class="w-5 h-5 {{ ($product->average_rating ?? 0) >= $i ? 'fill-current' : 'text-secondary-300' }}"
+                                        viewBox="0 0 20 20">
+                                        <path
+                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                @endfor
                             </div>
-                            <div class="text-body-sm text-secondary-600">Based on 2,847 reviews</div>
+                            <div class="text-body-sm text-secondary-600">Based on {{ $product->reviews_count ?? 0 }}
+                                reviews</div>
                         </div>
 
-                        <!-- Rating Breakdown -->
+                        <!-- Rating Breakdown (static for now, can be dynamic later) -->
                         <div class="space-y-2">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-body-sm w-8">5 ★</span>
-                                <div class="flex-1 bg-secondary-200 rounded-full h-2">
-                                    <div class="bg-warning h-2 rounded-full" style="width: 78%"></div>
+                            @php
+                                $breakdown = $product->rating_breakdown ?? [
+                                    5 => 78,
+                                    4 => 15,
+                                    3 => 4,
+                                    2 => 2,
+                                    1 => 1,
+                                ];
+                            @endphp
+
+                            @foreach ($breakdown as $stars => $percent)
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-body-sm w-8">{{ $stars }} ★</span>
+                                    <div class="flex-1 bg-secondary-200 rounded-full h-2">
+                                        <div class="bg-warning h-2 rounded-full" style="width: {{ $percent }}%">
+                                        </div>
+                                    </div>
+                                    <span class="text-body-sm text-secondary-600 w-12">{{ $percent }}%</span>
                                 </div>
-                                <span class="text-body-sm text-secondary-600 w-12">78%</span>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <span class="text-body-sm w-8">4 ★</span>
-                                <div class="flex-1 bg-secondary-200 rounded-full h-2">
-                                    <div class="bg-warning h-2 rounded-full" style="width: 15%"></div>
-                                </div>
-                                <span class="text-body-sm text-secondary-600 w-12">15%</span>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <span class="text-body-sm w-8">3 ★</span>
-                                <div class="flex-1 bg-secondary-200 rounded-full h-2">
-                                    <div class="bg-warning h-2 rounded-full" style="width: 4%"></div>
-                                </div>
-                                <span class="text-body-sm text-secondary-600 w-12">4%</span>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <span class="text-body-sm w-8">2 ★</span>
-                                <div class="flex-1 bg-secondary-200 rounded-full h-2">
-                                    <div class="bg-warning h-2 rounded-full" style="width: 2%"></div>
-                                </div>
-                                <span class="text-body-sm text-secondary-600 w-12">2%</span>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <span class="text-body-sm w-8">1 ★</span>
-                                <div class="flex-1 bg-secondary-200 rounded-full h-2">
-                                    <div class="bg-warning h-2 rounded-full" style="width: 1%"></div>
-                                </div>
-                                <span class="text-body-sm text-secondary-600 w-12">1%</span>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
 
-                    <!-- Review Filters & Individual Reviews -->
+                    <!-- Review Filters & List -->
                     <div class="lg:col-span-2">
-                        <!-- Review Filters -->
                         <div class="flex items-center space-x-4 mb-6">
                             <span class="font-semibold text-primary">Filter by:</span>
                             <select class="input-field py-2 px-3 text-body-sm">
@@ -427,61 +327,55 @@
 
                         <!-- Individual Reviews -->
                         <div class="space-y-6">
-                            <!-- Review 1 -->
-                            <div class="card">
-                                <div class="flex items-start space-x-4">
-                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2787&auto=format&fit=crop"
-                                        alt="John D." class="w-12 h-12 rounded-full object-cover" loading="lazy"
-                                        onerror="this.src='https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                                    <div class="flex-1">
-                                        <div class="flex items-center justify-between mb-2">
-                                            <div>
-                                                <span class="font-semibold text-primary">John D.</span>
-                                                <span class="ml-2 text-body-sm text-success">✓ Verified Purchase</span>
+                            @forelse ($product->reviews ?? [] as $review)
+                                <div class="card">
+                                    <div class="flex items-start space-x-4">
+                                        <img src="{{ $review->user->avatar ?? 'https://via.placeholder.com/50' }}"
+                                            alt="{{ $review->user->name }}" class="w-12 h-12 rounded-full object-cover"
+                                            loading="lazy" />
+                                        <div class="flex-1">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <div>
+                                                    <span
+                                                        class="font-semibold text-primary">{{ $review->user->name }}</span>
+                                                    @if ($review->verified)
+                                                        <span class="ml-2 text-body-sm text-success">✓ Verified
+                                                            Purchase</span>
+                                                    @endif
+                                                </div>
+                                                <span
+                                                    class="text-body-sm text-secondary-600">{{ $review->created_at->format('M d, Y') }}</span>
                                             </div>
-                                            <span class="text-body-sm text-secondary-600">Jan 20, 2025</span>
-                                        </div>
-                                        <div class="flex text-warning mb-2">
-                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                            </svg>
-                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                            </svg>
-                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                            </svg>
-                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                            </svg>
-                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                            </svg>
-                                        </div>
-                                        <p class="text-body text-secondary-700 mb-3">
-                                            "Absolutely amazing earbuds! The sound quality is incredible and the noise
-                                            cancellation works perfectly."
-                                        </p>
-                                        <div class="flex items-center space-x-4 text-body-sm">
-                                            <button class="text-secondary-600 hover:text-primary transition-fast">Helpful
-                                                (23)</button>
-                                            <button
-                                                class="text-secondary-600 hover:text-primary transition-fast">Report</button>
+                                            <div class="flex text-warning mb-2">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <svg class="w-4 h-4 {{ $review->rating >= $i ? 'fill-current' : 'text-secondary-300' }}"
+                                                        viewBox="0 0 20 20">
+                                                        <path
+                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                    </svg>
+                                                @endfor
+                                            </div>
+                                            <p class="text-body text-secondary-700 mb-3">{{ $review->comment }}</p>
+                                            <div class="flex items-center space-x-4 text-body-sm">
+                                                <button class="text-secondary-600 hover:text-primary transition-fast">
+                                                    Helpful ({{ $review->helpful_count ?? 0 }})
+                                                </button>
+                                                <button
+                                                    class="text-secondary-600 hover:text-primary transition-fast">Report</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
+                            @empty
+                                <p class="text-secondary-600">No reviews yet for this product.</p>
+                            @endforelse
                         </div>
                     </div>
                 </div>
             </div>
-    </section> --}}
+        </div>
+    </section>
+
 
     <!-- Inquiry Form Section -->
     {{-- <section class="py-8 bg-white">
