@@ -34,7 +34,7 @@ class ProductListingController extends Controller
     return response()->json($products);
 }
 
-    public function showProduct($request, $sku)
+    public function showProduct($sku)
     {
         // Logic to show a specific product
         $product = Product::where('sku', $sku)->where('status', 'active')->firstOrFail();
