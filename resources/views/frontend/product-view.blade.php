@@ -31,30 +31,33 @@
     </section>
 
 
+    
     <!-- Product Detail Section -->
-    {{-- <section class="py-8 bg-white">
+    <section class="py-8 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12">
+
                 <!-- Image Gallery -->
                 <div class="space-y-4">
                     <!-- Main Image -->
                     <div class="relative bg-surface rounded-lg overflow-hidden">
-                        <img id="mainImage"
-                            src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                            alt="Premium Wireless Earbuds Pro" class="w-full h-96 object-cover" loading="lazy"
-                            onerror="this.src='https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
+                        <img id="mainImage" src="{{ asset('storage/' . $product->main_image) }}" alt="{{ $product->name }}"
+                            class="w-full h-96 object-cover" loading="lazy"
+                            onerror="this.src='https://via.placeholder.com/600x600?text=No+Image'; this.onerror=null;" />
 
-                        <!-- AR Preview Button -->
-                        <button
-                            class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-fast"
-                            title="AR Preview">
-                            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </button>
+                        <!-- AR Preview Button (if product has 3D model) -->
+                        @if ($product->has_3d_model)
+                            <button
+                                class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-fast"
+                                title="AR Preview">
+                                <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </button>
+                        @endif
 
                         <!-- Zoom Button -->
                         <button
@@ -67,176 +70,110 @@
                             </svg>
                         </button>
 
-                        <!-- 360 View Button -->
-                        <button
-                            class="absolute bottom-4 right-4 bg-accent text-white rounded-full p-3 hover:bg-accent-600 transition-fast"
-                            title="360° View">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                            </svg>
-                        </button>
+                        <!-- 360 View Button (if gallery exists) -->
+                        @if ($product->gallery && count(json_decode($product->gallery)) > 1)
+                            <button
+                                class="absolute bottom-4 right-4 bg-accent text-white rounded-full p-3 hover:bg-accent-600 transition-fast"
+                                title="360° View">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                            </button>
+                        @endif
                     </div>
 
                     <!-- Thumbnail Gallery -->
-                    <div class="grid grid-cols-4 gap-2">
-                        <button class="thumbnail-btn active rounded-lg overflow-hidden border-2 border-accent"
-                            onclick="changeMainImage(this, 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop')">
-                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                                alt="Main View" class="w-full h-20 object-cover" loading="lazy" />
-                        </button>
-                        <button
-                            class="thumbnail-btn rounded-lg overflow-hidden border-2 border-transparent hover:border-accent transition-fast"
-                            onclick="changeMainImage(this, 'https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')">
-                            <img src="https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                alt="Side View" class="w-full h-20 object-cover" loading="lazy" />
-                        </button>
-                        <button
-                            class="thumbnail-btn rounded-lg overflow-hidden border-2 border-transparent hover:border-accent transition-fast"
-                            onclick="changeMainImage(this, 'https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2684&auto=format&fit=crop')">
-                            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2684&auto=format&fit=crop"
-                                alt="Case View" class="w-full h-20 object-cover" loading="lazy"
-                                onerror="this.src='https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                        </button>
-                        <button
-                            class="thumbnail-btn rounded-lg overflow-hidden border-2 border-transparent hover:border-accent transition-fast"
-                            onclick="changeMainImage(this, 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=2832&auto=format&fit=crop')">
-                            <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=2832&auto=format&fit=crop"
-                                alt="Detail View" class="w-full h-20 object-cover" loading="lazy"
-                                onerror="this.src='https://images.pixabay.com/photo/2017/05/10/19/29/robot-2301646_1280.jpg'; this.onerror=null;" />
-                        </button>
-                    </div>
+                    @if ($product->gallery)
+                        <div class="grid grid-cols-4 gap-2">
+                            @foreach (json_decode($product->gallery) as $index => $image)
+                                <button
+                                    class="thumbnail-btn {{ $index === 0 ? 'active border-accent' : 'border-transparent hover:border-accent' }} rounded-lg overflow-hidden border-2 transition-fast"
+                                    onclick="changeMainImage(this, '{{ asset('storage/' . $image) }}')">
+                                    <img src="{{ asset('storage/' . $image) }}"
+                                        alt="{{ $product->name }} thumbnail {{ $index + 1 }}"
+                                        class="w-full h-20 object-cover" loading="lazy"
+                                        onerror="this.src='https://via.placeholder.com/150x150?text=Image'; this.onerror=null;" />
+                                </button>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Product Information -->
                 <div class="space-y-6">
-                    <!-- Product Title & Rating -->
+                    <!-- Product Title -->
                     <div>
-                        <h1 class="text-3xl font-bold text-primary mb-2">Premium Wireless Earbuds Pro</h1>
-                        <div class="flex items-center space-x-4 mb-4">
-                            <div class="flex items-center">
-                                <div class="flex text-warning">
-                                    <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                    <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                    <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                    <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                    <svg class="w-5 h-5 text-secondary-300" fill="currentColor" viewBox="0 0 20 20">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                </div>
-                                <span class="ml-2 text-body-sm text-secondary-600">4.8 (2,847 reviews)</span>
-                            </div>
-                            <span class="text-success text-body-sm">✓ Verified Purchase Reviews</span>
-                        </div>
+                        <h1 class="text-3xl font-bold text-primary mb-2">{{ $product->name }}</h1>
+                        <p class="text-secondary-600 text-body">{{ $product->short_description }}</p>
                     </div>
 
                     <!-- Pricing -->
                     <div class="border border-border rounded-lg p-4">
                         <div class="flex items-baseline space-x-3 mb-3">
-                            <span class="text-3xl font-bold text-primary">$149.99</span>
-                            <span class="text-xl text-secondary-500 line-through">$199.99</span>
-                            <span class="bg-success text-white px-3 py-1 rounded-full text-body-sm font-semibold">25%
-                                OFF</span>
+                            <span class="text-3xl font-bold text-primary">
+                                @if ($product->currency === '$')
+                                    ${{ number_format($product->discount_price ?? $product->price, 2) }}
+                                @else
+                                    {{ number_format($product->discount_price ?? $product->price) }}
+                                    {{ $product->currency }}
+                                @endif
+                            </span>
+
+                            @if ($product->discount_price)
+                                <span class="text-xl text-secondary-500 line-through">
+                                    @if ($product->currency === '$')
+                                        ${{ number_format($product->price, 2) }}
+                                    @else
+                                        {{ number_format($product->price) }} {{ $product->currency }}
+                                    @endif
+                                </span>
+                                <span class="bg-success text-white px-3 py-1 rounded-full text-body-sm font-semibold">
+                                    {{ round((($product->price - $product->discount_price) / $product->price) * 100) }}%
+                                    OFF
+                                </span>
+                            @endif
                         </div>
 
-                        <!-- Volume Pricing -->
-                        <div class="space-y-2">
-                            <h4 class="font-semibold text-primary">Volume Discounts:</h4>
-                            <div class="grid grid-cols-3 gap-2 text-body-sm">
-                                <div class="text-center p-2 bg-surface rounded">
-                                    <div class="font-semibold">10-49 units</div>
-                                    <div class="text-success">$139.99</div>
-                                </div>
-                                <div class="text-center p-2 bg-surface rounded">
-                                    <div class="font-semibold">50-99 units</div>
-                                    <div class="text-success">$129.99</div>
-                                </div>
-                                <div class="text-center p-2 bg-surface rounded">
-                                    <div class="font-semibold">100+ units</div>
-                                    <div class="text-success">$119.99</div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- MOQ -->
+                        <p class="text-body-sm text-secondary-600">MOQ: {{ $product->min_order_quantity }} pcs</p>
 
                         <!-- Shipping Info -->
-                        <div class="mt-4 pt-4 border-t border-border">
-                            <div class="flex justify-between items-center text-body-sm">
-                                <span class="text-secondary-600">Shipping to US:</span>
-                                <span class="font-semibold text-primary">Free (5-7 days)</span>
+                        @if ($product->shipping_info)
+                            <div class="mt-4 pt-4 border-t border-border space-y-1">
+                                @foreach (json_decode($product->shipping_info) as $key => $value)
+                                    <div class="flex justify-between items-center text-body-sm">
+                                        <span class="text-secondary-600">{{ ucfirst($key) }}:</span>
+                                        <span class="font-semibold text-primary">{{ $value }}</span>
+                                    </div>
+                                @endforeach
                             </div>
-                            <div class="flex justify-between items-center text-body-sm mt-1">
-                                <span class="text-secondary-600">Express shipping:</span>
-                                <span class="font-semibold text-primary">$15.99 (2-3 days)</span>
-                            </div>
-                        </div>
+                        @endif
                     </div>
 
                     <!-- Key Features -->
-                    <div>
-                        <h3 class="font-semibold text-primary mb-3">Key Features</h3>
-                        <ul class="space-y-2">
-                            <li class="flex items-center space-x-3">
-                                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-body text-secondary-700">Advanced Active Noise Cancellation</span>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-body text-secondary-700">30-Hour Total Battery Life</span>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-body text-secondary-700">IPX7 Water Resistance</span>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-body text-secondary-700">Bluetooth 5.3 with Low Latency</span>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span class="text-body text-secondary-700">Fast Charging (15min = 3hrs playback)</span>
-                            </li>
-                        </ul>
-                    </div>
+                    @if ($product->features)
+                        <div>
+                            <h3 class="font-semibold text-primary mb-3">Key Features</h3>
+                            <ul class="space-y-2">
+                                @foreach (json_decode($product->features) as $feature)
+                                    <li class="flex items-center space-x-3">
+                                        <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        <span class="text-body text-secondary-700">{{ $feature }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <!-- Action Buttons -->
-                    <div class="space-y-3">
-                        <div class="grid grid-cols-2 gap-3">
-                            <button class="btn-primary w-full">Add to Cart</button>
-                            <button class="btn-secondary w-full">Add to Wishlist</button>
-                        </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="btn-primary w-full">Add to Cart</button>
+                        <button class="btn-secondary w-full">Add to Wishlist</button>
                     </div>
 
                     <!-- Trust Badges -->
@@ -266,7 +203,8 @@
                 </div>
             </div>
         </div>
-    </section> --}}
+    </section>
+
 
     <!-- Product Details Tabs -->
     {{-- <section class="py-8 bg-surface">
