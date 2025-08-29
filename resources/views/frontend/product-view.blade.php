@@ -385,7 +385,7 @@
             <div class="card">
                 <h2 class="text-2xl font-bold text-primary mb-6">Send Inquiry</h2>
 
-                <form action="{{ route('inquiries.store') }}" method="POST" enctype="multipart/form-data"
+                <form id="enquiryForm" enctype="multipart/form-data"
                     class="space-y-6">
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -465,21 +465,6 @@
                         @error('message')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-body-sm font-semibold text-primary mb-2">Attachment (Optional)</label>
-                        <div class="border-2 border-dashed border-border rounded-lg p-6 text-center">
-                            <svg class="w-12 h-12 text-secondary-400 mx-auto mb-3" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                            </svg>
-                            <p class="text-body text-secondary-600 mb-2">Drop files here or click to upload</p>
-                            <p class="text-body-sm text-secondary-500">Supports: PDF, DOC, XLS, PNG, JPG (Max 10MB)</p>
-                            <input type="file" name="attachments[]" class="hidden" multiple
-                                accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg">
-                        </div>
                     </div>
 
                     <div class="flex items-center space-x-3">
