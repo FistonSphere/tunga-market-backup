@@ -4,6 +4,7 @@ use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\frontend\CareerController;
 use App\Http\Controllers\frontend\CartController;
+use App\Http\Controllers\frontend\CategoryController;
 use App\Http\Controllers\frontend\CheckoutController;
 use App\Http\Controllers\frontend\ComparedController;
 use App\Http\Controllers\frontend\ContactController;
@@ -22,6 +23,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/product-discovery-hub', [ProductListingController::class, 'index'])->name('product.discovery');
 Route::get('/product-view/{sku}', [ProductListingController::class, 'showProduct'])->name('product.view');
+Route::get('/category/{slug}', [CategoryController::class, 'view'])
+    ->name('category.view');
 Route::get('/categories-with-count', [ProductListingController::class, 'getCategoriesWithProductCount']);
 Route::get('/products/filter', [ProductListingController::class, 'filterProducts'])->name('products.filter');
 Route::get('/products/filter-by-price', [ProductListingController::class, 'filterByPrice'])->name('products.filterByPrice');
