@@ -102,4 +102,24 @@ class ContactController extends Controller
     }
 }
 
+
+public function storeEnquiry(Request $request){
+     $request->validate([
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email',
+            'phone'   => 'nullable|string|max:20',
+            'message' => 'required|string',
+            'product_id' => 'required|exists:products,id'
+        ]);
+
+        // Enquiry::create([
+        //     'name'       => $request->name,
+        //     'email'      => $request->email,
+        //     'phone'      => $request->phone,
+        //     'message'    => $request->message,
+        //     'product_id' => $request->product_id,
+        // ]);
+
+        return response()->json(['success' => true, 'message' => 'Enquiry sent successfully!']);
+}
 }

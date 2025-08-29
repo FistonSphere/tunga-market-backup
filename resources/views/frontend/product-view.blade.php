@@ -435,9 +435,11 @@
                                 <option value="">Select quantity range</option>
                                 <option value="1-99" {{ old('quantity') == '1-99' ? 'selected' : '' }}>1-99 pieces
                                 </option>
-                                <option value="100-499" {{ old('quantity') == '100-499' ? 'selected' : '' }}>100-499 pieces
+                                <option value="100-499" {{ old('quantity') == '100-499' ? 'selected' : '' }}>100-499
+                                    pieces
                                 </option>
-                                <option value="500-999" {{ old('quantity') == '500-999' ? 'selected' : '' }}>500-999 pieces
+                                <option value="500-999" {{ old('quantity') == '500-999' ? 'selected' : '' }}>500-999
+                                    pieces
                                 </option>
                                 <option value="1000+" {{ old('quantity') == '1000+' ? 'selected' : '' }}>1000+ pieces
                                 </option>
@@ -729,6 +731,14 @@
         </div>
     </div> --}}
 
+    <div id="toast"
+        class="hidden fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
+        style="z-index: 999999;--tw-bg-opacity: 1;background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1)); color: #fff;top: 8px;right: 4px;">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <span>Enquiry Sent successfully!</span>
+    </div>
     <script>
         // Cart and Wishlist Management System
         class CartWishlistManager {
