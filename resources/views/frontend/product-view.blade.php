@@ -701,9 +701,9 @@
         </div>
     </div> --}}
 
-    <div id="toast"
-        class=" fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50 transform translate-x-full transition-all duration-500"
-        style="top: 8px;--tw-bg-opacity: 1;background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1)); color: #fff;">
+    <div id="toast2"
+        class="hidden fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50 transform translate-x-full transition-all duration-500"
+        style="top: 8px;--tw-bg-opacity: 1;background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1)); color: #fff; z-index: 999999;">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
@@ -1215,7 +1215,7 @@
         });
 
         function showToast(message, type = 'success') {
-            const toast = document.getElementById("toast");
+            const toast = document.getElementById("toast2");
             toast.querySelector('span').innerHTML = message;
 
             // Set color
