@@ -399,9 +399,9 @@
                             @enderror
                         </div>
                         <div>
-                            <label class="block text-body-sm font-semibold text-primary mb-2">Company *</label>
+                            <label class="block text-body-sm font-semibold text-primary mb-2">Company (Optional)</label>
                             <input type="text" name="company" class="input-field" value="{{ old('company') }}"
-                                placeholder="Your company name" required>
+                                placeholder="Your company name">
                             @error('company')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
