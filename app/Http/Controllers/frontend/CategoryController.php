@@ -19,7 +19,11 @@ class CategoryController extends Controller
             ->where('status', 'active')
             ->latest()
             ->paginate(12);
+             $categories = Category::withCount('products')
+            ->having('products_count', '>', 0)
+            ->orderByDesc('products_count')
+            ->get();
 
-        return view('frontend.categories-view', compact('category', 'products'));
+        return view('frontend.categories-view', compact('category', 'products','categories'));
     }
 }
