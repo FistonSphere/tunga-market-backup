@@ -31,7 +31,7 @@
     </section>
 
 
-    
+
     <!-- Product Detail Section -->
     <section class="py-8 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,7 +41,7 @@
                 <div class="space-y-4">
                     <!-- Main Image -->
                     <div class="relative bg-surface rounded-lg overflow-hidden">
-                        <img id="mainImage" src="{{ asset('storage/' . $product->main_image) }}" alt="{{ $product->name }}"
+                        <img id="mainImage" src="{{ $product->main_image }}" alt="{{ $product->name }}"
                             class="w-full h-96 object-cover" loading="lazy"
                             onerror="this.src='https://via.placeholder.com/600x600?text=No+Image'; this.onerror=null;" />
 
@@ -86,16 +86,20 @@
                     <!-- Thumbnail Gallery -->
                     @if ($product->gallery)
                         <div class="grid grid-cols-4 gap-2">
-                            @foreach (json_decode($product->gallery) as $index => $image)
+                            @php
+                                $gallery = json_decode($product->gallery, true) ?? [];
+                            @endphp
+
+                            @foreach ($gallery as $index => $image)
                                 <button
                                     class="thumbnail-btn {{ $index === 0 ? 'active border-accent' : 'border-transparent hover:border-accent' }} rounded-lg overflow-hidden border-2 transition-fast"
-                                    onclick="changeMainImage(this, '{{ asset('storage/' . $image) }}')">
-                                    <img src="{{ asset('storage/' . $image) }}"
-                                        alt="{{ $product->name }} thumbnail {{ $index + 1 }}"
+                                    onclick="changeMainImage(this, '{{ $image }}')">
+                                    <img src="{{ $image }}" alt="{{ $product->name }} thumbnail {{ $index + 1 }}"
                                         class="w-full h-20 object-cover" loading="lazy"
                                         onerror="this.src='https://via.placeholder.com/150x150?text=Image'; this.onerror=null;" />
                                 </button>
                             @endforeach
+
                         </div>
                     @endif
                 </div>
