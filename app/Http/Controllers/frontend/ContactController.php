@@ -105,22 +105,36 @@ class ContactController extends Controller
 
 
 public function storeEnquiry(Request $request){
-     $request->validate([
-            'name'    => 'required|string|max:255',
-            'email'   => 'required|email',
-            'phone'   => 'nullable|string|max:20',
-            'message' => 'required|string',
-            'product_id' => 'required|exists:products,id'
+    // app/Http/Controllers/EnquiryController.php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Enquiry;
+
+class EnquiryController extends Controller
+{
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'        => 'required|string|max:255',
+            'company'     => 'required|string|max:255',
+            'email'       => 'required|email',
+            'phone'       => 'nullable|string|max:20',
+            'quantity'    => 'required|string',
+            'target_price'=> 'nullable|string|max:255',
+            'message'     => 'required|string',
+            'terms'       => 'accepted',
+            'product_id'  => 'required|exists:products,id',
         ]);
 
-        Enquiry::create([
-            'name'       => $request->name,
-            'email'      => $request->email,
-            'phone'      => $request->phone,
-            'message'    => $request->message,
-            'product_id' => $request->product_id,
+        Enquiry::create($request->only([
+            'name','company','email','phone','quantity','target_price','message','product_id'
+        ]));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Enquiry sent successfully!'
         ]);
 
-        return response()->json(['success' => true, 'message' => 'Enquiry sent successfully!']);
 }
 }
