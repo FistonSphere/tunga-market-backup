@@ -4,19 +4,32 @@
     <section class="bg-surface py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav class="flex items-center space-x-2 text-body-sm">
+
+                {{-- Home Link --}}
                 <a href="{{ route('home') }}" class="text-secondary-600 hover:text-primary transition-fast">Home</a>
+
                 <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
-                <a href="{{ route('product.discovery') }}"
-                    class="text-secondary-600 hover:text-primary transition-fast">{{ $product->category->name }}</a>
-                <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-                <span class="text-primary font-medium">Premium Wireless Earbuds Pro</span>
+
+                {{-- Category Link --}}
+                @if ($product->category)
+                    <a href="{{ route('category.view', $product->category->slug) }}"
+                        class="text-secondary-600 hover:text-primary transition-fast">
+                        {{ $product->category->name }}
+                    </a>
+
+                    <svg class="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                @endif
+
+                {{-- Product Name --}}
+                <span class="text-primary font-medium">{{ $product->name }}</span>
             </nav>
         </div>
     </section>
+
 
     <!-- Product Detail Section -->
     {{-- <section class="py-8 bg-white">

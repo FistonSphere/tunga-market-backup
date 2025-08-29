@@ -37,8 +37,8 @@ class ProductListingController extends Controller
     public function showProduct($request, $sku)
     {
         // Logic to show a specific product
-        $product = Product::where('sku', $sku)->firstOrFail();
-         $product->increment('view_count');
+        $product = Product::where('sku', $sku)->where('status', 'active')->firstOrFail();
+        $product->increment('views_count');
         return view('frontend.product-view', compact('product')); // Adjust the view name as necessary
     }
 
