@@ -42,6 +42,7 @@ class ProductListingController extends Controller
         $product = Product::with('category')->where('sku', $sku)
                 ->where('status', 'active')
                 ->firstOrFail();
+                
         return view('frontend.product-view', compact('product')); // Adjust the view name as necessary
     }
 
