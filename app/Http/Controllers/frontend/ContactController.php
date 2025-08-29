@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactRequestNotification;
 use App\Mail\ContactRequestConfirmation;
 use App\Models\ContactRequest;
+use App\Models\Enquiry;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -112,13 +113,13 @@ public function storeEnquiry(Request $request){
             'product_id' => 'required|exists:products,id'
         ]);
 
-        // Enquiry::create([
-        //     'name'       => $request->name,
-        //     'email'      => $request->email,
-        //     'phone'      => $request->phone,
-        //     'message'    => $request->message,
-        //     'product_id' => $request->product_id,
-        // ]);
+        Enquiry::create([
+            'name'       => $request->name,
+            'email'      => $request->email,
+            'phone'      => $request->phone,
+            'message'    => $request->message,
+            'product_id' => $request->product_id,
+        ]);
 
         return response()->json(['success' => true, 'message' => 'Enquiry sent successfully!']);
 }
