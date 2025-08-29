@@ -43,10 +43,10 @@
                     <div class="relative bg-surface rounded-lg overflow-hidden">
                         <img id="mainImage" src="{{ $product->main_image }}" alt="{{ $product->name }}"
                             class="w-full h-96 object-cover" loading="lazy"
-                            onerror="this.src='https://via.placeholder.com/600x600?text=No+Image'; this.onerror=null;" />
+                            onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
 
                         <!-- AR Preview Button (if product has 3D model) -->
-                        @if ($product->has_3d_model)
+                        {{-- @if ($product->has_3d_model) --}}
                             <button
                                 class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-fast"
                                 title="AR Preview">
@@ -57,7 +57,7 @@
                                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                 </svg>
                             </button>
-                        @endif
+                        {{-- @endif --}}
 
                         <!-- Zoom Button -->
                         <button
@@ -96,7 +96,7 @@
                                     onclick="changeMainImage(this, '{{ $image }}')">
                                     <img src="{{ $image }}" alt="{{ $product->name }} thumbnail {{ $index + 1 }}"
                                         class="w-full h-20 object-cover" loading="lazy"
-                                        onerror="this.src='https://via.placeholder.com/150x150?text=Image'; this.onerror=null;" />
+                                        onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
                                 </button>
                             @endforeach
 
@@ -115,26 +115,28 @@
                     <!-- Pricing -->
                     <div class="border border-border rounded-lg p-4">
                         <div class="flex items-baseline space-x-3 mb-3">
-                            <span class="text-3xl font-bold text-primary">
-                                @if ($product->currency === '$')
-                                    ${{ number_format($product->discount_price ?? $product->price, 2) }}
-                                @else
-                                    {{ number_format($product->discount_price ?? $product->price) }}
-                                    {{ $product->currency }}
-                                @endif
-                            </span>
-
                             @if ($product->discount_price)
-                                <span class="text-xl text-secondary-500 line-through">
+                                <span class="line-through text-secondary-500 text-sm mr-2">
                                     @if ($product->currency === '$')
-                                        ${{ number_format($product->price, 2) }}
-                                    @else
+                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                    @elseif($product->currency === 'Rwf')
                                         {{ number_format($product->price) }} {{ $product->currency }}
                                     @endif
                                 </span>
-                                <span class="bg-success text-white px-3 py-1 rounded-full text-body-sm font-semibold">
-                                    {{ round((($product->price - $product->discount_price) / $product->price) * 100) }}%
-                                    OFF
+                                <span class="text-subheading font-bold text-primary">
+                                    @if ($product->currency === '$')
+                                        {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
+                                    @elseif($product->currency === 'Rwf')
+                                        {{ number_format($product->discount_price) }} {{ $product->currency }}
+                                    @endif
+                                </span>
+                            @else
+                                <span class="text-subheading font-bold text-primary">
+                                    @if ($product->currency === '$')
+                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                    @elseif($product->currency === 'Rwf')
+                                        {{ number_format($product->price) }} {{ $product->currency }}
+                                    @endif
                                 </span>
                             @endif
                         </div>
