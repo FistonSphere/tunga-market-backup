@@ -702,8 +702,8 @@
     </div> --}}
 
     <div id="toast"
-        class="fixed bottom-5 right-5 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-[9999] opacity-0 translate-x-full transition-all duration-500"
-        style="background-color: rgb(22 163 74); top: 8px;">
+        class="hidden fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
+        style="z-index: 999999;--tw-bg-opacity: 1;background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1)); color: #fff;top: 8px;right: 4px;">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
@@ -1219,25 +1219,29 @@
 
         // toast function
         function showToast(message, type = 'success') {
-            let toast = document.getElementById("toast");
-            let span = toast.querySelector('span');
+            const toast = document.getElementById("toast");
+            const span = toast.querySelector('span');
             span.innerHTML = message;
 
             // Set color based on type
             if (type === 'success') {
-                toast.style.backgroundColor = 'rgb(22 163 74)'; // green
+                toast.classList.remove('bg-red-600');
+                toast.classList.add('bg-green-600');
             } else {
-                toast.style.backgroundColor = 'rgb(220 38 38)'; // red
+                toast.classList.remove('bg-green-600');
+                toast.classList.add('bg-red-600');
             }
 
-            // Slide in
-            toast.classList.remove('opacity-0', 'translate-x-full');
-            toast.classList.add('opacity-100', 'translate-x-0');
+            // Show toast
+            toast.classList.remove('hidden'); // remove hidden
+            toast.classList.remove('translate-x-full'); // slide in
+            toast.classList.add('translate-x-0', 'opacity-100');
 
-            // Slide out after 4 seconds
+            // Hide after 4 seconds
             setTimeout(() => {
-                toast.classList.remove('opacity-100', 'translate-x-0');
-                toast.classList.add('opacity-0', 'translate-x-full');
+                toast.classList.add('translate-x-full'); // slide out
+                toast.classList.remove('translate-x-0', 'opacity-100');
+                setTimeout(() => toast.classList.add('hidden'), 500); // hide completely after animation
             }, 4000);
         }
     </script>

@@ -105,7 +105,6 @@ class ContactController extends Controller
 
 
 public function storeEnquiry(Request $request){
-    // app/Http/Controllers/EnquiryController.php
 
         $request->validate([
             'name'        => 'required|string|max:255',
