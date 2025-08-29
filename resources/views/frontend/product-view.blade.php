@@ -384,50 +384,85 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="card">
                 <h2 class="text-2xl font-bold text-primary mb-6">Send Inquiry</h2>
-                <form class="space-y-6">
+
+                <form action="{{ route('inquiries.store') }}" method="POST" enctype="multipart/form-data"
+                    class="space-y-6">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-body-sm font-semibold text-primary mb-2">Your Name *</label>
-                            <input type="text" class="input-field" placeholder="Enter your full name" required />
+                            <input type="text" name="name" class="input-field" value="{{ old('name') }}"
+                                placeholder="Enter your full name" required>
+                            @error('name')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-body-sm font-semibold text-primary mb-2">Company *</label>
-                            <input type="text" class="input-field" placeholder="Your company name" required />
+                            <input type="text" name="company" class="input-field" value="{{ old('company') }}"
+                                placeholder="Your company name" required>
+                            @error('company')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-body-sm font-semibold text-primary mb-2">Email *</label>
-                            <input type="email" class="input-field" placeholder="your.email@company.com" required />
+                            <input type="email" name="email" class="input-field" value="{{ old('email') }}"
+                                placeholder="your.email@company.com" required>
+                            @error('email')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-body-sm font-semibold text-primary mb-2">Phone</label>
-                            <input type="tel" class="input-field" placeholder="+1 (555) 123-4567" />
+                            <input type="tel" name="phone" class="input-field" value="{{ old('phone') }}"
+                                placeholder="+1 (555) 123-4567">
+                            @error('phone')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-body-sm font-semibold text-primary mb-2">Quantity Needed *</label>
-                            <select class="input-field" required>
-                                <option value>Select quantity range</option>
-                                <option value="1-99">1-99 pieces</option>
-                                <option value="100-499">100-499 pieces</option>
-                                <option value="500-999">500-999 pieces</option>
-                                <option value="1000+">1000+ pieces</option>
+                            <select name="quantity" class="input-field" required>
+                                <option value="">Select quantity range</option>
+                                <option value="1-99" {{ old('quantity') == '1-99' ? 'selected' : '' }}>1-99 pieces
+                                </option>
+                                <option value="100-499" {{ old('quantity') == '100-499' ? 'selected' : '' }}>100-499 pieces
+                                </option>
+                                <option value="500-999" {{ old('quantity') == '500-999' ? 'selected' : '' }}>500-999 pieces
+                                </option>
+                                <option value="1000+" {{ old('quantity') == '1000+' ? 'selected' : '' }}>1000+ pieces
+                                </option>
                             </select>
+                            @error('quantity')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-body-sm font-semibold text-primary mb-2">Target Price</label>
-                            <input type="text" class="input-field" placeholder="$0.00 per unit" />
+                            <input type="text" name="target_price" class="input-field"
+                                value="{{ old('target_price') }}" placeholder="$0.00 per unit">
+                            @error('target_price')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-body-sm font-semibold text-primary mb-2">Message *</label>
-                        <textarea class="input-field resize-none" rows="4"
-                            placeholder="Please include any specific requirements, colors, customization needs, or other details..." required></textarea>
+                        <textarea name="message" class="input-field resize-none" rows="4"
+                            placeholder="Please include any specific requirements, colors, customization needs, or other details..." required>{{ old('message') }}</textarea>
+                        @error('message')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
@@ -440,28 +475,30 @@
                             </svg>
                             <p class="text-body text-secondary-600 mb-2">Drop files here or click to upload</p>
                             <p class="text-body-sm text-secondary-500">Supports: PDF, DOC, XLS, PNG, JPG (Max 10MB)</p>
-                            <input type="file" class="hidden" multiple
-                                accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" />
+                            <input type="file" name="attachments[]" class="hidden" multiple
+                                accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg">
                         </div>
                     </div>
 
                     <div class="flex items-center space-x-3">
-                        <input type="checkbox" id="terms"
-                            class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded" />
+                        <input type="checkbox" id="terms" name="terms"
+                            class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded" required>
                         <label for="terms" class="text-body-sm text-secondary-700">
-                            I agree to the <a href="#" class="text-accent hover:underline">Terms of Service</a> and
-                            <a href="#" class="text-accent hover:underline">Privacy Policy</a>
+                            I agree to the <a href="{{ route('terms') }}" class="text-accent hover:underline">Terms of
+                                Service</a> and
+                            <a href="{{ route('privacy') }}" class="text-accent hover:underline">Privacy Policy</a>
                         </label>
                     </div>
 
                     <div class="flex space-x-4">
                         <button type="submit" class="btn-primary flex-1">Send Inquiry</button>
-                        <button type="button" class="btn-secondary">Save as Draft</button>
+                        <button type="reset" class="btn-secondary">Clear</button>
                     </div>
                 </form>
             </div>
         </div>
     </section>
+
 
     <!-- Related Products Section -->
     {{-- <section class="py-16 bg-surface">
