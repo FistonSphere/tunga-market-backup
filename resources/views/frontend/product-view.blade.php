@@ -243,12 +243,14 @@
                         <div class="card">
                             <h3 class="font-semibold text-primary mb-4">{{ ucfirst($section) }}</h3>
                             <div class="space-y-3">
-                                @foreach ($details as $label => $value)
-                                    <div class="flex justify-between">
-                                        <span class="text-secondary-600">{{ $label }}:</span>
-                                        <span class="font-medium">{{ $value }}</span>
+                                @foreach ($specifications as $label => $value)
+                                    <div
+                                        class="flex items-center justify-between py-2 border-b border-border last:border-none">
+                                        <span class="text-secondary-600">{{ $label }}</span>
+                                        <span class="font-medium text-primary">{{ $value }}</span>
                                     </div>
                                 @endforeach
+
                             </div>
                         </div>
                     @empty
@@ -378,7 +380,7 @@
 
 
     <!-- Inquiry Form Section -->
-    {{-- <section class="py-8 bg-white">
+    <section class="py-8 bg-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="card">
                 <h2 class="text-2xl font-bold text-primary mb-6">Send Inquiry</h2>
@@ -459,7 +461,7 @@
                 </form>
             </div>
         </div>
-    </section> --}}
+    </section>
 
     <!-- Related Products Section -->
     {{-- <section class="py-16 bg-surface">
