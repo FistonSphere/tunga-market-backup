@@ -8,10 +8,13 @@ class Enquiry extends Model
 {
    protected $fillable = [
        'name',
+       'company',
        'email',
        'phone',
+       'quantity',
+       'target_price',
        'message',
-       'product_id',
+       'product_id'
    ];
 
     public function product()
