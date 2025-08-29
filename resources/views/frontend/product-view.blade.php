@@ -716,12 +716,12 @@
     </div> --}}
 
     <div id="toast"
-        class=" fixed bottom-5 right-5 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
-        style="z-index:999999;">
+        class="hidden fixed bottom-5 right-5 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
+        style="z-index: 999999;--tw-bg-opacity: 1;background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1)); color: #fff;top: 8px;right: 4px;">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
-        <span>Message</span>
+        <span>Enquiry Sent Successfully</span>
     </div>
 
     <script>
