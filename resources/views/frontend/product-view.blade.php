@@ -45,8 +45,8 @@
                             class="w-full h-96 object-cover" loading="lazy"
                             onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
 
-                        <!-- AR Preview Button (if product has 3D model) -->
-                        {{-- @if ($product->has_3d_model) --}}
+                            @if ($product->has_3d_model)
+                            <!-- AR Preview Button-->
                             <button
                                 class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-fast"
                                 title="AR Preview">
@@ -57,7 +57,7 @@
                                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                 </svg>
                             </button>
-                        {{-- @endif --}}
+                        @endif
 
                         <!-- Zoom Button -->
                         <button
