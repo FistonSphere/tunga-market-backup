@@ -20,6 +20,6 @@ class CategoryController extends Controller
             ->latest()
             ->paginate(12);
 
-        return view('categories.view', compact('category', 'products'));
+        return view('frontend.categories-view', compact('category', 'products'));
     }
 }
