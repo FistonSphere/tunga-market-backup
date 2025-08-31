@@ -1191,7 +1191,11 @@
                     submitBtn.disabled = false;
 
                     if (res.ok && data.success) {
-                        showToast(data.message, 'success');
+                        const toast2 = document.getElementById("toast2");
+                        if (toast2) {
+                            toast2.classList.remove("hidden");
+                            setTimeout(() => toast2.classList.add("hidden"), 3000);
+                        }
                         form.reset(); // reset form
                     } else if (res.status === 422) {
                         for (let field in data.errors) {
@@ -1216,18 +1220,22 @@
 
         function showToast(message, type = 'success') {
             const toast = document.getElementById("toast2");
-            toast.querySelector('span').innerHTML = message;
+            const span = toast.querySelector('span');
+            span.innerHTML = message;
 
             // Set color
             if (type === 'success') {
-                toast.classList.remove('bg-red-600');
-                toast.classList.add('bg-green-600');
+                const toast2 = document.getElementById("toast2");
+                if (toast2) {
+                    toast2.classList.remove("hidden");
+                    setTimeout(() => toast2.classList.add("hidden"), 3000);
+                }
             } else {
                 toast.classList.remove('bg-green-600');
                 toast.classList.add('bg-red-600');
             }
 
-            // Show and slide in
+            // Show & slide in
             toast.classList.remove('hidden', 'translate-x-full');
             toast.classList.add('translate-x-0', 'opacity-100');
 
