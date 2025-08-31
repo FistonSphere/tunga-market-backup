@@ -49,7 +49,7 @@ class ProductListingController extends Controller
                         ->take(4)
                         ->get();
 
-                       $reviews = Review::with('user') // eager load user for name/avatar
+        $reviews = Review::with('user') // eager load user for name/avatar
         ->where('product_id', $product->id)
         ->where('verified', true)
         ->latest()
@@ -72,7 +72,7 @@ $ratingBreakdown = collect(range(1, 5))
 $product->average_rating = round($averageRating, 1);
 $product->reviews_count = $reviewsCount;
 $product->rating_breakdown = $ratingBreakdown;
-
+ 
 // ✅ Only include reviews where verified == true (or 1)
 $product->reviews = $reviews
     ->filter(fn ($review) => (bool) $review->verified === true)

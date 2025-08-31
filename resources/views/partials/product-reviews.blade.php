@@ -4,11 +4,11 @@
         <div class="flex items-start space-x-4">
             <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
                 style="background-color: {{ '#' . substr(md5($review->user->name), 0, 6) }}">
-                {{ strtoupper(substr($review->user->name, 0, 1)) }}
+                {{ strtoupper(substr($review->user->first_name, 0, 1)) }}
             </div>
             <div class="flex-1">
                 <div class="flex justify-between mb-2">
-                    <span class="font-semibold text-primary">{{ $review->user->name }}</span>
+                    <span class="font-semibold text-primary">{{ $review->user->first_name }}</span>
                     <span class="text-sm text-secondary-600">{{ $review->created_at->format('M d, Y') }}</span>
                 </div>
                 <div class="flex text-warning mb-2">
