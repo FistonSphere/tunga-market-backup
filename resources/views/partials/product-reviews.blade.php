@@ -1,5 +1,4 @@
-
-@forelse ($reviews as $review)
+@forelse ($product->reviews()->where('verified', true)->latest()->get() as $review)
     <div class="card mb-4">
         <div class="flex items-start space-x-4">
             <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
