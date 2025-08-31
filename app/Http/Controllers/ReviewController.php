@@ -74,7 +74,7 @@ public function fetchFiltered(Request $request, Product $product)
     $reviews = $reviews->get();
 
     // Return HTML view fragment for AJAX
-    $html = view('frontend.partials.product-reviews', compact('reviews'))->render();
+    $html = view('partials.product-reviews', compact('reviews'))->render();
 
     return response()->json([
         'html' => $html,
