@@ -47,6 +47,66 @@ class ProductListingController extends Controller
                         ->latest()
                         ->take(4)
                         ->get();
+
+                          // --- Fake Review Logic ---
+    $views = $product->view_count ?? 0;
+
+    // Map views to an average rating
+    if ($views < 50) {
+        $averageRating = 1;
+    } elseif ($views < 200) {
+        $averageRating = 2;
+    } elseif ($views < 500) {
+        $averageRating = 3;
+    } elseif ($views < 1000) {
+        $averageRating = 4;
+    } else {
+        $averageRating = 5;
+    }
+
+    // Fake review count as a function of views
+    $reviewsCount = max(1, intval($views / 10));
+
+    // Generate a breakdown (percentages must total 100)
+    $ratingBreakdown = [
+        5 => $averageRating >= 5 ? 60 : 20,
+        4 => $averageRating >= 4 ? 25 : 15,
+        3 => $averageRating >= 3 ? 10 : 25,
+        2 => $averageRating >= 2 ? 3 : 20,
+        1 => $averageRating >= 1 ? 2 : 20,
+    ];
+
+    // Fake reviews list
+    $dummyReviews = collect([
+        (object)[
+            'user' => (object)[
+                'name' => 'John Doe',
+                'avatar' => 'https://i.pravatar.cc/50?img=1'
+            ],
+            'rating' => $averageRating,
+            'comment' => 'Great product! Exceeded expectations.',
+            'created_at' => now()->subDays(3),
+            'verified' => true,
+            'helpful_count' => rand(0, 10)
+        ],
+        (object)[
+            'user' => (object)[
+                'name' => 'Jane Smith',
+                'avatar' => 'https://i.pravatar.cc/50?img=2'
+            ],
+            'rating' => max(1, $averageRating - 1),
+            'comment' => 'Good, but could be improved in some areas.',
+            'created_at' => now()->subDays(7),
+            'verified' => false,
+            'helpful_count' => rand(0, 5)
+        ],
+    ]);
+
+    // Inject into product
+    $product->average_rating = $averageRating;
+    $product->reviews_count = $reviewsCount;
+    $product->rating_breakdown = $ratingBreakdown;
+    $product->reviews = $dummyReviews;
         return view('frontend.product-view', compact('product','relatedProducts')); // Adjust the view name as necessary
     }
 
