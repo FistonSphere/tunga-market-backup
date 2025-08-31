@@ -37,7 +37,29 @@ class Product extends Model
         'shipping_info' => 'array',
         'tags' => 'array'
     ];
+protected $appends = ['average_rating', 'reviews_count_custom', 'rating_breakdown'];
 
+    // Average rating accessor
+    public function getAverageRatingAttribute()
+    {
+        return round($this->reviews()->where('verified', true)->avg('rating') ?? 0, 1);
+    }
+
+    // Reviews count accessor
+    public function getReviewsCountCustomAttribute()
+    {
+        return $this->reviews()->where('verified', true)->count();
+    }
+
+    // Rating breakdown accessor
+    public function getRatingBreakdownAttribute()
+    {
+        $reviews = $this->reviews()->where('verified', true)->get();
+
+        return collect(range(1, 5))->mapWithKeys(function ($star) use ($reviews) {
+            return [$star => $reviews->where('rating', $star)->count()];
+        });
+    }
     public function category()
     {
         return $this->belongsTo(Category::class);

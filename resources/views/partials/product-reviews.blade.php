@@ -3,7 +3,7 @@
     <div class="card mb-4">
         <div class="flex items-start space-x-4">
             <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
-                style="background-color: {{ '#' . substr(md5($review->user->name), 0, 6) }}">
+                style="background-color: {{ '#' . substr(md5($review->user->first_name), 0, 6) }}">
                 {{ strtoupper(substr($review->user->first_name, 0, 1)) }}
             </div>
             <div class="flex-1">
