@@ -311,7 +311,7 @@
                     <div class="lg:col-span-2">
                         <div class="flex items-center space-x-4 mb-6">
                             <span class="font-semibold text-primary">Filter by:</span>
-                            <select class="input-field py-2 px-3 text-body-sm">
+                            <select name="filter" class="input-field py-2 px-3 text-body-sm">
                                 <option>All Reviews</option>
                                 <option>5 Stars</option>
                                 <option>4 Stars</option>
@@ -319,7 +319,7 @@
                                 <option>With Photos</option>
                                 <option>Verified Purchase</option>
                             </select>
-                            <select class="input-field py-2 px-3 text-body-sm">
+                            <select name="sort" class="input-field py-2 px-3 text-body-sm">
                                 <option>Most Recent</option>
                                 <option>Most Helpful</option>
                                 <option>Highest Rating</option>
