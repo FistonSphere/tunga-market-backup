@@ -589,8 +589,10 @@
             let shown = localStorage.getItem("review_shown_" + productId);
 
             if (!shown) {
+            setTimeout(function() {
                 document.getElementById("review-modal-wrapper").classList.remove("hidden");
                 localStorage.setItem("review_shown_" + productId, "true");
+            }, 8000); // 8 seconds delay
             }
         });
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class ProductListingController extends Controller
@@ -48,65 +49,41 @@ class ProductListingController extends Controller
                         ->take(4)
                         ->get();
 
-                          // --- Fake Review Logic ---
-    $views = $product->view_count ?? 0;
+                       $reviews = Review::with('user') // eager load user for name/avatar
+        ->where('product_id', $product->id)
+        ->latest()
+        ->get();
 
-    // Map views to an average rating
-    if ($views < 50) {
-        $averageRating = 1;
-    } elseif ($views < 200) {
-        $averageRating = 2;
-    } elseif ($views < 500) {
-        $averageRating = 3;
-    } elseif ($views < 1000) {
-        $averageRating = 4;
-    } else {
-        $averageRating = 5;
-    }
+    // Calculate average rating
+    $averageRating = $reviews->avg('rating') ?? 0;
 
-    // Fake review count as a function of views
-    $reviewsCount = max(1, intval($views / 10));
+    // Count reviews
+    $reviewsCount = $reviews->count();
 
-    // Generate a breakdown (percentages must total 100)
-    $ratingBreakdown = [
-        5 => $averageRating >= 5 ? 60 : 20,
-        4 => $averageRating >= 4 ? 25 : 15,
-        3 => $averageRating >= 3 ? 10 : 25,
-        2 => $averageRating >= 2 ? 3 : 20,
-        1 => $averageRating >= 1 ? 2 : 20,
-    ];
+    // Build rating breakdown (count per star)
+    $ratingBreakdown = $reviews->groupBy('rating')->map->count();
 
-    // Fake reviews list
-    $dummyReviews = collect([
-        (object)[
-            'user' => (object)[
-                'name' => 'John Doe',
-                'avatar' => 'https://i.pravatar.cc/50?img=1'
-            ],
-            'rating' => $averageRating,
-            'comment' => 'Great product! Exceeded expectations.',
-            'created_at' => now()->subDays(3),
-            'verified' => true,
-            'helpful_count' => rand(0, 10)
-        ],
-        (object)[
-            'user' => (object)[
-                'name' => 'Jane Smith',
-                'avatar' => 'https://i.pravatar.cc/50?img=2'
-            ],
-            'rating' => max(1, $averageRating - 1),
-            'comment' => 'Good, but could be improved in some areas.',
-            'created_at' => now()->subDays(7),
-            'verified' => false,
-            'helpful_count' => rand(0, 5)
-        ],
-    ]);
+    // Normalize to 5-star scale (make sure all ratings exist even if 0)
+    $ratingBreakdown = collect(range(1, 5))
+        ->mapWithKeys(fn ($star) => [$star => $ratingBreakdown[$star] ?? 0]);
 
-    // Inject into product
-    $product->average_rating = $averageRating;
+    // Attach to product
+    $product->average_rating = round($averageRating, 1);
     $product->reviews_count = $reviewsCount;
     $product->rating_breakdown = $ratingBreakdown;
-    $product->reviews = $dummyReviews;
+    $product->reviews = $reviews->map(function ($review) {
+        return (object)[
+            'user' => (object)[
+                'name' => $review->user->first_name ?? 'Anonymous',
+                'avatar' => $review->user->profile_picture ?? asset('assets/images/avatar.png')
+            ],
+            'rating' => $review->rating,
+            'comment' => $review->comment,
+            'created_at' => $review->created_at,
+            'verified' => (bool) $review->verified ?? false, // if you have that field
+            'helpful_count' => $review->helpful_count ?? 0,   // optional
+        ];
+    });
         return view('frontend.product-view', compact('product','relatedProducts')); // Adjust the view name as necessary
     }
 
