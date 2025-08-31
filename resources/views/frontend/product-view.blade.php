@@ -529,8 +529,71 @@
         </svg>
         <span>Enquiry Sent Successfully</span>
     </div>
+    <div id="review-modal-wrapper"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div id="review-modal" class="bg-white rounded-2xl shadow-lg w-full max-w-md mx-auto p-8 relative">
+
+            <!-- Close Button -->
+            <button onclick="closeReviewModal()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100">
+                ✖
+            </button>
+
+            <!-- Icon -->
+            <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                ⭐
+            </div>
+
+            <!-- Message -->
+            @guest
+                <h2 class="text-xl font-bold text-center mb-3">Sign in to leave a review</h2>
+                <p class="text-gray-600 text-center mb-6">Please log in before reviewing this product.</p>
+                <a href="{{ route('login') }}" class="btn-primary w-full py-3 rounded-lg font-semibold block text-center">
+                    Sign In
+                </a>
+            @else
+                <h2 class="text-xl font-bold text-center mb-3">Leave a Review</h2>
+                <form id="review-form" method="POST" action="{{ route('reviews.store') }}">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <div class="mb-4">
+                        <label class="block mb-2 font-semibold">Rating</label>
+                        <select name="rating" class="w-full border rounded-lg p-2">
+                            <option value="5">⭐⭐⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="1">⭐</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-2 font-semibold">Comment</label>
+                        <textarea name="comment" class="w-full border rounded-lg p-2"></textarea>
+                    </div>
+                    <button type="submit"
+                        class="btn-primary w-full py-3 rounded-lg font-semibold transition-all hover:scale-105">
+                        Submit Review
+                    </button>
+                </form>
+            @endguest
+        </div>
+    </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let productId = "{{ $product->id }}";
+            let shown = localStorage.getItem("review_shown_" + productId);
+
+            if (!shown) {
+                document.getElementById("review-modal-wrapper").classList.remove("hidden");
+                localStorage.setItem("review_shown_" + productId, "true");
+            }
+        });
+
+        function closeReviewModal() {
+            document.getElementById("review-modal-wrapper").classList.add("hidden");
+        }
+
         // Image Gallery Functions
         function changeMainImage(thumbnail, imageSrc) {
             // Remove active state from all thumbnails
