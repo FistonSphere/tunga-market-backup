@@ -481,16 +481,16 @@
                 @forelse($relatedProducts as $related)
                     @php
                         $gallery = json_decode($related->gallery, true);
-                        $image = $gallery[0] ?? 'https://via.placeholder.com/400x300?text=No+Image';
+                        $image = $gallery[0] ?? '{{ $related->main_image }}';
                     @endphp
 
                     <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
-                        <a href="{{ route('products.show', $related->id) }}">
+                        <a href="{{ route('product.view', $related->sku) }}">
                             <div class="relative overflow-hidden rounded-lg mb-4">
                                 <img src="{{ $image }}" alt="{{ $related->name }}"
                                     class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
                                     loading="lazy"
-                                    onerror="this.src='https://via.placeholder.com/400x300?text=Image'; this.onerror=null;" />
+                                    onerror="this.src='{{ $related->main_image }}'; this.onerror=null;" />
                                 <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
                                     <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
@@ -504,10 +504,10 @@
                         <div class="flex items-center justify-between">
                             <div class="flex items-baseline space-x-2">
                                 <span
-                                    class="text-xl font-bold text-primary">${{ number_format($related->price, 2) }}</span>
+                                    class="text-xl font-bold text-primary">{{ number_format($related->price, 2) }} {{ $related->currency }}</span>
                                 @if ($related->old_price)
                                     <span
-                                        class="text-body-sm text-secondary-500 line-through">${{ number_format($related->old_price, 2) }}</span>
+                                        class="text-body-sm text-secondary-500 line-through">{{ number_format($related->old_price, 2) }} {{ $related->currency }}</span>
                                 @endif
                             </div>
                             <span class="text-success text-body-sm">Free Shipping</span>
