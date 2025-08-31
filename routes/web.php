@@ -65,7 +65,8 @@ Route::get('/order-tracking', [OrderTrackingController::class, 'index'])->name('
 Route::post('/shipping-address/store', [CheckoutController::class, 'store'])->name('shipping-address.store');
 Route::get('/shipping-addresses/{id}/edit', [CheckoutController::class, 'editShippingAddress'])->name('shipping-address.edit');
 Route::put('/shipping-address/update/{id}', [CheckoutController::class, 'updateShippingAddress'])->name('shipping-address.update');
-
+Route::get('/products/{product}/reviews', [ReviewController::class, 'fetchFiltered'])
+    ->name('reviews.fetch');
 
 // Start Authentication routes
 Route::post('/register', [AuthController::class, 'register'])->name('register-user');

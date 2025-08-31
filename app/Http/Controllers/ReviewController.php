@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,4 +39,47 @@ class ReviewController extends Controller
             ]
         ]);
     }
+
+
+public function fetchFiltered(Request $request, Product $product)
+{
+    $filter = $request->input('filter', 'all'); // all, 5,4,3,etc.
+    $sort = $request->input('sort', 'recent'); // recent, helpful, high, low
+
+    $reviews = $product->reviews()->where('verified', true);
+
+    // Filter by rating if numeric
+    if (is_numeric($filter)) {
+        $reviews->where('rating', $filter);
+    }
+
+    // Sort
+    switch ($sort) {
+        case 'recent':
+            $reviews->orderBy('created_at', 'desc');
+            break;
+        case 'helpful':
+            $reviews->orderBy('helpful_count', 'desc');
+            break;
+        case 'high':
+            $reviews->orderBy('rating', 'desc');
+            break;
+        case 'low':
+            $reviews->orderBy('rating', 'asc');
+            break;
+        default:
+            $reviews->orderBy('created_at', 'desc');
+    }
+
+    $reviews = $reviews->get();
+
+    // Return HTML view fragment for AJAX
+    $html = view('frontend.partials.product-reviews', compact('reviews'))->render();
+
+    return response()->json([
+        'html' => $html,
+        'count' => $reviews->count(),
+    ]);
+}
+
 }
