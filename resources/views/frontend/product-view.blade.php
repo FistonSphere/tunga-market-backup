@@ -489,8 +489,7 @@
                             <div class="relative overflow-hidden rounded-lg mb-4">
                                 <img src="{{ $image }}" alt="{{ $related->name }}"
                                     class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                                    loading="lazy"
-                                    onerror="this.src='{{ $related->main_image }}'; this.onerror=null;" />
+                                    loading="lazy" onerror="this.src='{{ $related->main_image }}'; this.onerror=null;" />
                                 <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
                                     <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
@@ -503,11 +502,12 @@
                         <h3 class="font-semibold text-primary mb-2">{{ $related->name }}</h3>
                         <div class="flex items-center justify-between">
                             <div class="flex items-baseline space-x-2">
-                                <span
-                                    class="text-xl font-bold text-primary">{{ number_format($related->price, 2) }} {{ $related->currency }}</span>
+                                <span class="text-xl font-bold text-primary">{{ number_format($related->price, 2) }}
+                                    {{ $related->currency }}</span>
                                 @if ($related->old_price)
                                     <span
-                                        class="text-body-sm text-secondary-500 line-through">{{ number_format($related->old_price, 2) }} {{ $related->currency }}</span>
+                                        class="text-body-sm text-secondary-500 line-through">{{ number_format($related->old_price, 2) }}
+                                        {{ $related->currency }}</span>
                                 @endif
                             </div>
                             <span class="text-success text-body-sm">Free Shipping</span>
@@ -529,212 +529,6 @@
         </svg>
         <span>Enquiry Sent Successfully</span>
     </div>
-
-
-
-
-    <script>
-        // Cart and Wishlist Management System
-        class CartWishlistManager {
-            constructor() {
-                this.cartCount = this.getStoredCount("cartCount", 7);
-                this.wishlistCount = this.getStoredCount("wishlistCount", 12);
-                this.updateDisplays();
-            }
-
-            getStoredCount(key, defaultValue = 0) {
-                try {
-                    const stored = localStorage.getItem(key);
-                    return stored ? parseInt(stored) : defaultValue;
-                } catch (e) {
-                    return defaultValue;
-                }
-            }
-
-            setStoredCount(key, value) {
-                try {
-                    localStorage.setItem(key, value.toString());
-                } catch (e) {
-                    console.warn("Could not store count in localStorage");
-                }
-            }
-
-            updateDisplays() {
-                this.updateCartDisplay();
-                this.updateWishlistDisplay();
-            }
-
-            updateCartDisplay() {
-                const cartCountElement = document.getElementById("cart-count");
-                if (cartCountElement) {
-                    const displayCount =
-                        this.cartCount > 99 ? "99+" : this.cartCount.toString();
-                    cartCountElement.textContent = displayCount;
-                    cartCountElement.style.display =
-                        this.cartCount > 0 ? "flex" : "none";
-                }
-            }
-
-            updateWishlistDisplay() {
-                const wishlistCountElement =
-                    document.getElementById("wishlist-count");
-                if (wishlistCountElement) {
-                    const displayCount =
-                        this.wishlistCount > 99 ? "99+" : this.wishlistCount.toString();
-                    wishlistCountElement.textContent = displayCount;
-                    wishlistCountElement.style.display =
-                        this.wishlistCount > 0 ? "flex" : "none";
-                }
-            }
-
-            addToCart(quantity = 1) {
-                this.cartCount = Math.max(0, this.cartCount + quantity);
-                this.setStoredCount("cartCount", this.cartCount);
-                this.updateCartDisplay();
-                this.showNotification(
-                    "Added to Cart",
-                    `${quantity} item(s) added to your cart`,
-                    "success"
-                );
-            }
-
-            removeFromCart(quantity = 1) {
-                this.cartCount = Math.max(0, this.cartCount - quantity);
-                this.setStoredCount("cartCount", this.cartCount);
-                this.updateCartDisplay();
-            }
-
-            addToWishlist(quantity = 1) {
-                this.wishlistCount = Math.max(0, this.wishlistCount + quantity);
-                this.setStoredCount("wishlistCount", this.wishlistCount);
-                this.updateWishlistDisplay();
-                this.showNotification(
-                    "Added to Wishlist",
-                    `${quantity} item(s) added to your wishlist`,
-                    "success"
-                );
-            }
-
-            removeFromWishlist(quantity = 1) {
-                this.wishlistCount = Math.max(0, this.wishlistCount - quantity);
-                this.setStoredCount("wishlistCount", this.wishlistCount);
-                this.updateWishlistDisplay();
-            }
-
-            showNotification(title, message, type = "success") {
-                // Use existing toast system
-                if (typeof showToast === "function") {
-                    showToast(title, message, type);
-                } else {
-                    // Fallback notification
-                    let notification = document.getElementById("header-notification");
-                    if (!notification) {
-                        notification = document.createElement("div");
-                        notification.id = "header-notification";
-                        notification.className =
-                            "fixed top-20 right-4 transform translate-x-full transition-transform duration-300 z-50";
-                        document.body.appendChild(notification);
-                    }
-
-                    const colors = {
-                        success: "border-success",
-                        info: "border-primary",
-                        warning: "border-warning",
-                        error: "border-error",
-                    };
-
-                    notification.innerHTML = `
-                    <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]} max-w-sm">
-                        <div class="flex items-start space-x-3">
-                            <div>
-                                <h4 class="font-semibold text-primary">${title}</h4>
-                                <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
-                            </div>
-                            <button onclick="hideHeaderNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                `;
-
-                    notification.classList.remove("translate-x-full");
-                    setTimeout(() => {
-                        notification.classList.add("translate-x-full");
-                    }, 3000);
-                }
-            }
-        }
-
-        // Initialize cart and wishlist manager
-        const cartWishlistManager = new CartWishlistManager();
-
-        // Global functions for button clicks
-        function toggleCart() {
-            window.location.href = "{{ route('cart') }}";
-        }
-
-        function toggleWishlist() {
-            cartWishlistManager.showNotification(
-                "Wishlist",
-                `You have ${cartWishlistManager.wishlistCount} items in your wishlist`,
-                "info"
-            );
-        }
-
-        function addToCart(quantity = 1) {
-            cartWishlistManager.addToCart(quantity);
-        }
-
-        function addToWishlist(quantity = 1) {
-            cartWishlistManager.addToWishlist(quantity);
-        }
-
-        function hideHeaderNotification() {
-            const notification = document.getElementById("header-notification");
-            if (notification) {
-                notification.classList.add("translate-x-full");
-            }
-        }
-
-        // Override existing add to cart and wishlist functions
-        document.addEventListener("DOMContentLoaded", function() {
-            // Update the existing Add to Cart button
-            const addToCartBtn = document.querySelector(".btn-primary");
-            if (addToCartBtn && addToCartBtn.textContent.includes("Add to Cart")) {
-                addToCartBtn.addEventListener("click", function(e) {
-                    e.preventDefault();
-                    addToCart(1);
-                });
-            }
-
-            // Update the existing Add to Wishlist button
-            const addToWishlistBtn = document.querySelector(".btn-secondary");
-            if (
-                addToWishlistBtn &&
-                addToWishlistBtn.textContent.includes("Add to Wishlist")
-            ) {
-                addToWishlistBtn.addEventListener("click", function(e) {
-                    e.preventDefault();
-                    addToWishlist(1);
-                });
-            }
-        });
-
-        // Listen for storage changes to sync across tabs
-        window.addEventListener("storage", function(e) {
-            if (e.key === "cartCount" || e.key === "wishlistCount") {
-                cartWishlistManager.cartCount = cartWishlistManager.getStoredCount(
-                    "cartCount",
-                    7
-                );
-                cartWishlistManager.wishlistCount =
-                    cartWishlistManager.getStoredCount("wishlistCount", 12);
-                cartWishlistManager.updateDisplays();
-            }
-        });
-    </script>
 
     <script>
         // Image Gallery Functions
@@ -777,7 +571,7 @@
             );
         }
 
-       
+
 
         // Mobile responsiveness - Sticky cart button for mobile
         function createMobileCartButton() {
@@ -824,8 +618,8 @@
         createMobileCartButton();
         window.addEventListener("resize", createMobileCartButton);
 
-       
-       
+
+
 
 
         document.getElementById("enquiryForm").addEventListener("submit", function(e) {
