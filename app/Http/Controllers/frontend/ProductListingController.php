@@ -51,6 +51,7 @@ class ProductListingController extends Controller
 
                        $reviews = Review::with('user') // eager load user for name/avatar
         ->where('product_id', $product->id)
+        ->where('verified', true)
         ->latest()
         ->get();
 
