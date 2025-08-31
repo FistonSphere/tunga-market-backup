@@ -55,23 +55,27 @@ class ProductListingController extends Controller
         ->get();
 
     // Calculate average rating
-    $averageRating = $reviews->avg('rating') ?? 0;
+$averageRating = $reviews->avg('rating') ?? 0;
 
-    // Count reviews
-    $reviewsCount = $reviews->count();
+// Count reviews
+$reviewsCount = $reviews->count();
 
-    // Build rating breakdown (count per star)
-    $ratingBreakdown = $reviews->groupBy('rating')->map->count();
+// Build rating breakdown (count per star)
+$ratingBreakdown = $reviews->groupBy('rating')->map->count();
 
-    // Normalize to 5-star scale (make sure all ratings exist even if 0)
-    $ratingBreakdown = collect(range(1, 5))
-        ->mapWithKeys(fn ($star) => [$star => $ratingBreakdown[$star] ?? 0]);
+// Normalize to 5-star scale (make sure all ratings exist even if 0)
+$ratingBreakdown = collect(range(1, 5))
+    ->mapWithKeys(fn ($star) => [$star => $ratingBreakdown[$star] ?? 0]);
 
-    // Attach to product
-    $product->average_rating = round($averageRating, 1);
-    $product->reviews_count = $reviewsCount;
-    $product->rating_breakdown = $ratingBreakdown;
-    $product->reviews = $reviews->map(function ($review) {
+// Attach to product
+$product->average_rating = round($averageRating, 1);
+$product->reviews_count = $reviewsCount;
+$product->rating_breakdown = $ratingBreakdown;
+
+// ✅ Only include reviews where verified == true (or 1)
+$product->reviews = $reviews
+    ->filter(fn ($review) => (bool) $review->verified === true)
+    ->map(function ($review) {
         return (object)[
             'user' => (object)[
                 'name' => $review->user->first_name ?? 'Anonymous',
@@ -80,11 +84,14 @@ class ProductListingController extends Controller
             'rating' => $review->rating,
             'comment' => $review->comment,
             'created_at' => $review->created_at,
-            'verified' => (bool) $review->verified ?? false, // if you have that field
+            'verified' => true, // since we filtered
             'helpful_count' => $review->helpful_count ?? 0,   // optional
         ];
-    });
-        return view('frontend.product-view', compact('product','relatedProducts')); // Adjust the view name as necessary
+    })
+    ->values(); // reset keys to avoid gaps
+
+return view('frontend.product-view', compact('product','relatedProducts'));
+
     }
 
     public function getCategoriesWithProductCount()
