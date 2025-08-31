@@ -544,7 +544,6 @@
                 ⭐
             </div>
 
-            <!-- Message -->
             @guest
                 <h2 class="text-xl font-bold text-center mb-3">Sign in to leave a review</h2>
                 <p class="text-gray-600 text-center mb-6">Please log in before reviewing this product.</p>
@@ -556,6 +555,7 @@
                 <form id="review-form" method="POST" action="{{ route('reviews.store') }}">
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
+
                     <div class="mb-4">
                         <label class="block mb-2 font-semibold">Rating</label>
                         <select name="rating" class="w-full border rounded-lg p-2">
@@ -565,11 +565,15 @@
                             <option value="2">⭐⭐</option>
                             <option value="1">⭐</option>
                         </select>
+                        <p class="text-red-500 text-sm mt-1 error-message" data-error-for="rating"></p>
                     </div>
+
                     <div class="mb-4">
                         <label class="block mb-2 font-semibold">Comment</label>
                         <textarea name="comment" class="w-full border rounded-lg p-2"></textarea>
+                        <p class="text-red-500 text-sm mt-1 error-message" data-error-for="comment"></p>
                     </div>
+
                     <button type="submit"
                         class="btn-primary w-full py-3 rounded-lg font-semibold transition-all hover:scale-105">
                         Submit Review
@@ -593,7 +597,76 @@
         function closeReviewModal() {
             document.getElementById("review-modal-wrapper").classList.add("hidden");
         }
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById("review-form");
+            if (!form) return;
 
+            form.addEventListener("submit", function(e) {
+                e.preventDefault();
+
+                // Clear old errors
+                document.querySelectorAll(".error-message").forEach(el => el.textContent = "");
+
+                let formData = new FormData(form);
+
+                fetch(form.action, {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest",
+                            "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.errors) {
+                            // Show field errors
+                            Object.keys(data.errors).forEach(field => {
+                                let errorEl = document.querySelector(
+                                    `[data-error-for="${field}"]`);
+                                if (errorEl) {
+                                    errorEl.textContent = data.errors[field][0];
+                                }
+                            });
+                        } else if (data.success) {
+                            // Append review instantly
+                            const reviewList = document.getElementById("reviews-list");
+                            if (reviewList) {
+                                reviewList.insertAdjacentHTML("afterbegin", `
+                        <div class="border p-4 rounded-lg mb-3">
+                            <p class="font-semibold">⭐ ${data.review.rating}</p>
+                            <p>${data.review.comment}</p>
+                            <small class="text-gray-500">Just now</small>
+                        </div>
+                    `);
+                            }
+
+                            // Success message (custom toast style)
+                            showToast("Review submitted successfully!");
+
+                            // Reset form
+                            form.reset();
+
+                            // Close modal
+                            closeReviewModal();
+                        }
+                    })
+                    .catch(() => {
+                        showToast("Something went wrong. Please try again.", "error");
+                    });
+            });
+        });
+
+        // Simple toast
+        function showToast(message, type = "success") {
+            let toast = document.createElement("div");
+            toast.textContent = message;
+            toast.className = `fixed top-5 right-5 px-4 py-2 rounded-lg shadow-lg text-white z-50 
+        ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => toast.remove(), 3000);
+        }
         // Image Gallery Functions
         function changeMainImage(thumbnail, imageSrc) {
             // Remove active state from all thumbnails
