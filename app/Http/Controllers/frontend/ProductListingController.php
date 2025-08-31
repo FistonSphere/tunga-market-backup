@@ -47,7 +47,7 @@ class ProductListingController extends Controller
                         ->latest()
                         ->take(4)
                         ->get();
-        return view('frontend.product-view', compact('product')); // Adjust the view name as necessary
+        return view('frontend.product-view', compact('product','relatedProducts')); // Adjust the view name as necessary
     }
 
     public function getCategoriesWithProductCount()
