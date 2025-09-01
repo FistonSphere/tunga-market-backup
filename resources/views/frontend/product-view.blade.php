@@ -486,8 +486,6 @@
                             <span class="text-success text-body-sm">Free Shipping</span>
                         </div>
                     </div>
-                @empty
-                    <p class="text-secondary-600">No related products found.</p>
                 @endforelse
             </div>
         </div>
