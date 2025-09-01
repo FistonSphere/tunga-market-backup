@@ -81,11 +81,6 @@ class ProductListingController extends Controller
     $ratingBreakdown = collect(range(1, 5))
         ->mapWithKeys(fn($star) => [$star => $reviews->where('rating', $star)->count()]);
 
-    // Attach calculated fields directly on the product instance
-    // $product->average_rating   = $averageRating;
-    // $product->reviews_count    = $reviewsCount;
-    // $product->rating_breakdown = $ratingBreakdown;
-
     // Transform reviews for frontend (ensure safe user data)
     $product->reviews_display = $product->reviews
         ->where('verified', true)
