@@ -52,7 +52,17 @@ class ProductListingController extends Controller
         ->latest()
         ->take(4)
         ->get();
+// If no related products, fallback to most viewed products
+if ($relatedProducts->isEmpty()) {
+    $relatedProducts = Product::where('id', '!=', $product->id)
+        ->orderByDesc('views_count')
+        ->take(4)
+        ->get();
 
+    $relatedTitle = 'Products You May Also Like';
+} else {
+    $relatedTitle = 'Related Products';
+}
     // Fetch only verified reviews with user eager loaded
     $reviews = Review::with('user')
         ->where('product_id', $product->id)
