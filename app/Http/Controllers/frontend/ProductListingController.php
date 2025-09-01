@@ -52,7 +52,7 @@ class ProductListingController extends Controller
         ->latest()
         ->take(4)
         ->get();
-// If no related products, fallback to most viewed products
+    // If no related products, fallback to most viewed products
     if ($relatedProducts->isEmpty()) {
         $relatedProducts = Product::where('id', '!=', $product->id)
             ->orderByDesc('views_count')
