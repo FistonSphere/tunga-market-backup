@@ -452,72 +452,57 @@
                 <h2 class="text-2xl font-bold text-primary mb-8">{{ $relatedTitle }}</h2>
 
                 <!-- Swiper Container -->
-                <div class="relative">
-                    <div class="swiper relatedSwiper pb-12">
-                        <div class="swiper-wrapper">
-                            @foreach ($relatedProducts as $related)
-                                @php
-                                    $gallery = json_decode($related->gallery, true);
-                                    $image = $gallery[0] ?? $related->main_image;
-                                @endphp
+                <div class="swiper related-swiper">
+                    <div class="swiper-wrapper">
+                        @foreach ($relatedProducts as $related)
+                            @php
+                                $gallery = json_decode($related->gallery, true);
+                                $image = $gallery[0] ?? $related->main_image;
+                            @endphp
 
-                                <div class="swiper-slide">
-                                    <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
-                                        <a href="{{ route('product.view', $related->sku) }}">
-                                            <div class="relative overflow-hidden rounded-lg mb-4">
-                                                <img src="{{ $image }}" alt="{{ $related->name }}"
-                                                    class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                                                    loading="lazy"
-                                                    onerror="this.src='{{ $related->main_image }}'; this.onerror=null;" />
-                                                <div
-                                                    class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-md hover:bg-accent hover:text-white transition">
-                                                    <svg class="w-5 h-5 text-accent group-hover:text-white" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                                    </svg>
-                                                </div>
+                            <div class="swiper-slide">
+                                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
+                                    <a href="{{ route('product.view', $related->sku) }}">
+                                        <div class="relative overflow-hidden rounded-lg mb-4">
+                                            <img src="{{ $image }}" alt="{{ $product->name }}"
+                                                class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
+                                                loading="lazy"
+                                                onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
+                                            <div
+                                                class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
+                                                <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                                </svg>
                                             </div>
-                                        </a>
-                                        <h3 class="font-semibold text-primary mb-2">{{ $related->name }}</h3>
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-baseline space-x-2">
-                                                <span class="text-xl font-bold text-primary">
-                                                    {{ number_format($related->price, 2) }} {{ $related->currency }}
-                                                </span>
-                                                @if ($related->old_price)
-                                                    <span
-                                                        class="text-body-sm text-secondary-500 line-through">{{ number_format($related->old_price, 2) }}
-                                                        {{ $related->currency }}</span>
-                                                @endif
-                                            </div>
-                                            <span class="text-success text-body-sm">Free Shipping</span>
                                         </div>
+                                    </a>
+                                    <h3 class="font-semibold text-primary mb-2">{{ $related->name }}</h3>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-baseline space-x-2">
+                                            <span class="text-xl font-bold text-primary">
+                                                {{ number_format($related->price, 2) }} {{ $related->currency }}
+                                            </span>
+                                            @if ($related->old_price)
+                                                <span class="text-body-sm text-secondary-500 line-through">
+                                                    {{ number_format($related->old_price, 2) }} {{ $related->currency }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <span class="text-success text-body-sm">Free Shipping</span>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
+                        @endforeach
                     </div>
 
-                    <!-- Custom Navigation Arrows -->
-                    <div
-                        class="swiper-button-prev absolute -left-10 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-3 cursor-pointer hover:bg-accent hover:text-white transition duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </div>
-                    <div
-                        class="swiper-button-next absolute -right-10 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-3 cursor-pointer hover:bg-accent hover:text-white transition duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </div>
+                    <!-- Navigation Arrows -->
+                    <div class="swiper-button-prev !text-primary"></div>
+                    <div class="swiper-button-next !text-primary"></div>
 
-                    <!-- Custom Pagination Dots -->
-                    <div class="swiper-pagination !bottom-0 flex justify-center space-x-2"></div>
+                    <!-- Pagination Dots -->
+                    <div class="swiper-pagination mt-6"></div>
                 </div>
             @endif
         </div>
