@@ -50,13 +50,13 @@ class ProductListingController extends Controller
     $relatedProducts = Product::where('category_id', $product->category_id)
         ->where('id', '!=', $product->id)
         ->latest()
-        ->take(4)
+        ->take(12)
         ->get();
     // If no related products, fallback to most viewed products
     if ($relatedProducts->isEmpty()) {
         $relatedProducts = Product::where('id', '!=', $product->id)
             ->orderByDesc('views_count')
-            ->take(4)
+            ->take(12)
             ->get();
 
         $relatedTitle = 'Products You May Also Like';
