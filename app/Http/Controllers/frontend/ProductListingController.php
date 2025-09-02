@@ -58,9 +58,9 @@ class ProductListingController extends Controller
             ->orderByDesc('views_count')
             ->take(4)
             ->get();
-    
+
         $relatedTitle = 'Products You May Also Like';
-    } 
+    }
     else {
     $relatedTitle = 'Related Products';
     }

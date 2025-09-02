@@ -451,10 +451,10 @@
             <h2 class="text-2xl font-bold text-primary mb-8">Related Products</h2>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                @forelse($relatedProducts as $related)
+                @foreach ($relatedProducts as $related)
                     @php
                         $gallery = json_decode($related->gallery, true);
-                        $image = $gallery[0] ?? '{{ $related->main_image }}';
+                        $image = $gallery[0] ?? $related->main_image;
                     @endphp
 
                     <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
@@ -475,18 +475,19 @@
                         <h3 class="font-semibold text-primary mb-2">{{ $related->name }}</h3>
                         <div class="flex items-center justify-between">
                             <div class="flex items-baseline space-x-2">
-                                <span class="text-xl font-bold text-primary">{{ number_format($related->price, 2) }}
-                                    {{ $related->currency }}</span>
+                                <span class="text-xl font-bold text-primary">
+                                    {{ number_format($related->price, 2) }} {{ $related->currency }}
+                                </span>
                                 @if ($related->old_price)
-                                    <span
-                                        class="text-body-sm text-secondary-500 line-through">{{ number_format($related->old_price, 2) }}
-                                        {{ $related->currency }}</span>
+                                    <span class="text-body-sm text-secondary-500 line-through">
+                                        {{ number_format($related->old_price, 2) }} {{ $related->currency }}
+                                    </span>
                                 @endif
                             </div>
                             <span class="text-success text-body-sm">Free Shipping</span>
                         </div>
                     </div>
-                @endforelse
+                @endforeach
             </div>
         </div>
     </section>
