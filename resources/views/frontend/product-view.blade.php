@@ -474,7 +474,7 @@
                             class="flex overflow-x-auto gap-6 scrollbar-hide snap-x snap-mandatory scroll-smooth">
                             @foreach ($relatedProducts as $related)
                                 <div class="min-w-[250px] max-w-[250px] snap-start flex-shrink-0">
-                                    @include('components.product-card', ['product' => $related])
+                                    @include('partials.product-card', ['product' => $related])
                                 </div>
                             @endforeach
                         </div>
