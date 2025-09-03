@@ -574,38 +574,38 @@
     </div>
 
     <!-- AR Preview Modal -->
-<div id="arModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50">
-    <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl p-4">
-        <!-- Close Button -->
-        <button onclick="closeARModal()"
-            class="absolute top-3 right-3 bg-gray-100 hover:bg-red-500 hover:text-white rounded-full p-2 transition z-50">
-            ✕
-        </button>
-
-        <!-- Fake 3D Viewer -->
-        <div id="fake3dViewer"
-            class="relative w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden cursor-grab">
-
-            <!-- Image -->
-            <img id="fake3dImage" src=""
-                class="max-h-full max-w-full object-contain select-none" draggable="false" />
-
-            <!-- Prev Button -->
-            <button onclick="prevImage()"
-                class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition z-10">
-                ‹
+    <div id="arModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl p-4">
+            <!-- Close Button -->
+            <button onclick="closeARModal()"
+                class="absolute top-3 right-3 bg-gray-100 hover:bg-red-500 hover:text-white rounded-full p-2 transition z-50">
+                ✕
             </button>
 
-            <!-- Next Button -->
-            <button onclick="nextImage()"
-                class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition z-10">
-                ›
-            </button>
+            <!-- Fake 3D Viewer -->
+            <div id="fake3dViewer"
+                class="relative w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden cursor-grab">
+
+                <!-- Image -->
+                <img id="fake3dImage" src="" class="max-h-full max-w-full object-contain select-none"
+                    draggable="false" />
+
+                <!-- Prev Button -->
+                <button onclick="prevImage()"
+                    class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition z-10">
+                    ‹
+                </button>
+
+                <!-- Next Button -->
+                <button onclick="nextImage()"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition z-10">
+                    ›
+                </button>
+            </div>
+
+            <p class="text-center text-gray-500 mt-2 text-sm">Drag left/right or use arrows to rotate product</p>
         </div>
-
-        <p class="text-center text-gray-500 mt-2 text-sm">Drag left/right or use arrows to rotate product</p>
     </div>
-</div>
 
 
 
@@ -631,21 +631,22 @@
 
         function openARModal(mainImage, gallery) {
             images = Array.isArray(gallery) ? gallery : [];
-
-            if (mainImage) {
-                images.unshift(mainImage); // add main image first
-            }
+            if (mainImage) images.unshift(mainImage);
 
             currentIndex = 0;
             updateFake3DImage();
 
-            document.getElementById("arModal").classList.remove("hidden");
-            document.getElementById("arModal").classList.add("flex");
+            const modal = document.getElementById("arModal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+
+            attachDragEvents(); // Attach drag after modal is shown
         }
 
         function closeARModal() {
-            document.getElementById("arModal").classList.add("hidden");
-            document.getElementById("arModal").classList.remove("flex");
+            const modal = document.getElementById("arModal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
         }
 
         function updateFake3DImage() {
@@ -654,57 +655,55 @@
             }
         }
 
-        // Navigation buttons
         function prevImage() {
+            if (images.length === 0) return;
             currentIndex = (currentIndex - 1 + images.length) % images.length;
             updateFake3DImage();
         }
 
         function nextImage() {
+            if (images.length === 0) return;
             currentIndex = (currentIndex + 1) % images.length;
             updateFake3DImage();
         }
 
         // Drag rotation
-        const viewer = document.getElementById("fake3dViewer");
-        viewer.addEventListener("mousedown", (e) => {
-            isDragging = true;
-            startX = e.clientX;
-        });
-        viewer.addEventListener("mouseup", () => {
-            isDragging = false;
-        });
-        viewer.addEventListener("mouseleave", () => {
-            isDragging = false;
-        });
-        viewer.addEventListener("mousemove", (e) => {
-            if (!isDragging) return;
-            const diff = e.clientX - startX;
-            if (Math.abs(diff) > 30) {
-                if (diff > 0) {
-                    prevImage();
-                } else {
-                    nextImage();
-                }
-                startX = e.clientX;
-            }
-        });
+        function attachDragEvents() {
+            const viewer = document.getElementById("fake3dViewer");
 
-        // Touch support
-        viewer.addEventListener("touchstart", (e) => {
-            startX = e.touches[0].clientX;
-        });
-        viewer.addEventListener("touchmove", (e) => {
-            const diff = e.touches[0].clientX - startX;
-            if (Math.abs(diff) > 30) {
-                if (diff > 0) {
-                    prevImage();
-                } else {
-                    nextImage();
+            viewer.onmousedown = (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                viewer.style.cursor = "grabbing";
+            };
+
+            viewer.onmouseup = viewer.onmouseleave = () => {
+                isDragging = false;
+                viewer.style.cursor = "grab";
+            };
+
+            viewer.onmousemove = (e) => {
+                if (!isDragging) return;
+                const diff = e.clientX - startX;
+                if (Math.abs(diff) > 30) {
+                    if (diff > 0) prevImage();
+                    else nextImage();
+                    startX = e.clientX;
                 }
-                startX = e.touches[0].clientX;
-            }
-        });
+            };
+
+            // Touch support
+            viewer.ontouchstart = (e) => startX = e.touches[0].clientX;
+            viewer.ontouchmove = (e) => {
+                const diff = e.touches[0].clientX - startX;
+                if (Math.abs(diff) > 30) {
+                    if (diff > 0) prevImage();
+                    else nextImage();
+                    startX = e.touches[0].clientX;
+                }
+            };
+        }
+
 
 
 
