@@ -625,18 +625,21 @@
             const prevBtn = document.getElementById("prevImageBtn");
             const nextBtn = document.getElementById("nextImageBtn");
 
-            // Open AR modal and load gallery
+            // Open AR modal
             arBtn.addEventListener("click", () => {
                 const mainImage = arBtn.dataset.main;
                 let gallery = [];
+
                 try {
                     gallery = JSON.parse(arBtn.dataset.gallery || "[]");
+                    if (!Array.isArray(gallery)) gallery = [];
                 } catch (e) {
                     console.error("Gallery parse error", e);
+                    gallery = [];
                 }
 
-                images = Array.isArray(gallery) ? [...gallery] : [];
-                if (mainImage) images.unshift(mainImage); // main image first
+                images = gallery.length ? [...gallery] : [];
+                if (mainImage) images.unshift(mainImage); // ensure main image first
 
                 if (images.length === 0) return;
 
@@ -646,27 +649,29 @@
                 modal.classList.add("flex");
             });
 
+            // Close modal
             closeBtn.addEventListener("click", () => {
                 modal.classList.add("hidden");
                 modal.classList.remove("flex");
             });
 
+            // Switch images by index
             const switchImage = (direction = 1) => {
                 if (images.length === 0) return;
                 currentIndex = (currentIndex + direction + images.length) % images.length;
                 imgViewer.src = images[currentIndex];
-                // Optional 3D rotation effect
-                imgViewer.style.transform = `rotateY(${direction * 180}deg)`;
+                // optional subtle rotation effect
+                imgViewer.style.transform = `rotateY(${direction * 15}deg)`;
                 setTimeout(() => {
                     imgViewer.style.transform = "rotateY(0deg)";
-                }, 200);
+                }, 150);
             };
 
             // Arrow buttons
             prevBtn.addEventListener("click", () => switchImage(-1));
             nextBtn.addEventListener("click", () => switchImage(1));
 
-            // Drag rotation
+            // Drag support
             viewer.addEventListener("mousedown", e => {
                 isDragging = true;
                 startX = e.clientX;
@@ -699,6 +704,7 @@
                 }
             });
         });
+
 
 
 
