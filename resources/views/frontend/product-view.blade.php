@@ -46,7 +46,7 @@
                             onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
 
                         {{-- @if ($product->ar_model) --}}
-                        <button id="arPreviewBtn" data-main="{{ $product->main_image }}"
+                        {{-- <button id="arPreviewBtn" data-main="{{ $product->main_image }}"
                             data-gallery='@json($product->gallery ?? [])'
                             class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-md hover:bg-accent hover:text-white transition"
                             title="AR Preview">
@@ -56,7 +56,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
-                        </button>
+                        </button> --}}
 
 
 
@@ -651,118 +651,118 @@
 
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const arBtn = document.getElementById("arPreviewBtn");
-            const modal = document.getElementById("arModal");
-            const imgViewer = document.getElementById("fake3dImage");
-            const viewer = document.getElementById("fake3dViewer");
-            const closeBtn = document.getElementById("closeArModal");
-            const prevBtn = document.getElementById("prevImageBtn");
-            const nextBtn = document.getElementById("nextImageBtn");
+        // document.addEventListener("DOMContentLoaded", () => {
+        //     const arBtn = document.getElementById("arPreviewBtn");
+        //     const modal = document.getElementById("arModal");
+        //     const imgViewer = document.getElementById("fake3dImage");
+        //     const viewer = document.getElementById("fake3dViewer");
+        //     const closeBtn = document.getElementById("closeArModal");
+        //     const prevBtn = document.getElementById("prevImageBtn");
+        //     const nextBtn = document.getElementById("nextImageBtn");
 
-            let galleryImages = [];
-            let currentIndex = 0;
+        //     let galleryImages = [];
+        //     let currentIndex = 0;
 
-            arBtn.addEventListener("click", () => {
-                const mainImage = arBtn.dataset.main || "";
-                let rawGallery = arBtn.dataset.gallery || "[]";
+        //     arBtn.addEventListener("click", () => {
+        //         const mainImage = arBtn.dataset.main || "";
+        //         let rawGallery = arBtn.dataset.gallery || "[]";
 
-                // Decode double-encoded JSON
-                if (rawGallery.startsWith('"') && rawGallery.endsWith('"')) {
-                    rawGallery = rawGallery.slice(1, -1);
-                }
-                rawGallery = rawGallery.replace(/\\"/g, '"').replace(/\\\//g, '/');
-                rawGallery = rawGallery.replace(/\\u([\dA-F]{4})/gi, (match, grp) => {
-                    return String.fromCharCode(parseInt(grp, 16));
-                });
+        //         // Decode double-encoded JSON
+        //         if (rawGallery.startsWith('"') && rawGallery.endsWith('"')) {
+        //             rawGallery = rawGallery.slice(1, -1);
+        //         }
+        //         rawGallery = rawGallery.replace(/\\"/g, '"').replace(/\\\//g, '/');
+        //         rawGallery = rawGallery.replace(/\\u([\dA-F]{4})/gi, (match, grp) => {
+        //             return String.fromCharCode(parseInt(grp, 16));
+        //         });
 
-                try {
-                    const gallery = JSON.parse(rawGallery);
-                    if (Array.isArray(gallery)) galleryImages = [...gallery];
-                    else galleryImages = [];
-                } catch (e) {
-                    galleryImages = [];
-                }
+        //         try {
+        //             const gallery = JSON.parse(rawGallery);
+        //             if (Array.isArray(gallery)) galleryImages = [...gallery];
+        //             else galleryImages = [];
+        //         } catch (e) {
+        //             galleryImages = [];
+        //         }
 
-                // Insert main image at start
-                if (mainImage) galleryImages.unshift(mainImage);
-
-
-                if (galleryImages.length === 0) return;
-
-                currentIndex = 0;
-                imgViewer.src = galleryImages[currentIndex];
-                modal.classList.remove("hidden");
-                modal.classList.add("flex");
-            });
-
-            // Close modal
-            closeBtn.addEventListener("click", () => {
-                modal.classList.add("hidden");
-                modal.classList.remove("flex");
-            });
-
-            // Switch image function for prev/next buttons
-            const switchImage = (direction = 1) => {
-                if (galleryImages.length === 0) return;
-
-                currentIndex = (currentIndex + direction + galleryImages.length) % galleryImages.length;
-
-                // Set rotation direction
-                const rotationAngle = direction > 0 ? 360 : -360;
-
-                // Animate rotation
-                imgViewer.style.transition = "transform 0.6s ease-in-out";
-                imgViewer.style.transform = `rotateY(${rotationAngle}deg)`;
-
-                // After animation, reset transform and change image
-                setTimeout(() => {
-                    imgViewer.style.transition = "none"; // remove transition for next rotation
-                    imgViewer.style.transform = "rotateY(0deg)";
-                    imgViewer.src = galleryImages[currentIndex];
-                }, 600);
-            };
+        //         // Insert main image at start
+        //         if (mainImage) galleryImages.unshift(mainImage);
 
 
-            prevBtn.addEventListener("click", () => switchImage(-1));
-            nextBtn.addEventListener("click", () => switchImage(1));
+        //         if (galleryImages.length === 0) return;
 
-            // Dragging for 360° feel
-            let isDragging = false;
-            let startX = 0;
+        //         currentIndex = 0;
+        //         imgViewer.src = galleryImages[currentIndex];
+        //         modal.classList.remove("hidden");
+        //         modal.classList.add("flex");
+        //     });
 
-            viewer.addEventListener("mousedown", e => {
-                isDragging = true;
-                startX = e.clientX;
-                viewer.style.cursor = "grabbing";
-            });
-            viewer.addEventListener("mouseup", () => {
-                isDragging = false;
-                viewer.style.cursor = "grab";
-            });
-            viewer.addEventListener("mouseleave", () => {
-                isDragging = false;
-                viewer.style.cursor = "grab";
-            });
-            viewer.addEventListener("mousemove", e => {
-                if (!isDragging) return;
-                const diff = e.clientX - startX;
-                if (Math.abs(diff) > 5) { // smaller threshold for continuous feel
-                    switchImage(diff > 0 ? -1 : 1);
-                    startX = e.clientX;
-                }
-            });
+        //     // Close modal
+        //     closeBtn.addEventListener("click", () => {
+        //         modal.classList.add("hidden");
+        //         modal.classList.remove("flex");
+        //     });
 
-            // Touch support
-            viewer.addEventListener("touchstart", e => startX = e.touches[0].clientX);
-            viewer.addEventListener("touchmove", e => {
-                const diff = e.touches[0].clientX - startX;
-                if (Math.abs(diff) > 5) {
-                    switchImage(diff > 0 ? -1 : 1);
-                    startX = e.touches[0].clientX;
-                }
-            });
-        });
+        //     // Switch image function for prev/next buttons
+        //     const switchImage = (direction = 1) => {
+        //         if (galleryImages.length === 0) return;
+
+        //         currentIndex = (currentIndex + direction + galleryImages.length) % galleryImages.length;
+
+        //         // Set rotation direction
+        //         const rotationAngle = direction > 0 ? 360 : -360;
+
+        //         // Animate rotation
+        //         imgViewer.style.transition = "transform 0.6s ease-in-out";
+        //         imgViewer.style.transform = `rotateY(${rotationAngle}deg)`;
+
+        //         // After animation, reset transform and change image
+        //         setTimeout(() => {
+        //             imgViewer.style.transition = "none"; // remove transition for next rotation
+        //             imgViewer.style.transform = "rotateY(0deg)";
+        //             imgViewer.src = galleryImages[currentIndex];
+        //         }, 600);
+        //     };
+
+
+        //     prevBtn.addEventListener("click", () => switchImage(-1));
+        //     nextBtn.addEventListener("click", () => switchImage(1));
+
+        //     // Dragging for 360° feel
+        //     let isDragging = false;
+        //     let startX = 0;
+
+        //     viewer.addEventListener("mousedown", e => {
+        //         isDragging = true;
+        //         startX = e.clientX;
+        //         viewer.style.cursor = "grabbing";
+        //     });
+        //     viewer.addEventListener("mouseup", () => {
+        //         isDragging = false;
+        //         viewer.style.cursor = "grab";
+        //     });
+        //     viewer.addEventListener("mouseleave", () => {
+        //         isDragging = false;
+        //         viewer.style.cursor = "grab";
+        //     });
+        //     viewer.addEventListener("mousemove", e => {
+        //         if (!isDragging) return;
+        //         const diff = e.clientX - startX;
+        //         if (Math.abs(diff) > 5) { // smaller threshold for continuous feel
+        //             switchImage(diff > 0 ? -1 : 1);
+        //             startX = e.clientX;
+        //         }
+        //     });
+
+        //     // Touch support
+        //     viewer.addEventListener("touchstart", e => startX = e.touches[0].clientX);
+        //     viewer.addEventListener("touchmove", e => {
+        //         const diff = e.touches[0].clientX - startX;
+        //         if (Math.abs(diff) > 5) {
+        //             switchImage(diff > 0 ? -1 : 1);
+        //             startX = e.touches[0].clientX;
+        //         }
+        //     });
+        // });
 
         //zoom
         document.addEventListener("DOMContentLoaded", () => {
