@@ -63,15 +63,8 @@
                         {{-- @endif --}}
 
                         <!-- Zoom Button -->
-                        <button
-                            class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-fast"
-                            title="Zoom View">
-                            <svg class="w-6 h-6 text-secondary-600" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </button>
+                        <div id="zoomLens" class="absolute hidden border-2 border-accent rounded-full pointer-events-none"
+                            style="width: 150px; height: 150px; background-repeat: no-repeat; background-size: 200%;"></div>
 
                         <!-- 360 View Button (if gallery exists) -->
                         @if ($product->gallery && count(json_decode($product->gallery)) > 1)
