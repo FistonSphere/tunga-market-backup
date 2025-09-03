@@ -574,11 +574,10 @@
         </div>
     </div>
 
-    <!-- AR Preview Modal -->
     <div id="arModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50">
         <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl p-4">
             <!-- Close Button -->
-            <button onclick="closeARModal()"
+            <button id="closeArModal"
                 class="absolute top-3 right-3 bg-gray-100 hover:bg-red-500 hover:text-white rounded-full p-2 transition z-50">
                 ✕
             </button>
@@ -587,18 +586,17 @@
             <div id="fake3dViewer"
                 class="relative w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden cursor-grab">
 
-                <!-- Image for 3D rotation -->
                 <img id="fake3dImage" src="" class="max-h-full max-w-full object-contain select-none"
                     draggable="false" />
 
                 <!-- Prev Button -->
-                <button onclick="prevImage()"
+                <button id="prevImageBtn"
                     class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition z-10">
                     ‹
                 </button>
 
                 <!-- Next Button -->
-                <button onclick="nextImage()"
+                <button id="nextImageBtn"
                     class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition z-10">
                     ›
                 </button>
@@ -611,103 +609,97 @@
 
 
 
+
     <script>
         let images = [];
         let currentIndex = 0;
         let isDragging = false;
         let startX = 0;
 
-        function handleARClick(button) {
-            const mainImage = button.dataset.main;
-            let gallery = [];
+        // Attach listener after DOM is loaded
+        document.addEventListener("DOMContentLoaded", () => {
 
-            try {
-                gallery = JSON.parse(button.dataset.gallery || "[]");
-            } catch (e) {
-                console.error("Gallery parse error", e);
-                gallery = [];
-            }
-
-            openARModal(mainImage, gallery);
-        }
-
-        function openARModal(mainImage, gallery) {
-            // Ensure images is always an array
-            images = Array.isArray(gallery) ? [...gallery] : [];
-            if (mainImage) images.unshift(mainImage); // Main image first
-
-            if (images.length === 0) {
-                console.error("No images for 3D preview!");
-                return;
-            }
-
-            currentIndex = 0;
-            updateFake3DImage();
-
+            const arBtn = document.getElementById("arPreviewBtn");
             const modal = document.getElementById("arModal");
-            modal.classList.remove("hidden");
-            modal.classList.add("flex");
-
-            attachDragEvents();
-        }
-
-        function closeARModal() {
-            const modal = document.getElementById("arModal");
-            modal.classList.add("hidden");
-            modal.classList.remove("flex");
-        }
-
-        function updateFake3DImage() {
-            document.getElementById("fake3dImage").src = images[currentIndex];
-        }
-
-        function prevImage() {
-            if (images.length === 0) return;
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
-            updateFake3DImage();
-        }
-
-        function nextImage() {
-            if (images.length === 0) return;
-            currentIndex = (currentIndex + 1) % images.length;
-            updateFake3DImage();
-        }
-
-        function attachDragEvents() {
+            const imgViewer = document.getElementById("fake3dImage");
             const viewer = document.getElementById("fake3dViewer");
+            const closeBtn = document.getElementById("closeArModal");
+            const prevBtn = document.getElementById("prevImageBtn");
+            const nextBtn = document.getElementById("nextImageBtn");
 
-            viewer.onmousedown = (e) => {
+            arBtn.addEventListener("click", () => {
+                const mainImage = arBtn.dataset.main;
+                const gallery = JSON.parse(arBtn.dataset.gallery || "[]");
+
+                images = Array.isArray(gallery) ? [...gallery] : [];
+                if (mainImage) images.unshift(mainImage);
+
+                if (images.length === 0) return;
+
+                currentIndex = 0;
+                imgViewer.src = images[currentIndex];
+
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+            });
+
+            closeBtn.addEventListener("click", () => {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            });
+
+            const updateImage = () => imgViewer.src = images[currentIndex];
+
+            prevBtn.addEventListener("click", () => {
+                if (images.length === 0) return;
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                updateImage();
+            });
+
+            nextBtn.addEventListener("click", () => {
+                if (images.length === 0) return;
+                currentIndex = (currentIndex + 1) % images.length;
+                updateImage();
+            });
+
+            // Drag support
+            viewer.addEventListener("mousedown", e => {
                 isDragging = true;
                 startX = e.clientX;
                 viewer.style.cursor = "grabbing";
-            };
-
-            viewer.onmouseup = viewer.onmouseleave = () => {
+            });
+            viewer.addEventListener("mouseup", () => {
                 isDragging = false;
                 viewer.style.cursor = "grab";
-            };
-
-            viewer.onmousemove = (e) => {
+            });
+            viewer.addEventListener("mouseleave", () => {
+                isDragging = false;
+                viewer.style.cursor = "grab";
+            });
+            viewer.addEventListener("mousemove", e => {
                 if (!isDragging) return;
                 const diff = e.clientX - startX;
-                if (Math.abs(diff) > 20) { // smaller threshold for smoother rotation
-                    if (diff > 0) prevImage();
-                    else nextImage();
+                if (Math.abs(diff) > 20) {
+                    if (diff > 0) currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    else currentIndex = (currentIndex + 1) % images.length;
+                    updateImage();
                     startX = e.clientX;
                 }
-            };
+            });
 
             // Touch support
-            viewer.ontouchstart = (e) => startX = e.touches[0].clientX;
-            viewer.ontouchmove = (e) => {
+            viewer.addEventListener("touchstart", e => startX = e.touches[0].clientX);
+            viewer.addEventListener("touchmove", e => {
                 const diff = e.touches[0].clientX - startX;
                 if (Math.abs(diff) > 20) {
-                    if (diff > 0) prevImage();
-                    else nextImage();
+                    if (diff > 0) currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    else currentIndex = (currentIndex + 1) % images.length;
+                    updateImage();
                     startX = e.touches[0].clientX;
                 }
-            };
-        }
+            });
+
+        });
 
 
 
