@@ -80,7 +80,6 @@
 
                         <div id="fullscreenModal"
                             class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[999999]">
-
                             <button id="closeFullscreen"
                                 class="absolute top-4 right-4 bg-white/90 rounded-full p-3 hover:bg-red-500 hover:text-white transition z-[999999]">
                                 ✕
@@ -97,21 +96,14 @@
                                 class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 rounded-full p-3 hover:bg-white transition z-[999999]">
                                 ▶
                             </button>
-
-                            <!-- Image wrapper (important for positioning lens) -->
-                            <div id="fullscreenWrapper"
-                                class="relative flex items-center justify-center max-h-full max-w-full">
-                                <!-- Zoom Lens -->
-                                <div id="zoomLens"
-                                    class="absolute hidden rounded-full border-2 border-accent shadow-lg pointer-events-none z-[999999]"
-                                    style="width:240px;height:240px;background-repeat:no-repeat;background-color:rgba(255,255,255,.2);backdrop-filter:saturate(1.1) contrast(1.05);">
-                                </div>
-
-                                <img id="fullscreenImage" src=""
-                                    class="max-h-full max-w-full object-contain rounded-lg select-none" />
+                            <!-- Zoom Lens -->
+                            <div id="zoomLens"
+                                class="hidden absolute w-48 h-48 rounded-full border-4 border-white overflow-hidden z-[999999]"
+                                style="pointer-events:none; box-shadow:0 0 10px rgba(0,0,0,0.5);">
                             </div>
+                            <img id="fullscreenImage" src=""
+                                class="max-h-full max-w-full object-contain rounded-lg select-none" />
                         </div>
-
 
 
                         <!-- 360 View Button (if gallery exists) -->
@@ -889,122 +881,66 @@
             const fullscreenBtn = document.getElementById("fullscreenBtn");
             const fullscreenModal = document.getElementById("fullscreenModal");
             const fullscreenImage = document.getElementById("fullscreenImage");
-            const fullscreenWrapper = document.getElementById("fullscreenWrapper");
             const closeBtn = document.getElementById("closeFullscreen");
             const prevBtn = document.getElementById("prevImage");
             const nextBtn = document.getElementById("nextImage");
-            const zoomLens = document.getElementById("zoomLens");
+            const mainImage = document.getElementById("mainImage");
 
-            let galleryImages = [document.getElementById("mainImage").src];
+            // Gallery images (add your gallery here)
+            let galleryImages = [mainImage.src]; // default main image
             @if ($product->gallery)
                 galleryImages = @json(array_merge([$product->main_image], json_decode($product->gallery, true)));
             @endif
+
             let currentIndex = 0;
 
-            const ZOOM = 2.5;
-            let imgReady = false;
-
-            function markReady() {
-                imgReady = true;
-                zoomLens.style.backgroundImage = `url('${fullscreenImage.src}')`;
-                zoomLens.style.backgroundSize =
-                    `${fullscreenImage.naturalWidth * ZOOM}px ${fullscreenImage.naturalHeight * ZOOM}px`;
-            }
-
-            function showLens() {
-                if (!imgReady) return;
-                zoomLens.style.backgroundImage = `url('${fullscreenImage.src}')`;
-                zoomLens.style.backgroundSize =
-                    `${fullscreenImage.naturalWidth * ZOOM}px ${fullscreenImage.naturalHeight * ZOOM}px`;
-                zoomLens.classList.remove("hidden");
-            }
-
-            function hideLens() {
-                zoomLens.classList.add("hidden");
-            }
-
-            function moveLens(e) {
-                if (!imgReady) return;
-
-                const rect = fullscreenImage.getBoundingClientRect();
-                const lensR = zoomLens.offsetWidth / 2;
-
-                let clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-                let x = clientX - rect.left;
-                let y = clientY - rect.top;
-
-                // keep inside
-                x = Math.max(lensR, Math.min(rect.width - lensR, x));
-                y = Math.max(lensR, Math.min(rect.height - lensR, y));
-
-                // position lens relative to wrapper
-                zoomLens.style.left = `${x - lensR + fullscreenImage.offsetLeft}px`;
-                zoomLens.style.top = `${y - lensR + fullscreenImage.offsetTop}px`;
-
-                // convert coords to natural image coords
-                const scaleX = fullscreenImage.naturalWidth / rect.width;
-                const scaleY = fullscreenImage.naturalHeight / rect.height;
-                const imgX = x * scaleX;
-                const imgY = y * scaleY;
-
-                const bgX = -(imgX * ZOOM - lensR);
-                const bgY = -(imgY * ZOOM - lensR);
-
-                zoomLens.style.backgroundPosition = `${bgX}px ${bgY}px`;
-                zoomLens.style.backgroundSize =
-                    `${fullscreenImage.naturalWidth * ZOOM}px ${fullscreenImage.naturalHeight * ZOOM}px`;
-            }
-
-            // Fullscreen controls
+            // Open fullscreen
             fullscreenBtn.addEventListener("click", () => {
-                currentIndex = galleryImages.indexOf(document.getElementById("mainImage").src);
+                currentIndex = galleryImages.indexOf(mainImage.src);
                 fullscreenImage.src = galleryImages[currentIndex];
                 fullscreenModal.classList.add("show");
             });
 
-            fullscreenImage.addEventListener("load", markReady);
-
-            closeBtn.addEventListener("click", () => fullscreenModal.classList.remove("show"));
-            fullscreenModal.addEventListener("click", e => {
-                if (e.target === fullscreenModal) fullscreenModal.classList.remove("show");
+            // Close fullscreen
+            closeBtn.addEventListener("click", () => {
+                fullscreenModal.classList.remove("show");
             });
-            document.addEventListener("keydown", e => {
+
+            // Close on click outside image
+            fullscreenModal.addEventListener("click", (e) => {
+                if (e.target === fullscreenModal) {
+                    fullscreenModal.classList.remove("show");
+                }
+            });
+
+            // Close with ESC
+            document.addEventListener("keydown", (e) => {
                 if (e.key === "Escape") fullscreenModal.classList.remove("show");
             });
 
+            // Show image by index
             function showImage(index) {
                 currentIndex = (index + galleryImages.length) % galleryImages.length;
                 fullscreenImage.src = galleryImages[currentIndex];
             }
 
-            nextBtn.addEventListener("click", e => {
+            // Next / Prev buttons
+            nextBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 showImage(currentIndex + 1);
             });
-            prevBtn.addEventListener("click", e => {
+
+            prevBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 showImage(currentIndex - 1);
             });
 
-            // Zoom events
-            fullscreenWrapper.addEventListener("mouseenter", showLens);
-            fullscreenWrapper.addEventListener("mouseleave", hideLens);
-            fullscreenWrapper.addEventListener("mousemove", moveLens);
-
-            fullscreenWrapper.addEventListener("touchstart", e => {
-                showLens();
-                moveLens(e);
-            }, {
-                passive: true
-            });
-            fullscreenWrapper.addEventListener("touchmove", moveLens, {
-                passive: true
-            });
-            fullscreenWrapper.addEventListener("touchend", hideLens);
+            // Optional: update currentIndex if thumbnails change main image
+            window.changeMainImage = (el, src) => {
+                mainImage.src = src;
+                currentIndex = galleryImages.indexOf(src);
+            };
         });
-
 
 
 
