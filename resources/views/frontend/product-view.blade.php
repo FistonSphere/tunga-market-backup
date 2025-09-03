@@ -98,8 +98,8 @@
                             </button>
                             <!-- Zoom Lens -->
                             <div id="zoomLens"
-                                class="hidden absolute w-48 h-48 rounded-full border-4 border-white overflow-hidden z-[999999]"
-                                style="pointer-events:none; box-shadow:0 0 10px rgba(0,0,0,0.5);">
+                                class="absolute hidden rounded-full border-2 border-accent shadow-lg pointer-events-none z-20"
+                                style="width:240px;height:240px;background-repeat:no-repeat;background-color:rgba(255,255,255,.2);backdrop-filter:saturate(1.1) contrast(1.05);">
                             </div>
                             <img id="fullscreenImage" src=""
                                 class="max-h-full max-w-full object-contain rounded-lg select-none" />
