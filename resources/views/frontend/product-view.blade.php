@@ -40,9 +40,9 @@
                 <!-- Image Gallery -->
                 <div class="space-y-4">
                     <!-- Main Image -->
-                    <div class="relative bg-surface rounded-lg overflow-hidden">
+                    <div id="imageWrapper" class="relative bg-surface rounded-lg overflow-hidden">
                         <img id="mainImage" src="{{ $product->main_image }}" alt="{{ $product->name }}"
-                            class="w-full h-96 object-cover" loading="lazy"
+                            class="w-full h-96 object-cover select-none" loading="lazy"
                             onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
 
                         {{-- @if ($product->ar_model) --}}
@@ -63,8 +63,29 @@
                         {{-- @endif --}}
 
                         <!-- Zoom Button -->
-                        <div id="zoomLens" class="absolute hidden border-2 border-accent rounded-full pointer-events-none"
-                            style="width: 150px; height: 150px; background-repeat: no-repeat; background-size: 200%;"></div>
+                        <div id="zoomLens"
+                            class="absolute hidden rounded-full border-2 border-accent shadow-lg pointer-events-none z-20"
+                            style="width:240px;height:240px;background-repeat:no-repeat;background-color:rgba(255,255,255,.2);backdrop-filter:saturate(1.1) contrast(1.05);">
+                        </div>
+                        <!-- Fullscreen Button -->
+                        <button id="fullscreenBtn"
+                            class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-fast"
+                            title="Full Screen View">
+                            <svg class="w-6 h-6 text-secondary-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 3H5a2 2 0 00-2 2v3m0 8v3a2 2 0 002 2h3m8-16h3a2 2 0 012 2v3m0 8v3a2 2 0 01-2 2h-3" />
+                            </svg>
+                        </button>
+                        <!-- Fullscreen Modal -->
+                        <div id="fullscreenModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50">
+                            <button id="closeFullscreen"
+                                class="absolute top-4 right-4 bg-white/90 rounded-full p-3 hover:bg-red-500 hover:text-white transition z-50">
+                                ✕
+                            </button>
+                            <img id="fullscreenImage" src=""
+                                class="max-h-full max-w-full object-contain select-none" />
+                        </div>
 
                         <!-- 360 View Button (if gallery exists) -->
                         @if ($product->gallery && count(json_decode($product->gallery)) > 1)
@@ -720,72 +741,124 @@
 
         //zoom
         document.addEventListener("DOMContentLoaded", () => {
+            const wrapper = document.getElementById("imageWrapper");
             const mainImage = document.getElementById("mainImage");
-            const zoomLens = document.getElementById("zoomLens");
+            const lens = document.getElementById("zoomLens");
+
+            let ZOOM = 2.5; // magnification
+            const LENS_R = lens.offsetWidth / 2;
+            let imgReady = false;
+
+            function getCoverFit() {
+                const cw = wrapper.clientWidth;
+                const ch = wrapper.clientHeight;
+                const iw = mainImage.naturalWidth;
+                const ih = mainImage.naturalHeight;
+
+                const scale = Math.max(cw / iw, ch / ih);
+                const displayW = iw * scale;
+                const displayH = ih * scale;
+                const offsetX = (cw - displayW) / 2;
+                const offsetY = (ch - displayH) / 2;
+
+                return {
+                    cw,
+                    ch,
+                    iw,
+                    ih,
+                    scale,
+                    displayW,
+                    displayH,
+                    offsetX,
+                    offsetY
+                };
+            }
 
             function showLens() {
-                zoomLens.style.backgroundImage = `url('${mainImage.src}')`;
-                zoomLens.classList.remove("hidden");
+                if (!imgReady) return;
+                lens.style.backgroundImage = `url('${mainImage.src}')`;
+                lens.style.backgroundSize =
+                    `${mainImage.naturalWidth * ZOOM}px ${mainImage.naturalHeight * ZOOM}px`;
+                lens.classList.remove("hidden");
             }
 
             function hideLens() {
-                zoomLens.classList.add("hidden");
+                lens.classList.add("hidden");
             }
 
-            function moveLens(x, y) {
-                const rect = mainImage.getBoundingClientRect();
-                const lensSize = zoomLens.offsetWidth / 2;
+            function moveLensFromEvent(e) {
+                if (!imgReady) return;
+                const fit = getCoverFit();
+                const rect = wrapper.getBoundingClientRect();
 
-                // Adjust position within bounds
-                if (x < lensSize) x = lensSize;
-                if (y < lensSize) y = lensSize;
-                if (x > rect.width - lensSize) x = rect.width - lensSize;
-                if (y > rect.height - lensSize) y = rect.height - lensSize;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-                zoomLens.style.left = `${x - lensSize}px`;
-                zoomLens.style.top = `${y - lensSize}px`;
+                let x = clientX - rect.left;
+                let y = clientY - rect.top;
 
-                const percentX = (x / rect.width) * 100;
-                const percentY = (y / rect.height) * 100;
+                x = Math.max(LENS_R, Math.min(fit.cw - LENS_R, x));
+                y = Math.max(LENS_R, Math.min(fit.ch - LENS_R, y));
 
-                zoomLens.style.backgroundImage = `url('${mainImage.src}')`;
-                zoomLens.style.backgroundPosition = `${percentX}% ${percentY}%`;
+                lens.style.left = `${x - LENS_R}px`;
+                lens.style.top = `${y - LENS_R}px`;
+
+                // Convert display coords to natural image coords
+                const imgX = (x - fit.offsetX) / fit.scale;
+                const imgY = (y - fit.offsetY) / fit.scale;
+
+                // Position background so hovered pixel is centered
+                const bgPosX = -(imgX * ZOOM - LENS_R);
+                const bgPosY = -(imgY * ZOOM - LENS_R);
+
+                lens.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
+                lens.style.backgroundSize =
+                    `${mainImage.naturalWidth * ZOOM}px ${mainImage.naturalHeight * ZOOM}px`;
             }
 
-            // Desktop hover
-            mainImage.addEventListener("mouseenter", () => showLens());
-            mainImage.addEventListener("mouseleave", () => hideLens());
-            mainImage.addEventListener("mousemove", e => {
-                const rect = mainImage.getBoundingClientRect();
-                moveLens(e.clientX - rect.left, e.clientY - rect.top);
-            });
+            wrapper.addEventListener("mouseenter", showLens);
+            wrapper.addEventListener("mouseleave", hideLens);
+            wrapper.addEventListener("mousemove", moveLensFromEvent);
 
-            // Mobile touch
-            mainImage.addEventListener("touchstart", e => {
+            wrapper.addEventListener("touchstart", (e) => {
                 showLens();
-                const rect = mainImage.getBoundingClientRect();
-                const touch = e.touches[0];
-                moveLens(touch.clientX - rect.left, touch.clientY - rect.top);
+                moveLensFromEvent(e);
+            }, {
+                passive: true
             });
-
-            mainImage.addEventListener("touchmove", e => {
-                const rect = mainImage.getBoundingClientRect();
-                const touch = e.touches[0];
-                moveLens(touch.clientX - rect.left, touch.clientY - rect.top);
+            wrapper.addEventListener("touchmove", (e) => moveLensFromEvent(e), {
+                passive: true
             });
+            wrapper.addEventListener("touchend", hideLens);
 
-            mainImage.addEventListener("touchend", () => hideLens());
+            function markReady() {
+                imgReady = true;
+                lens.style.backgroundImage = `url('${mainImage.src}')`;
+                lens.style.backgroundSize =
+                    `${mainImage.naturalWidth * ZOOM}px ${mainImage.naturalHeight * ZOOM}px`;
+            }
 
-            // Update zoom lens when thumbnails clicked
+            if (mainImage.complete && mainImage.naturalWidth) {
+                markReady();
+            } else {
+                mainImage.addEventListener("load", markReady, {
+                    once: true
+                });
+            }
+
             window.changeMainImage = (el, src) => {
                 document.querySelectorAll(".thumbnail-btn").forEach(btn => btn.classList.remove("active",
                     "border-accent"));
-                el.classList.add("active", "border-accent");
-
+                if (el) el.classList.add("active", "border-accent");
+                imgReady = false;
                 mainImage.src = src;
-                zoomLens.style.backgroundImage = `url('${src}')`;
+                mainImage.addEventListener("load", markReady, {
+                    once: true
+                });
             };
         });
+
+
 
 
 
