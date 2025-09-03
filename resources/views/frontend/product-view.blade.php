@@ -46,7 +46,7 @@
                             onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
 
                         {{-- @if ($product->ar_model) --}}
-                        <button data-main="{{ $product->main_image }}" data-gallery='@json($product->gallery)'
+                        <button data-main="{{ $product->main_image }}" data-gallery='@json($product->gallery ?? [])'
                             onclick="handleARClick(this)"
                             class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-md hover:bg-accent hover:text-white transition"
                             title="AR Preview">
