@@ -873,17 +873,27 @@
             };
         });
 
-        //full screen
         document.addEventListener("DOMContentLoaded", () => {
             const fullscreenBtn = document.getElementById("fullscreenBtn");
             const fullscreenModal = document.getElementById("fullscreenModal");
             const fullscreenImage = document.getElementById("fullscreenImage");
             const closeBtn = document.getElementById("closeFullscreen");
+            const prevBtn = document.getElementById("prevImage");
+            const nextBtn = document.getElementById("nextImage");
             const mainImage = document.getElementById("mainImage");
+
+            // Gallery images (add your gallery here)
+            let galleryImages = [mainImage.src]; // default main image
+            @if ($product->gallery)
+                galleryImages = @json(array_merge([$product->main_image], json_decode($product->gallery, true)));
+            @endif
+
+            let currentIndex = 0;
 
             // Open fullscreen
             fullscreenBtn.addEventListener("click", () => {
-                fullscreenImage.src = mainImage.src; // use current main image
+                currentIndex = galleryImages.indexOf(mainImage.src);
+                fullscreenImage.src = galleryImages[currentIndex];
                 fullscreenModal.classList.add("show");
             });
 
@@ -899,11 +909,35 @@
                 }
             });
 
-            // Optional: close with ESC key
+            // Close with ESC
             document.addEventListener("keydown", (e) => {
                 if (e.key === "Escape") fullscreenModal.classList.remove("show");
             });
+
+            // Show image by index
+            function showImage(index) {
+                currentIndex = (index + galleryImages.length) % galleryImages.length;
+                fullscreenImage.src = galleryImages[currentIndex];
+            }
+
+            // Next / Prev buttons
+            nextBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                showImage(currentIndex + 1);
+            });
+
+            prevBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                showImage(currentIndex - 1);
+            });
+
+            // Optional: update currentIndex if thumbnails change main image
+            window.changeMainImage = (el, src) => {
+                mainImage.src = src;
+                currentIndex = galleryImages.indexOf(src);
+            };
         });
+
 
 
 
