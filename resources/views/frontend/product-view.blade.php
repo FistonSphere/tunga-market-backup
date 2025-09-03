@@ -574,38 +574,39 @@
     </div>
 
     <!-- AR Preview Modal -->
-    <div id="arModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50">
-        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl p-4">
-            <!-- Close Button -->
-            <button onclick="closeARModal()"
-                class="absolute top-3 right-3 bg-gray-100 hover:bg-red-500 hover:text-white rounded-full p-2 transition">
-                ✕
+<div id="arModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50">
+    <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl p-4">
+        <!-- Close Button -->
+        <button onclick="closeARModal()"
+            class="absolute top-3 right-3 bg-gray-100 hover:bg-red-500 hover:text-white rounded-full p-2 transition z-50">
+            ✕
+        </button>
+
+        <!-- Fake 3D Viewer -->
+        <div id="fake3dViewer"
+            class="relative w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden cursor-grab">
+
+            <!-- Image -->
+            <img id="fake3dImage" src=""
+                class="max-h-full max-w-full object-contain select-none" draggable="false" />
+
+            <!-- Prev Button -->
+            <button onclick="prevImage()"
+                class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition z-10">
+                ‹
             </button>
 
-            <!-- Fake 3D Viewer -->
-            <div id="fake3dViewer"
-                class="relative w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
-
-                <!-- Image -->
-                <img id="fake3dImage" src="" class="max-h-full max-w-full object-contain select-none"
-                    draggable="false" />
-
-                <!-- Prev Button -->
-                <button onclick="prevImage()"
-                    class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition">
-                    ‹
-                </button>
-
-                <!-- Next Button -->
-                <button onclick="nextImage()"
-                    class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition">
-                    ›
-                </button>
-            </div>
-
-            <p class="text-center text-gray-500 mt-2 text-sm">Drag left/right or use arrows to rotate product</p>
+            <!-- Next Button -->
+            <button onclick="nextImage()"
+                class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition z-10">
+                ›
+            </button>
         </div>
+
+        <p class="text-center text-gray-500 mt-2 text-sm">Drag left/right or use arrows to rotate product</p>
     </div>
+</div>
+
 
 
     <script>
