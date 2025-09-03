@@ -4664,11 +4664,12 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active {
 }
 
 #fake3dViewer {
-    perspective: 1200px;
+    perspective: 1200px; /* gives depth for 3D rotation */
 }
 
 #fake3dImage {
-    transition: transform 0.3s ease-in-out;
     transform-style: preserve-3d;
+    transition: transform 0.6s ease-in-out;
     user-select: none;
+    cursor: grab;
 }
