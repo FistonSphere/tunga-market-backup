@@ -653,18 +653,23 @@
             const prevBtn = document.getElementById("prevImageBtn");
             const nextBtn = document.getElementById("nextImageBtn");
 
+            // Open AR modal and load gallery
             arBtn.addEventListener("click", () => {
                 const mainImage = arBtn.dataset.main;
-                const gallery = JSON.parse(arBtn.dataset.gallery || "[]");
+                let gallery = [];
+                try {
+                    gallery = JSON.parse(arBtn.dataset.gallery || "[]");
+                } catch (e) {
+                    console.error("Gallery parse error", e);
+                }
 
                 images = Array.isArray(gallery) ? [...gallery] : [];
-                if (mainImage) images.unshift(mainImage);
+                if (mainImage) images.unshift(mainImage); // main image first
 
                 if (images.length === 0) return;
 
                 currentIndex = 0;
                 imgViewer.src = images[currentIndex];
-
                 modal.classList.remove("hidden");
                 modal.classList.add("flex");
             });
@@ -676,20 +681,20 @@
 
             const switchImage = (direction = 1) => {
                 if (images.length === 0) return;
-
-                // Animate rotation
-                imgViewer.style.transform = `rotateY(${direction * 90}deg)`;
+                currentIndex = (currentIndex + direction + images.length) % images.length;
+                imgViewer.src = images[currentIndex];
+                // Optional 3D rotation effect
+                imgViewer.style.transform = `rotateY(${direction * 180}deg)`;
                 setTimeout(() => {
-                    currentIndex = (currentIndex + direction + images.length) % images.length;
-                    imgViewer.src = images[currentIndex];
                     imgViewer.style.transform = "rotateY(0deg)";
-                }, 150); // half of transition duration
+                }, 200);
             };
 
+            // Arrow buttons
             prevBtn.addEventListener("click", () => switchImage(-1));
             nextBtn.addEventListener("click", () => switchImage(1));
 
-            // Drag support
+            // Drag rotation
             viewer.addEventListener("mousedown", e => {
                 isDragging = true;
                 startX = e.clientX;
