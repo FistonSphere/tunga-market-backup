@@ -637,8 +637,13 @@
                     galleryImages = [];
                 }
 
-                currentIndex = -1; // -1 means mainImage
-                imgViewer.src = mainImage;
+                // main image first, then gallery images
+                if (mainImage) galleryImages.unshift(mainImage);
+
+                if (galleryImages.length === 0) return;
+
+                currentIndex = 0;
+                imgViewer.src = galleryImages[currentIndex];
                 modal.classList.remove("hidden");
                 modal.classList.add("flex");
             });
@@ -651,26 +656,21 @@
 
             const switchImage = (direction = 1) => {
                 if (galleryImages.length === 0) return;
-
-                if (currentIndex === -1) {
-                    // currently showing mainImage
-                    currentIndex = direction > 0 ? 0 : galleryImages.length - 1;
-                } else {
-                    currentIndex = (currentIndex + direction + galleryImages.length) % galleryImages.length;
-                }
-
+                currentIndex = (currentIndex + direction + galleryImages.length) % galleryImages.length;
                 imgViewer.src = galleryImages[currentIndex];
-                imgViewer.style.transform = `rotateY(${direction * 15}deg)`;
+
+                // Fake 3D rotation effect
+                imgViewer.style.transform = `rotateY(${direction * 180}deg)`;
                 setTimeout(() => {
                     imgViewer.style.transform = "rotateY(0deg)";
-                }, 150);
+                }, 200);
             };
 
             // Arrow buttons
             prevBtn.addEventListener("click", () => switchImage(-1));
             nextBtn.addEventListener("click", () => switchImage(1));
 
-            // Drag support
+            // Drag rotation
             let isDragging = false;
             let startX = 0;
 
@@ -706,7 +706,6 @@
                 }
             });
         });
-
 
 
 
