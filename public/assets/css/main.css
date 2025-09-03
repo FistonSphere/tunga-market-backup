@@ -4677,3 +4677,22 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active {
     background-color: rgba(255, 255, 255, 0.15);
     transition: opacity 0.15s ease;
 }
+#fullscreenModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 50;
+    justify-content: center;
+    align-items: center;
+}
+
+#fullscreenModal img {
+    max-width: 95%;
+    max-height: 95%;
+    object-fit: contain;
+}
+
+#fullscreenModal.show {
+    display: flex;
+}
