@@ -871,37 +871,73 @@
             };
         });
 
-        //full screen
         document.addEventListener("DOMContentLoaded", () => {
             const fullscreenBtn = document.getElementById("fullscreenBtn");
             const fullscreenModal = document.getElementById("fullscreenModal");
             const fullscreenImage = document.getElementById("fullscreenImage");
             const closeBtn = document.getElementById("closeFullscreen");
+            const prevBtn = document.getElementById("prevImage");
+            const nextBtn = document.getElementById("nextImage");
             const mainImage = document.getElementById("mainImage");
+
+            // Gallery images (from product gallery)
+            let galleryImages = [];
+            let currentIndex = 0;
+
+            @if ($product->gallery)
+                galleryImages = @json(array_merge([$product->main_image], json_decode($product->gallery, true)));
+            @else
+                galleryImages = ['{{ $product->main_image }}'];
+            @endif
 
             // Open fullscreen
             fullscreenBtn.addEventListener("click", () => {
-                fullscreenImage.src = mainImage.src; // use current main image
-                fullscreenModal.classList.add("show");
+                fullscreenImage.src = galleryImages[currentIndex];
+                fullscreenModal.classList.add("flex");
             });
 
             // Close fullscreen
             closeBtn.addEventListener("click", () => {
-                fullscreenModal.classList.remove("show");
+                fullscreenModal.classList.remove("flex");
             });
 
-            // Close on click outside image
+            // Click outside image closes modal
             fullscreenModal.addEventListener("click", (e) => {
-                if (e.target === fullscreenModal) {
-                    fullscreenModal.classList.remove("show");
-                }
+                if (e.target === fullscreenModal) fullscreenModal.classList.remove("flex");
             });
 
-            // Optional: close with ESC key
+            // ESC key closes modal
             document.addEventListener("keydown", (e) => {
-                if (e.key === "Escape") fullscreenModal.classList.remove("show");
+                if (e.key === "Escape") fullscreenModal.classList.remove("flex");
             });
+
+            // Next/Prev functionality
+            function showImage(index) {
+                currentIndex = (index + galleryImages.length) % galleryImages.length;
+                fullscreenImage.src = galleryImages[currentIndex];
+            }
+
+            nextBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                showImage(currentIndex + 1);
+            });
+
+            prevBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                showImage(currentIndex - 1);
+            });
+
+            // Optional: update currentIndex when clicking thumbnail
+            window.changeMainImage = (el, src) => {
+                document.querySelectorAll(".thumbnail-btn").forEach(btn => btn.classList.remove("active",
+                    "border-accent"));
+                if (el) el.classList.add("active", "border-accent");
+
+                mainImage.src = src;
+                currentIndex = galleryImages.indexOf(src);
+            };
         });
+
 
 
 
