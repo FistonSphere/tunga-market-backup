@@ -59,6 +59,7 @@
                         </button>
 
 
+
                         {{-- @endif --}}
 
                         <!-- Zoom Button -->
