@@ -46,9 +46,9 @@
                             onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
 
                         {{-- @if ($product->ar_model) --}}
-                        <button onclick="openARModal('{{ $product->ar_model }}')"
+                        <button onclick="openARModal('{{ $product->main_image }}', @json($product->gallery))"
                             class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-md hover:bg-accent hover:text-white transition"
-                            title="View in AR">
+                            title="AR Preview">
                             <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -580,31 +580,29 @@
                 ✕
             </button>
 
-            <!-- Model Viewer -->
-            <model-viewer id="arViewer" src="" alt="3D Product Preview" ar
-                ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1" auto-rotate
-                rotation-per-second="30deg" style="width: 100%; height: 500px; border-radius: 1rem;" ios-src="">
-            </model-viewer>
-
-            <!-- Fallback for unsupported devices -->
-            <div id="arFallback" class="hidden text-center p-4">
-                <p class="text-gray-600">AR is not supported on this device. You can still explore the 3D model.</p>
+            <!-- Fake 3D Viewer -->
+            <div id="fake3dViewer"
+                class="w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
+                <img id="fake3dImage" src="{{ $product->main_image }}"
+                    class="max-h-full max-w-full object-contain select-none" draggable="false" />
             </div>
+            <p class="text-center text-gray-500 mt-2 text-sm">Drag left/right to rotate product</p>
         </div>
     </div>
 
-    <!-- Google Model Viewer -->
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script>
-        function openARModal(modelUrl, iosUrl = "") {
-            const viewer = document.getElementById("arViewer");
+        let images = [];
+        let currentIndex = 0;
+        let isDragging = false;
+        let startX = 0;
 
-            viewer.setAttribute("src", modelUrl);
+        function openARModal(mainImage, gallery) {
+            // Decode gallery JSON
+            images = gallery ? JSON.parse(gallery) : [];
+            images.unshift(mainImage); // Ensure main image is first
 
-            if (iosUrl) {
-                viewer.setAttribute("ios-src", iosUrl);
-            }
-
+            currentIndex = 0;
+            document.getElementById("fake3dImage").src = images[currentIndex];
             document.getElementById("arModal").classList.remove("hidden");
             document.getElementById("arModal").classList.add("flex");
         }
@@ -614,10 +612,46 @@
             document.getElementById("arModal").classList.remove("flex");
         }
 
-        // Detect unsupported devices
-        document.addEventListener("DOMContentLoaded", () => {
-            if (!('xr' in navigator)) {
-                document.getElementById("arFallback").classList.remove("hidden");
+        // Drag rotation
+        const viewer = document.getElementById("fake3dViewer");
+        viewer.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            startX = e.clientX;
+        });
+        viewer.addEventListener("mouseup", () => {
+            isDragging = false;
+        });
+        viewer.addEventListener("mouseleave", () => {
+            isDragging = false;
+        });
+        viewer.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            const diff = e.clientX - startX;
+            if (Math.abs(diff) > 30) { // threshold for frame switch
+                if (diff > 0) { // drag right
+                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                } else { // drag left
+                    currentIndex = (currentIndex + 1) % images.length;
+                }
+                document.getElementById("fake3dImage").src = images[currentIndex];
+                startX = e.clientX;
+            }
+        });
+
+        // Touch support
+        viewer.addEventListener("touchstart", (e) => {
+            startX = e.touches[0].clientX;
+        });
+        viewer.addEventListener("touchmove", (e) => {
+            const diff = e.touches[0].clientX - startX;
+            if (Math.abs(diff) > 30) {
+                if (diff > 0) {
+                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                } else {
+                    currentIndex = (currentIndex + 1) % images.length;
+                }
+                document.getElementById("fake3dImage").src = images[currentIndex];
+                startX = e.touches[0].clientX;
             }
         });
 
