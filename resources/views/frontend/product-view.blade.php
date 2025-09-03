@@ -616,9 +616,7 @@
         let isDragging = false;
         let startX = 0;
 
-        // Attach listener after DOM is loaded
         document.addEventListener("DOMContentLoaded", () => {
-
             const arBtn = document.getElementById("arPreviewBtn");
             const modal = document.getElementById("arModal");
             const imgViewer = document.getElementById("fake3dImage");
@@ -648,19 +646,20 @@
                 modal.classList.remove("flex");
             });
 
-            const updateImage = () => imgViewer.src = images[currentIndex];
-
-            prevBtn.addEventListener("click", () => {
+            const switchImage = (direction = 1) => {
                 if (images.length === 0) return;
-                currentIndex = (currentIndex - 1 + images.length) % images.length;
-                updateImage();
-            });
 
-            nextBtn.addEventListener("click", () => {
-                if (images.length === 0) return;
-                currentIndex = (currentIndex + 1) % images.length;
-                updateImage();
-            });
+                // Animate rotation
+                imgViewer.style.transform = `rotateY(${direction * 90}deg)`;
+                setTimeout(() => {
+                    currentIndex = (currentIndex + direction + images.length) % images.length;
+                    imgViewer.src = images[currentIndex];
+                    imgViewer.style.transform = "rotateY(0deg)";
+                }, 150); // half of transition duration
+            };
+
+            prevBtn.addEventListener("click", () => switchImage(-1));
+            nextBtn.addEventListener("click", () => switchImage(1));
 
             // Drag support
             viewer.addEventListener("mousedown", e => {
@@ -680,9 +679,7 @@
                 if (!isDragging) return;
                 const diff = e.clientX - startX;
                 if (Math.abs(diff) > 20) {
-                    if (diff > 0) currentIndex = (currentIndex - 1 + images.length) % images.length;
-                    else currentIndex = (currentIndex + 1) % images.length;
-                    updateImage();
+                    switchImage(diff > 0 ? -1 : 1);
                     startX = e.clientX;
                 }
             });
@@ -692,14 +689,12 @@
             viewer.addEventListener("touchmove", e => {
                 const diff = e.touches[0].clientX - startX;
                 if (Math.abs(diff) > 20) {
-                    if (diff > 0) currentIndex = (currentIndex - 1 + images.length) % images.length;
-                    else currentIndex = (currentIndex + 1) % images.length;
-                    updateImage();
+                    switchImage(diff > 0 ? -1 : 1);
                     startX = e.touches[0].clientX;
                 }
             });
-
         });
+
 
 
 

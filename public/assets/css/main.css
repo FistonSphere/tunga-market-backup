@@ -4662,3 +4662,13 @@ h6 {
 span.swiper-pagination-bullet.swiper-pagination-bullet-active {
     background: #ff6b35;
 }
+
+#fake3dViewer {
+    perspective: 1000px; /* 3D effect */
+}
+
+#fake3dImage {
+    transition: transform 0.3s ease-in-out; /* smooth rotation */
+    transform-style: preserve-3d;
+    user-select: none;
+}
