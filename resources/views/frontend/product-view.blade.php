@@ -586,7 +586,7 @@
             <div id="fake3dViewer"
                 class="relative w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden cursor-grab">
 
-                <!-- Image -->
+                <!-- Image for 3D rotation -->
                 <img id="fake3dImage" src="" class="max-h-full max-w-full object-contain select-none"
                     draggable="false" />
 
@@ -606,6 +606,7 @@
             <p class="text-center text-gray-500 mt-2 text-sm">Drag left/right or use arrows to rotate product</p>
         </div>
     </div>
+
 
 
 
@@ -630,8 +631,14 @@
         }
 
         function openARModal(mainImage, gallery) {
-            images = Array.isArray(gallery) ? gallery : [];
-            if (mainImage) images.unshift(mainImage);
+            // Ensure images is always an array
+            images = Array.isArray(gallery) ? [...gallery] : [];
+            if (mainImage) images.unshift(mainImage); // Main image first
+
+            if (images.length === 0) {
+                console.error("No images for 3D preview!");
+                return;
+            }
 
             currentIndex = 0;
             updateFake3DImage();
@@ -640,7 +647,7 @@
             modal.classList.remove("hidden");
             modal.classList.add("flex");
 
-            attachDragEvents(); // Attach drag after modal is shown
+            attachDragEvents();
         }
 
         function closeARModal() {
@@ -650,9 +657,7 @@
         }
 
         function updateFake3DImage() {
-            if (images.length > 0) {
-                document.getElementById("fake3dImage").src = images[currentIndex];
-            }
+            document.getElementById("fake3dImage").src = images[currentIndex];
         }
 
         function prevImage() {
@@ -667,7 +672,6 @@
             updateFake3DImage();
         }
 
-        // Drag rotation
         function attachDragEvents() {
             const viewer = document.getElementById("fake3dViewer");
 
@@ -685,7 +689,7 @@
             viewer.onmousemove = (e) => {
                 if (!isDragging) return;
                 const diff = e.clientX - startX;
-                if (Math.abs(diff) > 30) {
+                if (Math.abs(diff) > 20) { // smaller threshold for smoother rotation
                     if (diff > 0) prevImage();
                     else nextImage();
                     startX = e.clientX;
@@ -696,13 +700,14 @@
             viewer.ontouchstart = (e) => startX = e.touches[0].clientX;
             viewer.ontouchmove = (e) => {
                 const diff = e.touches[0].clientX - startX;
-                if (Math.abs(diff) > 30) {
+                if (Math.abs(diff) > 20) {
                     if (diff > 0) prevImage();
                     else nextImage();
                     startX = e.touches[0].clientX;
                 }
             };
         }
+
 
 
 
