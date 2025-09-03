@@ -612,10 +612,8 @@
 
 
     <script>
-        let images = [];
+        let galleryImages = [];
         let currentIndex = 0;
-        let isDragging = false;
-        let startX = 0;
 
         document.addEventListener("DOMContentLoaded", () => {
             const arBtn = document.getElementById("arPreviewBtn");
@@ -626,26 +624,21 @@
             const prevBtn = document.getElementById("prevImageBtn");
             const nextBtn = document.getElementById("nextImageBtn");
 
+            let mainImage = "";
+
             // Open AR modal
             arBtn.addEventListener("click", () => {
-                const mainImage = arBtn.dataset.main;
-                let gallery = [];
-
+                mainImage = arBtn.dataset.main || "";
                 try {
-                    gallery = JSON.parse(arBtn.dataset.gallery || "[]");
-                    if (!Array.isArray(gallery)) gallery = [];
+                    galleryImages = JSON.parse(arBtn.dataset.gallery || "[]");
+                    if (!Array.isArray(galleryImages)) galleryImages = [];
                 } catch (e) {
                     console.error("Gallery parse error", e);
-                    gallery = [];
+                    galleryImages = [];
                 }
 
-                images = gallery.length ? [...gallery] : [];
-                if (mainImage) images.unshift(mainImage); // ensure main image first
-
-                if (images.length === 0) return;
-
-                currentIndex = 0;
-                imgViewer.src = images[currentIndex];
+                currentIndex = -1; // -1 means mainImage
+                imgViewer.src = mainImage;
                 modal.classList.remove("hidden");
                 modal.classList.add("flex");
             });
@@ -656,12 +649,17 @@
                 modal.classList.remove("flex");
             });
 
-            // Switch images by index
             const switchImage = (direction = 1) => {
-                if (images.length === 0) return;
-                currentIndex = (currentIndex + direction + images.length) % images.length;
-                imgViewer.src = images[currentIndex];
-                // optional subtle rotation effect
+                if (galleryImages.length === 0) return;
+
+                if (currentIndex === -1) {
+                    // currently showing mainImage
+                    currentIndex = direction > 0 ? 0 : galleryImages.length - 1;
+                } else {
+                    currentIndex = (currentIndex + direction + galleryImages.length) % galleryImages.length;
+                }
+
+                imgViewer.src = galleryImages[currentIndex];
                 imgViewer.style.transform = `rotateY(${direction * 15}deg)`;
                 setTimeout(() => {
                     imgViewer.style.transform = "rotateY(0deg)";
@@ -673,6 +671,9 @@
             nextBtn.addEventListener("click", () => switchImage(1));
 
             // Drag support
+            let isDragging = false;
+            let startX = 0;
+
             viewer.addEventListener("mousedown", e => {
                 isDragging = true;
                 startX = e.clientX;
@@ -705,6 +706,7 @@
                 }
             });
         });
+
 
 
 
