@@ -649,8 +649,6 @@
                 // Insert main image at start
                 if (mainImage) galleryImages.unshift(mainImage);
 
-                console.log("Main image:", mainImage);
-                console.log("Gallery images array:", galleryImages);
 
                 if (galleryImages.length === 0) return;
 
@@ -671,7 +669,6 @@
                 if (galleryImages.length === 0) return;
                 currentIndex = (currentIndex + direction + galleryImages.length) % galleryImages.length;
                 imgViewer.src = galleryImages[currentIndex];
-                console.log("Switched to image index:", currentIndex, "URL:", imgViewer.src);
             };
 
             prevBtn.addEventListener("click", () => switchImage(-1));
