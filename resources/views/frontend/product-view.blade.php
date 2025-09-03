@@ -584,13 +584,29 @@
 
             <!-- Fake 3D Viewer -->
             <div id="fake3dViewer"
-                class="w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
-                <img id="fake3dImage" src="{{ $product->main_image }}"
-                    class="max-h-full max-w-full object-contain select-none" draggable="false" />
+                class="relative w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
+
+                <!-- Image -->
+                <img id="fake3dImage" src="" class="max-h-full max-w-full object-contain select-none"
+                    draggable="false" />
+
+                <!-- Prev Button -->
+                <button onclick="prevImage()"
+                    class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition">
+                    ‹
+                </button>
+
+                <!-- Next Button -->
+                <button onclick="nextImage()"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition">
+                    ›
+                </button>
             </div>
-            <p class="text-center text-gray-500 mt-2 text-sm">Drag left/right to rotate product</p>
+
+            <p class="text-center text-gray-500 mt-2 text-sm">Drag left/right or use arrows to rotate product</p>
         </div>
     </div>
+
 
     <script>
         let images = [];
