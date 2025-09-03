@@ -598,8 +598,7 @@
         let startX = 0;
 
         function openARModal(mainImage, gallery) {
-            // Decode gallery JSON
-            images = gallery ? JSON.parse(gallery) : [];
+            images = gallery && gallery.length ? gallery : [];
             images.unshift(mainImage); // Ensure main image is first
 
             currentIndex = 0;
