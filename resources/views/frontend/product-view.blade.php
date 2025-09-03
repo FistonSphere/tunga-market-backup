@@ -598,16 +598,27 @@
         let isDragging = false;
         let startX = 0;
 
-        function openARModal(mainImage, galleryJson) {
+        function handleARClick(button) {
+            const mainImage = button.dataset.main;
             let gallery = [];
+
             try {
-                gallery = JSON.parse(galleryJson); // parse from dataset
+                gallery = JSON.parse(button.dataset.gallery || "[]");
             } catch (e) {
                 console.error("Gallery parse error", e);
+                gallery = [];
             }
 
-            images = gallery.length ? gallery : [];
-            images.unshift(mainImage);
+            openARModal(mainImage, gallery);
+        }
+
+        function openARModal(mainImage, gallery) {
+            images = Array.isArray(gallery) ? gallery : [];
+
+            // Always add main image to front
+            if (mainImage) {
+                images.unshift(mainImage);
+            }
 
             currentIndex = 0;
             document.getElementById("fake3dImage").src = images[currentIndex];
