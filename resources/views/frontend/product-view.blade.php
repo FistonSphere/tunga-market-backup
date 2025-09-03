@@ -599,7 +599,7 @@
 
         function openARModal(mainImage, gallery) {
             images = gallery && gallery.length ? gallery : [];
-            images.unshift(mainImage); // Ensure main image is first
+            images.unshift(mainImage);
 
             currentIndex = 0;
             document.getElementById("fake3dImage").src = images[currentIndex];
