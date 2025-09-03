@@ -45,19 +45,18 @@
                             class="w-full h-96 object-cover" loading="lazy"
                             onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
 
-                        @if ($product->has_3d_model)
-                            <!-- AR Preview Button-->
-                            <button
-                                class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-fast"
-                                title="AR Preview">
-                                <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                </svg>
-                            </button>
-                        @endif
+                        {{-- @if ($product->ar_model) --}}
+                        <button onclick="openARModal('{{ $product->ar_model }}')"
+                            class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-md hover:bg-accent hover:text-white transition"
+                            title="View in AR">
+                            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+                        {{-- @endif --}}
 
                         <!-- Zoom Button -->
                         <button
@@ -572,7 +571,57 @@
         </div>
     </div>
 
+    <!-- AR Preview Modal -->
+    <div id="arModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl p-4">
+            <!-- Close Button -->
+            <button onclick="closeARModal()"
+                class="absolute top-3 right-3 bg-gray-100 hover:bg-red-500 hover:text-white rounded-full p-2 transition">
+                ✕
+            </button>
+
+            <!-- Model Viewer -->
+            <model-viewer id="arViewer" src="" alt="3D Product Preview" ar
+                ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1" auto-rotate
+                rotation-per-second="30deg" style="width: 100%; height: 500px; border-radius: 1rem;" ios-src="">
+            </model-viewer>
+
+            <!-- Fallback for unsupported devices -->
+            <div id="arFallback" class="hidden text-center p-4">
+                <p class="text-gray-600">AR is not supported on this device. You can still explore the 3D model.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Google Model Viewer -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script>
+        function openARModal(modelUrl, iosUrl = "") {
+            const viewer = document.getElementById("arViewer");
+
+            viewer.setAttribute("src", modelUrl);
+
+            if (iosUrl) {
+                viewer.setAttribute("ios-src", iosUrl);
+            }
+
+            document.getElementById("arModal").classList.remove("hidden");
+            document.getElementById("arModal").classList.add("flex");
+        }
+
+        function closeARModal() {
+            document.getElementById("arModal").classList.add("hidden");
+            document.getElementById("arModal").classList.remove("flex");
+        }
+
+        // Detect unsupported devices
+        document.addEventListener("DOMContentLoaded", () => {
+            if (!('xr' in navigator)) {
+                document.getElementById("arFallback").classList.remove("hidden");
+            }
+        });
+
+
         document.addEventListener("DOMContentLoaded", function() {
             let productId = "{{ $product->id }}";
             let shown = localStorage.getItem("review_shown_" + productId);
