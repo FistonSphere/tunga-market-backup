@@ -77,6 +77,7 @@
                                     d="M8 3H5a2 2 0 00-2 2v3m0 8v3a2 2 0 002 2h3m8-16h3a2 2 0 012 2v3m0 8v3a2 2 0 01-2 2h-3" />
                             </svg>
                         </button>
+
                         <div id="fullscreenModal"
                             class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[999999]">
                             <button id="closeFullscreen"
@@ -99,6 +100,7 @@
                             <img id="fullscreenImage" src=""
                                 class="max-h-full max-w-full object-contain rounded-lg select-none" />
                         </div>
+
 
                         <!-- 360 View Button (if gallery exists) -->
                         @if ($product->gallery && count(json_decode($product->gallery)) > 1)
@@ -871,73 +873,37 @@
             };
         });
 
+        //full screen
         document.addEventListener("DOMContentLoaded", () => {
             const fullscreenBtn = document.getElementById("fullscreenBtn");
             const fullscreenModal = document.getElementById("fullscreenModal");
             const fullscreenImage = document.getElementById("fullscreenImage");
             const closeBtn = document.getElementById("closeFullscreen");
-            const prevBtn = document.getElementById("prevImage");
-            const nextBtn = document.getElementById("nextImage");
             const mainImage = document.getElementById("mainImage");
-
-            // Gallery images (from product gallery)
-            let galleryImages = [];
-            let currentIndex = 0;
-
-            @if ($product->gallery)
-                galleryImages = @json(array_merge([$product->main_image], json_decode($product->gallery, true)));
-            @else
-                galleryImages = ['{{ $product->main_image }}'];
-            @endif
 
             // Open fullscreen
             fullscreenBtn.addEventListener("click", () => {
-                fullscreenImage.src = galleryImages[currentIndex];
-                fullscreenModal.classList.add("flex");
+                fullscreenImage.src = mainImage.src; // use current main image
+                fullscreenModal.classList.add("show");
             });
 
             // Close fullscreen
             closeBtn.addEventListener("click", () => {
-                fullscreenModal.classList.remove("flex");
+                fullscreenModal.classList.remove("show");
             });
 
-            // Click outside image closes modal
+            // Close on click outside image
             fullscreenModal.addEventListener("click", (e) => {
-                if (e.target === fullscreenModal) fullscreenModal.classList.remove("flex");
+                if (e.target === fullscreenModal) {
+                    fullscreenModal.classList.remove("show");
+                }
             });
 
-            // ESC key closes modal
+            // Optional: close with ESC key
             document.addEventListener("keydown", (e) => {
-                if (e.key === "Escape") fullscreenModal.classList.remove("flex");
+                if (e.key === "Escape") fullscreenModal.classList.remove("show");
             });
-
-            // Next/Prev functionality
-            function showImage(index) {
-                currentIndex = (index + galleryImages.length) % galleryImages.length;
-                fullscreenImage.src = galleryImages[currentIndex];
-            }
-
-            nextBtn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                showImage(currentIndex + 1);
-            });
-
-            prevBtn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                showImage(currentIndex - 1);
-            });
-
-            // Optional: update currentIndex when clicking thumbnail
-            window.changeMainImage = (el, src) => {
-                document.querySelectorAll(".thumbnail-btn").forEach(btn => btn.classList.remove("active",
-                    "border-accent"));
-                if (el) el.classList.add("active", "border-accent");
-
-                mainImage.src = src;
-                currentIndex = galleryImages.indexOf(src);
-            };
         });
-
 
 
 
