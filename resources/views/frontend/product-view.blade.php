@@ -631,21 +631,37 @@
         function openARModal(mainImage, gallery) {
             images = Array.isArray(gallery) ? gallery : [];
 
-            // Always add main image to front
             if (mainImage) {
-                images.unshift(mainImage);
+                images.unshift(mainImage); // add main image first
             }
 
             currentIndex = 0;
-            document.getElementById("fake3dImage").src = images[currentIndex];
+            updateFake3DImage();
+
             document.getElementById("arModal").classList.remove("hidden");
             document.getElementById("arModal").classList.add("flex");
         }
 
-
         function closeARModal() {
             document.getElementById("arModal").classList.add("hidden");
             document.getElementById("arModal").classList.remove("flex");
+        }
+
+        function updateFake3DImage() {
+            if (images.length > 0) {
+                document.getElementById("fake3dImage").src = images[currentIndex];
+            }
+        }
+
+        // Navigation buttons
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateFake3DImage();
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateFake3DImage();
         }
 
         // Drag rotation
@@ -663,13 +679,12 @@
         viewer.addEventListener("mousemove", (e) => {
             if (!isDragging) return;
             const diff = e.clientX - startX;
-            if (Math.abs(diff) > 30) { // threshold for frame switch
-                if (diff > 0) { // drag right
-                    currentIndex = (currentIndex - 1 + images.length) % images.length;
-                } else { // drag left
-                    currentIndex = (currentIndex + 1) % images.length;
+            if (Math.abs(diff) > 30) {
+                if (diff > 0) {
+                    prevImage();
+                } else {
+                    nextImage();
                 }
-                document.getElementById("fake3dImage").src = images[currentIndex];
                 startX = e.clientX;
             }
         });
@@ -682,14 +697,14 @@
             const diff = e.touches[0].clientX - startX;
             if (Math.abs(diff) > 30) {
                 if (diff > 0) {
-                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    prevImage();
                 } else {
-                    currentIndex = (currentIndex + 1) % images.length;
+                    nextImage();
                 }
-                document.getElementById("fake3dImage").src = images[currentIndex];
                 startX = e.touches[0].clientX;
             }
         });
+
 
 
         document.addEventListener("DOMContentLoaded", function() {
