@@ -46,7 +46,8 @@
                             onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
 
                         {{-- @if ($product->ar_model) --}}
-                        <button onclick="openARModal('{{ $product->main_image }}', @json($product->gallery ?? []))"
+                        <button onclick="openARModal('{{ $product->main_image }}', this.dataset.gallery)"
+                            data-gallery='@json($product->gallery ?? [])'
                             class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-md hover:bg-accent hover:text-white transition"
                             title="AR Preview">
                             <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -597,8 +598,15 @@
         let isDragging = false;
         let startX = 0;
 
-        function openARModal(mainImage, gallery) {
-            images = gallery && gallery.length ? gallery : [];
+        function openARModal(mainImage, galleryJson) {
+            let gallery = [];
+            try {
+                gallery = JSON.parse(galleryJson); // parse from dataset
+            } catch (e) {
+                console.error("Gallery parse error", e);
+            }
+
+            images = gallery.length ? gallery : [];
             images.unshift(mainImage);
 
             currentIndex = 0;
@@ -606,6 +614,7 @@
             document.getElementById("arModal").classList.remove("hidden");
             document.getElementById("arModal").classList.add("flex");
         }
+
 
         function closeARModal() {
             document.getElementById("arModal").classList.add("hidden");
