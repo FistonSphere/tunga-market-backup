@@ -858,6 +858,37 @@
             };
         });
 
+        //full screen
+        document.addEventListener("DOMContentLoaded", () => {
+            const fullscreenBtn = document.getElementById("fullscreenBtn");
+            const fullscreenModal = document.getElementById("fullscreenModal");
+            const fullscreenImage = document.getElementById("fullscreenImage");
+            const closeBtn = document.getElementById("closeFullscreen");
+            const mainImage = document.getElementById("mainImage");
+
+            // Open fullscreen
+            fullscreenBtn.addEventListener("click", () => {
+                fullscreenImage.src = mainImage.src; // use current main image
+                fullscreenModal.classList.add("show");
+            });
+
+            // Close fullscreen
+            closeBtn.addEventListener("click", () => {
+                fullscreenModal.classList.remove("show");
+            });
+
+            // Close on click outside image
+            fullscreenModal.addEventListener("click", (e) => {
+                if (e.target === fullscreenModal) {
+                    fullscreenModal.classList.remove("show");
+                }
+            });
+
+            // Optional: close with ESC key
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") fullscreenModal.classList.remove("show");
+            });
+        });
 
 
 
