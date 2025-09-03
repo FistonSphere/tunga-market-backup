@@ -666,9 +666,24 @@
             // Switch image function for prev/next buttons
             const switchImage = (direction = 1) => {
                 if (galleryImages.length === 0) return;
+
                 currentIndex = (currentIndex + direction + galleryImages.length) % galleryImages.length;
-                imgViewer.src = galleryImages[currentIndex];
+
+                // Set rotation direction
+                const rotationAngle = direction > 0 ? 360 : -360;
+
+                // Animate rotation
+                imgViewer.style.transition = "transform 0.6s ease-in-out";
+                imgViewer.style.transform = `rotateY(${rotationAngle}deg)`;
+
+                // After animation, reset transform and change image
+                setTimeout(() => {
+                    imgViewer.style.transition = "none"; // remove transition for next rotation
+                    imgViewer.style.transform = "rotateY(0deg)";
+                    imgViewer.src = galleryImages[currentIndex];
+                }, 600);
             };
+
 
             prevBtn.addEventListener("click", () => switchImage(-1));
             nextBtn.addEventListener("click", () => switchImage(1));
