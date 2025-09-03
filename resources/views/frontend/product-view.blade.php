@@ -612,9 +612,6 @@
 
 
     <script>
-        let galleryImages = [];
-        let currentIndex = 0;
-
         document.addEventListener("DOMContentLoaded", () => {
             const arBtn = document.getElementById("arPreviewBtn");
             const modal = document.getElementById("arModal");
@@ -624,21 +621,36 @@
             const prevBtn = document.getElementById("prevImageBtn");
             const nextBtn = document.getElementById("nextImageBtn");
 
-            let mainImage = "";
+            let galleryImages = [];
+            let currentIndex = 0;
 
-            // Open AR modal
             arBtn.addEventListener("click", () => {
-                mainImage = arBtn.dataset.main || "";
+                const mainImage = arBtn.dataset.main || "";
+                let rawGallery = arBtn.dataset.gallery || "[]";
+
+                // Decode double-encoded JSON
+                if (rawGallery.startsWith('"') && rawGallery.endsWith('"')) {
+                    rawGallery = rawGallery.slice(1, -1);
+                }
+                rawGallery = rawGallery.replace(/\\"/g, '"').replace(/\\\//g, '/');
+                rawGallery = rawGallery.replace(/\\u([\dA-F]{4})/gi, (match, grp) => {
+                    return String.fromCharCode(parseInt(grp, 16));
+                });
+
                 try {
-                    galleryImages = JSON.parse(arBtn.dataset.gallery || "[]");
-                    if (!Array.isArray(galleryImages)) galleryImages = [];
+                    const gallery = JSON.parse(rawGallery);
+                    if (Array.isArray(gallery)) galleryImages = [...gallery];
+                    else galleryImages = [];
                 } catch (e) {
-                    console.error("Gallery parse error", e);
+                    console.error("Gallery parse error:", e, rawGallery);
                     galleryImages = [];
                 }
 
-                // main image first, then gallery images
+                // Insert main image at start
                 if (mainImage) galleryImages.unshift(mainImage);
+
+                console.log("Main image:", mainImage);
+                console.log("Gallery images array:", galleryImages);
 
                 if (galleryImages.length === 0) return;
 
@@ -654,23 +666,18 @@
                 modal.classList.remove("flex");
             });
 
+            // Switch image function for prev/next buttons
             const switchImage = (direction = 1) => {
                 if (galleryImages.length === 0) return;
                 currentIndex = (currentIndex + direction + galleryImages.length) % galleryImages.length;
                 imgViewer.src = galleryImages[currentIndex];
-
-                // Fake 3D rotation effect
-                imgViewer.style.transform = `rotateY(${direction * 180}deg)`;
-                setTimeout(() => {
-                    imgViewer.style.transform = "rotateY(0deg)";
-                }, 200);
+                console.log("Switched to image index:", currentIndex, "URL:", imgViewer.src);
             };
 
-            // Arrow buttons
             prevBtn.addEventListener("click", () => switchImage(-1));
             nextBtn.addEventListener("click", () => switchImage(1));
 
-            // Drag rotation
+            // Dragging for 360° feel
             let isDragging = false;
             let startX = 0;
 
@@ -690,7 +697,7 @@
             viewer.addEventListener("mousemove", e => {
                 if (!isDragging) return;
                 const diff = e.clientX - startX;
-                if (Math.abs(diff) > 20) {
+                if (Math.abs(diff) > 5) { // smaller threshold for continuous feel
                     switchImage(diff > 0 ? -1 : 1);
                     startX = e.clientX;
                 }
@@ -700,12 +707,13 @@
             viewer.addEventListener("touchstart", e => startX = e.touches[0].clientX);
             viewer.addEventListener("touchmove", e => {
                 const diff = e.touches[0].clientX - startX;
-                if (Math.abs(diff) > 20) {
+                if (Math.abs(diff) > 5) {
                     switchImage(diff > 0 ? -1 : 1);
                     startX = e.touches[0].clientX;
                 }
             });
         });
+
 
 
 
