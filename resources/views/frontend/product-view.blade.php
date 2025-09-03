@@ -880,124 +880,63 @@
             const closeBtn = document.getElementById("closeFullscreen");
             const prevBtn = document.getElementById("prevImage");
             const nextBtn = document.getElementById("nextImage");
-            const wrapper = document.getElementById("fullscreenWrapper");
-            const zoomLens = document.getElementById("zoomLens");
             const mainImage = document.getElementById("mainImage");
 
+            // Gallery images (add your gallery here)
             let galleryImages = [mainImage.src]; // default main image
             @if ($product->gallery)
                 galleryImages = @json(array_merge([$product->main_image], json_decode($product->gallery, true)));
             @endif
 
             let currentIndex = 0;
-            const ZOOM = 2.5; // magnification
 
-            // --- Fullscreen Open/Close ---
+            // Open fullscreen
             fullscreenBtn.addEventListener("click", () => {
                 currentIndex = galleryImages.indexOf(mainImage.src);
                 fullscreenImage.src = galleryImages[currentIndex];
                 fullscreenModal.classList.add("show");
             });
 
-            closeBtn.addEventListener("click", () => fullscreenModal.classList.remove("show"));
-            fullscreenModal.addEventListener("click", e => {
-                if (e.target === fullscreenModal) fullscreenModal.classList.remove("show");
+            // Close fullscreen
+            closeBtn.addEventListener("click", () => {
+                fullscreenModal.classList.remove("show");
             });
-            document.addEventListener("keydown", e => {
+
+            // Close on click outside image
+            fullscreenModal.addEventListener("click", (e) => {
+                if (e.target === fullscreenModal) {
+                    fullscreenModal.classList.remove("show");
+                }
+            });
+
+            // Close with ESC
+            document.addEventListener("keydown", (e) => {
                 if (e.key === "Escape") fullscreenModal.classList.remove("show");
             });
 
-            // --- Gallery Navigation ---
+            // Show image by index
             function showImage(index) {
                 currentIndex = (index + galleryImages.length) % galleryImages.length;
                 fullscreenImage.src = galleryImages[currentIndex];
-                updateLensBackground();
             }
-            nextBtn.addEventListener("click", e => {
+
+            // Next / Prev buttons
+            nextBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 showImage(currentIndex + 1);
             });
-            prevBtn.addEventListener("click", e => {
+
+            prevBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 showImage(currentIndex - 1);
             });
 
+            // Optional: update currentIndex if thumbnails change main image
             window.changeMainImage = (el, src) => {
                 mainImage.src = src;
                 currentIndex = galleryImages.indexOf(src);
             };
-
-            // --- Zoom Lens ---
-            let imgReady = false;
-
-            function updateLensBackground() {
-                if (!imgReady) return;
-                zoomLens.style.backgroundImage = `url('${fullscreenImage.src}')`;
-                const w = fullscreenImage.naturalWidth || fullscreenImage.width;
-                const h = fullscreenImage.naturalHeight || fullscreenImage.height;
-                zoomLens.style.backgroundSize = `${w * ZOOM}px ${h * ZOOM}px`;
-            }
-
-            function markReady() {
-                imgReady = true;
-                updateLensBackground();
-            }
-
-            fullscreenImage.addEventListener("load", markReady);
-
-            function getMousePos(e) {
-                const rect = wrapper.getBoundingClientRect();
-                const x = e.touches ? e.touches[0].clientX - rect.left : e.clientX - rect.left;
-                const y = e.touches ? e.touches[0].clientY - rect.top : e.clientY - rect.top;
-                return {
-                    x,
-                    y,
-                    rect
-                };
-            }
-
-            function moveLens(e) {
-                if (!imgReady) return;
-                const {
-                    x,
-                    y,
-                    rect
-                } = getMousePos(e);
-                const lensRadius = zoomLens.offsetWidth / 2;
-
-                // Clamp inside wrapper
-                const clampedX = Math.max(lensRadius, Math.min(rect.width - lensRadius, x));
-                const clampedY = Math.max(lensRadius, Math.min(rect.height - lensRadius, y));
-
-                zoomLens.style.left = `${clampedX - lensRadius}px`;
-                zoomLens.style.top = `${clampedY - lensRadius}px`;
-
-                // Map to natural image
-                const scaleX = fullscreenImage.naturalWidth / rect.width;
-                const scaleY = fullscreenImage.naturalHeight / rect.height;
-
-                const bgX = -((clampedX) * scaleX * ZOOM - lensRadius);
-                const bgY = -((clampedY) * scaleY * ZOOM - lensRadius);
-
-                zoomLens.style.backgroundPosition = `${bgX}px ${bgY}px`;
-            }
-
-            // --- Events ---
-            wrapper.addEventListener("mouseenter", () => zoomLens.classList.remove("hidden"));
-            wrapper.addEventListener("mouseleave", () => zoomLens.classList.add("hidden"));
-            wrapper.addEventListener("mousemove", moveLens);
-            wrapper.addEventListener("touchstart", e => {
-                zoomLens.classList.remove("hidden");
-                moveLens(e);
-            }, {
-                passive: true
-            });
-            wrapper.addEventListener("touchmove", moveLens, {
-                passive: true
-            });
-            wrapper.addEventListener("touchend", () => zoomLens.classList.add("hidden"));
         });
-
 
 
 
