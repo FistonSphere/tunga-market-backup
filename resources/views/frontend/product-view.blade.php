@@ -67,7 +67,7 @@
                             class="absolute hidden rounded-full border-2 border-accent shadow-lg pointer-events-none z-20"
                             style="width:240px;height:240px;background-repeat:no-repeat;background-color:rgba(255,255,255,.2);backdrop-filter:saturate(1.1) contrast(1.05);">
                         </div>
-                        <!-- Fullscreen Button -->
+                        <!-- Fullscreen Trigger Button -->
                         <button id="fullscreenBtn"
                             class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-fast"
                             title="Full Screen View">
@@ -78,8 +78,11 @@
                             </svg>
                         </button>
 
+                        <!-- Fullscreen Modal -->
                         <div id="fullscreenModal"
                             class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[999999]">
+
+                            <!-- Close Button -->
                             <button id="closeFullscreen"
                                 class="absolute top-4 right-4 bg-white/90 rounded-full p-3 hover:bg-red-500 hover:text-white transition z-[999999]">
                                 ✕
@@ -96,11 +99,14 @@
                                 class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 rounded-full p-3 hover:bg-white transition z-[999999]">
                                 ▶
                             </button>
+
                             <!-- Zoom Lens -->
                             <div id="zoomLens"
                                 class="hidden absolute w-48 h-48 rounded-full border-4 border-white overflow-hidden z-[999999]"
                                 style="pointer-events:none; box-shadow:0 0 10px rgba(0,0,0,0.5);">
                             </div>
+
+                            <!-- Image Display -->
                             <img id="fullscreenImage" src=""
                                 class="max-h-full max-w-full object-contain rounded-lg select-none" />
                         </div>
@@ -108,14 +114,14 @@
 
                         <!-- 360 View Button (if gallery exists) -->
                         @if ($product->gallery && count(json_decode($product->gallery)) > 1)
-                            <button
+                            {{-- <button
                                 class="absolute bottom-4 right-4 bg-accent text-white rounded-full p-3 hover:bg-accent-600 transition-fast"
                                 title="360° View">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                 </svg>
-                            </button>
+                            </button> --}}
                         @endif
                     </div>
 
@@ -885,46 +891,54 @@
             const prevBtn = document.getElementById("prevImage");
             const nextBtn = document.getElementById("nextImage");
             const mainImage = document.getElementById("mainImage");
+            const lens = document.getElementById("zoomLens");
 
-            // Gallery images (add your gallery here)
+            // Gallery images (backend integration)
             let galleryImages = [mainImage.src]; // default main image
             @if ($product->gallery)
                 galleryImages = @json(array_merge([$product->main_image], json_decode($product->gallery, true)));
             @endif
 
             let currentIndex = 0;
+            let imgReady = false;
+            let ZOOM = 2.5;
+            const LENS_R = lens.offsetWidth / 2;
 
-            // Open fullscreen
+            // ====== Fullscreen controls ======
             fullscreenBtn.addEventListener("click", () => {
                 currentIndex = galleryImages.indexOf(mainImage.src);
                 fullscreenImage.src = galleryImages[currentIndex];
                 fullscreenModal.classList.add("show");
             });
 
-            // Close fullscreen
             closeBtn.addEventListener("click", () => {
                 fullscreenModal.classList.remove("show");
+                lens.classList.add("hidden");
             });
 
-            // Close on click outside image
             fullscreenModal.addEventListener("click", (e) => {
                 if (e.target === fullscreenModal) {
                     fullscreenModal.classList.remove("show");
+                    lens.classList.add("hidden");
                 }
             });
 
-            // Close with ESC
             document.addEventListener("keydown", (e) => {
-                if (e.key === "Escape") fullscreenModal.classList.remove("show");
+                if (e.key === "Escape") {
+                    fullscreenModal.classList.remove("show");
+                    lens.classList.add("hidden");
+                }
             });
 
-            // Show image by index
             function showImage(index) {
                 currentIndex = (index + galleryImages.length) % galleryImages.length;
+                imgReady = false;
                 fullscreenImage.src = galleryImages[currentIndex];
+                fullscreenImage.addEventListener("load", markReady, {
+                    once: true
+                });
             }
 
-            // Next / Prev buttons
             nextBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 showImage(currentIndex + 1);
@@ -935,11 +949,106 @@
                 showImage(currentIndex - 1);
             });
 
-            // Optional: update currentIndex if thumbnails change main image
             window.changeMainImage = (el, src) => {
                 mainImage.src = src;
                 currentIndex = galleryImages.indexOf(src);
             };
+
+            // ====== Zoom Lens integration ======
+            function getCoverFit() {
+                const cw = fullscreenModal.clientWidth;
+                const ch = fullscreenModal.clientHeight;
+                const iw = fullscreenImage.naturalWidth;
+                const ih = fullscreenImage.naturalHeight;
+
+                const scale = Math.max(cw / iw, ch / ih);
+                const displayW = iw * scale;
+                const displayH = ih * scale;
+                const offsetX = (cw - displayW) / 2;
+                const offsetY = (ch - displayH) / 2;
+
+                return {
+                    cw,
+                    ch,
+                    iw,
+                    ih,
+                    scale,
+                    displayW,
+                    displayH,
+                    offsetX,
+                    offsetY
+                };
+            }
+
+            function showLens() {
+                if (!imgReady) return;
+                lens.style.backgroundImage = `url('${fullscreenImage.src}')`;
+                lens.style.backgroundSize =
+                    `${fullscreenImage.naturalWidth * ZOOM}px ${fullscreenImage.naturalHeight * ZOOM}px`;
+                lens.classList.remove("hidden");
+            }
+
+            function hideLens() {
+                lens.classList.add("hidden");
+            }
+
+            function moveLensFromEvent(e) {
+                if (!imgReady) return;
+                const fit = getCoverFit();
+                const rect = fullscreenImage.getBoundingClientRect();
+
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+                let x = clientX - rect.left;
+                let y = clientY - rect.top;
+
+                x = Math.max(LENS_R, Math.min(fit.cw - LENS_R, x));
+                y = Math.max(LENS_R, Math.min(fit.ch - LENS_R, y));
+
+                lens.style.left = `${x - LENS_R}px`;
+                lens.style.top = `${y - LENS_R}px`;
+
+                const imgX = (x - fit.offsetX) / fit.scale;
+                const imgY = (y - fit.offsetY) / fit.scale;
+
+                const bgPosX = -(imgX * ZOOM - LENS_R);
+                const bgPosY = -(imgY * ZOOM - LENS_R);
+
+                lens.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
+                lens.style.backgroundSize =
+                    `${fullscreenImage.naturalWidth * ZOOM}px ${fullscreenImage.naturalHeight * ZOOM}px`;
+            }
+
+            fullscreenImage.addEventListener("mouseenter", showLens);
+            fullscreenImage.addEventListener("mouseleave", hideLens);
+            fullscreenImage.addEventListener("mousemove", moveLensFromEvent);
+
+            fullscreenImage.addEventListener("touchstart", (e) => {
+                showLens();
+                moveLensFromEvent(e);
+            }, {
+                passive: true
+            });
+            fullscreenImage.addEventListener("touchmove", (e) => moveLensFromEvent(e), {
+                passive: true
+            });
+            fullscreenImage.addEventListener("touchend", hideLens);
+
+            function markReady() {
+                imgReady = true;
+                lens.style.backgroundImage = `url('${fullscreenImage.src}')`;
+                lens.style.backgroundSize =
+                    `${fullscreenImage.naturalWidth * ZOOM}px ${fullscreenImage.naturalHeight * ZOOM}px`;
+            }
+
+            if (fullscreenImage.complete && fullscreenImage.naturalWidth) {
+                markReady();
+            } else {
+                fullscreenImage.addEventListener("load", markReady, {
+                    once: true
+                });
+            }
         });
 
 
