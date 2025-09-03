@@ -269,7 +269,7 @@
                     <button
                         class="tab-btn py-4 px-1 border-b-2 border-transparent font-semibold text-secondary-600 hover:text-primary hover:border-secondary-300 transition-fast"
                         onclick="showTab('reviews')">
-                        Reviews ({{ $product->reviews_count ?? 0 }})
+                        Reviews ({{ $reviewsCount ?? 0 }})
                     </button>
                 </nav>
             </div>

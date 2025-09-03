@@ -98,7 +98,7 @@ class ProductListingController extends Controller
             ];
         })
         ->values();
-    return view('frontend.product-view', compact('product', 'relatedProducts', 'relatedTitle'));
+    return view('frontend.product-view', compact('product', 'relatedProducts', 'relatedTitle','reviewsCount'));
 }
 
 
