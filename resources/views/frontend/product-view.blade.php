@@ -718,6 +718,75 @@
             });
         });
 
+        //zoom
+        document.addEventListener("DOMContentLoaded", () => {
+            const mainImage = document.getElementById("mainImage");
+            const zoomLens = document.getElementById("zoomLens");
+
+            function showLens() {
+                zoomLens.style.backgroundImage = `url('${mainImage.src}')`;
+                zoomLens.classList.remove("hidden");
+            }
+
+            function hideLens() {
+                zoomLens.classList.add("hidden");
+            }
+
+            function moveLens(x, y) {
+                const rect = mainImage.getBoundingClientRect();
+                const lensSize = zoomLens.offsetWidth / 2;
+
+                // Adjust position within bounds
+                if (x < lensSize) x = lensSize;
+                if (y < lensSize) y = lensSize;
+                if (x > rect.width - lensSize) x = rect.width - lensSize;
+                if (y > rect.height - lensSize) y = rect.height - lensSize;
+
+                zoomLens.style.left = `${x - lensSize}px`;
+                zoomLens.style.top = `${y - lensSize}px`;
+
+                const percentX = (x / rect.width) * 100;
+                const percentY = (y / rect.height) * 100;
+
+                zoomLens.style.backgroundImage = `url('${mainImage.src}')`;
+                zoomLens.style.backgroundPosition = `${percentX}% ${percentY}%`;
+            }
+
+            // Desktop hover
+            mainImage.addEventListener("mouseenter", () => showLens());
+            mainImage.addEventListener("mouseleave", () => hideLens());
+            mainImage.addEventListener("mousemove", e => {
+                const rect = mainImage.getBoundingClientRect();
+                moveLens(e.clientX - rect.left, e.clientY - rect.top);
+            });
+
+            // Mobile touch
+            mainImage.addEventListener("touchstart", e => {
+                showLens();
+                const rect = mainImage.getBoundingClientRect();
+                const touch = e.touches[0];
+                moveLens(touch.clientX - rect.left, touch.clientY - rect.top);
+            });
+
+            mainImage.addEventListener("touchmove", e => {
+                const rect = mainImage.getBoundingClientRect();
+                const touch = e.touches[0];
+                moveLens(touch.clientX - rect.left, touch.clientY - rect.top);
+            });
+
+            mainImage.addEventListener("touchend", () => hideLens());
+
+            // Update zoom lens when thumbnails clicked
+            window.changeMainImage = (el, src) => {
+                document.querySelectorAll(".thumbnail-btn").forEach(btn => btn.classList.remove("active",
+                    "border-accent"));
+                el.classList.add("active", "border-accent");
+
+                mainImage.src = src;
+                zoomLens.style.backgroundImage = `url('${src}')`;
+            };
+        });
+
 
 
 
