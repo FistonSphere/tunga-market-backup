@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('product_variants', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+    $table->unsignedBigInteger('product_id');
+    $table->string('type'); // e.g. "color", "storage"
+    $table->string('value'); // e.g. "Red", "256GB"
+    $table->integer('extra_price')->nullable(); // If storage/color changes price
+    $table->timestamps();
+
+    $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
