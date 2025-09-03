@@ -46,9 +46,8 @@
                             onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
 
                         {{-- @if ($product->ar_model) --}}
-                        <!-- AR Preview Button -->
                         <button id="arPreviewBtn" data-main="{{ $product->main_image }}"
-                            data-gallery='@json($product->gallery)'
+                            data-gallery='@json($product->gallery ?? [])'
                             class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-md hover:bg-accent hover:text-white transition"
                             title="AR Preview">
                             <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,37 +57,6 @@
                                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
                         </button>
-
-                        <!-- AR Modal -->
-                        <div id="arModal"
-                            class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50">
-                            <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl p-4">
-                                <!-- Close Button -->
-                                <button id="closeArModal"
-                                    class="absolute top-3 right-3 bg-gray-100 hover:bg-red-500 hover:text-white rounded-full p-2 transition">
-                                    ✕
-                                </button>
-
-                                <!-- Fake 3D Viewer -->
-                                <div id="fake3dViewer"
-                                    class="w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden relative">
-                                    <img id="fake3dImage" class="max-h-full max-w-full object-contain select-none"
-                                        draggable="false" />
-                                    <!-- Navigation Arrows -->
-                                    <button id="prevImageBtn"
-                                        class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/70 p-2 rounded-full hover:bg-white">
-                                        &#10094;
-                                    </button>
-                                    <button id="nextImageBtn"
-                                        class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/70 p-2 rounded-full hover:bg-white">
-                                        &#10095;
-                                    </button>
-                                </div>
-                                <p class="text-center text-gray-500 mt-2 text-sm">Drag left/right or use arrows to rotate
-                                    through product images</p>
-                            </div>
-                        </div>
-
 
 
                         {{-- @endif --}}
@@ -606,31 +574,35 @@
         </div>
     </div>
 
-    <!-- AR Modal -->
     <div id="arModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50">
         <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl p-4">
             <!-- Close Button -->
             <button id="closeArModal"
-                class="absolute top-3 right-3 bg-gray-100 hover:bg-red-500 hover:text-white rounded-full p-2 transition">
+                class="absolute top-3 right-3 bg-gray-100 hover:bg-red-500 hover:text-white rounded-full p-2 transition z-50">
                 ✕
             </button>
 
             <!-- Fake 3D Viewer -->
             <div id="fake3dViewer"
-                class="w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden relative">
-                <img id="fake3dImage" class="max-h-full max-w-full object-contain select-none" draggable="false" />
-                <!-- Navigation Arrows -->
+                class="relative w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden cursor-grab">
+
+                <img id="fake3dImage" src="" class="max-h-full max-w-full object-contain select-none"
+                    draggable="false" />
+
+                <!-- Prev Button -->
                 <button id="prevImageBtn"
-                    class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/70 p-2 rounded-full hover:bg-white">
-                    &#10094;
+                    class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition z-10">
+                    ‹
                 </button>
+
+                <!-- Next Button -->
                 <button id="nextImageBtn"
-                    class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/70 p-2 rounded-full hover:bg-white">
-                    &#10095;
+                    class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-accent hover:text-white rounded-full p-3 shadow-md transition z-10">
+                    ›
                 </button>
             </div>
-            <p class="text-center text-gray-500 mt-2 text-sm">Drag left/right or use arrows to rotate through product
-                images</p>
+
+            <p class="text-center text-gray-500 mt-2 text-sm">Drag left/right or use arrows to rotate product</p>
         </div>
     </div>
 
@@ -727,6 +699,7 @@
                 }
             });
         });
+
 
 
 
