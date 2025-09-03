@@ -77,14 +77,27 @@
                                     d="M8 3H5a2 2 0 00-2 2v3m0 8v3a2 2 0 002 2h3m8-16h3a2 2 0 012 2v3m0 8v3a2 2 0 01-2 2h-3" />
                             </svg>
                         </button>
-                        <!-- Fullscreen Modal -->
-                        <div id="fullscreenModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50">
+                        <div id="fullscreenModal"
+                            class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[999999]">
                             <button id="closeFullscreen"
-                                class="absolute top-4 right-4 bg-white/90 rounded-full p-3 hover:bg-red-500 hover:text-white transition z-50">
+                                class="absolute top-4 right-4 bg-white/90 rounded-full p-3 hover:bg-red-500 hover:text-white transition z-[999999]">
                                 ✕
                             </button>
+
+                            <!-- Prev Button -->
+                            <button id="prevImage"
+                                class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 rounded-full p-3 hover:bg-white transition z-[999999]">
+                                ◀
+                            </button>
+
+                            <!-- Next Button -->
+                            <button id="nextImage"
+                                class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 rounded-full p-3 hover:bg-white transition z-[999999]">
+                                ▶
+                            </button>
+
                             <img id="fullscreenImage" src=""
-                                class="max-h-full max-w-full object-contain select-none" />
+                                class="max-h-full max-w-full object-contain rounded-lg select-none" />
                         </div>
 
                         <!-- 360 View Button (if gallery exists) -->
