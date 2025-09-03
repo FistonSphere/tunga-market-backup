@@ -218,6 +218,75 @@
                             </ul>
                         </div>
                     @endif
+                    <!-- Specifications -->
+                    @if ($product->specifications)
+                        <div class="mb-6">
+                            <h3 class="text-xl font-bold mb-5 text-gray-900">Choose Specifications</h3>
+
+                            @php
+                                $specs = json_decode($product->specifications, true);
+                            @endphp
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                @foreach ($specs as $specKey => $options)
+                                    @php
+                                        $optionsArray = is_array($options) ? $options : explode(',', $options);
+                                    @endphp
+
+                                    <div class="bg-white p-4 rounded-lg shadow-md">
+                                        <label
+                                            class="block text-sm font-semibold text-gray-700 mb-2">{{ ucfirst($specKey) }}</label>
+
+                                        <div class="flex flex-wrap gap-3">
+                                            @foreach ($optionsArray as $option)
+                                                @php
+                                                    $value = trim($option);
+                                                    $isColor = strtolower($specKey) === 'color'; // simple color check
+                                                @endphp
+
+                                                <label class="cursor-pointer">
+                                                    <input type="radio" name="specifications[{{ $specKey }}]"
+                                                        value="{{ $value }}" class="hidden peer" />
+                                                    <div
+                                                        class="px-4 py-2 border rounded-lg text-sm text-gray-900 shadow-sm hover:border-accent hover:bg-accent/10 transition-all duration-150 peer-checked:border-accent peer-checked:bg-accent/20 peer-checked:text-accent flex items-center justify-center gap-2">
+                                                        @if ($isColor)
+                                                            <span class="w-5 h-5 rounded-full border"
+                                                                style="background-color: {{ strtolower($value) }}"></span>
+                                                        @endif
+                                                        <span>{{ $value }}</span>
+                                                    </div>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+
+
+                    <!-- Quantity -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">Quantity</h3>
+                        <div class="flex items-center space-x-3">
+                            <button type="button"
+                                class="decreaseQty px-3 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold">
+                                −
+                            </button>
+                            <input type="number" name="quantity" value="{{ $product->min_order_quantity }}"
+                                min="{{ $product->min_order_quantity }}" max="{{ $product->stock_quantity }}"
+                                class="w-20 text-center border rounded-md py-2 px-3 focus:ring-2 focus:ring-accent focus:border-accent" />
+                            <button type="button"
+                                class="increaseQty px-3 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold">
+                                +
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">
+                            Available stock: {{ $product->stock_quantity }}
+                        </p>
+                    </div>
+
 
                     <!-- Action Buttons -->
                     <div class="grid grid-cols-2 gap-3">
