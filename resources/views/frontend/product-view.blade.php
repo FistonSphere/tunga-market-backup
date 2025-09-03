@@ -642,7 +642,6 @@
                     if (Array.isArray(gallery)) galleryImages = [...gallery];
                     else galleryImages = [];
                 } catch (e) {
-                    console.error("Gallery parse error:", e, rawGallery);
                     galleryImages = [];
                 }
 
@@ -946,7 +945,6 @@
                     }
                 })
                 .catch(err => {
-                    console.error(err);
                     submitBtn.innerHTML = btnText;
                     submitBtn.disabled = false;
                     showToast('Server error occurred!', 'error');
