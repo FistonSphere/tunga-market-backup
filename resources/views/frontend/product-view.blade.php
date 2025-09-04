@@ -219,7 +219,7 @@
                         </div>
                     @endif
                     <!-- Specifications -->
-                    @if ($product->specifications)
+                    {{-- @if ($product->specifications)
                         <div class="border border-border rounded-lg p-4 mb-6">
                             <h3 class="font-semibold text-primary mb-3">Choose Specifications</h3>
 
@@ -272,7 +272,7 @@
                         </div>
                     @endif
 
-
+ --}}
 
 
                     <!-- Quantity -->
@@ -1488,22 +1488,5 @@
             });
         });
 
-        document.addEventListener("DOMContentLoaded", () => {
-            document.querySelectorAll('.spec-group').forEach(group => {
-                const checkboxes = group.querySelectorAll('input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                    checkbox.addEventListener('change', () => {
-                        // If any checkbox in this group is checked, remove required
-                        const oneChecked = Array.from(checkboxes).some(cb => cb.checked);
-                        if (oneChecked) {
-                            checkboxes.forEach(cb => cb.removeAttribute('required'));
-                        } else {
-                            // If none checked, set required back to first checkbox
-                            checkboxes[0].setAttribute('required', 'required');
-                        }
-                    });
-                });
-            });
-        });
     </script>
 @endsection
