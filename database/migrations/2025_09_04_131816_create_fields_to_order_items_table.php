@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_items', function (Blueprint $table) {
-             $table->foreignId('product_variant_id')
+        Schema::table('order_items', function (Blueprint $table) {
+    $table->foreignId('product_variant_id')
           ->nullable()
           ->constrained('product_variants')
           ->cascadeOnDelete()
           ->after('product_id');
-        });
+});
+
     }
 
     /**
