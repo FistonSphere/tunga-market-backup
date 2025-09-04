@@ -233,9 +233,10 @@
                                         $optionsArray = is_array($options) ? $options : explode(',', $options);
                                     @endphp
 
-                                    <div class="bg-white p-4 rounded-lg shadow-lg">
-                                        <label
-                                            class="block text-sm font-semibold text-gray-700 mb-2">{{ ucfirst($specKey) }}</label>
+                                    <div class="bg-white p-4 rounded-lg border">
+                                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                            {{ ucfirst($specKey) }}
+                                        </label>
 
                                         <div class="flex flex-wrap gap-3">
                                             @foreach ($optionsArray as $option)
@@ -245,10 +246,15 @@
                                                 @endphp
 
                                                 <label class="cursor-pointer">
-                                                    <input type="radio" name="specifications[{{ $specKey }}]"
+                                                    <input type="checkbox" name="specifications[{{ $specKey }}][]"
                                                         value="{{ $value }}" class="hidden peer" />
+
                                                     <div
-                                                        class="px-4 py-2 border rounded-lg text-sm text-gray-900 shadow-sm hover:border-accent hover:bg-accent/10 transition-all duration-150 peer-checked:border-accent peer-checked:bg-accent/20 peer-checked:text-accent flex items-center justify-center gap-2">
+                                                        class="px-4 py-2 border rounded-lg text-sm flex items-center justify-center gap-2 transition-all duration-200
+                                    bg-gray-50 text-gray-800
+                                    hover:border-accent hover:bg-accent/10
+                                    peer-checked:border-accent peer-checked:bg-accent peer-checked:text-white">
+
                                                         @if ($isColor)
                                                             <span class="w-5 h-5 rounded-full border"
                                                                 style="background-color: {{ strtolower($value) }}"></span>
@@ -263,6 +269,7 @@
                             </div>
                         </div>
                     @endif
+
 
 
 
