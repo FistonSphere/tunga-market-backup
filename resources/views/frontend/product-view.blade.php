@@ -270,17 +270,23 @@
                     <div class="mb-6">
                         <h3 class="text-lg font-semibold mb-3">Quantity</h3>
                         <div class="flex items-center space-x-3">
-                            <button type="button"
-                                class="decreaseQty px-3 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold">
-                                −
-                            </button>
-                            <input type="number" name="quantity" value="{{ $product->min_order_quantity }}"
-                                min="{{ $product->min_order_quantity }}" max="{{ $product->stock_quantity }}"
-                                class="quantityValue w-20 text-center border rounded-md py-2 px-3 focus:ring-2 focus:ring-accent focus:border-accent" disabled />
-                            <button type="button"
-                                class="increaseQty px-3 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold">
-                                +
-                            </button>
+                            <div class="flex items-center space-x-2">
+                                <button type="button"
+                                    class="decreaseQty px-3 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold">
+                                    −
+                                </button>
+
+                                <input type="number" name="quantity" value="{{ $product->min_order_quantity }}"
+                                    min="{{ $product->min_order_quantity }}" max="{{ $product->stock_quantity }}"
+                                    class="quantityValue w-20 text-center border rounded-md py-2 px-3 focus:ring-2 focus:ring-accent focus:border-accent"
+                                    readonly />
+
+                                <button type="button"
+                                    class="increaseQty px-3 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold">
+                                    +
+                                </button>
+                            </div>
+
                         </div>
                         <p class="text-xs text-gray-500 mt-2">
                             Available stock: {{ $product->stock_quantity }}
