@@ -1451,5 +1451,32 @@
                 },
             },
         });
+
+        //update the quantity
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".decreaseQty").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const input = btn.parentElement.querySelector(".quantityValue");
+                    const min = parseInt(input.min) || 1;
+                    let current = parseInt(input.value);
+
+                    if (current > min) {
+                        input.value = current - 1;
+                    }
+                });
+            });
+
+            document.querySelectorAll(".increaseQty").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const input = btn.parentElement.querySelector(".quantityValue");
+                    const max = parseInt(input.max) || 999;
+                    let current = parseInt(input.value);
+
+                    if (current < max) {
+                        input.value = current + 1;
+                    }
+                });
+            });
+        });
     </script>
 @endsection
