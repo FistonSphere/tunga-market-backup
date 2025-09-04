@@ -9,10 +9,10 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
-           $table->foreignId('product_variant_id')
+        Schema::table('carts', function (Blueprint $table) {
+            $table->foreignId('product_variant_id')
           ->nullable()
           ->constrained('product_variants')
           ->cascadeOnDelete();
@@ -24,6 +24,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_variant_id');
+        Schema::table('carts', function (Blueprint $table) {
+          $table->dropColumn('product_variant_id');
+        });
     }
 };
