@@ -14,6 +14,7 @@ class Cart extends Model
         'quantity',
         'price',
         'currency',
+        'product_variant_id ',
         'shipping_fee',
         'coupon_code',
     ];
@@ -29,5 +30,9 @@ class Cart extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+     public function variant()
+    {
+        return $this->belongsTo(ProductVariant::class, 'product_variant_id');
     }
 }
