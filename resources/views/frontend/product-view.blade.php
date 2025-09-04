@@ -220,8 +220,8 @@
                     @endif
                     <!-- Specifications -->
                     @if ($product->specifications)
-                        <div class="mb-6">
-                            <h3 class="text-xl font-bold mb-5 text-gray-900">Choose Specifications</h3>
+                        <div class="border border-border rounded-lg p-4 mb-6">
+                            <h3 class="font-semibold text-primary mb-3">Choose Specifications</h3>
 
                             @php
                                 $specs = json_decode($product->specifications, true);
@@ -233,7 +233,7 @@
                                         $optionsArray = is_array($options) ? $options : explode(',', $options);
                                     @endphp
 
-                                    <div class="bg-white p-4 rounded-lg shadow-md">
+                                    <div class="bg-white p-4 rounded-lg shadow-lg">
                                         <label
                                             class="block text-sm font-semibold text-gray-700 mb-2">{{ ucfirst($specKey) }}</label>
 
