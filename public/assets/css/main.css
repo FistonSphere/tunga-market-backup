@@ -4697,3 +4697,22 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active {
 #fullscreenModal.show {
     display: flex;
 }
+.quantityValue {
+    outline: none;
+}
+/* Hide spinners in Chrome, Safari, Edge, and Opera */
+.quantityValue input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide spinners in Firefox */
+.quantityValue input[type="number"] {
+    -moz-appearance: textfield;
+}
+.quantityValue input[disabled] {
+    color: #000;
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}

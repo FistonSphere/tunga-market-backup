@@ -276,7 +276,7 @@
                             </button>
                             <input type="number" name="quantity" value="{{ $product->min_order_quantity }}"
                                 min="{{ $product->min_order_quantity }}" max="{{ $product->stock_quantity }}"
-                                class="w-20 text-center border rounded-md py-2 px-3 focus:ring-2 focus:ring-accent focus:border-accent" />
+                                class="quantityValue w-20 text-center border rounded-md py-2 px-3 focus:ring-2 focus:ring-accent focus:border-accent" disabled />
                             <button type="button"
                                 class="increaseQty px-3 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold">
                                 +
