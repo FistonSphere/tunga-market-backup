@@ -270,9 +270,7 @@
                                 @endforeach
                             </div>
                         </div>
-                    @endif
-
- --}}
+                    @endif--}}
 
 
                     <!-- Quantity -->
