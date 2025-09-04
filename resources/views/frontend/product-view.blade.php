@@ -233,13 +233,13 @@
                                         $optionsArray = is_array($options) ? $options : explode(',', $options);
                                     @endphp
 
-                                    <div class="bg-white p-4 rounded-lg border">
+                                    <div class="bg-white p-4 rounded-lg border spec-group">
                                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                                             {{ ucfirst($specKey) }}
                                         </label>
 
                                         <div class="flex flex-wrap gap-3">
-                                            @foreach ($optionsArray as $option)
+                                            @foreach ($optionsArray as $index => $option)
                                                 @php
                                                     $value = trim($option);
                                                     $isColor = strtolower($specKey) === 'color'; // simple color check
@@ -247,7 +247,9 @@
 
                                                 <label class="cursor-pointer">
                                                     <input type="checkbox" name="specifications[{{ $specKey }}][]"
-                                                        value="{{ $value }}" class="hidden peer" />
+                                                        value="{{ $value }}"
+                                                        class="hidden peer {{ $index === 0 ? 'first-option' : '' }}"
+                                                        {{ $index === 0 ? 'required' : '' }} />
 
                                                     <div
                                                         class="px-4 py-2 border rounded-lg text-sm flex items-center justify-center gap-2 transition-all duration-200
