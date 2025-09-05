@@ -269,4 +269,29 @@ public function removeSelected(Request $request)
             'summaryHtml' => $summaryHtml,
         ]);
     }
+
+    public function store(Request $request)
+{
+    $request->validate([
+        'product_id' => 'required|exists:products,id',
+        'quantity'   => 'required|integer|min:1'
+    ]);
+
+    $cart = Cart::updateOrCreate(
+        [
+            'user_id'    => auth()->id(),
+            'product_id' => $request->product_id
+        ],
+        [
+            'quantity' => DB::raw("quantity + {$request->quantity}")
+        ]
+    );
+
+    return response()->json([
+        'status'    => 'success',
+        'message'   => 'Product added to cart successfully!',
+        'cartCount' => Cart::where('user_id', auth()->id())->sum('quantity'),
+    ]);
+}
+
 }
