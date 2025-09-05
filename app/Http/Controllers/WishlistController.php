@@ -176,7 +176,7 @@ public function addToCart(Product $product)
     }
 
     // Optional: remove from wishlist
-    \App\Models\Wishlist::where('user_id', $userId)
+    Wishlist::where('user_id', $userId)
         ->where('product_id', $product->id)
         ->delete();
 
