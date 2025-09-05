@@ -98,6 +98,8 @@ Route::group(['middleware' => 'auth'], function () {
      Route::post('/cart/remove-all', [CartController::class, 'removeSelected'])
         ->name('cart.removeSelected');
         Route::get('/auth/user', [AuthController::class, 'getUser'])->name('auth.user');
+    Route::post('/product-view/cart/add', [CartController::class, 'storeItem'])->name('cart.add');
+    Route::post('/product-view/wishlist/add', [WishlistController::class, 'storeItem'])->name('wishlist.add');
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
