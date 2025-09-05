@@ -46,41 +46,7 @@ class WishlistController extends Controller
             'count' => Wishlist::where('user_id', $user->id)->count(),
         ]);
     }
-    // public function add2(Request $request, $id)
-    // {
-    //     $user = Auth::user();
-    //     $productId = $request->input('product_id');
-
-    //     if (!$user) {
-    //         return response()->json(['status' => 'error', 'message' => 'Unauthorized'], 401);
-    //     }
-
-    //     // Check if product already in wishlist
-    //     $exists = Wishlist::where('user_id', $user->id)
-    //                       ->where('product_id', $productId)
-    //                       ->exists();
-
-    //     if ($exists) {
-    //         return response()->json([
-    //             'status' => 'info',
-    //             'message' => 'Product already in wishlist',
-    //             'count' => Wishlist::where('user_id', $user->id)->count(),
-    //         ]);
-    //     }
-
-    //     // Add to wishlist
-    //     Wishlist::create([
-    //         'user_id' => $user->id,
-    //         'product_id' => $productId,
-    //     ]);
-
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'message' => 'Product added to wishlist',
-    //         'count' => Wishlist::where('user_id', $user->id)->count(),
-    //     ]);
-    // }
-
+   
     // Remove product from wishlist
     public function destroy(Product $product)
 {

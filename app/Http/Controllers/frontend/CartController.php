@@ -270,7 +270,7 @@ public function removeSelected(Request $request)
         ]);
     }
 
-    public function store(Request $request)
+    public function storeItem(Request $request)
 {
     $request->validate([
         'product_id' => 'required|exists:products,id',
