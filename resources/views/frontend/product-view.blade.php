@@ -303,8 +303,8 @@
 
                     <!-- Action Buttons -->
                     <div class="grid grid-cols-2 gap-3">
-                        <button class="btn-primary w-full">Add to Cart</button>
-                        <button class="btn-secondary w-full">Add to Wishlist</button>
+                        <button class="btn-primary w-full" onclick="addToCart({{ $product->id }})">Add to Cart</button>
+                        <button class="btn-secondary w-full" onclick="addToWishlist({{ $product->id }})">Add to Wishlist</button>
                     </div>
 
                     <!-- Trust Badges -->
