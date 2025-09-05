@@ -270,7 +270,7 @@
                                 @endforeach
                             </div>
                         </div>
-                    @endif--}}
+                    @endif --}}
 
 
                     <!-- Quantity -->
@@ -304,7 +304,8 @@
                     <!-- Action Buttons -->
                     <div class="grid grid-cols-2 gap-3">
                         <button class="btn-primary w-full" onclick="addToCart({{ $product->id }})">Add to Cart</button>
-                        <button class="btn-secondary w-full" onclick="addToWishlist({{ $product->id }})">Add to Wishlist</button>
+                        <button class="btn-secondary w-full" onclick="addToWishlist({{ $product->id }})">Add to
+                            Wishlist</button>
                     </div>
 
                     <!-- Trust Badges -->
@@ -1486,5 +1487,118 @@
             });
         });
 
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
+            const qtyInput = document.querySelector(".quantityValue");
+
+            // ✅ Add to Wishlist
+            window.addToWishlist = function(productId) {
+                fetch(`/wishlist/add`, {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest"
+                        },
+                        body: JSON.stringify({
+                            product_id: productId
+                        })
+                    })
+                    .then(response => {
+                        if (response.status === 401) {
+                            loginWarningModalWrapper.classList.remove("hidden");
+                            return null;
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (!data) return;
+                        if (data.status === "success") {
+                            showToast(data.message, "success");
+                            updateWishlistCount(data.count);
+                        } else {
+                            showToast(data.message, "info");
+                        }
+                    })
+                    .catch(() => showToast("Something went wrong. Try again.", "error"));
+            };
+
+            // ✅ Add to Cart
+            window.addToCart = function(productId) {
+                const quantity = parseInt(qtyInput.value) || 1;
+
+                fetch(`/cart/add`, {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest"
+                        },
+                        body: JSON.stringify({
+                            product_id: productId,
+                            quantity: quantity
+                        })
+                    })
+                    .then(response => {
+                        if (response.status === 401) {
+                            loginWarningModalWrapper.classList.remove("hidden");
+                            return null;
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (!data) return;
+                        if (data.status === "success") {
+                            updateCartCount(data.cartCount);
+                            showToast(data.message, "success");
+                        } else {
+                            showToast(data.message, "error");
+                        }
+                    })
+                    .catch(() => showToast("Failed to add to cart.", "error"));
+            };
+
+            // ✅ Helpers
+            function updateWishlistCount(count) {
+                const wishlistCountSpan = document.getElementById("wishlist-count");
+                if (wishlistCountSpan) wishlistCountSpan.textContent = count;
+            }
+
+            function updateCartCount(count) {
+                const cartCountSpan = document.getElementById("cart-count");
+                if (cartCountSpan) cartCountSpan.textContent = count;
+            }
+
+            function showToast(message, type = "success") {
+                const toastWrapper = document.getElementById("toast");
+                const toastMessage = toastWrapper.querySelector(".toast-message");
+                const textSpan = document.getElementById("toast-text");
+
+                textSpan.textContent = message;
+                toastMessage.classList.remove("bg-green-500", "bg-red-500", "bg-blue-500");
+                if (type === "success") toastMessage.classList.add("bg-green-500");
+                if (type === "error") toastMessage.classList.add("bg-red-500");
+                if (type === "info") toastMessage.classList.add("bg-blue-500");
+
+                toastWrapper.classList.remove("hidden");
+                toastMessage.classList.remove("opacity-0", "scale-95");
+                toastMessage.classList.add("opacity-100", "scale-100");
+
+                setTimeout(() => {
+                    toastMessage.classList.remove("opacity-100", "scale-100");
+                    toastMessage.classList.add("opacity-0", "scale-95");
+                    setTimeout(() => toastWrapper.classList.add("hidden"), 300);
+                }, 3000);
+            }
+
+            // ✅ Modal helpers
+            window.goToSignIn = function() {
+                window.location.href = "{{ route('login') }}";
+            };
+            window.continueBrowsing = function() {
+                loginWarningModalWrapper.classList.add("hidden");
+            };
+        });
     </script>
 @endsection
