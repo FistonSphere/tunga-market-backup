@@ -202,4 +202,34 @@ public function addToCart(Product $product)
         ]
     ]);
 }
+
+public function storeItem(Request $request)
+{
+    $request->validate([
+        'product_id' => 'required|exists:products,id'
+    ]);
+
+    $exists = Wishlist::where('user_id', auth()->id())
+        ->where('product_id', $request->product_id)
+        ->exists();
+
+    if ($exists) {
+        return response()->json([
+            'status' => 'info',
+            'message' => 'This product is already in your wishlist.'
+        ]);
+    }
+
+    Wishlist::create([
+        'user_id'    => auth()->id(),
+        'product_id' => $request->product_id
+    ]);
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Added to wishlist!',
+        'count'  => Wishlist::where('user_id', auth()->id())->count()
+    ]);
+}
+
 }
