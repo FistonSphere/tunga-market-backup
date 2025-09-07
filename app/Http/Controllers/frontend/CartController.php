@@ -5,6 +5,7 @@ namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -270,27 +271,73 @@ public function removeSelected(Request $request)
         ]);
     }
 
-    public function storeItem(Request $request)
+ public function storeItem(Request $request)
 {
     $request->validate([
         'product_id' => 'required|exists:products,id',
-        'quantity'   => 'required|integer|min:1'
+        'quantity'   => 'required|integer|min:1',
+        'variant_id' => 'nullable|integer' // if you support variants
     ]);
 
-    $cart = Cart::updateOrCreate(
-        [
-            'user_id'    => auth()->id(),
-            'product_id' => $request->product_id
-        ],
-        [
-            'quantity' => DB::raw("quantity + {$request->quantity}")
-        ]
-    );
+    $product = Product::select('id','price','discount_price','currency','stock_quantity','min_order_quantity')
+        ->findOrFail($request->product_id);
+
+    // Enforce MOQ and stock (optional but recommended)
+    $qty = max($request->quantity, (int)($product->min_order_quantity ?? 1));
+    if ($product->stock_quantity !== null && $product->stock_quantity > 0 && $qty > $product->stock_quantity) {
+        $qty = $product->stock_quantity;
+    }
+
+    // Decide unit price: discount > base
+    $unitPrice = $product->discount_price !== null ? $product->discount_price : $product->price;
+
+    // If you have variants and a variant_id is passed, override price if variant has price
+    $variantId = $request->variant_id ?? null;
+    if ($variantId) {
+        $variant = ProductVariant::where('product_id', $product->id)
+            ->where('id', $variantId)
+            ->first();
+
+        if ($variant && $variant->price_override !== null) {
+            $unitPrice = $variant->price_override;
+        }
+    }
+
+    // Use firstOrNew so we can safely set required fields on create,
+    // and increment quantity without DB::raw on insert.
+    $cart = Cart::firstOrNew([
+        'user_id'    => auth()->id(),
+        'product_id' => $product->id,
+        // uncomment if your carts table has variant_id
+        // 'variant_id' => $variantId,
+    ]);
+
+    if (! $cart->exists) {
+        $cart->quantity = 0; // initialize for new rows
+        $cart->price    = $unitPrice;          // required by DB
+        $cart->currency = $product->currency;  // required by DB
+        // $cart->selected_specs = $request->input('selected_specs'); // if you store JSON of choices
+    }
+
+    // Increment quantity (respecting stock)
+    $newQty = $cart->quantity + $qty;
+    if ($product->stock_quantity !== null && $product->stock_quantity > 0) {
+        $newQty = min($newQty, $product->stock_quantity);
+    }
+    $cart->quantity = $newQty;
+
+    // If you want to always refresh unit price to current discount/base:
+    $cart->price    = $unitPrice;
+    $cart->currency = $product->currency;
+
+    $cart->save();
+
+    $cartCount = Cart::where('user_id', auth()->id())->sum('quantity');
 
     return response()->json([
         'status'    => 'success',
         'message'   => 'Product added to cart successfully!',
-        'cartCount' => Cart::where('user_id', auth()->id())->sum('quantity'),
+        'cartCount' => $cartCount,
     ]);
 }
 

@@ -286,7 +286,7 @@
                                 <input type="number" name="quantity" value="{{ $product->min_order_quantity }}"
                                     min="{{ $product->min_order_quantity }}" max="{{ $product->stock_quantity }}"
                                     class="quantityValue w-20 text-center border rounded-md py-2 px-3 focus:ring-2 focus:ring-accent focus:border-accent"
-                                    readonly />
+                                    id="quantityValue" readonly />
 
                                 <button type="button"
                                     class="increaseQty px-3 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold">
@@ -729,7 +729,59 @@
         </div>
     </div>
 
+    <!-- Login Warning Modal (hidden by default) -->
+    <div id="login-warning-modal-wrapper"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div id="login-warning-modal"
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
+            <!-- Close Button -->
+            <button onclick="continueBrowsing()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
 
+            <!-- Warning Icon -->
+            <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+            </div>
+
+            <!-- Main Message -->
+            <h2 class="text-2xl font-bold text-primary mb-3">Sign in to save your favorites</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Join us to unlock your personalized shopping experience and never lose track of the products you love.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button onclick="goToSignIn()"
+                    class="w-full btn-primary py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Sign In to My Account
+                </button>
+                <button onclick="continueBrowsing()"
+                    class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
+                    Continue Browsing Without Account
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Toast Wrapper -->
+    <div id="toast" class="hidden" style="z-index:99999">
+        <div
+            class="toast-message flex items-center p-4 max-w-xs w-full text-white rounded-lg shadow-lg transition transform duration-300 ease-in-out opacity-0 scale-95">
+            <span id="toast-text" class="flex-1 text-sm font-medium"></span>
+            <button onclick="document.getElementById('toast').classList.add('hidden')"
+                class="ml-3 text-white hover:text-gray-200 focus:outline-none">
+                ✕
+            </button>
+        </div>
+    </div>
 
 
 
@@ -1490,7 +1542,7 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
-            const qtyInput = document.querySelector(".quantityValue");
+            const qtyInput = document.getElementById("quantityValue");
 
             // ✅ Add to Wishlist
             window.addToWishlist = function(productId) {
@@ -1528,7 +1580,7 @@
             window.addToCart = function(productId) {
                 const quantity = parseInt(qtyInput.value) || 1;
 
-                fetch(`/cart/add`, {
+                fetch(`/product-view/cart/add`, {
                         method: "POST",
                         headers: {
                             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
