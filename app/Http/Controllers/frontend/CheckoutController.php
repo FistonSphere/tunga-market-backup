@@ -32,7 +32,7 @@ class CheckoutController extends Controller
     // $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
 
     // Tax (7.2%)
-    $tax = ($subtotal) * 0.1;
+    $tax = $subtotal * 0.1;
 //discount
 $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
 //shipping
