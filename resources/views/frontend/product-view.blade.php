@@ -482,7 +482,7 @@
 
                     <!-- Review Summary -->
                     <div class="card">
-                        <h3 class="font-semibold text-primary mb-4">Add Review</h3>
+                        <h3 class="font-semibold text-primary mb-4">Add Comment</h3>
                         <div class="text-center mb-6">
                             <div class="text-4xl font-bold text-primary mb-2">
                                 {{ number_format($product->average_rating, 1) }}</div>
