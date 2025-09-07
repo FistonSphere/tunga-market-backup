@@ -354,6 +354,9 @@
                         onclick="showTab('reviews')">
                         Reviews ({{ $reviewsCount ?? 0 }})
                     </button>
+                     <button class="tab-btn py-4 px-1 border-b-2 border-transparent font-semibold text-secondary-600 hover:text-primary hover:border-secondary-300 transition-fast"
+                        onclick="showTab('comment')">Add Comment</button>
+
                 </nav>
             </div>
 
@@ -391,6 +394,95 @@
                     <!-- Review Summary -->
                     <div class="card">
                         <h3 class="font-semibold text-primary mb-4">Review Summary</h3>
+                        <div class="text-center mb-6">
+                            <div class="text-4xl font-bold text-primary mb-2">
+                                {{ number_format($product->average_rating, 1) }}</div>
+                            <div class="flex justify-center text-warning mb-2">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <svg class="w-5 h-5 {{ ($product->average_rating ?? 0) >= $i ? 'fill-current' : 'text-secondary-300' }}"
+                                        viewBox="0 0 20 20">
+                                        <path
+                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                @endfor
+                            </div>
+                            <div class="text-body-sm text-secondary-600">Based on {{ $product->reviews_count_custom }}
+                                reviews</div>
+                        </div>
+
+                        <!-- Rating Breakdown (static for now, can be dynamic later) -->
+                        <div class="space-y-2">
+                            @php
+                                $breakdown = $product->rating_breakdown ?? [
+                                    5 => 78,
+                                    4 => 15,
+                                    3 => 4,
+                                    2 => 2,
+                                    1 => 1,
+                                ];
+                            @endphp
+
+                            @foreach ($breakdown as $stars => $percent)
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-body-sm w-8">{{ $stars }} ★</span>
+                                    <div class="flex-1 bg-secondary-200 rounded-full h-2">
+                                        <div class="bg-warning h-2 rounded-full" style="width: {{ $percent }}%">
+                                        </div>
+                                    </div>
+                                    <span class="text-body-sm text-secondary-600 w-12">{{ $percent }}%</span>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Review Filters & List -->
+                    <div class="lg:col-span-2">
+                        <div class="flex items-center space-x-4 mb-6">
+                            <span class="font-semibold text-primary">Filter by:</span>
+                            <select name="filter" class="input-field py-2 px-3 text-body-sm">
+                                <option>All Reviews</option>
+                                <option>5 Stars</option>
+                                <option>4 Stars</option>
+                                <option>3 Stars</option>
+                                <option>With Photos</option>
+                                <option>Verified Purchase</option>
+                            </select>
+                            <select name="sort" class="input-field py-2 px-3 text-body-sm">
+                                <option>Most Recent</option>
+                                <option>Most Helpful</option>
+                                <option>Highest Rating</option>
+                                <option>Lowest Rating</option>
+                            </select>
+                        </div>
+
+                        <!-- Individual Reviews -->
+                        <div id="reviews-container" class="space-y-6 relative">
+                            <div id="reviews-spinner"
+                                class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 hidden">
+                                <svg class="animate-spin h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                        stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                                </svg>
+                            </div>
+
+                            <div id="reviews-list">
+                                @include('partials.product-reviews', [
+                                    'reviews' => $product->reviews,
+                                ])
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Comment Tab -->
+            <div id="comment" class="tab-content hidden">
+                <div class="grid lg:grid-cols-3 gap-8">
+
+                    <!-- Review Summary -->
+                    <div class="card">
+                        <h3 class="font-semibold text-primary mb-4">Add Review</h3>
                         <div class="text-center mb-6">
                             <div class="text-4xl font-bold text-primary mb-2">
                                 {{ number_format($product->average_rating, 1) }}</div>
