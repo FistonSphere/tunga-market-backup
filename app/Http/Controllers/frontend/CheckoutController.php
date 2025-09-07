@@ -30,15 +30,17 @@ class CheckoutController extends Controller
     // Bulk discount (reusing your cart logic)
     $totalItems = $cartItems->sum('quantity');
     // $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
+    $bulkDiscount = $subtotal > 200 ? $subtotal * 0.10 : 0;
+    $shipping    = 0;           // adjust if you have shipping rules
+    $tax= $subtotal * 0.1;
 
-    // Tax (7.2%)
-    $tax = $subtotal * 0.1;
+    dd($tax);
 //discount
 $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
 //shipping
 // $shipping = 12.99;
     // Final total
-    $total = $subtotal + $tax;
+    $total       = $subtotal - $bulkDiscount + $shipping + $tax;
  // ✅ Get user saved addresses
     $addresses = ShippingAddress::where('user_id', Auth::id())->get();
     return view('frontend.checkout', compact(
