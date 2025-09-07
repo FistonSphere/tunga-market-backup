@@ -605,6 +605,7 @@
                                             </button>
                                         </div>
                                     </div>
+                                    <a href="{{ route('product.view', $related->sku) }}">
                                     <h3 class="font-semibold text-primary mb-2">{{ $related->name }}</h3>
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-baseline space-x-2">
@@ -619,6 +620,7 @@
                                         </div>
                                         <span class="text-success text-body-sm">Free Shipping</span>
                                     </div>
+                                    </a>
                                 </div>
                             </div>
                         @endforeach
