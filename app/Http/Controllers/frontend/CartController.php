@@ -49,7 +49,7 @@ class CartController extends Controller
         return 0;
     });
 
-        dd($discountPromo);
+        
         
     return view('frontend.cart', compact(
         'cartItems',
