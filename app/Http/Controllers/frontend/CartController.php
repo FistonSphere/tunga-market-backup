@@ -38,6 +38,19 @@ class CartController extends Controller
         ->inRandomOrder()
         ->take(4)
         ->get();
+
+        $discountPromo = Cart::with('product')
+    ->where('user_id', Auth::id())
+    ->get()
+    ->sum(function ($cart) {
+        if ($cart->product && $cart->product->discount_price) {
+            return ($cart->product->price - $cart->product->discount_price) * $cart->quantity;
+        }
+        return 0;
+    });
+
+        dd($discountPromo);
+        
     return view('frontend.cart', compact(
         'cartItems',
         'subtotal',
