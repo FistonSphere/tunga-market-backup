@@ -472,7 +472,7 @@
         // Cart and Wishlist Management System
 
         // Initialize cart and wishlist manager
-        const cartWishlistManager = new CartWishlistManager();
+        
 
         // Global functions for button clicks
         function toggleCart() {
