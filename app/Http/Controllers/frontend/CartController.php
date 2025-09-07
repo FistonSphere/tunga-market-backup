@@ -55,7 +55,7 @@ class CartController extends Controller
         'cartItems',
         'subtotal',
         'bulkDiscount',
-        // 'shipping',
+        'discountPromo',
         'tax',
         'total',
         'totalItems',

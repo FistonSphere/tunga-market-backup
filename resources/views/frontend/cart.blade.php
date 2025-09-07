@@ -29,8 +29,10 @@
                     <div class="flex items-center space-x-6 text-body-sm">
                         <span class="text-secondary-600"><span class="font-semibold text-primary"
                                 id="cart-item-count">{{ $cartCount }}</span> items in cart</span>
-                        <span class="text-success">💰 You're saving <span class="font-semibold">$89.50</span> with bulk
-                            discounts!</span>
+                        @if ($discountPromo > 0)
+                            <span class="text-success">💰 You're saving <span class="font-semibold">{{ $discountPromo }}</span> with Promo
+                                discounts!</span>
+                        @endif
                     </div>
                 </div>
                 @php
@@ -472,7 +474,7 @@
         // Cart and Wishlist Management System
 
         // Initialize cart and wishlist manager
-        
+
 
         // Global functions for button clicks
         function toggleCart() {
