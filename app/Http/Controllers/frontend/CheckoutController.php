@@ -34,7 +34,7 @@ class CheckoutController extends Controller
     $shipping    = 0;           // adjust if you have shipping rules
     $tax= $subtotal * 0.1;
 
-    dd($tax);
+    // dd($subtotal);
 //discount
 $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
 //shipping

@@ -1024,7 +1024,7 @@
                         button.className =
                             "px-3 py-1 bg-accent-50 text-accent rounded-full text-body-sm hover:bg-accent-100 transition-fast";
                         button.onclick = () => {
-                            window.location.href = `/products/${product.sku}`;
+                            window.location.href = `/product-view/${product.sku}`;
                         };
                         container.appendChild(button);
                     });

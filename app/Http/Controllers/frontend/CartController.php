@@ -31,7 +31,7 @@ class CartController extends Controller
     // $shipping = 12.99;
 
     // Example: Tax calculation (7.2%)
-    $tax = ($subtotal - $bulkDiscount) * 0.1;
+    $tax = ($subtotal) * 0.1;
 
     $total = $subtotal - $bulkDiscount + $tax;
     $featureProducts= Product::where('status', 'active')
@@ -246,6 +246,7 @@ public function removeSelected(Request $request)
         $bulkDiscount = $subtotal > 200 ? $subtotal * 0.10 : 0;
         $shipping    = 0;           // adjust if you have shipping rules
         $tax         = $subtotal * 0.1;
+        
         $total       = $subtotal - $bulkDiscount + $shipping + $tax;
 
         // (Optional) also return a rendered summary partial if you want to replace the HTML
