@@ -307,52 +307,52 @@
                 <!-- Search Results -->
                 <div class="overflow-y-auto max-h-96 p-6">
                     <div id="search-results" class="space-y-4">
-                        @foreach ($products as $product)
-                            <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
-                                onclick="selectProduct(0, 'wireless-earbuds-pro')">
-                                <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
-                                    class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
-                                <div class="flex-1">
-                                    <h4 class="font-semibold text-primary">{{ $product->name }}</h4>
-                                    <p class="text-body-sm text-secondary-600">Tunga Market •
-                                        {{ $product->category->name }}</p>
-                                    <div class="flex items-center space-x-2 mt-1">
-                                        @if ($product->discount_price)
-                                            <span class="line-through text-accent font-semibold text-sm mr-2">
-                                                @if ($product->currency === '$')
-                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
-                                                @elseif($product->currency === 'Rwf')
-                                                    {{ number_format($product->price) }} {{ $product->currency }}
-                                                @endif
-                                            </span>
-                                            <span class=" text-accent font-semibold">
-                                                @if ($product->currency === '$')
-                                                    {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
-                                                @elseif($product->currency === 'Rwf')
-                                                    {{ number_format($product->discount_price) }}
-                                                    {{ $product->currency }}
-                                                @endif
-                                            </span>
-                                        @else
-                                            <span class=" text-accent font-semibold">
-                                                @if ($product->currency === '$')
-                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
-                                                @elseif($product->currency === 'Rwf')
-                                                    {{ number_format($product->price) }} {{ $product->currency }}
-                                                @endif
-                                            </span>
-                                        @endif
-                                        @if ($product->average_rating > 0)
-                                            <span class="text-success text-sm">⭐
-                                                {{ number_format($product->average_rating, 1) }}</span>
-                                        @endif
-                                        <span class="text-secondary-500 text-sm">{{ $product->formatted_views }}
-                                            Views</span>
+                            @foreach ($products as $product)
+                                <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
+                                    onclick="selectProduct(0, 'wireless-earbuds-pro')">
+                                    <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
+                                        class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-primary">{{ $product->name }}</h4>
+                                        <p class="text-body-sm text-secondary-600">Tunga Market •
+                                            {{ $product->category->name }}</p>
+                                        <div class="flex items-center space-x-2 mt-1">
+                                            @if ($product->discount_price)
+                                                <span class="line-through text-accent font-semibold text-sm mr-2">
+                                                    @if ($product->currency === '$')
+                                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                    @elseif($product->currency === 'Rwf')
+                                                        {{ number_format($product->price) }} {{ $product->currency }}
+                                                    @endif
+                                                </span>
+                                                <span class=" text-accent font-semibold">
+                                                    @if ($product->currency === '$')
+                                                        {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
+                                                    @elseif($product->currency === 'Rwf')
+                                                        {{ number_format($product->discount_price) }}
+                                                        {{ $product->currency }}
+                                                    @endif
+                                                </span>
+                                            @else
+                                                <span class=" text-accent font-semibold">
+                                                    @if ($product->currency === '$')
+                                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                    @elseif($product->currency === 'Rwf')
+                                                        {{ number_format($product->price) }} {{ $product->currency }}
+                                                    @endif
+                                                </span>
+                                            @endif
+                                            @if ($product->average_rating > 0)
+                                                <span class="text-success text-sm">⭐
+                                                    {{ number_format($product->average_rating, 1) }}</span>
+                                            @endif
+                                            <span class="text-secondary-500 text-sm">{{ $product->formatted_views }}
+                                                Views</span>
+                                        </div>
                                     </div>
+                                    <button class="btn-primary text-sm">Add to Compare</button>
                                 </div>
-                                <button class="btn-primary text-sm">Add to Compare</button>
-                            </div>
-                        @endforeach
+                            @endforeach
                     </div>
                 </div>
             </div>
@@ -366,7 +366,7 @@
 
         // Sample product database
         const productDatabase = {!! $productDatabase !!};
-        // console.log(productDatabase);
+
         // Open product search modal
         function openProductSearch(slotIndex) {
             currentSlot = slotIndex;
@@ -413,17 +413,17 @@
 
             slot.className = 'comparison-slot border-2 border-accent rounded-lg p-4 text-center bg-accent-50 relative';
             slot.innerHTML = `
-        <button onclick="removeProduct(${slotIndex})" class="absolute top-2 right-2 w-6 h-6 bg-error text-white rounded-full flex items-center justify-center hover:bg-error-600 transition-fast">
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-        </button>
-        <img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-lg object-cover mx-auto mb-3" loading="lazy" />
-        <h3 class="font-semibold text-primary text-sm mb-1">${product.name}</h3>
-        <p class="text-body-sm text-secondary-600 mb-2">${product.supplier}</p>
-        <div class="text-accent font-bold">${formatCurrency(product.price)}</div>
-        <div class="text-success text-sm">⭐ ${product.rating}</div>
-    `;
+                <button onclick="removeProduct(${slotIndex})" class="absolute top-2 right-2 w-6 h-6 bg-error text-white rounded-full flex items-center justify-center hover:bg-error-600 transition-fast">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+                <img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-lg object-cover mx-auto mb-3" loading="lazy" />
+                <h3 class="font-semibold text-primary text-sm mb-1">${product.name}</h3>
+                <p class="text-body-sm text-secondary-600 mb-2">${product.supplier}</p>
+                <div class="text-accent font-bold">$${product.price}</div>
+                <div class="text-success text-sm">⭐ ${product.rating}</div>
+            `;
 
             slot.onclick = null; // Remove click handler
         }
@@ -498,48 +498,32 @@
             document.getElementById('comparison-table').classList.add('hidden');
         }
 
-        // ==============================
         // Generate comparison table
-        // ==============================
         function generateComparisonTable() {
-            // Filter only valid products
-            const validKeys = comparisonProducts.filter(p => p);
-            if (validKeys.length < 2) return;
-
-            // Get product objects from database
-            const validProducts = validKeys.map(key => productDatabase[key]);
+            const validProducts = comparisonProducts.filter(p => p);
+            if (validProducts.length < 2) return;
 
             const table = document.getElementById('comparison-grid');
-
-            // Collect all unique feature keys across selected products
-            const allFeatureKeys = new Set();
-            validProducts.forEach(p => {
-                if (Array.isArray(p.features)) {
-                    p.features.forEach((f, i) => allFeatureKeys.add(`Feature ${i + 1}`));
-                } else {
-                    Object.keys(p.features || {}).forEach(f => allFeatureKeys.add(f));
-                }
-            });
-
-            const features = ['price', 'rating', 'reviews', 'supplier', 'category', ...allFeatureKeys];
+            const features = ['price', 'rating', 'reviews', 'supplier', 'category', ...Object.keys(validProducts[0]
+                .features)];
 
             let tableHTML = `
-        <thead class="bg-surface">
-            <tr>
-                <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
-                ${validProducts.map(product => `
-                            <th class="px-4 py-3 text-center border-b border-border">
-                                <div class="flex flex-col items-center space-y-2">
-                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                </div>
-                            </th>
-                        `).join('')}
-            </tr>
-        </thead>
-        <tbody>
-    `;
+                <thead class="bg-surface">
+                    <tr>
+                        <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
+                        ${validProducts.map(product => `
+                                                        <th class="px-4 py-3 text-center border-b border-border">
+                                                            <div class="flex flex-col items-center space-y-2">
+                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                            </div>
+                                                        </th>
+                                                    `).join('')}
+                    </tr>
+                </thead>
+                <tbody>
+            `;
 
             features.forEach((feature, index) => {
                 const isEven = index % 2 === 0;
@@ -555,13 +539,14 @@
                     let cellClass = 'px-4 py-3 text-center border-b border-border';
 
                     if (feature === 'price') {
-                        const orig = product.originalPrice || product.price;
-                        const savings = orig - product.price;
+                        const savings = product.originalPrice - product.price;
                         value = `
-                    <div class="font-bold text-lg text-accent">$${product.price}</div>
-                    ${product.originalPrice ? `<div class="text-body-sm text-secondary-500 line-through">$${product.originalPrice}</div>` : ''}
-                    ${savings > 0 ? `<div class="text-body-sm text-success">Save $${savings.toFixed(2)}</div>` : ''}
-                `;
+                            <div class="font-bold text-lg text-accent">$${product.price}</div>
+                            <div class="text-body-sm text-secondary-500 line-through">$${product.originalPrice}</div>
+                            <div class="text-body-sm text-success">Save $${savings.toFixed(2)}</div>
+                        `;
+
+                        // Highlight best value
                         const minPrice = Math.min(...validProducts.map(p => p.price));
                         if (product.price === minPrice) {
                             cellClass += ' bg-success-50 ring-2 ring-success';
@@ -570,11 +555,13 @@
                         }
                     } else if (feature === 'rating') {
                         value = `
-                    <div class="flex items-center justify-center space-x-1">
-                        <span class="text-warning">⭐</span>
-                        <span class="font-semibold">${product.rating}</span>
-                    </div>
-                `;
+                            <div class="flex items-center justify-center space-x-1">
+                                <span class="text-warning">⭐</span>
+                                <span class="font-semibold">${product.rating}</span>
+                            </div>
+                        `;
+
+                        // Highlight highest rating
                         const maxRating = Math.max(...validProducts.map(p => p.rating));
                         if (product.rating === maxRating) {
                             cellClass += ' bg-accent-50 ring-2 ring-accent';
@@ -588,21 +575,14 @@
                     } else if (feature === 'category') {
                         value = product.category;
                     } else {
-                        // Custom features
-                        if (Array.isArray(product.features)) {
-                            const indexMatch = feature.match(/Feature (\d+)/);
-                            value = indexMatch ? product.features[parseInt(indexMatch[1]) - 1] || 'N/A' :
-                                'N/A';
-                        } else {
-                            value = product.features[feature] || 'N/A';
-                        }
+                        value = product.features[feature] || 'N/A';
 
                         // Highlight differences
-                        const allValues = validProducts.map(p => Array.isArray(p.features) ?
-                            p.features[parseInt(feature.replace('Feature ', '')) - 1] || 'N/A' :
-                            p.features[feature] || 'N/A');
+                        const allValues = validProducts.map(p => p.features[feature] || 'N/A');
                         const uniqueValues = [...new Set(allValues)];
-                        if (uniqueValues.length > 1) cellClass += ' bg-warning-50';
+                        if (uniqueValues.length > 1) {
+                            cellClass += ' bg-warning-50';
+                        }
                     }
 
                     tableHTML += `<td class="${cellClass}">${value}</td>`;
@@ -618,9 +598,7 @@
             generateScoringSummary(validProducts);
         }
 
-        // ==============================
         // Generate scoring summary
-        // ==============================
         function generateScoringSummary(products) {
             const summaryContainer = document.getElementById('scoring-summary');
 
@@ -629,60 +607,58 @@
                 const topRated = products.reduce((max, p) => p.rating > max.rating ? p : max, products[0]);
                 const badges = [];
 
-                if (product.price === bestValue.price) badges.push('🏆 Best Value');
-                if (product.rating === topRated.rating) badges.push('🌟 Top Rated');
+                if (product.id === bestValue.id) badges.push('🏆 Best Value');
+                if (product.id === topRated.id) badges.push('🌟 Top Rated');
 
                 return `
-            <div class="card">
-                <div class="flex items-center space-x-3 mb-4">
-                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                    <div>
-                        <h4 class="font-semibold text-primary">${product.name}</h4>
-                        <p class="text-body-sm text-secondary-600">${product.supplier}</p>
-                    </div>
-                </div>
-                
-                <div class="space-y-2 mb-4">
-                    <div class="flex justify-between">
-                        <span class="text-body-sm text-secondary-600">Overall Score:</span>
-                        <span class="font-semibold text-primary">${product.scores.overall}/5</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-body-sm text-secondary-600">Value Score:</span>
-                        <span class="font-semibold text-success">${product.scores.value}/5</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-body-sm text-secondary-600">Quality Score:</span>
-                        <span class="font-semibold text-accent">${product.scores.quality}/5</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-body-sm text-secondary-600">Delivery Score:</span>
-                        <span class="font-semibold text-primary">${product.scores.delivery}/5</span>
-                    </div>
-                </div>
-                
-                ${badges.length > 0 ? `
-                            <div class="space-y-1 mb-4">
-                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                    <div class="card">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                            <div>
+                                <h4 class="font-semibold text-primary">${product.name}</h4>
+                                <p class="text-body-sm text-secondary-600">${product.supplier}</p>
                             </div>
-                        ` : ''}
-                
-                <div class="space-y-2">
-                    <button onclick="addToCart('${product.slug}')" class="w-full btn-primary text-sm">
-                        Add to Cart - $${product.price}
-                    </button>
-                    <button onclick="addToWishlist('${product.slug}')" class="w-full btn-secondary text-sm">
-                        Add to Wishlist
-                    </button>
-                </div>
-            </div>
-        `;
+                        </div>
+                        
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between">
+                                <span class="text-body-sm text-secondary-600">Overall Score:</span>
+                                <span class="font-semibold text-primary">${product.scores.overall}/5</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-body-sm text-secondary-600">Value Score:</span>
+                                <span class="font-semibold text-success">${product.scores.value}/5</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-body-sm text-secondary-600">Quality Score:</span>
+                                <span class="font-semibold text-accent">${product.scores.quality}/5</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-body-sm text-secondary-600">Delivery Score:</span>
+                                <span class="font-semibold text-primary">${product.scores.delivery}/5</span>
+                            </div>
+                        </div>
+                        
+                        ${badges.length > 0 ? `
+                                                        <div class="space-y-1 mb-4">
+                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                        </div>
+                                                    ` : ''}
+                        
+                        <div class="space-y-2">
+                            <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
+                                Add to Cart - $${product.price}
+                            </button>
+                            <button onclick="addToWishlist('${product.id}')" class="w-full btn-secondary text-sm">
+                                Add to Wishlist
+                            </button>
+                        </div>
+                    </div>
+                `;
             }).join('');
 
             summaryContainer.innerHTML = summaryHTML;
         }
-
-
 
         // Filter comparison
         function filterComparison() {
@@ -709,30 +685,28 @@
         }
 
         // Load preset comparison
-        function loadPresetComparison(category) {
+        function loadPresetComparison(type) {
             clearComparison();
 
-            // Dynamically find all products in the requested category
-            const productsInCategory = Object.entries(productDatabase)
-                .filter(([slug, product]) => product.category.toLowerCase() === category.toLowerCase())
-                .map(([slug, product]) => slug);
+            switch (type) {
+                case 'wireless-earbuds':
+                    selectProduct(0, 'wireless-earbuds-pro');
+                    setTimeout(() => selectProduct(1, 'bluetooth-speaker'), 500);
+                    setTimeout(() => selectProduct(2, 'smart-watch'), 1000);
+                    break;
+                case 'smart-home':
+                    selectProduct(0, 'smart-home-hub');
+                    setTimeout(() => selectProduct(1, 'smart-watch'), 500);
+                    break;
+                case 'fitness-trackers':
+                    selectProduct(0, 'smart-watch');
+                    setTimeout(() => selectProduct(1, 'wireless-earbuds-pro'), 500);
+                    setTimeout(() => selectProduct(2, 'bluetooth-speaker'), 1000);
+                    break;
+            }
 
-            // Select products dynamically with a staggered delay
-            productsInCategory.forEach((slug, index) => {
-                setTimeout(() => {
-                    if (productDatabase[slug]) {
-                        selectProduct(index, slug);
-                    }
-                }, index * 500); // 500ms delay between slots
-            });
-
-            showToast(
-                'Comparison Loaded',
-                `Loading ${category} comparison...`,
-                'success'
-            );
+            showToast('Comparison Loaded', `Loading ${type.replace('-', ' ')} comparison...`, 'success');
         }
-
 
         // Add to cart
         function addToCart(productId) {
