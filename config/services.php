@@ -34,5 +34,8 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-
+'mista' => [
+    'api_token' => env('MISTA_API_TOKEN'),
+    'sender_id' => env('MISTA_SENDER_ID'),
+],
 ];
