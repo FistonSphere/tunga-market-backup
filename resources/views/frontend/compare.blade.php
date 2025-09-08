@@ -318,7 +318,7 @@
                                         <h4 class="font-semibold text-primary">{{ $product->name }}</h4>
                                         <p class="text-body-sm text-secondary-600">Tunga Market • {{ $product->category->name }}</p>
                                         <div class="flex items-center space-x-2 mt-1">
-                                            <span class="text-accent font-semibold">$149.99</span>
+                                            <span class="text-accent font-semibold">{{ $product->price }} {{ $product->currency }}</span>
                                             <span class="text-success text-sm">⭐ 4.8</span>
                                             <span class="text-secondary-500 text-sm">2.4K reviews</span>
                                         </div>
