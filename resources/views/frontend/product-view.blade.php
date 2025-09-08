@@ -354,7 +354,8 @@
                         onclick="showTab('reviews')">
                         Reviews ({{ $reviewsCount ?? 0 }})
                     </button>
-                     <button class="tab-btn py-4 px-1 border-b-2 border-transparent font-semibold text-secondary-600 hover:text-primary hover:border-secondary-300 transition-fast"
+                    <button
+                        class="tab-btn py-4 px-1 border-b-2 border-transparent font-semibold text-secondary-600 hover:text-primary hover:border-secondary-300 transition-fast"
                         onclick="showTab('comment')">Add Comment</button>
 
                 </nav>
@@ -484,10 +485,51 @@
                     <div class="card">
                         <h3 class="font-semibold text-primary mb-4">Add Comment</h3>
                         <div class="text-center mb-6">
-                            {{-- add here a --}}
+                            <div
+                                class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                ⭐
+                            </div>
+
+                            @guest
+                                <h2 class="text-xl font-bold text-center mb-3">Sign in to leave a review</h2>
+                                <p class="text-gray-600 text-center mb-6">Please log in before reviewing this product.</p>
+                                <a href="{{ route('login') }}"
+                                    class="btn-primary w-full py-3 rounded-lg font-semibold block text-center">
+                                    Sign In
+                                </a>
+                            @else
+                                <h2 class="text-xl font-bold text-center mb-3">Leave a Review</h2>
+                                <form id="review-form" method="POST" action="{{ route('reviews.store') }}">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+                                    <div class="mb-4">
+                                        <label class="block mb-2 font-semibold">Rating</label>
+                                        <select name="rating" class="w-full border rounded-lg p-2">
+                                            <option value="5">⭐⭐⭐⭐⭐</option>
+                                            <option value="4">⭐⭐⭐⭐</option>
+                                            <option value="3">⭐⭐⭐</option>
+                                            <option value="2">⭐⭐</option>
+                                            <option value="1">⭐</option>
+                                        </select>
+                                        <p class="text-red-500 text-sm mt-1 error-message" data-error-for="rating"></p>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="block mb-2 font-semibold">Comment</label>
+                                        <textarea name="comment" class="w-full border rounded-lg p-2"></textarea>
+                                        <p class="text-red-500 text-sm mt-1 error-message" data-error-for="comment"></p>
+                                    </div>
+
+                                    <button type="submit"
+                                        class="btn-primary w-full py-3 rounded-lg font-semibold transition-all hover:scale-105">
+                                        Submit Review
+                                    </button>
+                                </form>
+                            @endguest
                         </div>
                     </div>
-                   
+
                 </div>
             </div>
         </div>
@@ -607,10 +649,10 @@
                                     <div>
                                         <div class="relative overflow-hidden rounded-lg mb-4">
                                             <a href="{{ route('product.view', $related->sku) }}">
-                                            <img src="{{ $image }}" alt="{{ $product->name }}"
-                                                class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                                                loading="lazy"
-                                                onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
+                                                <img src="{{ $image }}" alt="{{ $product->name }}"
+                                                    class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
+                                                    loading="lazy"
+                                                    onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
                                             </a>
                                             <button onclick="addToWishlist({{ $product->id }})"
                                                 class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
@@ -623,20 +665,21 @@
                                         </div>
                                     </div>
                                     <a href="{{ route('product.view', $related->sku) }}">
-                                    <h3 class="font-semibold text-primary mb-2">{{ $related->name }}</h3>
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-baseline space-x-2">
-                                            <span class="text-xl font-bold text-primary">
-                                                {{ number_format($related->price, 2) }} {{ $related->currency }}
-                                            </span>
-                                            @if ($related->old_price)
-                                                <span class="text-body-sm text-secondary-500 line-through">
-                                                    {{ number_format($related->old_price, 2) }} {{ $related->currency }}
+                                        <h3 class="font-semibold text-primary mb-2">{{ $related->name }}</h3>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-baseline space-x-2">
+                                                <span class="text-xl font-bold text-primary">
+                                                    {{ number_format($related->price, 2) }} {{ $related->currency }}
                                                 </span>
-                                            @endif
+                                                @if ($related->old_price)
+                                                    <span class="text-body-sm text-secondary-500 line-through">
+                                                        {{ number_format($related->old_price, 2) }}
+                                                        {{ $related->currency }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <span class="text-success text-body-sm">Free Shipping</span>
                                         </div>
-                                        <span class="text-success text-body-sm">Free Shipping</span>
-                                    </div>
                                     </a>
                                 </div>
                             </div>
