@@ -14,6 +14,7 @@ use App\Http\Controllers\frontend\OrderTrackingController;
 use App\Http\Controllers\frontend\ProductListingController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SmsController;
 use App\Http\Controllers\WishlistController;
 use App\Models\Category;
 use App\Models\Product;
@@ -104,4 +105,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
+
+Route::get('/sms/send', [SmsController::class, 'create'])->name('sms.create');
+Route::post('/sms/send', [SmsController::class, 'send'])->name('sms.send');
 // End Authentication routes
