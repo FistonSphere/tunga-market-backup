@@ -14,7 +14,7 @@ class ComparedController extends Controller
 
     // Format the number into K/M/B
     $formattedTotal = $this->formatNumber($totalProducts);
-    $products = Product::where('status', 'active')->get();
+    $products = Product::with('category')->where('status', 'active')->get();
     return view('frontend.compare', [
         'totalProducts' => $totalProducts,
         'formattedTotal' => $formattedTotal,

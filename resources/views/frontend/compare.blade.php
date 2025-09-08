@@ -307,24 +307,26 @@
                 <!-- Search Results -->
                 <div class="overflow-y-auto max-h-96 p-6">
                     <div id="search-results" class="space-y-4">
-                        
-                        <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
-                            onclick="selectProduct(0, 'wireless-earbuds-pro')">
-                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                                alt="Premium Wireless Earbuds Pro" class="w-16 h-16 rounded-lg object-cover"
-                                loading="lazy" />
-                            <div class="flex-1">
-                                <h4 class="font-semibold text-primary">Premium Wireless Earbuds Pro</h4>
-                                <p class="text-body-sm text-secondary-600">TechSound Electronics • Electronics</p>
-                                <div class="flex items-center space-x-2 mt-1">
-                                    <span class="text-accent font-semibold">$149.99</span>
-                                    <span class="text-success text-sm">⭐ 4.8</span>
-                                    <span class="text-secondary-500 text-sm">2.4K reviews</span>
+                        @if (true)
+                            @foreach ($products as $product)
+                                <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
+                                    onclick="selectProduct(0, 'wireless-earbuds-pro')">
+                                    <img src="{{ $product->main_image }}"
+                                        alt="{{ $product->name }}" class="w-16 h-16 rounded-lg object-cover"
+                                        loading="lazy" />
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-primary">{{ $product->name }}</h4>
+                                        <p class="text-body-sm text-secondary-600">Tunga Market • {{ $product->category->name }}</p>
+                                        <div class="flex items-center space-x-2 mt-1">
+                                            <span class="text-accent font-semibold">$149.99</span>
+                                            <span class="text-success text-sm">⭐ 4.8</span>
+                                            <span class="text-secondary-500 text-sm">2.4K reviews</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn-primary text-sm">Add to Compare</button>
                                 </div>
-                            </div>
-                            <button class="btn-primary text-sm">Add to Compare</button>
-                        </div>
-                        
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -597,14 +599,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                    <th class="px-4 py-3 text-center border-b border-border">
-                                        <div class="flex flex-col items-center space-y-2">
-                                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                            <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                            <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                        </div>
-                                    </th>
-                                `).join('')}
+                                            <th class="px-4 py-3 text-center border-b border-border">
+                                                <div class="flex flex-col items-center space-y-2">
+                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                </div>
+                                            </th>
+                                        `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -725,10 +727,10 @@
                         </div>
                         
                         ${badges.length > 0 ? `
-                                    <div class="space-y-1 mb-4">
-                                        ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                    </div>
-                                ` : ''}
+                                            <div class="space-y-1 mb-4">
+                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                            </div>
+                                        ` : ''}
                         
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
