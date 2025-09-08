@@ -17,9 +17,9 @@ class ComparedController extends Controller
     foreach ($products as $product) {
         $product->formatted_views = $this->formatNumber($product->views_count);
     }
-    foreach ($products as $product) {
-        $product->average_rating = $product->reviews->avg('rating') ?? 0;
-    }
+    // foreach ($products as $product) {
+    //     $product->average_rating = $product->reviews->avg('rating') ?? 0;
+    // }
     return view('frontend.compare', [
         'totalProducts' => $totalProducts,
         'formattedTotal' => $formattedTotal,
