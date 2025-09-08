@@ -725,6 +725,14 @@
         </svg>
         <span>Enquiry Sent Successfully</span>
     </div>
+    <div id="toast-comment"
+        class="hidden fixed bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50"
+        style="right:10px;top: 8px;--tw-bg-opacity: 1;background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1)); color: #fff; z-index: 999999;">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <span>Feedback Added Successfully</span>
+    </div>
     <div id="review-modal-wrapper"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div id="review-modal" class="bg-white rounded-2xl shadow-lg w-full max-w-md mx-auto p-8 relative">
