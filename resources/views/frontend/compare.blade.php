@@ -410,7 +410,7 @@
             <img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-lg object-cover mx-auto mb-3" loading="lazy" />
             <h3 class="font-semibold text-primary text-sm mb-1">${product.name}</h3>
             <p class="text-body-sm text-secondary-600 mb-2">${product.supplier}</p>
-            <div class="text-accent font-bold">$${Number(product.price).toLocaleString()}</div>
+            <div class="text-accent font-bold">${Number(product.price).toLocaleString()} {product.currency}</div>
             <div class="text-success text-sm">⭐ ${product.rating}</div>
         `;
 
@@ -443,9 +443,9 @@
 
         // Live debug logging
         function logComparisonSlotsLive() {
-            console.group('📊 Comparison Slots');
+            // console.group('📊 Comparison Slots');
             comparisonProducts.forEach((p, i) => console.log(`Slot ${i + 1}:`, p || 'Empty'));
-            console.groupEnd();
+            // console.groupEnd();
         }
 
         // Attach "Add to Compare" buttons dynamically
