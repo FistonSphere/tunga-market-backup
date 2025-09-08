@@ -17,38 +17,36 @@ class ComparedController extends Controller
     foreach ($products as $product) {
         $product->formatted_views = $this->formatNumber($product->views_count);
     }
-$productsArray = Product::with(['category', 'reviews'])
-        ->where('status', 'active')
-        ->get()
-        ->map(function ($product) {
-            return [
-                'id' => $product->id,
-                'name' => $product->name,
-                'image' => $product->main_image,
-                'price' => $product->discount_price ?? $product->price,
-                'originalPrice' => $product->price,
-                'rating' => round($product->reviews->avg('rating') ?? 0, 1),
-                'reviews' => $product->reviews->count(),
-                'supplier' => 'Tunga Market', // or $product->supplier if you have it
-                'category' => $product->category->name ?? 'N/A',
-                'features' => [
-                    'Views' => $product->formatted_views,
-                    // add other dynamic specs if available
+ $productDatabase = [];
+
+        foreach ($products as $product) {
+            $avgRating = round($product->reviews->avg('rating') ?? 0, 1);
+            $reviewsCount = $product->reviews->count();
+
+            $productDatabase[$product->slug] = [
+                'name'   => $product->name,
+                'image'  => $product->main_image,
+                'price'  => $product->discount_price ?? $product->price,
+                'originalPrice' => $product->discount_price ? $product->price : null,
+                'rating' => $avgRating,
+                'reviews'=> $reviewsCount,
+                'supplier' => 'Tunga Market', // adjust if you have supplier relation
+                'category'=> $product->category->name ?? 'N/A',
+                'features'=> $this->mapFeatures($product),
+                'scores'  => [
+                    'overall' => $avgRating,
+                    'value'   => rand(3, 5),     // placeholder (can improve later)
+                    'quality' => rand(3, 5),
+                    'delivery'=> rand(3, 5),
                 ],
-                'scores' => [
-                    'overall' => round($product->reviews->avg('rating') ?? 0, 1),
-                    'value' => rand(3, 5),     // placeholder → can compute logic
-                    'quality' => rand(3, 5),   // placeholder
-                    'delivery' => rand(3, 5),  // placeholder
-                ]
             ];
-        });
+        }
     
     return view('frontend.compare', [
         'totalProducts' => $totalProducts,
         'formattedTotal' => $formattedTotal,
         'products' => $products,
-        'productsArray' => $productsArray
+         'productDatabase' => json_encode($productDatabase),
     ]);
 }
 

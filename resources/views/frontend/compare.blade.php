@@ -307,52 +307,52 @@
                 <!-- Search Results -->
                 <div class="overflow-y-auto max-h-96 p-6">
                     <div id="search-results" class="space-y-4">
-                        @foreach ($products as $product)
-                            <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
-                                onclick="selectProduct(0, 'wireless-earbuds-pro')">
-                                <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
-                                    class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
-                                <div class="flex-1">
-                                    <h4 class="font-semibold text-primary">{{ $product->name }}</h4>
-                                    <p class="text-body-sm text-secondary-600">Tunga Market •
-                                        {{ $product->category->name }}</p>
-                                    <div class="flex items-center space-x-2 mt-1">
-                                        @if ($product->discount_price)
-                                            <span class="line-through text-accent font-semibold text-sm mr-2">
-                                                @if ($product->currency === '$')
-                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
-                                                @elseif($product->currency === 'Rwf')
-                                                    {{ number_format($product->price) }} {{ $product->currency }}
-                                                @endif
-                                            </span>
-                                            <span class=" text-accent font-semibold">
-                                                @if ($product->currency === '$')
-                                                    {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
-                                                @elseif($product->currency === 'Rwf')
-                                                    {{ number_format($product->discount_price) }}
-                                                    {{ $product->currency }}
-                                                @endif
-                                            </span>
-                                        @else
-                                            <span class=" text-accent font-semibold">
-                                                @if ($product->currency === '$')
-                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
-                                                @elseif($product->currency === 'Rwf')
-                                                    {{ number_format($product->price) }} {{ $product->currency }}
-                                                @endif
-                                            </span>
-                                        @endif
-                                        @if ($product->average_rating > 0)
-                                            <span class="text-success text-sm">⭐
-                                                {{ number_format($product->average_rating, 1) }}</span>
-                                        @endif
-                                        <span class="text-secondary-500 text-sm">{{ $product->formatted_views }}
-                                            Views</span>
+                            @foreach ($products as $product)
+                                <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
+                                    onclick="selectProduct(0, 'wireless-earbuds-pro')">
+                                    <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
+                                        class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-primary">{{ $product->name }}</h4>
+                                        <p class="text-body-sm text-secondary-600">Tunga Market •
+                                            {{ $product->category->name }}</p>
+                                        <div class="flex items-center space-x-2 mt-1">
+                                            @if ($product->discount_price)
+                                                <span class="line-through text-accent font-semibold text-sm mr-2">
+                                                    @if ($product->currency === '$')
+                                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                    @elseif($product->currency === 'Rwf')
+                                                        {{ number_format($product->price) }} {{ $product->currency }}
+                                                    @endif
+                                                </span>
+                                                <span class=" text-accent font-semibold">
+                                                    @if ($product->currency === '$')
+                                                        {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
+                                                    @elseif($product->currency === 'Rwf')
+                                                        {{ number_format($product->discount_price) }}
+                                                        {{ $product->currency }}
+                                                    @endif
+                                                </span>
+                                            @else
+                                                <span class=" text-accent font-semibold">
+                                                    @if ($product->currency === '$')
+                                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                    @elseif($product->currency === 'Rwf')
+                                                        {{ number_format($product->price) }} {{ $product->currency }}
+                                                    @endif
+                                                </span>
+                                            @endif
+                                            @if ($product->average_rating > 0)
+                                                <span class="text-success text-sm">⭐
+                                                    {{ number_format($product->average_rating, 1) }}</span>
+                                            @endif
+                                            <span class="text-secondary-500 text-sm">{{ $product->formatted_views }}
+                                                Views</span>
+                                        </div>
                                     </div>
+                                    <button class="btn-primary text-sm">Add to Compare</button>
                                 </div>
-                                <button class="btn-primary text-sm">Add to Compare</button>
-                            </div>
-                        @endforeach
+                            @endforeach
                     </div>
                 </div>
             </div>
@@ -365,7 +365,120 @@
         let currentSlot = 0;
 
         // Sample product database
-        const productDatabase = @json($productsArray);
+        const productDatabase = {
+            'wireless-earbuds-pro': {
+                name: 'Premium Wireless Earbuds Pro',
+                image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop',
+                price: 149.99,
+                originalPrice: 199.99,
+                rating: 4.8,
+                reviews: 2400,
+                supplier: 'TechSound Electronics',
+                category: 'Electronics',
+                features: {
+                    'Battery Life': '24 hours',
+                    'Noise Cancellation': 'Active',
+                    'Water Resistance': 'IPX7',
+                    'Driver Size': '12mm',
+                    'Connectivity': 'Bluetooth 5.2',
+                    'Charging Case': 'Yes',
+                    'Voice Assistant': 'Siri, Alexa',
+                    'Weight': '5.2g per earbud',
+                    'Warranty': '2 years',
+                    'Fast Charging': '15 min = 3 hours'
+                },
+                scores: {
+                    overall: 4.8,
+                    value: 4.5,
+                    quality: 4.9,
+                    delivery: 4.7
+                }
+            },
+            'bluetooth-speaker': {
+                name: 'Portable Bluetooth Speaker Pro',
+                image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2684&auto=format&fit=crop',
+                price: 89.99,
+                originalPrice: 119.99,
+                rating: 4.6,
+                reviews: 1800,
+                supplier: 'AudioMax Pro',
+                category: 'Electronics',
+                features: {
+                    'Battery Life': '20 hours',
+                    'Noise Cancellation': 'None',
+                    'Water Resistance': 'IPX6',
+                    'Driver Size': '40mm',
+                    'Connectivity': 'Bluetooth 5.0',
+                    'Charging Case': 'No',
+                    'Voice Assistant': 'Google Assistant',
+                    'Weight': '680g',
+                    'Warranty': '1 year',
+                    'Fast Charging': '2 hours full charge'
+                },
+                scores: {
+                    overall: 4.6,
+                    value: 4.8,
+                    quality: 4.4,
+                    delivery: 4.5
+                }
+            },
+            'smart-watch': {
+                name: 'Smart Fitness Watch Pro',
+                image: 'https://images.unsplash.com/photo-1544117519-31a4b719223d?q=80&w=2671&auto=format&fit=crop',
+                price: 199.99,
+                originalPrice: 249.99,
+                rating: 4.9,
+                reviews: 3200,
+                supplier: 'FitTech Innovations',
+                category: 'Health & Fitness',
+                features: {
+                    'Battery Life': '7 days',
+                    'Noise Cancellation': 'None',
+                    'Water Resistance': 'IP68',
+                    'Driver Size': 'N/A',
+                    'Connectivity': 'Bluetooth 5.1, WiFi',
+                    'Charging Case': 'No',
+                    'Voice Assistant': 'Built-in AI',
+                    'Weight': '45g',
+                    'Warranty': '2 years',
+                    'Fast Charging': '1 hour = 24 hours'
+                },
+                scores: {
+                    overall: 4.9,
+                    value: 4.6,
+                    quality: 4.9,
+                    delivery: 4.8
+                }
+            },
+            'smart-home-hub': {
+                name: 'Smart Home Hub Controller',
+                image: 'https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+                price: 89.99,
+                originalPrice: 119.99,
+                rating: 4.7,
+                reviews: 1200,
+                supplier: 'HomeAutomation Co.',
+                category: 'Home & Garden',
+                features: {
+                    'Battery Life': 'Plug-in',
+                    'Noise Cancellation': 'None',
+                    'Water Resistance': 'None',
+                    'Driver Size': 'N/A',
+                    'Connectivity': 'WiFi, Zigbee, Z-Wave',
+                    'Charging Case': 'No',
+                    'Voice Assistant': 'Alexa, Google',
+                    'Weight': '320g',
+                    'Warranty': '3 years',
+                    'Fast Charging': 'N/A'
+                },
+                scores: {
+                    overall: 4.7,
+                    value: 4.5,
+                    quality: 4.8,
+                    delivery: 4.6
+                }
+            }
+        };
 
         // Open product search modal
         function openProductSearch(slotIndex) {
@@ -512,14 +625,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                            <th class="px-4 py-3 text-center border-b border-border">
-                                                                <div class="flex flex-col items-center space-y-2">
-                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                </div>
-                                                            </th>
-                                                        `).join('')}
+                                                        <th class="px-4 py-3 text-center border-b border-border">
+                                                            <div class="flex flex-col items-center space-y-2">
+                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                            </div>
+                                                        </th>
+                                                    `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -640,10 +753,10 @@
                         </div>
                         
                         ${badges.length > 0 ? `
-                                                            <div class="space-y-1 mb-4">
-                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                            </div>
-                                                        ` : ''}
+                                                        <div class="space-y-1 mb-4">
+                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                        </div>
+                                                    ` : ''}
                         
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
