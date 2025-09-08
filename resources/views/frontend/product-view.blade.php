@@ -481,52 +481,11 @@
             <div id="comment" class="tab-content hidden">
                 <div class="grid lg:grid-cols-3 gap-8">
 
-                    <!-- Review Summary -->
+                    <!-- Leave a Review -->
                     <div class="card">
                         <h3 class="font-semibold text-primary mb-4">Add Comment</h3>
                         <div class="text-center mb-6">
-                            <div
-                                class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                ⭐
-                            </div>
-
-                            @guest
-                                <h2 class="text-xl font-bold text-center mb-3">Sign in to leave a review</h2>
-                                <p class="text-gray-600 text-center mb-6">Please log in before reviewing this product.</p>
-                                <a href="{{ route('login') }}"
-                                    class="btn-primary w-full py-3 rounded-lg font-semibold block text-center">
-                                    Sign In
-                                </a>
-                            @else
-                                <h2 class="text-xl font-bold text-center mb-3">Leave a Review</h2>
-                                <form id="review-form" method="POST" action="{{ route('reviews.store') }}">
-                                    @csrf
-                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-
-                                    <div class="mb-4">
-                                        <label class="block mb-2 font-semibold">Rating</label>
-                                        <select name="rating" class="w-full border rounded-lg p-2">
-                                            <option value="5">⭐⭐⭐⭐⭐</option>
-                                            <option value="4">⭐⭐⭐⭐</option>
-                                            <option value="3">⭐⭐⭐</option>
-                                            <option value="2">⭐⭐</option>
-                                            <option value="1">⭐</option>
-                                        </select>
-                                        <p class="text-red-500 text-sm mt-1 error-message" data-error-for="rating"></p>
-                                    </div>
-
-                                    <div class="mb-4">
-                                        <label class="block mb-2 font-semibold">Comment</label>
-                                        <textarea name="comment" class="w-full border rounded-lg p-2"></textarea>
-                                        <p class="text-red-500 text-sm mt-1 error-message" data-error-for="comment"></p>
-                                    </div>
-
-                                    <button type="submit"
-                                        class="btn-primary w-full py-3 rounded-lg font-semibold transition-all hover:scale-105">
-                                        Submit Review
-                                    </button>
-                                </form>
-                            @endguest
+                           
                         </div>
                     </div>
 
