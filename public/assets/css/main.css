@@ -4725,3 +4725,6 @@ button.bg-primary.hover\:bg-primary\/90.text-white.font-medium.py-2.px-5.rounded
     height: 50px;
     margin-top: 8em;
 }
+textarea#comment {
+    outline: none;
+}
