@@ -544,7 +544,7 @@
                     if (feature === 'price') {
                         const savings = product.originalPrice - product.price;
                         value = `
-                            <div class="font-bold text-lg text-accent">$${product.price}</div>
+                            <div class="font-bold text-lg text-accent">${product.price} ${product.currency}</div>
                             <div class="text-body-sm text-secondary-500 line-through">${product.originalPrice} ${product.currency}</div>
                             <div class="text-body-sm text-success">Save $${savings.toFixed(2)}</div>
                         `;
