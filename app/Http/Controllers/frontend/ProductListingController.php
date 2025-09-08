@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProductListingController extends Controller
@@ -99,6 +100,7 @@ class ProductListingController extends Controller
             ];
         })
         ->values();
+        $userId = Auth::id();
         $userHasPurchased = DB::table('order_items')
         ->join('orders', 'order_items.order_id', '=', 'orders.id')
         ->where('orders.user_id', $userId)
