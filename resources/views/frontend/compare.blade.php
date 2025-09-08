@@ -67,61 +67,7 @@
                 </div>
 
                 <div id="comparison-slots" class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <!-- Slot 1 -->
-                    <div class="comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer"
-                        onclick="openProductSearch(0)">
-                        <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                        </div>
-                        <p class="text-secondary-600 font-medium">Add Product 1</p>
-                        <p class="text-body-sm text-secondary-500 mt-1">Click to search</p>
-                    </div>
-
-                    <!-- Slot 2 -->
-                    <div class="comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer"
-                        onclick="openProductSearch(1)">
-                        <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                        </div>
-                        <p class="text-secondary-600 font-medium">Add Product 2</p>
-                        <p class="text-body-sm text-secondary-500 mt-1">Click to search</p>
-                    </div>
-
-                    <!-- Slot 3 -->
-                    <div class="comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer"
-                        onclick="openProductSearch(2)">
-                        <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                        </div>
-                        <p class="text-secondary-600 font-medium">Add Product 3</p>
-                        <p class="text-body-sm text-secondary-500 mt-1">Optional</p>
-                    </div>
-
-                    <!-- Slot 4 -->
-                    <div class="comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer"
-                        onclick="openProductSearch(3)">
-                        <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                        </div>
-                        <p class="text-secondary-600 font-medium">Add Product 4</p>
-                        <p class="text-body-sm text-secondary-500 mt-1">Optional</p>
-                    </div>
+                    <!-- Slots will be initialized dynamically via JS -->
                 </div>
             </div>
 
@@ -307,53 +253,53 @@
                 <!-- Search Results -->
                 <div class="overflow-y-auto max-h-96 p-6">
                     <div id="search-results" class="space-y-4">
-                            @foreach ($products as $product)
-                                <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
-                                    onclick="selectProduct(0, 'wireless-earbuds-pro')">
-                                    <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
-                                        class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
-                                    <div class="flex-1">
-                                        <h4 class="font-semibold text-primary">{{ $product->name }}</h4>
-                                        <p class="text-body-sm text-secondary-600">Tunga Market •
-                                            {{ $product->category->name }}</p>
-                                        <div class="flex items-center space-x-2 mt-1">
-                                            @if ($product->discount_price)
-                                                <span class="line-through text-accent font-semibold text-sm mr-2">
-                                                    @if ($product->currency === '$')
-                                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
-                                                    @elseif($product->currency === 'Rwf')
-                                                        {{ number_format($product->price) }} {{ $product->currency }}
-                                                    @endif
-                                                </span>
-                                                <span class=" text-accent font-semibold">
-                                                    @if ($product->currency === '$')
-                                                        {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
-                                                    @elseif($product->currency === 'Rwf')
-                                                        {{ number_format($product->discount_price) }}
-                                                        {{ $product->currency }}
-                                                    @endif
-                                                </span>
-                                            @else
-                                                <span class=" text-accent font-semibold">
-                                                    @if ($product->currency === '$')
-                                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
-                                                    @elseif($product->currency === 'Rwf')
-                                                        {{ number_format($product->price) }} {{ $product->currency }}
-                                                    @endif
-                                                </span>
-                                            @endif
-                                            @if ($product->average_rating > 0)
-                                                <span class="text-success text-sm">⭐
-                                                    {{ number_format($product->average_rating, 1) }}</span>
-                                            @endif
-                                            <span class="text-secondary-500 text-sm">{{ $product->formatted_views }}
-                                                Views</span>
-                                        </div>
+                        @foreach ($products as $product)
+                            <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
+                                data-product-id="{{ $product->slug }}">
+                                <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
+                                    class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-primary">{{ $product->name }}</h4>
+                                    <p class="text-body-sm text-secondary-600">Tunga Market •
+                                        {{ $product->category->name }}</p>
+                                    <div class="flex items-center space-x-2 mt-1">
+                                        @if ($product->discount_price)
+                                            <span class="line-through text-accent font-semibold text-sm mr-2">
+                                                @if ($product->currency === '$')
+                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                @elseif($product->currency === 'Rwf')
+                                                    {{ number_format($product->price) }} {{ $product->currency }}
+                                                @endif
+                                            </span>
+                                            <span class="text-accent font-semibold">
+                                                @if ($product->currency === '$')
+                                                    {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
+                                                @elseif($product->currency === 'Rwf')
+                                                    {{ number_format($product->discount_price) }} {{ $product->currency }}
+                                                @endif
+                                            </span>
+                                        @else
+                                            <span class="text-accent font-semibold">
+                                                @if ($product->currency === '$')
+                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                @elseif($product->currency === 'Rwf')
+                                                    {{ number_format($product->price) }} {{ $product->currency }}
+                                                @endif
+                                            </span>
+                                        @endif
+                                        @if ($product->average_rating > 0)
+                                            <span class="text-success text-sm">⭐
+                                                {{ number_format($product->average_rating, 1) }}</span>
+                                        @endif
+                                        <span class="text-secondary-500 text-sm">{{ $product->formatted_views }}
+                                            Views</span>
                                     </div>
-                                    <button class="btn-primary text-sm">Add to Compare</button>
                                 </div>
-                            @endforeach
+                                <button class="btn-primary text-sm add-to-compare-btn">Add to Compare</button>
+                            </div>
+                        @endforeach
                     </div>
+
                 </div>
             </div>
         </div>
@@ -363,10 +309,10 @@
         // Product comparison data
         let comparisonProducts = [];
         let currentSlot = 0;
-
+        const MAX_SLOTS = 4;
         // Sample product database
         const productDatabase = {!! $productDatabase !!};
-console.log(productDatabase);
+        console.log(productDatabase);
         // Open product search modal
         function openProductSearch(slotIndex) {
             currentSlot = slotIndex;
@@ -408,55 +354,112 @@ console.log(productDatabase);
         }
 
         // Update comparison slot display
-        function updateComparisonSlot(slotIndex, product) {
-            const slot = document.querySelectorAll('.comparison-slot')[slotIndex];
+        function initComparisonSlots() {
+            const slotsContainer = document.getElementById('comparison-slots');
+            slotsContainer.innerHTML = '';
 
-            slot.className = 'comparison-slot border-2 border-accent rounded-lg p-4 text-center bg-accent-50 relative';
-            slot.innerHTML = `
-                <button onclick="removeProduct(${slotIndex})" class="absolute top-2 right-2 w-6 h-6 bg-error text-white rounded-full flex items-center justify-center hover:bg-error-600 transition-fast">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-                <img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-lg object-cover mx-auto mb-3" loading="lazy" />
-                <h3 class="font-semibold text-primary text-sm mb-1">${product.name}</h3>
-                <p class="text-body-sm text-secondary-600 mb-2">${product.supplier}</p>
-                <div class="text-accent font-bold">$${product.price}</div>
-                <div class="text-success text-sm">⭐ ${product.rating}</div>
-            `;
+            for (let i = 0; i < MAX_SLOTS; i++) {
+                comparisonProducts[i] = null; // Initialize empty
 
-            slot.onclick = null; // Remove click handler
-        }
-
-        // Remove product from comparison
-        function removeProduct(slotIndex) {
-            comparisonProducts[slotIndex] = null;
-
-            // Reset slot display
-            const slot = document.querySelectorAll('.comparison-slot')[slotIndex];
-            slot.className =
-                'comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer';
-            slot.innerHTML = `
+                const slot = document.createElement('div');
+                slot.className =
+                    'comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer';
+                slot.innerHTML = `
                 <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
                     <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                     </svg>
                 </div>
-                <p class="text-secondary-600 font-medium">Add Product ${slotIndex + 1}</p>
-                <p class="text-body-sm text-secondary-500 mt-1">${slotIndex < 2 ? 'Click to search' : 'Optional'}</p>
+                <p class="text-secondary-600 font-medium">Add Product ${i + 1}</p>
+                <p class="text-body-sm text-secondary-500 mt-1">${i < 2 ? 'Click to search' : 'Optional'}</p>
             `;
-            slot.onclick = () => openProductSearch(slotIndex);
+                slot.onclick = () => openProductSearch(i);
 
-            updateSelectedCount();
-
-            // Hide comparison table if less than 2 products
-            if (comparisonProducts.filter(p => p).length < 2) {
-                hideComparisonTable();
-            } else {
-                showComparisonTable();
+                slotsContainer.appendChild(slot);
             }
         }
 
+        // Add product to a slot
+        function addProductToCompare(slotIndex, productId) {
+            const product = productDatabase[productId];
+            if (!product) return console.warn(`Product ${productId} not found!`);
+
+            comparisonProducts[slotIndex] = {
+                ...product,
+                id: productId
+            };
+            updateComparisonSlot(slotIndex, product);
+
+            // Show/hide comparison table
+            comparisonProducts.filter(p => p).length >= 2 ? showComparisonTable() : hideComparisonTable();
+        }
+
+        // Update slot UI
+        function updateComparisonSlot(slotIndex, product) {
+            const slot = document.querySelectorAll('.comparison-slot')[slotIndex];
+            if (!slot) return;
+
+            slot.className = 'comparison-slot border-2 border-accent rounded-lg p-4 text-center bg-accent-50 relative';
+            slot.innerHTML = `
+            <button onclick="removeProduct(${slotIndex})" class="absolute top-2 right-2 w-6 h-6 bg-error text-white rounded-full flex items-center justify-center hover:bg-error-600 transition-fast">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+            <img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-lg object-cover mx-auto mb-3" loading="lazy" />
+            <h3 class="font-semibold text-primary text-sm mb-1">${product.name}</h3>
+            <p class="text-body-sm text-secondary-600 mb-2">${product.supplier}</p>
+            <div class="text-accent font-bold">$${Number(product.price).toLocaleString()}</div>
+            <div class="text-success text-sm">⭐ ${product.rating}</div>
+        `;
+
+            slot.onclick = null; // Remove click
+            logComparisonSlotsLive();
+        }
+
+        // Remove product
+        function removeProduct(slotIndex) {
+            comparisonProducts[slotIndex] = null;
+            const slot = document.querySelectorAll('.comparison-slot')[slotIndex];
+            if (!slot) return;
+
+            slot.className =
+                'comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer';
+            slot.innerHTML = `
+            <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+            </div>
+            <p class="text-secondary-600 font-medium">Add Product ${slotIndex + 1}</p>
+            <p class="text-body-sm text-secondary-500 mt-1">${slotIndex < 2 ? 'Click to search' : 'Optional'}</p>
+        `;
+            slot.onclick = () => openProductSearch(slotIndex);
+
+            comparisonProducts.filter(p => p).length < 2 ? hideComparisonTable() : showComparisonTable();
+            logComparisonSlotsLive();
+        }
+
+        // Live debug logging
+        function logComparisonSlotsLive() {
+            console.group('📊 Comparison Slots');
+            comparisonProducts.forEach((p, i) => console.log(`Slot ${i + 1}:`, p || 'Empty'));
+            console.groupEnd();
+        }
+
+        // Attach "Add to Compare" buttons dynamically
+        document.querySelectorAll('#search-results .product-result button').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation(); // Prevent parent click
+                const productId = btn.closest('.product-result').getAttribute('data-product-id');
+                const firstEmpty = comparisonProducts.findIndex(p => !p);
+                if (firstEmpty !== -1) addProductToCompare(firstEmpty, productId);
+            });
+        });
+
+        // Initialize slots on page load
+        initComparisonSlots();
         // Update selected count
         function updateSelectedCount() {
             const count = comparisonProducts.filter(p => p).length;
@@ -512,14 +515,14 @@ console.log(productDatabase);
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                        <th class="px-4 py-3 text-center border-b border-border">
-                                                            <div class="flex flex-col items-center space-y-2">
-                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                            </div>
-                                                        </th>
-                                                    `).join('')}
+                                                                            <th class="px-4 py-3 text-center border-b border-border">
+                                                                                <div class="flex flex-col items-center space-y-2">
+                                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                </div>
+                                                                            </th>
+                                                                        `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -640,10 +643,10 @@ console.log(productDatabase);
                         </div>
                         
                         ${badges.length > 0 ? `
-                                                        <div class="space-y-1 mb-4">
-                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                        </div>
-                                                    ` : ''}
+                                                                            <div class="space-y-1 mb-4">
+                                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                            </div>
+                                                                        ` : ''}
                         
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
