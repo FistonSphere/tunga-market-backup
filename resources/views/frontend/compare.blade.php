@@ -369,120 +369,26 @@
         let currentSlot = 0;
 
         // Sample product database
-        const productDatabase = {
-            'wireless-earbuds-pro': {
-                name: 'Premium Wireless Earbuds Pro',
-                image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop',
-                price: 149.99,
-                originalPrice: 199.99,
-                rating: 4.8,
-                reviews: 2400,
-                supplier: 'TechSound Electronics',
-                category: 'Electronics',
-                features: {
-                    'Battery Life': '24 hours',
-                    'Noise Cancellation': 'Active',
-                    'Water Resistance': 'IPX7',
-                    'Driver Size': '12mm',
-                    'Connectivity': 'Bluetooth 5.2',
-                    'Charging Case': 'Yes',
-                    'Voice Assistant': 'Siri, Alexa',
-                    'Weight': '5.2g per earbud',
-                    'Warranty': '2 years',
-                    'Fast Charging': '15 min = 3 hours'
-                },
-                scores: {
-                    overall: 4.8,
-                    value: 4.5,
-                    quality: 4.9,
-                    delivery: 4.7
-                }
-            },
-            'bluetooth-speaker': {
-                name: 'Portable Bluetooth Speaker Pro',
-                image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2684&auto=format&fit=crop',
-                price: 89.99,
-                originalPrice: 119.99,
-                rating: 4.6,
-                reviews: 1800,
-                supplier: 'AudioMax Pro',
-                category: 'Electronics',
-                features: {
-                    'Battery Life': '20 hours',
-                    'Noise Cancellation': 'None',
-                    'Water Resistance': 'IPX6',
-                    'Driver Size': '40mm',
-                    'Connectivity': 'Bluetooth 5.0',
-                    'Charging Case': 'No',
-                    'Voice Assistant': 'Google Assistant',
-                    'Weight': '680g',
-                    'Warranty': '1 year',
-                    'Fast Charging': '2 hours full charge'
-                },
-                scores: {
-                    overall: 4.6,
-                    value: 4.8,
-                    quality: 4.4,
-                    delivery: 4.5
-                }
-            },
-            'smart-watch': {
-                name: 'Smart Fitness Watch Pro',
-                image: 'https://images.unsplash.com/photo-1544117519-31a4b719223d?q=80&w=2671&auto=format&fit=crop',
-                price: 199.99,
-                originalPrice: 249.99,
-                rating: 4.9,
-                reviews: 3200,
-                supplier: 'FitTech Innovations',
-                category: 'Health & Fitness',
-                features: {
-                    'Battery Life': '7 days',
-                    'Noise Cancellation': 'None',
-                    'Water Resistance': 'IP68',
-                    'Driver Size': 'N/A',
-                    'Connectivity': 'Bluetooth 5.1, WiFi',
-                    'Charging Case': 'No',
-                    'Voice Assistant': 'Built-in AI',
-                    'Weight': '45g',
-                    'Warranty': '2 years',
-                    'Fast Charging': '1 hour = 24 hours'
-                },
-                scores: {
-                    overall: 4.9,
-                    value: 4.6,
-                    quality: 4.9,
-                    delivery: 4.8
-                }
-            },
-            'smart-home-hub': {
-                name: 'Smart Home Hub Controller',
-                image: 'https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-                price: 89.99,
-                originalPrice: 119.99,
-                rating: 4.7,
-                reviews: 1200,
-                supplier: 'HomeAutomation Co.',
-                category: 'Home & Garden',
-                features: {
-                    'Battery Life': 'Plug-in',
-                    'Noise Cancellation': 'None',
-                    'Water Resistance': 'None',
-                    'Driver Size': 'N/A',
-                    'Connectivity': 'WiFi, Zigbee, Z-Wave',
-                    'Charging Case': 'No',
-                    'Voice Assistant': 'Alexa, Google',
-                    'Weight': '320g',
-                    'Warranty': '3 years',
-                    'Fast Charging': 'N/A'
-                },
-                scores: {
-                    overall: 4.7,
-                    value: 4.5,
-                    quality: 4.8,
-                    delivery: 4.6
-                }
-            }
-        };
+        const productDatabase = @json(
+            $products->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'slug' => $product->slug,
+                    'name' => $product->name,
+                    'image' => $product->main_image,
+                    'price' => $product->discount_price ?? $product->price,
+                    'originalPrice' => $product->price,
+                    'rating' => number_format($product->average_rating, 1),
+                    'reviews' => $product->reviews_count ?? 0,
+                    'supplier' => $product->brand->name ?? '', // optional
+                    'category' => $product->category->name ?? '',
+                    'features' => $product->features ? json_decode($product->features, true) : [],
+                    'specifications' => $product->specifications ? json_decode($product->specifications, true) : [],
+                    'currency' => $product->currency,
+                ];
+            }));
+
+
 
         // Open product search modal
         function openProductSearch(slotIndex) {
@@ -499,18 +405,24 @@
         }
 
         // Select product for comparison
-        function selectProduct(slotIndex, productId) {
-            const product = productDatabase[productId];
+        function selectProduct(slotIndex, productSlug) {
+            const product = productDatabase.find(p => p.slug === productSlug);
             if (!product) return;
 
-            // Add product to comparison
-            comparisonProducts[currentSlot] = {
-                id: productId,
-                ...product
+            // Merge features and specifications
+            const combinedSpecs = {
+                ...product.specifications,
+                ...product.features
             };
 
-            // Update slot display
-            updateComparisonSlot(currentSlot, product);
+            // Add product to comparison array
+            comparisonProducts[slotIndex] = {
+                ...product,
+                combinedSpecs
+            };
+
+            // Update the comparison slot display
+            updateComparisonSlot(slotIndex, product);
 
             // Update counter
             updateSelectedCount();
@@ -518,11 +430,12 @@
             // Close modal
             closeProductSearch();
 
-            // Show comparison table if we have at least 2 products
+            // Show comparison table if at least 2 products selected
             if (comparisonProducts.filter(p => p).length >= 2) {
                 showComparisonTable();
             }
         }
+
 
         // Update comparison slot display
         function updateComparisonSlot(slotIndex, product) {
@@ -530,20 +443,22 @@
 
             slot.className = 'comparison-slot border-2 border-accent rounded-lg p-4 text-center bg-accent-50 relative';
             slot.innerHTML = `
-                <button onclick="removeProduct(${slotIndex})" class="absolute top-2 right-2 w-6 h-6 bg-error text-white rounded-full flex items-center justify-center hover:bg-error-600 transition-fast">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-                <img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-lg object-cover mx-auto mb-3" loading="lazy" />
-                <h3 class="font-semibold text-primary text-sm mb-1">${product.name}</h3>
-                <p class="text-body-sm text-secondary-600 mb-2">${product.supplier}</p>
-                <div class="text-accent font-bold">$${product.price}</div>
-                <div class="text-success text-sm">⭐ ${product.rating}</div>
-            `;
-
-            slot.onclick = null; // Remove click handler
+        <button onclick="removeProduct(${slotIndex})" class="absolute top-2 right-2 w-6 h-6 bg-error text-white rounded-full flex items-center justify-center hover:bg-error-600 transition-fast">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        <img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-lg object-cover mx-auto mb-3" loading="lazy" />
+        <h3 class="font-semibold text-primary text-sm mb-1">${product.name}</h3>
+        <p class="text-body-sm text-secondary-600 mb-2">${product.supplier}</p>
+        <div class="text-accent font-bold">
+            ${product.currency === '$' ? '$' + product.price : product.price + ' ' + product.currency}
+        </div>
+        <div class="text-success text-sm">⭐ ${product.rating}</div>
+    `;
+            slot.onclick = null; // remove click handler
         }
+
 
         // Remove product from comparison
         function removeProduct(slotIndex) {
@@ -629,14 +544,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                            <th class="px-4 py-3 text-center border-b border-border">
-                                                                <div class="flex flex-col items-center space-y-2">
-                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                </div>
-                                                            </th>
-                                                        `).join('')}
+                                                                        <th class="px-4 py-3 text-center border-b border-border">
+                                                                            <div class="flex flex-col items-center space-y-2">
+                                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                            </div>
+                                                                        </th>
+                                                                    `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -757,10 +672,10 @@
                         </div>
                         
                         ${badges.length > 0 ? `
-                                                            <div class="space-y-1 mb-4">
-                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                            </div>
-                                                        ` : ''}
+                                                                        <div class="space-y-1 mb-4">
+                                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                        </div>
+                                                                    ` : ''}
                         
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
