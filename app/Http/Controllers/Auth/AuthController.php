@@ -6,12 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Mail\PasswordChangedNotification;
 use App\Mail\SendOtpMail;
 use App\Models\User;
-use App\Notifications\OtpRegistrationMail;
-use App\Notifications\SendOtpNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -20,6 +17,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PragmaRX\Countries\Package\Countries;
+use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
@@ -30,39 +28,88 @@ class AuthController extends Controller
         return view('frontend.auth.auth'); // Adjust the view name as necessary
     }
     public function register(Request $request)
-    {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+{
+    $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'phone' => 'required|string|min:9',
+        'email' => 'required|email|max:255|unique:users,email',
+        'password' => 'required|string|min:8|confirmed',
+    ]);
 
-        $otp = rand(1000, 9999);
-        Log::info("OTP generated: $otp");
+    $otp = rand(1000, 9999);
+    Log::info("OTP generated: $otp");
 
-        $pendingUser = [
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'otp' => $otp,
-            'otp_expires_at' => now()->addMinutes(10),
-        ];
-
-        session(['pending_user' => $pendingUser]);
-        Log::info('Pending user stored in session', ['email' => $request->email]);
-
-        try {
-            Mail::to($request->email)->send(new SendOtpMail((object) $pendingUser));
-            Log::info("✅ OTP email successfully sent to {$request->email}");
-        } catch (\Exception $e) {
-            Log::error("❌ Failed to send OTP email: " . $e->getMessage());
-            return response()->json(['error' => 'Failed to send OTP email.'], 500);
+    // Format phone number
+    $phone = $request->phone;
+    if (!str_starts_with($phone, '+250')) {
+        if (str_starts_with($phone, '07')) {
+            $phone = '+25' . $phone; // makes 078... => +25078...
         }
-
-        return response()->json(['message' => 'OTP sent.'], 200);
     }
+
+    $pendingUser = [
+        'first_name' => $request->first_name,
+        'last_name' => $request->last_name,
+        'email' => $request->email,
+        'phone' => $phone,
+        'password' => bcrypt($request->password),
+        'otp' => $otp,
+        'otp_expires_at' => now()->addMinutes(10),
+    ];
+
+    session(['pending_user' => $pendingUser]);
+    Log::info('Pending user stored in session', ['email' => $request->email]);
+
+    // Send OTP via Email
+    try {
+        Mail::to($request->email)->send(new SendOtpMail((object) $pendingUser));
+        Log::info("✅ OTP email successfully sent to {$request->email}");
+    } catch (\Exception $e) {
+        Log::error("❌ Failed to send OTP email: " . $e->getMessage());
+    }
+
+    // Send OTP via SMS
+try {
+    $apiToken = config('services.mista.api_token');
+    $senderId = config('services.mista.sender_id');
+
+    $message = "Tunga Market\n"
+        ."----------------------\n"
+        ."Hello {$pendingUser['first_name']},\n\n"
+        ."Thank you for signing up at Tunga Market. "
+        ."Use the One-Time Password (OTP) below to complete your registration:\n\n"
+        ."🔑 OTP: {$pendingUser['otp']}\n\n"
+        ."This OTP is valid for the next 60 minutes. "
+        ."If you did not request this, please ignore this message.\n\n"
+        ."Welcome to the community! 🎉\n"
+        ."----------------------\n"
+        ."© ".date('Y')." Tunga Market | Need help? Contact Support.";
+
+    $response = Http::withHeaders([
+        'accept' => 'application/json',
+        'content-type' => 'application/json',
+        'Authorization' => 'Bearer ' . $apiToken,
+    ])->post('https://api.mista.io/sms', [
+        'recipient' => $phone,
+        'sender_id' => $senderId,
+        'message' => $message,
+        'type' => 'plain',
+    ]);
+
+    if ($response->successful()) {
+        Log::info("✅ OTP SMS successfully sent to {$phone}");
+    } else {
+        Log::error("❌ Failed to send OTP SMS. Response: " . $response->body());
+    }
+} catch (\Exception $e) {
+    Log::error("❌ SMS sending error: " . $e->getMessage());
+}
+
+
+    return response()->json(['message' => 'OTP sent via Email and SMS.'], 200);
+}
+
 
     public function verifyOtp(Request $request)
     {
