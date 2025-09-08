@@ -343,8 +343,9 @@
                                                     @endif
                                                 </span>
                                             @endif
+                                          
                                             <span class="text-success text-sm">⭐ 4.8</span>
-                                            <span class="text-secondary-500 text-sm">2.4K reviews</span>
+                                            <span class="text-secondary-500 text-sm">{{ $product->formatted_views }} Views</span>
                                         </div>
                                     </div>
                                     <button class="btn-primary text-sm">Add to Compare</button>

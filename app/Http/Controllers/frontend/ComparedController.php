@@ -13,8 +13,10 @@ class ComparedController extends Controller
     $totalProducts = Product::where('status', 'active')->count();
     // Format the number into K/M/B
     $formattedTotal = $this->formatNumber($totalProducts);
-    
     $products = Product::with('category')->where('status', 'active')->get();
+    foreach ($products as $product) {
+        $product->formatted_views = $this->formatNumber($product->views_count);
+    }
     return view('frontend.compare', [
         'totalProducts' => $totalProducts,
         'formattedTotal' => $formattedTotal,
@@ -34,6 +36,17 @@ private function formatNumber($num)
         return round($num / 1000, 1) . 'K+';
     }
     return $num;
+}
+function formatViews($number) {
+    if ($number >= 1000000000) {
+        return number_format($number / 1000000000, 1) . 'B';
+    } elseif ($number >= 1000000) {
+        return number_format($number / 1000000, 1) . 'M';
+    } elseif ($number >= 1000) {
+        return number_format($number / 1000, 1) . 'K';
+    } else {
+        return $number;
+    }
 }
 
 }
