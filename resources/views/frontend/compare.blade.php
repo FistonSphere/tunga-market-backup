@@ -382,14 +382,6 @@
         }
 
         // Select product for comparison
-        // comparisonProducts array
-        let comparisonProducts = [];
-        let currentSlot = 0; // the current slot to fill
-
-        // Product database
-        const productDatabase = {!! $productDatabase !!};
-
-        // Utility: log all comparison slots
         function logComparisonSlotsLive() {
             console.group('📊 Current Comparison Slots');
             document.querySelectorAll('.comparison-slot').forEach((slot, index) => {
@@ -432,7 +424,7 @@
             logComparisonSlotsLive();
         }
 
-        // Update comparison slot UI
+        // Update comparison slot display
         function updateComparisonSlot(slotIndex, product) {
             const slot = document.querySelectorAll('.comparison-slot')[slotIndex];
             if (!slot) {
@@ -458,18 +450,33 @@
             slot.onclick = null;
         }
 
-        // Remove product from comparison slot
+        // Remove product from comparison
         function removeProduct(slotIndex) {
             comparisonProducts[slotIndex] = null;
+
+            // Reset slot display
             const slot = document.querySelectorAll('.comparison-slot')[slotIndex];
-            if (!slot) return;
-            slot.innerHTML = '<span class="text-secondary-500">Empty Slot</span>';
-            slot.className = 'comparison-slot border-2 border-border rounded-lg p-4 text-center bg-white';
+            slot.className =
+                'comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer';
+            slot.innerHTML = `
+                <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                </div>
+                <p class="text-secondary-600 font-medium">Add Product ${slotIndex + 1}</p>
+                <p class="text-body-sm text-secondary-500 mt-1">${slotIndex < 2 ? 'Click to search' : 'Optional'}</p>
+            `;
+            slot.onclick = () => openProductSearch(slotIndex);
 
-            console.log(`Removed product from slot ${slotIndex}.`);
+            updateSelectedCount();
 
-            // Live debug log
-            logComparisonSlotsLive();
+            // Hide comparison table if less than 2 products
+            if (comparisonProducts.filter(p => p).length < 2) {
+                hideComparisonTable();
+            } else {
+                showComparisonTable();
+            }
         }
 
         // Update selected count
@@ -527,14 +534,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                            <th class="px-4 py-3 text-center border-b border-border">
-                                                                <div class="flex flex-col items-center space-y-2">
-                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                </div>
-                                                            </th>
-                                                        `).join('')}
+                                                                <th class="px-4 py-3 text-center border-b border-border">
+                                                                    <div class="flex flex-col items-center space-y-2">
+                                                                        <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                        <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                        <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                    </div>
+                                                                </th>
+                                                            `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -655,10 +662,10 @@
                         </div>
                         
                         ${badges.length > 0 ? `
-                                                            <div class="space-y-1 mb-4">
-                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                            </div>
-                                                        ` : ''}
+                                                                <div class="space-y-1 mb-4">
+                                                                    ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                </div>
+                                                            ` : ''}
                         
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
