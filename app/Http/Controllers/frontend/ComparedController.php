@@ -31,6 +31,7 @@ class ComparedController extends Controller
                 'originalPrice' => $product->discount_price ? $product->price : null,
                 'rating' => $avgRating,
                 'reviews'=> $reviewsCount,
+                'currency'=>$product->currency ?? 'USD',
                 'supplier' => 'Tunga Market', // adjust if you have supplier relation
                 'category'=> $product->category->name ?? 'N/A',
                 'features'=> $this->mapFeatures($product),
