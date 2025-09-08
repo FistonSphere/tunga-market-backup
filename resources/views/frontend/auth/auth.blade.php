@@ -281,6 +281,10 @@
                             <label class="block text-sm font-medium text-secondary-700 mb-2">Email Address</label>
                             <input type="email" class="input-field" placeholder="Email" name="email" required />
                         </div>
+                        <div>
+                            <label class="block text-sm font-medium text-secondary-700 mb-2">Phone Number</label>
+                            <input type="text" class="input-field" placeholder="(e.g., +25078XXXXXXX)" name="phone" required />
+                        </div>
 
                         <div>
                             <label class="block text-sm font-medium text-secondary-700 mb-2">Password</label>
