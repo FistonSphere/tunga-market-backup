@@ -4728,3 +4728,9 @@ button.bg-primary.hover\:bg-primary\/90.text-white.font-medium.py-2.px-5.rounded
 textarea#comment {
     outline: none;
 }
+div#starRating {
+    border: 1px solid #d9d9d9;
+    padding: 12px;
+    border-radius: 12px;
+    /* color: white; */
+}
