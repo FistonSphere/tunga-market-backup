@@ -486,7 +486,8 @@
                         <span class="text-sm text-gray-500">Your feedback helps others!</span>
                     </div>
 
-                    <form action="{{ route('reviews.store') }}" method="POST" class="flex flex-col lg:flex-row gap-8">
+                    <form id="reviewForm" action="{{ route('reviews.store') }}" method="POST"
+                        class="flex flex-col lg:flex-row gap-8">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
 
@@ -499,16 +500,16 @@
                                         class="star h-10 w-10 text-gray-300 hover:text-yellow-400 transition duration-200 cursor-pointer"
                                         fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.178
-                                        3.63a1 1 0 00.95.69h3.813c.969 0
-                                        1.371 1.24.588 1.81l-3.087
-                                        2.243a1 1 0 00-.364 1.118l1.178
-                                        3.63c.3.921-.755 1.688-1.54
-                                        1.118l-3.087-2.243a1 1 0
-                                        00-1.176 0l-3.087
-                                        2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
-                                        00-.364-1.118L2.42
-                                        9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
-                                        00.951-.69l1.178-3.63z" />
+                                            3.63a1 1 0 00.95.69h3.813c.969 0
+                                            1.371 1.24.588 1.81l-3.087
+                                            2.243a1 1 0 00-.364 1.118l1.178
+                                            3.63c.3.921-.755 1.688-1.54
+                                            1.118l-3.087-2.243a1 1 0
+                                            00-1.176 0l-3.087
+                                            2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
+                                            00-.364-1.118L2.42
+                                            9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
+                                            00.951-.69l1.178-3.63z" />
                                     </svg>
                                 @endfor
                             </div>
@@ -1750,6 +1751,46 @@
                     document.querySelectorAll('#starRating .star')[i].classList.remove('text-gray-300');
                 }
             });
+        });
+
+        document.getElementById("reviewForm").addEventListener("submit", function(e) {
+            e.preventDefault(); // stop normal form submit
+
+            const form = e.target;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    if (response.status === 401) {
+                        loginWarningModalWrapper.classList.remove("hidden");
+                        return null;
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data) return;
+
+                    if (data.success) {
+                        showToast(data.message, "success");
+
+                        // reset form after success
+                        form.reset();
+                        document.querySelectorAll("#starRating .star").forEach(star => {
+                            star.classList.remove("text-yellow-400");
+                            star.classList.add("text-gray-300");
+                        });
+                    } else {
+                        showToast(data.message ?? "Failed to submit review.", "error");
+                    }
+                })
+                .catch(() => showToast("Something went wrong. Try again.", "error"));
         });
     </script>
 @endsection
