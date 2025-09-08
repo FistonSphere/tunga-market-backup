@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductListingController extends Controller
 {
@@ -98,7 +99,12 @@ class ProductListingController extends Controller
             ];
         })
         ->values();
-    return view('frontend.product-view', compact('product', 'relatedProducts', 'relatedTitle','reviewsCount'));
+        $userHasPurchased = DB::table('order_items')
+        ->join('orders', 'order_items.order_id', '=', 'orders.id')
+        ->where('orders.user_id', $userId)
+        ->where('order_items.product_id', $product->id)
+        ->exists();
+    return view('frontend.product-view', compact('product', 'relatedProducts', 'relatedTitle','reviewsCount','userHasPurchased'));
 }
 
 
