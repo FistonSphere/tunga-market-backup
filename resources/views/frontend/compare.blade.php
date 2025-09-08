@@ -415,7 +415,7 @@
         `;
 
             slot.onclick = null; // Remove click
-            logComparisonSlotsLive();
+            // logComparisonSlotsLive();
         }
 
         // Remove product
@@ -438,15 +438,15 @@
             slot.onclick = () => openProductSearch(slotIndex);
 
             comparisonProducts.filter(p => p).length < 2 ? hideComparisonTable() : showComparisonTable();
-            logComparisonSlotsLive();
+            // logComparisonSlotsLive();
         }
 
         // Live debug logging
-        function logComparisonSlotsLive() {
-            // console.group('📊 Comparison Slots');
-            comparisonProducts.forEach((p, i) => console.log(`Slot ${i + 1}:`, p || 'Empty'));
-            // console.groupEnd();
-        }
+        // function logComparisonSlotsLive() {
+        //     // console.group('📊 Comparison Slots');
+        //     comparisonProducts.forEach((p, i) => console.log(`Slot ${i + 1}:`, p || 'Empty'));
+        //     // console.groupEnd();
+        // }
 
         // Attach "Add to Compare" buttons dynamically
         document.querySelectorAll('#search-results .product-result button').forEach(btn => {
