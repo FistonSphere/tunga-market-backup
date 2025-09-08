@@ -479,33 +479,36 @@
             </div>
             <!-- Comment Tab -->
             <div id="comment" class="tab-content hidden">
-                <div class="card bg-white shadow-lg rounded-2xl p-6">
-                    <h3 class="font-semibold text-xl text-primary mb-6">Leave a Review</h3>
+                <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-semibold text-2xl text-gray-900">Leave a Review</h3>
+                        <span class="text-sm text-gray-500">Your feedback helps others!</span>
+                    </div>
 
-                    <form action="{{ route('reviews.store') }}" method="POST"
-                        class="flex flex-col lg:flex-row items-start gap-6">
+                    <form action="{{ route('reviews.store') }}" method="POST" class="flex flex-col lg:flex-row gap-8">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                         <!-- Rating Stars -->
-                        <div class="flex flex-col items-center lg:items-start space-y-3 w-full lg:w-1/3">
-                            <label class="block text-sm font-medium text-gray-700">Your Rating</label>
-                            <div class="flex space-x-1 text-2xl cursor-pointer" id="starRating">
+                        <div class="lg:w-1/3 flex flex-col items-center lg:items-start">
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Your Rating</label>
+                            <div class="flex space-x-2 text-3xl" id="starRating">
                                 @for ($i = 1; $i <= 5; $i++)
                                     <svg data-value="{{ $i }}" xmlns="http://www.w3.org/2000/svg"
-                                        class="star h-8 w-8 text-gray-300 hover:text-yellow-400 transition-colors duration-200"
+                                        class="star h-10 w-10 text-gray-300 hover:text-yellow-400 transition duration-200 cursor-pointer"
                                         fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.178
-                                        3.63a1 1 0 00.95.69h3.813c.969 0
-                                        1.371 1.24.588 1.81l-3.087
-                                        2.243a1 1 0 00-.364 1.118l1.178
-                                        3.63c.3.921-.755 1.688-1.54
-                                        1.118l-3.087-2.243a1 1 0
-                                        00-1.176 0l-3.087
-                                        2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
-                                        00-.364-1.118L2.42
-                                        9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
-                                        00.951-.69l1.178-3.63z" />
+                                    3.63a1 1 0 00.95.69h3.813c.969 0
+                                    1.371 1.24.588 1.81l-3.087
+                                    2.243a1 1 0 00-.364 1.118l1.178
+                                    3.63c.3.921-.755 1.688-1.54
+                                    1.118l-3.087-2.243a1 1 0
+                                    00-1.176 0l-3.087
+                                    2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
+                                    00-.364-1.118L2.42
+                                    9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
+                                    00.951-.69l1.178-3.63z" />
                                     </svg>
                                 @endfor
                             </div>
@@ -513,32 +516,32 @@
                         </div>
 
                         <!-- Comment Box -->
-                        <div class="flex-1 w-full space-y-4">
+                        <div class="flex-1 flex flex-col space-y-4">
                             <label for="comment" class="block text-sm font-medium text-gray-700">Your Comment</label>
-                            <textarea name="comment" id="comment" rows="4" placeholder="Write your thoughts about this product..."
-                                class="mt-2 w-full border border-gray-300 rounded-lg p-3 resize-none focus:ring-2 focus:ring-primary focus:border-primary transition"></textarea>
+                            <textarea name="comment" id="comment" rows="4" placeholder="Share your experience with this product..."
+                                class="w-full border border-gray-200 rounded-xl p-4 text-gray-700 resize-none 
+                           focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
 
                             <!-- Verified Purchase Badge -->
                             <div class="flex items-center space-x-2">
-                                @if ($userHasPurchased)
-                                    <!-- condition you define in controller -->
-                                    <input type="checkbox" id="verified" name="verified" value="1" checked
-                                        disabled class="rounded border-gray-300 text-primary focus:ring-primary">
-                                    <label for="verified" class="flex items-center text-sm font-medium text-green-600">
-                                        <svg class="w-4 h-4 mr-1 text-green-600" fill="none" stroke="currentColor"
-                                            stroke-width="2" viewBox="0 0 24 24">
+                                @if ($userHasPurchased ?? false)
+                                    <span
+                                        class="flex items-center px-3 py-1 rounded-full bg-green-50 text-green-600 text-sm font-medium">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                         </svg>
                                         Verified Purchase
-                                    </label>
+                                    </span>
                                 @endif
                             </div>
                         </div>
 
                         <!-- Submit Button -->
-                        <div class="flex items-center lg:items-end">
+                        <div class="md:w-1/4 flex md:justify-end">
                             <button type="submit"
-                                class="bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition transform hover:scale-105">
+                                class="bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-8 
+                           rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105">
                                 Submit Review
                             </button>
                         </div>
