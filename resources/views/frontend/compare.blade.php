@@ -660,6 +660,8 @@
             summaryContainer.innerHTML = summaryHTML;
         }
 
+       
+       
         // Filter comparison
         function filterComparison() {
             const filter = document.getElementById('comparison-filter').value;
