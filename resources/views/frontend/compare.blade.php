@@ -307,7 +307,7 @@
                 <!-- Search Results -->
                 <div class="overflow-y-auto max-h-96 p-6">
                     <div id="search-results" class="space-y-4">
-                        <!-- Sample Products -->
+                        
                         <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
                             onclick="selectProduct(0, 'wireless-earbuds-pro')">
                             <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
@@ -324,55 +324,7 @@
                             </div>
                             <button class="btn-primary text-sm">Add to Compare</button>
                         </div>
-
-                        <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
-                            onclick="selectProduct(0, 'bluetooth-speaker')">
-                            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2684&auto=format&fit=crop"
-                                alt="Portable Bluetooth Speaker" class="w-16 h-16 rounded-lg object-cover"
-                                loading="lazy" />
-                            <div class="flex-1">
-                                <h4 class="font-semibold text-primary">Portable Bluetooth Speaker Pro</h4>
-                                <p class="text-body-sm text-secondary-600">AudioMax Pro • Electronics</p>
-                                <div class="flex items-center space-x-2 mt-1">
-                                    <span class="text-accent font-semibold">$89.99</span>
-                                    <span class="text-success text-sm">⭐ 4.6</span>
-                                    <span class="text-secondary-500 text-sm">1.8K reviews</span>
-                                </div>
-                            </div>
-                            <button class="btn-primary text-sm">Add to Compare</button>
-                        </div>
-
-                        <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
-                            onclick="selectProduct(0, 'smart-watch')">
-                            <img src="https://images.unsplash.com/photo-1544117519-31a4b719223d?q=80&w=2671&auto=format&fit=crop"
-                                alt="Smart Fitness Watch" class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
-                            <div class="flex-1">
-                                <h4 class="font-semibold text-primary">Smart Fitness Watch Pro</h4>
-                                <p class="text-body-sm text-secondary-600">FitTech Innovations • Health & Fitness</p>
-                                <div class="flex items-center space-x-2 mt-1">
-                                    <span class="text-accent font-semibold">$199.99</span>
-                                    <span class="text-success text-sm">⭐ 4.9</span>
-                                    <span class="text-secondary-500 text-sm">3.2K reviews</span>
-                                </div>
-                            </div>
-                            <button class="btn-primary text-sm">Add to Compare</button>
-                        </div>
-
-                        <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
-                            onclick="selectProduct(0, 'smart-home-hub')">
-                            <img src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                alt="Smart Home Hub" class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
-                            <div class="flex-1">
-                                <h4 class="font-semibold text-primary">Smart Home Hub Controller</h4>
-                                <p class="text-body-sm text-secondary-600">HomeAutomation Co. • Home & Garden</p>
-                                <div class="flex items-center space-x-2 mt-1">
-                                    <span class="text-accent font-semibold">$89.99</span>
-                                    <span class="text-success text-sm">⭐ 4.7</span>
-                                    <span class="text-secondary-500 text-sm">1.2K reviews</span>
-                                </div>
-                            </div>
-                            <button class="btn-primary text-sm">Add to Compare</button>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
