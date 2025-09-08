@@ -67,21 +67,61 @@
                 </div>
 
                 <div id="comparison-slots" class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    @for ($i = 0; $i < 4; $i++)
-                        <div class="comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer"
-                            onclick="openProductSearch({{ $i }})">
-                            <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                </svg>
-                            </div>
-                            <p class="text-secondary-600 font-medium">Add Product {{ $i + 1 }}</p>
-                            <p class="text-body-sm text-secondary-500 mt-1">{{ $i < 2 ? 'Click to search' : 'Optional' }}
-                            </p>
+                    <!-- Slot 1 -->
+                    <div class="comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer"
+                        onclick="openProductSearch(0)">
+                        <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
                         </div>
-                    @endfor
+                        <p class="text-secondary-600 font-medium">Add Product 1</p>
+                        <p class="text-body-sm text-secondary-500 mt-1">Click to search</p>
+                    </div>
+
+                    <!-- Slot 2 -->
+                    <div class="comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer"
+                        onclick="openProductSearch(1)">
+                        <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                        </div>
+                        <p class="text-secondary-600 font-medium">Add Product 2</p>
+                        <p class="text-body-sm text-secondary-500 mt-1">Click to search</p>
+                    </div>
+
+                    <!-- Slot 3 -->
+                    <div class="comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer"
+                        onclick="openProductSearch(2)">
+                        <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                        </div>
+                        <p class="text-secondary-600 font-medium">Add Product 3</p>
+                        <p class="text-body-sm text-secondary-500 mt-1">Optional</p>
+                    </div>
+
+                    <!-- Slot 4 -->
+                    <div class="comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer"
+                        onclick="openProductSearch(3)">
+                        <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                        </div>
+                        <p class="text-secondary-600 font-medium">Add Product 4</p>
+                        <p class="text-body-sm text-secondary-500 mt-1">Optional</p>
+                    </div>
                 </div>
             </div>
 
@@ -267,497 +307,519 @@
                 <!-- Search Results -->
                 <div class="overflow-y-auto max-h-96 p-6">
                     <div id="search-results" class="space-y-4">
-                        @if ($products->isNotEmpty())
-                            @foreach ($products as $product)
-                                <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
-                                    onclick="selectProduct(currentSlot, '{{ $product->slug }}')">
-                                    <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
-                                        class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
-                                    <div class="flex-1">
-                                        <h4 class="font-semibold text-primary">{{ $product->name }}</h4>
-                                        <p class="text-body-sm text-secondary-600">Tunga Market •
-                                            {{ $product->category->name ?? '-' }}</p>
-                                        <div class="flex items-center space-x-2 mt-1">
-                                            @if ($product->discount_price)
-                                                <span class="line-through text-accent font-semibold text-sm mr-2">
-                                                    @if ($product->currency === '$')
-                                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
-                                                    @elseif($product->currency === 'Rwf')
-                                                        {{ number_format($product->price) }} {{ $product->currency }}
-                                                    @endif
-                                                </span>
-                                                <span class="text-accent font-semibold">
-                                                    @if ($product->currency === '$')
-                                                        {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
-                                                    @elseif($product->currency === 'Rwf')
-                                                        {{ number_format($product->discount_price) }}
-                                                        {{ $product->currency }}
-                                                    @endif
-                                                </span>
-                                            @else
-                                                <span class="text-accent font-semibold">
-                                                    @if ($product->currency === '$')
-                                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
-                                                    @elseif($product->currency === 'Rwf')
-                                                        {{ number_format($product->price) }} {{ $product->currency }}
-                                                    @endif
-                                                </span>
-                                            @endif
-
-                                            @if ($product->average_rating > 0)
-                                                <span class="text-success text-sm">⭐
-                                                    {{ number_format($product->average_rating, 1) }}</span>
-                                            @endif
-                                            <span class="text-secondary-500 text-sm">{{ $product->formatted_views }}
-                                                Views</span>
-                                        </div>
+                        @foreach ($products as $product)
+                            <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
+                                onclick="selectProduct(0, 'wireless-earbuds-pro')">
+                                <img src="{{ $product->main_image }}" alt="{{ $product->name }}"
+                                    class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-primary">{{ $product->name }}</h4>
+                                    <p class="text-body-sm text-secondary-600">Tunga Market •
+                                        {{ $product->category->name }}</p>
+                                    <div class="flex items-center space-x-2 mt-1">
+                                        @if ($product->discount_price)
+                                            <span class="line-through text-accent font-semibold text-sm mr-2">
+                                                @if ($product->currency === '$')
+                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                @elseif($product->currency === 'Rwf')
+                                                    {{ number_format($product->price) }} {{ $product->currency }}
+                                                @endif
+                                            </span>
+                                            <span class=" text-accent font-semibold">
+                                                @if ($product->currency === '$')
+                                                    {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
+                                                @elseif($product->currency === 'Rwf')
+                                                    {{ number_format($product->discount_price) }}
+                                                    {{ $product->currency }}
+                                                @endif
+                                            </span>
+                                        @else
+                                            <span class=" text-accent font-semibold">
+                                                @if ($product->currency === '$')
+                                                    {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                                @elseif($product->currency === 'Rwf')
+                                                    {{ number_format($product->price) }} {{ $product->currency }}
+                                                @endif
+                                            </span>
+                                        @endif
+                                        @if ($product->average_rating > 0)
+                                            <span class="text-success text-sm">⭐
+                                                {{ number_format($product->average_rating, 1) }}</span>
+                                        @endif
+                                        <span class="text-secondary-500 text-sm">{{ $product->formatted_views }}
+                                            Views</span>
                                     </div>
-                                    <button class="btn-primary text-sm">Add to Compare</button>
                                 </div>
-                            @endforeach
-                        @else
-                            <p class="text-body-sm text-secondary-600">No products found. Try a different search term.</p>
-                        @endif
+                                <button class="btn-primary text-sm">Add to Compare</button>
+                            </div>
+                        @endforeach
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-    @php
-        // Prepare products for JS in a separate PHP block to avoid Blade parsing issues
-        $productsForJs = $products
-            ->map(function ($product) {
-                return [
-                    'id' => $product->id,
-                    'slug' => $product->slug,
-                    'name' => $product->name,
-                    'image' => $product->main_image,
-                    'price' => $product->discount_price ?? $product->price,
-                    'originalPrice' => $product->price,
-                    'rating' => number_format($product->average_rating, 1),
-                    'reviews' => $product->reviews_count ?? 0,
-                    // use optional() to avoid errors if relation is missing
-                    'supplier' => optional($product->brand)->name ?: 'Tunga Market',
-                    'category' => optional($product->category)->name ?: '-',
-                    // ensure we return JS objects for empty values (stdClass -> {}), and arrays for populated ones
-                    'features' => $product->features ? json_decode($product->features, true) : new \stdClass(),
-                    'specifications' => $product->specifications
-                        ? json_decode($product->specifications, true)
-                        : new \stdClass(),
-                    'currency' => $product->currency,
-                    'formatted_views' => $product->formatted_views,
-                ];
-            })
-            ->values()
-            ->all(); // ->all() returns a plain array
-    @endphp
+
     <script>
+        // Product comparison data
+        let comparisonProducts = [];
+        let currentSlot = 0;
+
         // Sample product database
-        // const productDatabase = @json($productsForJs);
+        const productDatabase = {
+            'wireless-earbuds-pro': {
+                name: 'Premium Wireless Earbuds Pro',
+                image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop',
+                price: 149.99,
+                originalPrice: 199.99,
+                rating: 4.8,
+                reviews: 2400,
+                supplier: 'TechSound Electronics',
+                category: 'Electronics',
+                features: {
+                    'Battery Life': '24 hours',
+                    'Noise Cancellation': 'Active',
+                    'Water Resistance': 'IPX7',
+                    'Driver Size': '12mm',
+                    'Connectivity': 'Bluetooth 5.2',
+                    'Charging Case': 'Yes',
+                    'Voice Assistant': 'Siri, Alexa',
+                    'Weight': '5.2g per earbud',
+                    'Warranty': '2 years',
+                    'Fast Charging': '15 min = 3 hours'
+                },
+                scores: {
+                    overall: 4.8,
+                    value: 4.5,
+                    quality: 4.9,
+                    delivery: 4.7
+                }
+            },
+            'bluetooth-speaker': {
+                name: 'Portable Bluetooth Speaker Pro',
+                image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2684&auto=format&fit=crop',
+                price: 89.99,
+                originalPrice: 119.99,
+                rating: 4.6,
+                reviews: 1800,
+                supplier: 'AudioMax Pro',
+                category: 'Electronics',
+                features: {
+                    'Battery Life': '20 hours',
+                    'Noise Cancellation': 'None',
+                    'Water Resistance': 'IPX6',
+                    'Driver Size': '40mm',
+                    'Connectivity': 'Bluetooth 5.0',
+                    'Charging Case': 'No',
+                    'Voice Assistant': 'Google Assistant',
+                    'Weight': '680g',
+                    'Warranty': '1 year',
+                    'Fast Charging': '2 hours full charge'
+                },
+                scores: {
+                    overall: 4.6,
+                    value: 4.8,
+                    quality: 4.4,
+                    delivery: 4.5
+                }
+            },
+            'smart-watch': {
+                name: 'Smart Fitness Watch Pro',
+                image: 'https://images.unsplash.com/photo-1544117519-31a4b719223d?q=80&w=2671&auto=format&fit=crop',
+                price: 199.99,
+                originalPrice: 249.99,
+                rating: 4.9,
+                reviews: 3200,
+                supplier: 'FitTech Innovations',
+                category: 'Health & Fitness',
+                features: {
+                    'Battery Life': '7 days',
+                    'Noise Cancellation': 'None',
+                    'Water Resistance': 'IP68',
+                    'Driver Size': 'N/A',
+                    'Connectivity': 'Bluetooth 5.1, WiFi',
+                    'Charging Case': 'No',
+                    'Voice Assistant': 'Built-in AI',
+                    'Weight': '45g',
+                    'Warranty': '2 years',
+                    'Fast Charging': '1 hour = 24 hours'
+                },
+                scores: {
+                    overall: 4.9,
+                    value: 4.6,
+                    quality: 4.9,
+                    delivery: 4.8
+                }
+            },
+            'smart-home-hub': {
+                name: 'Smart Home Hub Controller',
+                image: 'https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+                price: 89.99,
+                originalPrice: 119.99,
+                rating: 4.7,
+                reviews: 1200,
+                supplier: 'HomeAutomation Co.',
+                category: 'Home & Garden',
+                features: {
+                    'Battery Life': 'Plug-in',
+                    'Noise Cancellation': 'None',
+                    'Water Resistance': 'None',
+                    'Driver Size': 'N/A',
+                    'Connectivity': 'WiFi, Zigbee, Z-Wave',
+                    'Charging Case': 'No',
+                    'Voice Assistant': 'Alexa, Google',
+                    'Weight': '320g',
+                    'Warranty': '3 years',
+                    'Fast Charging': 'N/A'
+                },
+                scores: {
+                    overall: 4.7,
+                    value: 4.5,
+                    quality: 4.8,
+                    delivery: 4.6
+                }
+            }
+        };
 
-        // let comparisonProducts = [];
-        // let currentSlot = 0;
+        // Open product search modal
+        function openProductSearch(slotIndex) {
+            currentSlot = slotIndex;
+            document.getElementById('product-search-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('product-search-input').focus();
+        }
 
-        // function openProductSearch(slotIndex) {
-        //     currentSlot = slotIndex;
-        //     document.getElementById('product-search-modal').classList.remove('hidden');
-        //     document.body.style.overflow = 'hidden';
-        //     document.getElementById('product-search-input').focus();
-        // }
+        // Close product search modal
+        function closeProductSearch() {
+            document.getElementById('product-search-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
 
-        // function closeProductSearch() {
-        //     document.getElementById('product-search-modal').classList.add('hidden');
-        //     document.body.style.overflow = '';
-        // }
+        // Select product for comparison
+        function selectProduct(slotIndex, productId) {
+            const product = productDatabase[productId];
+            if (!product) return;
 
-        // function selectProduct(slotIndex, productSlug) {
-        //     const product = productDatabase.find(p => p.slug === productSlug);
-        //     if (!product) return;
+            // Add product to comparison
+            comparisonProducts[currentSlot] = {
+                id: productId,
+                ...product
+            };
 
-        //     // Merge features and specifications
-        //     const combinedSpecs = {
-        //         ...product.specifications,
-        //         ...product.features
-        //     };
+            // Update slot display
+            updateComparisonSlot(currentSlot, product);
 
-        //     // Add product to comparison
-        //     comparisonProducts[slotIndex] = {
-        //         ...product,
-        //         combinedSpecs
-        //     };
+            // Update counter
+            updateSelectedCount();
 
-        //     updateComparisonSlot(slotIndex, product);
-        //     updateSelectedCount();
-        //     closeProductSearch();
+            // Close modal
+            closeProductSearch();
 
-        //     if (comparisonProducts.filter(p => p).length >= 2) {
-        //         showComparisonTable();
-        //     }
-        // }
+            // Show comparison table if we have at least 2 products
+            if (comparisonProducts.filter(p => p).length >= 2) {
+                showComparisonTable();
+            }
+        }
 
-        // function updateComparisonSlot(slotIndex, product) {
-        //     const slot = document.querySelectorAll('.comparison-slot')[slotIndex];
-        //     slot.className = 'comparison-slot border-2 border-accent rounded-lg p-4 text-center bg-accent-50 relative';
-        //     slot.innerHTML = `
-    //     <button onclick="removeProduct(${slotIndex})" class="absolute top-2 right-2 w-6 h-6 bg-error text-white rounded-full flex items-center justify-center hover:bg-error-600 transition-fast">
-    //         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    //             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-    //         </svg>
-    //     </button>
-    //     <img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-lg object-cover mx-auto mb-3" loading="lazy" />
-    //     <h3 class="font-semibold text-primary text-sm mb-1">${product.name}</h3>
-    //     <p class="text-body-sm text-secondary-600 mb-2">${product.supplier}</p>
-    //     <div class="text-accent font-bold">
-    //         ${product.currency === '$' ? '$' + product.price : product.price + ' ' + product.currency}
-    //     </div>
-    //     <div class="text-success text-sm">⭐ ${product.rating}</div>
-    // `;
-        //     slot.onclick = null;
-        // }
+        // Update comparison slot display
+        function updateComparisonSlot(slotIndex, product) {
+            const slot = document.querySelectorAll('.comparison-slot')[slotIndex];
 
+            slot.className = 'comparison-slot border-2 border-accent rounded-lg p-4 text-center bg-accent-50 relative';
+            slot.innerHTML = `
+                <button onclick="removeProduct(${slotIndex})" class="absolute top-2 right-2 w-6 h-6 bg-error text-white rounded-full flex items-center justify-center hover:bg-error-600 transition-fast">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+                <img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-lg object-cover mx-auto mb-3" loading="lazy" />
+                <h3 class="font-semibold text-primary text-sm mb-1">${product.name}</h3>
+                <p class="text-body-sm text-secondary-600 mb-2">${product.supplier}</p>
+                <div class="text-accent font-bold">$${product.price}</div>
+                <div class="text-success text-sm">⭐ ${product.rating}</div>
+            `;
 
+            slot.onclick = null; // Remove click handler
+        }
 
-        // function removeProduct(slotIndex) {
-        //     comparisonProducts[slotIndex] = null;
-        //     const slot = document.querySelectorAll('.comparison-slot')[slotIndex];
-        //     slot.className =
-        //         'comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer';
-        //     slot.innerHTML = `
-    //     <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
-    //         <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    //             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-    //                 d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-    //         </svg>
-    //     </div>
-    //     <p class="text-secondary-600 font-medium">Add Product ${slotIndex+1}</p>
-    //     <p class="text-body-sm text-secondary-500 mt-1">${slotIndex<2?'Click to search':'Optional'}</p>
-    // `;
-        //     slot.onclick = () => openProductSearch(slotIndex);
-        //     if (comparisonProducts.filter(p => p).length < 2) {
-        //         document.getElementById('comparison-table').classList.add('hidden');
-        //     }
-        // }
+        // Remove product from comparison
+        function removeProduct(slotIndex) {
+            comparisonProducts[slotIndex] = null;
 
-        // function updateSelectedCount() {
-        //     // Get the element where you want to display the count
-        //     const countElement = document.getElementById("selectedCount");
+            // Reset slot display
+            const slot = document.querySelectorAll('.comparison-slot')[slotIndex];
+            slot.className =
+                'comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer';
+            slot.innerHTML = `
+                <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                </div>
+                <p class="text-secondary-600 font-medium">Add Product ${slotIndex + 1}</p>
+                <p class="text-body-sm text-secondary-500 mt-1">${slotIndex < 2 ? 'Click to search' : 'Optional'}</p>
+            `;
+            slot.onclick = () => openProductSearch(slotIndex);
 
-        //     if (countElement) {
-        //         // Update with current number of comparison products
-        //         countElement.textContent = comparisonProducts.length;
+            updateSelectedCount();
 
-        //         // Optionally hide/show counter if empty
-        //         if (comparisonProducts.length === 0) {
-        //             countElement.style.display = "none";
-        //         } else {
-        //             countElement.style.display = "inline-block";
-        //         }
-        //     }
-        // }
+            // Hide comparison table if less than 2 products
+            if (comparisonProducts.filter(p => p).length < 2) {
+                hideComparisonTable();
+            } else {
+                showComparisonTable();
+            }
+        }
 
+        // Update selected count
+        function updateSelectedCount() {
+            const count = comparisonProducts.filter(p => p).length;
+            document.getElementById('selected-count').textContent = count;
+        }
 
-        // function showComparisonTable() {
-        //     const table = document.getElementById('comparison-grid');
-        //     table.innerHTML = '';
+        // Clear all comparisons
+        function clearComparison() {
+            comparisonProducts = [];
 
-        //     const allKeys = new Set();
-        //     comparisonProducts.forEach(p => {
-        //         if (p) Object.keys(p.combinedSpecs).forEach(k => allKeys.add(k));
-        //     });
+            // Reset all slots
+            document.querySelectorAll('.comparison-slot').forEach((slot, index) => {
+                slot.className =
+                    'comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer';
+                slot.innerHTML = `
+                    <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                    </div>
+                    <p class="text-secondary-600 font-medium">Add Product ${index + 1}</p>
+                    <p class="text-body-sm text-secondary-500 mt-1">${index < 2 ? 'Click to search' : 'Optional'}</p>
+                `;
+                slot.onclick = () => openProductSearch(index);
+            });
 
-        //     allKeys.forEach(key => {
-        //         const row = document.createElement('tr');
-        //         row.innerHTML = `
-    //         <td class="font-semibold text-body-sm border px-2 py-1">${key}</td>
-    //         ${comparisonProducts.map(p => `<td class="border px-2 py-1">${p ? p.combinedSpecs[key] || '-' : '-'}</td>`).join('')}
-    //     `;
-        //         table.appendChild(row);
-        //     });
+            updateSelectedCount();
+            hideComparisonTable();
+        }
 
-        //     document.getElementById('comparison-table').classList.remove('hidden');
-        // }
+        // Show comparison table
+        function showComparisonTable() {
+            document.getElementById('comparison-table').classList.remove('hidden');
+            generateComparisonTable();
+        }
 
+        // Hide comparison table
+        function hideComparisonTable() {
+            document.getElementById('comparison-table').classList.add('hidden');
+        }
 
-        // // Remove product from comparison
-        // function removeProduct(slotIndex) {
-        //     comparisonProducts[slotIndex] = null;
+        // Generate comparison table
+        function generateComparisonTable() {
+            const validProducts = comparisonProducts.filter(p => p);
+            if (validProducts.length < 2) return;
 
-        //     // Reset slot display
-        //     const slot = document.querySelectorAll('.comparison-slot')[slotIndex];
-        //     slot.className =
-        //         'comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer';
-        //     slot.innerHTML = `
-    //         <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
-    //             <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    //                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-    //             </svg>
-    //         </div>
-    //         <p class="text-secondary-600 font-medium">Add Product ${slotIndex + 1}</p>
-    //         <p class="text-body-sm text-secondary-500 mt-1">${slotIndex < 2 ? 'Click to search' : 'Optional'}</p>
-    //     `;
-        //     slot.onclick = () => openProductSearch(slotIndex);
+            const table = document.getElementById('comparison-grid');
+            const features = ['price', 'rating', 'reviews', 'supplier', 'category', ...Object.keys(validProducts[0]
+                .features)];
 
-        //     updateSelectedCount();
+            let tableHTML = `
+                <thead class="bg-surface">
+                    <tr>
+                        <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
+                        ${validProducts.map(product => `
+                                                            <th class="px-4 py-3 text-center border-b border-border">
+                                                                <div class="flex flex-col items-center space-y-2">
+                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                </div>
+                                                            </th>
+                                                        `).join('')}
+                    </tr>
+                </thead>
+                <tbody>
+            `;
 
-        //     // Hide comparison table if less than 2 products
-        //     if (comparisonProducts.filter(p => p).length < 2) {
-        //         hideComparisonTable();
-        //     } else {
-        //         showComparisonTable();
-        //     }
-        // }
+            features.forEach((feature, index) => {
+                const isEven = index % 2 === 0;
+                tableHTML += `<tr class="${isEven ? 'bg-white' : 'bg-surface'}">`;
 
-        // // Update selected count
-        // function updateSelectedCount() {
-        //     const count = comparisonProducts.filter(p => p).length;
-        //     document.getElementById('selected-count').textContent = count;
-        // }
+                // Feature name
+                tableHTML +=
+                    `<td class="px-4 py-3 font-medium text-primary capitalize border-b border-border">${feature.replace(/([A-Z])/g, ' $1').trim()}</td>`;
 
-        // // Clear all comparisons
-        // function clearComparison() {
-        //     comparisonProducts = [];
+                // Feature values for each product
+                validProducts.forEach(product => {
+                    let value = '';
+                    let cellClass = 'px-4 py-3 text-center border-b border-border';
 
-        //     // Reset all slots
-        //     document.querySelectorAll('.comparison-slot').forEach((slot, index) => {
-        //         slot.className =
-        //             'comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer';
-        //         slot.innerHTML = `
-    //             <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
-    //                 <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    //                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-    //                 </svg>
-    //             </div>
-    //             <p class="text-secondary-600 font-medium">Add Product ${index + 1}</p>
-    //             <p class="text-body-sm text-secondary-500 mt-1">${index < 2 ? 'Click to search' : 'Optional'}</p>
-    //         `;
-        //         slot.onclick = () => openProductSearch(index);
-        //     });
+                    if (feature === 'price') {
+                        const savings = product.originalPrice - product.price;
+                        value = `
+                            <div class="font-bold text-lg text-accent">$${product.price}</div>
+                            <div class="text-body-sm text-secondary-500 line-through">$${product.originalPrice}</div>
+                            <div class="text-body-sm text-success">Save $${savings.toFixed(2)}</div>
+                        `;
 
-        //     updateSelectedCount();
-        //     hideComparisonTable();
-        // }
+                        // Highlight best value
+                        const minPrice = Math.min(...validProducts.map(p => p.price));
+                        if (product.price === minPrice) {
+                            cellClass += ' bg-success-50 ring-2 ring-success';
+                            value +=
+                                '<div class="mt-1 text-xs text-success font-semibold">🏆 Best Value</div>';
+                        }
+                    } else if (feature === 'rating') {
+                        value = `
+                            <div class="flex items-center justify-center space-x-1">
+                                <span class="text-warning">⭐</span>
+                                <span class="font-semibold">${product.rating}</span>
+                            </div>
+                        `;
 
-        // // Show comparison table
-        // function showComparisonTable() {
-        //     document.getElementById('comparison-table').classList.remove('hidden');
-        //     generateComparisonTable();
-        // }
+                        // Highlight highest rating
+                        const maxRating = Math.max(...validProducts.map(p => p.rating));
+                        if (product.rating === maxRating) {
+                            cellClass += ' bg-accent-50 ring-2 ring-accent';
+                            value +=
+                                '<div class="mt-1 text-xs text-accent font-semibold">🌟 Top Rated</div>';
+                        }
+                    } else if (feature === 'reviews') {
+                        value = `${product.reviews.toLocaleString()} reviews`;
+                    } else if (feature === 'supplier') {
+                        value = product.supplier;
+                    } else if (feature === 'category') {
+                        value = product.category;
+                    } else {
+                        value = product.features[feature] || 'N/A';
 
-        // // Hide comparison table
-        // function hideComparisonTable() {
-        //     document.getElementById('comparison-table').classList.add('hidden');
-        // }
+                        // Highlight differences
+                        const allValues = validProducts.map(p => p.features[feature] || 'N/A');
+                        const uniqueValues = [...new Set(allValues)];
+                        if (uniqueValues.length > 1) {
+                            cellClass += ' bg-warning-50';
+                        }
+                    }
 
-        // // Generate comparison table
-        // function generateComparisonTable() {
-        //     const validProducts = comparisonProducts.filter(p => p);
-        //     if (validProducts.length < 2) return;
+                    tableHTML += `<td class="${cellClass}">${value}</td>`;
+                });
 
-        //     const table = document.getElementById('comparison-grid');
-        //     const features = ['price', 'rating', 'reviews', 'supplier', 'category', ...Object.keys(validProducts[0]
-        //         .features)];
+                tableHTML += '</tr>';
+            });
 
-        //     let tableHTML = `
-    //         <thead class="bg-surface">
-    //             <tr>
-    //                 <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
-    //                 ${validProducts.map(product => `
-        //                                                                                     <th class="px-4 py-3 text-center border-b border-border">
-        //                                                                                         <div class="flex flex-col items-center space-y-2">
-        //                                                                                             <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-        //                                                                                             <div class="font-semibold text-primary text-sm">${product.name}</div>
-        //                                                                                             <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-        //                                                                                         </div>
-        //                                                                                     </th>
-        //                                                                                 `).join('')}
-    //             </tr>
-    //         </thead>
-    //         <tbody>
-    //     `;
+            tableHTML += '</tbody>';
+            table.innerHTML = tableHTML;
 
-        //     features.forEach((feature, index) => {
-        //         const isEven = index % 2 === 0;
-        //         tableHTML += `<tr class="${isEven ? 'bg-white' : 'bg-surface'}">`;
+            // Generate scoring summary
+            generateScoringSummary(validProducts);
+        }
 
-        //         // Feature name
-        //         tableHTML +=
-        //             `<td class="px-4 py-3 font-medium text-primary capitalize border-b border-border">${feature.replace(/([A-Z])/g, ' $1').trim()}</td>`;
+        // Generate scoring summary
+        function generateScoringSummary(products) {
+            const summaryContainer = document.getElementById('scoring-summary');
 
-        //         // Feature values for each product
-        //         validProducts.forEach(product => {
-        //             let value = '';
-        //             let cellClass = 'px-4 py-3 text-center border-b border-border';
+            let summaryHTML = products.map(product => {
+                const bestValue = products.reduce((min, p) => p.price < min.price ? p : min, products[0]);
+                const topRated = products.reduce((max, p) => p.rating > max.rating ? p : max, products[0]);
+                const badges = [];
 
-        //             if (feature === 'price') {
-        //                 const savings = product.originalPrice - product.price;
-        //                 value = `
-    //                     <div class="font-bold text-lg text-accent">$${product.price}</div>
-    //                     <div class="text-body-sm text-secondary-500 line-through">$${product.originalPrice}</div>
-    //                     <div class="text-body-sm text-success">Save $${savings.toFixed(2)}</div>
-    //                 `;
+                if (product.id === bestValue.id) badges.push('🏆 Best Value');
+                if (product.id === topRated.id) badges.push('🌟 Top Rated');
 
-        //                 // Highlight best value
-        //                 const minPrice = Math.min(...validProducts.map(p => p.price));
-        //                 if (product.price === minPrice) {
-        //                     cellClass += ' bg-success-50 ring-2 ring-success';
-        //                     value +=
-        //                         '<div class="mt-1 text-xs text-success font-semibold">🏆 Best Value</div>';
-        //                 }
-        //             } else if (feature === 'rating') {
-        //                 value = `
-    //                     <div class="flex items-center justify-center space-x-1">
-    //                         <span class="text-warning">⭐</span>
-    //                         <span class="font-semibold">${product.rating}</span>
-    //                     </div>
-    //                 `;
+                return `
+                    <div class="card">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                            <div>
+                                <h4 class="font-semibold text-primary">${product.name}</h4>
+                                <p class="text-body-sm text-secondary-600">${product.supplier}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between">
+                                <span class="text-body-sm text-secondary-600">Overall Score:</span>
+                                <span class="font-semibold text-primary">${product.scores.overall}/5</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-body-sm text-secondary-600">Value Score:</span>
+                                <span class="font-semibold text-success">${product.scores.value}/5</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-body-sm text-secondary-600">Quality Score:</span>
+                                <span class="font-semibold text-accent">${product.scores.quality}/5</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-body-sm text-secondary-600">Delivery Score:</span>
+                                <span class="font-semibold text-primary">${product.scores.delivery}/5</span>
+                            </div>
+                        </div>
+                        
+                        ${badges.length > 0 ? `
+                                                            <div class="space-y-1 mb-4">
+                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                            </div>
+                                                        ` : ''}
+                        
+                        <div class="space-y-2">
+                            <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
+                                Add to Cart - $${product.price}
+                            </button>
+                            <button onclick="addToWishlist('${product.id}')" class="w-full btn-secondary text-sm">
+                                Add to Wishlist
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
 
-        //                 // Highlight highest rating
-        //                 const maxRating = Math.max(...validProducts.map(p => p.rating));
-        //                 if (product.rating === maxRating) {
-        //                     cellClass += ' bg-accent-50 ring-2 ring-accent';
-        //                     value +=
-        //                         '<div class="mt-1 text-xs text-accent font-semibold">🌟 Top Rated</div>';
-        //                 }
-        //             } else if (feature === 'reviews') {
-        //                 value = `${product.reviews.toLocaleString()} reviews`;
-        //             } else if (feature === 'supplier') {
-        //                 value = product.supplier;
-        //             } else if (feature === 'category') {
-        //                 value = product.category;
-        //             } else {
-        //                 value = product.features[feature] || 'N/A';
+            summaryContainer.innerHTML = summaryHTML;
+        }
 
-        //                 // Highlight differences
-        //                 const allValues = validProducts.map(p => p.features[feature] || 'N/A');
-        //                 const uniqueValues = [...new Set(allValues)];
-        //                 if (uniqueValues.length > 1) {
-        //                     cellClass += ' bg-warning-50';
-        //                 }
-        //             }
+        // Filter comparison
+        function filterComparison() {
+            const filter = document.getElementById('comparison-filter').value;
+            // In a real app, this would filter the table rows
+            showToast('Filter Applied', `Showing ${filter} features`, 'success');
+        }
 
-        //             tableHTML += `<td class="${cellClass}">${value}</td>`;
-        //         });
+        // Export comparison
+        function exportComparison() {
+            showToast('Export Started', 'Generating PDF comparison report...', 'success');
+            // In a real app, this would generate and download a PDF
+        }
 
-        //         tableHTML += '</tr>';
-        //     });
+        // Save comparison
+        function saveComparison() {
+            const validProducts = comparisonProducts.filter(p => p);
+            if (validProducts.length < 2) {
+                showToast('Save Failed', 'Need at least 2 products to save comparison', 'warning');
+                return;
+            }
 
-        //     tableHTML += '</tbody>';
-        //     table.innerHTML = tableHTML;
+            showToast('Comparison Saved', 'Your comparison has been saved to your account', 'success');
+        }
 
-        //     // Generate scoring summary
-        //     generateScoringSummary(validProducts);
-        // }
+        // Load preset comparison
+        function loadPresetComparison(type) {
+            clearComparison();
 
-        // // Generate scoring summary
-        // function generateScoringSummary(products) {
-        //     const summaryContainer = document.getElementById('scoring-summary');
+            switch (type) {
+                case 'wireless-earbuds':
+                    selectProduct(0, 'wireless-earbuds-pro');
+                    setTimeout(() => selectProduct(1, 'bluetooth-speaker'), 500);
+                    setTimeout(() => selectProduct(2, 'smart-watch'), 1000);
+                    break;
+                case 'smart-home':
+                    selectProduct(0, 'smart-home-hub');
+                    setTimeout(() => selectProduct(1, 'smart-watch'), 500);
+                    break;
+                case 'fitness-trackers':
+                    selectProduct(0, 'smart-watch');
+                    setTimeout(() => selectProduct(1, 'wireless-earbuds-pro'), 500);
+                    setTimeout(() => selectProduct(2, 'bluetooth-speaker'), 1000);
+                    break;
+            }
 
-        //     let summaryHTML = products.map(product => {
-        //         const bestValue = products.reduce((min, p) => p.price < min.price ? p : min, products[0]);
-        //         const topRated = products.reduce((max, p) => p.rating > max.rating ? p : max, products[0]);
-        //         const badges = [];
-
-        //         if (product.id === bestValue.id) badges.push('🏆 Best Value');
-        //         if (product.id === topRated.id) badges.push('🌟 Top Rated');
-
-        //         return `
-    //             <div class="card">
-    //                 <div class="flex items-center space-x-3 mb-4">
-    //                     <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-    //                     <div>
-    //                         <h4 class="font-semibold text-primary">${product.name}</h4>
-    //                         <p class="text-body-sm text-secondary-600">${product.supplier}</p>
-    //                     </div>
-    //                 </div>
-
-    //                 <div class="space-y-2 mb-4">
-    //                     <div class="flex justify-between">
-    //                         <span class="text-body-sm text-secondary-600">Overall Score:</span>
-    //                         <span class="font-semibold text-primary">${product.scores.overall}/5</span>
-    //                     </div>
-    //                     <div class="flex justify-between">
-    //                         <span class="text-body-sm text-secondary-600">Value Score:</span>
-    //                         <span class="font-semibold text-success">${product.scores.value}/5</span>
-    //                     </div>
-    //                     <div class="flex justify-between">
-    //                         <span class="text-body-sm text-secondary-600">Quality Score:</span>
-    //                         <span class="font-semibold text-accent">${product.scores.quality}/5</span>
-    //                     </div>
-    //                     <div class="flex justify-between">
-    //                         <span class="text-body-sm text-secondary-600">Delivery Score:</span>
-    //                         <span class="font-semibold text-primary">${product.scores.delivery}/5</span>
-    //                     </div>
-    //                 </div>
-
-    //                 ${badges.length > 0 ? `
-        //                                                                                     <div class="space-y-1 mb-4">
-        //                                                                                         ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-        //                                                                                     </div>
-        //                                                                                 ` : ''}
-
-    //                 <div class="space-y-2">
-    //                     <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
-    //                         Add to Cart - $${product.price}
-    //                     </button>
-    //                     <button onclick="addToWishlist('${product.id}')" class="w-full btn-secondary text-sm">
-    //                         Add to Wishlist
-    //                     </button>
-    //                 </div>
-    //             </div>
-    //         `;
-        //     }).join('');
-
-        //     summaryContainer.innerHTML = summaryHTML;
-        // }
-
-        // // Filter comparison
-        // function filterComparison() {
-        //     const filter = document.getElementById('comparison-filter').value;
-        //     // In a real app, this would filter the table rows
-        //     showToast('Filter Applied', `Showing ${filter} features`, 'success');
-        // }
-
-        // // Export comparison
-        // function exportComparison() {
-        //     showToast('Export Started', 'Generating PDF comparison report...', 'success');
-        //     // In a real app, this would generate and download a PDF
-        // }
-
-        // // Save comparison
-        // function saveComparison() {
-        //     const validProducts = comparisonProducts.filter(p => p);
-        //     if (validProducts.length < 2) {
-        //         showToast('Save Failed', 'Need at least 2 products to save comparison', 'warning');
-        //         return;
-        //     }
-
-        //     showToast('Comparison Saved', 'Your comparison has been saved to your account', 'success');
-        // }
-
-        // // Load preset comparison
-        // function loadPresetComparison(type) {
-        //     clearComparison();
-
-        //     switch (type) {
-        //         case 'wireless-earbuds':
-        //             selectProduct(0, 'wireless-earbuds-pro');
-        //             setTimeout(() => selectProduct(1, 'bluetooth-speaker'), 500);
-        //             setTimeout(() => selectProduct(2, 'smart-watch'), 1000);
-        //             break;
-        //         case 'smart-home':
-        //             selectProduct(0, 'smart-home-hub');
-        //             setTimeout(() => selectProduct(1, 'smart-watch'), 500);
-        //             break;
-        //         case 'fitness-trackers':
-        //             selectProduct(0, 'smart-watch');
-        //             setTimeout(() => selectProduct(1, 'wireless-earbuds-pro'), 500);
-        //             setTimeout(() => selectProduct(2, 'bluetooth-speaker'), 1000);
-        //             break;
-        //     }
-
-        //     showToast('Comparison Loaded', `Loading ${type.replace('-', ' ')} comparison...`, 'success');
-        // }
+            showToast('Comparison Loaded', `Loading ${type.replace('-', ' ')} comparison...`, 'success');
+        }
 
         // Add to cart
         function addToCart(productId) {
