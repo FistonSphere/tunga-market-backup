@@ -482,7 +482,7 @@
                 <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
                     <!-- Header -->
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="font-semibold text-2xl text-gray-900">Leave a Review</h3>
+                        <h3 class="active py-4 px-1 border-b-2 font-semibold text-2xl text-gray-900 border-accent font-semibold">Leave a Review</h3>
                         <span class="text-sm text-gray-500">Your feedback helps others!</span>
                     </div>
 
