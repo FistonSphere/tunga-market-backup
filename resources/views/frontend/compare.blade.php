@@ -312,7 +312,6 @@
         const MAX_SLOTS = 4;
         // Sample product database
         const productDatabase = {!! $productDatabase !!};
-        console.log(productDatabase);
         // Open product search modal
         function openProductSearch(slotIndex) {
             currentSlot = slotIndex;
@@ -415,7 +414,7 @@
         `;
 
             slot.onclick = null; // Remove click
-            // logComparisonSlotsLive();
+            
         }
 
         // Remove product
@@ -438,15 +437,8 @@
             slot.onclick = () => openProductSearch(slotIndex);
 
             comparisonProducts.filter(p => p).length < 2 ? hideComparisonTable() : showComparisonTable();
-            // logComparisonSlotsLive();
+            
         }
-
-        // Live debug logging
-        // function logComparisonSlotsLive() {
-        //     // console.group('📊 Comparison Slots');
-        //     comparisonProducts.forEach((p, i) => console.log(`Slot ${i + 1}:`, p || 'Empty'));
-        //     // console.groupEnd();
-        // }
 
         // Attach "Add to Compare" buttons dynamically
         document.querySelectorAll('#search-results .product-result button').forEach(btn => {
