@@ -366,7 +366,7 @@
 
         // Sample product database
         const productDatabase = {!! $productDatabase !!};
-
+console.log(productDatabase);
         // Open product search modal
         function openProductSearch(slotIndex) {
             currentSlot = slotIndex;

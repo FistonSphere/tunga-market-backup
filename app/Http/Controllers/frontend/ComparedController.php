@@ -24,6 +24,7 @@ class ComparedController extends Controller
             $reviewsCount = $product->reviews->count();
 
             $productDatabase[$product->slug] = [
+                'ProductId'     => $product->id,
                 'name'   => $product->name,
                 'image'  => $product->main_image,
                 'price'  => $product->discount_price ?? $product->price,
