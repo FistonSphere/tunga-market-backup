@@ -17,13 +17,38 @@ class ComparedController extends Controller
     foreach ($products as $product) {
         $product->formatted_views = $this->formatNumber($product->views_count);
     }
-    // foreach ($products as $product) {
-    //     $product->average_rating = $product->reviews->avg('rating') ?? 0;
-    // }
+$productsArray = Product::with(['category', 'reviews'])
+        ->where('status', 'active')
+        ->get()
+        ->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'image' => $product->main_image,
+                'price' => $product->discount_price ?? $product->price,
+                'originalPrice' => $product->price,
+                'rating' => round($product->reviews->avg('rating') ?? 0, 1),
+                'reviews' => $product->reviews->count(),
+                'supplier' => 'Tunga Market', // or $product->supplier if you have it
+                'category' => $product->category->name ?? 'N/A',
+                'features' => [
+                    'Views' => $product->formatted_views,
+                    // add other dynamic specs if available
+                ],
+                'scores' => [
+                    'overall' => round($product->reviews->avg('rating') ?? 0, 1),
+                    'value' => rand(3, 5),     // placeholder → can compute logic
+                    'quality' => rand(3, 5),   // placeholder
+                    'delivery' => rand(3, 5),  // placeholder
+                ]
+            ];
+        });
+    
     return view('frontend.compare', [
         'totalProducts' => $totalProducts,
         'formattedTotal' => $formattedTotal,
         'products' => $products,
+        'productsArray' => $productsArray
     ]);
 }
 
