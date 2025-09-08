@@ -498,32 +498,48 @@
             document.getElementById('comparison-table').classList.add('hidden');
         }
 
+        // ==============================
         // Generate comparison table
+        // ==============================
         function generateComparisonTable() {
-            const validProducts = comparisonProducts.filter(p => p);
-            if (validProducts.length < 2) return;
+            // Filter only valid products
+            const validKeys = comparisonProducts.filter(p => p);
+            if (validKeys.length < 2) return;
+
+            // Get product objects from database
+            const validProducts = validKeys.map(key => productDatabase[key]);
 
             const table = document.getElementById('comparison-grid');
-            const features = ['price', 'rating', 'reviews', 'supplier', 'category', ...Object.keys(validProducts[0]
-                .features)];
+
+            // Collect all unique feature keys across selected products
+            const allFeatureKeys = new Set();
+            validProducts.forEach(p => {
+                if (Array.isArray(p.features)) {
+                    p.features.forEach((f, i) => allFeatureKeys.add(`Feature ${i + 1}`));
+                } else {
+                    Object.keys(p.features || {}).forEach(f => allFeatureKeys.add(f));
+                }
+            });
+
+            const features = ['price', 'rating', 'reviews', 'supplier', 'category', ...allFeatureKeys];
 
             let tableHTML = `
-                <thead class="bg-surface">
-                    <tr>
-                        <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
-                        ${validProducts.map(product => `
-                                                            <th class="px-4 py-3 text-center border-b border-border">
-                                                                <div class="flex flex-col items-center space-y-2">
-                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                </div>
-                                                            </th>
-                                                        `).join('')}
-                    </tr>
-                </thead>
-                <tbody>
-            `;
+        <thead class="bg-surface">
+            <tr>
+                <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
+                ${validProducts.map(product => `
+                        <th class="px-4 py-3 text-center border-b border-border">
+                            <div class="flex flex-col items-center space-y-2">
+                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                            </div>
+                        </th>
+                    `).join('')}
+            </tr>
+        </thead>
+        <tbody>
+    `;
 
             features.forEach((feature, index) => {
                 const isEven = index % 2 === 0;
@@ -539,14 +555,13 @@
                     let cellClass = 'px-4 py-3 text-center border-b border-border';
 
                     if (feature === 'price') {
-                        const savings = product.originalPrice - product.price;
+                        const orig = product.originalPrice || product.price;
+                        const savings = orig - product.price;
                         value = `
-                            <div class="font-bold text-lg text-accent">$${product.price}</div>
-                            <div class="text-body-sm text-secondary-500 line-through">$${product.originalPrice}</div>
-                            <div class="text-body-sm text-success">Save $${savings.toFixed(2)}</div>
-                        `;
-
-                        // Highlight best value
+                    <div class="font-bold text-lg text-accent">$${product.price}</div>
+                    ${product.originalPrice ? `<div class="text-body-sm text-secondary-500 line-through">$${product.originalPrice}</div>` : ''}
+                    ${savings > 0 ? `<div class="text-body-sm text-success">Save $${savings.toFixed(2)}</div>` : ''}
+                `;
                         const minPrice = Math.min(...validProducts.map(p => p.price));
                         if (product.price === minPrice) {
                             cellClass += ' bg-success-50 ring-2 ring-success';
@@ -555,13 +570,11 @@
                         }
                     } else if (feature === 'rating') {
                         value = `
-                            <div class="flex items-center justify-center space-x-1">
-                                <span class="text-warning">⭐</span>
-                                <span class="font-semibold">${product.rating}</span>
-                            </div>
-                        `;
-
-                        // Highlight highest rating
+                    <div class="flex items-center justify-center space-x-1">
+                        <span class="text-warning">⭐</span>
+                        <span class="font-semibold">${product.rating}</span>
+                    </div>
+                `;
                         const maxRating = Math.max(...validProducts.map(p => p.rating));
                         if (product.rating === maxRating) {
                             cellClass += ' bg-accent-50 ring-2 ring-accent';
@@ -575,14 +588,21 @@
                     } else if (feature === 'category') {
                         value = product.category;
                     } else {
-                        value = product.features[feature] || 'N/A';
+                        // Custom features
+                        if (Array.isArray(product.features)) {
+                            const indexMatch = feature.match(/Feature (\d+)/);
+                            value = indexMatch ? product.features[parseInt(indexMatch[1]) - 1] || 'N/A' :
+                                'N/A';
+                        } else {
+                            value = product.features[feature] || 'N/A';
+                        }
 
                         // Highlight differences
-                        const allValues = validProducts.map(p => p.features[feature] || 'N/A');
+                        const allValues = validProducts.map(p => Array.isArray(p.features) ?
+                            p.features[parseInt(feature.replace('Feature ', '')) - 1] || 'N/A' :
+                            p.features[feature] || 'N/A');
                         const uniqueValues = [...new Set(allValues)];
-                        if (uniqueValues.length > 1) {
-                            cellClass += ' bg-warning-50';
-                        }
+                        if (uniqueValues.length > 1) cellClass += ' bg-warning-50';
                     }
 
                     tableHTML += `<td class="${cellClass}">${value}</td>`;
@@ -598,7 +618,9 @@
             generateScoringSummary(validProducts);
         }
 
+        // ==============================
         // Generate scoring summary
+        // ==============================
         function generateScoringSummary(products) {
             const summaryContainer = document.getElementById('scoring-summary');
 
@@ -607,61 +629,61 @@
                 const topRated = products.reduce((max, p) => p.rating > max.rating ? p : max, products[0]);
                 const badges = [];
 
-                if (product.id === bestValue.id) badges.push('🏆 Best Value');
-                if (product.id === topRated.id) badges.push('🌟 Top Rated');
+                if (product.price === bestValue.price) badges.push('🏆 Best Value');
+                if (product.rating === topRated.rating) badges.push('🌟 Top Rated');
 
                 return `
-                    <div class="card">
-                        <div class="flex items-center space-x-3 mb-4">
-                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                            <div>
-                                <h4 class="font-semibold text-primary">${product.name}</h4>
-                                <p class="text-body-sm text-secondary-600">${product.supplier}</p>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-2 mb-4">
-                            <div class="flex justify-between">
-                                <span class="text-body-sm text-secondary-600">Overall Score:</span>
-                                <span class="font-semibold text-primary">${product.scores.overall}/5</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-body-sm text-secondary-600">Value Score:</span>
-                                <span class="font-semibold text-success">${product.scores.value}/5</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-body-sm text-secondary-600">Quality Score:</span>
-                                <span class="font-semibold text-accent">${product.scores.quality}/5</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-body-sm text-secondary-600">Delivery Score:</span>
-                                <span class="font-semibold text-primary">${product.scores.delivery}/5</span>
-                            </div>
-                        </div>
-                        
-                        ${badges.length > 0 ? `
-                                                            <div class="space-y-1 mb-4">
-                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                            </div>
-                                                        ` : ''}
-                        
-                        <div class="space-y-2">
-                            <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
-                                Add to Cart - $${product.price}
-                            </button>
-                            <button onclick="addToWishlist('${product.id}')" class="w-full btn-secondary text-sm">
-                                Add to Wishlist
-                            </button>
-                        </div>
+            <div class="card">
+                <div class="flex items-center space-x-3 mb-4">
+                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                    <div>
+                        <h4 class="font-semibold text-primary">${product.name}</h4>
+                        <p class="text-body-sm text-secondary-600">${product.supplier}</p>
                     </div>
-                `;
+                </div>
+                
+                <div class="space-y-2 mb-4">
+                    <div class="flex justify-between">
+                        <span class="text-body-sm text-secondary-600">Overall Score:</span>
+                        <span class="font-semibold text-primary">${product.scores.overall}/5</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-body-sm text-secondary-600">Value Score:</span>
+                        <span class="font-semibold text-success">${product.scores.value}/5</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-body-sm text-secondary-600">Quality Score:</span>
+                        <span class="font-semibold text-accent">${product.scores.quality}/5</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-body-sm text-secondary-600">Delivery Score:</span>
+                        <span class="font-semibold text-primary">${product.scores.delivery}/5</span>
+                    </div>
+                </div>
+                
+                ${badges.length > 0 ? `
+                        <div class="space-y-1 mb-4">
+                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                        </div>
+                    ` : ''}
+                
+                <div class="space-y-2">
+                    <button onclick="addToCart('${product.slug}')" class="w-full btn-primary text-sm">
+                        Add to Cart - $${product.price}
+                    </button>
+                    <button onclick="addToWishlist('${product.slug}')" class="w-full btn-secondary text-sm">
+                        Add to Wishlist
+                    </button>
+                </div>
+            </div>
+        `;
             }).join('');
 
             summaryContainer.innerHTML = summaryHTML;
         }
 
-       
-       
+
+
         // Filter comparison
         function filterComparison() {
             const filter = document.getElementById('comparison-filter').value;
