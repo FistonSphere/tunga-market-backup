@@ -528,14 +528,14 @@
             <tr>
                 <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                 ${validProducts.map(product => `
-                        <th class="px-4 py-3 text-center border-b border-border">
-                            <div class="flex flex-col items-center space-y-2">
-                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                            </div>
-                        </th>
-                    `).join('')}
+                            <th class="px-4 py-3 text-center border-b border-border">
+                                <div class="flex flex-col items-center space-y-2">
+                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                </div>
+                            </th>
+                        `).join('')}
             </tr>
         </thead>
         <tbody>
@@ -662,10 +662,10 @@
                 </div>
                 
                 ${badges.length > 0 ? `
-                        <div class="space-y-1 mb-4">
-                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                        </div>
-                    ` : ''}
+                            <div class="space-y-1 mb-4">
+                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                            </div>
+                        ` : ''}
                 
                 <div class="space-y-2">
                     <button onclick="addToCart('${product.slug}')" class="w-full btn-primary text-sm">
@@ -709,28 +709,30 @@
         }
 
         // Load preset comparison
-        function loadPresetComparison(type) {
+        function loadPresetComparison(category) {
             clearComparison();
 
-            switch (type) {
-                case 'wireless-earbuds':
-                    selectProduct(0, 'wireless-earbuds-pro');
-                    setTimeout(() => selectProduct(1, 'bluetooth-speaker'), 500);
-                    setTimeout(() => selectProduct(2, 'smart-watch'), 1000);
-                    break;
-                case 'smart-home':
-                    selectProduct(0, 'smart-home-hub');
-                    setTimeout(() => selectProduct(1, 'smart-watch'), 500);
-                    break;
-                case 'fitness-trackers':
-                    selectProduct(0, 'smart-watch');
-                    setTimeout(() => selectProduct(1, 'wireless-earbuds-pro'), 500);
-                    setTimeout(() => selectProduct(2, 'bluetooth-speaker'), 1000);
-                    break;
-            }
+            // Dynamically find all products in the requested category
+            const productsInCategory = Object.entries(productDatabase)
+                .filter(([slug, product]) => product.category.toLowerCase() === category.toLowerCase())
+                .map(([slug, product]) => slug);
 
-            showToast('Comparison Loaded', `Loading ${type.replace('-', ' ')} comparison...`, 'success');
+            // Select products dynamically with a staggered delay
+            productsInCategory.forEach((slug, index) => {
+                setTimeout(() => {
+                    if (productDatabase[slug]) {
+                        selectProduct(index, slug);
+                    }
+                }, index * 500); // 500ms delay between slots
+            });
+
+            showToast(
+                'Comparison Loaded',
+                `Loading ${category} comparison...`,
+                'success'
+            );
         }
+
 
         // Add to cart
         function addToCart(productId) {
