@@ -13,9 +13,12 @@ class ComparedController extends Controller
     $totalProducts = Product::where('status', 'active')->count();
     // Format the number into K/M/B
     $formattedTotal = $this->formatNumber($totalProducts);
-    $products = Product::with('category')->where('status', 'active')->get();
+    $products = Product::with('category','reviews')->where('status', 'active')->get();
     foreach ($products as $product) {
         $product->formatted_views = $this->formatNumber($product->views_count);
+    }
+    foreach ($products as $product) {
+        $product->average_rating = $product->reviews->avg('rating') ?? 0;
     }
     return view('frontend.compare', [
         'totalProducts' => $totalProducts,

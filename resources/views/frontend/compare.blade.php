@@ -307,7 +307,7 @@
                 <!-- Search Results -->
                 <div class="overflow-y-auto max-h-96 p-6">
                     <div id="search-results" class="space-y-4">
-                        @if (true)
+                        @if ($products->isEmpty())
                             @foreach ($products as $product)
                                 <div class="product-result flex items-center space-x-4 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer transition-fast"
                                     onclick="selectProduct(0, 'wireless-earbuds-pro')">
@@ -343,14 +343,19 @@
                                                     @endif
                                                 </span>
                                             @endif
-                                          
-                                            <span class="text-success text-sm">⭐ 4.8</span>
-                                            <span class="text-secondary-500 text-sm">{{ $product->formatted_views }} Views</span>
+                                            @if ($product->average_rating > 0)
+                                                <span class="text-success text-sm">⭐
+                                                    {{ number_format($product->average_rating, 1) }}</span>
+                                            @endif
+                                            <span class="text-secondary-500 text-sm">{{ $product->formatted_views }}
+                                                Views</span>
                                         </div>
                                     </div>
                                     <button class="btn-primary text-sm">Add to Compare</button>
                                 </div>
                             @endforeach
+                        @else
+                            <p class="text-body-sm text-secondary-600">No products found. Try a different search term.</p>
                         @endif
                     </div>
                 </div>
@@ -624,14 +629,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                <th class="px-4 py-3 text-center border-b border-border">
-                                                    <div class="flex flex-col items-center space-y-2">
-                                                        <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                        <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                        <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                    </div>
-                                                </th>
-                                            `).join('')}
+                                                            <th class="px-4 py-3 text-center border-b border-border">
+                                                                <div class="flex flex-col items-center space-y-2">
+                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                </div>
+                                                            </th>
+                                                        `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -752,10 +757,10 @@
                         </div>
                         
                         ${badges.length > 0 ? `
-                                                <div class="space-y-1 mb-4">
-                                                    ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                </div>
-                                            ` : ''}
+                                                            <div class="space-y-1 mb-4">
+                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                            </div>
+                                                        ` : ''}
                         
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
