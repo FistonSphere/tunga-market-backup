@@ -29,6 +29,7 @@
 
                 <!-- Quick Stats -->
                 <div class="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                    
                     <div class="text-center">
                         <div class="text-3xl font-bold text-accent">500K+</div>
                         <div class="text-body-sm text-secondary-600">Products Available</div>
