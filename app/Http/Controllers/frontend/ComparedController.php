@@ -46,7 +46,7 @@ class ComparedController extends Controller
         'totalProducts' => $totalProducts,
         'formattedTotal' => $formattedTotal,
         'products' => $products,
-         'productDatabase' => json_encode($productDatabase),
+        'productDatabase' => json_encode($productDatabase),
     ]);
 }
 
@@ -63,16 +63,35 @@ private function formatNumber($num)
     }
     return $num;
 }
-function formatViews($number) {
-    if ($number >= 1000000000) {
-        return number_format($number / 1000000000, 1) . 'B';
-    } elseif ($number >= 1000000) {
-        return number_format($number / 1000000, 1) . 'M';
-    } elseif ($number >= 1000) {
-        return number_format($number / 1000, 1) . 'K';
-    } else {
-        return $number;
+ private function mapFeatures($product)
+    {
+        // If features are stored as JSON in DB
+        if ($product->features) {
+            return json_decode($product->features, true);
+        }
+
+        // Example fallback features
+        return [
+            'Views'       => $this->formatViews($product->views_count),
+            'Sales'       => $this->formatViews($product->sales_count),
+            'Stock'       => $product->stock_quantity,
+            'Warranty'    => '1 year',
+        ];
     }
-}
+
+    /**
+     * Format views/sales into K, M, B
+     */
+    private function formatViews($number)
+    {
+        if ($number >= 1000000000) {
+            return number_format($number / 1000000000, 1) . 'B';
+        } elseif ($number >= 1000000) {
+            return number_format($number / 1000000, 1) . 'M';
+        } elseif ($number >= 1000) {
+            return number_format($number / 1000, 1) . 'K';
+        }
+        return (string) $number;
+    }
 
 }
