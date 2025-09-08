@@ -500,16 +500,16 @@
                                         class="star h-10 w-10 text-gray-300 hover:text-yellow-400 transition duration-200 cursor-pointer"
                                         fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.178
-                                            3.63a1 1 0 00.95.69h3.813c.969 0
-                                            1.371 1.24.588 1.81l-3.087
-                                            2.243a1 1 0 00-.364 1.118l1.178
-                                            3.63c.3.921-.755 1.688-1.54
-                                            1.118l-3.087-2.243a1 1 0
-                                            00-1.176 0l-3.087
-                                            2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
-                                            00-.364-1.118L2.42
-                                            9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
-                                            00.951-.69l1.178-3.63z" />
+                                                3.63a1 1 0 00.95.69h3.813c.969 0
+                                                1.371 1.24.588 1.81l-3.087
+                                                2.243a1 1 0 00-.364 1.118l1.178
+                                                3.63c.3.921-.755 1.688-1.54
+                                                1.118l-3.087-2.243a1 1 0
+                                                00-1.176 0l-3.087
+                                                2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
+                                                00-.364-1.118L2.42
+                                                9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
+                                                00.951-.69l1.178-3.63z" />
                                     </svg>
                                 @endfor
                             </div>
@@ -1761,6 +1761,34 @@
             });
         });
 
+        function showToastComment(message, type = "success") {
+            const toast = document.getElementById("toast-comment");
+
+            if (!toast) return;
+
+            // Reset styles
+            toast.classList.remove("bg-green-600", "bg-red-600", "bg-blue-600", "hidden");
+
+            // Change color depending on type
+            if (type === "success") {
+                toast.classList.add("bg-green-600");
+            } else if (type === "error") {
+                toast.classList.add("bg-red-600");
+            } else {
+                toast.classList.add("bg-blue-600");
+            }
+
+            // Set message
+            toast.querySelector("span").innerText = message;
+
+            // Show toast
+            toast.classList.remove("hidden");
+
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                toast.classList.add("hidden");
+            }, 3000);
+        }
         document.getElementById("reviewForm").addEventListener("submit", function(e) {
             e.preventDefault(); // stop normal form submit
 
@@ -1786,7 +1814,7 @@
                     if (!data) return;
 
                     if (data.success) {
-                        showToast(data.message, "success");
+                        showToastComment(data.message, "success");
 
                         // reset form after success
                         form.reset();
@@ -1795,10 +1823,10 @@
                             star.classList.add("text-gray-300");
                         });
                     } else {
-                        showToast(data.message ?? "Failed to submit review.", "error");
+                        showToastComment(data.message ?? "Failed to submit review.", "error");
                     }
                 })
-                .catch(() => showToast("Something went wrong. Try again.", "error"));
+                .catch(() => showToastComment("Something went wrong. Try again.", "error"));
         });
     </script>
 @endsection
