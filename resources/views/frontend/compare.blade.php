@@ -28,23 +28,20 @@
                 </p>
 
                 <!-- Quick Stats -->
-                <div class="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-                    
+                <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+
                     <div class="text-center">
-                        <div class="text-3xl font-bold text-accent">500K+</div>
+                        <div class="text-3xl font-bold text-accent">{{ $formattedTotal }}</div>
                         <div class="text-body-sm text-secondary-600">Products Available</div>
                     </div>
+
                     <div class="text-center">
                         <div class="text-3xl font-bold text-success">4</div>
                         <div class="text-body-sm text-secondary-600">Products Max Compare</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-3xl font-bold text-primary">50+</div>
+                        <div class="text-3xl font-bold text-primary">10+</div>
                         <div class="text-body-sm text-secondary-600">Comparison Criteria</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-warning">PDF</div>
-                        <div class="text-body-sm text-secondary-600">Export Reports</div>
                     </div>
                 </div>
             </div>
@@ -279,7 +276,7 @@
     </section>
 
     <!-- Product Search Modal -->
-    <div id="product-search-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div id="product-search-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 99999;">
         <div class="flex items-center justify-center min-h-screen p-4">
             <div class="bg-white rounded-lg shadow-modal max-w-4xl w-full max-h-[90vh] overflow-hidden">
                 <!-- Modal Header -->
@@ -648,14 +645,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                <th class="px-4 py-3 text-center border-b border-border">
-                                    <div class="flex flex-col items-center space-y-2">
-                                        <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                        <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                        <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                    </div>
-                                </th>
-                            `).join('')}
+                                    <th class="px-4 py-3 text-center border-b border-border">
+                                        <div class="flex flex-col items-center space-y-2">
+                                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                            <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                            <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                        </div>
+                                    </th>
+                                `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -776,10 +773,10 @@
                         </div>
                         
                         ${badges.length > 0 ? `
-                                <div class="space-y-1 mb-4">
-                                    ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                </div>
-                            ` : ''}
+                                    <div class="space-y-1 mb-4">
+                                        ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                    </div>
+                                ` : ''}
                         
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
