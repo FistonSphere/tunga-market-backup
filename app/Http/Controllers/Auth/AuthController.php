@@ -75,7 +75,7 @@ try {
     $senderId = config('services.mista.sender_id');
 
     $message = "Tunga Market\n"
-        ."----------------------\n"
+        ."----------------------------------\n"
         ."Hello {$pendingUser['first_name']},\n\n"
         ."Thank you for signing up at Tunga Market. "
         ."Use the One-Time Password (OTP) below to complete your registration:\n\n"
@@ -83,7 +83,7 @@ try {
         ."This OTP is valid for the next 60 minutes. "
         ."If you did not request this, please ignore this message.\n\n"
         ."Welcome to the community! 🎉\n"
-        ."----------------------\n"
+        ."----------------------------------\n"
         ."© ".date('Y')." Tunga Market | Need help? Contact Support.";
 
     $response = Http::withHeaders([
