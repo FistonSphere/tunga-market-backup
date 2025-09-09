@@ -27,7 +27,7 @@ class AuthController extends Controller
 
         return view('frontend.auth.auth'); // Adjust the view name as necessary
     }
-    public function register(Request $request)
+   public function register(Request $request)
 {
     $request->validate([
         'first_name' => 'required|string|max:255',
@@ -37,22 +37,44 @@ class AuthController extends Controller
         'password' => 'required|string|min:8|confirmed',
     ]);
 
-    $otp = rand(1000, 9999);
-    Log::info("OTP generated: $otp");
+    // 🔹 Normalize phone number
+    $rawPhone = $request->phone;
+    $phone = preg_replace('/\s+/', '', $rawPhone); // remove spaces
 
-    // Format phone number
-    $phone = $request->phone;
-    if (!str_starts_with($phone, '+250')) {
-        if (str_starts_with($phone, '07')) {
-            $phone = '+25' . $phone; // makes 078... => +25078...
+    // If phone starts with 07 → assume Rwanda (+250)
+    if (str_starts_with($phone, '07')) {
+        $phone = '+25' . $phone; // 078xxxxxxx → +25078xxxxxxx
+    }
+
+    // If phone starts with 0 but not 07 → reject
+    if (str_starts_with($phone, '0') && !str_starts_with($phone, '07')) {
+        return response()->json(['error' => 'Invalid phone number format. Please include a supported country code.'], 422);
+    }
+
+    // 🔹 Allowed country codes
+    $allowedCodes = ['+263', '+250', '+1', '+255', '+230', '+92', '+91'];
+
+    $isAllowed = false;
+    foreach ($allowedCodes as $code) {
+        if (str_starts_with($phone, $code)) {
+            $isAllowed = true;
+            break;
         }
     }
+
+    if (!$isAllowed) {
+        return response()->json(['error' => 'Phone number not supported. Allowed countries: +263, +250, +1, +255, +230, +92, +91'], 422);
+    }
+
+    // 🔹 Generate OTP
+    $otp = rand(1000, 9999);
+    Log::info("OTP generated: $otp");
 
     $pendingUser = [
         'first_name' => $request->first_name,
         'last_name' => $request->last_name,
         'email' => $request->email,
-        'phone' => $phone,
+        'phone' => $phone, // normalized & validated
         'password' => bcrypt($request->password),
         'otp' => $otp,
         'otp_expires_at' => now()->addMinutes(10),
@@ -61,7 +83,7 @@ class AuthController extends Controller
     session(['pending_user' => $pendingUser]);
     Log::info('Pending user stored in session', ['email' => $request->email]);
 
-    // Send OTP via Email
+    // 🔹 Send OTP via Email
     try {
         Mail::to($request->email)->send(new SendOtpMail((object) $pendingUser));
         Log::info("✅ OTP email successfully sent to {$request->email}");
@@ -69,46 +91,49 @@ class AuthController extends Controller
         Log::error("❌ Failed to send OTP email: " . $e->getMessage());
     }
 
-    // Send OTP via SMS
-try {
-    $apiToken = config('services.mista.api_token');
-    $senderId = config('services.mista.sender_id');
+    // 🔹 Send OTP via SMS
+    try {
+        $apiToken = config('services.mista.api_token');
+        $senderId = config('services.mista.sender_id');
 
-    $message = "Tunga Market\n"
-        ."----------------------------------\n"
-        ."Hello {$pendingUser['first_name']},\n\n"
-        ."Thank you for signing up at Tunga Market. "
-        ."Use the One-Time Password (OTP) below to complete your registration:\n\n"
-        ."🔑 OTP: {$pendingUser['otp']}\n\n"
-        ."This OTP is valid for the next 60 minutes. "
-        ."If you did not request this, please ignore this message.\n\n"
-        ."Welcome to the community! 🎉\n"
-        ."----------------------------------\n"
-        ."© ".date('Y')." Tunga Market | Need help? Contact Support.";
+        // OTP in both plain + clickable link
+        $otpPlain = $pendingUser['otp'];
+        $otpLink = "https://tungamarket.com/otp/{$otpPlain}";
 
-    $response = Http::withHeaders([
-        'accept' => 'application/json',
-        'content-type' => 'application/json',
-        'Authorization' => 'Bearer ' . $apiToken,
-    ])->post('https://api.mista.io/sms', [
-        'recipient' => $phone,
-        'sender_id' => $senderId,
-        'message' => $message,
-        'type' => 'plain',
-    ]);
+        $message = "Tunga Market\n"
+            ."----------------------------------\n"
+            ."Hello {$pendingUser['first_name']},\n\n"
+            ."Thank you for signing up at Tunga Market.\n\n"
+            ."Use the One-Time Password (OTP) below to complete your registration:\n\n"
+            ."🔑 OTP: $otpPlain\n\n"
+            ."⚠️ This code expires in 60 minutes. If you did not request this, please ignore.\n\n"
+            ."Welcome to the community! 🎉\n"
+            ."----------------------------------\n"
+            ."© ".date('Y')." Tunga Market | Need help? Contact Support.";
 
-    if ($response->successful()) {
-        Log::info("✅ OTP SMS successfully sent to {$phone}");
-    } else {
-        Log::error("❌ Failed to send OTP SMS. Response: " . $response->body());
+        $response = Http::withHeaders([
+            'accept' => 'application/json',
+            'content-type' => 'application/json',
+            'Authorization' => 'Bearer ' . $apiToken,
+        ])->post('https://api.mista.io/sms', [
+            'recipient' => $phone,
+            'sender_id' => $senderId,
+            'message' => $message,
+            'type' => 'plain',
+        ]);
+
+        if ($response->successful()) {
+            Log::info("✅ OTP SMS successfully sent to {$phone}");
+        } else {
+            Log::error("❌ Failed to send OTP SMS. Response: " . $response->body());
+        }
+    } catch (\Exception $e) {
+        Log::error("❌ SMS sending error: " . $e->getMessage());
     }
-} catch (\Exception $e) {
-    Log::error("❌ SMS sending error: " . $e->getMessage());
-}
-
 
     return response()->json(['message' => 'OTP sent via Email and SMS.'], 200);
 }
+
 
 
     public function verifyOtp(Request $request)
