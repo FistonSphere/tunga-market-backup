@@ -98,7 +98,6 @@ class AuthController extends Controller
 
         // OTP in both plain + clickable link
         $otpPlain = $pendingUser['otp'];
-        $otpLink = "https://tungamarket.com/otp/{$otpPlain}";
 
         $message = "Tunga Market\n"
             ."----------------------------------\n"
