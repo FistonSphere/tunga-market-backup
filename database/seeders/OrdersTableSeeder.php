@@ -17,7 +17,7 @@ class OrdersTableSeeder extends Seeder
         // Insert sample orders
         DB::table('orders')->insert([
             [
-                'id' => 1,
+                'id' => 3,
                 'user_id' => 4,
                 'total' => 150.00,
                 'currency' => 'Rwf',
@@ -28,7 +28,7 @@ class OrdersTableSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'id' => 2,
+                'id' => 4,
                 'user_id' => 4,
                 'total' => 95.50,
                 'currency' => 'Rwf',
@@ -46,7 +46,7 @@ class OrdersTableSeeder extends Seeder
             [
                 'order_no' => 'ORD-20250910-1',
                 'order_id' => 1,
-                'product_id' => 2001,
+                'product_id' => 1,
                 'quantity' => 2,
                 'price' => 50.00,
                 'product_variant_id' => null,
@@ -56,10 +56,10 @@ class OrdersTableSeeder extends Seeder
             [
                 'order_no' => 'ORD-20250910-1',
                 'order_id' => 1,
-                'product_id' => 2005,
+                'product_id' => 2,
                 'quantity' => 1,
                 'price' => 50.00,
-                'product_variant_id' => 301,
+                'product_variant_id' => null,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -68,7 +68,7 @@ class OrdersTableSeeder extends Seeder
             [
                 'order_no' => 'ORD-20250910-2',
                 'order_id' => 2,
-                'product_id' => 2010,
+                'product_id' => 3,
                 'quantity' => 1,
                 'price' => 45.50,
                 'product_variant_id' => null,
@@ -78,7 +78,7 @@ class OrdersTableSeeder extends Seeder
             [
                 'order_no' => 'ORD-20250910-2',
                 'order_id' => 2,
-                'product_id' => 2020,
+                'product_id' => 4,
                 'quantity' => 1,
                 'price' => 50.00,
                 'product_variant_id' => null,
