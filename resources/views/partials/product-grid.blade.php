@@ -1,6 +1,6 @@
 <!-- Product Grid -->
 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    @if ($products->isEmpty())
+    @if ($products->count() > 0)
         <!-- Product Card 1 -->
         @foreach ($products as $product)
             <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300 relative">
