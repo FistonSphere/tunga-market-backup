@@ -22,7 +22,7 @@ class OrdersTableSeeder extends Seeder
                 'total' => 150.00,
                 'currency' => 'Rwf',
                 'status' => 'pending',
-                'shipping_address_id' => 1,
+                'shipping_address_id' => 2,
                 'payment_method' => 'cash',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

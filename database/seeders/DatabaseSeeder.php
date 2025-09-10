@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             TaxClassSeeder::class,     // ✅ New
             UnitSeeder::class,         // ✅ New
             ProductSeeder::class,
+            OrdersTableSeeder::class, // ✅ New
         ]);
     }
 }
