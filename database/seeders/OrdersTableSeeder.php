@@ -45,7 +45,7 @@ class OrdersTableSeeder extends Seeder
             // Order 1 (Order No: ORD-20250910-1)
             [
                 'order_no' => 'ORD-20250910-1',
-                'order_id' => 1,
+                'order_id' => 3,
                 'product_id' => 1,
                 'quantity' => 2,
                 'price' => 50.00,
@@ -55,7 +55,7 @@ class OrdersTableSeeder extends Seeder
             ],
             [
                 'order_no' => 'ORD-20250910-1',
-                'order_id' => 1,
+                'order_id' => 3,
                 'product_id' => 2,
                 'quantity' => 1,
                 'price' => 50.00,
@@ -67,7 +67,7 @@ class OrdersTableSeeder extends Seeder
             // Order 2 (Order No: ORD-20250910-2)
             [
                 'order_no' => 'ORD-20250910-2',
-                'order_id' => 2,
+                'order_id' => 4,
                 'product_id' => 3,
                 'quantity' => 1,
                 'price' => 45.50,
