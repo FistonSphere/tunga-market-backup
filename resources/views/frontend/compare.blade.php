@@ -592,6 +592,7 @@
 
             // Generate scoring summary
             generateScoringSummary(validProducts);
+            filterComparison();
         }
 
         // Generate scoring summary
