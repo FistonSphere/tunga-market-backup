@@ -308,15 +308,15 @@
 
     <script>
         // Product comparison data
-            let comparisonProducts = [];
-            let currentSlot = 0;
-            const MAX_SLOTS = 4;
-            // Sample product database
-            const productDatabase = {!! $productDatabase !!};
-            // Open product search modal
-            function openProductSearch(slotIndex) {
-                currentSlot = slotIndex;
-                document.getElementById('product-search-modal').classList.remove('hidden');
+        let comparisonProducts = [];
+        let currentSlot = 0;
+        const MAX_SLOTS = 4;
+        // Sample product database
+        const productDatabase = {!! $productDatabase !!};
+        // Open product search modal
+        function openProductSearch(slotIndex) {
+            currentSlot = slotIndex;
+            document.getElementById('product-search-modal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
             document.getElementById('product-search-input').focus();
         }
@@ -508,14 +508,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                <th class="px-4 py-3 text-center border-b border-border">
-                                                                                    <div class="flex flex-col items-center space-y-2">
-                                                                                        <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                        <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                        <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                    </div>
-                                                                                </th>
-                                                                            `).join('')}
+                                                                                    <th class="px-4 py-3 text-center border-b border-border">
+                                                                                        <div class="flex flex-col items-center space-y-2">
+                                                                                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                            <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                            <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                        </div>
+                                                                                    </th>
+                                                                                `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -636,10 +636,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                <div class="space-y-1 mb-4">
-                                                                                    ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                </div>
-                                                                            ` : ''}
+                                                                                    <div class="space-y-1 mb-4">
+                                                                                        ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                    </div>
+                                                                                ` : ''}
 
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
@@ -659,9 +659,24 @@
         // Filter comparison
         function filterComparison() {
             const filter = document.getElementById('comparison-filter').value;
-            // In a real app, this would filter the table rows
-            showToast('Filter Applied', `Showing ${filter} features`, 'success');
+            const rows = document.querySelectorAll('#comparison-table tbody tr');
+
+            rows.forEach(row => {
+                const cells = Array.from(row.querySelectorAll('td')).map(td => td.textContent.trim());
+                const uniqueValues = [...new Set(cells)];
+
+                if (filter === 'all') {
+                    row.style.display = ''; // Show everything
+                } else if (filter === 'different') {
+                    // Show row only if at least 2 values are different
+                    row.style.display = (uniqueValues.length > 1) ? '' : 'none';
+                } else if (filter === 'similar') {
+                    // Show row only if all values are the same
+                    row.style.display = (uniqueValues.length === 1) ? '' : 'none';
+                }
+            });
         }
+
 
         // Export comparison
         function exportComparison() {
