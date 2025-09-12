@@ -95,14 +95,15 @@
                             <option value="similar">Only Similarities</option>
                         </select>
 
+
                         <!-- Export Button -->
-                        <button onclick="exportComparison()" class="btn-secondary text-sm">
+                        {{-- <button onclick="exportComparison()" class="btn-secondary text-sm">
                             <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                             Export PDF
-                        </button>
+                        </button> --}}
 
                         <!-- Save Comparison -->
                         <button onclick="saveComparison()" class="btn-primary text-sm">
@@ -307,15 +308,15 @@
 
     <script>
         // Product comparison data
-        let comparisonProducts = [];
-        let currentSlot = 0;
-        const MAX_SLOTS = 4;
-        // Sample product database
-        const productDatabase = {!! $productDatabase !!};
-        // Open product search modal
-        function openProductSearch(slotIndex) {
-            currentSlot = slotIndex;
-            document.getElementById('product-search-modal').classList.remove('hidden');
+            let comparisonProducts = [];
+            let currentSlot = 0;
+            const MAX_SLOTS = 4;
+            // Sample product database
+            const productDatabase = {!! $productDatabase !!};
+            // Open product search modal
+            function openProductSearch(slotIndex) {
+                currentSlot = slotIndex;
+                document.getElementById('product-search-modal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
             document.getElementById('product-search-input').focus();
         }
@@ -414,7 +415,7 @@
         `;
 
             slot.onclick = null; // Remove click
-            
+
         }
 
         // Remove product
@@ -437,7 +438,7 @@
             slot.onclick = () => openProductSearch(slotIndex);
 
             comparisonProducts.filter(p => p).length < 2 ? hideComparisonTable() : showComparisonTable();
-            
+
         }
 
         // Attach "Add to Compare" buttons dynamically
@@ -507,14 +508,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                            <th class="px-4 py-3 text-center border-b border-border">
-                                                                                <div class="flex flex-col items-center space-y-2">
-                                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                </div>
-                                                                            </th>
-                                                                        `).join('')}
+                                                                                <th class="px-4 py-3 text-center border-b border-border">
+                                                                                    <div class="flex flex-col items-center space-y-2">
+                                                                                        <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                        <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                        <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                    </div>
+                                                                                </th>
+                                                                            `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -614,7 +615,7 @@
                                 <p class="text-body-sm text-secondary-600">${product.supplier}</p>
                             </div>
                         </div>
-                        
+
                         <div class="space-y-2 mb-4">
                             <div class="flex justify-between">
                                 <span class="text-body-sm text-secondary-600">Overall Score:</span>
@@ -633,13 +634,13 @@
                                 <span class="font-semibold text-primary">${product.scores.delivery}/5</span>
                             </div>
                         </div>
-                        
+
                         ${badges.length > 0 ? `
-                                                                            <div class="space-y-1 mb-4">
-                                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                            </div>
-                                                                        ` : ''}
-                        
+                                                                                <div class="space-y-1 mb-4">
+                                                                                    ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                </div>
+                                                                            ` : ''}
+
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
                                 Add to Cart - $${product.price}
