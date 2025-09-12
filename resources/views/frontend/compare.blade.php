@@ -508,14 +508,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                    <th class="px-4 py-3 text-center border-b border-border">
-                                                                                        <div class="flex flex-col items-center space-y-2">
-                                                                                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                            <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                            <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                        </div>
-                                                                                    </th>
-                                                                                `).join('')}
+                                                                                        <th class="px-4 py-3 text-center border-b border-border">
+                                                                                            <div class="flex flex-col items-center space-y-2">
+                                                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                            </div>
+                                                                                        </th>
+                                                                                    `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -636,10 +636,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                    <div class="space-y-1 mb-4">
-                                                                                        ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                    </div>
-                                                                                ` : ''}
+                                                                                        <div class="space-y-1 mb-4">
+                                                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                        </div>
+                                                                                    ` : ''}
 
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
@@ -656,23 +656,84 @@
             summaryContainer.innerHTML = summaryHTML;
         }
 
-        // Filter comparison
+        function getCellPrimaryValue(td) {
+            if (!td) return '';
+
+            // Prefer elements that usually hold the primary value in our generated table
+            const preferred = td.querySelector('.font-bold, .font-semibold, .text-accent, .text-success');
+            if (preferred && preferred.textContent.trim()) {
+                return preferred.textContent.trim();
+            }
+
+            // If not found, fallback to the first non-empty line of textContent
+            const text = td.textContent || '';
+            const lines = text.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+            return lines.length ? lines[0] : text.trim();
+        }
+
+        /**
+         * Normalize a cell string so we can compare apples-to-apples.
+         * - trims, collapses spaces
+         * - if there's a number (price, rating, reviews), returns canonical numeric string
+         * - otherwise returns lowercase plain string
+         */
+        function normalizeValue(str) {
+            if (typeof str !== 'string') str = String(str || '');
+
+            // collapse spaces and trim
+            let s = str.replace(/\s+/g, ' ').trim();
+
+            // Try to extract a number (supports "⭐ 4.5", "$1,234.00", "1,234 reviews")
+            // remove commas, parentheses, and common words
+            const cleaned = s.replace(/,/g, '');
+            const numMatch = cleaned.match(/-?\d+(\.\d+)?/);
+            if (numMatch) {
+                // If it's a pure number-like value, return normalized number string
+                // (use Number to normalize decimals like 4.50 -> 4.5)
+                const num = Number(numMatch[0]);
+                if (!isNaN(num)) return String(num);
+            }
+
+            // fallback: lowercase string without surrounding punctuation
+            return s.toLowerCase().replace(/^[^\w]+|[^\w]+$/g, '');
+        }
+
+        // ---------- Filter function ----------
         function filterComparison() {
-            const filter = document.getElementById('comparison-filter').value;
-            const rows = document.querySelectorAll('#comparison-table tbody tr');
+            const filter = (document.getElementById('comparison-filter') || {}).value || 'all';
+
+            // Use the tbody rows inside the element we populate (#comparison-grid)
+            const rows = document.querySelectorAll('#comparison-grid tbody tr');
 
             rows.forEach(row => {
-                const cells = Array.from(row.querySelectorAll('td')).map(td => td.textContent.trim());
-                const uniqueValues = [...new Set(cells)];
+                // Get all td cells of the row
+                const tds = Array.from(row.querySelectorAll('td'));
+
+                // If there's 1 or 0 cells (odd), show it
+                if (tds.length <= 1) {
+                    row.style.display = '';
+                    return;
+                }
+
+                // Ignore the first cell (feature name); compare only product columns
+                const productCells = tds.slice(1);
+
+                // Extract and normalize a primary value for comparison
+                const values = productCells.map(td => normalizeValue(getCellPrimaryValue(td)));
+
+                // Compute unique values
+                const uniqueValues = [...new Set(values)];
 
                 if (filter === 'all') {
-                    row.style.display = ''; // Show everything
+                    row.style.display = '';
                 } else if (filter === 'different') {
-                    // Show row only if at least 2 values are different
+                    // show row only when there is more than 1 unique product value
                     row.style.display = (uniqueValues.length > 1) ? '' : 'none';
                 } else if (filter === 'similar') {
-                    // Show row only if all values are the same
+                    // show row only when all product values are identical
                     row.style.display = (uniqueValues.length === 1) ? '' : 'none';
+                } else {
+                    row.style.display = '';
                 }
             });
         }
