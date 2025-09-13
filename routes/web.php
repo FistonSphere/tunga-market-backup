@@ -103,6 +103,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/product-view/cart/add', [CartController::class, 'storeItem'])->name('cart.add');
     Route::post('/product-view/wishlist/add', [WishlistController::class, 'storeItem'])->name('wishlist.add');
     Route::post('/comparisons', [ComparisonController::class, 'store'])->name('comparisons.store');
+    Route::get('/comparisons/{id}', [ComparisonController::class, 'show'])->name('comparisons.show');
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
