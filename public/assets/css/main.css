@@ -4733,3 +4733,15 @@ div#starRating {
     padding: 12px;
     border-radius: 12px;
 }
+
+
+#toast-comparison {
+    position: fixed;
+    top: 5px;
+    right: 300px;
+    margin-right: 30px;
+    color: white;
+    border-radius: 8px;
+    z-index: 99999;
+    bottom: auto;
+}
