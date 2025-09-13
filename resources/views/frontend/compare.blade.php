@@ -723,7 +723,7 @@
                         Add to Cart - ${product.price} ${product.currency}
                     </button>
                             <button onclick="addToWishlist(this)"
-        data-product-slug="${product.slug}"
+        data-product-slug="${product.id}"
         data-name="${product.name}"
         data-currency="${product.currency}"
         data-price="${product.price}"

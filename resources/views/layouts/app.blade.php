@@ -949,7 +949,7 @@
         </div>
     </div>
     <div id="toast-container2" aria-live="polite" aria-atomic="true"
-        style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;"></div>
+        style="position: fixed; top: 1rem; right: 1rem; z-index: 999999;"></div>
 
 
     <script>
@@ -1593,6 +1593,7 @@
         border-radius: 5px;
         margin-bottom: 10px;
         opacity: 0;
+        z-index:9999999;
         transition: opacity 0.3s ease;
     `;
 
