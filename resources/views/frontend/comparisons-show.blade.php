@@ -11,32 +11,26 @@
         @else
             <div class="space-y-6">
                 @foreach ($comparisons as $comparison)
-                    <div class="border rounded-xl p-5 shadow-md bg-white">
+                    <div id="comparison-{{ $comparison->id }}" class="border rounded-lg p-4 mb-4 bg-white shadow">
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-lg font-semibold">Comparison #{{ $comparison->id }}</h2>
-                            <span class="text-sm text-gray-500">
-                                Saved {{ $comparison->created_at->diffForHumans() }}
-                            </span>
-                        </div>
-                        <button class="btn-primary text-xs px-3 py-1" onclick="reloadComparison({{ $comparison->id }})">
-                            Re-load Comparison
-                        </button>
-                        <button class="btn-error text-xs px-3 py-1" onclick="deleteComparison({{ $comparison->id }})">
-                            Delete
-                        </button>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            @foreach ($comparison->products as $product)
-                                <div class="border rounded-lg p-3 text-center hover:shadow-lg transition">
-                                    <img src="{{ $product->image_url ?? '/images/placeholder.png' }}"
-                                        alt="{{ $product->name }}" class="h-28 mx-auto mb-3 object-contain">
-                                    <h3 class="font-medium">{{ $product->name }}</h3>
-                                    <p class="text-gray-500 text-sm">Views: {{ number_format($product->views_count) }}</p>
-                                </div>
-                            @endforeach
+                            <div class="flex items-center gap-3">
+                                <span class="text-sm text-gray-500">
+                                    Saved {{ $comparison->created_at->diffForHumans() }}
+                                </span>
+                                <button class="btn-primary text-xs px-3 py-1"
+                                    onclick="reloadComparison({{ $comparison->id }})">
+                                    Re-load Comparison
+                                </button>
+                                <button class="btn-error text-xs px-3 py-1"
+                                    onclick="deleteComparison({{ $comparison->id }})">
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     </div>
                 @endforeach
+
             </div>
         @endif
     </div>
@@ -77,6 +71,37 @@
             console.log("Re-loaded Comparison:", data);
         } catch (error) {
             console.error("Error reloading comparison:", error);
+        }
+    }
+
+    async function deleteComparison(comparisonId) {
+        if (!confirm("Are you sure you want to delete this comparison?")) return;
+
+        try {
+            const response = await fetch(`/comparisons/${comparisonId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                alert(data.message);
+
+                // Remove deleted comparison from DOM
+                const comparisonDiv = document.querySelector(`#comparison-${comparisonId}`);
+                if (comparisonDiv) {
+                    comparisonDiv.remove();
+                }
+            } else {
+                alert("Failed to delete comparison.");
+            }
+        } catch (error) {
+            console.error("Error deleting comparison:", error);
+            alert("Something went wrong.");
         }
     }
 </script>
