@@ -577,14 +577,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                                                                        <th class="px-4 py-3 text-center border-b border-border">
-                                                                                                                                            <div class="flex flex-col items-center space-y-2">
-                                                                                                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                                                                            </div>
-                                                                                                                                        </th>
-                                                                                                                                    `).join('')}
+                                                                                                                                            <th class="px-4 py-3 text-center border-b border-border">
+                                                                                                                                                <div class="flex flex-col items-center space-y-2">
+                                                                                                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                                                                                </div>
+                                                                                                                                            </th>
+                                                                                                                                        `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -706,10 +706,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                                                                        <div class="space-y-1 mb-4">
-                                                                                                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                                                                        </div>
-                                                                                                                                    ` : ''}
+                                                                                                                                            <div class="space-y-1 mb-4">
+                                                                                                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                                                                            </div>
+                                                                                                                                        ` : ''}
 
                         <div class="space-y-2">
                              <button 
@@ -817,48 +817,41 @@
 
 
         function quickAddToCart(btn) {
-            const productId = btn.dataset.productId;
+            const slug = btn.dataset.productId; // slug currently
             const qty = parseInt(btn.dataset.minQty || '1', 10);
             const name = btn.dataset.name || 'Item';
             const currency = btn.dataset.currency || '$';
             const uiPrice = btn.dataset.price;
 
-            fetch(`{{ route('cart.quickAdd') }}`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        product_id: productId,
-                        qty: qty
-                    })
-                })
-                .then(async res => {
-                    const data = await res.json().catch(() => null);
-                    if (!res.ok || !data?.success) throw new Error(data?.message || 'Failed to add');
-                    return data;
-                })
+            // Step 1: get numeric ID from slug
+            fetch(`/api/product-id/${slug}`)
+                .then(res => res.json())
                 .then(data => {
-                    // Update cart UI
+                    if (!data.success || !data.productId) throw new Error('Product not found');
+
+                    const productId = parseInt(data.productId, 10); // ensure integer
+
+                    // Step 2: send add-to-cart request
+                    return fetch(`{{ route('cart.quickAdd') }}`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            product_id: productId,
+                            qty: qty
+                        })
+                    });
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.success) throw new Error(data.message || 'Failed to add');
+                    // ✅ Update UI and toast
                     const countEl = document.querySelector('#cart-count');
                     if (countEl) countEl.textContent = data.cartCount;
 
-                    const map = {
-                        '#summary-total-items': data.cart.totalItems,
-                        '#summary-subtotal': `$${data.cart.subtotal}`,
-                        '#summary-discount': `-$${data.cart.bulkDiscount}`,
-                        '#summary-shipping': `$${data.cart.shipping}`,
-                        '#summary-tax': `$${data.cart.tax}`,
-                        '#summary-total': `$${data.cart.total}`
-                    };
-                    Object.entries(map).forEach(([sel, val]) => {
-                        const el = document.querySelector(sel);
-                        if (el) el.textContent = val;
-                    });
-
-                    // Toast success
                     const formattedPrice = (() => {
                         const isRwf = currency === 'Rwf';
                         const n = Number(uiPrice || 0);
@@ -868,7 +861,8 @@
                     showToastComparison(`Added ${name} (${formattedPrice}) to Cart`, 'success');
                 })
                 .catch(err => {
-                    showToastComparison('This product is already in your cart or failed to add', 'error');
+                    console.error(err);
+                    showToastComparison('Failed to add product to cart', 'error');
                 });
         }
 
