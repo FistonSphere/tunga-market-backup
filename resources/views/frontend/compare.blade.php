@@ -366,7 +366,7 @@
             </div>
 
             <!-- Close Button -->
-            <button onclick="hideToast()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+            <button onclick="hideToastComparison()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -577,14 +577,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                                                    <th class="px-4 py-3 text-center border-b border-border">
-                                                                                                                        <div class="flex flex-col items-center space-y-2">
-                                                                                                                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                                                            <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                                                            <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                                                        </div>
-                                                                                                                    </th>
-                                                                                                                `).join('')}
+                                                                                                                        <th class="px-4 py-3 text-center border-b border-border">
+                                                                                                                            <div class="flex flex-col items-center space-y-2">
+                                                                                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                                                            </div>
+                                                                                                                        </th>
+                                                                                                                    `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -706,10 +706,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                                                    <div class="space-y-1 mb-4">
-                                                                                                                        ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                                                    </div>
-                                                                                                                ` : ''}
+                                                                                                                        <div class="space-y-1 mb-4">
+                                                                                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                                                        </div>
+                                                                                                                    ` : ''}
 
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
@@ -932,13 +932,26 @@
             setTimeout(() => hideToast(), 3000);
         }
 
-        function hideToast() {
+        function hideToastComparison() {
             const toast = document.getElementById("toast-comparison");
-            toast.classList.add("translate-x-full");
+            toast.classList.add("hidden");
+            // Also remove from DOM after transition (optional)
             setTimeout(() => {
-                toast.classList.add("hidden");
+            if (toast.parentElement) {
+                toast.classList.add("translate-x-full");
+            }
             }, 300);
         }
+
+        // Auto-hide toast after 3 seconds
+        function autoHideToastComparison() {
+            setTimeout(() => {
+            hideToastComparison();
+            }, 3000);
+        }
+
+        // Update showToastComparison to call autoHideToastComparison
+        // (You can add this call inside showToastComparison after showing the toast)
 
 
         // Login Modal Buttons
