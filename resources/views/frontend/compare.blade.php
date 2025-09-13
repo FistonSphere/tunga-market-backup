@@ -577,14 +577,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                                                                                        <th class="px-4 py-3 text-center border-b border-border">
-                                                                                                                                                            <div class="flex flex-col items-center space-y-2">
-                                                                                                                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                                                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                                                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                                                                                            </div>
-                                                                                                                                                        </th>
-                                                                                                                                                    `).join('')}
+                                                                                                                                                    <th class="px-4 py-3 text-center border-b border-border">
+                                                                                                                                                        <div class="flex flex-col items-center space-y-2">
+                                                                                                                                                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                                                                            <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                                                                            <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                                                                                        </div>
+                                                                                                                                                    </th>
+                                                                                                                                                `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -706,10 +706,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                                                                                        <div class="space-y-1 mb-4">
-                                                                                                                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                                                                                        </div>
-                                                                                                                                                    ` : ''}
+                                                                                                                                                    <div class="space-y-1 mb-4">
+                                                                                                                                                        ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                                                                                    </div>
+                                                                                                                                                ` : ''}
 
                         <div class="space-y-2">
                              <button 
@@ -981,11 +981,11 @@
         document.addEventListener("DOMContentLoaded", function() {
             const wishlistCountSpan = document.getElementById("wishlist-count");
             const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
-            const slug = btn.dataset.productId;
+
             // Define globally so inline onclick can call it
             window.addToWishlist = function(productSlugOrId) {
                 // If your backend expects numeric ID, fetch it first
-                fetch(`/api/product-id/${slug}`)
+                fetch(`/api/product-id/${productSlugOrId}`)
                     .then(res => res.json())
                     .then(data => {
                         const productId = data.success ? data.productId : productSlugOrId;

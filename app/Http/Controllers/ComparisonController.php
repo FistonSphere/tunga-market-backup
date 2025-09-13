@@ -83,4 +83,21 @@ class ComparisonController extends Controller
             'message' => 'Comparison deleted successfully'
         ]);
     }
+
+    public function getIdBySlug($slug)
+{
+    $product = Product::where('slug', $slug)->first();
+
+    if (!$product) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Product not found'
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'productId' => $product->id
+    ]);
+}
 }
