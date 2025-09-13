@@ -116,7 +116,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 Route::get('/api/product-id/{slug}', [ComparisonController::class, 'getIdBySlug']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+Route::get('/popular-comparisons', [ComparisonController::class, 'getPopular'])->name('popular.comparisons');
 
 
 Route::get('/sms/send', [SmsController::class, 'create'])->name('sms.create');
