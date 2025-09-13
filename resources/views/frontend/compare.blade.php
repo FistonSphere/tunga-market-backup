@@ -713,7 +713,7 @@
 
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
-                                Add to Cart - $${product.price}
+                                Add to Cart - ${product.price} ${product.currency}
                             </button>
                             <button onclick="addToWishlist('${product.id}')" class="w-full btn-secondary text-sm">
                                 Add to Wishlist
