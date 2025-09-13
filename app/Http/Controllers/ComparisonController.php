@@ -3,10 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comparison;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ComparisonController extends Controller
 {
+
+     public function index()
+    {
+        $comparisons = Comparison::where('user_id', auth()->id())
+            ->latest()
+            ->get();
+
+        // Optionally eager load product details
+        $comparisons->each(function ($comparison) {
+            $comparison->products = Product::whereIn('id', $comparison->product_ids)->get();
+        });
+
+        return view('frontend.comparisons-show', compact('comparisons'));
+    }
     public function store(Request $request)
 {
     $request->validate([
