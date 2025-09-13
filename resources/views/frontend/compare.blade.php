@@ -577,14 +577,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                                                                                            <th class="px-4 py-3 text-center border-b border-border">
-                                                                                                                                                                <div class="flex flex-col items-center space-y-2">
-                                                                                                                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                                                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                                                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                                                                                                </div>
-                                                                                                                                                            </th>
-                                                                                                                                                        `).join('')}
+                                                                                                                                                                <th class="px-4 py-3 text-center border-b border-border">
+                                                                                                                                                                    <div class="flex flex-col items-center space-y-2">
+                                                                                                                                                                        <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                                                                                        <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                                                                                        <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                                                                                                    </div>
+                                                                                                                                                                </th>
+                                                                                                                                                            `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -706,10 +706,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                                                                                            <div class="space-y-1 mb-4">
-                                                                                                                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                                                                                            </div>
-                                                                                                                                                        ` : ''}
+                                                                                                                                                                <div class="space-y-1 mb-4">
+                                                                                                                                                                    ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                                                                                                </div>
+                                                                                                                                                            ` : ''}
 
                         <div class="space-y-2">
                              <button 
@@ -722,12 +722,12 @@
                         data-min-qty="${product.min_order_quantity || 1}">
                         Add to Cart - ${product.price} ${product.currency}
                     </button>
-                            <button onclick="addToWishlist(this)" 
-                        class="w-full btn-primary text-sm" 
-                        data-product-id="${product.id}" 
-                        data-name="${product.name}"
-                        data-currency="${product.currency}"
-                        data-price="${product.price}" class="w-full btn-secondary text-sm">
+                            <button class="w-full btn-secondary text-sm"  onclick="addToWishlist(this)" 
+    class="w-full btn-secondary text-sm"
+    data-product-id="${$product->slug}"
+    data-name="${$product->name}"
+    data-currency="${$product->currency}"
+    data-price="${$product->price}">
                                 Add to Wishlist
                             </button>
                         </div>
@@ -983,121 +983,9 @@
                 hideToastComparison();
             }, 3000);
         }
-        // document.addEventListener("DOMContentLoaded", function() {
-        //     const wishlistCountSpan = document.getElementById("wishlist-count");
-        //     const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
-
-        //     // Define globally so inline onclick can call it
-        //     window.addToWishlist = function(productSlug) {
-        //         fetch(`/api/product-id/${productSlug}`)
-        //             .then(res => res.json())
-        //             .then(data => {
-        //                 if (!data.success) {
-        //                     console.error("Failed to resolve product ID for slug:", productSlug);
-        //                     showToastComparison("Product not found.", "error");
-        //                     return null;
-        //                 }
-
-        //                 const productId = data.productId;
-        //                 console.log('Resolved productId:', productSlug, '->', productId);
-
-        //                 return fetch(`/wishlist/add`, {
-        //                     method: "POST",
-        //                     headers: {
-        //                         "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-        //                             .content,
-        //                         "Content-Type": "application/json",
-        //                         "X-Requested-With": "XMLHttpRequest"
-        //                     },
-        //                     body: JSON.stringify({
-        //                         product_id: productId
-        //                     })
-        //                 });
-        //             })
-        //             .then(res => {
-        //                 if (!res) return; // if product not found, skip
-        //                 if (res.status === 401) {
-        //                     document.getElementById('login-warning-modal-wrapper').classList.remove(
-        //                         'hidden');
-        //                     return null;
-        //                 }
-        //                 return res.json();
-        //             })
-        //             .then(data => {
-        //                 if (!data) return;
-
-        //                 if (data.status === "success") {
-        //                     const countEl = document.getElementById("wishlist-count");
-        //                     if (countEl) countEl.textContent = data.count;
-        //                     showToastComparison(data.message, "success");
-        //                 } else if (data.status === "info") {
-        //                     showToastComparison(data.message, "info");
-        //                 } else if (data.status === "error") {
-        //                     showToastComparison(data.message, "error");
-        //                 }
-        //             })
-        //             .catch(err => {
-        //                 console.error(err);
-        //                 showToastComparison("An error occurred. Please try again.", "error");
-        //             });
-        //     };
-
-        //     function updateWishlistCount(count) {
-        //         if (wishlistCountSpan) {
-        //             wishlistCountSpan.textContent = count;
-        //         }
-        //     }
-
-        //     // function showToast(message, type = "success") {
-        //     //     const toastWrapper = document.getElementById("toast");
-        //     //     const toastMessage = toastWrapper.querySelector(".toast-message");
-        //     //     const textSpan = document.getElementById("toast-text");
-
-        //     //     textSpan.textContent = message;
-
-        //     //     // Set color
-        //     //     toastMessage.classList.remove("bg-green-500", "bg-red-500", "bg-blue-500");
-        //     //     if (type === "success") toastMessage.classList.add("bg-green-500");
-        //     //     if (type === "error") toastMessage.classList.add("bg-red-500");
-        //     //     if (type === "info") toastMessage.classList.add("bg-blue-500");
-
-        //     //     // Show instantly
-        //     //     toastWrapper.classList.remove("hidden");
-        //     //     toastMessage.classList.remove("opacity-0", "scale-95");
-        //     //     toastMessage.classList.add("opacity-100", "scale-100");
-
-        //     //     // Hide after 3s
-        //     //     setTimeout(() => {
-        //     //         toastMessage.classList.remove("opacity-100", "scale-100");
-        //     //         toastMessage.classList.add("opacity-0", "scale-95");
-        //     //         setTimeout(() => toastWrapper.classList.add("hidden"), 300);
-        //     //     }, 3000);
-        //     // }
-
-
-
-
-        //     window.goToSignIn = function() {
-        //         window.location.href = "{{ route('login') }}";
-        //     };
-
-        //     window.continueBrowsing = function() {
-        //         loginWarningModalWrapper?.classList.add('hidden');
-        //     };
-        // });
-
-
-        // // Login Modal Buttons
-        // function goToSignIn() {
-        //     window.location.href = "{{ route('login') }}";
-        // }
-
-        // function continueBrowsing() {
-        //     document.getElementById('login-warning-modal-wrapper').classList.add('hidden');
-        // }
 
         function addToWishlist(btn) {
-            const slug = btn.dataset.productId; // slug currently
+            const slug = btn.dataset.productId; // slug (unique)
             const name = btn.dataset.name || 'Item';
             const currency = btn.dataset.currency || '$';
             const uiPrice = btn.dataset.price;
@@ -1108,7 +996,7 @@
                 .then(data => {
                     if (!data.success || !data.productId) throw new Error('Product not found');
 
-                    const productId = parseInt(data.productId, 10); // ensure integer
+                    const productId = parseInt(data.productId, 10);
 
                     // Step 2: send add-to-wishlist request
                     return fetch(`{{ route('wishlist.add') }}`, {
@@ -1125,24 +1013,31 @@
                 })
                 .then(res => res.json())
                 .then(data => {
-                    if (!data.success) throw new Error(data.message || 'Failed to add');
-                    // ✅ Update UI and toast
-                    const countEl = document.querySelector('#cart-count');
-                    if (countEl) countEl.textContent = data.cartCount;
+                    if (data.status === 'success') {
+                        // update wishlist count
+                        const countEl = document.querySelector('#wishlist-count');
+                        if (countEl) countEl.textContent = data.count;
 
-                    const formattedPrice = (() => {
-                        const isRwf = currency === 'Rwf';
-                        const n = Number(uiPrice || 0);
-                        return isRwf ? `${n.toLocaleString()} ${currency}` : `${currency}${n.toFixed(2)}`;
-                    })();
+                        const formattedPrice = (() => {
+                            const isRwf = currency === 'Rwf';
+                            const n = Number(uiPrice || 0);
+                            return isRwf ? `${n.toLocaleString()} ${currency}` : `${currency}${n.toFixed(2)}`;
+                        })();
 
-                    showToastComparison(`Added ${name} (${formattedPrice}) to Wishlist`, 'success');
+                        showToastComparison(`Added ${name} (${formattedPrice}) to Wishlist`, 'success');
+                    } else if (data.status === 'info') {
+                        showToastComparison(data.message, 'info');
+                    } else {
+                        showToastComparison(data.message || 'Failed to add product', 'error');
+                    }
                 })
                 .catch(err => {
                     console.error(err);
-                    showToastComparison('Failed to add product to cart', 'error');
+                    showToastComparison('Failed to add product to wishlist', 'error');
                 });
         }
+
+
 
 
 
