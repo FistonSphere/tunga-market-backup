@@ -21,6 +21,9 @@
                         <button class="btn-primary text-xs px-3 py-1" onclick="reloadComparison({{ $comparison->id }})">
                             Re-load Comparison
                         </button>
+                        <button class="btn-error text-xs px-3 py-1" onclick="deleteComparison({{ $comparison->id }})">
+                            Delete
+                        </button>
 
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             @foreach ($comparison->products as $product)

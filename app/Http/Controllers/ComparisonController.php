@@ -53,4 +53,19 @@ public function show($id)
         'products' => $products
     ]);
 }
+
+public function destroy($id)
+{
+    $comparison = Comparison::where('user_id', auth()->id())
+        ->findOrFail($id);
+
+    $comparison->delete();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Comparison deleted successfully'
+    ]);
+}
+
+
 }
