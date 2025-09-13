@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('comparisons', function (Blueprint $table) {
               $table->id();
-    $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
-    $table->json('product_ids'); // store selected product IDs
-    $table->timestamps();
+              $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+              $table->json('product_ids'); // store selected product IDs
+              $table->timestamps();
         });
     }
 
