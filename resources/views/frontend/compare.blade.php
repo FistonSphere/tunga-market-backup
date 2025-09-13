@@ -577,14 +577,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                                                                                <th class="px-4 py-3 text-center border-b border-border">
-                                                                                                                                                    <div class="flex flex-col items-center space-y-2">
-                                                                                                                                                        <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                                                                                        <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                                                                                        <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                                                                                    </div>
-                                                                                                                                                </th>
-                                                                                                                                            `).join('')}
+                                                                                                                                                    <th class="px-4 py-3 text-center border-b border-border">
+                                                                                                                                                        <div class="flex flex-col items-center space-y-2">
+                                                                                                                                                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                                                                            <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                                                                            <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                                                                                        </div>
+                                                                                                                                                    </th>
+                                                                                                                                                `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -706,10 +706,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                                                                                <div class="space-y-1 mb-4">
-                                                                                                                                                    ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                                                                                </div>
-                                                                                                                                            ` : ''}
+                                                                                                                                                    <div class="space-y-1 mb-4">
+                                                                                                                                                        ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                                                                                    </div>
+                                                                                                                                                ` : ''}
 
                         <div class="space-y-2">
                              <button 
@@ -983,33 +983,42 @@
             const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
 
             // Define globally so inline onclick can call it
-            window.addToWishlist = function(productId) {
-                fetch(`/wishlist/add`, {
-                        method: "POST",
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                            "Content-Type": "application/json",
-                            "X-Requested-With": "XMLHttpRequest"
-                        },
-                        body: JSON.stringify({
-                            product_id: productId
-                        })
+            window.addToWishlist = function(productSlugOrId) {
+                // If your backend expects numeric ID, fetch it first
+                fetch(`/api/product-id/${productSlugOrId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const productId = data.success ? data.productId : productSlugOrId;
+
+                        return fetch(`/wishlist/add`, {
+                            method: "POST",
+                            headers: {
+                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                                    .content,
+                                "Content-Type": "application/json",
+                                "X-Requested-With": "XMLHttpRequest"
+                            },
+                            body: JSON.stringify({
+                                product_id: productId
+                            })
+                        });
                     })
-                    .then(response => {
-                        if (response.status === 401) {
-                            // Show modal for unauthenticated user
+                    .then(res => {
+                        if (res.status === 401) {
+                            // Show login modal
                             document.getElementById('login-warning-modal-wrapper').classList.remove(
                                 'hidden');
-                            // Stop further processing — no JSON parse
                             return null;
                         }
-                        return response.json();
+                        return res.json();
                     })
                     .then(data => {
-                        if (!data) return; // Skip if already handled (401)
+                        if (!data) return;
 
+                        // Show toast & update wishlist count
                         if (data.status === "success") {
-                            updateWishlistCount(data.count);
+                            const countEl = document.getElementById("wishlist-count");
+                            if (countEl) countEl.textContent = data.count;
                             showToastComparison(data.message, "success");
                         } else if (data.status === "info") {
                             showToastComparison(data.message, "info");
@@ -1022,6 +1031,7 @@
                         showToastComparison("An error occurred. Please try again.", "error");
                     });
             };
+
 
             function updateWishlistCount(count) {
                 if (wishlistCountSpan) {
@@ -1066,14 +1076,6 @@
                 loginWarningModalWrapper?.classList.add('hidden');
             };
         });
-
-
-
-
-
-
-        // Update showToastComparison to call autoHideToastComparison
-        // (You can add this call inside showToastComparison after showing the toast)
 
 
         // Login Modal Buttons
