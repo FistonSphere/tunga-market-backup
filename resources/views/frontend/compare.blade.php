@@ -577,14 +577,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                                                                                                <th class="px-4 py-3 text-center border-b border-border">
-                                                                                                                                                                    <div class="flex flex-col items-center space-y-2">
-                                                                                                                                                                        <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                                                                                                        <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                                                                                                        <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                                                                                                    </div>
-                                                                                                                                                                </th>
-                                                                                                                                                            `).join('')}
+                                                                                                                                                                        <th class="px-4 py-3 text-center border-b border-border">
+                                                                                                                                                                            <div class="flex flex-col items-center space-y-2">
+                                                                                                                                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                                                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                                                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                                                                                                            </div>
+                                                                                                                                                                        </th>
+                                                                                                                                                                    `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -706,10 +706,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                                                                                                <div class="space-y-1 mb-4">
-                                                                                                                                                                    ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                                                                                                </div>
-                                                                                                                                                            ` : ''}
+                                                                                                                                                                        <div class="space-y-1 mb-4">
+                                                                                                                                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                                                                                                        </div>
+                                                                                                                                                                    ` : ''}
 
                         <div class="space-y-2">
                              <button 
@@ -723,13 +723,13 @@
                         Add to Cart - ${product.price} ${product.currency}
                     </button>
                             <button onclick="addToWishlist(this)"
-                        data-product-id="${product.id}" 
-                        data-name="${product.name}"
-                        data-currency="${product.currency}"
-                        data-price="${product.price}"
-                            class="w-full btn-secondary text-sm">
-                                Add to Wishlist
-                            </button>
+        data-product-id="${product.slug || product.id}" 
+        data-name="${product.name}"
+        data-currency="${product.currency}"
+        data-price="${product.price}"
+        class="w-full btn-secondary text-sm">
+        Add to Wishlist
+    </button>
                         </div>
                     </div>
                 `;
@@ -984,11 +984,8 @@
             }, 3000);
         }
 
-        function addToWishlist(btn) {
-            const slug = btn.dataset.productId; // slug (unique)
-            const name = btn.dataset.name || 'Item';
-            const currency = btn.dataset.currency || '$';
-            const uiPrice = btn.dataset.price;
+        function addToWishlist(slug) {
+            console.log("Clicked product:", slug);
 
             // Step 1: get numeric ID from slug
             fetch(`/api/product-id/${slug}`)
@@ -1014,17 +1011,10 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        // update wishlist count
                         const countEl = document.querySelector('#wishlist-count');
                         if (countEl) countEl.textContent = data.count;
 
-                        const formattedPrice = (() => {
-                            const isRwf = currency === 'Rwf';
-                            const n = Number(uiPrice || 0);
-                            return isRwf ? `${n.toLocaleString()} ${currency}` : `${currency}${n.toFixed(2)}`;
-                        })();
-
-                        showToastComparison(`Added ${name} (${formattedPrice}) to Wishlist`, 'success');
+                        showToastComparison(`Added product (${slug}) to Wishlist`, 'success');
                     } else if (data.status === 'info') {
                         showToastComparison(data.message, 'info');
                     } else {
@@ -1036,6 +1026,7 @@
                     showToastComparison('Failed to add product to wishlist', 'error');
                 });
         }
+
 
 
 
@@ -1082,9 +1073,7 @@
         }
 
         // Add to wishlist
-        function addToWishlist(productId) {
-            showToast('Added to Wishlist', `Product added to your wishlist`, 'success');
-        }
+
 
         // Toast notification system
         function showToast(title, message, type = 'success') {
