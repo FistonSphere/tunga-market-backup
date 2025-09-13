@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Comparison;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ComparisonController extends Controller
 {
@@ -104,27 +105,23 @@ class ComparisonController extends Controller
 public function getPopular()
 {
     // Example: Fetch top comparisons from DB
-    $comparisons = Comparison::with('products') // Assuming Comparison model with products relation
-        ->orderBy('times_compared', 'desc')
-        ->take(6)
-        ->get()
-        ->map(function($comp) {
+    $popular = Comparison::select('product_ids', DB::raw('COUNT(*) as count'))
+            ->groupBy('product_ids')
+            ->orderByDesc('count')
+            ->limit(6) // fetch top 6
+            ->get();
+
+        // Map to include product details
+        $popular = $popular->map(function ($item) {
+            $ids = json_decode($item->product_ids, true);
+            $products = Product::whereIn('id', $ids)->get(['id','name','image','category_id']);
+            
             return [
-                'slug' => $comp->slug,
-                'title' => $comp->title,
-                'category' => $comp->category->name ?? 'General',
-                'times_compared' => $comp->times_compared,
-                'products' => $comp->products->take(3)->map(function($p) {
-                    return [
-                        'image' => $p->image,
-                        'name' => $p->name,
-                        'id' => $p->id,
-                        'slug' => $p->slug
-                    ];
-                })
+                'products' => $products,
+                'count' => $item->count,
             ];
         });
 
-    return response()->json(['success' => true, 'comparisons' => $comparisons]);
+        return response()->json($popular);
 }
 }

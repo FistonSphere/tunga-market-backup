@@ -143,82 +143,10 @@
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Comparison 1 -->
-                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300"
-                    onclick="loadPresetComparison('wireless-earbuds')">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="flex -space-x-2">
-                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                                alt="Product 1" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                            <img src="https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                alt="Product 2" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                            <img src="https://images.pixabay.com/photo/2017-05-10/19/29/robot-2301646_1280.jpg"
-                                alt="Product 3" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-primary">Premium Wireless Earbuds</h3>
-                            <p class="text-body-sm text-secondary-600">3 products • Electronics</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-body-sm text-secondary-600">Compared 2.4K times</span>
-                        <span class="text-accent font-semibold group-hover:text-accent-600">Compare →</span>
-                    </div>
-                </div>
-
-                <!-- Comparison 2 -->
-                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300"
-                    onclick="loadPresetComparison('smart-home')">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="flex -space-x-2">
-                            <img src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                alt="Product 1" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2669&auto=format&fit=crop"
-                                alt="Product 2" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-primary">Smart Home Devices</h3>
-                            <p class="text-body-sm text-secondary-600">2 products • Home & Garden</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-body-sm text-secondary-600">Compared 1.8K times</span>
-                        <span class="text-accent font-semibold group-hover:text-accent-600">Compare →</span>
-                    </div>
-                </div>
-
-                <!-- Comparison 3 -->
-                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300"
-                    onclick="loadPresetComparison('fitness-trackers')">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="flex -space-x-2">
-                            <img src="https://images.unsplash.com/photo-1544117519-31a4b719223d?q=80&w=2671&auto=format&fit=crop"
-                                alt="Product 1" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                            <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=2940&auto=format&fit=crop"
-                                alt="Product 2" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                            <img src="https://images.pexels.com/photos/267389/pexels-photo-267389.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                alt="Product 3" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-primary">Fitness Trackers</h3>
-                            <p class="text-body-sm text-secondary-600">3 products • Health & Fitness</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-body-sm text-secondary-600">Compared 3.1K times</span>
-                        <span class="text-accent font-semibold group-hover:text-accent-600">Compare →</span>
-                    </div>
-                </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="popular-comparisons-grid">
+                <!-- JS will dynamically inject comparison cards here -->
             </div>
+
         </div>
     </section>
 
@@ -577,14 +505,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                                                                                                                        <th class="px-4 py-3 text-center border-b border-border">
-                                                                                                                                                                                            <div class="flex flex-col items-center space-y-2">
-                                                                                                                                                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                                                                                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                                                                                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                                                                                                                            </div>
-                                                                                                                                                                                        </th>
-                                                                                                                                                                                    `).join('')}
+                                                                                                                                                                                            <th class="px-4 py-3 text-center border-b border-border">
+                                                                                                                                                                                                <div class="flex flex-col items-center space-y-2">
+                                                                                                                                                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                                                                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                                                                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                            </th>
+                                                                                                                                                                                        `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -706,10 +634,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                                                                                                                        <div class="space-y-1 mb-4">
-                                                                                                                                                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                                                                                                                        </div>
-                                                                                                                                                                                    ` : ''}
+                                                                                                                                                                                            <div class="space-y-1 mb-4">
+                                                                                                                                                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                        ` : ''}
 
                         <div class="space-y-2">
                              <button 
@@ -1164,6 +1092,43 @@
             if (e.key === 'Escape') {
                 closeProductSearch();
             }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const container = document.querySelector('#popular-comparisons-grid');
+
+            fetch('{{ route('popular.comparisons') }}')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.success) throw new Error('Failed to load popular comparisons');
+
+                    const html = data.comparisons.map(comp => {
+                        const productImgs = comp.products.map(p => `
+                    <img src="${p.image}" alt="${p.name}" class="w-12 h-12 rounded-lg object-cover border-2 border-white" loading="lazy"/>
+                `).join('');
+
+                        return `
+                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300"
+                    onclick="loadPresetComparison('${comp.slug}')">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="flex -space-x-2">${productImgs}</div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-primary">${comp.title}</h3>
+                            <p class="text-body-sm text-secondary-600">${comp.products.length} products • ${comp.category}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-body-sm text-secondary-600">Compared ${comp.times_compared.toLocaleString()} times</span>
+                        <span class="text-accent font-semibold group-hover:text-accent-600">Compare →</span>
+                    </div>
+                </div>
+                `;
+                    }).join('');
+
+                    container.innerHTML = html;
+                })
+                .catch(err => console.error(err));
         });
     </script>
 @endsection
