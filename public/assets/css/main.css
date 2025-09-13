@@ -4744,3 +4744,6 @@ div#starRating {
     z-index: 99999;
     bottom: auto;
 }
+div#wishlist-overlay {
+    z-index: 99999;
+}
