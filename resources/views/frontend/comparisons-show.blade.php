@@ -18,6 +18,9 @@
                                 Saved {{ $comparison->created_at->diffForHumans() }}
                             </span>
                         </div>
+                        <button class="btn-primary text-xs px-3 py-1" onclick="reloadComparison({{ $comparison->id }})">
+                            Re-load Comparison
+                        </button>
 
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             @foreach ($comparison->products as $product)
@@ -35,3 +38,42 @@
         @endif
     </div>
 @endsection
+
+
+<script>
+    async function reloadComparison(comparisonId) {
+        try {
+            const response = await fetch(`/comparisons/${comparisonId}`);
+            if (!response.ok) throw new Error("Failed to fetch comparison");
+
+            const data = await response.json();
+            const products = data.products;
+
+            if (!products || products.length === 0) {
+                alert("No products found in this comparison.");
+                return;
+            }
+
+            // Reset slots
+            comparisonProducts = Array(MAX_SLOTS).fill(null);
+            initComparisonSlots();
+
+            // Load products into slots
+            products.forEach((product, index) => {
+                if (index < MAX_SLOTS) {
+                    comparisonProducts[index] = product;
+                    updateComparisonSlot(index, product);
+                }
+            });
+
+            // Show comparison table
+            if (comparisonProducts.filter(p => p).length >= 2) {
+                showComparisonTable();
+            }
+
+            console.log("Re-loaded Comparison:", data);
+        } catch (error) {
+            console.error("Error reloading comparison:", error);
+        }
+    }
+</script>
