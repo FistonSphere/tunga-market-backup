@@ -1110,7 +1110,7 @@
 
                     const productId = parseInt(data.productId, 10); // ensure integer
 
-                    // Step 2: send add-to-cart request
+                    // Step 2: send add-to-wishlist request
                     return fetch(`{{ route('wishlist.add') }}`, {
                         method: 'POST',
                         headers: {
@@ -1119,8 +1119,7 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            product_id: productId,
-                            qty: qty
+                            product_id: productId
                         })
                     });
                 })
@@ -1137,7 +1136,7 @@
                         return isRwf ? `${n.toLocaleString()} ${currency}` : `${currency}${n.toFixed(2)}`;
                     })();
 
-                    showToastComparison(`Added ${name} (${formattedPrice}) to Cart`, 'success');
+                    showToastComparison(`Added ${name} (${formattedPrice}) to Wishlist`, 'success');
                 })
                 .catch(err => {
                     console.error(err);
