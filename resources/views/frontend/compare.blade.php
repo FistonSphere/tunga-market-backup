@@ -348,14 +348,24 @@
 
 
     <!-- Toast Wrapper -->
-    <div id="toast" class="hidden">
-        <div
-            class="toast-message flex items-center p-4 max-w-xs w-full text-white rounded-lg shadow-lg transition transform duration-300 ease-in-out opacity-0 scale-95">
-            <span id="toast-text" class="flex-1 text-sm font-medium"></span>
-            <button onclick="document.getElementById('toast').classList.add('hidden')"
-                class="ml-3 text-white hover:text-gray-200 focus:outline-none">
-                ✕
-            </button>
+    <div id="toast" class="fixed top-4 right-4 transform translate-x-full transition-transform duration-300 z-50">
+        <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 border-success max-w-sm">
+            <div class="flex items-start space-x-3">
+                <svg class="w-6 h-6 text-success flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                    <h4 class="font-semibold text-primary">Success!</h4>
+                    <p class="text-body-sm text-secondary-600 mt-1" id="toast-message">Action completed successfully.</p>
+                </div>
+                <button onclick="hideToast()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -561,14 +571,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                                    <th class="px-4 py-3 text-center border-b border-border">
-                                                                                                        <div class="flex flex-col items-center space-y-2">
-                                                                                                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                                            <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                                            <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                                        </div>
-                                                                                                    </th>
-                                                                                                `).join('')}
+                                                                                                        <th class="px-4 py-3 text-center border-b border-border">
+                                                                                                            <div class="flex flex-col items-center space-y-2">
+                                                                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                                            </div>
+                                                                                                        </th>
+                                                                                                    `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -690,10 +700,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                                    <div class="space-y-1 mb-4">
-                                                                                                        ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                                    </div>
-                                                                                                ` : ''}
+                                                                                                        <div class="space-y-1 mb-4">
+                                                                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                                        </div>
+                                                                                                    ` : ''}
 
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">

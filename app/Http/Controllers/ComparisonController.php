@@ -33,7 +33,7 @@ class ComparisonController extends Controller
 
         $request->validate([
             'products' => 'required|array|min:2',
-            'products.*' => 'integer|exists:products,id',
+            'products.*' => 'string|exists:products,slug',
         ]);
 
         $comparison = Comparison::create([
