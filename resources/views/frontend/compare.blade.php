@@ -348,7 +348,7 @@
 
 
     <!-- Toast Wrapper -->
-    <div id="toast" class="fixed top-4 right-4 transform translate-x-full transition-transform duration-300 z-50">
+    <div id="toast-comparison" class="hidden fixed top-4 right-4 transform translate-x-full transition-transform duration-300 z-50">
         <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 border-success max-w-sm">
             <div class="flex items-start space-x-3">
                 <svg class="w-6 h-6 text-success flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
@@ -358,7 +358,7 @@
                 </svg>
                 <div>
                     <h4 class="font-semibold text-primary">Success!</h4>
-                    <p class="text-body-sm text-secondary-600 mt-1" id="toast-message">Action completed successfully.</p>
+                    <p class="text-body-sm text-secondary-600 mt-1" id="toast-message">Comparison Saved successfully.</p>
                 </div>
                 <button onclick="hideToast()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
