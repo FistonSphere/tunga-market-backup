@@ -722,12 +722,12 @@
                         data-min-qty="${product.min_order_quantity || 1}">
                         Add to Cart - ${product.price} ${product.currency}
                     </button>
-                            <button class="w-full btn-secondary text-sm"  onclick="addToWishlist(this)" 
-    class="w-full btn-secondary text-sm"
-    data-product-id="${$product->slug}"
-    data-name="${$product->name}"
-    data-currency="${$product->currency}"
-    data-price="${$product->price}">
+                            <button onclick="addToWishlist(this)"
+                        data-product-id="${product.id}" 
+                        data-name="${product.name}"
+                        data-currency="${product.currency}"
+                        data-price="${product.price}"
+                            class="w-full btn-secondary text-sm">
                                 Add to Wishlist
                             </button>
                         </div>
@@ -1035,6 +1035,17 @@
                     console.error(err);
                     showToastComparison('Failed to add product to wishlist', 'error');
                 });
+        }
+
+
+
+        // Login Modal Buttons
+        function goToSignIn() {
+            window.location.href = "{{ route('login') }}";
+        }
+
+        function continueBrowsing() {
+            document.getElementById('login-warning-modal-wrapper').classList.add('hidden');
         }
 
 
