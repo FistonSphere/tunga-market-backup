@@ -508,14 +508,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                        <th class="px-4 py-3 text-center border-b border-border">
-                                                                                            <div class="flex flex-col items-center space-y-2">
-                                                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                            </div>
-                                                                                        </th>
-                                                                                    `).join('')}
+                                                                                            <th class="px-4 py-3 text-center border-b border-border">
+                                                                                                <div class="flex flex-col items-center space-y-2">
+                                                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                                </div>
+                                                                                            </th>
+                                                                                        `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -637,10 +637,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                        <div class="space-y-1 mb-4">
-                                                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                        </div>
-                                                                                    ` : ''}
+                                                                                            <div class="space-y-1 mb-4">
+                                                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                            </div>
+                                                                                        ` : ''}
 
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
@@ -747,15 +747,41 @@
         }
 
         // Save comparison
-        function saveComparison() {
-            const validProducts = comparisonProducts.filter(p => p);
+        async function saveComparison() {
+            const validProducts = comparisonProducts.filter(p => p); // Only keep filled slots
+
             if (validProducts.length < 2) {
-                showToast('Save Failed', 'Need at least 2 products to save comparison', 'warning');
+                alert("Please select at least 2 products before saving a comparison.");
                 return;
             }
 
-            showToast('Comparison Saved', 'Your comparison has been saved to your account', 'success');
+            try {
+                const response = await fetch("/comparisons", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            "content")
+                    },
+                    body: JSON.stringify({
+                        products: validProducts.map(p => p.id) // Send only IDs to backend
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                showToast("Saved", "Your comparison has been saved successfully!", "success");
+                console.log("Comparison saved:", data);
+
+            } catch (err) {
+                console.error("Failed to save comparison:", err);
+                showToast("Error", "Failed to save comparison. Please try again.", "error");
+            }
         }
+
 
         // Load preset comparison
         function loadPresetComparison(type) {
