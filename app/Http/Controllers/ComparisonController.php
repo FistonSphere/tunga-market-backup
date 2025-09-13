@@ -40,4 +40,17 @@ class ComparisonController extends Controller
     ]);
 }
 
+
+public function show($id)
+{
+    $comparison = Comparison::where('user_id', auth()->id())
+        ->findOrFail($id);
+
+    $products = Product::whereIn('id', $comparison->product_ids)->get();
+
+    return response()->json([
+        'id' => $comparison->id,
+        'products' => $products
+    ]);
+}
 }
