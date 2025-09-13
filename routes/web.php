@@ -105,13 +105,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/comparisons', [ComparisonController::class, 'store'])->name('comparisons.store');
     Route::get('/comparisons/{id}', [ComparisonController::class, 'show'])->name('comparisons.show');
     Route::delete('/comparisons/{id}', [ComparisonController::class, 'destroy'])->name('comparisons.destroy');
-    Route::get('/product-id/{slug}', function($slug) {
+    Route::get('/api/product-id/{slug}', function($slug) {
     $product = Product::where('slug', $slug)->first();
     if (!$product) {
         return response()->json(['success' => false], 404);
     }
     return response()->json(['success' => true, 'productId' => $product->id]);
 });
+
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
