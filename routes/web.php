@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\ComparisonController;
 use App\Http\Controllers\frontend\CareerController;
 use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\frontend\CategoryController;
@@ -101,6 +102,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/auth/user', [AuthController::class, 'getUser'])->name('auth.user');
     Route::post('/product-view/cart/add', [CartController::class, 'storeItem'])->name('cart.add');
     Route::post('/product-view/wishlist/add', [WishlistController::class, 'storeItem'])->name('wishlist.add');
+    Route::post('/comparisons', [ComparisonController::class, 'store'])->name('comparisons.store');
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
