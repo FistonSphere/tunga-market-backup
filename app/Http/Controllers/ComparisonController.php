@@ -100,4 +100,31 @@ class ComparisonController extends Controller
         'productId' => $product->id
     ]);
 }
+
+public function getPopular()
+{
+    // Example: Fetch top comparisons from DB
+    $comparisons = Comparison::with('products') // Assuming Comparison model with products relation
+        ->orderBy('times_compared', 'desc')
+        ->take(6)
+        ->get()
+        ->map(function($comp) {
+            return [
+                'slug' => $comp->slug,
+                'title' => $comp->title,
+                'category' => $comp->category->name ?? 'General',
+                'times_compared' => $comp->times_compared,
+                'products' => $comp->products->take(3)->map(function($p) {
+                    return [
+                        'image' => $p->image,
+                        'name' => $p->name,
+                        'id' => $p->id,
+                        'slug' => $p->slug
+                    ];
+                })
+            ];
+        });
+
+    return response()->json(['success' => true, 'comparisons' => $comparisons]);
+}
 }
