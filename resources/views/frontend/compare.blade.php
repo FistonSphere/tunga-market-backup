@@ -577,14 +577,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                                                                                                                    <th class="px-4 py-3 text-center border-b border-border">
-                                                                                                                                                                                        <div class="flex flex-col items-center space-y-2">
-                                                                                                                                                                                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                                                                                                                            <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                                                                                                                            <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                                                                                                                        </div>
-                                                                                                                                                                                    </th>
-                                                                                                                                                                                `).join('')}
+                                                                                                                                                                                        <th class="px-4 py-3 text-center border-b border-border">
+                                                                                                                                                                                            <div class="flex flex-col items-center space-y-2">
+                                                                                                                                                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                                                                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                                                                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                        </th>
+                                                                                                                                                                                    `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -706,10 +706,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                                                                                                                    <div class="space-y-1 mb-4">
-                                                                                                                                                                                        ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                ` : ''}
+                                                                                                                                                                                        <div class="space-y-1 mb-4">
+                                                                                                                                                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    ` : ''}
 
                         <div class="space-y-2">
                              <button 
@@ -984,9 +984,20 @@
             }, 3000);
         }
 
-        function addToWishlist(slug, name, currency, uiPrice) {
+        function addToWishlist(btn) {
+            const slug = btn.dataset.productSlug; // THIS now works
+            const name = btn.dataset.name || 'Item';
+            const currency = btn.dataset.currency || '$';
+            const uiPrice = btn.dataset.price;
+
+            if (!slug) {
+                console.error("❌ No slug found on button dataset.");
+                return;
+            }
+
             console.log("Clicked product slug:", slug);
 
+            // Step 1: get numeric ID from slug
             fetch(`/api/product-id/${slug}`)
                 .then(res => res.json())
                 .then(data => {
@@ -994,6 +1005,7 @@
 
                     const productId = parseInt(data.productId, 10);
 
+                    // Step 2: send add-to-wishlist request
                     return fetch(`{{ route('wishlist.add') }}`, {
                         method: 'POST',
                         headers: {
@@ -1012,13 +1024,7 @@
                         const countEl = document.querySelector('#wishlist-count');
                         if (countEl) countEl.textContent = data.count;
 
-                        const formattedPrice = (() => {
-                            const isRwf = currency === 'Rwf';
-                            const n = Number(uiPrice || 0);
-                            return isRwf ? `${n.toLocaleString()} ${currency}` : `${currency}${n.toFixed(2)}`;
-                        })();
-
-                        showToastComparison(`Added ${name} (${formattedPrice}) to Wishlist`, 'success');
+                        showToastComparison(`Added ${name} (${currency}${uiPrice}) to Wishlist`, 'success');
                     } else if (data.status === 'info') {
                         showToastComparison(data.message, 'info');
                     } else {
