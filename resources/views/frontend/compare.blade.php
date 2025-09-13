@@ -723,13 +723,13 @@
                         Add to Cart - ${product.price} ${product.currency}
                     </button>
                             <button onclick="addToWishlist(this)"
-        data-product-id="${product.slug || product.id}" 
-        data-name="${product.name}"
-        data-currency="${product.currency}"
-        data-price="${product.price}"
-        class="w-full btn-secondary text-sm">
-        Add to Wishlist
-    </button>
+                                  data-product-id="${product.slug || product.id}" 
+                                  data-name="${product.name}"
+                                  data-currency="${product.currency}"
+                                  data-price="${product.price}"
+                                  class="w-full btn-secondary text-sm">
+                                  Add to Wishlist
+                            </button>
                         </div>
                     </div>
                 `;
