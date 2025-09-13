@@ -348,7 +348,8 @@
 
 
     <!-- Toast Wrapper -->
-    <div id="toast-comparison" class="hidden fixed top-4 right-4 transform translate-x-full transition-transform duration-300 z-50">
+    <div id="toast-comparison"
+        class="hidden fixed top-4 right-4 transform translate-x-full transition-transform duration-300 z-50">
         <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 border-success max-w-sm">
             <div class="flex items-start space-x-3">
                 <svg class="w-6 h-6 text-success flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
@@ -571,14 +572,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                                        <th class="px-4 py-3 text-center border-b border-border">
-                                                                                                            <div class="flex flex-col items-center space-y-2">
-                                                                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                                            </div>
-                                                                                                        </th>
-                                                                                                    `).join('')}
+                                                                                                                <th class="px-4 py-3 text-center border-b border-border">
+                                                                                                                    <div class="flex flex-col items-center space-y-2">
+                                                                                                                        <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                                        <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                                        <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                                                    </div>
+                                                                                                                </th>
+                                                                                                            `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -700,10 +701,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                                        <div class="space-y-1 mb-4">
-                                                                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                                        </div>
-                                                                                                    ` : ''}
+                                                                                                                <div class="space-y-1 mb-4">
+                                                                                                                    ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                                                </div>
+                                                                                                            ` : ''}
 
                         <div class="space-y-2">
                             <button onclick="addToCart('${product.id}')" class="w-full btn-primary text-sm">
@@ -842,7 +843,7 @@
             const productIds = comparisonProducts.filter(p => p).map(p => p.id);
 
             if (productIds.length < 2) {
-                showToast("Select at least 2 products before saving", "error");
+                showToastComparison("Select at least 2 products before saving", "error");
                 return;
             }
 
@@ -860,17 +861,80 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
-                        showToast("Comparison saved successfully!");
+                        showToastComparison("Comparison saved successfully!", "success");
                     } else {
-                        showToast("Failed to save comparison", "error");
+                        showToastComparison("Failed to save comparison", "error");
                         console.warn("Save comparison error:", data);
                     }
                 })
                 .catch(err => {
                     console.error("Request failed:", err);
-                    showToast("Something went wrong", "error");
+                    showToastComparison("Something went wrong", "error");
                 });
         }
+
+        // ✅ Toast Logic
+        function showToastComparison(message, type = "success") {
+            const toast = document.getElementById("toast-comparison");
+            const toastInner = toast.querySelector(".toast-inner");
+            const toastTitle = document.getElementById("toast-title");
+            const toastMessage = document.getElementById("toast-message");
+            const toastIcon = document.getElementById("toast-icon");
+
+            // Default values
+            let title = "Success";
+            let color = "border-success";
+            let iconPath = "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"; // check mark
+
+            // Adjust based on type
+            switch (type) {
+                case "success":
+                    title = "Success";
+                    color = "border-success";
+                    iconPath = "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"; // ✅
+                    break;
+                case "error":
+                    title = "Error";
+                    color = "border-red-500";
+                    iconPath = "M6 18L18 6M6 6l12 12"; // ❌
+                    break;
+                case "info":
+                    title = "Info";
+                    color = "border-blue-500";
+                    iconPath = "M13 16h-1v-4h-1m1-4h.01"; // ℹ️
+                    break;
+                case "warning":
+                    title = "Warning";
+                    color = "border-yellow-400";
+                    iconPath = "M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"; // ⚠️
+                    break;
+            }
+
+            // Set content
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
+            toastIcon.setAttribute("d", iconPath);
+
+            // Set border color
+            toastInner.classList.remove("border-success", "border-red-500", "border-blue-500", "border-yellow-400");
+            toastInner.classList.add(color);
+
+            // Show toast
+            toast.classList.remove("hidden", "translate-x-full");
+            toast.classList.add("translate-x-0");
+
+            // Auto-hide after 3 seconds
+            setTimeout(() => hideToast(), 3000);
+        }
+
+        function hideToast() {
+            const toast = document.getElementById("toast-comparison");
+            toast.classList.add("translate-x-full");
+            setTimeout(() => {
+                toast.classList.add("hidden");
+            }, 300);
+        }
+
 
         // Login Modal Buttons
         function goToSignIn() {
@@ -880,6 +944,7 @@
         function continueBrowsing() {
             document.getElementById('login-warning-modal-wrapper').classList.add('hidden');
         }
+
 
 
 
