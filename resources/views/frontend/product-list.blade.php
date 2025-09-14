@@ -1156,7 +1156,10 @@
             });
         });
 
-        //categpry filtering functionality
+        
+        
+        
+        //category filtering functionality
         document.addEventListener('DOMContentLoaded', function() {
             const categorySelect = document.getElementById('categorySelect');
             const searchBtn = document.getElementById('searchBtn');
