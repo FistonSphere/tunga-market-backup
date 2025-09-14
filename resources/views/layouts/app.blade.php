@@ -460,7 +460,6 @@
     </header>
 
     <!-- Full-Screen Search Overlay -->
-    <!-- SEARCH OVERLAY -->
     <div id="search-overlay"
         class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 opacity-0 invisible transition-all duration-300">
         <div class="flex items-center justify-center min-h-screen p-4">
@@ -986,77 +985,8 @@
                 });
             }
 
-            setupImageSearch() {
-                const dropZone = document.getElementById('image-drop-zone');
-                const fileInput = document.createElement('input');
-                fileInput.type = 'file';
-                fileInput.accept = 'image/*';
-                fileInput.style.display = 'none';
-                document.body.appendChild(fileInput);
-
-                dropZone.addEventListener('click', () => {
-                    fileInput.click();
-                });
-
-                // Handle file selection
-                fileInput.addEventListener('change', (e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        this.handleImageFile(file);
-                    }
-                });
-
-                // Handle drag and drop
-                dropZone.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    dropZone.classList.add('border-accent', 'bg-accent-50');
-                });
-
-                dropZone.addEventListener('dragleave', (e) => {
-                    e.preventDefault();
-                    dropZone.classList.remove('border-accent', 'bg-accent-50');
-                });
-
-                dropZone.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    dropZone.classList.remove('border-accent', 'bg-accent-50');
-
-                    const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                        this.handleImageFile(files[0]);
-                    }
-                });
-            }
-
-            handleImageFile(file) {
-                if (!file.type.startsWith('image/')) {
-                    alert('Please select an image file.');
-                    return;
-                }
-
-                if (file.size > 10 * 1024 * 1024) {
-                    alert('File size must be less than 10MB.');
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.showImagePreview(e.target.result);
-                };
-                reader.readAsDataURL(file);
-            }
-
-            showImagePreview(imageSrc) {
-                const preview = document.getElementById('image-preview');
-                const previewImage = document.getElementById('preview-image');
-                const searchButton = document.querySelector('[onclick="performImageSearch()"]');
-
-                previewImage.src = imageSrc;
-                preview.classList.remove('hidden');
-                searchButton.disabled = false;
-                searchButton.classList.remove('opacity-50', 'cursor-not-allowed');
-            }
-
+            
+            
             closeSearchOverlay() {
                 const overlay = document.getElementById('search-overlay');
                 overlay.classList.remove('opacity-100', 'visible');
@@ -1067,15 +997,6 @@
                 document.getElementById('search-input').value = '';
             }
 
-            closeImageSearch() {
-                const overlay = document.getElementById('image-search-overlay');
-                overlay.classList.remove('opacity-100', 'visible');
-                overlay.classList.add('opacity-0', 'invisible');
-                document.body.style.overflow = 'auto';
-
-                // Reset form
-                this.resetImageSearch();
-            }
 
             resetImageSearch() {
                 const preview = document.getElementById('image-preview');
@@ -1139,6 +1060,8 @@
             const input = document.getElementById('search-input');
             if (input) input.value = '';
         }
+
+        
     </script>
     <script>
         // Show wishlist popup on button click
