@@ -134,7 +134,7 @@
     </section>
 
     <!-- Popular Comparisons -->
-    <section class="py-16 bg-surface">
+    {{-- <section class="py-16 bg-surface">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">Popular Comparisons</h2>
@@ -220,7 +220,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <!-- Product Search Modal -->
     <div id="product-search-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 99999;">
