@@ -113,14 +113,15 @@ public function getPopular()
 
         // Map to include product details
         $popular = $popular->map(function ($item) {
-            $ids = json_decode($item->product_ids, true);
-            $products = Product::whereIn('id', $ids)->get(['id','name','image','category_id']);
-            
-            return [
-                'products' => $products,
-                'count' => $item->count,
-            ];
+          $ids = $item->product_ids; // already an array because of casting
+          $products = Product::whereIn('id', $ids)->get(['id','name','main_image','category_id']);
+          
+          return [
+              'products' => $products,
+              'count' => $item->count,
+          ];
         });
+
 
         return response()->json($popular);
 }
