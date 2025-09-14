@@ -1156,9 +1156,9 @@
             });
         });
 
-        
-        
-        
+
+
+
         //category filtering functionality
         document.addEventListener('DOMContentLoaded', function() {
             const categorySelect = document.getElementById('categorySelect');
@@ -1191,7 +1191,7 @@
             });
         });
 
-        //categpry filtering functionality
+        //category filtering functionality
         //advanced searching
 
 

@@ -1081,17 +1081,16 @@
                     html += '<div class="grid grid-cols-2 gap-2 mb-4">';
                     data.categories.forEach(category => {
                         html += `
-                    <button class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast modal-suggestion"
-                            data-type="category" data-id="${category.id}">
-                        <div class="flex items-center space-x-2">
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                            <span>${category.name}</span>
-                        </div>
-                    </button>
-                `;
+                <button class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast modal-suggestion"
+                        data-type="category" data-id="${category.id}">
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <span>${category.name}</span>
+                    </div>
+                </button>`;
                     });
                     html += '</div>';
                 }
@@ -1101,39 +1100,36 @@
                     html += '<div class="grid grid-cols-2 gap-2">';
                     data.products.forEach(product => {
                         html += `
-                    <button class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast modal-suggestion"
-                            data-type="product" data-id="${product.id}" data-sku="${product.sku}">
-                        <div class="flex items-center space-x-2">
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                            <span>${product.name}</span>
-                        </div>
-                    </button>
-                `;
+                <button class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast modal-suggestion"
+                        data-type="product" data-id="${product.id}" data-sku="${product.sku}">
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <span>${product.name}</span>
+                    </div>
+                </button>`;
                     });
                     html += '</div>';
                 }
 
                 modalSuggestionsContainer.innerHTML = html;
 
-                
-                // Attach click listeners
+                // Handle redirection
                 document.querySelectorAll(".modal-suggestion").forEach(item => {
                     item.addEventListener("click", () => {
                         const type = item.getAttribute("data-type");
                         const id = item.getAttribute("data-id");
-                        const sku = item.getAttribute("data-sku"); // only exists for products
+                        const sku = item.getAttribute("data-sku");
                         const text = item.textContent.trim();
 
                         modalSearchInput.value = text;
                         closeSearchOverlay();
 
                         let redirectUrl = "";
-
                         if (type === "category") {
-                            redirectUrl = `/products/main-filter?category_id=${id}`;
+                            redirectUrl = `/product-discovery-hub?category_id=${id}`;
                         } else if (type === "product") {
                             redirectUrl = `/product-view/${sku}`;
                         }
@@ -1143,7 +1139,6 @@
                         }
                     });
                 });
-
             }
 
             function renderPopularSearches() {
@@ -1159,8 +1154,7 @@
                         let html = `
                     <div class="space-y-2">
                         <div class="text-sm font-medium text-gray-500 mb-3">Trending Now</div>
-                        <div class="grid grid-cols-2 gap-2">
-                `;
+                        <div class="grid grid-cols-2 gap-2">`;
 
                         data.forEach(product => {
                             html += `
@@ -1173,12 +1167,10 @@
                                 </svg>
                                 <span>${product.name}</span>
                             </div>
-                        </button>
-                    `;
+                        </button>`;
                         });
 
                         html += `</div></div>`;
-
                         modalSuggestionsContainer.innerHTML = html;
                     })
                     .catch(() => {
@@ -1186,7 +1178,6 @@
                             '<div class="p-4 text-red-500 text-center">Failed to load trending suggestions.</div>';
                     });
 
-                // Placeholder while loading
                 return '<div class="p-4 text-gray-400 text-center">Loading trending suggestions...</div>';
             }
 
