@@ -1081,16 +1081,17 @@
                     html += '<div class="grid grid-cols-2 gap-2 mb-4">';
                     data.categories.forEach(category => {
                         html += `
-                        <button class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast modal-suggestion" data-type="category" data-id="${category.id}">
-                            <div class="flex items-center space-x-2">
-                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                <span>${category.name}</span>
-                            </div>
-                        </button>
-                    `;
+                    <button class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast modal-suggestion"
+                            data-type="category" data-id="${category.id}">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <span>${category.name}</span>
+                        </div>
+                    </button>
+                `;
                     });
                     html += '</div>';
                 }
@@ -1100,16 +1101,17 @@
                     html += '<div class="grid grid-cols-2 gap-2">';
                     data.products.forEach(product => {
                         html += `
-                        <button class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast modal-suggestion" data-type="product" data-id="${product.id}">
-                            <div class="flex items-center space-x-2">
-                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                <span>${product.name}</span>
-                            </div>
-                        </button>
-                    `;
+                    <button class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast modal-suggestion"
+                            data-type="product" data-id="${product.id}" data-sku="${product.sku}">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <span>${product.name}</span>
+                        </div>
+                    </button>
+                `;
                     });
                     html += '</div>';
                 }
@@ -1121,35 +1123,23 @@
                     item.addEventListener("click", () => {
                         const type = item.getAttribute("data-type");
                         const id = item.getAttribute("data-id");
+                        const sku = item.getAttribute("data-sku");
                         const text = item.textContent.trim();
 
                         modalSearchInput.value = text;
                         closeSearchOverlay();
 
-                        let url = "/products/main-filter";
-                        let params = new URLSearchParams();
+                        let redirectUrl = "";
 
                         if (type === "category") {
-                            params.append("category_id", id);
+                            redirectUrl = `/products/main-filter?category_id=${id}`;
                         } else if (type === "product") {
-                            params.append("product_id", id);
+                            redirectUrl = `/product-view/${sku}`;
                         }
 
-                        const productGrid = document.getElementById("product-grid");
-                        const loader = document.getElementById("loader");
-
-                        if (loader) loader.classList.remove("hidden");
-                        if (productGrid) productGrid.style.opacity = "0.5";
-
-                        fetch(`${url}?${params.toString()}`)
-                            .then(res => res.json())
-                            .then(data => {
-                                if (productGrid) productGrid.innerHTML = data.html;
-                            })
-                            .finally(() => {
-                                if (loader) loader.classList.add("hidden");
-                                if (productGrid) productGrid.style.opacity = "1";
-                            });
+                        if (redirectUrl) {
+                            window.location.href = redirectUrl;
+                        }
                     });
                 });
             }
@@ -1165,24 +1155,24 @@
                         }
 
                         let html = `
-                <div class="space-y-2">
-                    <div class="text-sm font-medium text-gray-500 mb-3">Trending Now</div>
-                    <div class="grid grid-cols-2 gap-2">
-            `;
+                    <div class="space-y-2">
+                        <div class="text-sm font-medium text-gray-500 mb-3">Trending Now</div>
+                        <div class="grid grid-cols-2 gap-2">
+                `;
 
                         data.forEach(product => {
                             html += `
-                    <button class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast"
-                        onclick="window.location.href='/product-view/${product.sku}'">
-                        <div class="flex items-center space-x-2">
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                            <span>${product.name}</span>
-                        </div>
-                    </button>
-                `;
+                        <button class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast"
+                                onclick="window.location.href='/product-view/${product.sku}'">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                <span>${product.name}</span>
+                            </div>
+                        </button>
+                    `;
                         });
 
                         html += `</div></div>`;
@@ -1194,16 +1184,15 @@
                             '<div class="p-4 text-red-500 text-center">Failed to load trending suggestions.</div>';
                     });
 
-                // Return placeholder while loading
+                // Placeholder while loading
                 return '<div class="p-4 text-gray-400 text-center">Loading trending suggestions...</div>';
             }
 
-
-
-            // Initial state
+            // Initial load
             modalSuggestionsContainer.innerHTML = renderPopularSearches();
         });
 
+        // Global helper
         function selectSuggestion(term) {
             const input = document.getElementById("search-input");
             input.value = term;
