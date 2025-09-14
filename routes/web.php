@@ -45,7 +45,7 @@ Route::get('/products/brand/filter', [ProductListingController::class, 'brandFil
 Route::get('/brands/list', [ProductListingController::class, 'brandList'])->name('brands.list');
 Route::get('/trending-suggestions', [ProductListingController::class, 'getTrendingSuggestions']);
 Route::get('/products/price-range', [ProductListingController::class, 'getPriceRange']);
-Route::get('/products/search', [ProductListingController::class, 'search'])->name('products.search');
+// Route::get('/products/search', [ProductListingController::class, 'search'])->name('products.search');
 Route::get('/products/main-filter', [ProductListingController::class, 'filter']);
 Route::get('/search/suggestions', [SearchController::class, 'suggestions']);
 

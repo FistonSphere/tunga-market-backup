@@ -15,8 +15,7 @@ public function suggestions(Request $request)
         if (strlen($query) < 2) {
             return response()->json([
                 'products' => [],
-                'categories' => [],
-                'suppliers' => []
+                'categories' => []
             ]);
         }
 
@@ -32,16 +31,10 @@ public function suggestions(Request $request)
             ->limit(5)
             ->get();
 
-        // Search suppliers by name
-        // $suppliers = Supplier::where('name', 'like', "%{$query}%")
-        //     ->select('id', 'name')
-        //     ->limit(5)
-        //     ->get();
 
         return response()->json([
             'products' => $products,
             'categories' => $categories,
-            // 'suppliers' => $suppliers,
         ]);
     }
 
