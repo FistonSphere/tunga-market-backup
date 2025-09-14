@@ -13,7 +13,7 @@
     </script>
     <!-- Toastify JS -->
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-     <!-- Swiper CSS -->
+    <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -460,12 +460,13 @@
     </header>
 
     <!-- Full-Screen Search Overlay -->
+    <!-- SEARCH OVERLAY -->
     <div id="search-overlay"
         class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 opacity-0 invisible transition-all duration-300">
         <div class="flex items-center justify-center min-h-screen p-4">
             <div class="bg-white rounded-2xl shadow-modal w-full max-w-2xl mx-auto transform scale-95 transition-all duration-300"
                 id="search-modal">
-                <!-- Search Header -->
+                <!-- Header -->
                 <div class="flex items-center justify-between p-6 border-b border-gray-200">
                     <h2 class="text-xl font-semibold text-primary">Search Products</h2>
                     <button onclick="closeSearchOverlay()" class="text-gray-400 hover:text-gray-600 transition-fast">
@@ -486,65 +487,18 @@
                         </svg>
                         <input type="text" id="search-input" placeholder="What are you looking for?"
                             class="w-full pl-12 pr-4 py-4 text-lg border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-300"
-                            oninput="handleSearchInput()" />
+                            autocomplete="off" />
                     </div>
                 </div>
 
-                <!-- Search Suggestions -->
-                <div id="search-suggestions" class="px-6 pb-6">
-                    <div class="space-y-2">
-                        <div class="text-sm font-medium text-gray-500 mb-3">Popular Searches</div>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="selectSuggestion('wireless earbuds')"
-                                class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                <div class="flex items-center space-x-2">
-                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                    </svg>
-                                    <span>Wireless Earbuds</span>
-                                </div>
-                            </button>
-                            <button onclick="selectSuggestion('smart home')"
-                                class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                <div class="flex items-center space-x-2">
-                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                    </svg>
-                                    <span>Smart Home</span>
-                                </div>
-                            </button>
-                            <button onclick="selectSuggestion('laptop accessories')"
-                                class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                <div class="flex items-center space-x-2">
-                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                    </svg>
-                                    <span>Laptop Accessories</span>
-                                </div>
-                            </button>
-                            <button onclick="selectSuggestion('fitness equipment')"
-                                class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                <div class="flex items-center space-x-2">
-                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                    </svg>
-                                    <span>Fitness Equipment</span>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
+                <!-- Suggestions -->
+                <div id="search-suggestions" class="px-6 pb-6 overflow-y-auto max-h-80">
+                    <!-- Dynamic suggestions will be rendered here -->
                 </div>
             </div>
         </div>
     </div>
+
 
 
     @yield('content')
