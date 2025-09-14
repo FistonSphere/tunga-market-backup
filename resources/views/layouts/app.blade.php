@@ -985,8 +985,8 @@
                 });
             }
 
-            
-            
+
+
             closeSearchOverlay() {
                 const overlay = document.getElementById('search-overlay');
                 overlay.classList.remove('opacity-100', 'visible');
@@ -995,25 +995,6 @@
 
                 // Clear search input
                 document.getElementById('search-input').value = '';
-            }
-
-
-            resetImageSearch() {
-                const preview = document.getElementById('image-preview');
-                const results = document.getElementById('image-search-results');
-                const searchButton = document.querySelector('[onclick="performImageSearch()"]');
-
-                preview.classList.add('hidden');
-                results.classList.add('hidden');
-                searchButton.disabled = true;
-                searchButton.classList.add('opacity-50', 'cursor-not-allowed');
-            }
-
-            closeVoiceSearch() {
-                // This will be handled by the voice search interface
-                if (window.location.pathname.includes('voice-search-recognition-interface.html')) {
-                    window.close();
-                }
             }
         }
 
@@ -1061,7 +1042,173 @@
             if (input) input.value = '';
         }
 
-        
+        document.addEventListener("DOMContentLoaded", function() {
+            const modalSearchInput = document.getElementById("search-input");
+            const modalSuggestionsContainer = document.getElementById("search-suggestions");
+
+            let debounceTimeout;
+
+            modalSearchInput.addEventListener("input", function() {
+                const query = this.value.trim();
+
+                clearTimeout(debounceTimeout);
+
+                if (query.length < 2) {
+                    modalSuggestionsContainer.innerHTML = renderPopularSearches();
+                    return;
+                }
+
+                debounceTimeout = setTimeout(() => {
+                    fetch(`/search/suggestions?q=${encodeURIComponent(query)}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            renderModalSuggestions(data);
+                        });
+                }, 300);
+            });
+
+            function renderModalSuggestions(data) {
+                if (!data.products.length && !data.categories.length) {
+                    modalSuggestionsContainer.innerHTML =
+                        '<div class="p-4 text-gray-500 text-center">No results found.</div>';
+                    return;
+                }
+
+                let html = '';
+
+                if (data.categories.length) {
+                    html += `<div class="text-sm font-medium text-gray-500 mb-2">Categories</div>`;
+                    html += '<div class="grid grid-cols-2 gap-2 mb-4">';
+                    data.categories.forEach(category => {
+                        html += `
+                        <button class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast modal-suggestion" data-type="category" data-id="${category.id}">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                <span>${category.name}</span>
+                            </div>
+                        </button>
+                    `;
+                    });
+                    html += '</div>';
+                }
+
+                if (data.products.length) {
+                    html += `<div class="text-sm font-medium text-gray-500 mb-2">Products</div>`;
+                    html += '<div class="grid grid-cols-2 gap-2">';
+                    data.products.forEach(product => {
+                        html += `
+                        <button class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast modal-suggestion" data-type="product" data-id="${product.id}">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                <span>${product.name}</span>
+                            </div>
+                        </button>
+                    `;
+                    });
+                    html += '</div>';
+                }
+
+                modalSuggestionsContainer.innerHTML = html;
+
+                // Attach click listeners
+                document.querySelectorAll(".modal-suggestion").forEach(item => {
+                    item.addEventListener("click", () => {
+                        const type = item.getAttribute("data-type");
+                        const id = item.getAttribute("data-id");
+                        const text = item.textContent.trim();
+
+                        modalSearchInput.value = text;
+                        closeSearchOverlay();
+
+                        let url = "/products/main-filter";
+                        let params = new URLSearchParams();
+
+                        if (type === "category") {
+                            params.append("category_id", id);
+                        } else if (type === "product") {
+                            params.append("product_id", id);
+                        }
+
+                        const productGrid = document.getElementById("product-grid");
+                        const loader = document.getElementById("loader");
+
+                        if (loader) loader.classList.remove("hidden");
+                        if (productGrid) productGrid.style.opacity = "0.5";
+
+                        fetch(`${url}?${params.toString()}`)
+                            .then(res => res.json())
+                            .then(data => {
+                                if (productGrid) productGrid.innerHTML = data.html;
+                            })
+                            .finally(() => {
+                                if (loader) loader.classList.add("hidden");
+                                if (productGrid) productGrid.style.opacity = "1";
+                            });
+                    });
+                });
+            }
+
+            function renderPopularSearches() {
+                fetch("/trending-suggestions")
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data.length) {
+                            modalSuggestionsContainer.innerHTML =
+                                '<div class="p-4 text-gray-500 text-center">No trending products found.</div>';
+                            return;
+                        }
+
+                        let html = `
+                <div class="space-y-2">
+                    <div class="text-sm font-medium text-gray-500 mb-3">Trending Now</div>
+                    <div class="grid grid-cols-2 gap-2">
+            `;
+
+                        data.forEach(product => {
+                            html += `
+                    <button class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast"
+                        onclick="window.location.href='/product-view/${product.sku}'">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <span>${product.name}</span>
+                        </div>
+                    </button>
+                `;
+                        });
+
+                        html += `</div></div>`;
+
+                        modalSuggestionsContainer.innerHTML = html;
+                    })
+                    .catch(() => {
+                        modalSuggestionsContainer.innerHTML =
+                            '<div class="p-4 text-red-500 text-center">Failed to load trending suggestions.</div>';
+                    });
+
+                // Return placeholder while loading
+                return '<div class="p-4 text-gray-400 text-center">Loading trending suggestions...</div>';
+            }
+
+
+
+            // Initial state
+            modalSuggestionsContainer.innerHTML = renderPopularSearches();
+        });
+
+        function selectSuggestion(term) {
+            const input = document.getElementById("search-input");
+            input.value = term;
+            input.dispatchEvent(new Event("input"));
+        }
     </script>
     <script>
         // Show wishlist popup on button click

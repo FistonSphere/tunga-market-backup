@@ -49,7 +49,7 @@
                     <div class="flex flex-col lg:flex-row gap-4">
                         <!-- Main Search Input -->
                         <div class="flex-1 relative">
-                            <input type="text" placeholder="Search products, suppliers, or categories..."
+                            <input type="text" placeholder="Search products or categories..."
                                 class="input-field pl-12 pr-16" id="mainSearch" autocomplete="off" />
                             <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
