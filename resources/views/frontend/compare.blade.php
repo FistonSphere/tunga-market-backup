@@ -106,13 +106,13 @@
                         </button> --}}
 
                         <!-- Save Comparison -->
-                        <button onclick="saveComparison()" class="btn-primary text-sm">
+                        {{-- <button onclick="saveComparison()" class="btn-primary text-sm">
                             <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                             </svg>
                             Save Comparison
-                        </button>
+                        </button> --}}
                     </div>
                 </div>
 
@@ -243,8 +243,8 @@
                     <div class="relative">
                         <input type="text" id="product-search-input" placeholder="Search for products to compare..."
                             class="w-full pl-10 pr-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent" />
-                        <svg class="absolute left-3 top-3.5 w-5 h-5 text-secondary-400" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="absolute left-3 top-3.5 w-5 h-5 text-secondary-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
@@ -327,7 +327,7 @@
             </div>
 
             <!-- Main Message -->
-            <h2 class="text-2xl font-bold text-primary mb-3">Sign in to save your Comparison</h2>
+            <h2 class="text-2xl font-bold text-primary mb-3">Sign in to add product Cart</h2>
             <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
                 Join us to unlock your personalized shopping experience and never lose track of the products you love.
             </p>
@@ -577,14 +577,14 @@
                     <tr>
                         <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
                         ${validProducts.map(product => `
-                                                                                                                                                                                        <th class="px-4 py-3 text-center border-b border-border">
-                                                                                                                                                                                            <div class="flex flex-col items-center space-y-2">
-                                                                                                                                                                                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                                                                                                                                <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                                                                                                                                <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                                                                                                                            </div>
-                                                                                                                                                                                        </th>
-                                                                                                                                                                                    `).join('')}
+                                                                                                                                                                                            <th class="px-4 py-3 text-center border-b border-border">
+                                                                                                                                                                                                <div class="flex flex-col items-center space-y-2">
+                                                                                                                                                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                                                                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                                                                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                            </th>
+                                                                                                                                                                                        `).join('')}
                     </tr>
                 </thead>
                 <tbody>
@@ -706,10 +706,10 @@
                         </div>
 
                         ${badges.length > 0 ? `
-                                                                                                                                                                                        <div class="space-y-1 mb-4">
-                                                                                                                                                                                            ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                                                                                                                        </div>
-                                                                                                                                                                                    ` : ''}
+                                                                                                                                                                                            <div class="space-y-1 mb-4">
+                                                                                                                                                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                        ` : ''}
 
                         <div class="space-y-2">
                              <button 
@@ -822,6 +822,11 @@
 
 
         function quickAddToCart(btn) {
+            @if (!auth()->check())
+                // Show login modal if user not authenticated
+                document.getElementById('login-warning-modal-wrapper').classList.remove('hidden');
+                return;
+            @endif
             const slug = btn.dataset.productId; // slug currently
             const qty = parseInt(btn.dataset.minQty || '1', 10);
             const name = btn.dataset.name || 'Item';
@@ -1168,19 +1173,19 @@
 
 
         document.addEventListener("DOMContentLoaded", function() {
-    const container = document.querySelector('#popular-comparisons-grid');
+            const container = document.querySelector('#popular-comparisons-grid');
 
-    fetch('{{ route("popular.comparisons") }}')
-        .then(res => res.json())
-        .then(data => {
-            if (!data.success) throw new Error('Failed to load popular comparisons');
+            fetch('{{ route('popular.comparisons') }}')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.success) throw new Error('Failed to load popular comparisons');
 
-            const html = data.comparisons.map(comp => {
-                const productImgs = comp.products.map(p => `
+                    const html = data.comparisons.map(comp => {
+                        const productImgs = comp.products.map(p => `
                     <img src="${p.image}" alt="${p.name}" class="w-12 h-12 rounded-lg object-cover border-2 border-white" loading="lazy"/>
                 `).join('');
 
-                return `
+                        return `
                 <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300"
                     onclick="loadPresetComparison('${comp.slug}')">
                     <div class="flex items-center space-x-4 mb-4">
@@ -1196,12 +1201,11 @@
                     </div>
                 </div>
                 `;
-            }).join('');
+                    }).join('');
 
-            container.innerHTML = html;
-        })
-        .catch(err => console.error(err));
-});
-
+                    container.innerHTML = html;
+                })
+                .catch(err => console.error(err));
+        });
     </script>
 @endsection
