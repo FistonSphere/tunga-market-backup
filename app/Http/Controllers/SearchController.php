@@ -21,7 +21,7 @@ public function suggestions(Request $request)
 
         // Search products by name
         $products = Product::where('name', 'like', "%{$query}%")
-            ->select('id', 'name')
+            ->select('id', 'name', 'sku')
             ->limit(5)
             ->get();
 
