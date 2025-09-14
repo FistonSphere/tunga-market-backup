@@ -1118,12 +1118,13 @@
 
                 modalSuggestionsContainer.innerHTML = html;
 
+                
                 // Attach click listeners
                 document.querySelectorAll(".modal-suggestion").forEach(item => {
                     item.addEventListener("click", () => {
                         const type = item.getAttribute("data-type");
                         const id = item.getAttribute("data-id");
-                        const sku = item.getAttribute("data-sku");
+                        const sku = item.getAttribute("data-sku"); // only exists for products
                         const text = item.textContent.trim();
 
                         modalSearchInput.value = text;
@@ -1142,6 +1143,7 @@
                         }
                     });
                 });
+
             }
 
             function renderPopularSearches() {
