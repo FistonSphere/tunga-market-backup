@@ -80,6 +80,7 @@ Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-o
 Route::post('/login', [AuthController::class, 'login'])->name('login-user');
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/orders/{order}', [OrderTrackingController::class, 'show'])->name('orders.show');
     Route::get('/user/profile', [AuthController::class, 'profile'])->name('user.profile');
     Route::post('/user/update-profile', [AuthController::class, 'updateProfile'])->name('user.update.profile');
     Route::post('/user/change-password', [AuthController::class, 'changePassword'])->name('user.change.password');
@@ -110,15 +111,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/comparisons/{id}', [ComparisonController::class, 'show'])->name('comparisons.show');
     Route::delete('/comparisons/{id}', [ComparisonController::class, 'destroy'])->name('comparisons.destroy');
     Route::get('/api/product-id/{slug}', function($slug) {
-    Route::get('/orders/{order}', [OrderTrackingController::class, 'show'])->name('orders.show');
-    $product = Product::where('slug', $slug)->first();
-    if (!$product) {
-        return response()->json(['success' => false], 404);
-    }
-    return response()->json(['success' => true, 'productId' => $product->id]);
-});
+        $product = Product::where('slug', $slug)->first();
+        if (!$product) {
+            return response()->json(['success' => false], 404);
+        }
+        return response()->json(['success' => true, 'productId' => $product->id]);
+    });
 
 });
+
 Route::get('/api/product-id/{slug}', [ComparisonController::class, 'getIdBySlug']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/popular-comparisons', [ComparisonController::class, 'getPopular'])->name('popular.comparisons');

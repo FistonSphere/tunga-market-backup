@@ -84,7 +84,7 @@
                                                     <span
                                                         class="font-semibold text-primary">#{{ $order->order_number }}</span>
                                                     <button
-                                                        onclick="event.stopPropagation(); copyReferenceNumber('{{ $order->order_number }}')"
+                                                        onclick="event.stopPropagation(); copyReferenceNumber('{{ $order->order_no }}')"
                                                         class="text-secondary-400 hover:text-accent transition-fast p-1"
                                                         title="Copy Reference">
                                                         <svg class="w-4 h-4" fill="none" stroke="currentColor"
@@ -113,7 +113,7 @@
 
                                             {{-- Total --}}
                                             <td class="px-4 py-4 text-sm font-semibold text-primary">
-                                                {{ number_format($order->total, 2) }} {{ $order->currency }}
+                                                {{ number_format($order->price) * $order->quantity}} {{ $order->currency }}
                                             </td>
 
                                             {{-- Status --}}
