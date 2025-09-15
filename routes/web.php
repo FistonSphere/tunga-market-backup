@@ -13,6 +13,7 @@ use App\Http\Controllers\frontend\HelpCenterController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\OrderTrackingController;
 use App\Http\Controllers\frontend\ProductListingController;
+use App\Http\Controllers\ProductDiscoveryHubController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SmsController;
@@ -48,6 +49,7 @@ Route::get('/products/price-range', [ProductListingController::class, 'getPriceR
 // Route::get('/products/search', [ProductListingController::class, 'search'])->name('products.search');
 Route::get('/products/main-filter', [ProductListingController::class, 'filter']);
 Route::get('/search/suggestions', [SearchController::class, 'suggestions']);
+Route::get('/product-discovery-hub', [ProductDiscoveryHubController::class, 'index']);
 
 
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
