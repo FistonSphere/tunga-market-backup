@@ -17,7 +17,7 @@ class OrderTrackingController extends Controller
     })
     ->get();
 
-dd($orders);
+// dd($orders);
 
        // Logic to show the order tracking page
        return view('frontend.order-tracking',[
