@@ -110,6 +110,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/comparisons/{id}', [ComparisonController::class, 'show'])->name('comparisons.show');
     Route::delete('/comparisons/{id}', [ComparisonController::class, 'destroy'])->name('comparisons.destroy');
     Route::get('/api/product-id/{slug}', function($slug) {
+    Route::get('/orders/{order}', [OrderTrackingController::class, 'show'])->name('orders.show');
     $product = Product::where('slug', $slug)->first();
     if (!$product) {
         return response()->json(['success' => false], 404);
