@@ -109,41 +109,6 @@
                                         </td>
                                     </tr>
 
-                                    <!-- Order Row 2 -->
-                                    <tr class="order-row hover:bg-surface transition-fast cursor-pointer"
-                                        data-status="shipped" data-date="2025-01-20" onclick="selectOrder('AM2025-456789')">
-                                        <td class="px-4 py-4">
-                                            <div class="flex flex-wrap items-center gap-2">
-                                                <span class="font-semibold text-primary">#AM2025-456789</span>
-                                                <button onclick="copyReferenceNumber('AM2025-456789')"
-                                                    class="text-secondary-400 hover:text-accent transition-fast p-1"
-                                                    title="Copy Reference">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td class="px-4 py-4 text-sm text-secondary-600">Jan 20, 2025</td>
-                                        <td class="px-4 py-4 text-sm text-secondary-600">GlobalTech Solutions</td>
-                                        <td class="px-4 py-4 text-sm font-semibold text-primary">$1,245.75</td>
-                                        <td class="px-4 py-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
-                                                Shipped
-                                            </span>
-                                        </td>
-                                        <td class="px-4 py-4">
-                                            <button onclick="selectOrder('AM2025-456789')"
-                                                class="text-accent hover:text-accent-600 text-sm font-semibold">
-                                                Track Now
-                                            </button>
-                                        </td>
-                                    </tr>
-
                                     <!-- Order Row 3 -->
                                     <tr class="order-row hover:bg-surface transition-fast cursor-pointer"
                                         data-status="processing" data-date="2025-01-24"
@@ -176,42 +141,6 @@
                                             <button onclick="selectOrder('AM2025-987654')"
                                                 class="text-accent hover:text-accent-600 text-sm font-semibold">
                                                 View Status
-                                            </button>
-                                        </td>
-                                    </tr>
-
-                                    <!-- Order Row 4 -->
-                                    <tr class="order-row hover:bg-surface transition-fast cursor-pointer"
-                                        data-status="shipped" data-date="2025-01-22"
-                                        onclick="selectOrder('AM2025-123456')">
-                                        <td class="px-4 py-4">
-                                            <div class="flex flex-wrap items-center gap-2">
-                                                <span class="font-semibold text-primary">#AM2025-123456</span>
-                                                <button onclick="copyReferenceNumber('AM2025-123456')"
-                                                    class="text-secondary-400 hover:text-accent transition-fast p-1"
-                                                    title="Copy Reference">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td class="px-4 py-4 text-sm text-secondary-600">Jan 22, 2025</td>
-                                        <td class="px-4 py-4 text-sm text-secondary-600">EcoTech Suppliers</td>
-                                        <td class="px-4 py-4 text-sm font-semibold text-primary">$675.40</td>
-                                        <td class="px-4 py-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
-                                                Shipped
-                                            </span>
-                                        </td>
-                                        <td class="px-4 py-4">
-                                            <button onclick="selectOrder('AM2025-123456')"
-                                                class="text-accent hover:text-accent-600 text-sm font-semibold">
-                                                Track Now
                                             </button>
                                         </td>
                                     </tr>
