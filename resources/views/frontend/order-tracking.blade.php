@@ -956,84 +956,8 @@
             orderTracker.clearOrderDetails();
         }
 
-        function scanBarcode() {
-            // In a real app, this would open camera for barcode scanning
-            orderTracker.showToast('Barcode Scanner', 'Camera barcode scanning would open here', 'info');
-        }
-
-        function useVoiceInput() {
-            if ('webkitSpeechRecognition' in window) {
-                const recognition = new webkitSpeechRecognition();
-                recognition.lang = 'en-US';
-                recognition.continuous = false;
-                recognition.interimResults = false;
-
-                recognition.onstart = () => {
-                    orderTracker.showToast('Listening', 'Speak your order number now...', 'info');
-                };
-
-                recognition.onresult = (event) => {
-                    const transcript = event.results[0][0].transcript;
-                    document.getElementById('order-search').value = transcript.toUpperCase().replace(/\s/g, '');
-                    orderTracker.searchOrder();
-                };
-
-                recognition.onerror = () => {
-                    orderTracker.showToast('Voice Error', 'Could not recognize speech', 'error');
-                };
-
-                recognition.start();
-            } else {
-                orderTracker.showToast('Not Supported', 'Voice input not supported in this browser', 'warning');
-            }
-        }
-
-        function applyDateFilter() {
-            const fromDate = document.getElementById('date-from').value;
-            const toDate = document.getElementById('date-to').value;
-
-            if (!fromDate || !toDate) {
-                orderTracker.showToast('Date Required', 'Please select both from and to dates', 'warning');
-                return;
-            }
-
-            orderTracker.showToast('Filter Applied', `Showing orders from ${fromDate} to ${toDate}`);
-        }
-
-        function contactSupplier() {
-            orderTracker.showToast('Contacting Supplier', 'Opening communication channel...', 'info');
-        }
-
-        function downloadInvoice() {
-            orderTracker.showToast('Download Started', 'Invoice download initiated');
-        }
-
-        function reorderItems() {
-            if (orderTracker.selectedOrder) {
-                orderTracker.showToast('Adding to Cart', 'Items being added to your cart...', 'info');
-                setTimeout(() => {
-                    window.location.href = '{{ route('cart') }}';
-                }, 1500);
-            }
-        }
-
-        function initiateReturn() {
-            orderTracker.showToast('Return Process', 'Opening return request form...', 'info');
-        }
-
-        function contactSupport() {
-            orderTracker.showToast('Customer Support', 'Connecting you to customer support...', 'info');
-        }
 
 
-
-        function toggleCart() {
-            window.location.href = '{{ route('cart') }}';
-        }
-
-        function hideToast() {
-            orderTracker.hideToast();
-        }
 
         // Handle window resize
         window.addEventListener('resize', () => {
