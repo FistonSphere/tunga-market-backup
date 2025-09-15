@@ -10,10 +10,17 @@ class OrderTrackingController extends Controller
 {
    public function index()
    {
-    $orderTracks = OrderItem::with('order','product')->where('user_id', auth()->id())->get();
+    $orderTracks = OrderItem::with(['order', 'product'])
+    ->whereHas('order', function ($query) {
+        $query->where('user_id', 4); // replace with actual user_id
+    })
+    ->get();
+
+// dd($orderTracks);
+
        // Logic to show the order tracking page
        return view('frontend.order-tracking',[
         'orderTracks' => $orderTracks
-       ]); // Adjust the view name as necessary
+       ]);
    }
 }
