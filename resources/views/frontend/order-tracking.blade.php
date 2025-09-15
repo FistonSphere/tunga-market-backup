@@ -81,8 +81,7 @@
                                             {{-- Order # --}}
                                             <td class="px-4 py-4">
                                                 <div class="flex flex-wrap items-center gap-2">
-                                                    <span
-                                                        class="font-semibold text-primary">#{{ $order->order_number }}</span>
+                                                    <span class="font-semibold text-primary">#{{ $order->order_no }}</span>
                                                     <button
                                                         onclick="event.stopPropagation(); copyReferenceNumber('{{ $order->order_no }}')"
                                                         class="text-secondary-400 hover:text-accent transition-fast p-1"
@@ -113,37 +112,39 @@
 
                                             {{-- Total --}}
                                             <td class="px-4 py-4 text-sm font-semibold text-primary">
-                                                {{ number_format($order->price) * $order->quantity}} {{ $order->currency }}
+                                                {{ number_format($order->price * $order->quantity) }} Rwf
                                             </td>
 
                                             {{-- Status --}}
+                                            @php
+                                                $order = $order->order;
+                                                $status = strtolower($order->status ?? '');
+                                                $badgeClass = '';
+                                                $statusText = ucfirst($order->status ?? 'Unknown');
+
+                                                switch ($status) {
+                                                    case 'processing':
+                                                        $badgeClass = 'bg-warning-100 text-warning-800';
+                                                        break;
+                                                    case 'delivered':
+                                                    case 'completed':
+                                                        $badgeClass = 'bg-success-100 text-success-800';
+                                                        break;
+                                                    case 'canceled':
+                                                        $badgeClass = 'bg-danger-100 text-danger-800';
+                                                        break;
+                                                    default:
+                                                        $badgeClass = 'bg-secondary-100 text-secondary-800';
+                                                        break;
+                                                }
+                                            @endphp
+
                                             <td class="px-4 py-4">
-                                                @php
-                                                    // Map status to badge classes
-                                                    $status = strtolower($order->status);
-                                                    $badgeClass = '';
-                                                    $statusText = ucfirst($order->status);
-                                                    switch ($status) {
-                                                        case 'processing':
-                                                            $badgeClass = 'bg-warning-100 text-warning-800';
-                                                            break;
-                                                        case 'delivered':
-                                                        case 'completed':
-                                                            $badgeClass = 'bg-success-100 text-success-800';
-                                                            break;
-                                                        case 'canceled':
-                                                            $badgeClass = 'bg-danger-100 text-danger-800';
-                                                            break;
-                                                        default:
-                                                            // default styling
-                                                            $badgeClass = 'bg-secondary-100 text-secondary-800';
-                                                            break;
-                                                    }
-                                                @endphp
                                                 <span
                                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $badgeClass }}">
                                                     {{ $statusText }}
                                                 </span>
+
                                             </td>
 
                                             {{-- Action --}}
@@ -689,9 +690,9 @@
                 container.innerHTML = `
                     <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-secondary-200"></div>
                     ${timeline.map((step, index) => `
-                                         <div class="flex items-start space-x-4 ${index !== timeline.length - 1 ? 'mb-8' : ''}">
-                                             <div class="w-12 h-12 ${step.completed ? 'bg-success' : 'bg-secondary-200'} rounded-full flex items-center justify-center flex-shrink-0">
-                                                 ${step.completed ? `
+                                                         <div class="flex items-start space-x-4 ${index !== timeline.length - 1 ? 'mb-8' : ''}">
+                                                             <div class="w-12 h-12 ${step.completed ? 'bg-success' : 'bg-secondary-200'} rounded-full flex items-center justify-center flex-shrink-0">
+                                                                 ${step.completed ? `
                                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                     </svg>
@@ -700,13 +701,13 @@
                                         <circle cx="12" cy="12" r="3"/>
                                     </svg>
                                 `}
-                                             </div>
-                                             <div class="flex-1">
-                                                 <h4 class="font-semibold ${step.completed ? 'text-primary' : 'text-secondary-600'}">${step.status}</h4>
-                                                 <p class="text-sm ${step.completed ? 'text-success' : 'text-secondary-500'} font-semibold">${step.date}</p>
-                                             </div>
-                                         </div>
-                                     `).join('')}
+                                                             </div>
+                                                             <div class="flex-1">
+                                                                 <h4 class="font-semibold ${step.completed ? 'text-primary' : 'text-secondary-600'}">${step.status}</h4>
+                                                                 <p class="text-sm ${step.completed ? 'text-success' : 'text-secondary-500'} font-semibold">${step.date}</p>
+                                                             </div>
+                                                         </div>
+                                                     `).join('')}
                 `;
             }
 
