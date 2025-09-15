@@ -1129,9 +1129,9 @@
 
                         let redirectUrl = "";
                         if (type === "category") {
-                            redirectUrl = `/product-discovery-hub?category_id=${id}`;
+                            window.location.href = `/product-discovery-hub?category_id=${id}`;
                         } else if (type === "product") {
-                            redirectUrl = `/product-view/${sku}`;
+                            window.location.href = `/product-view/${sku}`;
                         }
 
                         if (redirectUrl) {
