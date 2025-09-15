@@ -73,113 +73,95 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-border">
-                                    <!-- Order Row 1 -->
-                                    <tr class="order-row hover:bg-surface transition-fast cursor-pointer"
-                                        data-status="delivered" data-date="2025-01-15"
-                                        onclick="selectOrder('AM2025-789456')">
-                                        <td class="px-4 py-4">
-                                            <div class="flex flex-wrap items-center gap-2">
-                                                <span class="font-semibold text-primary">#AM2025-789456</span>
-                                                <button onclick="copyReferenceNumber('AM2025-789456')"
-                                                    class="text-secondary-400 hover:text-accent transition-fast p-1"
-                                                    title="Copy Reference">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td class="px-4 py-4 text-sm text-secondary-600">Jan 15, 2025</td>
-                                        <td class="px-4 py-4 text-sm text-secondary-600">TechSound Electronics</td>
-                                        <td class="px-4 py-4 text-sm font-semibold text-primary">$2,847.50</td>
-                                        <td class="px-4 py-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
-                                                Delivered
-                                            </span>
-                                        </td>
-                                        <td class="px-4 py-4">
-                                            <button onclick="selectOrder('AM2025-789456')"
-                                                class="text-accent hover:text-accent-600 text-sm font-semibold">
-                                                View Details
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    @forelse($orders as $order)
+                                        <tr class="order-row hover:bg-surface transition-fast cursor-pointer"
+                                            data-status="{{ strtolower($order->status) }}"
+                                            data-date="{{ $order->created_at->format('Y-m-d') }}"
+                                            onclick="window.location='{{ route('orders.show', ['order' => $order->id]) }}'">
+                                            {{-- Order # --}}
+                                            <td class="px-4 py-4">
+                                                <div class="flex flex-wrap items-center gap-2">
+                                                    <span
+                                                        class="font-semibold text-primary">#{{ $order->order_number }}</span>
+                                                    <button
+                                                        onclick="event.stopPropagation(); copyReferenceNumber('{{ $order->order_number }}')"
+                                                        class="text-secondary-400 hover:text-accent transition-fast p-1"
+                                                        title="Copy Reference">
+                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </td>
 
-                                    <!-- Order Row 3 -->
-                                    <tr class="order-row hover:bg-surface transition-fast cursor-pointer"
-                                        data-status="processing" data-date="2025-01-24"
-                                        onclick="selectOrder('AM2025-987654')">
-                                        <td class="px-4 py-4">
-                                            <div class="flex flex-wrap items-center gap-2">
-                                                <span class="font-semibold text-primary">#AM2025-987654</span>
-                                                <button onclick="copyReferenceNumber('AM2025-987654')"
-                                                    class="text-secondary-400 hover:text-accent transition-fast p-1"
-                                                    title="Copy Reference">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td class="px-4 py-4 text-sm text-secondary-600">Jan 24, 2025</td>
-                                        <td class="px-4 py-4 text-sm text-secondary-600">SmartHome Innovations</td>
-                                        <td class="px-4 py-4 text-sm font-semibold text-primary">$892.30</td>
-                                        <td class="px-4 py-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-warning-100 text-warning-800">
-                                                Processing
-                                            </span>
-                                        </td>
-                                        <td class="px-4 py-4">
-                                            <button onclick="selectOrder('AM2025-987654')"
-                                                class="text-accent hover:text-accent-600 text-sm font-semibold">
-                                                View Status
-                                            </button>
-                                        </td>
-                                    </tr>
+                                            {{-- Date --}}
+                                            <td class="px-4 py-4 text-sm text-secondary-600">
+                                                {{ $order->created_at->format('M d, Y') }}
+                                            </td>
 
-                                    <!-- Order Row 5 -->
-                                    <tr class="order-row hover:bg-surface transition-fast cursor-pointer"
-                                        data-status="delivered" data-date="2025-01-10"
-                                        onclick="selectOrder('AM2025-543210')">
-                                        <td class="px-4 py-4">
-                                            <div class="flex flex-wrap items-center gap-2">
-                                                <span class="font-semibold text-primary">#AM2025-543210</span>
-                                                <button onclick="copyReferenceNumber('AM2025-543210')"
-                                                    class="text-secondary-400 hover:text-accent transition-fast p-1"
-                                                    title="Copy Reference">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                    </svg>
+                                            {{-- Supplier --}}
+                                            <td class="px-4 py-4 text-sm text-secondary-600">
+                                                @if ($order->supplier)
+                                                    {{ $order->supplier->name }}
+                                                @else
+                                                    Tunga Market
+                                                @endif
+                                            </td>
+
+                                            {{-- Total --}}
+                                            <td class="px-4 py-4 text-sm font-semibold text-primary">
+                                                {{ number_format($order->total, 2) }} {{ $order->currency }}
+                                            </td>
+
+                                            {{-- Status --}}
+                                            <td class="px-4 py-4">
+                                                @php
+                                                    // Map status to badge classes
+                                                    $status = strtolower($order->status);
+                                                    $badgeClass = '';
+                                                    $statusText = ucfirst($order->status);
+                                                    switch ($status) {
+                                                        case 'processing':
+                                                            $badgeClass = 'bg-warning-100 text-warning-800';
+                                                            break;
+                                                        case 'delivered':
+                                                        case 'completed':
+                                                            $badgeClass = 'bg-success-100 text-success-800';
+                                                            break;
+                                                        case 'canceled':
+                                                            $badgeClass = 'bg-danger-100 text-danger-800';
+                                                            break;
+                                                        default:
+                                                            // default styling
+                                                            $badgeClass = 'bg-secondary-100 text-secondary-800';
+                                                            break;
+                                                    }
+                                                @endphp
+                                                <span
+                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $badgeClass }}">
+                                                    {{ $statusText }}
+                                                </span>
+                                            </td>
+
+                                            {{-- Action --}}
+                                            <td class="px-4 py-4">
+                                                <button
+                                                    onclick="event.stopPropagation(); window.location='{{ route('orders.show', ['order' => $order->id]) }}'"
+                                                    class="text-accent hover:text-accent-600 text-sm font-semibold">
+                                                    View Details
                                                 </button>
-                                            </div>
-                                        </td>
-                                        <td class="px-4 py-4 text-sm text-secondary-600">Jan 10, 2025</td>
-                                        <td class="px-4 py-4 text-sm text-secondary-600">FashionForward Ltd</td>
-                                        <td class="px-4 py-4 text-sm font-semibold text-primary">$428.90</td>
-                                        <td class="px-4 py-4">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
-                                                Delivered
-                                            </span>
-                                        </td>
-                                        <td class="px-4 py-4">
-                                            <button onclick="selectOrder('AM2025-543210')"
-                                                class="text-accent hover:text-accent-600 text-sm font-semibold">
-                                                View Receipt
-                                            </button>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="px-4 py-4 text-center text-sm text-secondary-600">
+                                                You have no orders yet.
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -707,9 +689,9 @@
                 container.innerHTML = `
                     <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-secondary-200"></div>
                     ${timeline.map((step, index) => `
-                                 <div class="flex items-start space-x-4 ${index !== timeline.length - 1 ? 'mb-8' : ''}">
-                                     <div class="w-12 h-12 ${step.completed ? 'bg-success' : 'bg-secondary-200'} rounded-full flex items-center justify-center flex-shrink-0">
-                                         ${step.completed ? `
+                                         <div class="flex items-start space-x-4 ${index !== timeline.length - 1 ? 'mb-8' : ''}">
+                                             <div class="w-12 h-12 ${step.completed ? 'bg-success' : 'bg-secondary-200'} rounded-full flex items-center justify-center flex-shrink-0">
+                                                 ${step.completed ? `
                                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                     </svg>
@@ -718,13 +700,13 @@
                                         <circle cx="12" cy="12" r="3"/>
                                     </svg>
                                 `}
-                                     </div>
-                                     <div class="flex-1">
-                                         <h4 class="font-semibold ${step.completed ? 'text-primary' : 'text-secondary-600'}">${step.status}</h4>
-                                         <p class="text-sm ${step.completed ? 'text-success' : 'text-secondary-500'} font-semibold">${step.date}</p>
-                                     </div>
-                                 </div>
-                             `).join('')}
+                                             </div>
+                                             <div class="flex-1">
+                                                 <h4 class="font-semibold ${step.completed ? 'text-primary' : 'text-secondary-600'}">${step.status}</h4>
+                                                 <p class="text-sm ${step.completed ? 'text-success' : 'text-secondary-500'} font-semibold">${step.date}</p>
+                                             </div>
+                                         </div>
+                                     `).join('')}
                 `;
             }
 
