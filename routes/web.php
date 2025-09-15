@@ -50,6 +50,7 @@ Route::get('/products/price-range', [ProductListingController::class, 'getPriceR
 Route::get('/products/main-filter', [ProductListingController::class, 'filter']);
 Route::get('/search/suggestions', [SearchController::class, 'suggestions']);
 Route::get('/product-discovery-hub', [ProductDiscoveryHubController::class, 'index']);
+Route::get('/products/main-filter', [ProductDiscoveryHubController::class, 'filter']);
 
 
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
