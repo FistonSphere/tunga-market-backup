@@ -544,11 +544,11 @@
 
             updateCounts() {
                 // Update header counts
-                const wishlistCount = this.getStoredCount('wishlistCount', 12);
-                const cartCount = this.getStoredCount('cartCount', 7);
+                // const wishlistCount = this.getStoredCount('wishlistCount', 12);
+                // const cartCount = this.getStoredCount('cartCount', 7);
 
-                document.getElementById('wishlist-count').textContent = wishlistCount;
-                document.getElementById('cart-count').textContent = cartCount;
+                // document.getElementById('wishlist-count').textContent = wishlistCount;
+                // document.getElementById('cart-count').textContent = cartCount;
             }
 
             getStoredCount(key, defaultValue = 0) {

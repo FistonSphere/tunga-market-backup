@@ -25,16 +25,13 @@ class OrderTrackingController extends Controller
        ]);
    }
 
-   public function show(Order $order)
+public function show($orderId)
 {
-    // Ensure the logged-in user owns this order
-    if ($order->user_id !== auth()->id()) {
-        abort(403, 'Unauthorized access to this order.');
-    }
-
-    // Load related data if needed (items, products, etc.)
-    $order->load('items.product', 'supplier'); // Assuming supplier relation exists
-
-    return view('orders.show', compact('order'));
+    $order = Order::with(['items.product', 'items.variant']) // Load all order items with product + variant
+        ->where('id', $orderId)
+        ->where('user_id', auth()->id()) // Ensure it's the user's order
+        ->firstOrFail(); // 404 if not found
+// dd($order);
+    return view('frontend.orders.show', compact('order'));
 }
 }
