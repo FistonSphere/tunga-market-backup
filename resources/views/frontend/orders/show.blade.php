@@ -67,12 +67,13 @@
                         };
 
                         $iconPath = match ($status) {
-                            'Delivered' => 'M5 13l4 4L19 7', // checkmark
-                            'Processing' => 'M12 8v4l3 3', // clock-like
-                            'Canceled' => 'M6 18L18 6M6 6l12 12', // X
-                            default => 'M12 4v16m8-8H4', // plus fallback
+                            'Delivered' => 'M5 13l4 4L19 7',
+                            'Processing' => 'M12 8v4l3 3 M12 2a10 10 0 100 20 10 10 0 000-20z',
+                            'Canceled' => 'M6 18L18 6M6 6l12 12',
+                            default => 'M12 4v16m8-8H4',
                         };
                     @endphp
+
 
                     <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
                         <span id="header-status-badge"
