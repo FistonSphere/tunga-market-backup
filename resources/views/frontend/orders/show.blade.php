@@ -45,24 +45,28 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4M3 12h18M7 12l-2 5h14l-2-5" />
                                 </svg>
-                                <span>Ordered on <span id="header-order-date" class="font-semibold">{{$order->created_at->format('M d, Y')}}</span></span>
+                                <span>Ordered on <span id="header-order-date"
+                                        class="font-semibold">{{ $order->created_at->format('M d, Y') }}</span></span>
                             </div>
                             <div class="flex items-center space-x-2 mt-2 sm:mt-0" style="margin-left: 20px;">
 
                                 <span>Total: <span id="header-order-total"
-                                        class="font-bold text-accent text-lg">{{ number_format($order->items->first()->price * $order->items->first()->quantity)}} Rwf</span></span>
+                                        class="font-bold text-accent text-lg">{{ number_format($order->items->first()->price * $order->items->first()->quantity) }}
+                                        Rwf</span></span>
                             </div>
                         </div>
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
                         <span id="header-status-badge"
-                            class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-success-100 text-success-800">
+                            class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium {{ $badgeClasses }}">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="{{ $iconPath }}" />
                             </svg>
-                            Completed
+                            {{ $status }}
                         </span>
+
                         <div class="flex space-x-2">
                             <button onclick="downloadInvoice()" class="btn-secondary flex items-center space-x-2">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

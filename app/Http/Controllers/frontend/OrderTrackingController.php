@@ -31,7 +31,7 @@ public function show($orderId)
         ->where('id', $orderId)
         ->where('user_id', auth()->id()) // Ensure it's the user's order
         ->firstOrFail(); // 404 if not found
-// dd($order);
+
     return view('frontend.orders.show', compact('order'));
 }
 }
