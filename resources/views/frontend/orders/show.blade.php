@@ -56,6 +56,23 @@
                             </div>
                         </div>
                     </div>
+                    @php
+                        $status = $order->status;
+
+                        $badgeClasses = match ($status) {
+                            'Delivered' => 'bg-success-100 text-success-800',
+                            'Processing' => 'bg-warning-100 text-warning-800',
+                            'Canceled' => 'bg-error-100 text-error-800',
+                            default => 'bg-gray-100 text-gray-800',
+                        };
+
+                        $iconPath = match ($status) {
+                            'Delivered' => 'M5 13l4 4L19 7', // checkmark
+                            'Processing' => 'M12 8v4l3 3', // clock-like
+                            'Canceled' => 'M6 18L18 6M6 6l12 12', // X
+                            default => 'M12 4v16m8-8H4', // plus fallback
+                        };
+                    @endphp
 
                     <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
                         <span id="header-status-badge"
