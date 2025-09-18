@@ -10,13 +10,13 @@ class OrderDocumentController extends Controller
 {
     public function invoice(Order $order)
     {
-        $pdf = PDF::loadView('documents.invoice', compact('order'));
+        $pdf = PDF::loadView('frontend.orders.invoice', compact('order'));
         return $pdf->stream("invoice-{$order->id}.pdf");
     }
 
     public function downloadInvoice(Order $order)
     {
-        $pdf = PDF::loadView('documents.invoice', compact('order'));
+        $pdf = PDF::loadView('frontend.orders.invoice', compact('order'));
         return $pdf->download("invoice-{$order->id}.pdf");
     }
 
