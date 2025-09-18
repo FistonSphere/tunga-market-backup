@@ -56,16 +56,7 @@
     <div class="no-print bg-white shadow-card sticky top-0 z-50 border-b">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <button onclick="window.history.back()" class="flex items-center space-x-2 text-secondary-600 hover:text-primary transition-fast">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                        </svg>
-                        <span>Back to Dashboard</span>
-                    </button>
-                    <div class="h-4 w-px bg-secondary-300"></div>
-                    <h1 class="text-lg font-semibold text-primary">Professional Invoice</h1>
-                </div>
+
                 <div class="flex items-center space-x-3">
                     <button onclick="downloadPDF()" class="btn-secondary">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -94,10 +85,9 @@
                         <!-- Company Logo & Info -->
                         <div class="lg:col-span-2">
                             <div class="flex items-center space-x-4 mb-6">
-                                <svg class="h-12 w-12 text-primary" viewBox="0 0 40 40" fill="currentColor">
-                                    <path d="M20 0L35 10v20L20 40L5 30V10L20 0z"/>
-                                    <path d="M20 8L28 13v14l-8 5-8-5V13l8-5z" fill="#ff6b35"/>
-                                </svg>
+                                <img src="{{ asset('assets/images/logo.png') }}"
+                            style="width: 80px; height: 40px; border-radius: 8px; object-fit: cover;"
+                            alt="Tunga Market Logo" class="Imglogo text-primary" />
                                 <div>
                                     <h1 class="text-3xl font-bold text-primary">AliMax Commerce</h1>
                                     <p class="text-secondary-600">Where Business Grows Together</p>
