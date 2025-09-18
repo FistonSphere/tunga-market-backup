@@ -52,13 +52,13 @@ public function show($orderId)
         [
             'title' => 'Processing',
             'message' => 'Order is being prepared for shipment',
-            'timestamp' => $order->created_at->addHours(2)->format('M d, Y \a\t h:i A'),
+            'timestamp' => $order->created_at->addMinute(15)->format('M d, Y \a\t h:i A'),
             'done' => in_array($order->status, ['Processing','Delivered']),
         ],
         [
             'title' => 'Shipped',
             'message' => 'Package is on the way',
-            'timestamp' => $order->created_at->addHours(6)->format('M d, Y \a\t h:i A'),
+            'timestamp' => $order->created_at->addHours(2)->format('M d, Y \a\t h:i A'),
             'done' => in_array($order->status, ['Delivered']),
         ],
         [
