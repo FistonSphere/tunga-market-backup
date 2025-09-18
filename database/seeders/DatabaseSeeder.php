@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             UnitSeeder::class,         // ✅ New
             ProductSeeder::class,
             OrdersTableSeeder::class, // ✅ New
+            PaymentsTableSeeder::class
+
         ]);
     }
 }

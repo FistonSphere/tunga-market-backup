@@ -301,48 +301,90 @@
                         <div id="payment-content" class="space-y-4">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="space-y-4">
+                                    {{-- Payment Method --}}
                                     <div>
                                         <label class="text-sm text-secondary-600">Payment Method</label>
                                         <div class="flex items-center space-x-3 mt-1">
+                                            {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M21 4H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 12H3V8h18v8z" />
+                                                <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
+                                 1.1.9 2 2 2h18c1.1 0 2-.9
+                                 2-2V6c0-1.1-.9-2-2-2zm0
+                                 12H3V8h18v8z" />
                                             </svg>
                                             <div>
-                                                <div class="font-semibold text-primary" id="payment-method-display">••••
-                                                    •••• •••• 4532</div>
-                                                <div class="text-sm text-secondary-600">Visa ending in 4532</div>
+                                                <div class="font-semibold text-primary" id="payment-method-display">
+                                                    {{ $order->payment->masked_account ?? 'N/A' }}
+                                                </div>
+                                                <div class="text-sm text-secondary-600">
+                                                    {{ $order->payment->payment_method ?? 'Not Provided' }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    {{-- Transaction ID --}}
                                     <div>
                                         <label class="text-sm text-secondary-600">Transaction ID</label>
-                                        <div class="font-medium text-primary" id="transaction-id-display">TXN-789456123
+                                        <div class="font-medium text-primary" id="transaction-id-display">
+                                            {{ $order->payment->transaction_id ?? 'N/A' }}
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="space-y-4">
+                                    {{-- Payment Status --}}
                                     <div>
                                         <label class="text-sm text-secondary-600">Payment Status</label>
                                         <div class="flex items-center space-x-2 mt-1">
+                                            @php
+                                                $status = $order->payment->status ?? 'unpaid';
+                                                $statusColors = [
+                                                    'paid' => 'bg-success-100 text-success-800',
+                                                    'pending' => 'bg-warning-100 text-warning-800',
+                                                    'failed' => 'bg-danger-100 text-danger-800',
+                                                    'unpaid' => 'bg-secondary-100 text-secondary-800',
+                                                ];
+                                            @endphp
+
                                             <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
-                                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M5 13l4 4L19 7" />
-                                                </svg>
-                                                Paid
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full
+                             text-xs font-medium {{ $statusColors[$status] ?? 'bg-secondary-100 text-secondary-800' }}">
+                                                @if ($status === 'paid')
+                                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                @elseif($status === 'pending')
+                                                    <svg class="w-3 h-3 mr-1 animate-pulse" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                        <circle cx="12" cy="12" r="10" stroke-width="2" />
+                                                    </svg>
+                                                @elseif($status === 'failed')
+                                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                @endif
+                                                {{ ucfirst($status) }}
                                             </span>
                                         </div>
                                     </div>
+
+                                    {{-- Payment Date --}}
                                     <div>
                                         <label class="text-sm text-secondary-600">Payment Date</label>
-                                        <div class="font-medium text-primary" id="payment-date">January 15, 2025 at 2:30
-                                            PM</div>
+                                        <div class="font-medium text-primary" id="payment-date">
+                                            {{ $order->payment && $order->payment->paid_at
+                                                ? $order->payment->paid_at->format('F j, Y \a\t g:i A')
+                                                : 'Not Paid Yet' }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
 
                             <!-- Billing Address -->
                             <div class="border-t border-border pt-4">
