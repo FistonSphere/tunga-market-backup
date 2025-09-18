@@ -144,7 +144,7 @@
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Currency:</span>
-                                    <span class="font-semibold">USD ($)</span>
+                                    <span class="font-semibold">Rwf</span>
                                 </div>
                             </div>
                         </div>
@@ -342,7 +342,7 @@
                                 <p><strong>Returns:</strong> Items may be returned within 30 days of delivery in original condition. Return shipping costs apply unless item is defective.</p>
                                 <p><strong>Warranty:</strong> All products come with manufacturer warranty as specified in product documentation. Extended warranty options available.</p>
                                 <p><strong>Disputes:</strong> Any disputes regarding this invoice should be reported within 60 days. Contact our billing department for resolution.</p>
-                                <p><strong>Jurisdiction:</strong> This invoice is governed by the laws of California, United States.</p>
+                                <p><strong>Jurisdiction:</strong> This invoice is governed by the laws of Rwanda.</p>
                             </div>
                         </div>
 
@@ -383,13 +383,13 @@
                     <div class="grid md:grid-cols-3 gap-6 text-center md:text-left">
                         <div>
                             <p class="font-semibold mb-2">Tunga Market Inc.</p>
-                            <p class="text-secondary-300 text-sm">Global B2B Commerce Platform</p>
+                            <p class="text-secondary-300 text-sm">Your Trusted Online Shopping Destination</p>
                             <p class="text-secondary-300 text-sm">Est. 2020 • San Francisco, CA</p>
                         </div>
                         <div>
-                            <p class="font-semibold mb-2">Thank You for Your Business!</p>
-                            <p class="text-secondary-300 text-sm">Your partnership drives our innovation</p>
-                            <p class="text-secondary-300 text-sm">Where Business Grows Together</p>
+                            <p class="font-semibold mb-2">Thank You for Shopping with Us!</p>
+                            <p class="text-secondary-300 text-sm">We appreciate your trust in Tunga Market</p>
+                            <p class="text-secondary-300 text-sm">Enjoy your purchase and come back soon!</p>
                         </div>
                         <div>
                             <p class="font-semibold mb-2">Questions?</p>
