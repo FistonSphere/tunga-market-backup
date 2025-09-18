@@ -90,7 +90,7 @@
                             alt="Tunga Market Logo" class="Imglogo text-primary" />
                                 <div>
                                     <h1 class="text-3xl font-bold text-primary">Tunga Market</h1>
-                                    <p class="text-secondary-600">Where Business Grows Together</p>
+                                    <p class="text-secondary-600">Where Shopping Comes Together</p>
                                 </div>
                             </div>
                             <div class="space-y-1 text-secondary-700">
