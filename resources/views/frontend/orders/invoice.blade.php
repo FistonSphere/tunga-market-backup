@@ -86,19 +86,19 @@
                         <div class="lg:col-span-2">
                             <div class="flex items-center space-x-4 mb-6">
                                 <img src="{{ asset('assets/images/logo.png') }}"
-                            style="width: 80px; height: 40px; border-radius: 8px; object-fit: cover;"
+                            style="width: 150px; height: 100px; border-radius: 8px; object-fit: cover;"
                             alt="Tunga Market Logo" class="Imglogo text-primary" />
                                 <div>
-                                    <h1 class="text-3xl font-bold text-primary">AliMax Commerce</h1>
+                                    <h1 class="text-3xl font-bold text-primary">Tunga Market</h1>
                                     <p class="text-secondary-600">Where Business Grows Together</p>
                                 </div>
                             </div>
                             <div class="space-y-1 text-secondary-700">
-                                <p class="font-semibold">AliMax Commerce Inc.</p>
-                                <p>123 Commerce Drive, Suite 500</p>
-                                <p>San Francisco, CA 94107, United States</p>
-                                <p>Phone: +1 (555) 123-4567</p>
-                                <p>Email: billing@alimaxcommerce.com</p>
+                                <p class="font-semibold">Tunga Market Inc.</p>
+                                <p>KG 8 Ave, Gasabo</p>
+                                <p>Gishushu, Kigali, Rwanda</p>
+                                <p>Phone: +250 (784) 255 521</p>
+                                <p>Email: billing@tungamarket.com</p>
                                 <p>Tax ID: 12-3456789</p>
                             </div>
                         </div>
@@ -353,7 +353,7 @@
                                 <div class="bg-surface p-4 rounded-lg">
                                     <h4 class="font-semibold text-primary mb-2">Billing Inquiries</h4>
                                     <div class="text-sm space-y-1">
-                                        <p>📧 billing@alimaxcommerce.com</p>
+                                        <p>📧 billing@tungamarket.com</p>
                                         <p>📞 +1 (555) 123-4567 ext. 101</p>
                                         <p>🕒 Mon-Fri: 9 AM - 6 PM PST</p>
                                     </div>
@@ -362,7 +362,7 @@
                                 <div class="bg-surface p-4 rounded-lg">
                                     <h4 class="font-semibold text-primary mb-2">Order Support</h4>
                                     <div class="text-sm space-y-1">
-                                        <p>📧 orders@alimaxcommerce.com</p>
+                                        <p>📧 orders@tungamarket.com</p>
                                         <p>📞 +1 (555) 123-4567 ext. 102</p>
                                         <p>💬 Live Chat: Available 24/7</p>
                                     </div>
@@ -371,7 +371,7 @@
                                 <div class="bg-primary-50 p-4 rounded-lg border border-primary-200">
                                     <h4 class="font-semibold text-primary mb-2">Track Your Order</h4>
                                     <p class="text-sm text-secondary-700 mb-2">Scan the QR code above or visit:</p>
-                                    <p class="text-sm font-mono text-primary break-all">https://alimaxcommerce.com/track/AM2025-789456</p>
+                                    <p class="text-sm font-mono text-primary break-all">https://tungamarket.com/track/AM2025-789456</p>
                                 </div>
                             </div>
                         </div>
@@ -382,7 +382,7 @@
                 <div class="footer bg-secondary-800 text-white p-6">
                     <div class="grid md:grid-cols-3 gap-6 text-center md:text-left">
                         <div>
-                            <p class="font-semibold mb-2">AliMax Commerce Inc.</p>
+                            <p class="font-semibold mb-2">Tunga Market Inc.</p>
                             <p class="text-secondary-300 text-sm">Global B2B Commerce Platform</p>
                             <p class="text-secondary-300 text-sm">Est. 2020 • San Francisco, CA</p>
                         </div>
@@ -393,7 +393,7 @@
                         </div>
                         <div>
                             <p class="font-semibold mb-2">Questions?</p>
-                            <p class="text-secondary-300 text-sm">support@alimaxcommerce.com</p>
+                            <p class="text-secondary-300 text-sm">support@tungamarket.com</p>
                             <p class="text-secondary-300 text-sm">+1 (555) 123-4567</p>
                         </div>
                     </div>
@@ -401,7 +401,7 @@
                         <p class="text-secondary-400 text-sm">
                             This invoice was generated on January 26, 2025 at 16:19 UTC •
                             Invoice ID: INV-2025-789456 •
-                            For authentication, verify at: verify.alimaxcommerce.com
+                            For authentication, verify at: verify.tungamarket.com
                         </p>
                     </div>
                 </div>
@@ -421,7 +421,7 @@
             ctx.fillRect(0, 0, 120, 120);
 
             // Simple QR code pattern (in real implementation, use a proper QR code library)
-            const qrData = 'https://alimaxcommerce.com/track/AM2025-789456';
+            const qrData = 'https://tungamarket.com/track/AM2025-789456';
 
             // Create a simple grid pattern to simulate QR code
             ctx.fillStyle = '#000000';

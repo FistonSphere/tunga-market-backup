@@ -128,3 +128,7 @@ Route::get('/popular-comparisons', [ComparisonController::class, 'getPopular'])-
 Route::get('/sms/send', [SmsController::class, 'create'])->name('sms.create');
 Route::post('/sms/send', [SmsController::class, 'send'])->name('sms.send');
 // End Authentication routes
+
+Route::get('/invoice', function(){
+    return view('frontend.orders.invoice');
+});
