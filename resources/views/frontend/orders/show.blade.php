@@ -348,10 +348,16 @@
                             <div class="border-t border-border pt-4">
                                 <h3 class="font-semibold text-primary mb-3">Billing Address</h3>
                                 <div class="text-secondary-600" id="billing-address">
-                                    <div class="font-medium text-primary">{{ $order->shippingAddress->first_name }} {{ $order->shippingAddress->last_name }}</div>
+                                    <div class="font-medium text-primary">{{ $order->shippingAddress->first_name }}
+                                        {{ $order->shippingAddress->last_name }}</div>
                                     <div>{{ $order->shippingAddress->address_line1 }}</div>
-                                    <div>San Francisco, CA 94105</div>
-                                    <div>United States</div>
+                                    @if ($order->shippingAddress->address_line2)
+                                        <div>{{ $order->shippingAddress->address_line2 }}</div>
+                                    @endif
+                                    <div>{{ $order->shippingAddress->city }}, {{ $order->shippingAddress->state }}
+                                        {{ $order->shippingAddress->postal_code }}</div>
+                                    <div>{{ $order->shippingAddress->country }}</div>
+                                    <div>Phone: {{ $order->shippingAddress->phone }}</div>
                                 </div>
                             </div>
                         </div>
@@ -612,8 +618,6 @@
                 </div>
             </div>
     </section>
-
-
 @endsection
 
 
