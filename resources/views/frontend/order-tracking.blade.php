@@ -131,7 +131,7 @@
                                                         $badgeClass = 'bg-success-100 text-success-800';
                                                         break;
                                                     case 'canceled':
-                                                        $badgeClass = 'bg-danger-100 text-danger-800';
+                                                        $badgeClass = 'bg-error-100 text-error-800';
                                                         break;
                                                     default:
                                                         $badgeClass = 'bg-secondary-100 text-secondary-800';

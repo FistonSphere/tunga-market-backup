@@ -135,43 +135,44 @@
 
                         <div id="order-summary-content" class="space-y-4">
                             <div id="order-items-container" class="space-y-4">
-                                <div
-                                    class="flex items-start space-x-4 p-4 border border-border rounded-lg hover:shadow-sm transition-fast">
-                                    <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&amp;w=400&amp;auto=format&amp;fit=crop"
-                                        alt="Premium Wireless Earbuds Pro"
-                                        class="w-20 h-20 rounded-lg object-cover flex-shrink-0" loading="lazy">
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="font-semibold text-primary mb-1">Premium Wireless Earbuds Pro</h4>
-                                        <p class="text-sm text-secondary-600 mb-2">SKU: TWE-PRO-001</p>
-                                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                                            <div
-                                                class="flex items-center space-x-4 text-sm text-secondary-600 mb-2 sm:mb-0">
-                                                <span>Qty: <strong class="text-primary">50</strong></span>
-                                                <span>Unit Price: <strong class="text-primary">$45.50</strong></span>
-                                            </div>
-                                            <div class="text-lg font-semibold text-accent">$2,275.00</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @foreach ($order->items as $item)
+                                    <div
+                                        class="flex items-start space-x-4 p-4 border border-border rounded-lg hover:shadow-sm transition-fast">
+                                        {{-- Product image --}}
+                                        <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}"
+                                            alt="{{ $item->product->name ?? 'Product' }}"
+                                            class="w-20 h-20 rounded-lg object-cover flex-shrink-0" loading="lazy">
 
-                                <div
-                                    class="flex items-start space-x-4 p-4 border border-border rounded-lg hover:shadow-sm transition-fast">
-                                    <img src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=400&amp;h=300&amp;dpr=1"
-                                        alt="Smart Home Hub Controller"
-                                        class="w-20 h-20 rounded-lg object-cover flex-shrink-0" loading="lazy">
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="font-semibold text-primary mb-1">Smart Home Hub Controller</h4>
-                                        <p class="text-sm text-secondary-600 mb-2">SKU: SHH-CTRL-002</p>
-                                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                                            <div
-                                                class="flex items-center space-x-4 text-sm text-secondary-600 mb-2 sm:mb-0">
-                                                <span>Qty: <strong class="text-primary">25</strong></span>
-                                                <span>Unit Price: <strong class="text-primary">$22.90</strong></span>
+                                        <div class="flex-1 min-w-0">
+                                            {{-- Product name --}}
+                                            <h4 class="font-semibold text-primary mb-1">
+                                                {{ $item->product->name ?? 'Unnamed Product' }}
+                                            </h4>
+
+                                            {{-- SKU (from variant if exists, else product SKU) --}}
+                                            <p class="text-sm text-secondary-600 mb-2">
+                                                SKU: {{ $item->product->sku ?? 'N/A' }}
+                                            </p>
+
+                                            <!-- Info left | Price right -->
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center space-x-4 text-sm text-secondary-600">
+                                                    <span>Qty:
+                                                        <strong class="text-primary">{{ $item->quantity }}</strong>
+                                                    </span>
+                                                    <span>Unit Price:
+                                                        <strong class="text-primary">
+                                                            {{ $order->currency }}{{ number_format($item->price, 2) }}
+                                                        </strong>
+                                                    </span>
+                                                </div>
+                                                <div class="text-lg font-semibold text-accent">
+                                                    {{ $order->currency }}{{ number_format($item->quantity * $item->price, 2) }}
+                                                </div>
                                             </div>
-                                            <div class="text-lg font-semibold text-accent">$572.50</div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
 
                             <!-- Order Totals -->
@@ -179,7 +180,9 @@
                                 <div class="space-y-2">
                                     <div class="flex justify-between text-secondary-600">
                                         <span>Subtotal:</span>
-                                        <span id="subtotal">$2,847.50</span>
+                                        <span id="subtotal">
+                                            {{ number_format($subtotal, 2) }} {{ $order->currency }}
+                                        </span>
                                     </div>
                                     <div class="flex justify-between text-secondary-600">
                                         <span>Shipping:</span>
@@ -187,16 +190,19 @@
                                     </div>
                                     <div class="flex justify-between text-secondary-600">
                                         <span>Tax:</span>
-                                        <span id="tax-amount">$0.00</span>
+                                        <span id="tax-amount"> {{ number_format($tax, 2) }} {{ $order->currency }}</span>
                                     </div>
                                     <div
                                         class="flex justify-between text-lg font-bold text-primary border-t border-border pt-2">
                                         <span>Total:</span>
-                                        <span id="final-total">$2,847.50</span>
+                                        <span id="final-total">
+                                            {{ number_format($finalTotal, 2) }} {{ $order->currency }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     <!-- Shipping Tracking Section -->
@@ -220,52 +226,34 @@
                         </div>
 
                         <div id="shipping-content" class="space-y-6">
-                            <!-- Tracking Timeline -->
+                            <!-- Delivery Timeline -->
                             <div>
                                 <h3 class="font-semibold text-primary mb-4">Delivery Timeline</h3>
                                 <div id="tracking-timeline" class="relative pl-8">
-                                    <!-- Timeline will be populated by JavaScript -->
-                                </div>
-                            </div>
+                                    <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-secondary-200"></div>
 
-                            <!-- Live GPS Tracking -->
-                            <div id="gps-section" class="hidden">
-                                <h3 class="font-semibold text-primary mb-4">Live GPS Tracking</h3>
-                                <div class="bg-secondary-50 rounded-lg p-6">
-                                    <div class="flex items-center space-x-4 mb-4">
-                                        <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
-                                            <svg class="w-6 h-6 text-white animate-pulse" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-semibold text-primary">Package In Transit</h4>
-                                            <p class="text-secondary-600">Last updated: 2 hours ago</p>
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                                        <div>
-                                            <span class="text-secondary-600">Current Location:</span>
-                                            <div class="font-semibold text-primary">Distribution Center - Los Angeles, CA
+                                    @foreach ($timeline as $step)
+                                        <div class="relative flex items-start space-x-6 pb-8">
+                                            <div
+                                                class="w-8 h-8 {{ $step['done'] ? 'bg-success' : 'bg-secondary-300' }} rounded-full flex items-center justify-center flex-shrink-0 relative z-10">
+                                                @if ($step['done'])
+                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                                    </svg>
+                                                @endif
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <h4 class="font-semibold text-primary mb-1">{{ $step['title'] }}</h4>
+                                                <p
+                                                    class="text-sm {{ $step['done'] ? 'text-success font-medium' : 'text-secondary-400' }} mb-1">
+                                                    {{ $step['timestamp'] }}
+                                                </p>
+                                                <p class="text-sm text-secondary-600">{{ $step['message'] }}</p>
                                             </div>
                                         </div>
-                                        <div>
-                                            <span class="text-secondary-600">Next Destination:</span>
-                                            <div class="font-semibold text-primary">Local Delivery Hub</div>
-                                        </div>
-                                        <div>
-                                            <span class="text-secondary-600">Estimated Delivery:</span>
-                                            <div class="font-semibold text-accent">Tomorrow 2:00 PM - 6:00 PM</div>
-                                        </div>
-                                        <div>
-                                            <span class="text-secondary-600">Tracking Number:</span>
-                                            <div class="font-semibold text-primary">TRK789456123</div>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
 
@@ -273,14 +261,21 @@
                             <div class="bg-surface rounded-lg p-4">
                                 <h3 class="font-semibold text-primary mb-3">Delivery Address</h3>
                                 <div class="text-secondary-600" id="delivery-address">
-                                    <div class="font-medium text-primary">John Smith</div>
-                                    <div>123 Technology Blvd</div>
-                                    <div>San Francisco, CA 94105</div>
-                                    <div>United States</div>
-                                    <div>Phone: +1 (555) 123-4567</div>
+                                    <div class="font-medium text-primary">
+                                        {{ $order->shippingAddress->first_name }} {{ $order->shippingAddress->last_name }}
+                                    </div>
+                                    <div>{{ $order->shippingAddress->address_line1 }}</div>
+                                    @if ($order->shippingAddress->address_line2)
+                                        <div>{{ $order->shippingAddress->address_line2 }}</div>
+                                    @endif
+                                    <div>{{ $order->shippingAddress->city }}, {{ $order->shippingAddress->state }}
+                                        {{ $order->shippingAddress->postal_code }}</div>
+                                    <div>{{ $order->shippingAddress->country }}</div>
+                                    <div>Phone: {{ $order->shippingAddress->phone }}</div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     <!-- Payment Information Section -->
@@ -647,458 +642,18 @@
 
 
 <script>
-    // Order Detail View Manager
-    class OrderDetailManager {
-        constructor() {
-            this.orderData = this.getOrderData();
-            this.initializePage();
-        }
+    function toggleSection(sectionId) {
+        const content = document.getElementById(sectionId);
+        const icon = document.getElementById(sectionId.replace('-content', '-icon'));
 
-        getOrderData() {
-            // Get order ID from URL parameters or default to sample order
-            const urlParams = new URLSearchParams(window.location.search);
-            const orderId = urlParams.get('order') || 'AM2025-789456';
+        if (!content || !icon) return;
 
-            // Sample order data - in real app, this would come from API
-            const orders = {
-                'AM2025-789456': {
-                    orderNumber: 'AM2025-789456',
-                    date: 'January 15, 2025',
-                    supplier: 'TechSound Electronics',
-                    supplierLocation: 'Shenzhen, China',
-                    total: '$2,847.50',
-                    subtotal: '$2,847.50',
-                    shipping: 'Free',
-                    tax: '$0.00',
-                    status: 'delivered',
-                    statusText: 'Delivered',
-                    paymentMethod: '•••• •••• •••• 4532',
-                    transactionId: 'TXN-789456123',
-                    paymentDate: 'January 15, 2025 at 2:30 PM',
-                    items: [{
-                            name: 'Premium Wireless Earbuds Pro',
-                            image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=400&auto=format&fit=crop',
-                            quantity: 50,
-                            unitPrice: '$45.50',
-                            total: '$2,275.00',
-                            sku: 'TWE-PRO-001'
-                        },
-                        {
-                            name: 'Smart Home Hub Controller',
-                            image: 'https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1',
-                            quantity: 25,
-                            unitPrice: '$22.90',
-                            total: '$572.50',
-                            sku: 'SHH-CTRL-002'
-                        }
-                    ],
-                    timeline: [{
-                            status: 'Order Confirmed',
-                            date: 'Jan 15, 2025 at 2:30 PM',
-                            completed: true,
-                            description: 'Your order has been confirmed and payment processed'
-                        },
-                        {
-                            status: 'Processing',
-                            date: 'Jan 15, 2025 at 4:15 PM',
-                            completed: true,
-                            description: 'Order is being prepared for shipment'
-                        },
-                        {
-                            status: 'Shipped',
-                            date: 'Jan 16, 2025 at 10:00 AM',
-                            completed: true,
-                            description: 'Package shipped with tracking number TRK789456123'
-                        },
-                        {
-                            status: 'Out for Delivery',
-                            date: 'Jan 18, 2025 at 8:30 AM',
-                            completed: true,
-                            description: 'Package is out for delivery'
-                        },
-                        {
-                            status: 'Delivered',
-                            date: 'Jan 18, 2025 at 2:45 PM',
-                            completed: true,
-                            description: 'Package delivered successfully'
-                        }
-                    ]
-                },
-                'AM2025-456789': {
-                    orderNumber: 'AM2025-456789',
-                    date: 'January 20, 2025',
-                    supplier: 'GlobalTech Solutions',
-                    supplierLocation: 'Guangzhou, China',
-                    total: '$1,245.75',
-                    subtotal: '$1,245.75',
-                    shipping: 'Free',
-                    tax: '$0.00',
-                    status: 'shipped',
-                    statusText: 'Shipped',
-                    paymentMethod: '•••• •••• •••• 7890',
-                    transactionId: 'TXN-456789012',
-                    paymentDate: 'January 20, 2025 at 1:15 PM',
-                    items: [{
-                        name: 'Bluetooth Speaker System',
-                        image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=400&auto=format&fit=crop',
-                        quantity: 30,
-                        unitPrice: '$41.53',
-                        total: '$1,245.75',
-                        sku: 'BTS-SYS-003'
-                    }],
-                    timeline: [{
-                            status: 'Order Confirmed',
-                            date: 'Jan 20, 2025 at 1:15 PM',
-                            completed: true,
-                            description: 'Your order has been confirmed and payment processed'
-                        },
-                        {
-                            status: 'Processing',
-                            date: 'Jan 20, 2025 at 3:30 PM',
-                            completed: true,
-                            description: 'Order is being prepared for shipment'
-                        },
-                        {
-                            status: 'Shipped',
-                            date: 'Jan 22, 2025 at 9:45 AM',
-                            completed: true,
-                            description: 'Package shipped with tracking number TRK456789012'
-                        },
-                        {
-                            status: 'Out for Delivery',
-                            date: 'Expected Jan 26, 2025',
-                            completed: false,
-                            description: 'Package will be out for delivery'
-                        },
-                        {
-                            status: 'Delivered',
-                            date: 'Expected Jan 27, 2025',
-                            completed: false,
-                            description: 'Expected delivery date'
-                        }
-                    ]
-                }
-            };
-
-            return orders[orderId] || orders['AM2025-789456'];
-        }
-
-        initializePage() {
-            this.populateOrderHeader();
-            this.populateOrderItems();
-            this.populateTrackingTimeline();
-            this.populatePaymentInfo();
-            this.populateSupplierInfo();
-            this.setupEventListeners();
-            this.handleMobileView();
-
-            // Show GPS tracking for shipped orders
-            if (this.orderData.status === 'shipped') {
-                document.getElementById('gps-section').classList.remove('hidden');
-            }
-        }
-
-        populateOrderHeader() {
-            document.getElementById('breadcrumb-order-number').textContent = `Order ${this.orderData.orderNumber}`;
-            document.getElementById('header-order-number').textContent = this.orderData.orderNumber;
-            document.getElementById('header-order-date').textContent = this.orderData.date;
-            document.getElementById('header-order-total').textContent = this.orderData.total;
-
-            const statusBadge = document.getElementById('header-status-badge');
-            statusBadge.className = this.getStatusClass(this.orderData.status);
-            statusBadge.innerHTML = this.getStatusIcon(this.orderData.status) + this.orderData.statusText;
-        }
-
-        populateOrderItems() {
-            const container = document.getElementById('order-items-container');
-            container.innerHTML = this.orderData.items.map(item => `
-                    <div class="flex items-start space-x-4 p-4 border border-border rounded-lg hover:shadow-sm transition-fast">
-                        <img src="${item.image}" alt="${item.name}" class="w-20 h-20 rounded-lg object-cover flex-shrink-0" loading="lazy" />
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-semibold text-primary mb-1">${item.name}</h4>
-                            <p class="text-sm text-secondary-600 mb-2">SKU: ${item.sku}</p>
-                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                                <div class="flex items-center space-x-4 text-sm text-secondary-600 mb-2 sm:mb-0">
-                                    <span>Qty: <strong class="text-primary">${item.quantity}</strong></span>
-                                    <span>Unit Price: <strong class="text-primary">${item.unitPrice}</strong></span>
-                                </div>
-                                <div class="text-lg font-semibold text-accent">${item.total}</div>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-
-            // Update totals
-            document.getElementById('subtotal').textContent = this.orderData.subtotal;
-            document.getElementById('shipping-cost').textContent = this.orderData.shipping;
-            document.getElementById('tax-amount').textContent = this.orderData.tax;
-            document.getElementById('final-total').textContent = this.orderData.total;
-        }
-
-        populateTrackingTimeline() {
-            const container = document.getElementById('tracking-timeline');
-            container.innerHTML = `
-                    <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-secondary-200"></div>
-                    ${this.orderData.timeline.map((step, index) => `
-                        <div class="relative flex items-start space-x-6 ${index !== this.orderData.timeline.length - 1 ? 'pb-8' : ''}">
-                            <div class="w-8 h-8 ${step.completed ? 'bg-success' : 'bg-secondary-200'} rounded-full flex items-center justify-center flex-shrink-0 relative z-10">
-                                ${step.completed ? `
-                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                    </svg>
-                                ` : `
-                                    <div class="w-2 h-2 ${step.completed ? 'bg-white' : 'bg-secondary-400'} rounded-full"></div>
-                                `}
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <h4 class="font-semibold ${step.completed ? 'text-primary' : 'text-secondary-600'} mb-1">${step.status}</h4>
-                                <p class="text-sm ${step.completed ? 'text-success' : 'text-secondary-500'} font-medium mb-1">${step.date}</p>
-                                <p class="text-sm text-secondary-600">${step.description}</p>
-                            </div>
-                        </div>
-                    `).join('')}
-                `;
-        }
-
-        populatePaymentInfo() {
-            document.getElementById('payment-method-display').textContent = this.orderData.paymentMethod;
-            document.getElementById('transaction-id-display').textContent = this.orderData.transactionId;
-            document.getElementById('payment-date').textContent = this.orderData.paymentDate;
-        }
-
-        populateSupplierInfo() {
-            document.getElementById('supplier-name-display').textContent = this.orderData.supplier;
-            document.getElementById('supplier-location-display').textContent = this.orderData.supplierLocation;
-        }
-
-        getStatusClass(status) {
-            const classes = {
-                delivered: 'inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-success-100 text-success-800',
-                shipped: 'inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-primary-100 text-primary-800',
-                processing: 'inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-warning-100 text-warning-800',
-                cancelled: 'inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-error-100 text-error-800'
-            };
-            return classes[status] || classes.processing;
-        }
-
-        getStatusIcon(status) {
-            const icons = {
-                delivered: `<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>`,
-                shipped: `<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
-                    </svg>`,
-                processing: `<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>`,
-                cancelled: `<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>`
-            };
-            return icons[status] || icons.processing;
-        }
-
-        setupEventListeners() {
-            // Handle section toggles
-            window.toggleSection = (sectionId) => {
-                const content = document.getElementById(sectionId);
-                const icon = document.getElementById(sectionId.replace('-content', '-icon'));
-
-                if (content.style.display === 'none') {
-                    content.style.display = 'block';
-                    icon.style.transform = 'rotate(0deg)';
-                } else {
-                    content.style.display = 'none';
-                    icon.style.transform = 'rotate(-90deg)';
-                }
-            };
-
-            // Update counts
-            this.updateCounts();
-        }
-
-        updateCounts() {
-            const wishlistCount = this.getStoredCount('wishlistCount', 12);
-            const cartCount = this.getStoredCount('cartCount', 7);
-
-            document.getElementById('wishlist-count').textContent = wishlistCount;
-            document.getElementById('cart-count').textContent = cartCount;
-        }
-
-        getStoredCount(key, defaultValue = 0) {
-            try {
-                const stored = localStorage.getItem(key);
-                return stored ? parseInt(stored) : defaultValue;
-            } catch (e) {
-                return defaultValue;
-            }
-        }
-
-        handleMobileView() {
-            if (window.innerWidth <= 768) {
-                document.body.style.paddingBottom = '70px';
-            } else {
-                document.body.style.paddingBottom = '0';
-            }
-        }
-
-        showToast(title, message, type = 'success') {
-            const toast = document.getElementById('toast-notification');
-            const toastTitle = document.getElementById('toast-title');
-            const toastMessage = document.getElementById('toast-message');
-
-            const colors = {
-                success: {
-                    border: 'border-success',
-                    icon: 'text-success'
-                },
-                warning: {
-                    border: 'border-warning',
-                    icon: 'text-warning'
-                },
-                error: {
-                    border: 'border-error',
-                    icon: 'text-error'
-                },
-                info: {
-                    border: 'border-primary',
-                    icon: 'text-primary'
-                }
-            };
-
-            const toastContent = toast.querySelector('div');
-            toastContent.className =
-                `bg-white shadow-modal rounded-lg p-4 ${colors[type].border} border-l-4 max-w-sm`;
-
-            toastTitle.textContent = title;
-            toastMessage.textContent = message;
-
-            toast.classList.remove('translate-x-full');
-
-            setTimeout(() => {
-                this.hideToast();
-            }, 4000);
-        }
-
-        hideToast() {
-            document.getElementById('toast-notification').classList.add('translate-x-full');
+        if (content.style.display === 'none' || content.style.display === '') {
+            content.style.display = 'block';
+            icon.style.transform = 'rotate(0deg)';
+        } else {
+            content.style.display = 'none';
+            icon.style.transform = 'rotate(-90deg)';
         }
     }
-
-    // Initialize Order Detail Manager
-    const orderDetailManager = new OrderDetailManager();
-
-    // Global Functions
-    function copyOrderNumber() {
-        const orderNumber = orderDetailManager.orderData.orderNumber;
-        navigator.clipboard.writeText(orderNumber).then(() => {
-            orderDetailManager.showToast('Copied', `${orderNumber} copied to clipboard`);
-        }).catch(() => {
-            // Fallback for older browsers
-            const input = document.createElement('input');
-            input.value = orderNumber;
-            document.body.appendChild(input);
-            input.select();
-            document.execCommand('copy');
-            document.body.removeChild(input);
-            orderDetailManager.showToast('Copied', `${orderNumber} copied to clipboard`);
-        });
-    }
-
-    function downloadInvoice() {
-        orderDetailManager.showToast('Download Started', 'Invoice PDF is being generated...', 'info');
-        // Simulate download
-        setTimeout(() => {
-            orderDetailManager.showToast('Download Complete', 'Invoice downloaded successfully');
-        }, 2000);
-    }
-
-    function downloadShippingLabel() {
-        orderDetailManager.showToast('Download Started', 'Shipping label PDF is being generated...', 'info');
-        setTimeout(() => {
-            orderDetailManager.showToast('Download Complete', 'Shipping label downloaded successfully');
-        }, 2000);
-    }
-
-    function downloadReceipt() {
-        orderDetailManager.showToast('Download Started', 'Receipt PDF is being generated...', 'info');
-        setTimeout(() => {
-            orderDetailManager.showToast('Download Complete', 'Receipt downloaded successfully');
-        }, 2000);
-    }
-
-    function printOrder() {
-        orderDetailManager.showToast('Print Preview', 'Opening print preview...', 'info');
-        setTimeout(() => {
-            window.print();
-        }, 500);
-    }
-
-    function reorderItems() {
-        orderDetailManager.showToast('Adding to Cart', 'Items are being added to your cart...', 'info');
-        setTimeout(() => {
-            window.location.href = 'shopping_cart.html';
-        }, 2000);
-    }
-
-    function initiateReturn() {
-        orderDetailManager.showToast('Return Process', 'Opening return request form...', 'info');
-        // In a real app, this would open a return form modal or navigate to return page
-    }
-
-    function reportIssue() {
-        orderDetailManager.showToast('Issue Report', 'Opening issue report form...', 'info');
-        // In a real app, this would open a dispute/issue form
-    }
-
-    function writeReview() {
-        orderDetailManager.showToast('Review Form', 'Opening product review form...', 'info');
-        // In a real app, this would open a review modal or navigate to review page
-    }
-
-    function contactSupplier() {
-        orderDetailManager.showToast('Contacting Supplier', 'Opening communication channel...', 'info');
-        // In a real app, this would open a chat or messaging interface
-    }
-
-    function contactSupport() {
-        orderDetailManager.showToast('Customer Support', 'Connecting you to live chat support...', 'info');
-        setTimeout(() => {
-            window.location.href = 'live_chat_support_center.html';
-        }, 1500);
-    }
-
-    function viewSupplierProfile() {
-        orderDetailManager.showToast('Loading Profile', 'Redirecting to supplier profile...', 'info');
-        setTimeout(() => {
-            window.location.href = 'enhanced_supplier_profile_pages.html';
-        }, 1000);
-    }
-
-    function toggleWishlist() {
-        window.location.href = 'wishlist_popup.html';
-    }
-
-    function toggleCart() {
-        window.location.href = 'shopping_cart.html';
-    }
-
-    function toggleMobileMenu() {
-        orderDetailManager.showToast('Navigation Menu', 'Mobile menu would open here', 'info');
-    }
-
-    function hideToast() {
-        orderDetailManager.hideToast();
-    }
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        orderDetailManager.handleMobileView();
-    });
-
-    // Handle URL changes for different order IDs
-    window.addEventListener('popstate', () => {
-        location.reload();
-    });
 </script>

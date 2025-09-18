@@ -27,11 +27,56 @@ class OrderTrackingController extends Controller
 
 public function show($orderId)
 {
-    $order = Order::with(['items.product', 'items.variant']) // Load all order items with product + variant
+    $order = Order::with(['items.product', 'items.variant', 'shippingAddress'])
         ->where('id', $orderId)
-        ->where('user_id', auth()->id()) // Ensure it's the user's order
-        ->firstOrFail(); // 404 if not found
+        ->where('user_id', auth()->id())
+        ->firstOrFail();
 
-    return view('frontend.orders.show', compact('order'));
+    // Calculate subtotal
+    $subtotal = $order->items->sum(fn($item) => $item->quantity * $item->price);
+
+    // Tax (10%)
+    $tax = $subtotal * 0.10;
+
+    // Final total
+    $finalTotal = $subtotal + $tax;
+
+    // Build delivery timeline steps dynamically
+    $timeline = [
+        [
+            'title' => 'Order Confirmed',
+            'message' => 'Your order has been confirmed and payment processed',
+            'timestamp' => $order->created_at->format('M d, Y \a\t h:i A'),
+            'done' => true,
+        ],
+        [
+            'title' => 'Processing',
+            'message' => 'Order is being prepared for shipment',
+            'timestamp' => $order->created_at->addHours(2)->format('M d, Y \a\t h:i A'),
+            'done' => in_array($order->status, ['Processing','Delivered']),
+        ],
+        [
+            'title' => 'Shipped',
+            'message' => 'Package is on the way',
+            'timestamp' => $order->created_at->addHours(6)->format('M d, Y \a\t h:i A'),
+            'done' => in_array($order->status, ['Delivered']),
+        ],
+        [
+            'title' => 'Out for Delivery',
+            'message' => 'Package is out for delivery',
+            'timestamp' => $order->created_at->addHours(20)->format('M d, Y \a\t h:i A'),
+            'done' => ($order->status === 'Delivered'),
+        ],
+        [
+            'title' => 'Delivered',
+            'message' => 'Package delivered successfully',
+            'timestamp' => $order->updated_at->format('M d, Y \a\t h:i A'),
+            'done' => ($order->status === 'Delivered'),
+        ],
+    ];
+
+    return view('frontend.orders.show', compact('order', 'subtotal', 'tax', 'finalTotal', 'timeline'));
 }
+
+
 }
