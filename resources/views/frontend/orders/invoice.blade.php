@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Professional Invoice - AliMax Commerce</title>
-    <link rel="stylesheet" href="../css/main.css" />
-    <meta name="description" content="Professional invoice template with QR code for order tracking - Download and print your AliMax Commerce invoice" />
+    <title>Invoice - Tunga Market</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
+    <meta name="description" content="Professional invoice template with QR code for order tracking - Download and print your Tunga Market invoice" />
 
     <!-- Print-specific styles -->
     <style>
