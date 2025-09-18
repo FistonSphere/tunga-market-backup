@@ -13,6 +13,7 @@ use App\Http\Controllers\frontend\HelpCenterController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\OrderTrackingController;
 use App\Http\Controllers\frontend\ProductListingController;
+use App\Http\Controllers\OrderDocumentController;
 use App\Http\Controllers\ProductDiscoveryHubController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
@@ -129,6 +130,11 @@ Route::get('/sms/send', [SmsController::class, 'create'])->name('sms.create');
 Route::post('/sms/send', [SmsController::class, 'send'])->name('sms.send');
 // End Authentication routes
 
-Route::get('/invoice', function(){
-    return view('frontend.orders.invoice');
+
+Route::prefix('orders')->group(function () {
+    Route::get('{order}/invoice', [OrderDocumentController::class, 'invoice'])->name('orders.invoice');
+    Route::get('{order}/invoice/download', [OrderDocumentController::class, 'downloadInvoice'])->name('orders.invoice.download');
+
+    Route::get('{order}/receipt', [OrderDocumentController::class, 'receipt'])->name('orders.receipt');
+    Route::get('{order}/receipt/download', [OrderDocumentController::class, 'downloadReceipt'])->name('orders.receipt.download');
 });
