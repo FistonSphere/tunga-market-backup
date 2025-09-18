@@ -32,4 +32,9 @@ class Order extends Model
     {
         return $this->belongsTo(ShippingAddress::class);
     }
+
+    public function payment()
+{
+    return $this->hasOne(Payment::class);
+}
 }
