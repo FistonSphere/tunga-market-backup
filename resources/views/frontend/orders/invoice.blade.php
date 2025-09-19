@@ -302,9 +302,6 @@
                                             Unit Price</th>
                                         <th
                                             class="border border-secondary-200 px-4 py-3 text-right text-sm font-semibold text-primary">
-                                            Tax Rate</th>
-                                        <th
-                                            class="border border-secondary-200 px-4 py-3 text-right text-sm font-semibold text-primary">
                                             Line Total</th>
                                     </tr>
                                 </thead>
@@ -326,8 +323,6 @@
                                             <td class="border px-4 py-4 text-right font-semibold">
                                                 {{ $item->price }} {{ $order->currency }}
                                             </td>
-                                            <td class="border px-4 py-4 text-right">
-                                                {{ $item->product->taxClass->rate ?? '0%' }}</td>
                                             <td class="border px-4 py-4 text-right font-semibold text-accent">
                                                 {{ number_format($item->price * $item->quantity) }}
                                                 {{ $order->currency }}
@@ -426,7 +421,7 @@
                                             {{ $order->currency }}</span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span class="text-secondary-700">Tax:</span>
+                                        <span class="text-secondary-700">Tax (10%):</span>
                                         <span class="font-semibold">{{ number_format($tax) }}
                                             {{ $order->currency }}</span>
                                     </div>
