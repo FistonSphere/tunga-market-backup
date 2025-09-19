@@ -11,69 +11,35 @@
 
     <!-- Print-specific styles -->
     <style>
+        /* Ensure print keeps design */
         @media print {
             body {
-                margin: 0;
-                padding: 0;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
                 background: white !important;
             }
 
+            /* Landscape layout */
+            @page {
+                size: A4 portrait;
+                margin: 15mm;
+            }
+
+            /* Hide non-print controls */
             .no-print {
                 display: none !important;
             }
 
-            .invoice-container {
+            /* Keep shadows and borders */
+            .shadow-card,
+            .shadow-modal {
                 box-shadow: none !important;
-                margin: 0 !important;
-            }
-
-            .qr-code-container {
-                page-break-inside: avoid;
-            }
-
-            .footer {
-                page-break-inside: avoid;
-            }
-        }
-
-        .qr-code-canvas {
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            background: white;
-        }
-
-        .invoice-table th {
-            background-color: #f8fafc;
-            border-bottom: 2px solid #e5e7eb;
-        }
-
-        .invoice-table tr:nth-child(even) {
-            background-color: #f9fafb;
-        }
-
-        .invoice-header {
-            border-bottom: 3px solid #3b82f6;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-        }
-
-        .total-section {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border: 2px solid #0ea5e9;
-            border-radius: 12px;
-        }
-
-        @media (max-width: 768px) {
-            .invoice-grid {
-                grid-template-columns: 1fr !important;
-            }
-
-            .qr-code-container {
-                text-align: center;
-                margin-top: 1rem;
+                border: 1px solid #ddd !important;
             }
         }
     </style>
+
 
 </head>
 
@@ -112,17 +78,17 @@
                         </svg>
                         Print Invoice
                     </button>
+
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Invoice Document -->
-    <div class="min-h-screen py-8">
+    <div  class="min-h-screen py-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="invoice-container bg-white shadow-modal rounded-lg overflow-hidden">
+            <div id="invoice-container" class="invoice-container bg-white shadow-modal rounded-lg overflow-hidden">
                 <!-- Invoice Header -->
-                {{-- Invoice Header (dynamic) --}}
                 <div class="invoice-header p-8">
                     <div class="grid lg:grid-cols-3 gap-8 items-start">
                         <!-- Company Logo & Info -->
@@ -509,8 +475,9 @@
                                 <div class="bg-primary-50 p-4 rounded-lg border border-primary-200">
                                     <h4 class="font-semibold text-primary mb-2">Track Your Order</h4>
                                     <p class="text-sm text-secondary-700 mb-2">Scan the QR code above or visit:</p>
-                                    <p class="text-sm font-mono text-primary break-all">
-                                        https://tungamarket.com/track/AM2025-789456</p>
+                                    <p class="text-sm font-mono text-accent break-all">
+                                        <a href="{{ route('orders.show', $order->id) }}">Click here</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -521,7 +488,7 @@
                 <div class="footer bg-secondary-800 text-white p-6">
                     <div class="grid md:grid-cols-3 gap-6 text-center md:text-left">
                         <div>
-                            <p class="font-semibold mb-2">Tunga Market Inc.</p>
+                            <p class="font-semibold mb-2">AliMax Commerce Inc.</p>
                             <p class="text-secondary-300 text-sm">Global B2B Commerce Platform</p>
                             <p class="text-secondary-300 text-sm">Est. 2020 • San Francisco, CA</p>
                         </div>
@@ -532,7 +499,7 @@
                         </div>
                         <div>
                             <p class="font-semibold mb-2">Questions?</p>
-                            <p class="text-secondary-300 text-sm">support@tungamarket.com</p>
+                            <p class="text-secondary-300 text-sm">support@alimaxcommerce.com</p>
                             <p class="text-secondary-300 text-sm">+1 (555) 123-4567</p>
                         </div>
                     </div>
@@ -540,7 +507,7 @@
                         <p class="text-secondary-400 text-sm">
                             This invoice was generated on January 26, 2025 at 16:19 UTC •
                             Invoice ID: INV-2025-789456 •
-                            For authentication, verify at: verify.tungamarket.com
+                            For authentication, verify at: verify.alimaxcommerce.com
                         </p>
                     </div>
                 </div>
@@ -550,5 +517,12 @@
 
 
 </body>
+<script>
+      function downloadPDF() {
+        window.print();
+    }
+
+
+</script>
 
 </html>
