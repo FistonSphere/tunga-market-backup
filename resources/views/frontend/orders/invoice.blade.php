@@ -204,58 +204,57 @@
                             <div class="space-y-2">
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Invoice Number:</span>
-                                    <span class="font-semibold text-primary">
-                                        {{ $order->invoice_number ?? $order->generateInvoiceNumber() }}
-                                    </span>
+                                    <span class="font-semibold text-primary">{{ $order->invoice_number ?? '-' }}</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Order Number:</span>
-                                    <span class="font-semibold text-primary">
-                                        #{{ 'AM' . $order->created_at->format('Y') . '-' . str_pad($order->id, 6, '0', STR_PAD_LEFT) }}
-                                    </span>
+                                    <span
+                                        class="font-semibold text-primary">#{{ $order->items->first()->order_no }}</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Invoice Date:</span>
-                                    <span class="font-semibold">
-                                        {{ $order->created_at->format('F d, Y') }}
-                                    </span>
+                                    <span class="font-semibold">{{ $order->created_at->format('F d, Y') }}</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Due Date:</span>
-                                    <span class="font-semibold">
-                                        {{ $order->created_at->copy()->addDays(30)->format('F d, Y') }}
-                                    </span>
+                                    <span
+                                        class="font-semibold">{{ $order->created_at->addDays(30)->format('F d, Y') }}</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Payment Method:</span>
-                                    <span class="font-semibold">
-                                        {{ $order->payment?->method ?? 'N/A' }}
-                                        @if ($order->payment?->card_last4)
-                                            •••• {{ $order->payment->card_last4 }}
-                                        @endif
-                                    </span>
+                                    <span class="font-semibold">{{ $order->payment_method }}</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Currency:</span>
-                                    <span class="font-semibold">{{ $order->currency ?? 'USD ($)' }}</span>
+                                    <span class="font-semibold">{{ $order->currency }}</span>
                                 </div>
                             </div>
                         </div>
+
+
+                        @php
+                            $shipping = $order->shippingAddress; // Assuming relation: Order belongsTo ShippingAddress
+                        @endphp
 
                         <!-- Bill To -->
                         <div>
                             <h2 class="text-xl font-bold text-primary mb-4">Bill To</h2>
                             <div class="space-y-1 text-secondary-700">
-                                <p class="font-semibold text-primary">{{ $order->customer?->name ?? 'N/A' }}</p>
-                                <p class="font-semibold">{{ $order->customer?->company ?? '-' }}</p>
-                                <p>{{ $order->billingAddress?->street ?? '-' }}</p>
-                                <p>{{ $order->billingAddress?->city ?? '' }}
-                                    {{ $order->billingAddress?->postal_code ?? '' }}</p>
-                                <p>{{ $order->billingAddress?->country ?? '' }}</p>
+                                <p class="font-semibold text-primary">{{ $shipping->first_name }}
+                                    {{ $shipping->last_name }}</p>
+                                @if ($shipping->company)
+                                    <p class="font-semibold">{{ $shipping->company }}</p>
+                                @endif
+                                <p>{{ $shipping->address_line1 }}</p>
+                                @if ($shipping->address_line2)
+                                    <p>{{ $shipping->address_line2 }}</p>
+                                @endif
+                                <p>{{ $shipping->city }}, {{ $shipping->state }} {{ $shipping->postal_code }}</p>
+                                <p>{{ $shipping->country }}</p>
+
                                 <p class="mt-3 font-semibold">Contact Information:</p>
-                                <p>Email: {{ $order->customer?->email ?? '-' }}</p>
-                                <p>Phone: {{ $order->customer?->phone ?? '-' }}</p>
-                                <p>Tax ID: {{ $order->customer?->tax_id ?? '-' }}</p>
+                                <p>Email: {{ $order->user->email ?? 'N/A' }}</p>
+                                <p>Phone: {{ $shipping->phone }}</p>
                             </div>
                         </div>
 
@@ -263,17 +262,21 @@
                         <div>
                             <h2 class="text-xl font-bold text-primary mb-4">Ship To</h2>
                             <div class="space-y-1 text-secondary-700">
-                                <p class="font-semibold text-primary">{{ $order->shippingAddress?->company ?? '-' }}
+                                <p class="font-semibold text-primary">
+                                    {{ $shipping->company ?? $shipping->first_name . ' ' . $shipping->last_name }}
                                 </p>
-                                <p>{{ $order->shippingAddress?->recipient ?? '-' }}</p>
-                                <p>{{ $order->shippingAddress?->street ?? '-' }}</p>
-                                <p>{{ $order->shippingAddress?->city ?? '' }}
-                                    {{ $order->shippingAddress?->postal_code ?? '' }}</p>
-                                <p>{{ $order->shippingAddress?->country ?? '' }}</p>
+                                <p>{{ $shipping->address_line1 }}</p>
+                                @if ($shipping->address_line2)
+                                    <p>{{ $shipping->address_line2 }}</p>
+                                @endif
+                                <p>{{ $shipping->city }}, {{ $shipping->state }} {{ $shipping->postal_code }}</p>
+                                <p>{{ $shipping->country }}</p>
+
                                 <p class="mt-3 font-semibold">Delivery Instructions:</p>
-                                <p>{{ $order->shippingAddress?->instructions ?? 'Standard delivery' }}</p>
+                                <p class="text-secondary-600 italic">No delivery instructions provided</p>
                             </div>
                         </div>
+
                     </div>
 
                     <!-- Items Table -->
@@ -283,47 +286,54 @@
                             <table class="invoice-table w-full border-collapse border border-secondary-200">
                                 <thead>
                                     <tr class="bg-surface">
-                                        <th class="border px-4 py-3 text-left text-sm font-semibold text-primary">
+                                        <th
+                                            class="border border-secondary-200 px-4 py-3 text-left text-sm font-semibold text-primary">
                                             Description</th>
-                                        <th class="border px-4 py-3 text-left text-sm font-semibold text-primary">
+                                        <th
+                                            class="border border-secondary-200 px-4 py-3 text-left text-sm font-semibold text-primary">
                                             Supplier</th>
-                                        <th class="border px-4 py-3 text-center text-sm font-semibold text-primary">Qty
-                                        </th>
-                                        <th class="border px-4 py-3 text-right text-sm font-semibold text-primary">Unit
-                                            Price</th>
-                                        <th class="border px-4 py-3 text-right text-sm font-semibold text-primary">Tax
-                                            Rate</th>
-                                        <th class="border px-4 py-3 text-right text-sm font-semibold text-primary">Line
-                                            Total</th>
+                                        <th
+                                            class="border border-secondary-200 px-4 py-3 text-center text-sm font-semibold text-primary">
+                                            Qty</th>
+                                        <th
+                                            class="border border-secondary-200 px-4 py-3 text-right text-sm font-semibold text-primary">
+                                            Unit Price</th>
+                                        <th
+                                            class="border border-secondary-200 px-4 py-3 text-right text-sm font-semibold text-primary">
+                                            Tax Rate</th>
+                                        <th
+                                            class="border border-secondary-200 px-4 py-3 text-right text-sm font-semibold text-primary">
+                                            Line Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($order->items as $item)
                                         <tr>
                                             <td class="border px-4 py-4">
-                                                <p class="font-semibold text-primary">{{ $item->product_name }}</p>
-                                                <p class="text-sm text-secondary-600">SKU: {{ $item->sku ?? '-' }}</p>
+                                                <p class="font-semibold text-primary">{{ $item->product->name }}</p>
+                                                <p class="text-sm text-secondary-600">SKU: {{ $item->product->sku }}
+                                                </p>
+                                                <p class="text-sm text-secondary-600">Qty: {{ $item->quantity }}</p>
                                             </td>
                                             <td class="border px-4 py-4">
                                                 <p class="font-semibold text-primary">
-                                                    {{ $item->supplier_name ?? '-' }}</p>
-                                                <p class="text-sm text-secondary-600">
-                                                    {{ $item->supplier_location ?? '' }}</p>
+                                                    {{ $item->product->brand->name ?? 'Tunga Market Inc.' }}</p>
                                             </td>
                                             <td class="border px-4 py-4 text-center font-semibold">
                                                 {{ $item->quantity }}</td>
                                             <td class="border px-4 py-4 text-right font-semibold">
-                                                {{ number_format($item->unit_price, 2) }}
-                                                {{ $order->currency ?? 'USD' }}
+                                                {{ $item->price }} {{ $order->currency }}
                                             </td>
-                                            <td class="border px-4 py-4 text-right">{{ $item->tax_rate ?? '10%' }}
-                                            </td>
+                                            <td class="border px-4 py-4 text-right">
+                                                {{ $item->product->taxClass->rate ?? '0%' }}</td>
                                             <td class="border px-4 py-4 text-right font-semibold text-accent">
-                                                {{ number_format($item->total, 2) }} {{ $order->currency ?? 'USD' }}
+                                                {{ number_format($item->price * $item->quantity, 2) }}
+                                                {{ $order->currency }}
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
+
                             </table>
                         </div>
                     </div>
@@ -337,24 +347,17 @@
                                 <div class="bg-surface p-4 rounded-lg">
                                     <h4 class="font-semibold text-primary mb-2">Payment Information</h4>
                                     <div class="space-y-1 text-sm">
-                                        <p><span class="text-secondary-600">Method:</span>
-                                            {{ $order->payment?->method ?? '-' }}</p>
-                                        <p><span class="text-secondary-600">Transaction ID:</span>
-                                            {{ $order->payment?->transaction_id ?? '-' }}</p>
-                                        <p><span class="text-secondary-600">Authorization:</span>
-                                            {{ $order->payment?->authorization_code ?? '-' }}</p>
+                                        <p><span class="text-secondary-600">Method:</span> Credit Card (Visa)</p>
+                                        <p><span class="text-secondary-600">Card Number:</span> •••• •••• •••• 4532</p>
+                                        <p><span class="text-secondary-600">Transaction ID:</span> TXN-789456-2025</p>
+                                        <p><span class="text-secondary-600">Authorization:</span> AUTH-987654</p>
                                         <div class="mt-2 flex items-center space-x-2">
-                                            @if ($order->payment?->status === 'paid')
-                                                <svg class="w-4 h-4 text-success" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M5 13l4 4L19 7" />
-                                                </svg>
-                                                <span class="text-success font-semibold text-sm">Payment
-                                                    Verified</span>
-                                            @else
-                                                <span class="text-warning font-semibold text-sm">Pending</span>
-                                            @endif
+                                            <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            <span class="text-success font-semibold text-sm">Payment Verified</span>
                                         </div>
                                     </div>
                                 </div>
@@ -362,12 +365,12 @@
                                 <div class="bg-surface p-4 rounded-lg">
                                     <h4 class="font-semibold text-primary mb-2">Shipping Information</h4>
                                     <div class="space-y-1 text-sm">
-                                        <p><span class="text-secondary-600">Method:</span>
-                                            {{ $order->shipping_method ?? '-' }}</p>
-                                        <p><span class="text-secondary-600">Carrier:</span>
-                                            {{ $order->shipping_carrier ?? '-' }}</p>
-                                        <p><span class="text-secondary-600">Tracking Number:</span>
-                                            {{ $order->tracking_number ?? '-' }}</p>
+                                        <p><span class="text-secondary-600">Method:</span> Express International</p>
+                                        <p><span class="text-secondary-600">Carrier:</span> DHL Express</p>
+                                        <p><span class="text-secondary-600">Service:</span> Door-to-Door</p>
+                                        <p><span class="text-secondary-600">Estimated Delivery:</span> Feb 2-5, 2025
+                                        </p>
+                                        <p><span class="text-secondary-600">Tracking Number:</span> TRK789456123</p>
                                     </div>
                                 </div>
                             </div>
@@ -380,47 +383,102 @@
                                 <div class="space-y-3">
                                     <div class="flex justify-between">
                                         <span class="text-secondary-700">Subtotal:</span>
-                                        <span class="font-semibold">{{ number_format($subtotal, 2) }}
-                                            {{ $order->currency ?? 'USD' }}</span>
+                                        <span class="font-semibold">$2,847.50</span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span class="text-secondary-700">Tax (10%):</span>
-                                        <span class="font-semibold">{{ number_format($tax, 2) }}
-                                            {{ $order->currency ?? 'USD' }}</span>
+                                        <span class="text-secondary-700">Tax (8.5%):</span>
+                                        <span class="font-semibold">$242.04</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-secondary-700">Shipping & Handling:</span>
+                                        <span class="font-semibold">$125.00</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-secondary-700">Insurance:</span>
+                                        <span class="font-semibold">$15.50</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-secondary-600">Processing Fee:</span>
+                                        <span class="font-semibold">$8.50</span>
                                     </div>
                                     <div class="border-t border-secondary-300 pt-3">
                                         <div class="flex justify-between items-center">
                                             <span class="text-xl font-bold text-primary">Total Amount:</span>
-                                            <span
-                                                class="text-2xl font-bold text-accent">{{ number_format($finalTotal, 2) }}
-                                                {{ $order->currency ?? 'USD' }}</span>
+                                            <span class="text-2xl font-bold text-accent">$3,238.54</span>
+                                        </div>
+                                        <div class="text-right text-sm text-secondary-600 mt-1">
+                                            USD (United States Dollar)
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Payment Status -->
-                                <div
-                                    class="mt-4 p-3 {{ $order->payment?->status === 'paid' ? 'bg-success-50 border-success-200' : 'bg-warning-50 border-warning-200' }} border rounded-lg">
+                                <div class="mt-4 p-3 bg-success-50 border border-success-200 rounded-lg">
                                     <div class="flex items-center space-x-2">
-                                        @if ($order->payment?->status === 'paid')
-                                            <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            <span class="font-semibold text-success-700">PAID IN FULL</span>
-                                            <p class="text-success-600 text-sm mt-1">Payment received on
-                                                {{ $order->payment?->updated_at?->format('F d, Y') }}</p>
-                                        @else
-                                            <span class="font-semibold text-warning-700">AWAITING PAYMENT</span>
-                                        @endif
+                                        <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span class="font-semibold text-success-700">PAID IN FULL</span>
                                     </div>
+                                    <p class="text-success-600 text-sm mt-1">Payment received on January 26, 2025</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Information -->
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <!-- Terms & Conditions -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-primary mb-4">Terms & Conditions</h3>
+                            <div class="text-sm text-secondary-700 space-y-2">
+                                <p><strong>Payment Terms:</strong> Payment is due within 30 days of invoice date. Late
+                                    payments may incur additional charges as per our terms of service.</p>
+                                <p><strong>Returns:</strong> Items may be returned within 30 days of delivery in
+                                    original condition. Return shipping costs apply unless item is defective.</p>
+                                <p><strong>Warranty:</strong> All products come with manufacturer warranty as specified
+                                    in product documentation. Extended warranty options available.</p>
+                                <p><strong>Disputes:</strong> Any disputes regarding this invoice should be reported
+                                    within 60 days. Contact our billing department for resolution.</p>
+                                <p><strong>Jurisdiction:</strong> This invoice is governed by the laws of California,
+                                    United States.</p>
+                            </div>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-primary mb-4">Support & Contact</h3>
+                            <div class="space-y-4">
+                                <div class="bg-surface p-4 rounded-lg">
+                                    <h4 class="font-semibold text-primary mb-2">Billing Inquiries</h4>
+                                    <div class="text-sm space-y-1">
+                                        <p>📧 billing@tungamarket.com</p>
+                                        <p>📞 +1 (555) 123-4567 ext. 101</p>
+                                        <p>🕒 Mon-Fri: 9 AM - 6 PM PST</p>
+                                    </div>
+                                </div>
+
+                                <div class="bg-surface p-4 rounded-lg">
+                                    <h4 class="font-semibold text-primary mb-2">Order Support</h4>
+                                    <div class="text-sm space-y-1">
+                                        <p>📧 orders@tungamarket.com</p>
+                                        <p>📞 +1 (555) 123-4567 ext. 102</p>
+                                        <p>💬 Live Chat: Available 24/7</p>
+                                    </div>
+                                </div>
+
+                                <div class="bg-primary-50 p-4 rounded-lg border border-primary-200">
+                                    <h4 class="font-semibold text-primary mb-2">Track Your Order</h4>
+                                    <p class="text-sm text-secondary-700 mb-2">Scan the QR code above or visit:</p>
+                                    <p class="text-sm font-mono text-primary break-all">
+                                        https://tungamarket.com/track/AM2025-789456</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <!-- Invoice Footer -->
                 <div class="footer bg-secondary-800 text-white p-6">
