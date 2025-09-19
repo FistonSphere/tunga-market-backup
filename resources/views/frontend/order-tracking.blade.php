@@ -102,11 +102,8 @@
 
                                             {{-- Supplier --}}
                                             <td class="px-4 py-4 text-sm text-secondary-600">
-                                                {{-- @if ($order->supplier) --}}
                                                     {{ $order->first()->product->brand->name ?? 'Tunga Market Inc.' }}
-                                                {{-- @else
-                                                    Tunga Market
-                                                @endif --}}
+                                                
                                             </td>
 
                                             {{-- Total --}}
