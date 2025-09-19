@@ -78,6 +78,9 @@
 </head>
 
 <body class="bg-secondary-50 text-text-primary">
+    @php
+        $shipping = $order->shippingAddress; // Assuming relation: Order belongsTo ShippingAddress
+    @endphp
     <!-- Print Controls -->
     <div class="no-print bg-white shadow-card sticky top-0 z-50 border-b">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -91,7 +94,8 @@
                         <span>Back to Dashboard</span>
                     </button>
                     <div class="h-4 w-px bg-secondary-300"></div>
-                    <h1 class="text-lg font-semibold text-primary">Professional Invoice</h1>
+                    <h1 class="text-lg font-semibold text-primary">
+                        {{ $shipping->first_name . ' ' . $shipping->last_name }} Invoice</h1>
                 </div>
                 <div class="flex items-center space-x-3">
                     <button onclick="downloadPDF()" class="btn-secondary">
@@ -232,9 +236,7 @@
                         </div>
 
 
-                        @php
-                            $shipping = $order->shippingAddress; // Assuming relation: Order belongsTo ShippingAddress
-                        @endphp
+
 
                         <!-- Bill To -->
                         <div>
@@ -327,7 +329,7 @@
                                             <td class="border px-4 py-4 text-right">
                                                 {{ $item->product->taxClass->rate ?? '0%' }}</td>
                                             <td class="border px-4 py-4 text-right font-semibold text-accent">
-                                                {{ number_format($item->price * $item->quantity, 2) }}
+                                                {{ number_format($item->price * $item->quantity) }}
                                                 {{ $order->currency }}
                                             </td>
                                         </tr>
@@ -356,7 +358,7 @@
                                             <p><span class="text-secondary-600">Transaction ID:</span>
                                                 {{ $order->payment->transaction_id }}</p>
                                             <p><span class="text-secondary-600">Amount:</span>
-                                                {{ number_format($order->payment->amount, 2) }}
+                                                {{ number_format($order->payment->amount) }}
                                                 {{ $order->payment->currency }}</p>
 
                                             @if ($order->payment->status === 'paid')
@@ -420,24 +422,27 @@
                                 <div class="space-y-3">
                                     <div class="flex justify-between">
                                         <span class="text-secondary-700">Subtotal:</span>
-                                        <span class="font-semibold">{{ number_format($order->total, 2) }}
+                                        <span class="font-semibold">{{ number_format($subtotal) }}
                                             {{ $order->currency }}</span>
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-secondary-700">Tax:</span>
-                                        <span class="font-semibold">{{ number_format($order->tax, 2) }}
+                                        <span class="font-semibold">{{ number_format($tax) }}
                                             {{ $order->currency }}</span>
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-secondary-700">Shipping:</span>
-                                        <span class="font-semibold">{{ number_format($order->shipping_fee, 2) }}
-                                            {{ $order->currency }}</span>
+                                        <span class="font-semibold">
+                                            <p class="text-success-600 text-sm mt-1">
+                                                Free
+                                            </p>
+                                        </span>
                                     </div>
                                     <div class="border-t border-secondary-300 pt-3">
                                         <div class="flex justify-between items-center">
                                             <span class="text-xl font-bold text-primary">Total Amount:</span>
                                             <span
-                                                class="text-2xl font-bold text-accent">{{ number_format($order->total, 2) }}
+                                                class="text-2xl font-bold text-accent">{{ number_format($finalTotal) }}
                                                 {{ $order->currency }}</span>
                                         </div>
                                     </div>
