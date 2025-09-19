@@ -94,7 +94,7 @@
                                 </svg>
                                 <span>Invoice</span>
                             </button>
-                            <button onclick="printOrder()"
+                            <button onclick="PrintInvoice({{ $order->id }})"
                                 class="text-secondary-600 hover:text-primary p-2 border border-border rounded-lg transition-fast">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -308,9 +308,9 @@
                                             {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                     1.1.9 2 2 2h18c1.1 0 2-.9
-                                     2-2V6c0-1.1-.9-2-2-2zm0
-                                     12H3V8h18v8z" />
+                                         1.1.9 2 2 2h18c1.1 0 2-.9
+                                         2-2V6c0-1.1-.9-2-2-2zm0
+                                         12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -415,7 +415,7 @@
                             Order Documents
                         </h2>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <button onclick="downloadInvoice()"
                                 class="flex flex-col items-center p-4 border-2 border-dashed border-border rounded-lg hover:border-accent hover:bg-accent-50 transition-fast group">
                                 <svg class="w-8 h-8 text-secondary-400 group-hover:text-accent mb-2" fill="none"
@@ -424,17 +424,6 @@
                                         d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                                 <span class="font-medium text-primary group-hover:text-accent">Invoice</span>
-                                <span class="text-sm text-secondary-600">PDF Download</span>
-                            </button>
-
-                            <button onclick="downloadShippingLabel()"
-                                class="flex flex-col items-center p-4 border-2 border-dashed border-border rounded-lg hover:border-accent hover:bg-accent-50 transition-fast group">
-                                <svg class="w-8 h-8 text-secondary-400 group-hover:text-accent mb-2" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                                </svg>
-                                <span class="font-medium text-primary group-hover:text-accent">Shipping Label</span>
                                 <span class="text-sm text-secondary-600">PDF Download</span>
                             </button>
 
@@ -683,5 +672,9 @@
     function downloadInvoice() {
         const orderId = "{{ $order->id }}";
         window.location.href = `/orders/${orderId}/invoice`;
+    }
+
+    function PrintInvoice(orderId) {
+        window.open(`/orders/${orderId}/invoice?autoPrint=1`, '_blank');
     }
 </script>

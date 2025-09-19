@@ -42,6 +42,13 @@
 
 
 </head>
+@if (request()->has('autoPrint'))
+    <script>
+        window.onload = function() {
+            window.print();
+        }
+    </script>
+@endif
 
 <body class="bg-secondary-50 text-text-primary">
     @php
@@ -85,7 +92,7 @@
     </div>
 
     <!-- Invoice Document -->
-    <div  class="min-h-screen py-8">
+    <div class="min-h-screen py-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div id="invoice-container" class="invoice-container bg-white shadow-modal rounded-lg overflow-hidden">
                 <!-- Invoice Header -->
@@ -488,7 +495,7 @@
                 <div class="footer bg-secondary-800 text-white p-6">
                     <div class="grid md:grid-cols-3 gap-6 text-center md:text-left">
                         <div>
-                            <p class="font-semibold mb-2">AliMax Commerce Inc.</p>
+                            <p class="font-semibold mb-2">Tunga Market Inc.</p>
                             <p class="text-secondary-300 text-sm">Global B2B Commerce Platform</p>
                             <p class="text-secondary-300 text-sm">Est. 2020 • San Francisco, CA</p>
                         </div>
@@ -517,12 +524,11 @@
 
 
 </body>
+
 <script>
-      function downloadInvoicePDF() {
+    function downloadInvoicePDF() {
         window.print();
     }
-
-
 </script>
 
 </html>
