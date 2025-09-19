@@ -118,20 +118,22 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="invoice-container bg-white shadow-modal rounded-lg overflow-hidden">
                 <!-- Invoice Header -->
+                {{-- Invoice Header (dynamic) --}}
                 <div class="invoice-header p-8">
                     <div class="grid lg:grid-cols-3 gap-8 items-start">
                         <!-- Company Logo & Info -->
                         <div class="lg:col-span-2">
                             <div class="flex items-center space-x-4 mb-6">
-                                <img src="{{ asset('assets/images/logo.png') }}"
-                                    style="width: 150px; height: 100px; border-radius: 8px; object-fit: cover;"
-                                    alt="Tunga Market Logo" class="Imglogo text-primary" />
+                                <img src="{{ asset('assets/images/logo.png') }}" alt="Tunga Market Logo"
+                                    class="block rounded-lg" style="width:150px; height:100px; object-fit:cover;" />
+
                                 <div>
-                                    <h1 class="text-3xl font-bold text-primary">Tunga Market</h1>
-                                    <p class="text-secondary-600">Where Business Grows Together</p>
+                                    <h1 class="text-3xl font-bold" style="color:#FF6600;">Tunga Market</h1>
+                                    <p class="text-sm text-gray-600">Where Business Grows Together</p>
                                 </div>
                             </div>
-                            <div class="space-y-1 text-secondary-700">
+
+                            <div class="space-y-1 text-gray-700">
                                 <p class="font-semibold">Tunga Market Inc.</p>
                                 <p>123 Commerce Drive, Suite 500</p>
                                 <p>San Francisco, CA 94107, United States</p>
@@ -143,16 +145,55 @@
 
                         <!-- QR Code for Order Tracking -->
                         <div class="qr-code-container text-center">
-                            <div class="bg-surface p-4 rounded-lg border-2 border-accent-200">
-                                <h3 class="text-sm font-semibold text-primary mb-3">Quick Order Tracking</h3>
-                                <canvas id="qr-code" class="qr-code-canvas mx-auto" width="120"
-                                    height="120"></canvas>
-                                <p class="text-xs text-secondary-600 mt-2">Scan to track your order</p>
-                                <p class="text-xs text-accent font-semibold">#AM2025-789456</p>
+                            <div class="bg-surface p-4 rounded-lg border-2" style="border-color: #E6EEF6;">
+                                <h3 class="text-sm font-semibold" style="color:#001327;">Quick Order Tracking</h3>
+
+                                {{-- QR Code (inline SVG) — works great for browser print and keeps styling intact --}}
+                                <div class="mx-auto my-3" style="width:120px; height:120px;">
+                                    {{-- Make sure you have simplesoftwareio/simple-qrcode package installed --}}
+                                    {{-- The route should point to a public tracking page. Using order.show is fine if accessible. --}}
+                                    {!! QrCode::size(120)->margin(0)->generate(route('orders.show', $order->id)) !!}
+                                </div>
+
+                                <p class="text-xs text-gray-500 mt-2">Scan to view order details</p>
+
+                                {{-- order reference/tracking id (generated on the fly if you don't have an order_no) --}}
+                                @php
+                                    // friendly tracking reference: AM{YEAR}-{zero-padded-order-id}
+                                    $trackingRef =
+                                        'AM' .
+                                        now()->format('Y') .
+                                        '-' .
+                                        str_pad($order->id ?? 0, 6, '0', STR_PAD_LEFT);
+                                @endphp
+                                <p class="text-xs font-semibold" style="color:#FF6600;">
+                                    {{ $order->invoice_number ?? $trackingRef }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Top-right small meta row (invoice + order date) --}}
+                    <div class="mt-6 flex justify-between items-center">
+                        <div>
+                            <div class="text-sm text-gray-600">Invoice Number</div>
+                            <div class="font-semibold text-lg" style="color:#001327;">
+                                {{ $order->invoice_number ?? $order->generateInvoiceNumber() }}
+                            </div>
+                        </div>
+
+                        <div class="text-right">
+                            <div class="text-sm text-gray-600">Order Reference</div>
+                            <div class="font-semibold text-lg" style="color:#001327;">
+                                {{ $order->items->first()->order_no }}
+                            </div>
+
+                            <div class="text-sm text-gray-500 mt-1">
+                                {{ $order->created_at ? $order->created_at->format('F d, Y \a\t h:i A') : now()->format('F d, Y') }}
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <!-- Invoice Details -->
                 <div class="px-8 pb-8">
