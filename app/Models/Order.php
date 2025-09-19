@@ -65,5 +65,12 @@ public function generateInvoiceNumber()
 
         return $this->invoice_number;
     }
+public function totalAmount()
+    {
+        
+        return $this->items->sum(function ($item) {
 
+            return $item->price * $item->quantity;
+        });
+    }
 }

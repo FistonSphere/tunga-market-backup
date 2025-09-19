@@ -344,34 +344,71 @@
                         <div>
                             <h3 class="text-lg font-semibold text-primary mb-4">Payment & Shipping Details</h3>
                             <div class="space-y-4">
+                                <!-- Payment Info -->
                                 <div class="bg-surface p-4 rounded-lg">
                                     <h4 class="font-semibold text-primary mb-2">Payment Information</h4>
-                                    <div class="space-y-1 text-sm">
-                                        <p><span class="text-secondary-600">Method:</span> Credit Card (Visa)</p>
-                                        <p><span class="text-secondary-600">Card Number:</span> •••• •••• •••• 4532</p>
-                                        <p><span class="text-secondary-600">Transaction ID:</span> TXN-789456-2025</p>
-                                        <p><span class="text-secondary-600">Authorization:</span> AUTH-987654</p>
-                                        <div class="mt-2 flex items-center space-x-2">
-                                            <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                            <span class="text-success font-semibold text-sm">Payment Verified</span>
+                                    @if ($order->payment)
+                                        <div class="space-y-1 text-sm">
+                                            <p><span class="text-secondary-600">Method:</span>
+                                                {{ $order->payment->payment_method }}</p>
+                                            <p><span class="text-secondary-600">Account/Card:</span>
+                                                {{ $order->payment->masked_account ?? 'N/A' }}</p>
+                                            <p><span class="text-secondary-600">Transaction ID:</span>
+                                                {{ $order->payment->transaction_id }}</p>
+                                            <p><span class="text-secondary-600">Amount:</span>
+                                                {{ number_format($order->payment->amount, 2) }}
+                                                {{ $order->payment->currency }}</p>
+
+                                            @if ($order->payment->status === 'paid')
+                                                <div class="mt-2 flex items-center space-x-2">
+                                                    <svg class="w-4 h-4 text-success" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                    <span class="text-success font-semibold text-sm">Payment
+                                                        Verified</span>
+                                                </div>
+                                            @else
+                                                <div class="mt-2 flex items-center space-x-2">
+                                                    <svg class="w-4 h-4 text-warning" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M12 8v4m0 4h.01M21 12A9 9 0 113 12a9 9 0 0118 0z" />
+                                                    </svg>
+                                                    <span class="text-warning font-semibold text-sm">Payment
+                                                        {{ ucfirst($order->payment->status) }}</span>
+                                                </div>
+                                            @endif
                                         </div>
-                                    </div>
+                                    @else
+                                        <p class="text-secondary-600 text-sm">No payment details available.</p>
+                                    @endif
                                 </div>
 
+                                <!-- Shipping Info -->
                                 <div class="bg-surface p-4 rounded-lg">
                                     <h4 class="font-semibold text-primary mb-2">Shipping Information</h4>
-                                    <div class="space-y-1 text-sm">
-                                        <p><span class="text-secondary-600">Method:</span> Express International</p>
-                                        <p><span class="text-secondary-600">Carrier:</span> DHL Express</p>
-                                        <p><span class="text-secondary-600">Service:</span> Door-to-Door</p>
-                                        <p><span class="text-secondary-600">Estimated Delivery:</span> Feb 2-5, 2025
-                                        </p>
-                                        <p><span class="text-secondary-600">Tracking Number:</span> TRK789456123</p>
-                                    </div>
+                                    @if ($order->shippingAddress)
+                                        <div class="space-y-1 text-sm">
+                                            <p><span class="text-secondary-600">Recipient:</span>
+                                                {{ $order->shippingAddress->first_name }}
+                                                {{ $order->shippingAddress->last_name }}</p>
+                                            <p><span class="text-secondary-600">Address:</span>
+                                                {{ $order->shippingAddress->address_line1 }}
+                                                {{ $order->shippingAddress->address_line2 ? ', ' . $order->shippingAddress->address_line2 : '' }},
+                                                {{ $order->shippingAddress->city }},
+                                                {{ $order->shippingAddress->state }} -
+                                                {{ $order->shippingAddress->postal_code }}</p>
+                                            <p><span class="text-secondary-600">Country:</span>
+                                                {{ $order->shippingAddress->country }}</p>
+                                            <p><span class="text-secondary-600">Phone:</span>
+                                                {{ $order->shippingAddress->phone }}</p>
+                                        </div>
+                                    @else
+                                        <p class="text-secondary-600 text-sm">No shipping details available.</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -383,50 +420,50 @@
                                 <div class="space-y-3">
                                     <div class="flex justify-between">
                                         <span class="text-secondary-700">Subtotal:</span>
-                                        <span class="font-semibold">$2,847.50</span>
+                                        <span class="font-semibold">{{ number_format($order->subtotal, 2) }}
+                                            {{ $order->currency }}</span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span class="text-secondary-700">Tax (8.5%):</span>
-                                        <span class="font-semibold">$242.04</span>
+                                        <span class="text-secondary-700">Tax:</span>
+                                        <span class="font-semibold">{{ number_format($order->tax, 2) }}
+                                            {{ $order->currency }}</span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span class="text-secondary-700">Shipping & Handling:</span>
-                                        <span class="font-semibold">$125.00</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-secondary-700">Insurance:</span>
-                                        <span class="font-semibold">$15.50</span>
-                                    </div>
-                                    <div class="flex justify-between text-sm">
-                                        <span class="text-secondary-600">Processing Fee:</span>
-                                        <span class="font-semibold">$8.50</span>
+                                        <span class="text-secondary-700">Shipping:</span>
+                                        <span class="font-semibold">{{ number_format($order->shipping_fee, 2) }}
+                                            {{ $order->currency }}</span>
                                     </div>
                                     <div class="border-t border-secondary-300 pt-3">
                                         <div class="flex justify-between items-center">
                                             <span class="text-xl font-bold text-primary">Total Amount:</span>
-                                            <span class="text-2xl font-bold text-accent">$3,238.54</span>
-                                        </div>
-                                        <div class="text-right text-sm text-secondary-600 mt-1">
-                                            USD (United States Dollar)
+                                            <span
+                                                class="text-2xl font-bold text-accent">{{ number_format($order->total, 2) }}
+                                                {{ $order->currency }}</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Payment Status -->
-                                <div class="mt-4 p-3 bg-success-50 border border-success-200 rounded-lg">
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        <span class="font-semibold text-success-700">PAID IN FULL</span>
+                                @if ($order->payment && $order->payment->status === 'paid')
+                                    <div class="mt-4 p-3 bg-success-50 border border-success-200 rounded-lg">
+                                        <div class="flex items-center space-x-2">
+                                            <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <span class="font-semibold text-success-700">PAID IN FULL</span>
+                                        </div>
+                                        <p class="text-success-600 text-sm mt-1">
+                                            Payment received on
+                                            {{ $order->payment->paid_at ? $order->payment->paid_at->format('F d, Y') : 'N/A' }}
+                                        </p>
                                     </div>
-                                    <p class="text-success-600 text-sm mt-1">Payment received on January 26, 2025</p>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
+
 
                     <!-- Additional Information -->
                     <div class="grid lg:grid-cols-2 gap-8">
