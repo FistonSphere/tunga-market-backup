@@ -30,6 +30,7 @@ class OrderDocumentController extends Controller
         $tax = round($subtotal * $taxRate, 2);
         $finalTotal = round($subtotal + $tax, 2);
 
+
         return view('frontend.orders.invoice', compact('order', 'subtotal', 'tax', 'finalTotal', 'taxRate'));
     }
 

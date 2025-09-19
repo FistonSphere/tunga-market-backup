@@ -420,7 +420,7 @@
                                 <div class="space-y-3">
                                     <div class="flex justify-between">
                                         <span class="text-secondary-700">Subtotal:</span>
-                                        <span class="font-semibold">{{ number_format($order->subtotal, 2) }}
+                                        <span class="font-semibold">{{ number_format($order->total, 2) }}
                                             {{ $order->currency }}</span>
                                     </div>
                                     <div class="flex justify-between">
