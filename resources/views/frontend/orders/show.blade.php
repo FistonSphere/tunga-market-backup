@@ -308,9 +308,9 @@
                                             {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                 1.1.9 2 2 2h18c1.1 0 2-.9
-                                 2-2V6c0-1.1-.9-2-2-2zm0
-                                 12H3V8h18v8z" />
+                                     1.1.9 2 2 2h18c1.1 0 2-.9
+                                     2-2V6c0-1.1-.9-2-2-2zm0
+                                     12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -678,5 +678,10 @@
             content.style.display = 'none';
             icon.style.transform = 'rotate(-90deg)';
         }
+    }
+
+    function downloadInvoice() {
+        const orderId = "{{ $order->id }}";
+        window.location.href = `/orders/${orderId}/invoice`;
     }
 </script>
