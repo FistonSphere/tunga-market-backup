@@ -46,9 +46,15 @@
     <script>
         window.onload = function() {
             window.print();
+
+            // Close tab automatically after print finishes
+            window.onafterprint = function() {
+                window.close();
+            };
         }
     </script>
 @endif
+
 
 <body class="bg-secondary-50 text-text-primary">
     @php
