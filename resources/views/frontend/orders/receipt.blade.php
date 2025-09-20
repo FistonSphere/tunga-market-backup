@@ -253,8 +253,8 @@
                                 <div class="text-sm text-secondary-700 space-y-1">
                                     <p>123 Business Park Drive</p>
                                     <p>Suite 200</p>
-                                    <p>San Francisco, CA 94107</p>
-                                    <p>United States</p>
+                                    <p>{{ $shipping->city ?? '' }}, {{ $shipping->state ?? '' }} {{ $shipping->postal_code ?? '' }}</p>
+                                    <p>{{ $shipping->country ?? '' }}</p>
                                 </div>
                             </div>
                         </div>
