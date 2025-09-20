@@ -89,7 +89,7 @@ public function downloadReceipt(Order $order)
     }
 
     $order->load(['items.product', 'shippingAddress', 'user', 'payment']);
-
+$order->generateReceiptNumber();
     $subtotal = $order->items->sum(function ($item) {
         return ($item->price * $item->quantity);
     });

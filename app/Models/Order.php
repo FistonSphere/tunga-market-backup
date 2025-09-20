@@ -74,4 +74,5 @@ public function generateInvoiceNumber()
     return $this->receipt_number;
 }
 
+
 }
