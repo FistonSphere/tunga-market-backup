@@ -308,9 +308,9 @@
                                             {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                         1.1.9 2 2 2h18c1.1 0 2-.9
-                                         2-2V6c0-1.1-.9-2-2-2zm0
-                                         12H3V8h18v8z" />
+                                                 1.1.9 2 2 2h18c1.1 0 2-.9
+                                                 2-2V6c0-1.1-.9-2-2-2zm0
+                                                 12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -649,6 +649,43 @@
                 </div>
             </div>
     </section>
+    <!-- Payment Warning Modal -->
+    <div id="payment-warning-modal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
+
+            <!-- Close Button -->
+            <button onclick="closePaymentWarningModal()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Warning Icon -->
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856C19.07 19 20 18.07 20 16.938V7.062C20 5.93 19.07 5 17.938 5H6.062C4.93 5 4 5.93 4 7.062v9.876C4 18.07 4.93 19 6.062 19z" />
+                </svg>
+            </div>
+
+            <!-- Message -->
+            <h2 class="text-2xl font-bold text-primary mb-3 text-center">Payment Pending</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                You cannot generate a receipt until this order is paid.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button onclick="closePaymentWarningModal()"
+                    class="w-full bg-yellow-500 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Okay, Got It
+                </button>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -673,9 +710,24 @@
         const orderId = "{{ $order->id }}";
         window.location.href = `/orders/${orderId}/invoice`;
     }
+
     function downloadReceipt() {
         const orderId = "{{ $order->id }}";
-        window.location.href = `/orders/${orderId}/receipt`;
+        const orderStatus = "{{ $order->status }}"; // assuming you pass status from backend
+
+        if (orderStatus.toLowerCase() === 'paid') {
+            window.location.href = `/orders/${orderId}/receipt`;
+        } else {
+            openPaymentWarningModal();
+        }
+    }
+
+    function openPaymentWarningModal() {
+        document.getElementById("payment-warning-modal").classList.remove("hidden");
+    }
+
+    function closePaymentWarningModal() {
+        document.getElementById("payment-warning-modal").classList.add("hidden");
     }
 
     function PrintInvoice(orderId) {
