@@ -83,7 +83,7 @@
 </head>
 
 <body class="bg-secondary-50 text-text-primary">
-     @php
+    @php
         $shipping = $order->shippingAddress; // Assuming relation: Order belongsTo ShippingAddress
     @endphp
     <!-- Print Controls -->
@@ -99,7 +99,8 @@
                         <span>Back to Dashboard</span>
                     </button>
                     <div class="h-4 w-px bg-secondary-300"></div>
-                    <h1 class="text-lg font-semibold text-primary">{{ $shipping->first_name . ' ' . $shipping->last_name }} Receipt</h1>
+                    <h1 class="text-lg font-semibold text-primary">
+                        {{ $shipping->first_name . ' ' . $shipping->last_name }} Receipt</h1>
                 </div>
                 <div class="flex items-center space-x-3">
                     <button onclick="downloadPDF()" class="btn-secondary">
@@ -146,7 +147,6 @@
                                 <p>San Francisco, CA 94107, United States</p>
                                 <p>Phone: +1 (555) 123-4567</p>
                                 <p>Email: billing@tungamarket.com</p>
-                                <p>Tax ID: 12-3456789</p>
                             </div>
                         </div>
 
@@ -154,12 +154,19 @@
                         <div class="qr-code-container text-center">
                             <div class="bg-surface p-4 rounded-lg border-2 border-accent-200">
                                 <h3 class="text-sm font-semibold text-primary mb-3">Transaction Verification</h3>
-                                <canvas id="qr-code" class="qr-code-canvas mx-auto" width="100"
-                                    height="100"></canvas>
+
+                                <!-- Dynamic QR Code -->
+                                <canvas id="qr-code" class="qr-code-canvas mx-auto" width="100" height="100"
+                                    data-qrcode="{{ route('orders.show', $order->id) }}">
+                                </canvas>
+
                                 <p class="text-xs text-secondary-600 mt-2">Scan for digital receipt</p>
-                                <p class="text-xs text-accent font-semibold">#TXN-2025-456789</p>
+                                <p class="text-xs text-accent font-semibold">
+                                    #{{ $order->payment->transaction_id ?? 'TXN-' . strtoupper(Str::random(8)) }}
+                                </p>
                             </div>
                         </div>
+
                     </div>
 
                     <!-- Receipt Title & Status -->
@@ -497,201 +504,17 @@
             </div>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <!-- Scripts -->
     <script>
-        // QR Code Generation for Receipt
-        function generateQRCode() {
-            const canvas = document.getElementById('qr-code');
-            const ctx = canvas.getContext('2d');
-
-            // Clear canvas
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, 100, 100);
-
-            // Receipt data for QR code
-            const receiptData = 'https://alimaxcommerce.com/receipt/RCP-2025-456789';
-
-            // Create QR code pattern
-            ctx.fillStyle = '#000000';
-            const cellSize = 3;
-            const margin = 7;
-
-            // Generate pattern based on receipt number
-            const receiptNum = 'RCP2025456789';
-            let seed = 0;
-            for (let i = 0; i < receiptNum.length; i++) {
-                seed += receiptNum.charCodeAt(i);
+        document.addEventListener("DOMContentLoaded", function() {
+            const canvas = document.getElementById("qr-code");
+            if (canvas) {
+                const qrData = canvas.dataset.qrcode;
+                QRCode.toCanvas(canvas, qrData, function(error) {
+                    if (error) console.error(error);
+                });
             }
-
-            // Simple pseudo-random number generator
-            function pseudoRandom(seed) {
-                return ((seed * 9301 + 49297) % 233280) / 233280;
-            }
-
-            // Draw QR-like pattern
-            for (let y = 0; y < 28; y++) {
-                for (let x = 0; x < 28; x++) {
-                    seed++;
-                    if (pseudoRandom(seed) > 0.45) {
-                        ctx.fillRect(
-                            margin + x * cellSize,
-                            margin + y * cellSize,
-                            cellSize,
-                            cellSize
-                        );
-                    }
-                }
-            }
-
-            // Draw finder patterns (corners)
-            const corners = [
-                [0, 0],
-                [0, 22],
-                [22, 0]
-            ];
-            corners.forEach(([cornerX, cornerY]) => {
-                // Outer square
-                ctx.fillRect(margin + cornerX * cellSize, margin + cornerY * cellSize, cellSize * 5, cellSize * 5);
-                // Inner white square
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(margin + (cornerX + 1) * cellSize, margin + (cornerY + 1) * cellSize, cellSize * 3,
-                    cellSize * 3);
-                // Inner black square
-                ctx.fillStyle = '#000000';
-                ctx.fillRect(margin + (cornerX + 2) * cellSize, margin + (cornerY + 2) * cellSize, cellSize * 1,
-                    cellSize * 1);
-            });
-
-            // Add click handler for QR code
-            canvas.style.cursor = 'pointer';
-            canvas.addEventListener('click', function() {
-                openReceiptVerification();
-            });
-        }
-
-        // Open receipt verification when QR code is clicked
-        function openReceiptVerification() {
-            alert(
-                'QR Code Scanned!\n\nAccessing digital receipt...\n\nReceipt: RCP-2025-456789\nTransaction: TXN-2025-456789\nTotal: $147.18\nStatus: Completed');
-
-            // Simulate opening digital receipt page
-            const receiptUrl = 'professional_receipt_template.html#RCP-2025-456789';
-            if (window.opener) {
-                window.opener.location.href = receiptUrl;
-                window.close();
-            } else {
-                // In real implementation, this would open a digital receipt verification page
-                console.log('Opening digital receipt verification page');
-            }
-        }
-
-        // Download PDF functionality
-        function downloadPDF() {
-            // Show download notification
-            const notification = document.createElement('div');
-            notification.className =
-                'fixed top-4 right-4 bg-success text-white p-4 rounded-lg shadow-lg z-50 transition-all duration-300';
-            notification.innerHTML = `
-                <div class="flex items-center space-x-3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <div>
-                        <div class="font-semibold">Receipt Downloaded!</div>
-                        <div class="text-sm opacity-90">RCP-2025-456789.pdf</div>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(notification);
-
-            // Remove notification after 3 seconds
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-
-            console.log('Downloading Receipt PDF: RCP-2025-456789.pdf');
-        }
-
-        // Print optimization
-        function optimizeForPrint() {
-            const style = document.createElement('style');
-            style.textContent = `
-                @media print {
-                    * { -webkit-print-color-adjust: exact; }
-                    .receipt-container { box-shadow: none !important; }
-                    .qr-code-canvas { border: 1px solid #000 !important; }
-                    .total-section { background: #f0f9ff !important; }
-                    .receipt-info-card { background: #fef3c7 !important; }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
-        // Initialize receipt
-        document.addEventListener('DOMContentLoaded', function() {
-            generateQRCode();
-            optimizeForPrint();
-
-            // Handle responsive QR code positioning
-            function handleResize() {
-                const qrContainer = document.querySelector('.qr-code-container');
-                if (window.innerWidth < 768) {
-                    qrContainer.classList.add('text-center', 'mt-4');
-                } else {
-                    qrContainer.classList.remove('mt-4');
-                }
-            }
-
-            window.addEventListener('resize', handleResize);
-            handleResize();
-        });
-
-        // Handle print events
-        window.addEventListener('beforeprint', function() {
-            const canvas = document.getElementById('qr-code');
-            canvas.style.border = '2px solid #000';
-        });
-
-        window.addEventListener('afterprint', function() {
-            const canvas = document.getElementById('qr-code');
-            canvas.style.border = '2px solid #e5e7eb';
-        });
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey || e.metaKey) {
-                switch (e.key) {
-                    case 'p':
-                        e.preventDefault();
-                        window.print();
-                        break;
-                    case 's':
-                        e.preventDefault();
-                        downloadPDF();
-                        break;
-                    case 'q':
-                        e.preventDefault();
-                        openReceiptVerification();
-                        break;
-                }
-            }
-        });
-
-        // Add receipt animation on load
-        window.addEventListener('load', function() {
-            const receiptContainer = document.querySelector('.receipt-container');
-            receiptContainer.style.opacity = '0';
-            receiptContainer.style.transform = 'translateY(20px)';
-
-            setTimeout(() => {
-                receiptContainer.style.transition = 'all 0.6s ease-out';
-                receiptContainer.style.opacity = '1';
-                receiptContainer.style.transform = 'translateY(0)';
-            }, 100);
         });
     </script>
 
