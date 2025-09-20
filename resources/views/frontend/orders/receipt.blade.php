@@ -386,19 +386,26 @@
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-secondary-700">Tax (10%):</span>
-                                        <span class="font-semibold">{{ number_format($tax) }} {{ $order->currency }}</span>
+                                        <span class="font-semibold">{{ number_format($tax) }}
+                                            {{ $order->currency }}</span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span class="text-secondary-700">Processing Fee:</span>
-                                        <span class="font-semibold">$2.99</span>
+                                        <span class="text-secondary-700">Shipping Fee:</span>
+                                        <span class="font-semibold">
+                                            <p class="text-success-600 text-sm mt-1">
+                                                Free
+                                            </p>
+                                        </span>
                                     </div>
                                     <div class="border-t border-secondary-300 pt-2 mt-2">
                                         <div class="flex justify-between items-center">
                                             <span class="text-lg font-bold text-primary">Total Paid:</span>
-                                            <span class="text-xl font-bold text-accent">$147.18</span>
+                                            <span
+                                                class="text-xl font-bold text-accent">{{ number_format($finalTotal) }}
+                                                {{ $order->currency }}</span>
                                         </div>
                                         <div class="text-right text-xs text-secondary-600 mt-1">
-                                            USD (United States Dollar)
+                                            Rwf (Rwandan Francs)
                                         </div>
                                     </div>
                                 </div>
@@ -413,7 +420,7 @@
                                         </svg>
                                         <span class="font-semibold">PAYMENT SUCCESSFUL</span>
                                     </div>
-                                    <p class="text-xs text-secondary-600 mt-1">Confirmation: CNF-456789-2025</p>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -464,8 +471,9 @@
                                 <div class="bg-primary-50 p-3 rounded-lg border border-primary-200">
                                     <h4 class="font-semibold text-primary mb-2">Digital Receipt Access</h4>
                                     <p class="text-sm text-secondary-700 mb-2">Access your digital receipt anytime:</p>
-                                    <p class="text-sm font-mono text-primary break-all">
-                                        https://alimaxcommerce.com/receipt/RCP-2025-456789</p>
+                                    <p class="text-sm font-mono text-accent break-all">
+                                        <a href="{{ url()->current() }}">{{ url()->current() }}</a>
+                                    </p>
                                     <p class="text-xs text-secondary-600 mt-2">Or scan the QR code above</p>
                                 </div>
                             </div>

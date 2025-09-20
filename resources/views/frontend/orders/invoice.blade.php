@@ -482,7 +482,7 @@
                                     <h4 class="font-semibold text-primary mb-2">Track Your Order</h4>
                                     <p class="text-sm text-secondary-700 mb-2">Scan the QR code above or visit:</p>
                                     <p class="text-sm font-mono text-accent break-all">
-                                        <a href="{{ route('orders.show', $order->id) }}">Click here</a>
+                                        <a href="{{ url()->current() }}">{{ url()->current() }}</a>
                                     </p>
                                 </div>
                             </div>
