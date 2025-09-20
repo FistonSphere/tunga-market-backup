@@ -201,15 +201,15 @@
                             <div class="space-y-2">
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Receipt Number:</span>
-                                    <span class="font-semibold text-primary">RCP-2025-456789</span>
+                                    <span class="font-semibold text-primary">{{ $order->receipt_number }}</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Order Number:</span>
-                                    <span class="font-semibold text-primary">#AM2025-456789</span>
+                                    <span class="font-semibold text-primary"># {{ $order->items->first()->order_no }}</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Transaction ID:</span>
-                                    <span class="font-semibold">TXN-2025-456789</span>
+                                    <span class="font-semibold"> {{ $order->payment->transaction_id }}</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Date & Time:</span>

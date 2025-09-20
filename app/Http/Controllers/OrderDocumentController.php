@@ -63,7 +63,7 @@ class OrderDocumentController extends Controller
 
     // Eager load relations
     $order->load(['items.product', 'shippingAddress', 'user', 'payment']);
-
+$order->generateReceiptNumber();
     // Compute totals
     $subtotal = $order->items->sum(function ($item) {
         return ($item->price * $item->quantity);
@@ -89,7 +89,7 @@ public function downloadReceipt(Order $order)
     }
 
     $order->load(['items.product', 'shippingAddress', 'user', 'payment']);
-$order->generateReceiptNumber();
+    
     $subtotal = $order->items->sum(function ($item) {
         return ($item->price * $item->quantity);
     });
