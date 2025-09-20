@@ -575,6 +575,10 @@
                 });
             }
         });
+
+        function downloadPDF() {
+            window.print();
+        }
     </script>
 
 </body>
