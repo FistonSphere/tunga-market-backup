@@ -713,7 +713,7 @@
 
     function downloadReceipt() {
         const orderId = "{{ $order->id }}";
-        const orderStatus = "{{ $order->status }}"; // assuming you pass status from backend
+        const orderStatus = "{{ $order->status }}";
 
         if (orderStatus.toLowerCase() === 'paid') {
             window.location.href = `/orders/${orderId}/receipt`;
