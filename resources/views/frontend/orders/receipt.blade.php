@@ -337,27 +337,27 @@
 
                                     @switch($method)
                                         @case('mtn momo')
-                                            <img src="{{ asset('images/payments/mtn-momo.png') }}" alt="MTN MoMo"
+                                            <img src="{{ asset('assets/images/mtn-momo.png') }}" alt="MTN MoMo"
                                                 class="h-6">
                                         @break
 
                                         @case('airtel money')
-                                            <img src="{{ asset('images/payments/airtel-money.png') }}" alt="Airtel Money"
+                                            <img src="{{ asset('assets/images/airtel-money.png') }}" alt="Airtel Money"
                                                 class="h-6">
                                         @break
 
                                         @case('visa')
-                                            <img src="{{ asset('images/payments/visa.png') }}" alt="Visa"
+                                            <img src="{{ asset('assets/images/visa.png') }}" alt="Visa"
                                                 class="h-8">
                                         @break
 
                                         @case('mastercard')
-                                            <img src="{{ asset('images/payments/mastercard.png') }}" alt="MasterCard"
+                                            <img src="{{ asset('assets/images/mastercard.png') }}" alt="MasterCard"
                                                 class="h-8">
                                         @break
 
                                         @case('irembopay')
-                                            <img src="{{ asset('images/payments/irembopay.png') }}" alt="IremboPay"
+                                            <img src="{{ asset('assets/images/irembopay.png') }}" alt="IremboPay"
                                                 class="h-6">
                                         @break
 
