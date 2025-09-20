@@ -328,51 +328,118 @@
                         <div>
                             <h3 class="text-lg font-semibold text-primary mb-3">Payment Details</h3>
                             <div class="bg-surface p-4 rounded-lg space-y-3">
+
+                                <!-- Payment Method with Logo -->
                                 <div class="flex items-center space-x-3 mb-3">
-                                    <svg class="w-8 h-5 text-primary" fill="currentColor" viewBox="0 0 32 20">
-                                        <rect width="32" height="20" rx="4" fill="#1e40af" />
-                                        <rect x="2" y="2" width="28" height="16" rx="2"
-                                            fill="#3b82f6" />
-                                        <text x="16" y="12" text-anchor="middle"
-                                            class="text-xs fill-white font-bold">VISA</text>
-                                    </svg>
+                                    @php
+                                        $method = strtolower($order->payment->payment_method ?? 'other');
+                                    @endphp
+
+                                    @switch($method)
+                                        @case('mtn momo')
+                                            <img src="{{ asset('images/payments/mtn-momo.png') }}" alt="MTN MoMo"
+                                                class="h-6">
+                                        @break
+
+                                        @case('airtel money')
+                                            <img src="{{ asset('images/payments/airtel-money.png') }}" alt="Airtel Money"
+                                                class="h-6">
+                                        @break
+
+                                        @case('visa')
+                                            <img src="{{ asset('images/payments/visa.png') }}" alt="Visa"
+                                                class="h-8">
+                                        @break
+
+                                        @case('mastercard')
+                                            <img src="{{ asset('images/payments/mastercard.png') }}" alt="MasterCard"
+                                                class="h-8">
+                                        @break
+
+                                        @case('irembopay')
+                                            <img src="{{ asset('images/payments/irembopay.png') }}" alt="IremboPay"
+                                                class="h-6">
+                                        @break
+
+                                        @default
+                                            <svg class="w-8 h-6 text-primary" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 8v4m0 4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
+                                            </svg>
+                                    @endswitch
+
                                     <div>
-                                        <p class="font-semibold text-primary">Visa Credit Card</p>
-                                        <p class="text-sm text-secondary-600">•••• •••• •••• 4532</p>
+                                        <p class="font-semibold text-primary">
+                                            {{ $order->payment->payment_method ?? 'Unknown Method' }}
+                                        </p>
+                                        @if ($order->payment->masked_account)
+                                            <p class="text-sm text-secondary-600">
+                                                {{ $order->payment->masked_account }}
+                                            </p>
+                                        @endif
                                     </div>
                                 </div>
 
+                                <!-- Payment Metadata -->
                                 <div class="border-t border-secondary-200 pt-3 space-y-2 text-sm">
                                     <div class="flex justify-between">
-                                        <span class="text-secondary-600">Card Holder:</span>
-                                        <span class="font-semibold">John Smith</span>
+                                        <span class="text-secondary-600">Transaction ID:</span>
+                                        <span class="font-semibold">{{ $order->payment->transaction_id }}</span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span class="text-secondary-600">Transaction Type:</span>
-                                        <span class="font-semibold">Sale</span>
+                                        <span class="text-secondary-600">Amount Paid:</span>
+                                        <span class="font-semibold text-accent">
+                                            {{ number_format($order->payment->amount, 2) }}
+                                            {{ $order->payment->currency }}
+                                        </span>
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-secondary-600">Payment Gateway:</span>
-                                        <span class="font-semibold">AliMax Secure Pay</span>
+                                        <span class="font-semibold">IremboPay</span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span class="text-secondary-600">Processing Time:</span>
-                                        <span class="font-semibold">2.3 seconds</span>
+                                        <span class="text-secondary-600">Paid At:</span>
+                                        <span class="font-semibold">
+                                            {{ $order->payment->paid_at ? $order->payment->paid_at->format('M d, Y H:i') : '—' }}
+                                        </span>
                                     </div>
                                 </div>
 
-                                <div class="mt-3 p-2 bg-success-50 border border-success-200 rounded">
+                                <!-- Status -->
+                                <div
+                                    class="mt-3 p-2 
+            @if ($order->payment->status === 'paid') bg-success-50 border border-success-200
+            @elseif ($order->payment->status === 'pending')
+                bg-warning-50 border border-warning-200
+            @else 
+                bg-error-50 border border-error-200 @endif
+            rounded">
                                     <div class="flex items-center space-x-2">
-                                        <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4 
+                    @if ($order->payment->status === 'paid') text-success 
+                    @elseif ($order->payment->status === 'pending') text-warning 
+                    @else text-error @endif"
+                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M5 13l4 4L19 7" />
+                                                d="@if ($order->payment->status === 'paid') M5 13l4 4L19 7 
+                             @elseif ($order->payment->status === 'pending') 
+                                M12 8v4m0 4h.01M12 20a8 8 0 100-16 8 8 0 000 16z 
+                             @else 
+                                M6 18L18 6M6 6l12 12 @endif" />
                                         </svg>
-                                        <span class="text-success-700 font-semibold text-sm">Payment Approved</span>
+                                        <span
+                                            class="font-semibold text-sm
+                    @if ($order->payment->status === 'paid') text-success-700 
+                    @elseif ($order->payment->status === 'pending') text-warning-700 
+                    @else text-error-700 @endif">
+                                            {{ strtoupper($order->payment->status) }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- Total Summary -->
                         <div>
@@ -420,7 +487,7 @@
                                         </svg>
                                         <span class="font-semibold">PAYMENT SUCCESSFUL</span>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
