@@ -213,15 +213,12 @@
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Date & Time:</span>
-                                    <span class="font-semibold">Jan 26, 2025 - 4:33 PM</span>
+                                    <span class="font-semibold">{{ $order->payment->paid_at ? $order->payment->paid_at->format('M d, Y') : 'N/A' }} - 
+                                {{ $order->payment->paid_at ? $order->payment->paid_at->format('g:i A') : 'N/A' }}</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Payment Method:</span>
-                                    <span class="font-semibold">Visa •••• 4532</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-secondary-600">Authorization:</span>
-                                    <span class="font-semibold">AUTH-987654</span>
+                                    <span class="font-semibold">{{ $order->payment->payment_method }} {{ $order->payment->masked_account ?? 'N/A' }}</span>
                                 </div>
                             </div>
                         </div>
