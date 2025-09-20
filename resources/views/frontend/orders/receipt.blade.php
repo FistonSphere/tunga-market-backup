@@ -381,11 +381,12 @@
                                 <div class="space-y-2 text-sm">
                                     <div class="flex justify-between">
                                         <span class="text-secondary-700">Subtotal:</span>
-                                        <span class="font-semibold">$132.89</span>
+                                        <span class="font-semibold">{{ number_format($subtotal) }}
+                                            {{ $order->currency }}</span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span class="text-secondary-700">Tax (8.5%):</span>
-                                        <span class="font-semibold">$11.30</span>
+                                        <span class="text-secondary-700">Tax (10%):</span>
+                                        <span class="font-semibold">{{ number_format($tax) }} {{ $order->currency }}</span>
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-secondary-700">Processing Fee:</span>
