@@ -235,15 +235,14 @@
                                     @if ($shipping->first_name && $shipping->last_name)
                                         {{ $shipping->first_name ?? '' }} {{ $shipping->last_name ?? '' }}
                                     @else
-                                       
                                     @endif
                                 </p>
                                 <p class="font-semibold">
                                     @if ($shipping->company)
                                         {{ $shipping->company }}
                                     @else
-                                   
-                                    @endif</p>
+                                    @endif
+                                </p>
                                 <p class="text-sm">Email: {{ $order->user->email ?? '' }}</p>
                                 <p class="text-sm">Phone: {{ $shipping->phone ?? '' }}</p>
                             </div>
@@ -251,9 +250,12 @@
                             <div class="mt-4 pt-3 border-t border-secondary-200">
                                 <h4 class="font-semibold text-primary mb-2">Billing Address</h4>
                                 <div class="text-sm text-secondary-700 space-y-1">
-                                    <p>123 Business Park Drive</p>
-                                    <p>Suite 200</p>
-                                    <p>{{ $shipping->city ?? '' }}, {{ $shipping->state ?? '' }} {{ $shipping->postal_code ?? '' }}</p>
+                                    <p>{{ $shipping->address_line1 ?? '' }}</p>
+                                    @if ($shipping->address_line2)
+                                        <p>{{ $shipping->address_line2 ?? '' }}</p>
+                                    @endif
+                                    <p>{{ $shipping->city ?? '' }}, {{ $shipping->state ?? '' }}
+                                        {{ $shipping->postal_code ?? '' }}</p>
                                     <p>{{ $shipping->country ?? '' }}</p>
                                 </div>
                             </div>
