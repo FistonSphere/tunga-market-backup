@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Professional Receipt - AliMax Commerce</title>
+    <title>Professional Receipt - Tunga Market</title>
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
     <meta name="description"
-        content="Professional receipt template with QR code for transaction verification - Download and print your AliMax Commerce receipt" />
+        content="Professional receipt template with QR code for transaction verification - Download and print your Tunga Market receipt" />
 
     <!-- Print-specific styles -->
     <style>
@@ -83,6 +83,9 @@
 </head>
 
 <body class="bg-secondary-50 text-text-primary">
+     @php
+        $shipping = $order->shippingAddress; // Assuming relation: Order belongsTo ShippingAddress
+    @endphp
     <!-- Print Controls -->
     <div class="no-print bg-white shadow-card sticky top-0 z-50 border-b">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -96,7 +99,7 @@
                         <span>Back to Dashboard</span>
                     </button>
                     <div class="h-4 w-px bg-secondary-300"></div>
-                    <h1 class="text-lg font-semibold text-primary">Professional Receipt</h1>
+                    <h1 class="text-lg font-semibold text-primary">{{ $shipping->first_name . ' ' . $shipping->last_name }} Receipt</h1>
                 </div>
                 <div class="flex items-center space-x-3">
                     <button onclick="downloadPDF()" class="btn-secondary">
@@ -468,7 +471,7 @@
                 <div class="receipt-footer bg-secondary-800 text-white p-4">
                     <div class="grid md:grid-cols-3 gap-4 text-center md:text-left">
                         <div>
-                            <p class="font-semibold mb-1">AliMax Commerce Inc.</p>
+                            <p class="font-semibold mb-1">Tunga Market Inc.</p>
                             <p class="text-secondary-300 text-sm">Global B2B Commerce Platform</p>
                             <p class="text-secondary-300 text-xs">Est. 2020 • San Francisco, CA</p>
                         </div>

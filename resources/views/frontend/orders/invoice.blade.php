@@ -9,7 +9,7 @@
     <meta name="description"
         content="invoice template with QR code for order tracking - Download and print your Tunga Market invoice" />
 
-    <!-- Print-specific styles -->
+    
     <style>
         /* Ensure print keeps design */
         @media print {
