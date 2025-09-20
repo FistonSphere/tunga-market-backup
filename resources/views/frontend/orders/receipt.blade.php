@@ -11,74 +11,60 @@
 
     <!-- Print-specific styles -->
     <style>
+        /* Ensure print keeps design */
         @media print {
             body {
-                margin: 0;
-                padding: 0;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
                 background: white !important;
             }
 
+            /* Page setup */
+            @page {
+                size: A4 portrait;
+                /* Change to landscape if you want */
+                margin: 15mm;
+            }
+
+            /* Hide buttons or non-print controls */
             .no-print {
                 display: none !important;
             }
 
-            .receipt-container {
+            /* Keep borders and shadows */
+            .receipt-container,
+            .receipt-info-card,
+            .total-section,
+            .bg-surface,
+            .shadow-card,
+            .shadow-modal {
                 box-shadow: none !important;
-                margin: 0 !important;
+                border: 1px solid #ddd !important;
+                background: inherit !important;
             }
 
-            .qr-code-container {
-                page-break-inside: avoid;
+            /* Force table borders */
+            .receipt-table th,
+            .receipt-table td {
+                border: 1px solid #ccc !important;
             }
 
+            /* Make QR code & logos print clearly */
+            .qr-code-canvas,
+            img {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* Footer always at bottom */
             .receipt-footer {
-                page-break-inside: avoid;
-            }
-        }
-
-        .qr-code-canvas {
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            background: white;
-        }
-
-        .receipt-table th {
-            background-color: #f8fafc;
-            border-bottom: 2px solid #e5e7eb;
-        }
-
-        .receipt-table tr:nth-child(even) {
-            background-color: #f9fafb;
-        }
-
-        .receipt-header {
-            border-bottom: 3px solid #3b82f6;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-        }
-
-        .total-section {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border: 2px solid #0ea5e9;
-            border-radius: 12px;
-        }
-
-        .receipt-info-card {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border: 2px solid #f59e0b;
-        }
-
-        @media (max-width: 768px) {
-            .receipt-grid {
-                grid-template-columns: 1fr !important;
-            }
-
-            .qr-code-container {
-                text-align: center;
-                margin-top: 1rem;
+                page-break-after: always;
             }
         }
     </style>
+
 
 </head>
 
@@ -110,7 +96,7 @@
                         </svg>
                         Download PDF
                     </button>
-                    <button onclick="printReceipt()"  class="btn-primary">
+                    <button onclick="printReceipt()" class="btn-primary">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
@@ -347,8 +333,7 @@
                                         @break
 
                                         @case('visa')
-                                            <img src="{{ asset('assets/images/visa.png') }}" alt="Visa"
-                                                class="h-8">
+                                            <img src="{{ asset('assets/images/visa.png') }}" alt="Visa" class="h-8">
                                         @break
 
                                         @case('mastercard')
@@ -590,8 +575,6 @@
                 });
             }
         });
-
-        
     </script>
 
 </body>
