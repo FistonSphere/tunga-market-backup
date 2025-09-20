@@ -162,12 +162,12 @@
                                                     </span>
                                                     <span>Unit Price:
                                                         <strong class="text-primary">
-                                                            {{ $order->currency }}{{ number_format($item->price, 2) }}
+                                                            {{ number_format($item->price) }} {{ $order->currency }}
                                                         </strong>
                                                     </span>
                                                 </div>
                                                 <div class="text-lg font-semibold text-accent">
-                                                    {{ $order->currency }}{{ number_format($item->quantity * $item->price, 2) }}
+                                                    {{ number_format($item->quantity * $item->price) }} {{ $order->currency }}
                                                 </div>
                                             </div>
                                         </div>
@@ -181,7 +181,7 @@
                                     <div class="flex justify-between text-secondary-600">
                                         <span>Subtotal:</span>
                                         <span id="subtotal">
-                                            {{ number_format($subtotal, 2) }} {{ $order->currency }}
+                                            {{ number_format($subtotal) }} {{ $order->currency }}
                                         </span>
                                     </div>
                                     <div class="flex justify-between text-secondary-600">
@@ -190,13 +190,13 @@
                                     </div>
                                     <div class="flex justify-between text-secondary-600">
                                         <span>Tax:</span>
-                                        <span id="tax-amount"> {{ number_format($tax, 2) }} {{ $order->currency }}</span>
+                                        <span id="tax-amount"> {{ number_format($tax) }} {{ $order->currency }}</span>
                                     </div>
                                     <div
                                         class="flex justify-between text-lg font-bold text-primary border-t border-border pt-2">
                                         <span>Total:</span>
                                         <span id="final-total">
-                                            {{ number_format($finalTotal, 2) }} {{ $order->currency }}
+                                            {{ number_format($finalTotal) }} {{ $order->currency }}
                                         </span>
                                     </div>
                                 </div>
