@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Professional Receipt - AliMax Commerce</title>
-    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
     <meta name="description"
         content="Professional receipt template with QR code for transaction verification - Download and print your AliMax Commerce receipt" />
 

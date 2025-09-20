@@ -673,6 +673,10 @@
         const orderId = "{{ $order->id }}";
         window.location.href = `/orders/${orderId}/invoice`;
     }
+    function downloadReceipt() {
+        const orderId = "{{ $order->id }}";
+        window.location.href = `/orders/${orderId}/receipt`;
+    }
 
     function PrintInvoice(orderId) {
         window.open(`/orders/${orderId}/invoice?autoPrint=1`, '_blank');
