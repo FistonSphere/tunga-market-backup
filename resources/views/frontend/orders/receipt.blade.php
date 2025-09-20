@@ -307,11 +307,11 @@
                                                 {{ $item->quantity }}
                                             </td>
                                             <td class="border border-secondary-200 px-3 py-3 text-right font-semibold">
-                                                {{ number_format($item->price, 2) }} {{ $order->currency ?? 'RWF' }}
+                                                {{ number_format($item->price) }} {{ $order->currency ?? 'RWF' }}
                                             </td>
                                             <td
                                                 class="border border-secondary-200 px-3 py-3 text-right font-semibold text-accent">
-                                                {{ number_format($item->price * $item->quantity, 2) }}
+                                                {{ number_format($item->price * $item->quantity) }}
                                                 {{ $order->currency ?? 'RWF' }}
                                             </td>
                                         </tr>
