@@ -271,72 +271,54 @@
                                     <tr class="bg-surface">
                                         <th
                                             class="border border-secondary-200 px-3 py-2 text-left font-semibold text-primary">
-                                            Description</th>
+                                            Description
+                                        </th>
                                         <th
                                             class="border border-secondary-200 px-3 py-2 text-center font-semibold text-primary">
-                                            Qty</th>
+                                            Qty
+                                        </th>
                                         <th
                                             class="border border-secondary-200 px-3 py-2 text-right font-semibold text-primary">
-                                            Unit Price</th>
+                                            Unit Price
+                                        </th>
                                         <th
                                             class="border border-secondary-200 px-3 py-2 text-right font-semibold text-primary">
-                                            Total</th>
+                                            Total
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="border border-secondary-200 px-3 py-3">
-                                            <div>
-                                                <p class="font-semibold text-primary">Premium Wireless Earbuds Pro</p>
-                                                <p class="text-xs text-secondary-600">SKU: TechSound-PWE-001</p>
-                                                <p class="text-xs text-secondary-600">Bluetooth 5.3, Noise Cancellation
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td class="border border-secondary-200 px-3 py-3 text-center font-semibold">2
-                                        </td>
-                                        <td class="border border-secondary-200 px-3 py-3 text-right font-semibold">
-                                            $45.50</td>
-                                        <td
-                                            class="border border-secondary-200 px-3 py-3 text-right font-semibold text-accent">
-                                            $91.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border border-secondary-200 px-3 py-3">
-                                            <div>
-                                                <p class="font-semibold text-primary">Smart Home Hub Controller</p>
-                                                <p class="text-xs text-secondary-600">SKU: HomeAuto-SHH-025</p>
-                                                <p class="text-xs text-secondary-600">WiFi 6, Zigbee 3.0, Voice Control
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td class="border border-secondary-200 px-3 py-3 text-center font-semibold">1
-                                        </td>
-                                        <td class="border border-secondary-200 px-3 py-3 text-right font-semibold">
-                                            $22.90</td>
-                                        <td
-                                            class="border border-secondary-200 px-3 py-3 text-right font-semibold text-accent">
-                                            $22.90</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border border-secondary-200 px-3 py-3">
-                                            <div>
-                                                <p class="font-semibold text-primary">Wireless Charging Pad</p>
-                                                <p class="text-xs text-secondary-600">SKU: ChargeMax-WCP-15W</p>
-                                                <p class="text-xs text-secondary-600">15W Fast Charging, Universal
-                                                    Compatible</p>
-                                            </div>
-                                        </td>
-                                        <td class="border border-secondary-200 px-3 py-3 text-center font-semibold">1
-                                        </td>
-                                        <td class="border border-secondary-200 px-3 py-3 text-right font-semibold">
-                                            $18.99</td>
-                                        <td
-                                            class="border border-secondary-200 px-3 py-3 text-right font-semibold text-accent">
-                                            $18.99</td>
-                                    </tr>
+                                    @foreach ($order->items as $item)
+                                        <tr>
+                                            <td class="border border-secondary-200 px-3 py-3">
+                                                <div>
+                                                    <p class="font-semibold text-primary">
+                                                        {{ $item->product->name ?? '' }}</p>
+                                                    <p class="text-xs text-secondary-600">SKU:
+                                                        {{ $item->product->sku ?? '' }}</p>
+                                                    @if (!empty($item->product->short_description))
+                                                        <p class="text-xs text-secondary-600">
+                                                            {{ Str::limit($item->product->short_description, 50) }}</p>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                            <td
+                                                class="border border-secondary-200 px-3 py-3 text-center font-semibold">
+                                                {{ $item->quantity }}
+                                            </td>
+                                            <td class="border border-secondary-200 px-3 py-3 text-right font-semibold">
+                                                {{ number_format($item->price, 2) }} {{ $order->currency ?? 'RWF' }}
+                                            </td>
+                                            <td
+                                                class="border border-secondary-200 px-3 py-3 text-right font-semibold text-accent">
+                                                {{ number_format($item->price * $item->quantity, 2) }}
+                                                {{ $order->currency ?? 'RWF' }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
 
