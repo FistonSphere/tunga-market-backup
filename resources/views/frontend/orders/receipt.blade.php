@@ -185,7 +185,6 @@
                                 <span class="text-sm font-semibold">COMPLETED</span>
                             </div>
                             <p class="text-xs text-secondary-600 mt-1">
-
                                 {{ $order->payment->paid_at ? $order->payment->paid_at->format('F d, Y') : 'N/A' }} - 
                                 {{ $order->payment->paid_at ? $order->payment->paid_at->format('g:i A') : 'N/A' }}
                             </p>
