@@ -65,12 +65,13 @@ public function generateInvoiceNumber()
 
         return $this->invoice_number;
     }
-public function totalAmount()
-    {
-        
-        return $this->items->sum(function ($item) {
-
-            return $item->price * $item->quantity;
-        });
+    public function generateReceiptNumber()
+{
+    if (!$this->receipt_number) {
+        $this->receipt_number = 'RCT-' . date('Y') . '-' . str_pad($this->id, 6, '0', STR_PAD_LEFT);
+        $this->save();
     }
+    return $this->receipt_number;
+}
+
 }
