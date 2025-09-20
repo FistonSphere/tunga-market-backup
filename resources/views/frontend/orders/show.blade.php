@@ -464,10 +464,9 @@
                                     </svg>
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="font-semibold text-primary" id="supplier-name-display">TechSound
-                                        Electronics</h4>
-                                    <p class="text-secondary-600" id="supplier-location-display">Shenzhen, China</p>
-                                    <div class="flex items-center mt-2">
+                                    <h4 class="font-semibold text-primary" id="supplier-name-display">Tunga Market</h4>
+                                    <p class="text-secondary-600" id="supplier-location-display">Kigali, Rwanda</p>
+                                    {{-- <div class="flex items-center mt-2">
                                         <div class="flex items-center">
                                             <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 20 20">
                                                 <path
@@ -476,7 +475,7 @@
                                             <span class="text-sm font-medium text-secondary-600 ml-1">4.8 (1,247
                                                 reviews)</span>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
 
