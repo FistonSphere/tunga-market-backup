@@ -185,7 +185,7 @@
                                 <span class="text-sm font-semibold">COMPLETED</span>
                             </div>
                             <p class="text-xs text-secondary-600 mt-1">
-                                {{ $order->payment->paid_at ? $order->payment->paid_at->format('F d, Y') : 'N/A' }} - 
+                                {{ $order->payment->paid_at ? $order->payment->paid_at->format('F d, Y') : 'N/A' }} -
                                 {{ $order->payment->paid_at ? $order->payment->paid_at->format('g:i A') : 'N/A' }}
                             </p>
                         </div>
@@ -205,7 +205,8 @@
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Order Number:</span>
-                                    <span class="font-semibold text-primary"># {{ $order->items->first()->order_no }}</span>
+                                    <span class="font-semibold text-primary">#
+                                        {{ $order->items->first()->order_no }}</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Transaction ID:</span>
@@ -213,12 +214,15 @@
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Date & Time:</span>
-                                    <span class="font-semibold">{{ $order->payment->paid_at ? $order->payment->paid_at->format('M d, Y') : 'N/A' }} - 
-                                {{ $order->payment->paid_at ? $order->payment->paid_at->format('g:i A') : 'N/A' }}</span>
+                                    <span
+                                        class="font-semibold">{{ $order->payment->paid_at ? $order->payment->paid_at->format('M d, Y') : 'N/A' }}
+                                        -
+                                        {{ $order->payment->paid_at ? $order->payment->paid_at->format('g:i A') : 'N/A' }}</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Payment Method:</span>
-                                    <span class="font-semibold">{{ $order->payment->payment_method }} {{ $order->payment->masked_account ?? 'N/A' }}</span>
+                                    <span class="font-semibold">{{ $order->payment->payment_method }}
+                                        {{ $order->payment->masked_account ?? 'N/A' }}</span>
                                 </div>
                             </div>
                         </div>
@@ -227,7 +231,13 @@
                         <div>
                             <h3 class="text-lg font-bold text-primary mb-3">Customer Information</h3>
                             <div class="space-y-1 text-secondary-700">
-                                <p class="font-semibold text-primary">John Smith</p>
+                                <p class="font-semibold text-primary">
+                                    @if ($shipping->first_name && $shipping->last_name)
+                                        {{ $shipping->first_name }} {{ $shipping->last_name }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </p>
                                 <p class="font-semibold">TechStart Solutions</p>
                                 <p class="text-sm">Customer ID: CUST-789456</p>
                                 <p class="text-sm">Email: john.smith@techstart.com</p>
