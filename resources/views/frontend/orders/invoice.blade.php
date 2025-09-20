@@ -227,7 +227,7 @@
                                 <p>{{ $shipping->country }}</p>
 
                                 <p class="mt-3 font-semibold">Contact Information:</p>
-                                <p>Email: {{ $order->user->email ?? 'N/A' }}</p>
+                                <p>Email: {{ $order->user->email ?? '' }}</p>
                                 <p>Phone: {{ $shipping->phone }}</p>
                             </div>
                         </div>
@@ -321,7 +321,7 @@
                                             <p><span class="text-secondary-600">Method:</span>
                                                 {{ $order->payment->payment_method }}</p>
                                             <p><span class="text-secondary-600">Account/Card:</span>
-                                                {{ $order->payment->masked_account ?? 'N/A' }}</p>
+                                                {{ $order->payment->masked_account ?? '' }}</p>
                                             <p><span class="text-secondary-600">Transaction ID:</span>
                                                 {{ $order->payment->transaction_id }}</p>
                                             <p><span class="text-secondary-600">Amount:</span>
@@ -428,7 +428,7 @@
                                         </div>
                                         <p class="text-success-600 text-sm mt-1">
                                             Payment received on
-                                            {{ $order->payment->paid_at ? $order->payment->paid_at->format('F d, Y') : 'N/A' }}
+                                            {{ $order->payment->paid_at ? $order->payment->paid_at->format('F d, Y') : '' }}
                                         </p>
                                     </div>
                                 @endif
