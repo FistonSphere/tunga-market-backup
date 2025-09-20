@@ -130,19 +130,12 @@
                         <div class="qr-code-container text-center">
                             <div class="bg-surface p-4 rounded-lg border-2" style="border-color: #E6EEF6;">
                                 <h3 class="text-sm font-semibold" style="color:#001327;">Quick Order Tracking</h3>
-
-                                {{-- QR Code (inline SVG) — works great for browser print and keeps styling intact --}}
                                 <div class="mx-auto my-3" style="width:120px; height:120px;">
-                                    {{-- Make sure you have simplesoftwareio/simple-qrcode package installed --}}
-                                    {{-- The route should point to a public tracking page. Using order.show is fine if accessible. --}}
                                     {!! QrCode::size(120)->margin(0)->generate(route('orders.show', $order->id)) !!}
                                 </div>
 
                                 <p class="text-xs text-gray-500 mt-2">Scan to view order details</p>
-
-                                {{-- order reference/tracking id (generated on the fly if you don't have an order_no) --}}
                                 @php
-                                    // friendly tracking reference: AM{YEAR}-{zero-padded-order-id}
                                     $trackingRef =
                                         'AM' .
                                         now()->format('Y') .
