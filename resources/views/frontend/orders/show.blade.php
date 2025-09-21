@@ -409,9 +409,9 @@
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                                                                                                                 1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                                                                                                                 2-2V6c0-1.1-.9-2-2-2zm0
-                                                                                                                                                                 12H3V8h18v8z" />
+                                                                                                                                                                     1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                                                                                                                     2-2V6c0-1.1-.9-2-2-2zm0
+                                                                                                                                                                     12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -1304,5 +1304,168 @@
         }
     }
 
-    
+    document.addEventListener('DOMContentLoaded', () => {
+        const chatWindow = document.getElementById('chatWindow');
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userQuestion');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        // Conversation history
+        const conversationHistory = [];
+
+        // AI personality responses
+        const ai = {
+            greetings: [
+                "Hey there! 👋 How can I help you today?",
+                "Hello! Glad to see you here. Need assistance?",
+                "Hi! What can I do for you today?",
+                "Hey! I'm here to help. Ask me anything!"
+            ],
+            workingHours: [
+                "Our store is open Mon-Fri, 9 AM - 6 PM.",
+                "We operate from 9 in the morning till 6 in the evening, Mon-Fri."
+            ],
+            trackOrder: [
+                "You can track your order in 'My Orders' section.",
+                "Check the 'Orders' page to see your order status."
+            ],
+            returnPolicy: [
+                "You can return items within 30 days of delivery. 🙂",
+                "Returns accepted within 30 days. Just visit our Returns section."
+            ],
+            payment: [
+                "We accept Credit/Debit cards, Mobile Money, and PayPal.",
+                "Payment is easy! Use cards, Mobile Money, or PayPal."
+            ],
+            shipping: [
+                "Free shipping for orders over $50. Delivery: 3-7 days.",
+                "Orders over $50 ship free! Typical delivery 3-7 days."
+            ],
+            discounts: [
+                "Check the 'Deals' section for current discounts.",
+                "We have ongoing offers. Visit our 'Deals' page."
+            ],
+            closing: [
+                "You're welcome! 😊 Have a great day!",
+                "Glad I could help! If you need more assistance, just ask.",
+                "Anytime! Thank you for visiting our store!",
+                "Happy to help! Enjoy your shopping! 🛍️"
+            ],
+            fallback: [
+                "Hmm, I’m not sure about that. You can continue on WhatsApp! 📲",
+                "Sorry, I can't answer that. Let's chat on WhatsApp instead."
+            ]
+        };
+
+        // Initial greeting
+        appendMessage('bot', getRandom(ai.greetings));
+
+        window.toggleChat = function() {
+            chatWindow.classList.toggle('scale-0');
+            chatWindow.classList.toggle('scale-100');
+            chatWindow.classList.toggle('hidden');
+        }
+
+        // Main chat function
+        window.sendQuestion = function() {
+            const q = userInput.value.trim();
+            if (!q) return;
+
+            appendMessage('user', q);
+            conversationHistory.push({
+                sender: 'user',
+                message: q
+            });
+            userInput.value = '';
+
+            typingIndicator.classList.remove('hidden');
+
+            setTimeout(() => {
+                typingIndicator.classList.add('hidden');
+
+                const response = getAIResponse(q.toLowerCase());
+                appendMessage('bot', response);
+                conversationHistory.push({
+                    sender: 'bot',
+                    message: response
+                });
+
+            }, 1200); // Simulate typing
+        }
+
+        // AI response logic
+        function getAIResponse(msg) {
+            // Greetings
+            if (msg.match(/\b(hi|hello|hey|good morning|good afternoon)\b/))
+                return getRandom(ai.greetings);
+
+            // Order related
+            if (msg.includes("track") || msg.includes("order"))
+                return getRandom(ai.trackOrder);
+
+            // Returns
+            if (msg.includes("return") || msg.includes("refund"))
+                return getRandom(ai.returnPolicy);
+
+            // Payment
+            if (msg.includes("payment") || msg.includes("pay"))
+                return getRandom(ai.payment);
+
+            // Shipping
+            if (msg.includes("ship") || msg.includes("delivery"))
+                return getRandom(ai.shipping);
+
+            // Working hours
+            if (msg.includes("hours") || msg.includes("time"))
+                return getRandom(ai.workingHours);
+
+            // Discounts
+            if (msg.includes("discount") || msg.includes("offer"))
+                return getRandom(ai.discounts);
+
+            // Conversation closings
+            if (msg.match(/\b(thanks|thank you|thx|ok|bye|goodbye)\b/))
+                return getRandom(ai.closing);
+
+            // Context-aware follow-up
+            if (msg.includes("again") || msg.includes("more info") || msg.includes("details")) {
+                const lastBotMsg = conversationHistory.slice().reverse().find(c => c.sender === 'bot');
+                if (lastBotMsg) {
+                    if (lastBotMsg.message.includes("order"))
+                    return "Do you want step-by-step instructions on tracking your order?";
+                    if (lastBotMsg.message.includes("return"))
+                    return "Would you like to know the exact return process?";
+                    if (lastBotMsg.message.includes("payment"))
+                    return "Do you want information on all payment options?";
+                    if (lastBotMsg.message.includes("shipping"))
+                    return "I can explain delivery times in detail if you want.";
+                }
+            }
+
+            // Fallback
+            return getRandom(ai.fallback);
+        }
+
+        function appendMessage(sender, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
+            msgDiv.innerHTML =
+                `<div class="inline-block px-3 py-2 rounded-lg max-w-[70%] ${sender === 'user' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-800'}">${text}</div>`;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function getRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        window.sendToWhatsApp = function() {
+            const lastQuestion = [...chatMessages.children].filter(m => m.className.includes('justify-end'))
+                .slice(-1)[0];
+            if (!lastQuestion) return;
+            const text = encodeURIComponent(lastQuestion.innerText);
+            const whatsappLink = `https://wa.me/250787444019?text=${text}`;
+            window.open(whatsappLink, '_blank');
+        }
+    });
 </script>
