@@ -309,9 +309,9 @@
                                             {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                         1.1.9 2 2 2h18c1.1 0 2-.9
-                                                         2-2V6c0-1.1-.9-2-2-2zm0
-                                                         12H3V8h18v8z" />
+                                                             1.1.9 2 2 2h18c1.1 0 2-.9
+                                                             2-2V6c0-1.1-.9-2-2-2zm0
+                                                             12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -729,6 +729,47 @@
                 <button onclick="redirectToContactPage()"
                     class="w-full bg-primary text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
                     Contact Us Page
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reorder Modal -->
+    <div id="reorder-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
+
+            <!-- Close -->
+            <button onclick="closeReorderModal()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Icon -->
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+            </div>
+
+            <!-- Title -->
+            <h2 class="text-2xl font-bold text-primary mb-3 text-center">Reorder Items?</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Do you want to reorder all items from this order? They will be added back to your cart.
+            </p>
+
+            <!-- Actions -->
+            <div class="space-y-3">
+                <button onclick="confirmReorder()"
+                    class="w-full bg-primary text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Yes, Reorder
+                </button>
+                <button onclick="closeReorderModal()"
+                    class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
+                    Cancel
                 </button>
             </div>
         </div>
