@@ -47,6 +47,58 @@
         .animate-progress {
             animation: progressAnim 3.5s linear forwards;
         }
+
+        #chatWindow.scale-0 {
+            transform: scale(0);
+        }
+
+        #chatWindow.scale-100 {
+            transform: scale(1);
+        }
+
+        /* Typing indicator dots */
+        .dot-flashing {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #999;
+            animation: dotFlashing 1s infinite linear alternate;
+        }
+
+        .dot-flashing::after,
+        .dot-flashing::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #999;
+            margin-left: 3px;
+            animation: dotFlashing 1s infinite linear alternate;
+        }
+
+        .dot-flashing::before {
+            animation-delay: 0.2s;
+        }
+
+        .dot-flashing::after {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes dotFlashing {
+            0% {
+                background-color: #999;
+            }
+
+            50% {
+                background-color: #555;
+            }
+
+            100% {
+                background-color: #999;
+            }
+        }
     </style>
     @php
         $orderNo = $order->items->first()->order_no ?? 'N/A';
@@ -355,10 +407,11 @@
                                         <div class="flex items-center space-x-3 mt-1">
                                             {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                                     1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                                     2-2V6c0-1.1-.9-2-2-2zm0
-                                                                                     12H3V8h18v8z" />
+                                                <path
+                                                    d="M21 4H3c-1.1 0-2 .9-2 2v12c0
+                                                                                                                     1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                                                                     2-2V6c0-1.1-.9-2-2-2zm0
+                                                                                                                     12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -574,7 +627,7 @@
                                     <span>Report Issue</span>
                                 </button>
 
-                                <button onclick="writeReview()"
+                                <button onclick="writeReview({{ $item->product->id }})"
                                     class="w-full text-left px-4 py-3 border border-border text-secondary-600 hover:bg-surface hover:text-primary rounded-lg transition-fast flex items-center space-x-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -596,8 +649,8 @@
                             </h3>
 
                             <div class="space-y-3">
-                                <button onclick="contactSupport()"
-                                    class="w-full btn-secondary flex items-center justify-center space-x-2">
+                                <button id="chatBtn" onclick="toggleChat()"
+                                    class="fixed bottom-4 right-4 btn-secondary flex items-center justify-center space-x-2 z-50">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -860,6 +913,110 @@
             </div>
         </div>
     </div>
+
+    <div id="review-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden"
+        style="z-index: 9999999;">
+        <div class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto p-8 relative">
+
+            <!-- Close -->
+            <button onclick="closeReview()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Icon -->
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-yellow-600" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.402 8.172L12 18.896l-7.336 3.86 1.402-8.172L.132 9.21l8.2-1.192z" />
+                </svg>
+            </div>
+
+            <!-- Title -->
+            <h2 class="text-2xl font-bold text-primary mb-3 text-center">Write a Review</h2>
+            <p class="text-body text-secondary-600 mb-6 text-center">
+                Share your feedback about this product.
+            </p>
+
+            <!-- Rating -->
+            <div id="review-rating" class="flex justify-center space-x-2 mb-4">
+                <!-- JS will fill stars -->
+            </div>
+
+            <!-- Comment -->
+            <textarea id="review-comment" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-yellow-300" rows="4"
+                placeholder="Write your review..." style="outline:none; resize:none;"></textarea>
+
+            <!-- Actions -->
+            <div class="space-y-3 mt-6">
+                <button onclick="submitReview()" style="background:#ca8a04;"
+                    class="w-full text-white py-3 rounded-lg font-semibold hover:scale-105 transition">
+                    Submit Review
+                </button>
+                <button onclick="closeReview()"
+                    class="text-secondary-500 hover:text-accent transition w-full font-medium">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Window -->
+    <!-- Floating Chat Button -->
+    <button id="chatBtn" onclick="toggleChat()"
+        class="fixed bottom-6 right-6 bg-primary text-white px-4 py-3 rounded-full shadow-lg flex items-center space-x-2 hover:bg-primary-dark transition-all z-50">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+        <span>Live Chat</span>
+    </button>
+
+    <!-- Chat Window -->
+    <div id="chatWindow"
+        class="hidden fixed bottom-20 right-6 w-80 max-h-[500px] bg-white rounded-xl shadow-2xl flex flex-col z-50 transform scale-0 transition-transform duration-300">
+        <!-- Header -->
+        <div class="bg-primary text-white px-4 py-3 rounded-t-xl flex justify-between items-center">
+            <span class="font-semibold">Support Chat</span>
+            <button onclick="toggleChat()" class="text-white text-lg font-bold">✕</button>
+        </div>
+
+        <!-- Chat Messages -->
+        <div id="chatMessages"
+            class="flex-1 p-4 overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+            <!-- Messages dynamically added here -->
+        </div>
+
+        <!-- Typing Indicator -->
+        <div id="typingIndicator" class="hidden px-4 py-2 text-gray-500 text-sm flex space-x-2">
+            <span>Bot is typing</span>
+            <span class="dot-flashing"></span>
+        </div>
+
+        <!-- Input -->
+        <div class="p-4 border-t border-gray-200 flex flex-col space-y-2">
+            <!-- FAQ Buttons -->
+            <div class="flex flex-wrap gap-2" id="faqButtons">
+                <!-- FAQ buttons dynamically added here -->
+            </div>
+
+            <div class="flex space-x-2">
+                <input id="userQuestion" type="text" placeholder="Type your question..."
+                    class="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+                <button onclick="sendQuestion()"
+                    class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition">Send</button>
+            </div>
+
+            <button id="whatsappBtn" onclick="sendToWhatsApp()"
+                class="flex items-center justify-center space-x-2 mt-2 bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600 transition">
+                <img src="{{ asset('assets/images/WhatsApp.svg') }}" style="height:20px; width:20px;object-fit:cover;"
+                    alt="">
+                <span>Send via WhatsApp</span>
+            </button>
+        </div>
+    </div>
 @endsection
 
 
@@ -1026,7 +1183,7 @@
     }
 
     //report issue
-     const reportIssueUrl = "{{ route('orders.reportIssue', $order->id) }}";
+    const reportIssueUrl = "{{ route('orders.reportIssue', $order->id) }}";
 
     let __currentReportProductId = null;
 
@@ -1089,4 +1246,126 @@
         }
     }
 
+
+    let __currentReviewProductId = null;
+    let __currentRating = 0;
+
+    function writeReview(productId) {
+        __currentReviewProductId = productId;
+        document.getElementById("review-comment").value = "";
+        __currentRating = 0;
+        renderStars();
+        document.getElementById("review-modal").classList.remove("hidden");
+    }
+
+    function closeReview() {
+        document.getElementById("review-modal").classList.add("hidden");
+        __currentReviewProductId = null;
+        __currentRating = 0;
+    }
+
+    // Render stars dynamically
+    function renderStars() {
+        const container = document.getElementById("review-rating");
+        container.innerHTML = "";
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement("span");
+            star.innerHTML = i <= __currentRating ? "⭐" : "☆";
+            star.className = "text-2xl cursor-pointer";
+            star.onclick = () => {
+                __currentRating = i;
+                renderStars();
+            };
+            container.appendChild(star);
+        }
+    }
+
+    async function submitReview() {
+        if (!__currentReviewProductId) {
+            showNotify("error", "No product selected.");
+            return;
+        }
+        if (__currentRating < 1) {
+            showNotify("error", "Please select a rating.");
+            return;
+        }
+
+        const comment = document.getElementById("review-comment").value.trim();
+        try {
+            const res = await fetch(`/products/${__currentReviewProductId}/reviews`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    rating: __currentRating,
+                    comment: comment
+                })
+            });
+
+            const data = await res.json().catch(() => null);
+
+            if (!res.ok) {
+                showNotify("error", data?.message || "Failed to submit review.");
+                return;
+            }
+
+            if (data.success) {
+                closeReview();
+                showNotify("success", data.message);
+            } else {
+                showNotify("error", data.message || "Something went wrong.");
+            }
+        } catch (err) {
+            console.error(err);
+            showNotify("error", "Network error. Please try again.");
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const chatWindow = document.getElementById('chatWindow');
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userQuestion');
+        const whatsappBtn = document.getElementById('whatsappBtn');
+
+        const faq = {
+            "What are your working hours?": "Our working hours are Mon-Fri, 9 AM - 6 PM.",
+            "How can I track my order?": "You can track your order in the 'My Orders' section.",
+            "What is your return policy?": "You can return items within 30 days of delivery."
+        };
+
+        window.toggleChat = function() {
+            chatWindow.classList.toggle('hidden');
+        }
+
+        window.sendQuestion = function() {
+            const question = userInput.value.trim();
+            if (!question) return;
+            appendMessage('user', question);
+            if (faq[question]) appendMessage('bot', faq[question]);
+            else appendMessage('bot',
+                "Our system cannot respond to this question. Please text us via WhatsApp.");
+            userInput.value = '';
+        }
+
+        function appendMessage(sender, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = sender === 'user' ? 'text-right' : 'text-left';
+            msgDiv.innerHTML =
+                `<div class="inline-block px-3 py-2 rounded ${sender === 'user' ? 'bg-primary text-white' : 'bg-gray-100'}">${text}</div>`;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        window.sendToWhatsApp = function() {
+            const lastQuestion = [...chatMessages.children].filter(m => m.className === 'text-right').slice(
+                -1)[0];
+            if (!lastQuestion) return;
+            const text = encodeURIComponent(lastQuestion.innerText);
+            const whatsappLink = `https://wa.me/250787444019?text=${text}`;
+            window.open(whatsappLink, '_blank');
+        }
+    });
 </script>
