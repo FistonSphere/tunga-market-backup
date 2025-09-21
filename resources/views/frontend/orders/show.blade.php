@@ -341,9 +341,9 @@
                                             {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                         1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                         2-2V6c0-1.1-.9-2-2-2zm0
-                                                                         12H3V8h18v8z" />
+                                                                             1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                             2-2V6c0-1.1-.9-2-2-2zm0
+                                                                             12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -914,31 +914,61 @@
 
     // Toast Notification
     function showNotify(type, message) {
-        const colors = {
-            success: "bg-green-500",
-            error: "bg-red-500"
+        const styles = {
+            success: {
+                bg: "bg-green-500",
+                icon: "✔️",
+                title: "Success"
+            },
+            error: {
+                bg: "bg-red-500",
+                icon: "⚠️",
+                title: "Error"
+            }
         };
 
-        // Create container if not exists
         let container = document.getElementById("toast-container");
         if (!container) {
             container = document.createElement("div");
             container.id = "toast-container";
-            container.className = "fixed top-5 right-5 space-y-2 z-50";
+            container.className = "fixed top-5 right-5 space-y-3 z-50 flex flex-col";
             document.body.appendChild(container);
         }
 
-        // Create toast card
+        // Toast wrapper
         const notify = document.createElement("div");
-        notify.className = `${colors[type]} text-white px-4 py-3 rounded shadow-lg w-64 animate-slide-in`;
-        notify.innerText = message;
+        notify.className =
+            `relative flex items-start space-x-3 ${styles[type].bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
 
+        // Icon
+        const icon = document.createElement("span");
+        icon.className = "text-2xl";
+        icon.innerText = styles[type].icon;
+
+        // Content
+        const content = document.createElement("div");
+        content.className = "flex-1";
+        content.innerHTML = `
+            <div class="font-semibold">${styles[type].title}</div>
+            <div class="text-sm opacity-90">${message}</div>
+        `;
+
+        // Progress bar
+        const progress = document.createElement("div");
+        progress.className =
+            "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
+        progress.style.width = "100%";
+
+        // Append
+        notify.appendChild(icon);
+        notify.appendChild(content);
+        notify.appendChild(progress);
         container.appendChild(notify);
 
-        // Auto-remove after 3 seconds
+        // Auto-remove
         setTimeout(() => {
             notify.classList.add("animate-fade-out");
             setTimeout(() => notify.remove(), 500);
-        }, 3000);
+        }, 4000);
     }
 </script>
