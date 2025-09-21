@@ -75,8 +75,12 @@ public function show($orderId)
             'done' => ($order->status === 'Delivered'),
         ],
     ];
-
-    return view('frontend.orders.show', compact('order', 'subtotal', 'tax', 'finalTotal', 'timeline'));
+ $relatedOrders = Order::where('user_id', auth()->id())
+        ->where('id', '!=', $order->id)
+        ->latest()
+        ->take(3)
+        ->get();
+    return view('frontend.orders.show', compact('order', 'subtotal', 'tax', 'finalTotal', 'timeline','relatedOrders'));
 }
 public function reorder(Order $order)
 {

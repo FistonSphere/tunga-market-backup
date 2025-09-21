@@ -409,9 +409,9 @@
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                                                                                                                                 1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                                                                                                                                 2-2V6c0-1.1-.9-2-2-2zm0
-                                                                                                                                                                                 12H3V8h18v8z" />
+                                                                                                                                                                                     1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                                                                                                                                     2-2V6c0-1.1-.9-2-2-2zm0
+                                                                                                                                                                                     12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -685,46 +685,43 @@
                             </h3>
 
                             <div class="space-y-3">
-                                <a href="order_detail_view.html?order=AM2025-456789"
-                                    class="block p-3 border border-border rounded-lg hover:border-accent hover:bg-accent-50 transition-fast">
-                                    <div class="flex justify-between items-center">
-                                        <div>
-                                            <div class="font-semibold text-primary">#AM2025-456789</div>
-                                            <div class="text-sm text-secondary-600">Jan 20, 2025</div>
+                                @forelse($relatedOrders as $relOrder)
+                                    <a href="{{ route('orders.show', $relOrder->id) }}"
+                                        class="block p-3 border border-border rounded-lg hover:border-accent hover:bg-accent-50 transition-fast">
+                                        <div class="flex justify-between items-center">
+                                            <div>
+                                                <div class="font-semibold text-primary">#{{ $relOrder->order_number }}
+                                                </div>
+                                                <div class="text-sm text-secondary-600">
+                                                    {{ $relOrder->created_at->format('M d, Y') }}
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="font-semibold text-accent">
+                                                    {{ number_format($relOrder->total_amount, 2) }} RWF
+                                                </div>
+                                                <span
+                                                    class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+                            @if ($relOrder->status === 'shipped') bg-primary-100 text-primary-800
+                            @elseif($relOrder->status === 'delivered') bg-success-100 text-success-800
+                            @elseif($relOrder->status === 'pending') bg-warning-100 text-warning-800
+                            @else bg-gray-100 text-gray-800 @endif">
+                                                    {{ ucfirst($relOrder->status) }}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div class="text-right">
-                                            <div class="font-semibold text-accent">$1,245.75</div>
-                                            <span
-                                                class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
-                                                Shipped
-                                            </span>
-                                        </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                @empty
+                                    <div class="text-sm text-secondary-500 italic">No related orders found.</div>
+                                @endforelse
 
-                                <a href="order_detail_view.html?order=AM2025-543210"
-                                    class="block p-3 border border-border rounded-lg hover:border-accent hover:bg-accent-50 transition-fast">
-                                    <div class="flex justify-between items-center">
-                                        <div>
-                                            <div class="font-semibold text-primary">#AM2025-543210</div>
-                                            <div class="text-sm text-secondary-600">Jan 10, 2025</div>
-                                        </div>
-                                        <div class="text-right">
-                                            <div class="font-semibold text-accent">$428.90</div>
-                                            <span
-                                                class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
-                                                Delivered
-                                            </span>
-                                        </div>
-                                    </div>
-                                </a>
-
-                                <a href="order_tracking_center.html"
+                                <a href="{{ route('order.tracking') }}"
                                     class="block text-center text-accent hover:text-accent-600 font-semibold text-sm p-3 border-2 border-dashed border-accent rounded-lg transition-fast">
                                     View All Orders
                                 </a>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -1380,13 +1377,13 @@
                 const lastBotMsg = conversationHistory.slice().reverse().find(c => c.sender === 'bot');
                 if (lastBotMsg) {
                     if (lastBotMsg.message.includes("order"))
-                    return "Do you want step-by-step instructions on tracking your order?";
+                        return "Do you want step-by-step instructions on tracking your order?";
                     if (lastBotMsg.message.includes("return"))
-                    return "Would you like to know the exact return process?";
+                        return "Would you like to know the exact return process?";
                     if (lastBotMsg.message.includes("payment"))
-                    return "Do you want information on all payment options?";
+                        return "Do you want information on all payment options?";
                     if (lastBotMsg.message.includes("shipping"))
-                    return "I can explain delivery times in detail if you want.";
+                        return "I can explain delivery times in detail if you want.";
                 }
             }
 
