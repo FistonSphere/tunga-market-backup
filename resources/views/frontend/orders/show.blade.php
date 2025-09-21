@@ -409,9 +409,9 @@
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                                                                                     1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                                                                                     2-2V6c0-1.1-.9-2-2-2zm0
-                                                                                                                                     12H3V8h18v8z" />
+                                                                                                                                                 1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                                                                                                 2-2V6c0-1.1-.9-2-2-2zm0
+                                                                                                                                                 12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -650,12 +650,12 @@
 
                             <div class="space-y-3">
                                 <button id="chatBtn" onclick="toggleChat()"
-                                    class="fixed bottom-4 right-4 btn-secondary flex items-center justify-center space-x-2 z-50">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="fixed bottom-6 right-6 bg-primary text-white px-4 py-3 rounded-full shadow-lg flex items-center space-x-2 hover:bg-primary-dark transition-all z-50">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                     </svg>
-                                    <span>Live Chat Support</span>
+                                    <span>Live Chat</span>
                                 </button>
 
                                 <a href="help_center.html"
@@ -1315,22 +1315,21 @@
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userQuestion');
         const typingIndicator = document.getElementById('typingIndicator');
-        const faqButtonsContainer = document.getElementById('faqButtons');
 
+        // Predefined e-commerce questions
         const faq = {
+            "Hello": "Hi there! Welcome to our store. How can I help you today?",
             "Working hours": "Our working hours are Mon-Fri, 9 AM - 6 PM.",
             "Track order": "You can track your order in the 'My Orders' section.",
-            "Return policy": "You can return items within 30 days of delivery."
+            "Return policy": "You can return items within 30 days of delivery.",
+            "Payment methods": "We accept Credit/Debit Cards, Mobile Money, and PayPal.",
+            "Shipping info": "We offer free shipping for orders over $50. Delivery takes 3-7 days.",
+            "Discounts": "Check our 'Deals' section for ongoing discounts and promotions.",
+            "Contact support": "You can reach our support via WhatsApp if needed."
         };
 
-        // Render FAQ buttons
-        Object.keys(faq).forEach(q => {
-            const btn = document.createElement('button');
-            btn.textContent = q;
-            btn.className = "px-2 py-1 bg-gray-100 rounded hover:bg-gray-200 transition text-sm";
-            btn.onclick = () => sendQuestion(q);
-            faqButtonsContainer.appendChild(btn);
-        });
+        // Display greeting automatically
+        appendMessage('bot', faq["Hello"]);
 
         window.toggleChat = function() {
             chatWindow.classList.toggle('scale-0');
@@ -1345,14 +1344,17 @@
             appendMessage('user', q);
             userInput.value = '';
 
-            // Typing simulation
+            // Simulate typing
             typingIndicator.classList.remove('hidden');
             setTimeout(() => {
                 typingIndicator.classList.add('hidden');
+
                 if (faq[q]) appendMessage('bot', faq[q]);
                 else appendMessage('bot',
-                    "Our system cannot respond to this question. Please text us via WhatsApp.");
+                    "Our system cannot respond to this question. Please continue on WhatsApp.");
             }, 1000);
+
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
         function appendMessage(sender, text) {
