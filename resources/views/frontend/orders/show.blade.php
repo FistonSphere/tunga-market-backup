@@ -959,8 +959,8 @@
 
     <!-- Chat Window -->
     <div id="chatWindow"
-        class="hidden fixed bottom-20 right-6 h-[400px] bg-white rounded-xl shadow-2xl flex flex-col z-50 transform scale-0 transition-transform duration-300"
-        style="width: 23rem;">
+        class="hidden fixed bottom-20 right-6 bg-white rounded-xl shadow-2xl flex flex-col transform scale-0 transition-transform duration-300"
+        style="width: 23rem;height: 30em; z-index: 9999999;">
         <!-- Header -->
         <div class="bg-primary text-white px-4 py-3 rounded-t-xl flex justify-between items-center">
             <span class="font-semibold">Support Chat</span>
