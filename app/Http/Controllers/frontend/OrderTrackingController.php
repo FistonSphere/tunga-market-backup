@@ -82,14 +82,32 @@ public function reorder(Order $order)
 {
     try {
         foreach ($order->items as $item) {
-            DB::table('cart')->insert([
-                'user_id' => auth()->id(),
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-                'price' => $item->price,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            $existingCart = DB::table('carts')
+                ->where('user_id', auth()->id())
+                ->where('product_id', $item->product_id)
+                ->first();
+
+            if ($existingCart) {
+                // Update quantity if already exists
+                DB::table('carts')
+                    ->where('id', $existingCart->id)
+                    ->update([
+                        'quantity'   => $existingCart->quantity + $item->quantity,
+                        'price'      => $item->price, // keep latest price
+                        'updated_at' => now(),
+                    ]);
+            } else {
+                // Insert new record
+                DB::table('carts')->insert([
+                    'user_id'      => auth()->id(),
+                    'product_id'   => $item->product_id,
+                    'quantity'     => $item->quantity,
+                    'price'        => $item->price,
+                    'currency'     => 'Rwf', // default currency for Rwanda
+                    'created_at'   => now(),
+                    'updated_at'   => now(),
+                ]);
+            }
         }
 
         return response()->json(['success' => true]);
@@ -100,6 +118,7 @@ public function reorder(Order $order)
         ]);
     }
 }
+
 
 
 }
