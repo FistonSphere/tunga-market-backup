@@ -48,9 +48,26 @@
             animation: progressAnim 3.5s linear forwards;
         }
     </style>
+
     @php
         $orderNo = $order->items->first()->order_no ?? 'N/A';
     @endphp
+    <script>
+        // Map of products in this order for quick client-side lookup
+        window.orderProducts = {!! json_encode(
+            $order->items->map(function ($item) {
+                $p = $item->product;
+                return [
+                    'product_id' => $p ? $p->id : null,
+                    'name' => $p ? $p->name : 'Unknown product',
+                    'image' => $p && $p->main_image ? asset('storage/' . $p->main_image) : asset('assets/images/no-image.png'),
+                    'sku' => $p ? $p->sku : null,
+                    'order_item_id' => $item->id,
+                ];
+            }),
+        ) !!};
+    </script>
+
     <!-- Breadcrumb Navigation -->
     <section class="bg-surface py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -356,9 +373,9 @@
                                             {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                                 1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                                 2-2V6c0-1.1-.9-2-2-2zm0
-                                                                                 12H3V8h18v8z" />
+                                                                                                 1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                                                 2-2V6c0-1.1-.9-2-2-2zm0
+                                                                                                 12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -812,7 +829,60 @@
             </div>
         </div>
     </div>
-    <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
+    <!-- Report Issue Modal (Reorder-style visual) -->
+    <div id="report-issue-modal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
+
+            <!-- Close -->
+            <button onclick="closeReportIssue()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Icon -->
+            <div class="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M18.364 5.636l-1.414 1.414M5.636 18.364l1.414-1.414M2 12h2M20 12h2M12 2v2M12 20v2" />
+                </svg>
+            </div>
+
+            <!-- Product Info -->
+            <div id="report-issue-product" class="flex items-center space-x-4 mb-4">
+                <img id="report-issue-product-image" src="{{ asset('assets/images/placeholder.png') }}" alt="Product"
+                    class="w-16 h-16 rounded border object-cover">
+                <div>
+                    <div id="report-issue-product-name" class="font-semibold text-primary">Product name</div>
+                    <div id="report-issue-product-sku" class="text-sm text-secondary-600">SKU: —</div>
+                </div>
+            </div>
+
+            <!-- Title -->
+            <h2 class="text-2xl font-bold text-primary mb-3 text-center">Report an Issue</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Tell us what went wrong with this product — our support team will review and contact you.
+            </p>
+
+            <textarea id="report-issue-message" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-amber-300"
+                rows="4" placeholder="Describe the issue (be as detailed as possible)..."></textarea>
+
+            <!-- Actions -->
+            <div class="space-y-3 mt-6">
+                <button onclick="submitReportIssue()"
+                    class="w-full bg-amber-600 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Submit Issue
+                </button>
+                <button onclick="closeReportIssue()"
+                    class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -976,5 +1046,54 @@
             notify.classList.add("animate-fade-out");
             setTimeout(() => notify.remove(), 500);
         }, 4000);
+    }
+
+
+    let currentProductId = null;
+
+    function reportIssue(productId, productName, productImage) {
+        currentProductId = productId;
+        document.getElementById("issue-product-image").src = productImage;
+        document.getElementById("issue-product-name").innerText = productName;
+        document.getElementById("report-issue-modal").classList.remove("hidden");
+    }
+
+    function closeReportIssue() {
+        document.getElementById("report-issue-modal").classList.add("hidden");
+        document.getElementById("issue-message").value = "";
+    }
+
+    function submitReportIssue() {
+        const orderId = "{{ $order->id }}";
+        const message = document.getElementById("issue-message").value;
+
+        if (!message.trim()) {
+            showNotify("error", "Please provide details about the issue.");
+            return;
+        }
+
+        fetch(`/orders/${orderId}/report-issue`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    product_id: currentProductId,
+                    message: message
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    closeReportIssue();
+                    showNotify("success", data.message);
+                } else {
+                    showNotify("error", data.message || "Failed to report issue.");
+                }
+            })
+            .catch(() => {
+                showNotify("error", "Network error. Please try again.");
+            });
     }
 </script>
