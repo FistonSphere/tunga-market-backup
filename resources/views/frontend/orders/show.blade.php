@@ -167,7 +167,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="text-lg font-semibold text-accent">
-                                                    {{ number_format($item->quantity * $item->price) }} {{ $order->currency }}
+                                                    {{ number_format($item->quantity * $item->price) }}
+                                                    {{ $order->currency }}
                                                 </div>
                                             </div>
                                         </div>
@@ -308,9 +309,9 @@
                                             {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                 1.1.9 2 2 2h18c1.1 0 2-.9
-                                                 2-2V6c0-1.1-.9-2-2-2zm0
-                                                 12H3V8h18v8z" />
+                                                         1.1.9 2 2 2h18c1.1 0 2-.9
+                                                         2-2V6c0-1.1-.9-2-2-2zm0
+                                                         12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -492,13 +493,15 @@
                                 </div>
 
                                 <div class="flex space-x-2">
-                                    <button onclick="contactSupplier()" class="flex-1 btn-secondary text-sm flex items-center justify-center group">
-                                        <svg class="w-4 h-4 mr-2 group-hover:text-accent transition-colors duration-200" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
+                                    <button onclick="contactSupplier()"
+                                        class="flex-1 btn-secondary text-sm flex items-center justify-center group">
+                                        <svg class="w-4 h-4 mr-2 group-hover:text-accent transition-colors duration-200"
+                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                         </svg>
-                                        <span class="group-hover:text-accent font-semibold transition-colors duration-200">Contact</span>
+                                        <span
+                                            class="group-hover:text-accent font-semibold transition-colors duration-200">Contact</span>
                                     </button>
                                     <button onclick="viewSupplierProfile()"
                                         class="text-accent hover:text-accent-600 font-semibold text-sm px-4 py-2 border border-accent rounded-lg transition-fast">
@@ -685,6 +688,55 @@
             </div>
         </div>
     </div>
+
+    <!-- Contact Supplier Modal -->
+    <div id="contact-supplier-modal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
+
+            <!-- Close Button -->
+            <button onclick="closeContactSupplierModal()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Chat Icon -->
+            <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+            </div>
+
+            <!-- Title -->
+            <h2 class="text-2xl font-bold text-primary mb-3 text-center">Contact Supplier</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Choose how you’d like to communicate with the supplier.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <!-- WhatsApp -->
+                <button onclick="contactViaWhatsApp()"
+                    class="w-full bg-green-500 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.12.55 4.17 1.6 5.97L0 24l6.21-1.58A11.94 11.94 0 0012 24c6.63 0 12-5.37 12-12 0-3.19-1.24-6.19-3.48-8.52zM12 22c-1.82 0-3.6-.49-5.16-1.42l-.37-.22-3.69.94.99-3.59-.24-.38A9.93 9.93 0 012 12c0-5.51 4.49-10 10-10s10 4.49 10 10-4.49 10-10 10zm5.12-7.65c-.28-.14-1.66-.82-1.92-.91-.26-.1-.45-.14-.64.14-.19.28-.73.91-.9 1.1-.17.19-.34.21-.62.07-.28-.14-1.19-.44-2.26-1.4-.84-.75-1.41-1.68-1.57-1.96-.16-.28-.02-.43.12-.57.12-.12.28-.31.42-.47.14-.16.19-.28.28-.47.09-.19.05-.35-.02-.49-.07-.14-.64-1.54-.88-2.11-.23-.56-.47-.49-.64-.5-.16-.01-.35-.01-.54-.01s-.49.07-.75.35c-.26.28-.99.97-.99 2.36 0 1.39 1.02 2.73 1.16 2.92.14.19 2.01 3.07 4.87 4.3.68.29 1.21.46 1.62.59.68.22 1.29.19 1.77.12.54-.08 1.66-.68 1.89-1.33.23-.65.23-1.2.16-1.33-.07-.13-.26-.21-.54-.35z" />
+                    </svg>
+                    WhatsApp
+                </button>
+
+                <!-- Contact Us Page -->
+                <button onclick="redirectToContactPage()"
+                    class="w-full bg-primary text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Contact Us Page
+                </button>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -731,5 +783,29 @@
 
     function PrintInvoice(orderId) {
         window.open(`/orders/${orderId}/invoice?autoPrint=1`, '_blank');
+    }
+
+    function contactSupplier() {
+        document.getElementById("contact-supplier-modal").classList.remove("hidden");
+    }
+
+    function closeContactSupplierModal() {
+        document.getElementById("contact-supplier-modal").classList.add("hidden");
+    }
+
+    function contactViaWhatsApp() {
+        const orderId = "{{ $order->id }}";
+        const supplierName = "{{ $supplier->name ?? 'Supplier' }}";
+
+        // Template message
+        const message = encodeURIComponent(
+            `Hello ${supplierName},\n\nI am contacting you regarding my order (ID: ${orderId}). Could you please assist me with more details?`
+        );
+
+        window.open(`https://wa.me/250787444019?text=${message}`, "_blank");
+    }
+
+    function redirectToContactPage() {
+        window.location.href = "/contact";
     }
 </script>
