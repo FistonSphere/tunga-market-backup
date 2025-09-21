@@ -409,9 +409,9 @@
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                                                                     1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                                                                     2-2V6c0-1.1-.9-2-2-2zm0
-                                                                                                                     12H3V8h18v8z" />
+                                                                                                                                     1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                                                                                     2-2V6c0-1.1-.9-2-2-2zm0
+                                                                                                                                     12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -964,19 +964,9 @@
     </div>
 
     <!-- Chat Window -->
-    <!-- Floating Chat Button -->
-    <button id="chatBtn" onclick="toggleChat()"
-        class="fixed bottom-6 right-6 bg-primary text-white px-4 py-3 rounded-full shadow-lg flex items-center space-x-2 hover:bg-primary-dark transition-all z-50">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-        <span>Live Chat</span>
-    </button>
-
     <!-- Chat Window -->
     <div id="chatWindow"
-        class="hidden fixed bottom-20 right-6 w-80 max-h-[500px] bg-white rounded-xl shadow-2xl flex flex-col z-50 transform scale-0 transition-transform duration-300">
+        class="hidden fixed bottom-20 right-6 w-80 h-[400px] bg-white rounded-xl shadow-2xl flex flex-col z-50 transform scale-0 transition-transform duration-300">
         <!-- Header -->
         <div class="bg-primary text-white px-4 py-3 rounded-t-xl flex justify-between items-center">
             <span class="font-semibold">Support Chat</span>
@@ -996,24 +986,20 @@
         </div>
 
         <!-- Input -->
-        <div class="p-4 border-t border-gray-200 flex flex-col space-y-2">
-            <!-- FAQ Buttons -->
-            <div class="flex flex-wrap gap-2" id="faqButtons">
-                <!-- FAQ buttons dynamically added here -->
-            </div>
+        <div class="p-4 border-t border-gray-200 flex space-x-2">
+            <input id="userQuestion" type="text" placeholder="Type your question..."
+                class="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+            <button onclick="sendQuestion()"
+                class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition">Send</button>
+        </div>
 
-            <div class="flex space-x-2">
-                <input id="userQuestion" type="text" placeholder="Type your question..."
-                    class="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
-                <button onclick="sendQuestion()"
-                    class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition">Send</button>
-            </div>
-
+        <!-- WhatsApp Button -->
+        <div class="p-4 border-t border-gray-200">
             <button id="whatsappBtn" onclick="sendToWhatsApp()"
-                class="flex items-center justify-center space-x-2 mt-2 bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600 transition">
+                class="flex items-center justify-center space-x-2 bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600 transition w-full">
                 <img src="{{ asset('assets/images/WhatsApp.svg') }}" style="height:20px; width:20px;object-fit:cover;"
                     alt="">
-                <span>Send via WhatsApp</span>
+                <span>Continue on WhatsApp</span>
             </button>
         </div>
     </div>
@@ -1328,40 +1314,59 @@
         const chatWindow = document.getElementById('chatWindow');
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userQuestion');
-        const whatsappBtn = document.getElementById('whatsappBtn');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const faqButtonsContainer = document.getElementById('faqButtons');
 
         const faq = {
-            "What are your working hours?": "Our working hours are Mon-Fri, 9 AM - 6 PM.",
-            "How can I track my order?": "You can track your order in the 'My Orders' section.",
-            "What is your return policy?": "You can return items within 30 days of delivery."
+            "Working hours": "Our working hours are Mon-Fri, 9 AM - 6 PM.",
+            "Track order": "You can track your order in the 'My Orders' section.",
+            "Return policy": "You can return items within 30 days of delivery."
         };
 
+        // Render FAQ buttons
+        Object.keys(faq).forEach(q => {
+            const btn = document.createElement('button');
+            btn.textContent = q;
+            btn.className = "px-2 py-1 bg-gray-100 rounded hover:bg-gray-200 transition text-sm";
+            btn.onclick = () => sendQuestion(q);
+            faqButtonsContainer.appendChild(btn);
+        });
+
         window.toggleChat = function() {
+            chatWindow.classList.toggle('scale-0');
+            chatWindow.classList.toggle('scale-100');
             chatWindow.classList.toggle('hidden');
         }
 
-        window.sendQuestion = function() {
-            const question = userInput.value.trim();
-            if (!question) return;
-            appendMessage('user', question);
-            if (faq[question]) appendMessage('bot', faq[question]);
-            else appendMessage('bot',
-                "Our system cannot respond to this question. Please text us via WhatsApp.");
+        window.sendQuestion = function(question = null) {
+            const q = question || userInput.value.trim();
+            if (!q) return;
+
+            appendMessage('user', q);
             userInput.value = '';
+
+            // Typing simulation
+            typingIndicator.classList.remove('hidden');
+            setTimeout(() => {
+                typingIndicator.classList.add('hidden');
+                if (faq[q]) appendMessage('bot', faq[q]);
+                else appendMessage('bot',
+                    "Our system cannot respond to this question. Please text us via WhatsApp.");
+            }, 1000);
         }
 
         function appendMessage(sender, text) {
             const msgDiv = document.createElement('div');
-            msgDiv.className = sender === 'user' ? 'text-right' : 'text-left';
+            msgDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
             msgDiv.innerHTML =
-                `<div class="inline-block px-3 py-2 rounded ${sender === 'user' ? 'bg-primary text-white' : 'bg-gray-100'}">${text}</div>`;
+                `<div class="inline-block px-3 py-2 rounded-lg max-w-[70%] ${sender === 'user' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-800'}">${text}</div>`;
             chatMessages.appendChild(msgDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
         window.sendToWhatsApp = function() {
-            const lastQuestion = [...chatMessages.children].filter(m => m.className === 'text-right').slice(
-                -1)[0];
+            const lastQuestion = [...chatMessages.children].filter(m => m.className.includes('justify-end'))
+                .slice(-1)[0];
             if (!lastQuestion) return;
             const text = encodeURIComponent(lastQuestion.innerText);
             const whatsappLink = `https://wa.me/250787444019?text=${text}`;
