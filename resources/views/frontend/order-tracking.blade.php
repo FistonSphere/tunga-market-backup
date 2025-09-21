@@ -102,8 +102,8 @@
 
                                             {{-- Supplier --}}
                                             <td class="px-4 py-4 text-sm text-secondary-600">
-                                                    {{ $order->first()->product->brand->name ?? 'Tunga Market Inc.' }}
-                                                
+                                                {{ $order->first()->product->brand->name ?? 'Tunga Market Inc.' }}
+
                                             </td>
 
                                             {{-- Total --}}
@@ -164,22 +164,53 @@
                         </div>
 
                         <!-- Pagination -->
-                        <div class="flex items-center justify-between px-4 py-3 border-t border-border">
-                            <div class="text-sm text-secondary-600">
-                                Showing 1-5 of 23 orders
+                        @if ($orders->hasPages())
+                            <div class="flex items-center justify-between px-4 py-3 border-t border-border">
+                                <div class="text-sm text-secondary-600">
+                                    Showing
+                                    {{ $orders->firstItem() }} - {{ $orders->lastItem() }}
+                                    of {{ $orders->total() }} orders
+                                </div>
+
+                                <div class="flex flex-wrap items-center gap-2">
+                                    {{-- Previous Page --}}
+                                    @if ($orders->onFirstPage())
+                                        <span
+                                            class="px-3 py-1 text-sm border border-border rounded text-gray-400 cursor-not-allowed">Previous</span>
+                                    @else
+                                        <a href="{{ $orders->previousPageUrl() }}"
+                                            class="px-3 py-1 text-sm border border-border rounded hover:bg-surface transition-fast">
+                                            Previous
+                                        </a>
+                                    @endif
+
+                                    {{-- Page Numbers --}}
+                                    @foreach ($orders->links()->elements[0] ?? [] as $page => $url)
+                                        @if ($page == $orders->currentPage())
+                                            <span
+                                                class="px-3 py-1 text-sm bg-accent text-white rounded">{{ $page }}</span>
+                                        @else
+                                            <a href="{{ $url }}"
+                                                class="px-3 py-1 text-sm border border-border rounded hover:bg-surface transition-fast">
+                                                {{ $page }}
+                                            </a>
+                                        @endif
+                                    @endforeach
+
+                                    {{-- Next Page --}}
+                                    @if ($orders->hasMorePages())
+                                        <a href="{{ $orders->nextPageUrl() }}"
+                                            class="px-3 py-1 text-sm border border-border rounded hover:bg-surface transition-fast">
+                                            Next
+                                        </a>
+                                    @else
+                                        <span
+                                            class="px-3 py-1 text-sm border border-border rounded text-gray-400 cursor-not-allowed">Next</span>
+                                    @endif
+                                </div>
                             </div>
-                            <div class="flex flex-wrap items-center gap-2">
-                                <button
-                                    class="px-3 py-1 text-sm border border-border rounded hover:bg-surface transition-fast">Previous</button>
-                                <button class="px-3 py-1 text-sm bg-accent text-white rounded">1</button>
-                                <button
-                                    class="px-3 py-1 text-sm border border-border rounded hover:bg-surface transition-fast">2</button>
-                                <button
-                                    class="px-3 py-1 text-sm border border-border rounded hover:bg-surface transition-fast">3</button>
-                                <button
-                                    class="px-3 py-1 text-sm border border-border rounded hover:bg-surface transition-fast">Next</button>
-                            </div>
-                        </div>
+                        @endif
+
                     </div>
                 </div>
 
@@ -686,9 +717,9 @@
                 container.innerHTML = `
                     <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-secondary-200"></div>
                     ${timeline.map((step, index) => `
-                                                             <div class="flex items-start space-x-4 ${index !== timeline.length - 1 ? 'mb-8' : ''}">
-                                                                 <div class="w-12 h-12 ${step.completed ? 'bg-success' : 'bg-secondary-200'} rounded-full flex items-center justify-center flex-shrink-0">
-                                                                     ${step.completed ? `
+                                                                 <div class="flex items-start space-x-4 ${index !== timeline.length - 1 ? 'mb-8' : ''}">
+                                                                     <div class="w-12 h-12 ${step.completed ? 'bg-success' : 'bg-secondary-200'} rounded-full flex items-center justify-center flex-shrink-0">
+                                                                         ${step.completed ? `
                                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                     </svg>
@@ -697,13 +728,13 @@
                                         <circle cx="12" cy="12" r="3"/>
                                     </svg>
                                 `}
+                                                                     </div>
+                                                                     <div class="flex-1">
+                                                                         <h4 class="font-semibold ${step.completed ? 'text-primary' : 'text-secondary-600'}">${step.status}</h4>
+                                                                         <p class="text-sm ${step.completed ? 'text-success' : 'text-secondary-500'} font-semibold">${step.date}</p>
+                                                                     </div>
                                                                  </div>
-                                                                 <div class="flex-1">
-                                                                     <h4 class="font-semibold ${step.completed ? 'text-primary' : 'text-secondary-600'}">${step.status}</h4>
-                                                                     <p class="text-sm ${step.completed ? 'text-success' : 'text-secondary-500'} font-semibold">${step.date}</p>
-                                                                 </div>
-                                                             </div>
-                                                         `).join('')}
+                                                             `).join('')}
                 `;
             }
 

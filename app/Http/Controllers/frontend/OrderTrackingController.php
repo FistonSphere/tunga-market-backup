@@ -17,7 +17,7 @@ class OrderTrackingController extends Controller
         ->whereHas('order', function ($query) {
             $query->where('user_id', auth()->id());
         })
-        ->get();
+        ->paginate(5);
 
 
        // Logic to show the order tracking page
