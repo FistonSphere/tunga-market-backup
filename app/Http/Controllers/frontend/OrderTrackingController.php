@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderTrackingController extends Controller
 {
@@ -76,6 +77,28 @@ public function show($orderId)
     ];
 
     return view('frontend.orders.show', compact('order', 'subtotal', 'tax', 'finalTotal', 'timeline'));
+}
+public function reorder(Order $order)
+{
+    try {
+        foreach ($order->items as $item) {
+            DB::table('cart')->insert([
+                'user_id' => auth()->id(),
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+                'price' => $item->price,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        return response()->json(['success' => true]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to reorder items. ' . $e->getMessage()
+        ]);
+    }
 }
 
 

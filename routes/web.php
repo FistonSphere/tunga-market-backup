@@ -118,6 +118,7 @@ Route::group(['middleware' => 'auth'], function () {
         }
         return response()->json(['success' => true, 'productId' => $product->id]);
     });
+Route::post('/orders/{order}/reorder', [OrderTrackingController::class, 'reorder'])->name('orders.reorder');
 
 });
 
