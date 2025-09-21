@@ -1,6 +1,38 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        .animate-fade-out {
+            animation: fadeOut 0.5s ease-in forwards;
+        }
+    </style>
     @php
         $orderNo = $order->items->first()->order_no ?? 'N/A';
     @endphp
@@ -309,9 +341,9 @@
                                             {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                 1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                 2-2V6c0-1.1-.9-2-2-2zm0
-                                                                 12H3V8h18v8z" />
+                                                                         1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                         2-2V6c0-1.1-.9-2-2-2zm0
+                                                                         12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -774,6 +806,7 @@
             </div>
         </div>
     </div>
+    <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
 @endsection
 
 
@@ -879,19 +912,33 @@
             });
     }
 
-    // Simple notification popup
+    // Toast Notification
     function showNotify(type, message) {
         const colors = {
             success: "bg-green-500",
             error: "bg-red-500"
         };
 
+        // Create container if not exists
+        let container = document.getElementById("toast-container");
+        if (!container) {
+            container = document.createElement("div");
+            container.id = "toast-container";
+            container.className = "fixed top-5 right-5 space-y-2 z-50";
+            document.body.appendChild(container);
+        }
+
+        // Create toast card
         const notify = document.createElement("div");
-        notify.className = `${colors[type]} text-white px-4 py-2 rounded fixed top-5 right-5 shadow-lg z-50`;
+        notify.className = `${colors[type]} text-white px-4 py-3 rounded shadow-lg w-64 animate-slide-in`;
         notify.innerText = message;
 
-        document.body.appendChild(notify);
+        container.appendChild(notify);
 
-        setTimeout(() => notify.remove(), 3000);
+        // Auto-remove after 3 seconds
+        setTimeout(() => {
+            notify.classList.add("animate-fade-out");
+            setTimeout(() => notify.remove(), 500);
+        }, 3000);
     }
 </script>
