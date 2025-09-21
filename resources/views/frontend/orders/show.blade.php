@@ -1323,7 +1323,7 @@
             trackOrder: ["You can track your order in 'My Orders' section."],
             returnPolicy: ["You can return items within 30 days of delivery."],
             payment: ["We accept Credit/Debit cards, Mobile Money, and Airtel Money."],
-            shipping: ["Free shipping for orders over $50. Delivery: 3-7 days."],
+            shipping: ["Free shipping for all orders. Delivery: 30 min - 7 days."],
             discounts: ["Check the 'Deals' section for current discounts."],
             closing: [
                 "You're welcome! 😊 Have a great day!",
