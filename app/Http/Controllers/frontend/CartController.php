@@ -33,7 +33,7 @@ class CartController extends Controller
     // Example: Tax calculation (7.2%)
     $tax = ($subtotal) * 0.1;
 
-    $total = $subtotal - $bulkDiscount + $tax;
+    $total = $subtotal + $tax;
     $featureProducts= Product::where('status', 'active')
         ->inRandomOrder()
         ->take(4)
