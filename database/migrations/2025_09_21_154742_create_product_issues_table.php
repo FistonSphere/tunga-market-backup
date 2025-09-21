@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product_issues', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+             $table->id();
+        $table->foreignId('order_id')->constrained()->onDelete('cascade');
+        $table->foreignId('product_id')->constrained()->onDelete('cascade');
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->text('message');
+        $table->enum('status', ['pending', 'resolved'])->default('pending');
+        $table->timestamps();
         });
     }
 
