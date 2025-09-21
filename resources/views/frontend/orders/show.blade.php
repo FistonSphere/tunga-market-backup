@@ -574,15 +574,6 @@
                                     <span>Reorder Items</span>
                                 </button>
 
-                                <button onclick="initiateReturn()"
-                                    class="w-full btn-secondary flex items-center justify-center space-x-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-                                    </svg>
-                                    <span>Return Items</span>
-                                </button>
-
                                 <button onclick="reportIssue()"
                                     class="w-full text-left px-4 py-3 border border-warning text-warning hover:bg-warning-50 rounded-lg transition-fast flex items-center space-x-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
