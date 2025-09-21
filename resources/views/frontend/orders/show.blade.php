@@ -409,9 +409,9 @@
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                                                                                                 1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                                                                                                 2-2V6c0-1.1-.9-2-2-2zm0
-                                                                                                                                                 12H3V8h18v8z" />
+                                                                                                                                                         1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                                                                                                         2-2V6c0-1.1-.9-2-2-2zm0
+                                                                                                                                                         12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -650,7 +650,7 @@
 
                             <div class="space-y-3">
                                 <button id="chatBtn" onclick="toggleChat()"
-                                    class="fixed bottom-6 right-6 bg-primary text-white px-4 py-3 rounded-full shadow-lg flex items-center space-x-2 hover:bg-primary-dark transition-all z-50">
+                                    class="w-full text-center px-4 py-3 border border-border text-white hover:bg-secondary hover:text-white rounded-lg transition-fast flex items-center justify-center space-x-2 bg-secondary">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -658,7 +658,7 @@
                                     <span>Live Chat</span>
                                 </button>
 
-                                <a href="help_center.html"
+                                <a href="{{ route('help.center') }}"
                                     class="w-full text-center px-4 py-3 border border-border text-secondary-600 hover:bg-surface hover:text-primary rounded-lg transition-fast flex items-center justify-center space-x-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -871,14 +871,14 @@
                 </svg>
             </button>
 
-            <!-- Icon -->
-            <div class="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M18.364 5.636l-1.414 1.414M5.636 18.364l1.414-1.414M2 12h2M20 12h2M12 2v2M12 20v2" />
-                </svg>
-            </div>
 
+
+
+            <!-- Title -->
+            <h2 class="text-2xl font-bold text-primary mb-3 text-center">Report an Issue</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Tell us what went wrong with this product, our support team will review and contact you.
+            </p>
             <!-- Product Info -->
             @foreach ($order->items as $item)
                 <div id="report-issue-product" class="flex items-center space-x-4 mb-4">
@@ -890,12 +890,6 @@
                     </div>
                 </div>
             @endforeach
-            <!-- Title -->
-            <h2 class="text-2xl font-bold text-primary mb-3 text-center">Report an Issue</h2>
-            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
-                Tell us what went wrong with this product, our support team will review and contact you.
-            </p>
-
             <textarea id="report-issue-message" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-amber-300"
                 rows="4" placeholder="Describe the issue (be as detailed as possible)..."
                 style="outline:none; resize:none;"></textarea>
@@ -964,9 +958,9 @@
     </div>
 
     <!-- Chat Window -->
-    <!-- Chat Window -->
     <div id="chatWindow"
-        class="hidden fixed bottom-20 right-6 w-80 h-[400px] bg-white rounded-xl shadow-2xl flex flex-col z-50 transform scale-0 transition-transform duration-300">
+        class="hidden fixed bottom-20 right-6 h-[400px] bg-white rounded-xl shadow-2xl flex flex-col z-50 transform scale-0 transition-transform duration-300"
+        style="    width: 23rem;">
         <!-- Header -->
         <div class="bg-primary text-white px-4 py-3 rounded-t-xl flex justify-between items-center">
             <span class="font-semibold">Support Chat</span>
