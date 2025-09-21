@@ -5,6 +5,7 @@ namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\ProductIssue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +19,6 @@ class OrderTrackingController extends Controller
     })
     ->get();
 
-// dd($orders);
 
        // Logic to show the order tracking page
        return view('frontend.order-tracking',[
@@ -119,6 +119,28 @@ public function reorder(Order $order)
     }
 }
 
+public function reportIssue(Request $request, $orderId)
+{
+    $request->validate([
+        'product_id' => 'required|exists:products,id',
+        'message' => 'required|string|max:1000',
+    ]);
+
+    $order = Order::findOrFail($orderId);
+
+    $issue = ProductIssue::create([
+        'order_id' => $order->id,
+        'product_id' => $request->product_id,
+        'user_id' => auth()->id(),
+        'message' => $request->message,
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Your issue has been reported successfully!',
+        'issue' => $issue
+    ]);
+}
 
 
 }
