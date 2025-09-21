@@ -409,9 +409,9 @@
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                                                                                                         1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                                                                                                         2-2V6c0-1.1-.9-2-2-2zm0
-                                                                                                                                                         12H3V8h18v8z" />
+                                                                                                                                                             1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                                                                                                             2-2V6c0-1.1-.9-2-2-2zm0
+                                                                                                                                                             12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -1310,20 +1310,24 @@
         const userInput = document.getElementById('userQuestion');
         const typingIndicator = document.getElementById('typingIndicator');
 
-        // Predefined e-commerce questions
-        const faq = {
-            "Hello": "Hi there! Welcome to our store. How can I help you today?",
-            "Working hours": "Our working hours are Mon-Fri, 9 AM - 6 PM.",
-            "Track order": "You can track your order in the 'My Orders' section.",
-            "Return policy": "You can return items within 30 days of delivery.",
-            "Payment methods": "We accept Credit/Debit Cards, Mobile Money, and PayPal.",
-            "Shipping info": "We offer free shipping for orders over $50. Delivery takes 3-7 days.",
-            "Discounts": "Check our 'Deals' section for ongoing discounts and promotions.",
-            "Contact support": "You can reach our support via WhatsApp if needed."
+        // AI-like responses
+        const responses = {
+            greetings: [
+                "Hi there! How can I assist you today?",
+                "Hello! Need help with something?",
+                "Hey! I'm here to help you.",
+                "Hi! What can I do for you today?"
+            ],
+            workingHours: "Our working hours are Mon-Fri, 9 AM - 6 PM.",
+            trackOrder: "You can track your order in the 'My Orders' section.",
+            returnPolicy: "You can return items within 30 days of delivery.",
+            payment: "We accept Credit/Debit Cards, Mobile Money, and PayPal.",
+            shipping: "Free shipping on orders over $50. Delivery usually takes 3-7 days.",
+            discounts: "Check our 'Deals' section for ongoing discounts and promotions."
         };
 
-        // Display greeting automatically
-        appendMessage('bot', faq["Hello"]);
+        // Show initial greeting
+        appendMessage('bot', getRandom(responses.greetings));
 
         window.toggleChat = function() {
             chatWindow.classList.toggle('scale-0');
@@ -1331,8 +1335,8 @@
             chatWindow.classList.toggle('hidden');
         }
 
-        window.sendQuestion = function(question = null) {
-            const q = question || userInput.value.trim();
+        window.sendQuestion = function() {
+            const q = userInput.value.trim();
             if (!q) return;
 
             appendMessage('user', q);
@@ -1343,9 +1347,33 @@
             setTimeout(() => {
                 typingIndicator.classList.add('hidden');
 
-                if (faq[q]) appendMessage('bot', faq[q]);
-                else appendMessage('bot',
-                    "Our system cannot respond to this question. Please continue on WhatsApp.");
+                // Convert to lowercase for easier matching
+                const msg = q.toLowerCase();
+
+                // Greeting detection
+                if (msg.match(/\b(hi|hello|hey|good morning|good afternoon)\b/)) {
+                    appendMessage('bot', getRandom(responses.greetings));
+                }
+                // Keywords detection
+                else if (msg.includes("hours") || msg.includes("time")) {
+                    appendMessage('bot', responses.workingHours);
+                } else if (msg.includes("track") || msg.includes("order")) {
+                    appendMessage('bot', responses.trackOrder);
+                } else if (msg.includes("return") || msg.includes("refund")) {
+                    appendMessage('bot', responses.returnPolicy);
+                } else if (msg.includes("payment") || msg.includes("pay")) {
+                    appendMessage('bot', responses.payment);
+                } else if (msg.includes("ship") || msg.includes("delivery")) {
+                    appendMessage('bot', responses.shipping);
+                } else if (msg.includes("discount") || msg.includes("offer")) {
+                    appendMessage('bot', responses.discounts);
+                }
+                // Fallback to WhatsApp
+                else {
+                    appendMessage('bot',
+                        "I'm sorry, I can't answer that. You can continue this chat on WhatsApp for more help."
+                        );
+                }
             }, 1000);
 
             chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -1358,6 +1386,10 @@
                 `<div class="inline-block px-3 py-2 rounded-lg max-w-[70%] ${sender === 'user' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-800'}">${text}</div>`;
             chatMessages.appendChild(msgDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function getRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
         }
 
         window.sendToWhatsApp = function() {
