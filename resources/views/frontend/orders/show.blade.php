@@ -373,9 +373,9 @@
                                             {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                                                 1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                                                 2-2V6c0-1.1-.9-2-2-2zm0
-                                                                                                 12H3V8h18v8z" />
+                                                                                                         1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                                                         2-2V6c0-1.1-.9-2-2-2zm0
+                                                                                                         12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -591,7 +591,7 @@
                                     <span>Reorder Items</span>
                                 </button>
 
-                                <button onclick="reportIssue()"
+                                <button onclick="reportIssue({{ $item->product->id }})"
                                     class="w-full text-left px-4 py-3 border border-warning text-warning hover:bg-warning-50 rounded-lg transition-fast flex items-center space-x-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -830,8 +830,7 @@
         </div>
     </div>
     <!-- Report Issue Modal (Reorder-style visual) -->
-    <div id="report-issue-modal"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div id="report-issue-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden" style="z-index: 9999999;">
         <div
             class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
 
@@ -852,28 +851,29 @@
             </div>
 
             <!-- Product Info -->
-            <div id="report-issue-product" class="flex items-center space-x-4 mb-4">
-                <img id="report-issue-product-image" src="{{ asset('assets/images/placeholder.png') }}" alt="Product"
-                    class="w-16 h-16 rounded border object-cover">
-                <div>
-                    <div id="report-issue-product-name" class="font-semibold text-primary">Product name</div>
-                    <div id="report-issue-product-sku" class="text-sm text-secondary-600">SKU: —</div>
+            @foreach ($order->items as $item)
+                <div id="report-issue-product" class="flex items-center space-x-4 mb-4">
+                    <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}"
+                        alt="{{$item->product->name}}" class="w-16 h-16 rounded border object-cover">
+                    <div>
+                        <div class="font-semibold text-primary">{{$item->product->name}}</div>
+                        <div class="text-sm text-secondary-600">SKU: {{$item->product->sku}}</div>
+                    </div>
                 </div>
-            </div>
-
+            @endforeach
             <!-- Title -->
             <h2 class="text-2xl font-bold text-primary mb-3 text-center">Report an Issue</h2>
             <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
-                Tell us what went wrong with this product — our support team will review and contact you.
+                Tell us what went wrong with this product, our support team will review and contact you.
             </p>
 
             <textarea id="report-issue-message" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-amber-300"
-                rows="4" placeholder="Describe the issue (be as detailed as possible)..."></textarea>
+                rows="4" placeholder="Describe the issue (be as detailed as possible)..." style="outline:none; resize:none;"></textarea>
 
             <!-- Actions -->
             <div class="space-y-3 mt-6">
                 <button onclick="submitReportIssue()"
-                    class="w-full bg-amber-600 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    class="w-full bg-accent-600 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
                     Submit Issue
                 </button>
                 <button onclick="closeReportIssue()"
@@ -1049,51 +1049,93 @@
     }
 
 
-    let currentProductId = null;
+    const reportIssueUrl = "{{ route('orders.reportIssue', $order->id) }}";
 
-    function reportIssue(productId, productName, productImage) {
-        currentProductId = productId;
-        document.getElementById("issue-product-image").src = productImage;
-        document.getElementById("issue-product-name").innerText = productName;
-        document.getElementById("report-issue-modal").classList.remove("hidden");
+    let __currentReportProductId = null;
+
+    function reportIssue(productId) {
+        __currentReportProductId = prod?.product_id || productId;
+        document.getElementById('report-issue-message').value = '';
+
+        // show modal
+        document.getElementById('report-issue-modal').classList.remove('hidden');
     }
 
     function closeReportIssue() {
-        document.getElementById("report-issue-modal").classList.add("hidden");
-        document.getElementById("issue-message").value = "";
+        document.getElementById('report-issue-modal').classList.add('hidden');
+        __currentReportProductId = null;
     }
 
-    function submitReportIssue() {
-        const orderId = "{{ $order->id }}";
-        const message = document.getElementById("issue-message").value;
-
-        if (!message.trim()) {
-            showNotify("error", "Please provide details about the issue.");
+    async function submitReportIssue() {
+        const message = document.getElementById('report-issue-message').value.trim();
+        if (!message || message.length < 5) {
+            showNotify('error', 'Please provide more details about the issue (min 5 chars).');
             return;
         }
 
-        fetch(`/orders/${orderId}/report-issue`, {
-                method: "POST",
+        if (!__currentReportProductId) {
+            showNotify('error', 'No product selected.');
+            return;
+        }
+
+        try {
+            const res = await fetch(reportIssueUrl, {
+                method: 'POST',
                 headers: {
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                    "Content-Type": "application/json"
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    product_id: currentProductId,
+                    product_id: __currentReportProductId,
                     message: message
                 })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    closeReportIssue();
-                    showNotify("success", data.message);
-                } else {
-                    showNotify("error", data.message || "Failed to report issue.");
-                }
-            })
-            .catch(() => {
-                showNotify("error", "Network error. Please try again.");
             });
+
+            const data = await res.json().catch(() => null);
+
+            if (!res.ok) {
+                const errMsg = data?.message || 'Failed to submit. Please try again.';
+                showNotify('error', errMsg);
+                return;
+            }
+
+            if (data.success) {
+                closeReportIssue();
+                showNotify('success', data.message || 'Issue submitted — we will contact you shortly.');
+            } else {
+                showNotify('error', data.message || 'Failed to report issue.');
+            }
+        } catch (err) {
+            console.error(err);
+            showNotify('error', 'Network error. Please try again.');
+        }
     }
+
+    
+    if (typeof showNotify !== 'function') {
+        function showNotify(type, message) {
+            const colors = {
+                success: "bg-green-500",
+                error: "bg-red-500"
+            };
+            let container = document.getElementById("toast-container");
+            if (!container) {
+                container = document.createElement("div");
+                container.id = "toast-container";
+                container.className = "fixed top-5 right-5 space-y-2 z-50";
+                document.body.appendChild(container);
+            }
+            const notify = document.createElement("div");
+            notify.className = `${colors[type] || colors.error} text-white px-4 py-3 rounded shadow-lg w-80`;
+            notify.innerHTML = `<div class="font-semibold">${message}</div>`;
+            container.appendChild(notify);
+            setTimeout(() => {
+                notify.remove();
+            }, 3500);
+        }
+    }
+
+
+
 </script>

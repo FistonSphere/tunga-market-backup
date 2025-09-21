@@ -119,26 +119,36 @@ public function reorder(Order $order)
     }
 }
 
-public function reportIssue(Request $request, $orderId)
+public function reportIssue(Request $request, Order $order)
 {
-    $request->validate([
-        'product_id' => 'required|exists:products,id',
-        'message' => 'required|string|max:1000',
+    // ensure the authenticated user owns the order
+    if ($order->user_id !== auth()->id()) {
+        return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+    }
+
+    $data = $request->validate([
+        'product_id' => 'required|integer|exists:products,id',
+        'message'    => 'required|string|max:2000',
     ]);
 
-    $order = Order::findOrFail($orderId);
+    // ensure product is part of this order
+    $item = $order->items()->where('product_id', $data['product_id'])->first();
+    if (! $item) {
+        return response()->json(['success' => false, 'message' => 'Product not found in this order.'], 404);
+    }
 
     $issue = ProductIssue::create([
-        'order_id' => $order->id,
-        'product_id' => $request->product_id,
-        'user_id' => auth()->id(),
-        'message' => $request->message,
+        'order_id'   => $order->id,
+        'product_id' => $data['product_id'],
+        'user_id'    => auth()->id(),
+        'message'    => $data['message'],
+        'status'     => 'pending',
     ]);
 
     return response()->json([
         'success' => true,
-        'message' => 'Your issue has been reported successfully!',
-        'issue' => $issue
+        'message' => 'Your issue has been reported. Our support team will reach out soon.',
+        'issue'   => $issue,
     ]);
 }
 
