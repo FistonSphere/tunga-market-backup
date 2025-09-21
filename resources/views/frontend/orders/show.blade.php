@@ -409,9 +409,9 @@
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                                                                                                                     1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                                                                                                                     2-2V6c0-1.1-.9-2-2-2zm0
-                                                                                                                                                                     12H3V8h18v8z" />
+                                                                                                                                                                             1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                                                                                                                             2-2V6c0-1.1-.9-2-2-2zm0
+                                                                                                                                                                             12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -960,7 +960,7 @@
     <!-- Chat Window -->
     <div id="chatWindow"
         class="hidden fixed bottom-20 right-6 h-[400px] bg-white rounded-xl shadow-2xl flex flex-col z-50 transform scale-0 transition-transform duration-300"
-        style="    width: 23rem;">
+        style="width: 23rem;">
         <!-- Header -->
         <div class="bg-primary text-white px-4 py-3 rounded-t-xl flex justify-between items-center">
             <span class="font-semibold">Support Chat</span>
@@ -974,7 +974,7 @@
         </div>
 
         <!-- Typing Indicator -->
-        <div id="typingIndicator" class="hidden px-4 py-2 text-gray-500 text-sm flex space-x-2">
+        <div id="typingIndicator" class="hidden px-4 py-2 text-gray-500 text-sm flex space-x-2 items-center">
             <span>Bot is typing</span>
             <span class="dot-flashing"></span>
         </div>
@@ -1432,13 +1432,13 @@
                 const lastBotMsg = conversationHistory.slice().reverse().find(c => c.sender === 'bot');
                 if (lastBotMsg) {
                     if (lastBotMsg.message.includes("order"))
-                    return "Do you want step-by-step instructions on tracking your order?";
+                        return "Do you want step-by-step instructions on tracking your order?";
                     if (lastBotMsg.message.includes("return"))
-                    return "Would you like to know the exact return process?";
+                        return "Would you like to know the exact return process?";
                     if (lastBotMsg.message.includes("payment"))
-                    return "Do you want information on all payment options?";
+                        return "Do you want information on all payment options?";
                     if (lastBotMsg.message.includes("shipping"))
-                    return "I can explain delivery times in detail if you want.";
+                        return "I can explain delivery times in detail if you want.";
                 }
             }
 
