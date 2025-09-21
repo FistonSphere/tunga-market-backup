@@ -309,9 +309,9 @@
                                             {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                             1.1.9 2 2 2h18c1.1 0 2-.9
-                                                             2-2V6c0-1.1-.9-2-2-2zm0
-                                                             12H3V8h18v8z" />
+                                                                 1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                 2-2V6c0-1.1-.9-2-2-2zm0
+                                                                 12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -844,5 +844,54 @@
 
     function redirectToContactPage() {
         window.location.href = "/contact";
+    }
+
+    function reorderItems() {
+        document.getElementById("reorder-modal").classList.remove("hidden");
+    }
+
+    function closeReorderModal() {
+        document.getElementById("reorder-modal").classList.add("hidden");
+    }
+
+    function confirmReorder() {
+        const orderId = "{{ $order->id }}";
+
+        fetch(`/orders/${orderId}/reorder`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                closeReorderModal();
+                if (data.success) {
+                    showNotify("success", "Items have been added to your cart successfully!");
+                } else {
+                    showNotify("error", data.message || "Something went wrong, please try again.");
+                }
+            })
+            .catch(() => {
+                closeReorderModal();
+                showNotify("error", "Network error, please try again.");
+            });
+    }
+
+    // Simple notification popup
+    function showNotify(type, message) {
+        const colors = {
+            success: "bg-green-500",
+            error: "bg-red-500"
+        };
+
+        const notify = document.createElement("div");
+        notify.className = `${colors[type]} text-white px-4 py-2 rounded fixed top-5 right-5 shadow-lg z-50`;
+        notify.innerText = message;
+
+        document.body.appendChild(notify);
+
+        setTimeout(() => notify.remove(), 3000);
     }
 </script>
