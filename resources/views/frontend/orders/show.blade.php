@@ -17,6 +17,7 @@
         @keyframes fadeOut {
             from {
                 opacity: 1;
+                transform: translateX(0);
             }
 
             to {
@@ -25,12 +26,26 @@
             }
         }
 
+        @keyframes progressAnim {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+
         .animate-slide-in {
-            animation: slideIn 0.3s ease-out forwards;
+            animation: slideIn 0.4s ease-out forwards;
         }
 
         .animate-fade-out {
-            animation: fadeOut 0.5s ease-in forwards;
+            animation: fadeOut 0.6s ease-in forwards;
+        }
+
+        .animate-progress {
+            animation: progressAnim 3.5s linear forwards;
         }
     </style>
     @php
@@ -341,9 +356,9 @@
                                             {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                             1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                             2-2V6c0-1.1-.9-2-2-2zm0
-                                                                             12H3V8h18v8z" />
+                                                                                 1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                                 2-2V6c0-1.1-.9-2-2-2zm0
+                                                                                 12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
