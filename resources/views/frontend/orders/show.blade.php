@@ -48,26 +48,9 @@
             animation: progressAnim 3.5s linear forwards;
         }
     </style>
-
     @php
         $orderNo = $order->items->first()->order_no ?? 'N/A';
     @endphp
-    <script>
-        // Map of products in this order for quick client-side lookup
-        window.orderProducts = {!! json_encode(
-            $order->items->map(function ($item) {
-                $p = $item->product;
-                return [
-                    'product_id' => $p ? $p->id : null,
-                    'name' => $p ? $p->name : 'Unknown product',
-                    'image' => $p && $p->main_image ? asset('storage/' . $p->main_image) : asset('assets/images/no-image.png'),
-                    'sku' => $p ? $p->sku : null,
-                    'order_item_id' => $item->id,
-                ];
-            }),
-        ) !!};
-    </script>
-
     <!-- Breadcrumb Navigation -->
     <section class="bg-surface py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -373,9 +356,9 @@
                                             {{-- Icon (can be dynamic per method if you want) --}}
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                                                         1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                                                         2-2V6c0-1.1-.9-2-2-2zm0
-                                                                                                         12H3V8h18v8z" />
+                                                                                     1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                                     2-2V6c0-1.1-.9-2-2-2zm0
+                                                                                     12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -531,16 +514,7 @@
                                 <div class="flex-1">
                                     <h4 class="font-semibold text-primary" id="supplier-name-display">Tunga Market</h4>
                                     <p class="text-secondary-600" id="supplier-location-display">Kigali, Rwanda</p>
-                                    {{-- <div class="flex items-center mt-2">
-                                        <div class="flex items-center">
-                                            <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                            </svg>
-                                            <span class="text-sm font-medium text-secondary-600 ml-1">4.8 (1,247
-                                                reviews)</span>
-                                        </div>
-                                    </div> --}}
+
                                 </div>
                             </div>
 
@@ -589,6 +563,15 @@
                                             d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                     </svg>
                                     <span>Reorder Items</span>
+                                </button>
+
+                                <button onclick="initiateReturn()"
+                                    class="w-full btn-secondary flex items-center justify-center space-x-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                                    </svg>
+                                    <span>Return Items</span>
                                 </button>
 
                                 <button onclick="reportIssue({{ $item->product->id }})"
@@ -829,8 +812,10 @@
             </div>
         </div>
     </div>
+    <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
     <!-- Report Issue Modal (Reorder-style visual) -->
-    <div id="report-issue-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden" style="z-index: 9999999;">
+    <div id="report-issue-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden"
+        style="z-index: 9999999;">
         <div
             class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
 
@@ -854,10 +839,10 @@
             @foreach ($order->items as $item)
                 <div id="report-issue-product" class="flex items-center space-x-4 mb-4">
                     <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}"
-                        alt="{{$item->product->name}}" class="w-16 h-16 rounded border object-cover">
+                        alt="{{ $item->product->name }}" class="w-16 h-16 rounded border object-cover">
                     <div>
-                        <div class="font-semibold text-primary">{{$item->product->name}}</div>
-                        <div class="text-sm text-secondary-600">SKU: {{$item->product->sku}}</div>
+                        <div class="font-semibold text-primary">{{ $item->product->name }}</div>
+                        <div class="text-sm text-secondary-600">SKU: {{ $item->product->sku }}</div>
                     </div>
                 </div>
             @endforeach
@@ -868,7 +853,8 @@
             </p>
 
             <textarea id="report-issue-message" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-amber-300"
-                rows="4" placeholder="Describe the issue (be as detailed as possible)..." style="outline:none; resize:none;"></textarea>
+                rows="4" placeholder="Describe the issue (be as detailed as possible)..."
+                style="outline:none; resize:none;"></textarea>
 
             <!-- Actions -->
             <div class="space-y-3 mt-6">
@@ -1048,18 +1034,18 @@
         }, 4000);
     }
 
-
-    const reportIssueUrl = "{{ route('orders.reportIssue', $order->id) }}";
+    //report issue
+     const reportIssueUrl = "{{ route('orders.reportIssue', $order->id) }}";
 
     let __currentReportProductId = null;
 
     function reportIssue(productId) {
-        __currentReportProductId = prod?.product_id || productId;
+        __currentReportProductId = productId;
         document.getElementById('report-issue-message').value = '';
 
-        // show modal
         document.getElementById('report-issue-modal').classList.remove('hidden');
     }
+
 
     function closeReportIssue() {
         document.getElementById('report-issue-modal').classList.add('hidden');
@@ -1111,31 +1097,5 @@
             showNotify('error', 'Network error. Please try again.');
         }
     }
-
-    
-    if (typeof showNotify !== 'function') {
-        function showNotify(type, message) {
-            const colors = {
-                success: "bg-green-500",
-                error: "bg-red-500"
-            };
-            let container = document.getElementById("toast-container");
-            if (!container) {
-                container = document.createElement("div");
-                container.id = "toast-container";
-                container.className = "fixed top-5 right-5 space-y-2 z-50";
-                document.body.appendChild(container);
-            }
-            const notify = document.createElement("div");
-            notify.className = `${colors[type] || colors.error} text-white px-4 py-3 rounded shadow-lg w-80`;
-            notify.innerHTML = `<div class="font-semibold">${message}</div>`;
-            container.appendChild(notify);
-            setTimeout(() => {
-                notify.remove();
-            }, 3500);
-        }
-    }
-
-
 
 </script>
