@@ -82,4 +82,27 @@ public function fetchFiltered(Request $request, Product $product)
     ]);
 }
 
+
+public function OrderReviewStore(Request $request, Product $product)
+    {
+        $validated = $request->validate([
+            'rating'  => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:2000',
+        ]);
+
+        $review = Review::create([
+            'product_id'    => $product->id,
+            'user_id'       => auth()->id(),
+            'rating'        => $validated['rating'],
+            'comment'       => $validated['comment'] ?? null,
+            'verified'      => 1, // since it's from an order
+            'helpful_count' => 0,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Thank you! Your review has been submitted.',
+            'review'  => $review,
+        ]);
+    }
 }

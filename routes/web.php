@@ -121,6 +121,8 @@ Route::group(['middleware' => 'auth'], function () {
 Route::post('/orders/{order}/reorder', [OrderTrackingController::class, 'reorder'])->name('orders.reorder');
 Route::post('/orders/{order}/report-issue', [OrderTrackingController::class, 'reportIssue'])
     ->name('orders.reportIssue');
+Route::post('/products/{product}/reviews', [ReviewController::class, 'OrderReviewStore'])
+    ->name('products.reviews.store');
 
 });
 
