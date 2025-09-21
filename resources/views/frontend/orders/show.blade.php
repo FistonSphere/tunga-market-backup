@@ -1322,7 +1322,7 @@
             workingHours: ["Our store is open Mon-Fri, 9 AM - 6 PM."],
             trackOrder: ["You can track your order in 'My Orders' section."],
             returnPolicy: ["You can return items within 30 days of delivery."],
-            payment: ["We accept Credit/Debit cards, Mobile Money, and PayPal."],
+            payment: ["We accept Credit/Debit cards, Mobile Money, and Airtel Money."],
             shipping: ["Free shipping for orders over $50. Delivery: 3-7 days."],
             discounts: ["Check the 'Deals' section for current discounts."],
             closing: [
