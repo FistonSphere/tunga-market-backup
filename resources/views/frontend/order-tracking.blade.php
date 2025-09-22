@@ -524,7 +524,7 @@
                 </div>
             </div>
         </div>
-        <div id="toast"
+        <div id="toast-copy"
             class="hidden fixed bottom-5 right-5 bg-accent text-white text-sm font-medium px-4 py-2 rounded-lg shadow-lg transition-opacity duration-300">
             Copied!
         </div>
@@ -571,7 +571,20 @@
                     d="M5 13l4 4L19 7" />
             `;
 
-                // Change back after 2 seconds
+                // Show toast
+                const toast = document.getElementById('toast-copy');
+                toast.classList.remove('hidden');
+                toast.style.opacity = 1;
+
+                setTimeout(() => {
+                    toast.style.opacity = 0;
+                }, 1500);
+
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 2000);
+
+                // Change back icon after 2s
                 setTimeout(() => {
                     svg.innerHTML = `
                     <path stroke-linecap="round" stroke-linejoin="round"
