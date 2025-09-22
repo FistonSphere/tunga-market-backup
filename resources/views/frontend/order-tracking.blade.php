@@ -490,7 +490,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- GPS Tracking Map (when available) -->
                     <div id="gps-tracking" class="card hidden">
                         <h4 class="font-semibold text-primary mb-4">Live GPS Tracking</h4>
