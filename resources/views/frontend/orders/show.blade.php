@@ -409,9 +409,9 @@
                                             <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     d="M21 4H3c-1.1 0-2 .9-2 2v12c0
-                                                                                                                                                                                     1.1.9 2 2 2h18c1.1 0 2-.9
-                                                                                                                                                                                     2-2V6c0-1.1-.9-2-2-2zm0
-                                                                                                                                                                                     12H3V8h18v8z" />
+                                                                                                                                                                                         1.1.9 2 2 2h18c1.1 0 2-.9
+                                                                                                                                                                                         2-2V6c0-1.1-.9-2-2-2zm0
+                                                                                                                                                                                         12H3V8h18v8z" />
                                             </svg>
                                             <div>
                                                 <div class="font-semibold text-primary" id="payment-method-display">
@@ -690,22 +690,26 @@
                                         class="block p-3 border border-border rounded-lg hover:border-accent hover:bg-accent-50 transition-fast">
                                         <div class="flex justify-between items-center">
                                             <div>
-                                                <div class="font-semibold text-primary">#{{ $relOrder->order_no }}
+                                                {{-- Use invoice_number from orders table --}}
+                                                <div class="font-semibold text-primary">
+                                                    #{{ $relOrder->invoice_number ?? $relOrder->items->first()->order_no }}
                                                 </div>
+
                                                 <div class="text-sm text-secondary-600">
                                                     {{ $relOrder->created_at->format('M d, Y') }}
                                                 </div>
                                             </div>
                                             <div class="text-right">
                                                 <div class="font-semibold text-accent">
-                                                    {{ number_format($relOrder->total_amount, 2) }} RWF
+                                                    {{ number_format($relOrder->total, 2) }} {{ $relOrder->currency }}
                                                 </div>
+
                                                 <span
                                                     class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
-                            @if ($relOrder->status === 'shipped') bg-primary-100 text-primary-800
-                            @elseif($relOrder->status === 'delivered') bg-success-100 text-success-800
-                            @elseif($relOrder->status === 'pending') bg-warning-100 text-warning-800
-                            @else bg-gray-100 text-gray-800 @endif">
+                        @if (strtolower($relOrder->status) === 'shipped') bg-primary-100 text-primary-800
+                        @elseif(strtolower($relOrder->status) === 'delivered') bg-success-100 text-success-800
+                        @elseif(strtolower($relOrder->status) === 'pending') bg-warning-100 text-warning-800
+                        @else bg-gray-100 text-gray-800 @endif">
                                                     {{ ucfirst($relOrder->status) }}
                                                 </span>
                                             </div>
@@ -720,6 +724,7 @@
                                     View All Orders
                                 </a>
                             </div>
+
                         </div>
 
                     </div>
