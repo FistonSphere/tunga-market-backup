@@ -11,18 +11,21 @@ use Illuminate\Support\Facades\DB;
 
 class OrderTrackingController extends Controller
 {
-   public function index()
+   public function index(Request $request)
    {
+    $status = $request->get('status');
     $orders = OrderItem::with(['order', 'product'])
         ->whereHas('order', function ($query) {
             $query->where('user_id', auth()->id());
         })
-        ->paginate(5);
+        ->paginate(5)
+        ->appends(['status' => $status]); 
 
 
        // Logic to show the order tracking page
        return view('frontend.order-tracking',[
-        'orders' => $orders
+        'orders' => $orders,
+        'status' => $status
        ]);
    }
 
