@@ -237,6 +237,7 @@
                                     class="absolute right-2 top-1/2 transform -translate-y-1/2 btn-primary px-4 py-2">
                                     Search
                                 </button>
+
                             </div>
 
                             <!-- Alternative Search Methods -->
@@ -523,7 +524,7 @@
                 </div>
             </div>
         </div>
-        
+
     </section>
 
     <script>
@@ -578,6 +579,108 @@
             }).catch(err => {
                 console.error('Failed to copy: ', err);
             });
+        }
+
+
+        function handlePaste(e) {
+            setTimeout(() => {
+                searchOrder();
+            }, 100); // wait a moment for input value to populate
+        }
+
+        function searchOrder() {
+            const orderNo = document.getElementById('order-search').value.trim();
+            if (!orderNo) return;
+
+            fetch(`/orders/search/${orderNo}`)
+                .then(res => {
+                    if (!res.ok) throw new Error("Order not found");
+                    return res.json();
+                })
+                .then(data => {
+                    renderOrderDetails(data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.getElementById('order-details').classList.add('hidden');
+                    alert("Order not found!");
+                });
+        }
+
+        function renderOrderDetails(data) {
+            const {
+                order,
+                finalTotal,
+                timeline
+            } = data;
+
+            // Show order details card
+            const detailsEl = document.getElementById('order-details');
+            detailsEl.classList.remove('hidden');
+
+            // Fill header
+            document.getElementById('detail-order-number').innerText = order.order_no;
+            document.getElementById('detail-order-date').innerText = new Date(order.created_at).toLocaleDateString();
+            document.getElementById('detail-order-total').innerText = `$${finalTotal.toFixed(2)}`;
+
+            const statusSpan = document.getElementById('detail-order-status');
+            statusSpan.innerText = order.status;
+            statusSpan.className = `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+            order.status === 'Delivered'
+                ? 'bg-success-100 text-success-800'
+                : order.status === 'Processing'
+                ? 'bg-warning-100 text-warning-800'
+                : 'bg-secondary-100 text-secondary-800'
+        }`;
+
+            // Render items
+            const itemsContainer = document.getElementById('order-items');
+            itemsContainer.innerHTML = '';
+            order.items.forEach(item => {
+                const total = (item.quantity * item.price).toFixed(2);
+                itemsContainer.innerHTML += `
+                <div class="flex items-center space-x-4 p-3 border border-border rounded-lg">
+                    <img src="${item.product.image_url}" alt="${item.product.name}" 
+                        class="w-16 h-16 rounded-lg object-cover" loading="lazy">
+                    <div class="flex-1">
+                        <h5 class="font-semibold text-primary">${item.product.name}</h5>
+                        <div class="flex items-center space-x-4 text-sm text-secondary-600">
+                            <span>Qty: ${item.quantity}</span>
+                            <span>Unit: $${item.price}</span>
+                            <span class="font-semibold text-accent">$${total}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            });
+
+            // Render timeline
+            const timelineContainer = document.getElementById('shipping-timeline');
+            timelineContainer.innerHTML = '';
+            timeline.forEach(step => {
+                timelineContainer.innerHTML += `
+                <div class="flex items-start space-x-4 mb-8">
+                    <div class="w-12 h-12 ${step.done ? 'bg-success' : 'bg-secondary-200'} 
+                        rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 h-6 ${step.done ? 'text-white' : 'text-secondary-600'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-primary">${step.title}</h4>
+                        <p class="text-sm ${step.done ? 'text-success font-semibold' : 'text-secondary-600'}">
+                            ${step.timestamp}
+                        </p>
+                    </div>
+                </div>
+            `;
+            });
+        }
+
+        function clearOrderDetails() {
+            document.getElementById('order-details').classList.add('hidden');
+            document.getElementById('order-search').value = '';
         }
     </script>
 @endsection
