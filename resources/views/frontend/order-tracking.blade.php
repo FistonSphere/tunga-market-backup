@@ -262,7 +262,7 @@
                     </div>
 
                     <!-- Order Details Display -->
-                    <div id="order-details" class="card hidden">
+                    <div id="order-details" class="card">
                         <div class="flex items-center justify-between mb-6">
                             <h3 class="text-xl font-semibold text-primary">Order Details</h3>
                             <button onclick="clearOrderDetails()"
@@ -281,7 +281,7 @@
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <label class="text-sm text-secondary-600">Order Number</label>
-                                        <div class="font-semibold text-primary" id="detail-order-number">#AM2025-789456
+                                        <div class="font-semibold text-primary" id="detail-order-number">AM2025-789456
                                         </div>
                                     </div>
                                     <div>
@@ -297,9 +297,7 @@
                                     <div>
                                         <label class="text-sm text-secondary-600">Status</label>
                                         <span id="detail-order-status"
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
-                                            Delivered
-                                        </span>
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Delivered</span>
                                     </div>
                                 </div>
                             </div>
@@ -308,7 +306,33 @@
                             <div>
                                 <h4 class="font-semibold text-primary mb-3">Items Ordered</h4>
                                 <div id="order-items" class="space-y-3">
-                                    <!-- Item will be populated by JavaScript -->
+                                    <div class="flex items-center space-x-4 p-3 border border-border rounded-lg">
+                                        <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&amp;w=2679&amp;auto=format&amp;fit=crop"
+                                            alt="Premium Wireless Earbuds Pro" class="w-16 h-16 rounded-lg object-cover"
+                                            loading="lazy">
+                                        <div class="flex-1">
+                                            <h5 class="font-semibold text-primary">Premium Wireless Earbuds Pro</h5>
+                                            <div class="flex items-center space-x-4 text-sm text-secondary-600">
+                                                <span>Qty: 50</span>
+                                                <span>Unit: $45.50</span>
+                                                <span class="font-semibold text-accent">$2,275.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center space-x-4 p-3 border border-border rounded-lg">
+                                        <img src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=2"
+                                            alt="Smart Home Hub Controller" class="w-16 h-16 rounded-lg object-cover"
+                                            loading="lazy">
+                                        <div class="flex-1">
+                                            <h5 class="font-semibold text-primary">Smart Home Hub Controller</h5>
+                                            <div class="flex items-center space-x-4 text-sm text-secondary-600">
+                                                <span>Qty: 25</span>
+                                                <span>Unit: $22.90</span>
+                                                <span class="font-semibold text-accent">$572.50</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -316,7 +340,93 @@
                             <div>
                                 <h4 class="font-semibold text-primary mb-4">Shipping Timeline</h4>
                                 <div id="shipping-timeline" class="relative">
-                                    <!-- Timeline will be populated by JavaScript -->
+                                    <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-secondary-200"></div>
+
+                                    <div class="flex items-start space-x-4 mb-8">
+                                        <div
+                                            class="w-12 h-12 bg-success rounded-full flex items-center justify-center flex-shrink-0">
+
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg>
+
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold text-primary">Order Confirmed</h4>
+                                            <p class="text-sm text-success font-semibold">Jan 15, 2025 at 2:30 PM</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-4 mb-8">
+                                        <div
+                                            class="w-12 h-12 bg-success rounded-full flex items-center justify-center flex-shrink-0">
+
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg>
+
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold text-primary">Processing</h4>
+                                            <p class="text-sm text-success font-semibold">Jan 15, 2025 at 4:15 PM</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-4 mb-8">
+                                        <div
+                                            class="w-12 h-12 bg-success rounded-full flex items-center justify-center flex-shrink-0">
+
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg>
+
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold text-primary">Shipped</h4>
+                                            <p class="text-sm text-success font-semibold">Jan 16, 2025 at 10:00 AM</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-4 mb-8">
+                                        <div
+                                            class="w-12 h-12 bg-success rounded-full flex items-center justify-center flex-shrink-0">
+
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg>
+
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold text-primary">Out for Delivery</h4>
+                                            <p class="text-sm text-success font-semibold">Jan 18, 2025 at 8:30 AM</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-4 ">
+                                        <div
+                                            class="w-12 h-12 bg-success rounded-full flex items-center justify-center flex-shrink-0">
+
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"></path>
+                                            </svg>
+
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold text-primary">Delivered</h4>
+                                            <p class="text-sm text-success font-semibold">Jan 18, 2025 at 2:45 PM</p>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -358,18 +468,18 @@
 
                             <!-- Quick Actions -->
                             <div class="flex flex-wrap gap-3">
-                                <button onclick="reorderItems()" class="btn-primary flex flex-wrap items-center gap-2">
+                                <button onclick="reorderItems()" class="btn-primary flex items-center space-x-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                                        </path>
                                     </svg>
                                     <span>Reorder</span>
                                 </button>
-                                <button onclick="initiateReturn()"
-                                    class="btn-secondary flex flex-wrap items-center gap-2">
+                                <button onclick="initiateReturn()" class="btn-secondary flex items-center space-x-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                                            d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
                                     </svg>
                                     <span>Return Items</span>
                                 </button>
@@ -382,7 +492,7 @@
                     </div>
 
                     <!-- GPS Tracking Map (when available) -->
-                    <div id="gps-tracking" class="card hidden">
+                    <div id="gps-tracking" class="card">
                         <h4 class="font-semibold text-primary mb-4">Live GPS Tracking</h4>
                         <div class="bg-secondary-100 rounded-lg h-64 flex items-center justify-center mb-4">
                             <div class="text-center">
@@ -413,6 +523,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div id="toast"
+            class="hidden fixed bottom-5 right-5 bg-accent text-white text-sm font-medium px-4 py-2 rounded-lg shadow-lg transition-opacity duration-300">
+            Copied!
         </div>
     </section>
 
