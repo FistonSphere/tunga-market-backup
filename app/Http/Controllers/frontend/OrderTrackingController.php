@@ -77,14 +77,12 @@ public function show($orderId)
     ];
  $relatedOrders = Order::with(['items.product', 'items.variant', 'shippingAddress'])->where('user_id', auth()->id())
         ->where('id', '!=', $order->id)
-        ->latest()
         ->take(3)
         ->get();
-    //  dd($relatedOrders);
 
     return view('frontend.orders.show', [
         'order' => $order,
-        'subtotal' => $subtotal,
+        'subtotal' => $subtotal, 
         'tax' => $tax,
         'finalTotal' => $finalTotal,
         'timeline' => $timeline,

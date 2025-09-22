@@ -701,14 +701,14 @@
                                             </div>
                                             <div class="text-right">
                                                 <div class="font-semibold text-accent">
-                                                    {{ number_format($relOrder->total, 2) }} {{ $relOrder->currency }}
+                                                   {{ number_format($relOrder->items->first()->price * $relOrder->items->first()->quantity, 2) }} {{ $relOrder->currency }}
                                                 </div>
 
                                                 <span
                                                     class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
-                        @if (strtolower($relOrder->status) === 'shipped') bg-primary-100 text-primary-800
-                        @elseif(strtolower($relOrder->status) === 'delivered') bg-success-100 text-success-800
-                        @elseif(strtolower($relOrder->status) === 'pending') bg-warning-100 text-warning-800
+                        @if (strtolower($relOrder->status) === 'Processing') bg-primary-100 text-primary-800
+                        @elseif(strtolower($relOrder->status) === 'Delivered') bg-success-100 text-success-800
+                        @elseif(strtolower($relOrder->status) === 'Canceled') bg-warning-100 text-warning-800
                         @else bg-gray-100 text-gray-800 @endif">
                                                     {{ ucfirst($relOrder->status) }}
                                                 </span>
