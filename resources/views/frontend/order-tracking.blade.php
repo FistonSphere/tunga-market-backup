@@ -50,7 +50,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                             <div>
                                 <label class="block text-sm font-medium text-primary mb-1">From Date</label>
-                                <input type="date" class="input-field" id="date-from" value="{{ request('from_date') }}" />
+                                <input type="date" class="input-field" id="date-from"
+                                    value="{{ request('from_date') }}" />
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-primary mb-1">To Date</label>
@@ -61,7 +62,7 @@
                             </div>
                         </div>
                     </div>
-                   
+
 
                     <!-- Orders Table -->
                     <div class="card overflow-hidden">
@@ -722,9 +723,9 @@
                 container.innerHTML = `
                     <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-secondary-200"></div>
                     ${timeline.map((step, index) => `
-                                                                         <div class="flex items-start space-x-4 ${index !== timeline.length - 1 ? 'mb-8' : ''}">
-                                                                             <div class="w-12 h-12 ${step.completed ? 'bg-success' : 'bg-secondary-200'} rounded-full flex items-center justify-center flex-shrink-0">
-                                                                                 ${step.completed ? `
+                                                                             <div class="flex items-start space-x-4 ${index !== timeline.length - 1 ? 'mb-8' : ''}">
+                                                                                 <div class="w-12 h-12 ${step.completed ? 'bg-success' : 'bg-secondary-200'} rounded-full flex items-center justify-center flex-shrink-0">
+                                                                                     ${step.completed ? `
                                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                     </svg>
@@ -733,13 +734,13 @@
                                         <circle cx="12" cy="12" r="3"/>
                                     </svg>
                                 `}
+                                                                                 </div>
+                                                                                 <div class="flex-1">
+                                                                                     <h4 class="font-semibold ${step.completed ? 'text-primary' : 'text-secondary-600'}">${step.status}</h4>
+                                                                                     <p class="text-sm ${step.completed ? 'text-success' : 'text-secondary-500'} font-semibold">${step.date}</p>
+                                                                                 </div>
                                                                              </div>
-                                                                             <div class="flex-1">
-                                                                                 <h4 class="font-semibold ${step.completed ? 'text-primary' : 'text-secondary-600'}">${step.status}</h4>
-                                                                                 <p class="text-sm ${step.completed ? 'text-success' : 'text-secondary-500'} font-semibold">${step.date}</p>
-                                                                             </div>
-                                                                         </div>
-                                                                     `).join('')}
+                                                                         `).join('')}
                 `;
             }
 
@@ -912,5 +913,25 @@
         window.addEventListener('load', () => {
             document.getElementById('order-search').focus();
         });
+
+
+        function applyDateFilter() {
+            const from = document.getElementById('date-from').value;
+            const to = document.getElementById('date-to').value;
+            const params = new URLSearchParams(window.location.search);
+
+            if (from) params.set('from_date', from);
+            else params.delete('from_date');
+
+            if (to) params.set('to_date', to);
+            else params.delete('to_date');
+
+            // Keep status if already selected
+            if (!params.get('status')) {
+                params.set('status', 'all');
+            }
+
+            window.location.href = "{{ route('order.tracking') }}?" + params.toString();
+        }
     </script>
 @endsection
