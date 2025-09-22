@@ -196,7 +196,9 @@ public function reportIssue(Request $request, Order $order)
 public function searchByOrderNo($orderNo)
 {
     $order = Order::with(['items.product', 'items.variant', 'shippingAddress'])
-        ->where('order_no', $orderNo)
+        ->whereHas('items', function ($query) use ($orderNo) {
+            $query->where('order_no', $orderNo);
+        })
         ->where('user_id', auth()->id())
         ->first();
 
