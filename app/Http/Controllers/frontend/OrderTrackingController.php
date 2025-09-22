@@ -193,5 +193,63 @@ public function reportIssue(Request $request, Order $order)
     ]);
 }
 
+public function searchByOrderNo($orderNo)
+{
+    $order = Order::with(['items.product', 'items.variant', 'shippingAddress'])
+        ->where('order_no', $orderNo)
+        ->where('user_id', auth()->id())
+        ->first();
+
+    if (!$order) {
+        return response()->json(['error' => 'Order not found'], 404);
+    }
+
+    // Calculate subtotal
+    $subtotal = $order->items->sum(fn($item) => $item->quantity * $item->price);
+
+    // Tax (10%)
+    $tax = $subtotal * 0.10;
+
+    // Final total
+    $finalTotal = $subtotal + $tax;
+
+    // Build shipping timeline
+    $timeline = [
+        [
+            'title' => 'Order Confirmed',
+            'timestamp' => $order->created_at->format('M d, Y \a\t h:i A'),
+            'done' => true,
+        ],
+        [
+            'title' => 'Processing',
+            'timestamp' => $order->created_at->addMinutes(15)->format('M d, Y \a\t h:i A'),
+            'done' => in_array($order->status, ['Processing','Shipped','Delivered']),
+        ],
+        [
+            'title' => 'Shipped',
+            'timestamp' => $order->created_at->addHours(2)->format('M d, Y \a\t h:i A'),
+            'done' => in_array($order->status, ['Shipped','Delivered']),
+        ],
+        [
+            'title' => 'Out for Delivery',
+            'timestamp' => $order->created_at->addHours(20)->format('M d, Y \a\t h:i A'),
+            'done' => ($order->status === 'Delivered'),
+        ],
+        [
+            'title' => 'Delivered',
+            'timestamp' => $order->updated_at->format('M d, Y \a\t h:i A'),
+            'done' => ($order->status === 'Delivered'),
+        ],
+    ];
+
+    return response()->json([
+        'order' => $order,
+        'subtotal' => $subtotal,
+        'tax' => $tax,
+        'finalTotal' => $finalTotal,
+        'timeline' => $timeline,
+    ]);
+}
+
 
 }
