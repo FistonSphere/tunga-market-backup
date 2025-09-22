@@ -28,17 +28,17 @@
                                 class="filter-btn active px-3 py-1 rounded-full text-sm font-medium bg-accent text-white">
                                 All Orders
                             </button>
-                            <button onclick="filterOrders('processing')"
+                            <button onclick="filterOrders('Processing')"
                                 class="filter-btn px-3 py-1 rounded-full text-sm font-medium bg-secondary-100 text-secondary-600 hover:bg-secondary-200 transition-fast">
                                 Processing
                             </button>
-                            <button onclick="filterOrders('shipped')"
-                                class="filter-btn px-3 py-1 rounded-full text-sm font-medium bg-secondary-100 text-secondary-600 hover:bg-secondary-200 transition-fast">
-                                Shipped
-                            </button>
-                            <button onclick="filterOrders('delivered')"
+                            <button onclick="filterOrders('Delivered')"
                                 class="filter-btn px-3 py-1 rounded-full text-sm font-medium bg-secondary-100 text-secondary-600 hover:bg-secondary-200 transition-fast">
                                 Delivered
+                            </button>
+                            <button onclick="filterOrders('Canceled')"
+                                class="filter-btn px-3 py-1 rounded-full text-sm font-medium bg-secondary-100 text-secondary-600 hover:bg-secondary-200 transition-fast">
+                                Canceled
                             </button>
                         </div>
 
