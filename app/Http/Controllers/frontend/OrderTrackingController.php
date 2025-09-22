@@ -18,25 +18,26 @@ public function index(Request $request)
     $toDate = $request->get('to_date');
 
     $orders = OrderItem::with(['order', 'product'])
-        ->whereHas('order', function ($query) use ($status, $fromDate, $toDate) {
+        ->whereHas('order', function ($query) use ($status) {
             $query->where('user_id', auth()->id());
 
             // Status filter
             if ($status && strtolower($status) !== 'all') {
                 $query->where('status', $status);
             }
-
-            // Date range filter
-            if ($fromDate && $toDate) {
-                $query->whereBetween('created_at', [
-                    $fromDate . ' 00:00:00',
-                    $toDate . ' 23:59:59'
-                ]);
-            } elseif ($fromDate) {
-                $query->whereDate('created_at', '>=', $fromDate);
-            } elseif ($toDate) {
-                $query->whereDate('created_at', '<=', $toDate);
-            }
+        })
+        // Date range filter on OrderItem's created_at
+        ->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
+            $query->whereBetween('created_at', [
+                $fromDate . ' 00:00:00',
+                $toDate . ' 23:59:59'
+            ]);
+        })
+        ->when($fromDate && !$toDate, function ($query) use ($fromDate) {
+            $query->whereDate('created_at', '>=', $fromDate);
+        })
+        ->when(!$fromDate && $toDate, function ($query) use ($toDate) {
+            $query->whereDate('created_at', '<=', $toDate);
         })
         ->paginate(5)
         ->appends([
