@@ -690,7 +690,7 @@
                                         class="block p-3 border border-border rounded-lg hover:border-accent hover:bg-accent-50 transition-fast">
                                         <div class="flex justify-between items-center">
                                             <div>
-                                                <div class="font-semibold text-primary">#{{ $relOrder->order_number }}
+                                                <div class="font-semibold text-primary">#{{ $relOrder->order_no }}
                                                 </div>
                                                 <div class="text-sm text-secondary-600">
                                                     {{ $relOrder->created_at->format('M d, Y') }}

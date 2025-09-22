@@ -75,12 +75,12 @@ public function show($orderId)
             'done' => ($order->status === 'Delivered'),
         ],
     ];
- $relatedOrders = Order::where('user_id', auth()->id())
+ $relatedOrders = Order::with(['items.product', 'items.variant', 'shippingAddress'])->where('user_id', auth()->id())
         ->where('id', '!=', $order->id)
         ->latest()
         ->take(3)
         ->get();
-     
+    //  dd($relatedOrders);
 
     return view('frontend.orders.show', [
         'order' => $order,
