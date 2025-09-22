@@ -12,22 +12,27 @@ use Illuminate\Support\Facades\DB;
 class OrderTrackingController extends Controller
 {
    public function index(Request $request)
-   {
-    $status = $request->get('status');
+{
+    $status = $request->get('status'); // Get ?status= query param
+
     $orders = OrderItem::with(['order', 'product'])
-        ->whereHas('order', function ($query) {
+        ->whereHas('order', function ($query) use ($status) {
             $query->where('user_id', auth()->id());
+
+            // Apply status filter only if not "all" or null
+            if ($status && strtolower($status) !== 'all') {
+                $query->where('status', $status);
+            }
         })
         ->paginate(5)
-        ->appends(['status' => $status]); 
+        ->appends(['status' => $status]); // Keep filter during pagination
 
-
-       // Logic to show the order tracking page
-       return view('frontend.order-tracking',[
+    return view('frontend.order-tracking', [
         'orders' => $orders,
-        'status' => $status
-       ]);
-   }
+        'status' => $status ?? 'all',
+    ]);
+}
+
 
 public function show($orderId)
 {

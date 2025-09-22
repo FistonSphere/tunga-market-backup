@@ -24,23 +24,27 @@
 
                         <!-- Quick Filters -->
                         <div class="flex flex-wrap gap-2 mb-4">
-                            <button onclick="filterOrders('all')"
-                                class="filter-btn active px-3 py-1 rounded-full text-sm font-medium bg-accent text-white">
+                            <a href="{{ route('order.tracking', ['status' => 'all']) }}"
+                                class="filter-btn px-3 py-1 rounded-full text-sm font-medium {{ $status == 'all' || !$status ? 'bg-accent text-white' : 'bg-secondary-100 text-secondary-600 hover:bg-secondary-200' }}">
                                 All Orders
-                            </button>
-                            <button onclick="filterOrders('Processing')"
-                                class="filter-btn px-3 py-1 rounded-full text-sm font-medium bg-secondary-100 text-secondary-600 hover:bg-secondary-200 transition-fast">
+                            </a>
+
+                            <a href="{{ route('order.tracking', ['status' => 'Processing']) }}"
+                                class="filter-btn px-3 py-1 rounded-full text-sm font-medium {{ $status == 'Processing' ? 'bg-accent text-white' : 'bg-secondary-100 text-secondary-600 hover:bg-secondary-200' }}">
                                 Processing
-                            </button>
-                            <button onclick="filterOrders('Delivered')"
-                                class="filter-btn px-3 py-1 rounded-full text-sm font-medium bg-secondary-100 text-secondary-600 hover:bg-secondary-200 transition-fast">
+                            </a>
+
+                            <a href="{{ route('order.tracking', ['status' => 'Delivered']) }}"
+                                class="filter-btn px-3 py-1 rounded-full text-sm font-medium {{ $status == 'Delivered' ? 'bg-accent text-white' : 'bg-secondary-100 text-secondary-600 hover:bg-secondary-200' }}">
                                 Delivered
-                            </button>
-                            <button onclick="filterOrders('Canceled')"
-                                class="filter-btn px-3 py-1 rounded-full text-sm font-medium bg-secondary-100 text-secondary-600 hover:bg-secondary-200 transition-fast">
+                            </a>
+
+                            <a href="{{ route('order.tracking', ['status' => 'Canceled']) }}"
+                                class="filter-btn px-3 py-1 rounded-full text-sm font-medium {{ $status == 'Canceled' ? 'bg-accent text-white' : 'bg-secondary-100 text-secondary-600 hover:bg-secondary-200' }}">
                                 Canceled
-                            </button>
+                            </a>
                         </div>
+
 
                         <!-- Date Range Filter -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
@@ -717,9 +721,9 @@
                 container.innerHTML = `
                     <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-secondary-200"></div>
                     ${timeline.map((step, index) => `
-                                                                 <div class="flex items-start space-x-4 ${index !== timeline.length - 1 ? 'mb-8' : ''}">
-                                                                     <div class="w-12 h-12 ${step.completed ? 'bg-success' : 'bg-secondary-200'} rounded-full flex items-center justify-center flex-shrink-0">
-                                                                         ${step.completed ? `
+                                                                     <div class="flex items-start space-x-4 ${index !== timeline.length - 1 ? 'mb-8' : ''}">
+                                                                         <div class="w-12 h-12 ${step.completed ? 'bg-success' : 'bg-secondary-200'} rounded-full flex items-center justify-center flex-shrink-0">
+                                                                             ${step.completed ? `
                                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                     </svg>
@@ -728,13 +732,13 @@
                                         <circle cx="12" cy="12" r="3"/>
                                     </svg>
                                 `}
+                                                                         </div>
+                                                                         <div class="flex-1">
+                                                                             <h4 class="font-semibold ${step.completed ? 'text-primary' : 'text-secondary-600'}">${step.status}</h4>
+                                                                             <p class="text-sm ${step.completed ? 'text-success' : 'text-secondary-500'} font-semibold">${step.date}</p>
+                                                                         </div>
                                                                      </div>
-                                                                     <div class="flex-1">
-                                                                         <h4 class="font-semibold ${step.completed ? 'text-primary' : 'text-secondary-600'}">${step.status}</h4>
-                                                                         <p class="text-sm ${step.completed ? 'text-success' : 'text-secondary-500'} font-semibold">${step.date}</p>
-                                                                     </div>
-                                                                 </div>
-                                                             `).join('')}
+                                                                 `).join('')}
                 `;
             }
 
