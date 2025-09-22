@@ -11,27 +11,48 @@ use Illuminate\Support\Facades\DB;
 
 class OrderTrackingController extends Controller
 {
-   public function index(Request $request)
+public function index(Request $request)
 {
-    $status = $request->get('status'); // Get ?status= query param
+    $status = $request->get('status');
+    $fromDate = $request->get('from_date');
+    $toDate = $request->get('to_date');
 
     $orders = OrderItem::with(['order', 'product'])
-        ->whereHas('order', function ($query) use ($status) {
+        ->whereHas('order', function ($query) use ($status, $fromDate, $toDate) {
             $query->where('user_id', auth()->id());
 
-            // Apply status filter only if not "all" or null
+            // Status filter
             if ($status && strtolower($status) !== 'all') {
                 $query->where('status', $status);
             }
+
+            // Date range filter
+            if ($fromDate && $toDate) {
+                $query->whereBetween('created_at', [
+                    $fromDate . ' 00:00:00',
+                    $toDate . ' 23:59:59'
+                ]);
+            } elseif ($fromDate) {
+                $query->whereDate('created_at', '>=', $fromDate);
+            } elseif ($toDate) {
+                $query->whereDate('created_at', '<=', $toDate);
+            }
         })
         ->paginate(5)
-        ->appends(['status' => $status]); // Keep filter during pagination
+        ->appends([
+            'status' => $status,
+            'from_date' => $fromDate,
+            'to_date' => $toDate,
+        ]);
 
     return view('frontend.order-tracking', [
-        'orders' => $orders,
-        'status' => $status ?? 'all',
+        'orders'   => $orders,
+        'status'   => $status ?? 'all',
+        'fromDate' => $fromDate,
+        'toDate'   => $toDate,
     ]);
 }
+
 
 
 public function show($orderId)
