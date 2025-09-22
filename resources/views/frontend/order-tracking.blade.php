@@ -282,23 +282,23 @@
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <label class="text-sm text-secondary-600">Order Number</label>
-                                        <div class="font-semibold text-primary" id="detail-order-number">AM2025-789456
+                                        <div class="font-semibold text-primary" id="detail-order-number">
                                         </div>
                                     </div>
                                     <div>
                                         <label class="text-sm text-secondary-600">Order Date</label>
-                                        <div class="font-semibold text-primary" id="detail-order-date">January 15, 2025
+                                        <div class="font-semibold text-primary" id="detail-order-date">
                                         </div>
                                     </div>
                                     <div>
                                         <label class="text-sm text-secondary-600">Total Amount</label>
-                                        <div class="font-semibold text-accent text-lg" id="detail-order-total">$2,847.50
+                                        <div class="font-semibold text-accent text-lg" id="detail-order-total">
                                         </div>
                                     </div>
                                     <div>
                                         <label class="text-sm text-secondary-600">Status</label>
                                         <span id="detail-order-status"
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Delivered</span>
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800"></span>
                                     </div>
                                 </div>
                             </div>
@@ -308,32 +308,17 @@
                                 <h4 class="font-semibold text-primary mb-3">Items Ordered</h4>
                                 <div id="order-items" class="space-y-3">
                                     <div class="flex items-center space-x-4 p-3 border border-border rounded-lg">
-                                        <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&amp;w=2679&amp;auto=format&amp;fit=crop"
-                                            alt="Premium Wireless Earbuds Pro" class="w-16 h-16 rounded-lg object-cover"
-                                            loading="lazy">
+                                       {{-- image --}}
                                         <div class="flex-1">
-                                            <h5 class="font-semibold text-primary">Premium Wireless Earbuds Pro</h5>
+                                            <h5 class="font-semibold text-primary"></h5>
                                             <div class="flex items-center space-x-4 text-sm text-secondary-600">
-                                                <span>Qty: 50</span>
-                                                <span>Unit: $45.50</span>
-                                                <span class="font-semibold text-accent">$2,275.00</span>
+                                                <span></span>
+                                                <span></span>
+                                                <span class="font-semibold text-accent"></span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="flex items-center space-x-4 p-3 border border-border rounded-lg">
-                                        <img src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=2"
-                                            alt="Smart Home Hub Controller" class="w-16 h-16 rounded-lg object-cover"
-                                            loading="lazy">
-                                        <div class="flex-1">
-                                            <h5 class="font-semibold text-primary">Smart Home Hub Controller</h5>
-                                            <div class="flex items-center space-x-4 text-sm text-secondary-600">
-                                                <span>Qty: 25</span>
-                                                <span>Unit: $22.90</span>
-                                                <span class="font-semibold text-accent">$572.50</span>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -356,7 +341,7 @@
                                         </div>
                                         <div class="flex-1">
                                             <h4 class="font-semibold text-primary">Order Confirmed</h4>
-                                            <p class="text-sm text-success font-semibold">Jan 15, 2025 at 2:30 PM</p>
+                                            <p class="text-sm text-success font-semibold"></p>
                                         </div>
                                     </div>
 
@@ -373,7 +358,7 @@
                                         </div>
                                         <div class="flex-1">
                                             <h4 class="font-semibold text-primary">Processing</h4>
-                                            <p class="text-sm text-success font-semibold">Jan 15, 2025 at 4:15 PM</p>
+                                            <p class="text-sm text-success font-semibold"></p>
                                         </div>
                                     </div>
 
@@ -390,7 +375,7 @@
                                         </div>
                                         <div class="flex-1">
                                             <h4 class="font-semibold text-primary">Shipped</h4>
-                                            <p class="text-sm text-success font-semibold">Jan 16, 2025 at 10:00 AM</p>
+                                            <p class="text-sm text-success font-semibold"></p>
                                         </div>
                                     </div>
 
