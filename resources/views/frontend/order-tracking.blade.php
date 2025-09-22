@@ -66,7 +66,7 @@
                                     <tr>
                                         <th class="px-4 py-3 text-left text-sm font-semibold text-primary">Order #</th>
                                         <th class="px-4 py-3 text-left text-sm font-semibold text-primary">Date</th>
-                                        <th class="px-4 py-3 text-left text-sm font-semibold text-primary">Supplier</th>
+                                        <th class="px-4 py-3 text-left text-sm font-semibold text-primary">Brand</th>
                                         <th class="px-4 py-3 text-left text-sm font-semibold text-primary">Total</th>
                                         <th class="px-4 py-3 text-left text-sm font-semibold text-primary">Status</th>
                                         <th class="px-4 py-3 text-left text-sm font-semibold text-primary">Action</th>
