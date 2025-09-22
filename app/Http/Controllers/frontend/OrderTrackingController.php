@@ -80,7 +80,16 @@ public function show($orderId)
         ->latest()
         ->take(3)
         ->get();
-    return view('frontend.orders.show', compact('order', 'subtotal', 'tax', 'finalTotal', 'timeline','relatedOrders'));
+     
+
+    return view('frontend.orders.show', [
+        'order' => $order,
+        'subtotal' => $subtotal,
+        'tax' => $tax,
+        'finalTotal' => $finalTotal,
+        'timeline' => $timeline,
+        'relatedOrders' => $relatedOrders,
+    ]);
 }
 public function reorder(Order $order)
 {
