@@ -262,7 +262,7 @@
                     </div>
 
                     <!-- Order Details Display -->
-                    <div id="order-details" class="card">
+                    <div id="order-details" class="card hidden">
                         <div class="flex items-center justify-between mb-6">
                             <h3 class="text-xl font-semibold text-primary">Order Details</h3>
                             <button onclick="clearOrderDetails()"
@@ -492,7 +492,7 @@
                     </div>
 
                     <!-- GPS Tracking Map (when available) -->
-                    <div id="gps-tracking" class="card">
+                    <div id="gps-tracking" class="card hidden">
                         <h4 class="font-semibold text-primary mb-4">Live GPS Tracking</h4>
                         <div class="bg-secondary-100 rounded-lg h-64 flex items-center justify-center mb-4">
                             <div class="text-center">
@@ -524,10 +524,7 @@
                 </div>
             </div>
         </div>
-        <div id="toast-copy"
-            class="hidden fixed bottom-5 right-5 bg-accent text-white text-sm font-medium px-4 py-2 rounded-lg shadow-lg transition-opacity duration-300">
-            Copied!
-        </div>
+        
     </section>
 
     <script>
@@ -571,20 +568,7 @@
                     d="M5 13l4 4L19 7" />
             `;
 
-                // Show toast
-                const toast = document.getElementById('toast-copy');
-                toast.classList.remove('hidden');
-                toast.style.opacity = 1;
-
-                setTimeout(() => {
-                    toast.style.opacity = 0;
-                }, 1500);
-
-                setTimeout(() => {
-                    toast.classList.add('hidden');
-                }, 2000);
-
-                // Change back icon after 2s
+                // Change back after 2 seconds
                 setTimeout(() => {
                     svg.innerHTML = `
                     <path stroke-linecap="round" stroke-linejoin="round"
