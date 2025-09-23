@@ -210,10 +210,10 @@ public function searchByOrderNo($orderNo)
     $subtotal = $order->items->sum(fn($item) => $item->quantity * $item->price);
 
     // Tax (10%)
-    $tax = $subtotal * 0.10;
-
+    // $tax = $subtotal * 0.10;
+$tax = round($subtotal * 0.10);
     // Final total
-    $finalTotal = $subtotal + $tax;
+    $finalTotal = number_format($subtotal + $tax);
 
     // Build shipping timeline
     $timeline = [
