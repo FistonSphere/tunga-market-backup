@@ -927,17 +927,18 @@
         // Toast Notification
         function showNotify(type, message) {
             // Define possible styles for 'success' and 'error'
+             
             const styles = {
                 success: {
+                    bg: "bg-red-500",
+                    icon: "⚠️",
+                    title: "Error"
+                },
+                error: {
                     bg: "bg-green-500",
                     icon: "✔️",
                     title: "Success"
                 },
-                error: {
-                    bg: "bg-red-500",
-                    icon: "⚠️",
-                    title: "Error"
-                }
             };
 
             // Check if 'type' is a valid key (either 'success' or 'error')
