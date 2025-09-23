@@ -1,6 +1,54 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <style>
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes progressAnim {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.4s ease-out forwards;
+        }
+
+        .animate-fade-out {
+            animation: fadeOut 0.6s ease-in forwards;
+        }
+
+        .animate-progress {
+            animation: progressAnim 3.5s linear forwards;
+        }
+    </style>
     <!-- Breadcrumb Navigation -->
     <section class="bg-surface py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,7 +78,8 @@
                         <span class="text-secondary-600"><span class="font-semibold text-primary"
                                 id="cart-item-count">{{ $cartCount }}</span> items in cart</span>
                         @if ($discountPromo > 0)
-                            <span class="text-success">💰 You're saving <span class="font-semibold">{{ $discountPromo }} Rwf</span> with Promo
+                            <span class="text-success">💰 You're saving <span class="font-semibold">{{ $discountPromo }}
+                                    Rwf</span> with Promo
                                 discounts!</span>
                         @endif
                     </div>
@@ -53,7 +102,8 @@
                         </svg>
                         View Wishlist ({{ is_countable($wishlist) ? count($wishlist) : 0 }})
                     </button>
-                    <a href="{{ route('compare') }}" class="text-secondary-600 hover:text-primary transition-fast text-body-sm">
+                    <a href="{{ route('compare') }}"
+                        class="text-secondary-600 hover:text-primary transition-fast text-body-sm">
                         <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
