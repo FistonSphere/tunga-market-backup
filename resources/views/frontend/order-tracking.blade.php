@@ -511,17 +511,6 @@
                                     </svg>
                                     <span>Reorder</span>
                                 </button>
-                                <button onclick="initiateReturn()" class="btn-secondary flex items-center space-x-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
-                                    </svg>
-                                    <span>Return Items</span>
-                                </button>
-                                <button onclick="contactSupport()"
-                                    class="text-accent hover:text-accent-600 font-semibold px-4 py-2">
-                                    Customer Support
-                                </button>
                             </div>
                         </div>
                     </div>
