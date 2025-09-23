@@ -77,11 +77,11 @@
                     <div class="flex items-center space-x-6 text-body-sm">
                         <span class="text-secondary-600"><span class="font-semibold text-primary"
                                 id="cart-item-count">{{ $cartCount }}</span> items in cart</span>
-                        @if ($discountPromo > 0)
+                        {{-- @if ($discountPromo > 0)
                             <span class="text-success">💰 You're saving <span class="font-semibold">{{ $discountPromo }}
                                     Rwf</span> with Promo
                                 discounts!</span>
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
                 @php

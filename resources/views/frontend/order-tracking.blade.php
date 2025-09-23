@@ -514,7 +514,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -560,7 +560,24 @@
             </div>
         </div>
     </div>
+    <!-- Barcode Scan Modal -->
+    <div id="barcode-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+            <h3 class="text-lg font-semibold text-primary mb-4">Scan Order Barcode</h3>
+
+            <!-- Scanner Container -->
+            <div id="barcode-reader" style="width:100%"></div>
+
+            <!-- Close Button -->
+            <button onclick="closeBarcodeScanner()" class="absolute top-2 right-2 text-secondary-600 hover:text-accent">
+                ✕
+            </button>
+        </div>
+    </div>
+
     <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
+    <script src="https://unpkg.com/html5-qrcode" defer></script>
+
     <script>
         // Handle window resize
         window.addEventListener('resize', () => {
@@ -844,6 +861,59 @@
         function clearOrderDetails() {
             document.getElementById('order-details').classList.add('hidden');
             document.getElementById('order-search').value = '';
+        }
+
+        let html5QrCode;
+
+        function scanBarcode() {
+            const modal = document.getElementById("barcode-modal");
+            modal.classList.remove("hidden");
+
+            if (!html5QrCode) {
+                html5QrCode = new Html5Qrcode("barcode-reader");
+            }
+
+            const config = {
+                fps: 10,
+                qrbox: 250
+            };
+
+            html5QrCode.start({
+                    facingMode: "environment"
+                },
+                config,
+                (decodedText) => {
+                    // Stop scanner after successful scan
+                    html5QrCode.stop().then(() => {
+                        document.getElementById("barcode-modal").classList.add("hidden");
+
+                        // Use scanned text as order number
+                        fetch(`/orders/search/${decodedText}`)
+                            .then(res => {
+                                if (!res.ok) throw new Error("Order not found");
+                                return res.json();
+                            })
+                            .then(data => {
+                                renderOrderDetails(data); // reuse the function we already made
+                            })
+                            .catch(err => {
+                                alert("Order not found!");
+                                console.error(err);
+                            });
+                    }).catch(err => console.error("Failed to stop scanner", err));
+                },
+                (errorMessage) => {
+                    // Optional: log scanning errors continuously
+                    console.log("Scanning error:", errorMessage);
+                }
+            ).catch(err => console.error("Unable to start scanner", err));
+        }
+
+        function closeBarcodeScanner() {
+            if (html5QrCode) {
+                html5QrCode.stop().catch(err => console.error("Failed to stop scanner", err));
+            }
+            document.getElementById("barcode-modal").classList.add("hidden");
         }
     </script>
 @endsection
