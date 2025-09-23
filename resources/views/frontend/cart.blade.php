@@ -518,7 +518,7 @@
     </div>
 
 
-    <div id="toast-container" class="fixed top-5 right-5 z-50 space-y-3"></div>
+    <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
 
     <script>
         // Cart and Wishlist Management System
@@ -913,14 +913,75 @@
                                 saveMsg.classList.add("hidden");
                             }
 
-                            showToast('Item removed', `Item removed from cart successfully`);
+                            showNotify('Item removed', `Item removed from cart successfully`);
                         }, 300);
                     } else {
-                        showToast(data.message || "Failed to remove item", "error");
+                        showNotify(data.message || "Failed to remove item", "error");
                     }
                 })
-                .catch(err => showToast(err.message || "Something went wrong!", "error"));
+                .catch(err => showNotify(err.message || "Something went wrong!", "error"));
         }
+
+        // Toast Notification
+        function showNotify(type, message) {
+            const styles = {
+                success: {
+                    bg: "bg-green-500",
+                    icon: "✔️",
+                    title: "Success"
+                },
+                error: {
+                    bg: "bg-red-500",
+                    icon: "⚠️",
+                    title: "Error"
+                }
+            };
+
+            let container = document.getElementById("toast-container");
+            if (!container) {
+                container = document.createElement("div");
+                container.id = "toast-container";
+                container.className = "fixed top-5 right-5 space-y-3 z-50 flex flex-col";
+                document.body.appendChild(container);
+            }
+
+            // Toast wrapper
+            const notify = document.createElement("div");
+            notify.className =
+                `relative flex items-start space-x-3 ${styles[type].bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
+
+            // Icon
+            const icon = document.createElement("span");
+            icon.className = "text-2xl";
+            icon.innerText = styles[type].icon;
+
+            // Content
+            const content = document.createElement("div");
+            content.className = "flex-1";
+            content.innerHTML = `
+            <div class="font-semibold">${styles[type].title}</div>
+            <div class="text-sm opacity-90">${message}</div>
+        `;
+
+            // Progress bar
+            const progress = document.createElement("div");
+            progress.className =
+                "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
+            progress.style.width = "100%";
+
+            // Append
+            notify.appendChild(icon);
+            notify.appendChild(content);
+            notify.appendChild(progress);
+            container.appendChild(notify);
+
+            // Auto-remove
+            setTimeout(() => {
+                notify.classList.add("animate-fade-out");
+                setTimeout(() => notify.remove(), 500);
+            }, 4000);
+        }
+
 
 
         // Toast function
