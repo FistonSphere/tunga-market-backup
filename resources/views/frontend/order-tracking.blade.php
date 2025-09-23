@@ -666,6 +666,19 @@
                 </div>
             `;
             });
+            // Render payment info
+            if (order.payment) {
+                document.getElementById('payment-method').innerText = order.payment.method ?
+                    order.payment.masked_account :
+                    "N/A";
+                document.getElementById('transaction-id').innerText = order.payment.transaction_id ?
+                    order.payment.transaction_id :
+                    "N/A";
+            } else {
+                document.getElementById('payment-method').innerText = "N/A";
+                document.getElementById('transaction-id').innerText = "N/A";
+            }
+
         }
 
         function clearOrderDetails() {
