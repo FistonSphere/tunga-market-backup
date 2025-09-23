@@ -1164,6 +1164,8 @@
         }, 4000);
     }
 
+    
+    
     //report issue
     const reportIssueUrl = "{{ route('orders.reportIssue', $order->id) }}";
 
