@@ -514,36 +514,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- GPS Tracking Map (when available) -->
-                    <div id="gps-tracking" class="card hidden">
-                        <h4 class="font-semibold text-primary mb-4">Live GPS Tracking</h4>
-                        <div class="bg-secondary-100 rounded-lg h-64 flex items-center justify-center mb-4">
-                            <div class="text-center">
-                                <svg class="w-16 h-16 text-accent mx-auto mb-4" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                                <p class="text-secondary-600">Live tracking available once shipped</p>
-                            </div>
-                        </div>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Current Location:</span>
-                                <span class="font-semibold text-primary" id="current-location">In Transit</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">Next Stop:</span>
-                                <span class="font-semibold text-primary" id="next-stop">Distribution Center</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary-600">ETA:</span>
-                                <span class="font-semibold text-accent" id="eta">Tomorrow 2:00 PM</span>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
