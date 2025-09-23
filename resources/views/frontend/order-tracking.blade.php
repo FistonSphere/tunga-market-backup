@@ -625,14 +625,14 @@
                 const total = (item.quantity * item.price).toFixed(2);
                 itemsContainer.innerHTML += `
                 <div class="flex items-center space-x-4 p-3 border border-border rounded-lg">
-                    <img src="${item.product.image_url}" alt="${item.product.name}" 
+                    <img src="${item.product.main_image}" alt="${item.product.name}" 
                         class="w-16 h-16 rounded-lg object-cover" loading="lazy">
                     <div class="flex-1">
                         <h5 class="font-semibold text-primary">${item.product.name}</h5>
                         <div class="flex items-center space-x-4 text-sm text-secondary-600">
                             <span>Qty: ${item.quantity}</span>
-                            <span>Unit: $${item.price}</span>
-                            <span class="font-semibold text-accent">$${total}</span>
+                            <span>Unit: ${item.price} ${item.product.currency}</span>
+                            <span class="font-semibold text-accent">${total} ${item.product.currency}</span>
                         </div>
                     </div>
                 </div>
