@@ -231,7 +231,7 @@
                             <!-- Search Input -->
                             <div class="relative w-full">
                                 <input type="text" id="order-search" class="input-field pr-20 w-full"
-                                    placeholder="Enter order reference number (e.g., AM2025-789456)"
+                                    placeholder="Enter order reference number (e.g., ORD-20250910-2)"
                                     onpaste="handlePaste(event)" />
                                 <button onclick="searchOrder()"
                                     class="absolute right-2 top-1/2 transform -translate-y-1/2 btn-primary px-4 py-2">
@@ -291,7 +291,7 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <label class="text-sm text-secondary-600">Total Amount</label>
+                                        <label class="text-sm text-secondary-600">Total Amount (include 10% Tax)</label>
                                         <div class="font-semibold text-accent text-lg" id="detail-order-total">
                                         </div>
                                     </div>
@@ -626,7 +626,7 @@
             const itemsContainer = document.getElementById('order-items');
             itemsContainer.innerHTML = '';
             order.items.forEach(item => {
-                const total = (item.quantity * item.price).toFixed(2);
+                const total = (item.quantity * item.price);
                 itemsContainer.innerHTML += `
                 <div class="flex items-center space-x-4 p-3 border border-border rounded-lg">
                     <img src="${item.product.main_image}" alt="${item.product.name}" 
