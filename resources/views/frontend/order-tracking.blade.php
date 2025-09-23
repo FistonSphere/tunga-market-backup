@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+
     <!-- Page Header -->
     <section class="bg-gradient-to-r from-primary-50 to-accent-50 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -553,6 +554,7 @@
             </div>
         </div>
     </div>
+    <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
     <script>
         // Handle window resize
         window.addEventListener('resize', () => {
