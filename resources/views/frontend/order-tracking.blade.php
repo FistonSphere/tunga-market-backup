@@ -594,6 +594,7 @@
         }
         const order = @json($order);
         const orderNo = "{{ $order->items->first()->order_no ?? 'N/A' }}";
+       
 
         function renderOrderDetails(data) {
             const {
@@ -668,15 +669,13 @@
             });
             // Render payment info
             if (order.payment) {
-                document.getElementById('payment-method').innerText = order.payment.method ?
-                    order.payment.masked_account :
-                    "N/A";
+                document.getElementById('payment-method').innerText = order.payment.masked_account + ' ' + order.payment.payment_method;
                 document.getElementById('transaction-id').innerText = order.payment.transaction_id ?
                     order.payment.transaction_id :
                     "N/A";
             } else {
-                document.getElementById('payment-method').innerText = "N/A";
-                document.getElementById('transaction-id').innerText = "N/A";
+                document.getElementById('payment-method').innerText = "Not provided";
+                document.getElementById('transaction-id').innerText = "Not provided";
             }
 
         }

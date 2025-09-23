@@ -195,7 +195,7 @@ public function reportIssue(Request $request, Order $order)
 
 public function searchByOrderNo($orderNo)
 {
-    $order = Order::with(['items.product', 'items.variant', 'shippingAddress'])
+    $order = Order::with(['items.product', 'items.variant', 'shippingAddress', 'payment'])
         ->whereHas('items', function ($query) use ($orderNo) {
             $query->where('order_no', $orderNo);
         })
@@ -209,13 +209,9 @@ public function searchByOrderNo($orderNo)
     // Calculate subtotal
     $subtotal = $order->items->sum(fn($item) => $item->quantity * $item->price);
 
-    // Tax (10%)
-
     $tax = round($subtotal * 0.10);
-    // Final total
     $finalTotal = number_format($subtotal + $tax);
 
-    // Build shipping timeline
     $timeline = [
         [
             'title' => 'Order Confirmed',
