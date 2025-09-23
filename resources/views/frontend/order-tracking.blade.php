@@ -635,7 +635,7 @@
                         <h5 class="font-semibold text-primary">${item.product.name}</h5>
                         <div class="flex items-center space-x-4 text-sm text-secondary-600">
                             <span>Qty: ${item.quantity}</span>
-                            <span>Unit: Number(${item.price}).toLocaleString() ${item.product.currency}</span>
+                            <span>Unit: ${Number(item.price).toLocaleString()} ${item.product.currency}</span>
                             <span class="font-semibold text-accent">${total} ${order.currency}</span>
                         </div>
                     </div>
