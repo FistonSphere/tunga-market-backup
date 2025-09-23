@@ -437,8 +437,8 @@
                                 <h4 class="font-semibold text-primary mb-3">Supplier Information</h4>
                                 <div class="flex items-center justify-between">
                                     <div>
-                                        <div class="font-medium" id="supplier-name">TechSound Electronics</div>
-                                        <div class="text-sm text-secondary-600" id="supplier-location">Shenzhen, China
+                                        <div class="font-medium" id="supplier-name">Tunga Market</div>
+                                        <div class="text-sm text-secondary-600" id="supplier-location">Kigali, Rwanda
                                         </div>
                                     </div>
                                     <div class="flex space-x-2">
@@ -452,6 +452,7 @@
                                     </div>
                                 </div>
                             </div>
+
 
                             <!-- Quick Actions -->
                             <div class="flex flex-wrap gap-3">
@@ -594,7 +595,7 @@
         }
         const order = @json($order);
         const orderNo = "{{ $order->items->first()->order_no ?? 'N/A' }}";
-       
+
 
         function renderOrderDetails(data) {
             const {
@@ -669,13 +670,31 @@
             });
             // Render payment info
             if (order.payment) {
-                document.getElementById('payment-method').innerText = order.payment.masked_account + ' ' + order.payment.payment_method;
+                document.getElementById('payment-method').innerText = order.payment.masked_account + ' ' + order.payment
+                    .payment_method;
                 document.getElementById('transaction-id').innerText = order.payment.transaction_id ?
                     order.payment.transaction_id :
                     "Not provided";
             } else {
                 document.getElementById('payment-method').innerText = "Not provided";
                 document.getElementById('transaction-id').innerText = "Not provided";
+            }
+
+            function contactSupplier() {
+                const orderId = document.getElementById("detail-order-number")?.innerText.replace('#', '') || 'N/A';
+                const supplierName = "Tunga Market";
+
+                const message = encodeURIComponent(
+                    `Hello ${supplierName},\n\nI am contacting you regarding my order (NO: ${orderId}). Could you please assist me with more details?`
+                );
+
+                // WhatsApp contact number for Tunga Market
+                window.open(`https://wa.me/250787444019?text=${message}`, "_blank");
+            }
+
+            function downloadInvoice() {
+                const orderId = document.getElementById("detail-order-number")?.innerText.replace('#', '') || 'N/A';
+                window.location.href = `/orders/${orderId}/invoice`;
             }
 
         }
