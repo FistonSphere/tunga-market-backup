@@ -885,11 +885,16 @@
                 (decodedText) => {
                     console.log("Scanned QR:", decodedText);
 
-                    // ✅ Extract orderId from scanned URL: e.g., https://yourdomain.com/orders/15
+                    // ✅ Extract orderId from scanned URL
                     let orderId = null;
-                    const match = decodedText.match(/orders\/(\d+)/);
-                    if (match) {
-                        orderId = match[1];
+                    try {
+                        const url = new URL(decodedText);
+                        const pathParts = url.pathname.split("/"); // ["", "orders", "4"]
+                        if (pathParts[1] === "orders" && pathParts[2]) {
+                            orderId = pathParts[2];
+                        }
+                    } catch (e) {
+                        console.error("Invalid URL from QR:", decodedText);
                     }
 
                     if (!orderId) {
@@ -901,24 +906,36 @@
                     html5QrCode.stop().then(() => {
                         modal.classList.add("hidden");
 
-                        // ✅ Fetch order details directly from your Laravel route
-                        fetch(`/orders/${orderId}`)
+                        // ✅ Step 1: Get order number from orderId
+                        fetch(`/orders/${orderId}/get-order-no`)
                             .then(res => {
                                 if (!res.ok) throw new Error("Order not found");
-                                return res.text();
+                                return res.json();
                             })
-                            .then(html => {
-                                // Replace the order details section
-                                document.getElementById("order-details-container").innerHTML = html;
+                            .then(data => {
+                                const orderNo = data.order_no;
+
+                                if (!orderNo) throw new Error("Order number missing");
+
+                                // ✅ Step 2: Fetch order details using orderNo
+                                return fetch(`/orders/search/${orderNo}`);
+                            })
+                            .then(res => {
+                                if (!res.ok) throw new Error("Order not found");
+                                return res.json();
+                            })
+                            .then(data => {
+                                renderOrderDetails(data); // reuse same function
+                                alert("✅ Order loaded successfully!");
                             })
                             .catch(err => {
                                 alert("❌ Order not found!");
                                 console.error(err);
                             });
+
                     }).catch(err => console.error("Failed to stop scanner", err));
                 },
                 (errorMessage) => {
-                    // Optional: log scanning errors continuously
                     console.log("Scanning error:", errorMessage);
                 }
             ).catch(err => console.error("Unable to start scanner", err));
