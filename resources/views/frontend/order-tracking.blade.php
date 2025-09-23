@@ -680,23 +680,25 @@
                 document.getElementById('transaction-id').innerText = "Not provided";
             }
 
-            function contactSupplier() {
-                const orderId = document.getElementById("detail-order-number")?.innerText.replace('#', '') || 'N/A';
-                const supplierName = "Tunga Market";
 
-                const message = encodeURIComponent(
-                    `Hello ${supplierName},\n\nI am contacting you regarding my order (NO: ${orderId}). Could you please assist me with more details?`
-                );
 
-                // WhatsApp contact number for Tunga Market
-                window.open(`https://wa.me/250787444019?text=${message}`, "_blank");
-            }
+        }
 
-            function downloadInvoice() {
-                const orderId = document.getElementById("detail-order-number")?.innerText.replace('#', '') || 'N/A';
-                window.location.href = `/orders/${orderId}/invoice`;
-            }
+        function contactSupplier() {
+            const orderId = document.getElementById("detail-order-number")?.innerText.replace('#', '') || 'N/A';
+            const supplierName = "Tunga Market";
 
+            const message = encodeURIComponent(
+                `Hello ${supplierName},\n\nI am contacting you regarding my order (NO: ${orderId}). Could you please assist me with more details?`
+            );
+
+            // WhatsApp contact number for Tunga Market
+            window.open(`https://wa.me/250787444019?text=${message}`, "_blank");
+        }
+
+        function downloadInvoice() {
+            const orderId = "{{ $order->id }}";
+            window.location.href = `/orders/${orderId}/invoice`;
         }
 
         function clearOrderDetails() {
