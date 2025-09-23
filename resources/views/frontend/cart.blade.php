@@ -518,7 +518,7 @@
     </div>
 
 
-    <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
+    <div id="toast-container3" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
 
     <script>
         // Cart and Wishlist Management System
@@ -924,6 +924,7 @@
 
         // Toast Notification
         function showNotify(type, message) {
+            // Define possible styles for 'success' and 'error'
             const styles = {
                 success: {
                     bg: "bg-green-500",
@@ -937,15 +938,21 @@
                 }
             };
 
-            let container = document.getElementById("toast-container");
+            // Check if 'type' is a valid key (either 'success' or 'error')
+            if (!styles[type]) {
+                console.error(`Invalid notification type: "${type}". Expected 'success' or 'error'.`);
+                return; // Exit early if the type is invalid
+            }
+
+            let container = document.getElementById("toast-container3");
             if (!container) {
                 container = document.createElement("div");
-                container.id = "toast-container";
+                container.id = "toast-container3"; // Use the correct ID as per your Blade template
                 container.className = "fixed top-5 right-5 space-y-3 z-50 flex flex-col";
                 document.body.appendChild(container);
             }
 
-            // Toast wrapper
+            // Toast wrapper with the selected style (background color, icon, etc.)
             const notify = document.createElement("div");
             notify.className =
                 `relative flex items-start space-x-3 ${styles[type].bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
@@ -959,9 +966,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-            <div class="font-semibold">${styles[type].title}</div>
-            <div class="text-sm opacity-90">${message}</div>
-        `;
+        <div class="font-semibold">${styles[type].title}</div>
+        <div class="text-sm opacity-90">${message}</div>
+    `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -969,13 +976,13 @@
                 "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
             progress.style.width = "100%";
 
-            // Append
+            // Append elements to the notification
             notify.appendChild(icon);
             notify.appendChild(content);
             notify.appendChild(progress);
             container.appendChild(notify);
 
-            // Auto-remove
+            // Auto-remove the notification after 4 seconds
             setTimeout(() => {
                 notify.classList.add("animate-fade-out");
                 setTimeout(() => notify.remove(), 500);
@@ -984,15 +991,16 @@
 
 
 
+
         // Toast function
-        function showToast(title, message = '', type = "success") {
-            const toast = document.createElement("div");
-            toast.className = `fixed top-5 right-5 px-4 py-2 rounded shadow text-white z-50
-        ${type === "success" ? "bg-green-500" : "bg-red-500"}`;
-            toast.innerHTML = `<strong>${title}</strong> ${message}`;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
+        // function showToast(title, message = '', type = "success") {
+        //     const toast = document.createElement("div");
+        //     toast.className = `fixed top-5 right-5 px-4 py-2 rounded shadow text-white z-50
+    // ${type === "success" ? "bg-green-500" : "bg-red-500"}`;
+        //     toast.innerHTML = `<strong>${title}</strong> ${message}`;
+        //     document.body.appendChild(toast);
+        //     setTimeout(() => toast.remove(), 3000);
+        // }
 
 
         //remove to cart
