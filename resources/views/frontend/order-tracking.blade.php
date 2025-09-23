@@ -672,7 +672,7 @@
                 document.getElementById('payment-method').innerText = order.payment.masked_account + ' ' + order.payment.payment_method;
                 document.getElementById('transaction-id').innerText = order.payment.transaction_id ?
                     order.payment.transaction_id :
-                    "N/A";
+                    "Not provided";
             } else {
                 document.getElementById('payment-method').innerText = "Not provided";
                 document.getElementById('transaction-id').innerText = "Not provided";
