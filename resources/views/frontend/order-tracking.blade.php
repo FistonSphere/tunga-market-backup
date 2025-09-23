@@ -579,15 +579,15 @@
     <script src="https://unpkg.com/html5-qrcode" defer></script>
 
     <script>
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            orderTracker.handleMobileView();
-        });
+        // // Handle window resize
+        // window.addEventListener('resize', () => {
+        //     orderTracker.handleMobileView();
+        // });
 
-        // Auto-focus search on load
-        window.addEventListener('load', () => {
-            document.getElementById('order-search').focus();
-        });
+        // // Auto-focus search on load
+        // window.addEventListener('load', () => {
+        //     document.getElementById('order-search').focus();
+        // });
 
 
         function applyDateFilter() {
@@ -883,21 +883,36 @@
                 },
                 config,
                 (decodedText) => {
+                    console.log("Scanned QR:", decodedText);
+
+                    // ✅ Extract orderId from scanned URL: e.g., https://yourdomain.com/orders/15
+                    let orderId = null;
+                    const match = decodedText.match(/orders\/(\d+)/);
+                    if (match) {
+                        orderId = match[1];
+                    }
+
+                    if (!orderId) {
+                        alert("❌ Invalid QR Code scanned");
+                        return;
+                    }
+
                     // Stop scanner after successful scan
                     html5QrCode.stop().then(() => {
-                        document.getElementById("barcode-modal").classList.add("hidden");
+                        modal.classList.add("hidden");
 
-                        // Use scanned text as order number
-                        fetch(`/orders/search/${decodedText}`)
+                        // ✅ Fetch order details directly from your Laravel route
+                        fetch(`/orders/${orderId}`)
                             .then(res => {
                                 if (!res.ok) throw new Error("Order not found");
-                                return res.json();
+                                return res.text();
                             })
-                            .then(data => {
-                                renderOrderDetails(data); // reuse the function we already made
+                            .then(html => {
+                                // Replace the order details section
+                                document.getElementById("order-details-container").innerHTML = html;
                             })
                             .catch(err => {
-                                alert("Order not found!");
+                                alert("❌ Order not found!");
                                 console.error(err);
                             });
                     }).catch(err => console.error("Failed to stop scanner", err));
