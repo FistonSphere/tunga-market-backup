@@ -308,7 +308,7 @@
                                 <h4 class="font-semibold text-primary mb-3">Items Ordered</h4>
                                 <div id="order-items" class="space-y-3">
                                     <div class="flex items-center space-x-4 p-3 border border-border rounded-lg">
-                                       {{-- image --}}
+                                        {{-- image --}}
                                         <div class="flex-1">
                                             <h5 class="font-semibold text-primary"></h5>
                                             <div class="flex items-center space-x-4 text-sm text-secondary-600">
@@ -591,6 +591,8 @@
                     alert("Order not found!");
                 });
         }
+        const order = @json($order);
+        const orderNo = "{{ $order->items->first()->order_no ?? 'N/A' }}";
 
         function renderOrderDetails(data) {
             const {
@@ -604,9 +606,11 @@
             detailsEl.classList.remove('hidden');
 
             // Fill header
-            document.getElementById('detail-order-number').innerText = order.order_no;
+
+
+            document.getElementById('detail-order-number').innerText = `#${orderNo}`;
             document.getElementById('detail-order-date').innerText = new Date(order.created_at).toLocaleDateString();
-            document.getElementById('detail-order-total').innerText = `$${finalTotal.toFixed(2)}`;
+            document.getElementById('detail-order-total').innerText = `${finalTotal} ${order.currency}`;
 
             const statusSpan = document.getElementById('detail-order-status');
             statusSpan.innerText = order.status;
@@ -632,7 +636,7 @@
                         <div class="flex items-center space-x-4 text-sm text-secondary-600">
                             <span>Qty: ${item.quantity}</span>
                             <span>Unit: ${item.price} ${item.product.currency}</span>
-                            <span class="font-semibold text-accent">${total} ${item.product.currency}</span>
+                            <span class="font-semibold text-accent">${total} ${order.currency}</span>
                         </div>
                     </div>
                 </div>
