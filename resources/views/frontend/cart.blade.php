@@ -913,12 +913,14 @@
                                 saveMsg.classList.add("hidden");
                             }
 
-                            showNotify('Item removed', `Item removed from cart successfully`);
+                            // Corrected the type to 'success'
+                            showNotify('success', `Item removed from cart successfully`);
                         }, 300);
                     } else {
-                        showNotify(data.message || "Failed to remove item", "error");
+                        showNotify('error', data.message || "Failed to remove item");
                     }
                 })
+
                 .catch(err => showNotify(err.message || "Something went wrong!", "error"));
         }
 
