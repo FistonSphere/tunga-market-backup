@@ -201,7 +201,7 @@ public function searchByOrderNo($orderNo)
         })
         ->where('user_id', auth()->id())
         ->first();
-        
+
     if (!$order) {
         return response()->json(['error' => 'Order not found'], 404);
     }
@@ -246,6 +246,17 @@ public function searchByOrderNo($orderNo)
         'tax' => $tax,
         'finalTotal' => $finalTotal,
         'timeline' => $timeline,
+    ]);
+}
+
+public function getOrderNo($id)
+{
+    $order = Order::with('items')->where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+
+    $orderNo = $order->items->first()->order_no ?? null;
+
+    return response()->json([
+        'order_no' => $orderNo
     ]);
 }
 

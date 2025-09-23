@@ -146,3 +146,4 @@ Route::prefix('orders')->group(function () {
     Route::get('{order}/receipt/download', [OrderDocumentController::class, 'downloadReceipt'])->name('orders.receipt.download');
 });
 Route::get('/receipt/verify/{order}', action: [OrderDocumentController::class, 'verifyReceipt'])->name('receipt.verify');
+Route::get('/orders/{id}/get-order-no', [OrderTrackingController::class, 'getOrderNo']);
