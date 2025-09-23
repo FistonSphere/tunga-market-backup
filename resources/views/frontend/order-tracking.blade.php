@@ -422,14 +422,15 @@
                                 <div class="grid grid-cols-2 gap-4 text-sm">
                                     <div>
                                         <label class="text-secondary-600">Payment Method</label>
-                                        <div class="font-medium" id="payment-method">•••• •••• •••• 4532</div>
+                                        <div class="font-medium" id="payment-method">-</div>
                                     </div>
                                     <div>
                                         <label class="text-secondary-600">Transaction ID</label>
-                                        <div class="font-medium" id="transaction-id">TXN-789456123</div>
+                                        <div class="font-medium" id="transaction-id">-</div>
                                     </div>
                                 </div>
                             </div>
+
 
                             <!-- Supplier Contact -->
                             <div class="bg-surface rounded-lg p-4">
