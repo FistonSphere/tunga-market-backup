@@ -245,7 +245,7 @@
         </div>
     </section>
 
-    
+
 
     <!-- FAQ Section -->
     <section class="py-16 bg-white">
@@ -258,98 +258,40 @@
             </div>
 
             <div class="space-y-4">
-                <!-- FAQ Item 1 -->
-                <div class="card">
-                    <button class="w-full text-left flex justify-between items-center p-6" onclick="toggleFAQ(1)">
-                        <h3 class="font-semibold text-primary">How do I track my order status?</h3>
-                        <svg class="w-5 h-5 text-secondary-400 transform transition-transform duration-200"
-                            id="faq-icon-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <div class="hidden px-6 pb-6" id="faq-content-1">
-                        <p class="text-secondary-600">
-                            You can track your order in multiple ways: 1) Log into your account and visit the "My Orders"
-                            section, 2) Use the tracking number sent to your email, or 3) Contact our support team with your
-                            order number. Real-time updates are provided throughout the shipping process.
-                        </p>
+                @forelse($faqs as $index => $faq)
+                    <div class="card">
+                        <button class="w-full text-left flex justify-between items-center p-6"
+                            onclick="toggleFAQ({{ $index }})">
+                            <h3 class="font-semibold text-primary">{{ $faq->question }}</h3>
+                            <svg class="w-5 h-5 text-secondary-400 transform transition-transform duration-200"
+                                id="faq-icon-{{ $index }}" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="hidden px-6 pb-6" id="faq-content-{{ $index }}">
+                            <p class="text-secondary-600">
+                                {{ $faq->answer }}
+                            </p>
+                        </div>
                     </div>
-                </div>
-
-                <!-- FAQ Item 2 -->
-                <div class="card">
-                    <button class="w-full text-left flex justify-between items-center p-6" onclick="toggleFAQ(2)">
-                        <h3 class="font-semibold text-primary">What payment methods do you accept?</h3>
-                        <svg class="w-5 h-5 text-secondary-400 transform transition-transform duration-200"
-                            id="faq-icon-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <div class="hidden px-6 pb-6" id="faq-content-2">
-                        <p class="text-secondary-600">
-                            We accept major credit cards (Visa, MasterCard, American Express), PayPal, bank transfers, and
-                            digital wallets. For international transactions, we support multiple currencies and offer secure
-                            payment processing with fraud protection.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- FAQ Item 3 -->
-                <div class="card">
-                    <button class="w-full text-left flex justify-between items-center p-6" onclick="toggleFAQ(3)">
-                        <h3 class="font-semibold text-primary">How does Trade Assurance work?</h3>
-                        <svg class="w-5 h-5 text-secondary-400 transform transition-transform duration-200"
-                            id="faq-icon-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <div class="hidden px-6 pb-6" id="faq-content-3">
-                        <p class="text-secondary-600">
-                            Trade Assurance protects your orders from payment to delivery. Your payment is held securely
-                            until you confirm receipt of goods as described. If there are quality issues or delivery
-                            problems, you're covered with full refund protection up to the order value.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- FAQ Item 4 -->
-                <div class="card">
-                    <button class="w-full text-left flex justify-between items-center p-6" onclick="toggleFAQ(4)">
-                        <h3 class="font-semibold text-primary">Can I return or exchange products?</h3>
-                        <svg class="w-5 h-5 text-secondary-400 transform transition-transform duration-200"
-                            id="faq-icon-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <div class="hidden px-6 pb-6" id="faq-content-4">
-                        <p class="text-secondary-600">
-                            Yes, we offer a comprehensive return policy. Most items can be returned within 30 days of
-                            delivery. For exchanges, contact the seller directly or use our dispute resolution system.
-                            Return shipping costs may apply depending on the reason for return.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- FAQ Item 5 -->
-                <div class="card">
-                    <button class="w-full text-left flex justify-between items-center p-6" onclick="toggleFAQ(5)">
-                        <h3 class="font-semibold text-primary">How do I become a verified seller?</h3>
-                        <svg class="w-5 h-5 text-secondary-400 transform transition-transform duration-200"
-                            id="faq-icon-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <div class="hidden px-6 pb-6" id="faq-content-5">
-                        <p class="text-secondary-600">
-                            To become verified, complete your business profile, provide legal documentation (business
-                            license, tax ID), undergo our verification process, and maintain high performance standards.
-                            Verified sellers get enhanced visibility, Trust badges, and access to premium features.
-                        </p>
-                    </div>
-                </div>
+                @empty
+                    <p class="text-center text-secondary-500">No FAQs published yet.</p>
+                @endforelse
             </div>
         </div>
     </section>
+
+    <script>
+        function toggleFAQ(index) {
+            const content = document.getElementById(`faq-content-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+            content.classList.toggle("hidden");
+            icon.classList.toggle("rotate-180");
+        }
+    </script>
+
 
     <!-- Community Content -->
     <section class="py-16 bg-secondary-50">
