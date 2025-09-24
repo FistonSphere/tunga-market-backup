@@ -144,7 +144,7 @@ public function reorder(Order $order)
                     'product_id'   => $item->product_id,
                     'quantity'     => $item->quantity,
                     'price'        => $item->price,
-                    'currency'     => 'Rwf', // default currency for Rwanda
+                    'currency'     => 'Rwf', 
                     'created_at'   => now(),
                     'updated_at'   => now(),
                 ]);
@@ -251,6 +251,7 @@ public function searchByOrderNo($orderNo)
 
 public function getOrderNo($id)
 {
+
     $order = Order::with('items')->where('id', $id)->where('user_id', auth()->id())->firstOrFail();
 
     $orderNo = $order->items->first()->order_no ?? null;

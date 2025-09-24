@@ -657,8 +657,12 @@
                     alert("Order not found!");
                 });
         }
-        const order = @json($order);
-        const orderNo = "{{ $order->items->first()->order_no ?? 'N/A' }}";
+        @php
+            $orderVar = isset($order) ? $order : null;
+            $orderNoVar = isset($order) && $order->items->first() ? $order->items->first()->order_no : 'N/A';
+        @endphp
+        const order = @json($orderVar ?? []);
+        const orderNo = "{{ $orderNoVar }}";
 
 
         function renderOrderDetails(data) {
@@ -761,8 +765,12 @@
         }
 
         function downloadInvoice() {
-            const orderId = "{{ $order->id }}";
-            window.location.href = `/orders/${orderId}/invoice`;
+            @if (isset($order) && isset($order->id))
+                const orderId = "{{ $order->id }}";
+                window.location.href = `/orders/${orderId}/invoice`;
+            @else
+                // No order available, do nothing or show a message if needed
+            @endif
         }
 
         function reorderItems() {
@@ -774,7 +782,12 @@
         }
 
         function confirmReorder() {
-            const orderId = "{{ $order->id }}";
+            @if (isset($order) && isset($order->id))
+                const orderId = "{{ $order->id }}";
+                window.location.href = `/orders/${orderId}/invoice`;
+            @else
+                // No order available, do nothing or show a message if needed
+            @endif
 
             fetch(`/orders/${orderId}/reorder`, {
                     method: "POST",
@@ -796,6 +809,96 @@
                     closeReorderModal();
                     showNotify("error", "Network error, please try again.");
                 });
+        }
+
+
+        function clearOrderDetails() {
+            document.getElementById('order-details').classList.add('hidden');
+            document.getElementById('order-search').value = '';
+        }
+
+        let html5QrCode;
+
+        function scanBarcode() {
+            const modal = document.getElementById("barcode-modal");
+            modal.classList.remove("hidden");
+
+            if (!html5QrCode) {
+                html5QrCode = new Html5Qrcode("barcode-reader");
+            }
+
+            const config = {
+                fps: 10,
+                qrbox: 250
+            };
+
+            html5QrCode.start({
+                    facingMode: "environment"
+                },
+                config,
+                (decodedText) => {
+                    console.log("Scanned QR:", decodedText);
+
+                    // ✅ Extract orderId from scanned URL
+                    let orderId = null;
+                    try {
+                        const url = new URL(decodedText);
+                        const pathParts = url.pathname.split("/"); // ["", "orders", "4"]
+                        if (pathParts[1] === "orders" && pathParts[2]) {
+                            orderId = pathParts[2];
+                        }
+                    } catch (e) {
+                        console.error("Invalid URL from QR:", decodedText);
+                    }
+
+                    if (!orderId) {
+                        showNotify("error", "❌ Invalid QR Code scanned");
+                        return;
+                    }
+
+                    // Stop scanner after successful scan
+                    html5QrCode.stop().then(() => {
+                        modal.classList.add("hidden");
+
+                        // ✅ Step 1: Get order number from orderId
+                        fetch(`/orders/${orderId}/get-order-no`)
+                            .then(res => {
+                                if (!res.ok) throw new Error("Order not found");
+                                return res.json();
+                            })
+                            .then(data => {
+                                const orderNo = data.order_no;
+                                if (!orderNo) throw new Error("Order number missing");
+
+                                // ✅ Step 2: Fetch order details using orderNo
+                                return fetch(`/orders/search/${orderNo}`);
+                            })
+                            .then(res => {
+                                if (!res.ok) throw new Error("Order not found");
+                                return res.json();
+                            })
+                            .then(data => {
+                                renderOrderDetails(data); // reuse same function
+                                showNotify("success", "✅ Order loaded successfully!");
+                            })
+                            .catch(err => {
+                                showNotify("error", "❌ Order not found!");
+                                console.error(err);
+                            });
+
+                    }).catch(err => console.error("Failed to stop scanner", err));
+                },
+                (errorMessage) => {
+                    console.log("Scanning error:", errorMessage);
+                }
+            ).catch(err => console.error("Unable to start scanner", err));
+        }
+
+        function closeBarcodeScanner() {
+            if (html5QrCode) {
+                html5QrCode.stop().catch(err => console.error("Failed to stop scanner", err));
+            }
+            document.getElementById("barcode-modal").classList.add("hidden");
         }
 
         // Toast Notification
@@ -856,96 +959,6 @@
                 notify.classList.add("animate-fade-out");
                 setTimeout(() => notify.remove(), 500);
             }, 4000);
-        }
-
-        function clearOrderDetails() {
-            document.getElementById('order-details').classList.add('hidden');
-            document.getElementById('order-search').value = '';
-        }
-
-        let html5QrCode;
-
-        function scanBarcode() {
-            const modal = document.getElementById("barcode-modal");
-            modal.classList.remove("hidden");
-
-            if (!html5QrCode) {
-                html5QrCode = new Html5Qrcode("barcode-reader");
-            }
-
-            const config = {
-                fps: 10,
-                qrbox: 250
-            };
-
-            html5QrCode.start({
-                    facingMode: "environment"
-                },
-                config,
-                (decodedText) => {
-                    console.log("Scanned QR:", decodedText);
-
-                    // ✅ Extract orderId from scanned URL
-                    let orderId = null;
-                    try {
-                        const url = new URL(decodedText);
-                        const pathParts = url.pathname.split("/"); // ["", "orders", "4"]
-                        if (pathParts[1] === "orders" && pathParts[2]) {
-                            orderId = pathParts[2];
-                        }
-                    } catch (e) {
-                        console.error("Invalid URL from QR:", decodedText);
-                    }
-
-                    if (!orderId) {
-                        alert("❌ Invalid QR Code scanned");
-                        return;
-                    }
-
-                    // Stop scanner after successful scan
-                    html5QrCode.stop().then(() => {
-                        modal.classList.add("hidden");
-
-                        // ✅ Step 1: Get order number from orderId
-                        fetch(`/orders/${orderId}/get-order-no`)
-                            .then(res => {
-                                if (!res.ok) throw new Error("Order not found");
-                                return res.json();
-                            })
-                            .then(data => {
-                                const orderNo = data.order_no;
-
-                                if (!orderNo) throw new Error("Order number missing");
-
-                                // ✅ Step 2: Fetch order details using orderNo
-                                return fetch(`/orders/search/${orderNo}`);
-                            })
-                            .then(res => {
-                                if (!res.ok) throw new Error("Order not found");
-                                return res.json();
-                            })
-                            .then(data => {
-                                renderOrderDetails(data); // reuse same function
-                                alert("✅ Order loaded successfully!");
-                            })
-                            .catch(err => {
-                                alert("❌ Order not found!");
-                                console.error(err);
-                            });
-
-                    }).catch(err => console.error("Failed to stop scanner", err));
-                },
-                (errorMessage) => {
-                    console.log("Scanning error:", errorMessage);
-                }
-            ).catch(err => console.error("Unable to start scanner", err));
-        }
-
-        function closeBarcodeScanner() {
-            if (html5QrCode) {
-                html5QrCode.stop().catch(err => console.error("Failed to stop scanner", err));
-            }
-            document.getElementById("barcode-modal").classList.add("hidden");
         }
     </script>
 @endsection
