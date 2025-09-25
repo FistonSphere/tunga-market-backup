@@ -63,7 +63,7 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                @foreach ($categories as $category => $topics)
+                @foreach ($faqs as $category => $topics)
                     <div class="card group hover:shadow-hover transition-all duration-300">
                         <div
                             class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 

@@ -16,13 +16,6 @@ class HelpCenterController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // Group into categories → topics → faqs
-        // $categories = $faqs
-        //     ->groupBy('category')
-        //     ->map(function ($faqsByCategory) {
-        //         return $faqsByCategory->groupBy('topic');
-        //     });
-// dd($faqs);
         return view('frontend.help-center', compact('faqs'));
    }
 }
