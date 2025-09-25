@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('faqs', function (Blueprint $table) {
-            $table->id();
-        $table->string('question');
-        $table->text('answer');
-        $table->boolean('is_active')->default(true); // allow enabling/disabling FAQ
-        $table->timestamps();
+          $table->id();
+    $table->string('category'); // buyer, seller, platform
+    $table->string('topic');    // e.g. Payment, Orders, Security
+    $table->string('question');
+    $table->text('answer');
+    $table->timestamps();
         });
     }
 
