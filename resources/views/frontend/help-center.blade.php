@@ -63,192 +63,56 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <!-- For Buyers -->
-                <div class="card group hover:shadow-hover transition-all duration-300">
-                    <div
-                        class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-200 transition-fast">
-                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-primary text-center mb-4">For Buyers</h3>
-                    <ul class="space-y-3">
-                        <li>
-                            <a href="javascript:void(0)"
-                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
-                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                How to place your first order
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"
-                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
-                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Payment methods & security
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"
-                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
-                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Order tracking & delivery
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"
-                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
-                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Returns & refunds policy
-                            </a>
-                        </li>
-                    </ul>
-                    <button class="btn-outline text-sm mt-6 w-full">View All Buyer Guides</button>
-                </div>
+                @foreach ($categories as $category => $topics)
+                    <div class="card group hover:shadow-hover transition-all duration-300">
+                        <div
+                            class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 
+                        {{ $category === 'buyer' ? 'bg-primary-100 group-hover:bg-primary-200' : '' }}
+                        {{ $category === 'seller' ? 'bg-accent-100 group-hover:bg-accent-200' : '' }}
+                        {{ $category === 'platform' ? 'bg-success-100 group-hover:bg-success-200' : '' }}">
+                            <svg class="w-8 h-8 {{ $category === 'buyer' ? 'text-primary' : ($category === 'seller' ? 'text-accent' : 'text-success') }}"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V4a1 1 0
+                                           00-1-1H5a1 1 0 00-1 1v3a1 1 0 001 1z" />
+                            </svg>
+                        </div>
 
-                <!-- For Sellers -->
-                <div class="card group hover:shadow-hover transition-all duration-300">
-                    <div
-                        class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-accent-200 transition-fast">
-                        <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-primary text-center mb-4">For Sellers</h3>
-                    <ul class="space-y-3">
-                        <li>
-                            <a href="javascript:void(0)"
-                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
-                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Getting started as a seller
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"
-                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
-                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Product listing optimization
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"
-                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
-                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Managing orders & inventory
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"
-                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
-                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Payment & fee structure
-                            </a>
-                        </li>
-                    </ul>
-                    <button class="btn-outline text-sm mt-6 w-full">View All Seller Guides</button>
-                </div>
+                        <h3 class="text-xl font-semibold text-primary text-center mb-4">
+                            For {{ ucfirst($category) }}
+                        </h3>
 
-                <!-- Platform Features -->
-                <div class="card group hover:shadow-hover transition-all duration-300">
-                    <div
-                        class="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-success-200 transition-fast">
-                        <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
+                        @foreach ($topics as $topic => $faqs)
+                            <h4 class="text-md font-semibold text-secondary-700 mt-4 mb-2">{{ $topic }}</h4>
+                            <ul class="space-y-3">
+                                @foreach ($faqs->take(3) as $faq)
+                                    <li>
+                                        <a href="#faq-{{ $faq->id }}"
+                                            class="flex items-center text-secondary-600 hover:text-primary transition-fast">
+                                            <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0
+                                                    010-1.414L10.586 10 7.293 6.707a1 1
+                                                    0 011.414-1.414l4 4a1 1 0
+                                                    010 1.414l-4 4a1 1 0
+                                                    01-1.414 0z" clip-rule="evenodd" />
+                                            </svg>
+                                            {{ $faq->question }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endforeach
+
+                        <a href="#{{ $category }}" class="btn-outline text-sm mt-6 w-full">
+                            View All {{ ucfirst($category) }} Guides
+                        </a>
                     </div>
-                    <h3 class="text-xl font-semibold text-primary text-center mb-4">Platform Features</h3>
-                    <ul class="space-y-3">
-                        <li>
-                            <a href="javascript:void(0)"
-                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
-                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Trade Assurance protection
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"
-                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
-                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Account security settings
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"
-                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
-                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Mobile app features
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"
-                                class="flex items-center text-secondary-600 hover:text-primary transition-fast">
-                                <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                API documentation
-                            </a>
-                        </li>
-                    </ul>
-                    <button class="btn-outline text-sm mt-6 w-full">View All Features</button>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
 
-
-
     <!-- FAQ Section -->
-    <section class="py-16 bg-white">
+    <section class="py-16 bg-white" id="faq-section">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">Frequently Asked Questions</h2>
@@ -258,19 +122,17 @@
             </div>
 
             <div class="space-y-4">
-                @forelse($faqs as $index => $faq)
-                    <div class="card">
+                @forelse($faqs as $faq)
+                    <div class="card" id="faq-{{ $faq->id }}">
                         <button class="w-full text-left flex justify-between items-center p-6"
-                            onclick="toggleFAQ({{ $index }})">
+                            onclick="toggleFAQ('{{ $faq->id }}')">
                             <h3 class="font-semibold text-primary">{{ $faq->question }}</h3>
                             <svg class="w-5 h-5 text-secondary-400 transform transition-transform duration-200"
-                                id="faq-icon-{{ $index }}" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
+                                id="faq-icon-{{ $faq->id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        <div class="hidden px-6 pb-6" id="faq-content-{{ $index }}">
+                        <div class="hidden px-6 pb-6" id="faq-content-{{ $faq->id }}">
                             <p class="text-secondary-600">
                                 {{ $faq->answer }}
                             </p>
@@ -282,6 +144,9 @@
             </div>
         </div>
     </section>
+
+
+
 
     <script>
         function toggleFAQ(index) {
