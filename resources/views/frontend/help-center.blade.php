@@ -39,14 +39,18 @@
 
                 <!-- Popular Searches -->
                 <div class="flex flex-wrap justify-center gap-2 mt-4">
-                    <span class="text-sm text-secondary-600">Popular:</span>
-                    <button class="text-sm text-primary hover:text-accent transition-fast">Order tracking</button>
-                    <span class="text-secondary-300">•</span>
-                    <button class="text-sm text-primary hover:text-accent transition-fast">Payment issues</button>
-                    <span class="text-secondary-300">•</span>
-                    <button class="text-sm text-primary hover:text-accent transition-fast">Seller registration</button>
-                    <span class="text-secondary-300">•</span>
-                    <button class="text-sm text-primary hover:text-accent transition-fast">Dispute resolution</button>
+                    @php
+                        $faqsPopular = \App\Models\Faq::where('is_active', true)
+                            ->orderBy('created_at', 'desc')
+                            ->latest()
+                            ->take(4)
+                            ->get();
+                    @endphp
+                    @foreach ($faqsPopular as $faqPopular)
+                        <span class="text-secondary-300">•</span>
+                        <a href="#faq-{{ $faqPopular->id }}"
+                            class="text-sm text-primary hover:text-accent transition-fast">{{ $faqPopular->question }}</a>
+                    @endforeach
                 </div>
             </div>
         </div>
