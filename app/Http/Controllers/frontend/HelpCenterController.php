@@ -10,13 +10,19 @@ class HelpCenterController extends Controller
 {
    public function index()
    {
-       // Logic to retrieve and display help center information
-       $faqs = Faq::where('is_active', true)->orderBy('created_at', 'desc')->get();
-       $categories = Faq::all()
-        ->groupBy('category')
-        ->map(function ($faqs) {
-            return $faqs->groupBy('topic');
-        });
-       return view('frontend.help-center', compact('faqs','categories')); // Adjust the view name as necessary
+       $faqs = Faq::where('is_active', true)
+            ->orderBy('category')
+            ->orderBy('topic')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Group into categories → topics → faqs
+        // $categories = $faqs
+        //     ->groupBy('category')
+        //     ->map(function ($faqsByCategory) {
+        //         return $faqsByCategory->groupBy('topic');
+        //     });
+// dd($faqs);
+        return view('frontend.help-center', compact('faqs'));
    }
 }
