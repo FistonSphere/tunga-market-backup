@@ -11,35 +11,41 @@ class FaqsTableSeeder extends Seeder
     {
         $faqs = [
             [
-                'question' => 'How do I track my order status?',
-                'answer'   => 'You can track your order by logging into your account and visiting "My Orders", or using the tracking number sent to your email.',
-                'is_active'=> true,
-            ],
-            [
-                'question' => 'What payment methods are supported?',
-                'answer'   => 'We support Mobile Money (MTN, Airtel), Visa/MasterCard, bank transfers, and IremboPay integration.',
-                'is_active'=> true,
-            ],
-            [
-                'question' => 'Can I return or exchange products?',
-                'answer'   => 'Yes, items can be returned within 30 days of delivery. For exchanges, contact support or use the dispute resolution system.',
-                'is_active'=> true,
-            ],
-            [
-                'question' => 'How do I become a verified seller?',
-                'answer'   => 'Complete your business profile, provide legal documentation, and pass our verification checks to become a verified seller.',
-                'is_active'=> true,
-            ],
-            [
-                'question' => 'Is my payment secure?',
-                'answer'   => 'Yes, all transactions are encrypted and processed securely with fraud protection. We never share your payment information.',
-                'is_active'=> true,
-            ],
-            [
-                'question' => 'What should I do if I forgot my password?',
-                'answer'   => 'Click on "Forgot Password" on the login page and follow the instructions to reset your password via email or SMS verification.',
-                'is_active'=> true,
-            ],
+        'category' => 'buyer',
+        'topic' => 'Orders',
+        'question' => 'How to place your first order?',
+        'answer' => 'You can place your first order by adding items to your cart and completing checkout.',
+    ],
+    [
+        'category' => 'buyer',
+        'topic' => 'Payment',
+        'question' => 'What payment methods are available?',
+        'answer' => 'We support credit card, PayPal, and bank transfers.',
+    ],
+    [
+        'category' => 'seller',
+        'topic' => 'Getting Started',
+        'question' => 'How do I register as a seller?',
+        'answer' => 'Register by completing the seller onboarding form under your account settings.',
+    ],
+    [
+        'category' => 'seller',
+        'topic' => 'Payments',
+        'question' => 'How are seller fees charged?',
+        'answer' => 'Seller fees are automatically deducted when payments are processed.',
+    ],
+    [
+        'category' => 'platform',
+        'topic' => 'Security',
+        'question' => 'How do I secure my account?',
+        'answer' => 'Enable 2FA and update your password regularly.',
+    ],
+    [
+        'category' => 'platform',
+        'topic' => 'Mobile',
+        'question' => 'Does the platform have a mobile app?',
+        'answer' => 'Yes, you can download our app from iOS and Android stores.',
+    ],
         ];
 
         foreach ($faqs as $faq) {
