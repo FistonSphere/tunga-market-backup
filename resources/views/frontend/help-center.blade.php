@@ -73,7 +73,7 @@
                             <svg class="w-8 h-8 {{ $category === 'buyer' ? 'text-primary' : ($category === 'seller' ? 'text-accent' : 'text-success') }}"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V4a1 1 0
-                                           00-1-1H5a1 1 0 00-1 1v3a1 1 0 001 1z" />
+                                               00-1-1H5a1 1 0 00-1 1v3a1 1 0 001 1z" />
                             </svg>
                         </div>
 
@@ -90,10 +90,10 @@
                                             class="flex items-center text-secondary-600 hover:text-primary transition-fast">
                                             <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M7.293 14.707a1 1 0
-                                                    010-1.414L10.586 10 7.293 6.707a1 1
-                                                    0 011.414-1.414l4 4a1 1 0
-                                                    010 1.414l-4 4a1 1 0
-                                                    01-1.414 0z" clip-rule="evenodd" />
+                                                        010-1.414L10.586 10 7.293 6.707a1 1
+                                                        0 011.414-1.414l4 4a1 1 0
+                                                        010 1.414l-4 4a1 1 0
+                                                        01-1.414 0z" clip-rule="evenodd" />
                                             </svg>
                                             {{ $faq->question }}
                                         </a>
@@ -148,14 +148,6 @@
 
 
 
-    <script>
-        function toggleFAQ(index) {
-            const content = document.getElementById(`faq-content-${index}`);
-            const icon = document.getElementById(`faq-icon-${index}`);
-            content.classList.toggle("hidden");
-            icon.classList.toggle("rotate-180");
-        }
-    </script>
 
 
     <!-- Community Content -->
@@ -311,18 +303,34 @@
         </div>
     </section>
 
-    <script>
-        function toggleFAQ(index) {
-            const content = document.getElementById(`faq-content-${index}`);
-            const icon = document.getElementById(`faq-icon-${index}`);
 
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
-            } else {
-                content.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
-            }
+    <script>
+        function toggleFAQ(id) {
+            const content = document.getElementById(`faq-content-${id}`);
+            const icon = document.getElementById(`faq-icon-${id}`);
+
+            // Collapse all FAQs first
+            document.querySelectorAll('[id^="faq-content-"]').forEach(el => el.classList.add("hidden"));
+            document.querySelectorAll('[id^="faq-icon-"]').forEach(el => el.classList.remove("rotate-180"));
+
+            // Expand the clicked one
+            content.classList.remove("hidden");
+            icon.classList.add("rotate-180");
         }
+
+        // Auto-open FAQ if anchor exists in URL (e.g., #faq-3)
+        window.addEventListener("DOMContentLoaded", () => {
+            const hash = window.location.hash;
+            if (hash && document.querySelector(hash)) {
+                const id = hash.replace("#faq-", "");
+                toggleFAQ(id);
+
+                // Smooth scroll into view
+                document.querySelector(hash).scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }
+        });
     </script>
 @endsection
