@@ -52,64 +52,6 @@
         </div>
     </section>
 
-    <!-- Featured Help Topics -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Featured Help Topics</h2>
-                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Quick access to the most common questions organized by user type
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                @foreach ($faqs as $category => $topics)
-                    <div class="card group hover:shadow-hover transition-all duration-300">
-                        <div
-                            class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 
-                        {{ $category === 'buyer' ? 'bg-primary-100 group-hover:bg-primary-200' : '' }}
-                        {{ $category === 'seller' ? 'bg-accent-100 group-hover:bg-accent-200' : '' }}
-                        {{ $category === 'platform' ? 'bg-success-100 group-hover:bg-success-200' : '' }}">
-                            <svg class="w-8 h-8 {{ $category === 'buyer' ? 'text-primary' : ($category === 'seller' ? 'text-accent' : 'text-success') }}"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V4a1 1 0
-                                               00-1-1H5a1 1 0 00-1 1v3a1 1 0 001 1z" />
-                            </svg>
-                        </div>
-
-                        <h3 class="text-xl font-semibold text-primary text-center mb-4">
-                            For {{ ucfirst($category) }}
-                        </h3>
-
-                        @foreach ($topics as $topic => $faqs)
-                            <h4 class="text-md font-semibold text-secondary-700 mt-4 mb-2">{{ $topic }}</h4>
-                            <ul class="space-y-3">
-                                @foreach ($faqs->take(3) as $faq)
-                                    <li>
-                                        <a href="#faq-{{ $faq->id }}"
-                                            class="flex items-center text-secondary-600 hover:text-primary transition-fast">
-                                            <svg class="w-4 h-4 mr-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0
-                                                        010-1.414L10.586 10 7.293 6.707a1 1
-                                                        0 011.414-1.414l4 4a1 1 0
-                                                        010 1.414l-4 4a1 1 0
-                                                        01-1.414 0z" clip-rule="evenodd" />
-                                            </svg>
-                                            {{ $faq->question }}
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endforeach
-
-                        <a href="#{{ $category }}" class="btn-outline text-sm mt-6 w-full">
-                            View All {{ ucfirst($category) }} Guides
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
 
     <!-- FAQ Section -->
     <section class="py-16 bg-white" id="faq-section">

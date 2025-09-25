@@ -14,11 +14,11 @@ public function index()
         ->orderBy('category')
         ->orderBy('topic')
         ->orderBy('created_at', 'desc')
-        ->get()
-        ->groupBy('category') // groups by buyer/seller/platform
-        ->map(function ($categoryGroup) {
-            return $categoryGroup->groupBy('topic'); // then group inside each category by topic
-        });
+        ->get();
+        // ->groupBy('category') // groups by buyer/seller/platform
+        // ->map(function ($categoryGroup) {
+        //     return $categoryGroup->groupBy('topic'); // then group inside each category by topic
+        // });
 
     return view('frontend.help-center', compact('faqs'));
 }
