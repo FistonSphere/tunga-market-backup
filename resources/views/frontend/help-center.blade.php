@@ -257,7 +257,12 @@
                     <div class="text-sm text-secondary-600 mb-4">
                         📧 support@tungamarket.com
                     </div>
-                    <button class="btn-outline w-full">Send Email</button>
+                    <a
+                        href="mailto:sanofiston04@gmail.com?subject={{ urlencode('Tunga Market Support Request') }}&body={{ urlencode('Hello Tunga Market Support, I need help with...') }}"
+                        class="btn-secondary w-full"
+                    >
+                        Send Email
+                    </a>
                 </div>
 
                 <!-- Phone Support -->
