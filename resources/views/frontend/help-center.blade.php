@@ -320,7 +320,7 @@
                 let faqId = $(this).data('id');
 
                 $.ajax({
-                    url: "{{ route('faqs.search') }}", // same search route you already have
+                    url: "{{ route('help.center.search') }}", // same search route you already have
                     type: "GET",
                     data: {
                         q: faqId,
