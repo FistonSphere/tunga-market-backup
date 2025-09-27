@@ -225,14 +225,14 @@
                                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                         </svg>
                     </div>
-                    <h3 class="font-semibold text-primary mb-4">Live Chat Support</h3>
+                    <h3 class="font-semibold text-primary mb-4">WhatsApp Chat Support</h3>
                     <p class="text-body-sm text-secondary-600 mb-6">
                         Get instant help from our support agents. Available 24/7 in multiple languages.
                     </p>
                     <div class="text-sm text-success mb-4">
                         🟢 Online Now • Avg. response: 2 minutes
                     </div>
-                    <button class="btn-primary w-full">Start Live Chat</button>
+                    <button class="btn-primary w-full">Start Chat</button>
                 </div>
 
                 <!-- Email Support -->
