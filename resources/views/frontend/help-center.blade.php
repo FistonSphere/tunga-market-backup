@@ -276,7 +276,7 @@
                     <div class="text-sm text-secondary-600 mb-4">
                         📞 +1 (800) 555-0123 • Mon-Fri 9AM-6PM EST
                     </div>
-                    <button class="btn-outline w-full">Call Now</button>
+                    <a href="tel:+250787444019" class="btn-outline w-full">Call Now</a>
                 </div>
             </div>
         </div>
