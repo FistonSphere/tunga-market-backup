@@ -54,9 +54,10 @@ public function suggest(Request $request)
         ->orderBy('category')
         ->orderBy('topic')
         ->orderBy('created_at', 'desc')
-        ->get();
+        ->get(['id', 'category', 'topic', 'question']); // limit fields for speed
 
     return response()->json($results);
 }
+
 
 }
