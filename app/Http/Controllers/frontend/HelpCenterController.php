@@ -32,30 +32,31 @@ public function search(Request $request)
         })
         ->orderBy('category')
         ->orderBy('topic')
-        ->get()
-         ->groupBy('category')
-        ->map(function ($categoryGroup) {
-            return $categoryGroup->groupBy('topic');
-        });
-        
+        ->orderBy('created_at', 'desc')
+        ->get();
 
     return view('frontend.help-center', compact('faqs', 'query'));
 }
+
 
 public function suggest(Request $request)
 {
     $term = $request->input('q');
 
-    $results = Faq::where('is_active', true)
+    $faqs = Faq::where('is_active', true)
         ->where(function ($q) use ($term) {
             $q->where('question', 'LIKE', "%{$term}%")
+              ->orWhere('answer', 'LIKE', "%{$term}%")
               ->orWhere('topic', 'LIKE', "%{$term}%")
               ->orWhere('category', 'LIKE', "%{$term}%");
         })
-        ->limit(10)
-        ->get(['id', 'category', 'topic', 'question']);
+        ->orderBy('category')
+        ->orderBy('topic')
+        ->orderBy('created_at', 'desc')
+        ->get();
 
-    return response()->json($results);
+    return view('frontend.help-center', compact('faqs', 'term'));
 }
+
 
 }
