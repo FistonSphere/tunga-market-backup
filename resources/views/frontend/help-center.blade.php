@@ -336,7 +336,7 @@
                                     li.onclick = () => {
                                         // Redirect to search route with ID filter
                                         window.location.href =
-                                            `{{ url('/help-center') }}?q=${item.id}&type=id`;
+                                            `{{ route('help.center.search') }}?q=${item.id}&type=id`;
                                     };
                                     suggestionsList.appendChild(li);
                                 });
