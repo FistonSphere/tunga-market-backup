@@ -62,6 +62,7 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/product-compare-center', [ComparedController::class, 'index'])->name('compare');
 Route::get('/help-center', [HelpCenterController::class, 'index'])->name('help.center');
+Route::get('/help-center/search', [HelpCenterController::class, 'search'])->name('help.center.search');
 Route::get('/careers', [CareerController::class, 'index'])->name('careers');
 Route::get('/shopping-cart', [CartController::class, 'index'])->name('cart');
 Route::get('/checkout-process', [CheckoutController::class, 'index'])->name('checkout');

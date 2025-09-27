@@ -15,13 +15,30 @@ public function index()
         ->orderBy('topic')
         ->orderBy('created_at', 'desc')
         ->get();
-        // ->groupBy('category') // groups by buyer/seller/platform
-        // ->map(function ($categoryGroup) {
-        //     return $categoryGroup->groupBy('topic'); // then group inside each category by topic
-        // });
 
     return view('frontend.help-center', compact('faqs'));
 }
 
+public function search(Request $request)
+{
+    $query = $request->input('q');
+
+    $faqs = Faq::where('is_active', true)
+        ->where(function ($q) use ($query) {
+            $q->where('question', 'LIKE', "%{$query}%")
+              ->orWhere('answer', 'LIKE', "%{$query}%")
+              ->orWhere('topic', 'LIKE', "%{$query}%")
+              ->orWhere('category', 'LIKE', "%{$query}%");
+        })
+        ->orderBy('category')
+        ->orderBy('topic')
+        ->get()
+        ->groupBy('category')
+        ->map(function ($categoryGroup) {
+            return $categoryGroup->groupBy('topic');
+        });
+
+    return view('frontend.help-center', compact('faqs', 'query'));
+}
 
 }
