@@ -82,11 +82,39 @@
     @endif
 
     <!-- FAQ Section -->
-    <div id="faq-results">
-        {{-- Default FAQ list here --}}
-        @include('partials.faqs-list', ['faqs' => $faqs])
-    </div>
 
+    <section class="py-16 bg-white" id="faq-section">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-heading font-bold text-primary mb-4">Frequently Asked Questions</h2>
+                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
+                    Quick answers to the most common questions from our community
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                @forelse($faqs as $faq)
+                    <div class="card" id="faq-{{ $faq->id }}">
+                        <button class="w-full text-left flex justify-between items-center p-6"
+                            onclick="toggleFAQ('{{ $faq->id }}')">
+                            <h3 class="font-semibold text-primary">{{ $faq->question }}</h3>
+                            <svg class="w-5 h-5 text-secondary-400 transform transition-transform duration-200"
+                                id="faq-icon-{{ $faq->id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="hidden px-6 pb-6" id="faq-content-{{ $faq->id }}">
+                            <p class="text-secondary-600">
+                                {{ $faq->answer }}
+                            </p>
+                        </div>
+                    </div>
+                @empty
+                    <p class="text-center text-secondary-500">No FAQs published yet.</p>
+                @endforelse
+            </div>
+        </div>
+    </section>
 
 
 
@@ -276,61 +304,56 @@
             }
         });
 
-        $(document).ready(function() {
-            let searchBox = $('#faq-search');
-            let suggestions = $('#faq-suggestions');
-            let resultsContainer = $('#faq-results');
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("faq-search");
+            const suggestionsBox = document.getElementById("faq-suggestions");
+            const suggestionsList = suggestionsBox.querySelector("ul");
 
-            // Live suggestions
-            searchBox.on('keyup', function() {
-                let query = $(this).val();
+            let timer;
 
-                if (query.length > 1) {
-                    $.ajax({
-                        url: "{{ route('help.center.suggest') }}",
-                        type: "GET",
-                        data: {
-                            q: query
-                        },
-                        success: function(data) {
-                            suggestions.empty();
+            searchInput.addEventListener("input", function() {
+                clearTimeout(timer);
+                const query = this.value.trim();
+
+                if (query.length < 2) {
+                    suggestionsBox.classList.add("hidden");
+                    return;
+                }
+
+                timer = setTimeout(() => {
+                    fetch(`{{ route('help.center.suggest') }}?q=${encodeURIComponent(query)}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            suggestionsList.innerHTML = "";
                             if (data.length > 0) {
                                 data.forEach(item => {
-                                    suggestions.append(
-                                        `<a href="#" class="list-group-item list-group-item-action suggestion-item" data-id="${item.id}">
-                                    <strong>${item.question}</strong><br>
-                                    <small>${item.category} › ${item.topic}</small>
-                                </a>`
-                                    );
+                                    const li = document.createElement("li");
+                                    li.className =
+                                        "px-4 py-2 hover:bg-primary-50 cursor-pointer";
+                                    li.innerHTML = `<span class="font-medium text-primary">${item.category}</span> → 
+                    <span class="text-secondary-600">${item.topic}</span> → 
+                    ${item.question}`;
+                                    li.onclick = () => {
+                                        // Redirect to search route with ID filter
+                                        window.location.href =
+                                            `{{ url('/help-center') }}?q=${item.id}&type=id`;
+                                    };
+                                    suggestionsList.appendChild(li);
                                 });
+
+                                suggestionsBox.classList.remove("hidden");
                             } else {
-                                suggestions.append(
-                                    '<div class="list-group-item">No results found</div>');
+                                suggestionsBox.classList.add("hidden");
                             }
-                        }
-                    });
-                } else {
-                    suggestions.empty();
-                }
+                        });
+                }, 300); // debounce
             });
 
-            // Handle click on suggestion
-            $(document).on('click', '.suggestion-item', function(e) {
-                e.preventDefault();
-                let faqId = $(this).data('id');
-
-                $.ajax({
-                    url: "{{ route('help.center.search') }}", // same search route you already have
-                    type: "GET",
-                    data: {
-                        q: faqId,
-                        type: 'id'
-                    }, // pass ID to backend
-                    success: function(html) {
-                        resultsContainer.html(html); // Replace FAQ results
-                        suggestions.empty(); // hide suggestions
-                    }
-                });
+            // Hide on outside click
+            document.addEventListener("click", function(e) {
+                if (!suggestionsBox.contains(e.target) && e.target !== searchInput) {
+                    suggestionsBox.classList.add("hidden");
+                }
             });
         });
     </script>

@@ -41,7 +41,7 @@ public function search(Request $request)
 
     $faqs = $faqs->orderBy('created_at', 'desc')->get();
 
-    return view('partials.faqs-list', compact('faqs'));
+    return view('frontend.help-center', compact('faqs'));
 }
 
 
