@@ -227,12 +227,19 @@
                     </div>
                     <h3 class="font-semibold text-primary mb-4">WhatsApp Chat Support</h3>
                     <p class="text-body-sm text-secondary-600 mb-6">
-                        Get instant help from our support agents. Available 24/7 in multiple languages.
+                        Get instant help from our support team. Available 24/7 in multiple languages.
                     </p>
                     <div class="text-sm text-success mb-4">
                         🟢 Online Now • Avg. response: 2 minutes
                     </div>
-                    <button class="btn-primary w-full">Start Chat</button>
+                    <a
+                        href="https://wa.me/250787444019?text={{ urlencode('Hello Tunga Market Support, I need help with...') }}"
+                        target="_blank"
+                        class="btn-primary w-full"
+                        rel="noopener"
+                    >
+                        Start Chat
+                    </a>
                 </div>
 
                 <!-- Email Support -->
