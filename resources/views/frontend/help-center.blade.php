@@ -233,7 +233,7 @@
                         🟢 Online Now • Avg. response: 2 minutes
                     </div>
                     <a href="https://wa.me/250787444019?text={{ urlencode('Hello Tunga Market Support, I need help with...') }}"
-                        target="_blank" class="btn-primary w-full" rel="noopener">
+                        target="_blank" class="btn-primary w-full" style="background: #1a365d" rel="noopener">
                         Start Chat
                     </a>
                 </div>
@@ -254,7 +254,7 @@
                         📧 support@tungamarket.com
                     </div>
                     <a href="mailto:sanofiston04@gmail.com?subject={{ rawurlencode('Tunga Market Support Request') }}&body={{ rawurlencode('Hello Tunga Market Support, I need help with...') }}"
-                        class="btn-secondary w-full">
+                        class="btn-secondary w-full" style="background: #ff6b35">
                         Send Email
                     </a>
 
@@ -274,9 +274,9 @@
                         Speak directly with our experts for complex issues and urgent matters.
                     </p>
                     <div class="text-sm text-secondary-600 mb-4">
-                        📞 +1 (800) 555-0123 • Mon-Fri 9AM-6PM EST
+                        📞 +250 (787) 555-0123 • Mon-Fri 9AM-6PM EST
                     </div>
-                    <a href="tel:+250787444019" class="btn-outline w-full">Call Now</a>
+                    <a href="tel:+250787444019" class="btn-primary w-full" style="background:#38a169">Call Now</a>
                 </div>
             </div>
         </div>
