@@ -22,21 +22,28 @@ public function index()
 public function search(Request $request)
 {
     $query = $request->input('q');
+    $type  = $request->input('type');
 
-    $faqs = Faq::where('is_active', true)
-        ->where(function ($q) use ($query) {
+    $faqs = Faq::where('is_active', true);
+
+    if ($type === 'id') {
+        // Direct search by ID from suggestion click
+        $faqs = $faqs->where('id', $query);
+    } else {
+        // Normal text search
+        $faqs = $faqs->where(function ($q) use ($query) {
             $q->where('question', 'LIKE', "%{$query}%")
               ->orWhere('answer', 'LIKE', "%{$query}%")
               ->orWhere('topic', 'LIKE', "%{$query}%")
               ->orWhere('category', 'LIKE', "%{$query}%");
-        })
-        ->orderBy('category')
-        ->orderBy('topic')
-        ->orderBy('created_at', 'desc')
-        ->get();
+        });
+    }
 
-    return view('frontend.help-center', compact('faqs', 'query'));
+    $faqs = $faqs->orderBy('created_at', 'desc')->get();
+
+    return view('partials.faqs-list', compact('faqs'));
 }
+
 
 
 public function suggest(Request $request)
