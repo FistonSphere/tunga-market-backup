@@ -25,9 +25,10 @@
             <div class="relative max-w-2xl mx-auto mb-8">
                 <div class="relative">
                     <form action="{{ route('help.center.search') }}" method="GET" class="relative w-full">
-                        <input type="text" name="q" value="{{ request('q') }}"
+                        <input type="text" id="faq-search" name="q"
                             placeholder="Search for help articles, guides, or ask a question..."
-                            class="w-full px-6 py-4 pl-12 pr-20 text-lg rounded-full border-2 border-primary-200 focus:border-primary focus:outline-none shadow-card" />
+                            class="w-full px-6 py-4 pl-12 pr-20 text-lg rounded-full border-2 border-primary-200 focus:border-primary focus:outline-none shadow-card"
+                            autocomplete="off" />
 
                         <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-secondary-400"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,6 +41,12 @@
                             Search
                         </button>
                     </form>
+
+                    <!-- Suggestions dropdown -->
+                    <div id="faq-suggestions"
+                        class="absolute w-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-50">
+                        <ul class="divide-y divide-gray-100"></ul>
+                    </div>
 
                 </div>
 
@@ -62,6 +69,17 @@
         </div>
     </section>
 
+    @if (isset($query))
+        <div class="mb-6 text-center">
+            <p class="text-secondary-600">
+                Showing results for: <span class="font-semibold text-primary">"{{ $query }}"</span>
+            </p>
+        </div>
+    @endif
+
+    @if ($faqs->isEmpty())
+        <p class="text-center text-secondary-500">No FAQs found for your search.</p>
+    @endif
 
     <!-- FAQ Section -->
     <section class="py-16 bg-white" id="faq-section">
@@ -283,6 +301,57 @@
                     block: "start"
                 });
             }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("faq-search");
+            const suggestionsBox = document.getElementById("faq-suggestions");
+            const suggestionsList = suggestionsBox.querySelector("ul");
+
+            let timer;
+
+            searchInput.addEventListener("input", function() {
+                clearTimeout(timer);
+                const query = this.value.trim();
+
+                if (query.length < 2) {
+                    suggestionsBox.classList.add("hidden");
+                    return;
+                }
+
+                timer = setTimeout(() => {
+                    fetch(`{{ route('help.center.suggest') }}?q=${encodeURIComponent(query)}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            suggestionsList.innerHTML = "";
+                            if (data.length > 0) {
+                                data.forEach(item => {
+                                    const li = document.createElement("li");
+                                    li.className =
+                                        "px-4 py-2 hover:bg-primary-50 cursor-pointer";
+                                    li.innerHTML = `<span class="font-medium text-primary">${item.category}</span> → 
+                                            <span class="text-secondary-600">${item.topic}</span> → 
+                                            ${item.question}`;
+                                    li.onclick = () => {
+                                        window.location.href =
+                                            `{{ url('/help-center') }}?q=${encodeURIComponent(item.question)}`;
+                                    };
+                                    suggestionsList.appendChild(li);
+                                });
+                                suggestionsBox.classList.remove("hidden");
+                            } else {
+                                suggestionsBox.classList.add("hidden");
+                            }
+                        });
+                }, 300); // debounce
+            });
+
+            // Hide on outside click
+            document.addEventListener("click", function(e) {
+                if (!suggestionsBox.contains(e.target) && e.target !== searchInput) {
+                    suggestionsBox.classList.add("hidden");
+                }
+            });
         });
     </script>
 @endsection
