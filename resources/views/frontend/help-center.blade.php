@@ -232,12 +232,8 @@
                     <div class="text-sm text-success mb-4">
                         🟢 Online Now • Avg. response: 2 minutes
                     </div>
-                    <a
-                        href="https://wa.me/250787444019?text={{ urlencode('Hello Tunga Market Support, I need help with...') }}"
-                        target="_blank"
-                        class="btn-primary w-full"
-                        rel="noopener"
-                    >
+                    <a href="https://wa.me/250787444019?text={{ urlencode('Hello Tunga Market Support, I need help with...') }}"
+                        target="_blank" class="btn-primary w-full" rel="noopener">
                         Start Chat
                     </a>
                 </div>
@@ -257,13 +253,12 @@
                     <div class="text-sm text-secondary-600 mb-4">
                         📧 support@tungamarket.com
                     </div>
-                    <a
-                        href="mailto:sanofiston04@gmail.com?subject={{ urlencode('Tunga Market Support Request') }}&body={{ urlencode('Hello Tunga Market Support, I need help with...') }}"
-                        class="btn-secondary w-full"
-                    >
+                    <a href="mailto:sanofiston04@gmail.com?subject={{ rawurlencode('Tunga Market Support Request') }}&body={{ rawurlencode('Hello Tunga Market Support, I need help with...') }}"
+                        class="btn-secondary w-full">
                         Send Email
                     </a>
-                    
+
+
                 </div>
 
                 <!-- Phone Support -->
@@ -369,7 +364,5 @@
                 }
             });
         });
-   
-   
-   </script>
+    </script>
 @endsection
