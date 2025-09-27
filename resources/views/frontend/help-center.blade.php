@@ -356,5 +356,7 @@
                 }
             });
         });
-    </script>
+   
+   
+   </script>
 @endsection
