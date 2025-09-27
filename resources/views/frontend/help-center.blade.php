@@ -82,6 +82,10 @@
     @endif
 
     <!-- FAQ Section -->
+    <div id="faq-results">
+        {{-- Default FAQ list here --}}
+        @include('faqs.partials.list', ['faqs' => $faqs])
+    </div>
     <section class="py-16 bg-white" id="faq-section">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
