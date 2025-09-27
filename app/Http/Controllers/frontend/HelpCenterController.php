@@ -43,20 +43,20 @@ public function suggest(Request $request)
 {
     $term = $request->input('q');
 
-    $faqs = Faq::where('is_active', true)
+    $results = Faq::where('is_active', true)
         ->where(function ($q) use ($term) {
             $q->where('question', 'LIKE', "%{$term}%")
               ->orWhere('answer', 'LIKE', "%{$term}%")
               ->orWhere('topic', 'LIKE', "%{$term}%")
               ->orWhere('category', 'LIKE', "%{$term}%");
         })
+        ->limit(10)
         ->orderBy('category')
         ->orderBy('topic')
         ->orderBy('created_at', 'desc')
         ->get();
 
-    return view('frontend.help-center', compact('faqs', 'term'));
+    return response()->json($results);
 }
-
 
 }
