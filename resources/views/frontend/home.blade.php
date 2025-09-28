@@ -481,7 +481,6 @@
                         <span class="text-body-sm text-secondary-500">15.2K products</span>
                     </div>
                 </div>
-
                 <!-- Fashion Category -->
                 <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
                     <div class="relative overflow-hidden rounded-lg mb-4">
@@ -506,7 +505,6 @@
                         <span class="text-body-sm text-secondary-500">28.7K products</span>
                     </div>
                 </div>
-
                 <!-- Home & Garden Category -->
                 <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
                     <div class="relative overflow-hidden rounded-lg mb-4">
@@ -531,7 +529,6 @@
                         <span class="text-body-sm text-secondary-500">12.4K products</span>
                     </div>
                 </div>
-
                 <!-- Industrial Category -->
                 <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
                     <div class="relative overflow-hidden rounded-lg mb-4">
