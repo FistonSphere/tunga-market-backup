@@ -59,7 +59,7 @@
                             class="card hover:shadow-hover transition-all duration-300 text-center group">
                             <div
                                 class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:bg-primary-200 transition-fast">
-                                <img src="{{ asset('assets/images/lock.svg') }}" style="" alt="">
+                                <img src="{{ asset('assets/images/lock.svg') }}" style="width:28px; height: 28px; object-fit: cover;" alt="">
                             </div>
                             <h3 class="font-semibold text-primary mb-2">Secure Checkout</h3>
                             <p class="text-body-sm text-secondary-600">Fast, safe payment</p>
