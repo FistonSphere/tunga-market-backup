@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-$categories = Category::where('is_active', 1)->with('subcategories')->get();
-        return view('frontend.home');
+        $categories = Category::where('is_active', 1)->with('subcategories')->get();
+        return view('frontend.home', compact('categories'));
     }
 }
