@@ -10,7 +10,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $categories = Category::where('is_active', 1)->with('subcategories')->get();
+         $categories = Category::where('is_active', 1)
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('frontend.home', compact('categories'));
     }
 }
