@@ -157,56 +157,29 @@
                             <span>Helpful (247)</span>
                         </div>
                     </div>
-
                     <!-- Success Story 2 -->
                     <div
                         class="card min-w-[320px] md:min-w-[350px] snap-center hover:scale-105 hover:shadow-2xl transition-transform duration-500 ease-in-out">
                         <div class="flex items-center mb-4">
-                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?q=80&w=400&auto=format&fit=crop"
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop"
                                 alt="Success Story" class="w-12 h-12 rounded-full object-cover mr-4" loading="lazy" />
                             <div>
-                                <h4 class="font-medium text-primary">Maria's Import Business</h4>
-                                <p class="text-sm text-secondary-600">Premium Buyer • 3 years</p>
+                                <h4 class="font-medium text-primary">Sarah's Electronics Store</h4>
+                                <p class="text-sm text-secondary-600">Verified Seller • 2 years</p>
                             </div>
                         </div>
-                        <h3 class="font-semibold text-primary mb-3">Streamlined Sourcing with AI</h3>
+                        <h3 class="font-semibold text-primary mb-3">From Local to Global: 300% Growth</h3>
                         <p class="text-body-sm text-secondary-600 mb-4">
-                            "The AI-powered supplier matching saved me countless hours. I found reliable partners quickly
-                            and
-                            our procurement costs dropped by 25% while quality improved."
+                            "Tunga Market transformed my small electronics business. The Trade Assurance program gave
+                            international buyers confidence, and our sales increased 300% in just 18 months."
                         </p>
                         <div class="flex items-center text-sm text-accent">
                             <span class="mr-2">⭐⭐⭐⭐⭐</span>
-                            <span>Helpful (189)</span>
+                            <span>Helpful (247)</span>
                         </div>
                     </div>
 
-                    <!-- Community Tip -->
-                    <div
-                        class="card min-w-[320px] md:min-w-[350px] snap-center hover:scale-105 hover:shadow-2xl transition-transform duration-500 ease-in-out">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-success-100 rounded-full flex items-center justify-center mr-4">
-                                <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-primary">Expert Tip</h4>
-                                <p class="text-sm text-secondary-600">Community Moderator</p>
-                            </div>
-                        </div>
-                        <h3 class="font-semibold text-primary mb-3">Optimizing Your Product Listings</h3>
-                        <p class="text-body-sm text-secondary-600 mb-4">
-                            "Use high-quality images, detailed descriptions, and competitive pricing. Products with complete
-                            information get 60% more inquiries. Don't forget to respond to messages within 24 hours!"
-                        </p>
-                        <div class="flex items-center text-sm text-accent">
-                            <span class="mr-2">💡</span>
-                            <span>Pro Tip</span>
-                        </div>
-                    </div>
+
                 </div>
 
                 <!-- Carousel Controls -->
