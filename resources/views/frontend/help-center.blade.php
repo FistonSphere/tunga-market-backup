@@ -131,74 +131,156 @@
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Success Story 1 -->
-                <div class="card hover:shadow-hover transition-all duration-300">
-                    <div class="flex items-center mb-4">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop"
-                            alt="Success Story" class="w-12 h-12 rounded-full object-cover mr-4" loading="lazy" />
-                        <div>
-                            <h4 class="font-medium text-primary">Sarah's Electronics Store</h4>
-                            <p class="text-sm text-secondary-600">Verified Seller • 2 years</p>
+            <!-- Carousel Wrapper -->
+            <div class="relative">
+                <!-- Carousel Inner -->
+                <div id="community-carousel"
+                    class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory gap-8 scroll-smooth transition-transform duration-700 ease-in-out">
+                    <!-- Success Story 1 -->
+                    <div
+                        class="card min-w-[320px] md:min-w-[350px] snap-center hover:scale-105 hover:shadow-2xl transition-transform duration-500 ease-in-out">
+                        <div class="flex items-center mb-4">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop"
+                                alt="Success Story" class="w-12 h-12 rounded-full object-cover mr-4" loading="lazy" />
+                            <div>
+                                <h4 class="font-medium text-primary">Sarah's Electronics Store</h4>
+                                <p class="text-sm text-secondary-600">Verified Seller • 2 years</p>
+                            </div>
+                        </div>
+                        <h3 class="font-semibold text-primary mb-3">From Local to Global: 300% Growth</h3>
+                        <p class="text-body-sm text-secondary-600 mb-4">
+                            "Tunga Market transformed my small electronics business. The Trade Assurance program gave
+                            international buyers confidence, and our sales increased 300% in just 18 months."
+                        </p>
+                        <div class="flex items-center text-sm text-accent">
+                            <span class="mr-2">⭐⭐⭐⭐⭐</span>
+                            <span>Helpful (247)</span>
                         </div>
                     </div>
-                    <h3 class="font-semibold text-primary mb-3">From Local to Global: 300% Growth</h3>
-                    <p class="text-body-sm text-secondary-600 mb-4">
-                        "Tunga Market transformed my small electronics business. The Trade Assurance program gave
-                        international buyers confidence, and our sales increased 300% in just 18 months."
-                    </p>
-                    <div class="flex items-center text-sm text-accent">
-                        <span class="mr-2">⭐⭐⭐⭐⭐</span>
-                        <span>Helpful (247)</span>
+
+                    <!-- Success Story 2 -->
+                    <div
+                        class="card min-w-[320px] md:min-w-[350px] snap-center hover:scale-105 hover:shadow-2xl transition-transform duration-500 ease-in-out">
+                        <div class="flex items-center mb-4">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?q=80&w=400&auto=format&fit=crop"
+                                alt="Success Story" class="w-12 h-12 rounded-full object-cover mr-4" loading="lazy" />
+                            <div>
+                                <h4 class="font-medium text-primary">Maria's Import Business</h4>
+                                <p class="text-sm text-secondary-600">Premium Buyer • 3 years</p>
+                            </div>
+                        </div>
+                        <h3 class="font-semibold text-primary mb-3">Streamlined Sourcing with AI</h3>
+                        <p class="text-body-sm text-secondary-600 mb-4">
+                            "The AI-powered supplier matching saved me countless hours. I found reliable partners quickly
+                            and
+                            our procurement costs dropped by 25% while quality improved."
+                        </p>
+                        <div class="flex items-center text-sm text-accent">
+                            <span class="mr-2">⭐⭐⭐⭐⭐</span>
+                            <span>Helpful (189)</span>
+                        </div>
+                    </div>
+
+                    <!-- Community Tip -->
+                    <div
+                        class="card min-w-[320px] md:min-w-[350px] snap-center hover:scale-105 hover:shadow-2xl transition-transform duration-500 ease-in-out">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-success-100 rounded-full flex items-center justify-center mr-4">
+                                <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-primary">Expert Tip</h4>
+                                <p class="text-sm text-secondary-600">Community Moderator</p>
+                            </div>
+                        </div>
+                        <h3 class="font-semibold text-primary mb-3">Optimizing Your Product Listings</h3>
+                        <p class="text-body-sm text-secondary-600 mb-4">
+                            "Use high-quality images, detailed descriptions, and competitive pricing. Products with complete
+                            information get 60% more inquiries. Don't forget to respond to messages within 24 hours!"
+                        </p>
+                        <div class="flex items-center text-sm text-accent">
+                            <span class="mr-2">💡</span>
+                            <span>Pro Tip</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Success Story 2 -->
-                <div class="card hover:shadow-hover transition-all duration-300">
-                    <div class="flex items-center mb-4">
-                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?q=80&w=400&auto=format&fit=crop"
-                            alt="Success Story" class="w-12 h-12 rounded-full object-cover mr-4" loading="lazy" />
-                        <div>
-                            <h4 class="font-medium text-primary">Maria's Import Business</h4>
-                            <p class="text-sm text-secondary-600">Premium Buyer • 3 years</p>
-                        </div>
-                    </div>
-                    <h3 class="font-semibold text-primary mb-3">Streamlined Sourcing with AI</h3>
-                    <p class="text-body-sm text-secondary-600 mb-4">
-                        "The AI-powered supplier matching saved me countless hours. I found reliable partners quickly and
-                        our procurement costs dropped by 25% while quality improved."
-                    </p>
-                    <div class="flex items-center text-sm text-accent">
-                        <span class="mr-2">⭐⭐⭐⭐⭐</span>
-                        <span>Helpful (189)</span>
-                    </div>
-                </div>
-
-                <!-- Community Tip -->
-                <div class="card hover:shadow-hover transition-all duration-300">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-success-100 rounded-full flex items-center justify-center mr-4">
-                            <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="font-medium text-primary">Expert Tip</h4>
-                            <p class="text-sm text-secondary-600">Community Moderator</p>
-                        </div>
-                    </div>
-                    <h3 class="font-semibold text-primary mb-3">Optimizing Your Product Listings</h3>
-                    <p class="text-body-sm text-secondary-600 mb-4">
-                        "Use high-quality images, detailed descriptions, and competitive pricing. Products with complete
-                        information get 60% more inquiries. Don't forget to respond to messages within 24 hours!"
-                    </p>
-                    <div class="flex items-center text-sm text-accent">
-                        <span class="mr-2">💡</span>
-                        <span>Pro Tip</span>
-                    </div>
-                </div>
+                <!-- Carousel Controls -->
+                <button id="carousel-prev" type="button"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 z-10 hidden md:block hover:bg-primary-50 transition">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button id="carousel-next" type="button"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 z-10 hidden md:block hover:bg-primary-50 transition">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
             </div>
+
+            <script>
+                // Carousel logic
+                document.addEventListener('DOMContentLoaded', function() {
+                    const carousel = document.getElementById('community-carousel');
+                    const prevBtn = document.getElementById('carousel-prev');
+                    const nextBtn = document.getElementById('carousel-next');
+                    const cardWidth = carousel.querySelector('.card').offsetWidth + 32; // card + gap
+
+                    function scrollToCard(direction) {
+                        carousel.scrollBy({
+                            left: direction * cardWidth,
+                            behavior: 'smooth'
+                        });
+                    }
+
+                    prevBtn.addEventListener('click', () => scrollToCard(-1));
+                    nextBtn.addEventListener('click', () => scrollToCard(1));
+
+                    // Optional: Show/hide controls on mobile/desktop
+                    function updateControls() {
+                        if (window.innerWidth >= 768) {
+                            prevBtn.classList.remove('hidden');
+                            nextBtn.classList.remove('hidden');
+                        } else {
+                            prevBtn.classList.add('hidden');
+                            nextBtn.classList.add('hidden');
+                        }
+                    }
+                    updateControls();
+                    window.addEventListener('resize', updateControls);
+
+                    // Optional: Animate cards on scroll
+                    carousel.addEventListener('scroll', () => {
+                        carousel.querySelectorAll('.card').forEach(card => {
+                            const rect = card.getBoundingClientRect();
+                            const carouselRect = carousel.getBoundingClientRect();
+                            const cardCenter = rect.left + rect.width / 2;
+                            const carouselCenter = carouselRect.left + carouselRect.width / 2;
+                            const distance = Math.abs(carouselCenter - cardCenter);
+                            const scale = Math.max(0.95, 1 - distance / 800);
+                            card.style.transform = `scale(${scale})`;
+                            card.style.transition = 'transform 0.4s cubic-bezier(.4,2,.6,1)';
+                        });
+                    });
+                });
+            </script>
+            <style>
+                /* Hide scrollbar for carousel */
+                .no-scrollbar::-webkit-scrollbar {
+                    display: none;
+                }
+
+                .no-scrollbar {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+            </style>
 
             <div class="text-center mt-12">
                 <button class="btn-outline">View More Success Stories</button>
