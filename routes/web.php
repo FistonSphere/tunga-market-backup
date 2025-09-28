@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
+Route::get('/categories/{slug}', [HomeController::class, 'show'])->name('categories.show');
 Route::get('/product-discovery-hub', [ProductListingController::class, 'index'])->name('product.discovery');
 Route::get('/product-view/{sku}', [ProductListingController::class, 'showProduct'])->name('product.view');
 Route::get('/category/{slug}', [CategoryController::class, 'view'])

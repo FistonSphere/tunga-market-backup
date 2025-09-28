@@ -59,7 +59,8 @@
                             class="card hover:shadow-hover transition-all duration-300 text-center group">
                             <div
                                 class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:bg-primary-200 transition-fast">
-                                <img src="{{ asset('assets/images/lock.svg') }}" style="width:28px; height: 28px; object-fit: cover;" alt="">
+                                <img src="{{ asset('assets/images/lock.svg') }}"
+                                    style="width:28px; height: 28px; object-fit: cover;" alt="">
                             </div>
                             <h3 class="font-semibold text-primary mb-2">Secure Checkout</h3>
                             <p class="text-body-sm text-secondary-600">Fast, safe payment</p>
@@ -457,103 +458,40 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Electronics Category -->
-                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
-                    <div class="relative overflow-hidden rounded-lg mb-4">
-                        <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=2940&auto=format&fit=crop"
-                            alt="Electronics"
-                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                            loading="lazy"
-                            onerror="this.src='https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
+                @foreach ($categories as $category)
+                    <a href="{{ route('categories.show', $category->slug) }}"
+                        class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
+                        <div class="relative overflow-hidden rounded-lg mb-4">
+                            <img src="{{ $category->thumbnail ?? 'https://via.placeholder.com/400x300?text=No+Image' }}"
+                                alt="{{ $category->name }}"
+                                class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
+                                loading="lazy"
+                                onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Available'; this.onerror=null;" />
+
+                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
+                                <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7
+                                     -1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </div>
                         </div>
-                    </div>
-                    <h3 class="font-semibold text-primary mb-2">Electronics & Tech</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Latest gadgets and components</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-success font-semibold">↗ 24% growth</span>
-                        <span class="text-body-sm text-secondary-500">15.2K products</span>
-                    </div>
-                </div>
-                <!-- Fashion Category -->
-                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
-                    <div class="relative overflow-hidden rounded-lg mb-4">
-                        <img src="https://images.pexels.com/photos/996329/pexels-photo-996329.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                            alt="Fashion"
-                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                            loading="lazy"
-                            onerror="this.src='https://images.pixabay.com/photo/2017/08/01/11/48/woman-2564660_1280.jpg'; this.onerror=null;" />
-                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
+
+                        <h3 class="font-semibold text-primary mb-2">{{ $category->name }}</h3>
+                        <p class="text-body-sm text-secondary-600 mb-3">
+                            {{ $category->description ?? 'No description available' }}
+                        </p>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-success font-semibold">↗ {{ rand(10, 40) }}% growth</span>
+                            <span class="text-body-sm text-secondary-500">{{ rand(5, 30) }}K products</span>
                         </div>
-                    </div>
-                    <h3 class="font-semibold text-primary mb-2">Fashion & Apparel</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Trending styles and accessories</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-success font-semibold">↗ 18% growth</span>
-                        <span class="text-body-sm text-secondary-500">28.7K products</span>
-                    </div>
-                </div>
-                <!-- Home & Garden Category -->
-                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
-                    <div class="relative overflow-hidden rounded-lg mb-4">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2958&auto=format&fit=crop"
-                            alt="Home & Garden"
-                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                            loading="lazy"
-                            onerror="this.src='https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="font-semibold text-primary mb-2">Home & Garden</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Furniture and decor essentials</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-success font-semibold">↗ 31% growth</span>
-                        <span class="text-body-sm text-secondary-500">12.4K products</span>
-                    </div>
-                </div>
-                <!-- Industrial Category -->
-                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
-                    <div class="relative overflow-hidden rounded-lg mb-4">
-                        <img src="https://images.pixabay.com/photo/2017/08/07/19/45/industry-2604319_1280.jpg"
-                            alt="Industrial Equipment"
-                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                            loading="lazy"
-                            onerror="this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2940&auto=format&fit=crop'; this.onerror=null;" />
-                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="font-semibold text-primary mb-2">Industrial Equipment</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Machinery and tools</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-success font-semibold">↗ 15% growth</span>
-                        <span class="text-body-sm text-secondary-500">8.9K products</span>
-                    </div>
-                </div>
+                    </a>
+                @endforeach
             </div>
+
         </div>
     </section>
 
@@ -923,15 +861,15 @@
                     <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
                     <div class="space-y-1">
                         ${filteredSuggestions.map(suggestion => `
-                                <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                        </svg>
-                                        <span>${suggestion}</span>
-                                    </div>
-                                </button>
-                            `).join('')}
+                                    <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                        <div class="flex items-center space-x-2">
+                                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                            </svg>
+                                            <span>${suggestion}</span>
+                                        </div>
+                                    </button>
+                                `).join('')}
                     </div>
                 </div>
             `;
@@ -1234,7 +1172,7 @@
                     response =
                         "🔄 We offer 30-day returns on most items with buyer protection. You can start a return request from your order history. Need step-by-step guidance?";
                 } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes(
-                    'hey')) {
+                        'hey')) {
                     response =
                         "👋 Hello there! Welcome to Tunga Market! I'm your AI assistant ready to help with orders, payments, shipping, or any other questions. How can I assist you today?";
                 } else if (lowerMessage.includes('help') || lowerMessage.includes('support')) {
