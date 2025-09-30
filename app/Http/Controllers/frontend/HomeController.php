@@ -31,4 +31,12 @@ class HomeController extends Controller
         });
         return view('frontend.home', compact('categories'));
     }
+
+    public function show($slug)
+    {
+        $category = Category::where('slug', $slug)->firstOrFail();
+        $products = $category->products()->where('status', 'active')->paginate(12);
+
+        return view('categories.show', compact('category', 'products'));
+    }
 }
