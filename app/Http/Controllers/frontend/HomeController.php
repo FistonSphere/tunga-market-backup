@@ -4,6 +4,7 @@ namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\FlashDeal;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -32,7 +33,13 @@ class HomeController extends Controller
 
             return $category;
         });
-        return view('frontend.home', compact('categories'));
+
+         $flashDeals = FlashDeal::with('product')
+        ->active()
+        ->orderBy('end_time')
+        ->take(8) // show limited deals
+        ->get();
+        return view('frontend.home', compact('categories','flashDeals'));
     }
 
     public function show($slug)
