@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             OrdersTableSeeder::class, // ✅ New
             PaymentsTableSeeder::class,
             FaqsTableSeeder::class,
+            FlashDealsTableSeeder::class, // ✅ New
 
         ]);
     }
