@@ -378,48 +378,51 @@
 
 
     <!-- Trending Categories Section -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Trending Categories</h2>
-                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Discover what's driving global commerce with real-time market insights and AR preview capabilities
-                </p>
+    @if(!$categories->isEmpty())
+        <section class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-heading font-bold text-primary mb-4">Trending Categories</h2>
+                    <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
+                        Discover what's driving global commerce with real-time market insights and AR preview capabilities
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @foreach($categories as $category)
+                        <a href="{{ route('categories.show', $category->slug) }}"
+                            class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
+                            <div class="relative overflow-hidden rounded-lg mb-4">
+                                <img src="{{ $category->thumbnail ?? asset('assets/images/no-image.png') }}"
+                                    alt="{{ $category->name }}"
+                                    class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
+                                    loading="lazy" />
+                            </div>
+                            <h3 class="font-semibold text-primary mb-2">{{ $category->name }}</h3>
+                            <p class="text-body-sm text-secondary-600 mb-3">
+                                {{ $category->description ?? 'No description available' }}
+                            </p>
+                            <div class="flex items-center justify-between">
+                                @if($category->growth > 0)
+                                    <span class="text-success font-semibold">↗ {{ $category->growth }}% growth</span>
+                                @else
+
+                                @endif
+                                {{-- <span class="text-success font-semibold">↗ {{ $category->growth }}% growth</span> --}}
+                                <span class="text-body-sm text-secondary-500">
+                                    {{ number_format($category->products_count) }} products
+                                </span>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+
+
             </div>
+        </section>
+    @endif
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                @foreach($categories as $category)
-                    <a href="{{ route('categories.show', $category->slug) }}"
-                        class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
-                        <div class="relative overflow-hidden rounded-lg mb-4">
-                            <img src="{{ $category->thumbnail ?? asset('assets/images/no-image.png') }}"
-                                alt="{{ $category->name }}"
-                                class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                                loading="lazy" />
-                        </div>
-                        <h3 class="font-semibold text-primary mb-2">{{ $category->name }}</h3>
-                        <p class="text-body-sm text-secondary-600 mb-3">
-                            {{ $category->description ?? 'No description available' }}
-                        </p>
-                        <div class="flex items-center justify-between">
-                            @if($category->growth > 0)
-                                <span class="text-success font-semibold">↗ {{ $category->growth }}% growth</span>
-                            @else
-
-                            @endif
-                            {{-- <span class="text-success font-semibold">↗ {{ $category->growth }}% growth</span> --}}
-                            <span class="text-body-sm text-secondary-500">
-                                {{ number_format($category->products_count) }} products
-                            </span>
-                        </div>
-                    </a>
-                @endforeach
-            </div>
-
-
-        </div>
-    </section>
-
+    
     <!-- Success Stories Section -->
     <section class="py-16 bg-gradient-to-r from-primary-50 to-accent-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
