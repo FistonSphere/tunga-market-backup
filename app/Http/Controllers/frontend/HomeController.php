@@ -38,9 +38,8 @@ class HomeController extends Controller
 
          $now = Carbon::now();
          $flashDeals = FlashDeal::with('product')
-        ->active()
-        ->orderBy('end_time')
-        ->take(8) // show limited deals
+        ->where('is_active', true)
+        ->where('end_time', '>=', $now)
         ->get();
 
         // split active vs upcoming

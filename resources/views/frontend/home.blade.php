@@ -251,129 +251,130 @@
     </section>
 
     <!-- Countdown Promotion Deals -->
-    <section class="py-16 bg-gradient-to-br from-accent-50 via-white to-primary-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">⚡ Limited Time Deals</h2>
-                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Don't miss these exclusive promotions! Grab amazing products at unbeatable prices before time runs out.
-                </p>
-            </div>
-
-            <!-- Countdown Timer Display -->
-            @if ($countdownMode !== 'none' && $countdownTargetMs)
-                <div id="flash-countdown"
-                    class="bg-gradient-to-r from-accent to-accent-600 text-white rounded-2xl p-8 mb-12 text-center shadow-modal"
-                    data-mode="{{ $countdownMode }}" data-target-ms="{{ $countdownTargetMs }}">
-                    <h3 id="flash-countdown-title" class="text-2xl font-bold mb-4">
-                        @if($countdownMode === 'ending') 🔥 Flash Sale Ending Soon!
-                        @else ⏳ Flash Sale Starting In
-                        @endif
-                    </h3>
-
-                    <div class="flex justify-center items-center space-x-8">
-                        <div class="text-center">
-                            <div id="flash-days" class="text-4xl font-bold">00</div>
-                            <div class="text-sm opacity-90">Days</div>
-                        </div>
-                        <div class="text-3xl">:</div>
-                        <div class="text-center">
-                            <div id="flash-hours" class="text-4xl font-bold">00</div>
-                            <div class="text-sm opacity-90">Hours</div>
-                        </div>
-                        <div class="text-3xl">:</div>
-                        <div class="text-center">
-                            <div id="flash-minutes" class="text-4xl font-bold">00</div>
-                            <div class="text-sm opacity-90">Minutes</div>
-                        </div>
-                        <div class="text-3xl">:</div>
-                        <div class="text-center">
-                            <div id="flash-seconds" class="text-4xl font-bold">00</div>
-                            <div class="text-sm opacity-90">Seconds</div>
-                        </div>
-                    </div>
-
-                    <p class="mt-4 text-lg opacity-95">
-                        Up to <span id="flash-max-discount" class="font-semibold">{{ $maxDiscount }}%</span> OFF on selected
-                        items!
+    @if(!$flashDeals->isEmpty())
+        <section class="py-16 bg-gradient-to-br from-accent-50 via-white to-primary-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-heading font-bold text-primary mb-4">⚡ Limited Time Deals</h2>
+                    <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
+                        Don't miss these exclusive promotions! Grab amazing products at unbeatable prices before time runs out.
                     </p>
                 </div>
-            @else
-                {{-- Optionally render nothing or a small message --}}
-                {{-- <p class="text-center text-secondary-600 mb-8">No flash deals available right now.</p> --}}
-            @endif
 
+                <!-- Countdown Timer Display -->
+                @if ($countdownMode !== 'none' && $countdownTargetMs)
+                    <div id="flash-countdown"
+                        class="bg-gradient-to-r from-accent to-accent-600 text-white rounded-2xl p-8 mb-12 text-center shadow-modal"
+                        data-mode="{{ $countdownMode }}" data-target-ms="{{ $countdownTargetMs }}">
+                        <h3 id="flash-countdown-title" class="text-2xl font-bold mb-4">
+                            @if($countdownMode === 'ending') 🔥 Flash Sale Ending Soon!
+                            @else ⏳ Flash Sale Starting In
+                            @endif
+                        </h3>
 
-            <!-- Promotional Products Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                @forelse ($flashDeals as $deal)
-                    @php
-                        $product = $deal->product;
-                        $discountPercent = $deal->discount_percent ??
-                            round(100 - ($deal->flash_price / $product->price * 100));
-                        $timeLeft = $deal->end_time->diffForHumans(null, true); // e.g. "2 days 3 hours"
-                    @endphp
-
-                    <div class="card group relative overflow-hidden hover:shadow-hover transition-all duration-300">
-                        <!-- Discount Badge -->
-                        <div class="absolute top-3 left-3 bg-accent text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                            {{ $discountPercent }}% OFF
-                        </div>
-
-                        <!-- HOT/LIMITED Label -->
-                        <div
-                            class="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
-                            HOT
-                        </div>
-
-                        <!-- Product Image -->
-                        <div class="relative overflow-hidden rounded-lg mb-4">
-                            <img src="{{ $product->main_image ?? asset('assets/images/no-image.png') }}"
-                                alt="{{ $product->name }}"
-                                class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300" />
-                        </div>
-
-                        <!-- Product Info -->
-                        <h3 class="font-semibold text-primary mb-2">{{ $product->name }}</h3>
-                        <p class="text-body-sm text-secondary-600 mb-3">{{ $product->short_description }}</p>
-
-                        <!-- Price -->
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center space-x-2">
-                                <span class="text-xl font-bold text-accent">
-                                    {{ $product->currency === '$' ? '$' . number_format($deal->flash_price, 2) : number_format($deal->flash_price) . ' Rwf' }}
-                                </span>
-                                <span class="text-sm text-gray-500 line-through">
-                                    {{ $product->currency === '$' ? '$' . number_format($product->price, 2) : number_format($product->price) . ' Rwf' }}
-                                </span>
+                        <div class="flex justify-center items-center space-x-8">
+                            <div class="text-center">
+                                <div id="flash-days" class="text-4xl font-bold">00</div>
+                                <div class="text-sm opacity-90">Days</div>
+                            </div>
+                            <div class="text-3xl">:</div>
+                            <div class="text-center">
+                                <div id="flash-hours" class="text-4xl font-bold">00</div>
+                                <div class="text-sm opacity-90">Hours</div>
+                            </div>
+                            <div class="text-3xl">:</div>
+                            <div class="text-center">
+                                <div id="flash-minutes" class="text-4xl font-bold">00</div>
+                                <div class="text-sm opacity-90">Minutes</div>
+                            </div>
+                            <div class="text-3xl">:</div>
+                            <div class="text-center">
+                                <div id="flash-seconds" class="text-4xl font-bold">00</div>
+                                <div class="text-sm opacity-90">Seconds</div>
                             </div>
                         </div>
 
-                        <!-- Countdown -->
-                        <div class="text-xs text-gray-500 mb-3">
-                            ⏰ Ends in: <span class="font-semibold text-accent">{{ $timeLeft }}</span>
-                        </div>
-
-                        <button onclick="addToCart({{ $product->id }})" class="w-full btn-primary text-sm py-2">
-                            Add to Cart
-                        </button>
+                        <p class="mt-4 text-lg opacity-95">
+                            Up to <span id="flash-max-discount" class="font-semibold">{{ $maxDiscount }}%</span> OFF on selected
+                            items!
+                        </p>
                     </div>
-                @empty
-                    <p class="col-span-full text-center text-secondary-600">No flash deals available right now.</p>
-                @endforelse
+                @else
+                    {{-- Optionally render nothing or a small message --}}
+                    {{-- <p class="text-center text-secondary-600 mb-8">No flash deals available right now.</p> --}}
+                @endif
+
+
+                <!-- Promotional Products Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @forelse ($flashDeals as $deal)
+                        @php
+                            $product = $deal->product;
+                            $discountPercent = $deal->discount_percent ??
+                                round(100 - ($deal->flash_price / $product->price * 100));
+                            $timeLeft = $deal->end_time->diffForHumans(null, true); // e.g. "2 days 3 hours"
+                        @endphp
+
+                        <div class="card group relative overflow-hidden hover:shadow-hover transition-all duration-300">
+                            <!-- Discount Badge -->
+                            <div class="absolute top-3 left-3 bg-accent text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+                                {{ $discountPercent }}% OFF
+                            </div>
+
+                            <!-- HOT/LIMITED Label -->
+                            <div
+                                class="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
+                                HOT
+                            </div>
+
+                            <!-- Product Image -->
+                            <div class="relative overflow-hidden rounded-lg mb-4">
+                                <img src="{{ $product->main_image ?? asset('assets/images/no-image.png') }}"
+                                    alt="{{ $product->name }}"
+                                    class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300" />
+                            </div>
+
+                            <!-- Product Info -->
+                            <h3 class="font-semibold text-primary mb-2">{{ $product->name }}</h3>
+                            <p class="text-body-sm text-secondary-600 mb-3">{{ $product->short_description }}</p>
+
+                            <!-- Price -->
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-xl font-bold text-accent">
+                                        {{ $product->currency === '$' ? '$' . number_format($deal->flash_price, 2) : number_format($deal->flash_price) . ' Rwf' }}
+                                    </span>
+                                    <span class="text-sm text-gray-500 line-through">
+                                        {{ $product->currency === '$' ? '$' . number_format($product->price, 2) : number_format($product->price) . ' Rwf' }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Countdown -->
+                            <div class="text-xs text-gray-500 mb-3">
+                                ⏰ Ends in: <span class="font-semibold text-accent">{{ $timeLeft }}</span>
+                            </div>
+
+                            <button onclick="addToCart({{ $product->id }})" class="w-full btn-primary text-sm py-2">
+                                Add to Cart
+                            </button>
+                        </div>
+                    @empty
+                        <p class="col-span-full text-center text-secondary-600">No flash deals available right now.</p>
+                    @endforelse
+                </div>
+
+
+                <!-- View All Deals Button -->
+                <div class="text-center mt-12">
+                    <button
+                        class="bg-gradient-to-r from-accent to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-card hover:shadow-hover">
+                        View All Flash Deals 🔥
+                    </button>
+                </div>
             </div>
-
-
-            <!-- View All Deals Button -->
-            <div class="text-center mt-12">
-                <button
-                    class="bg-gradient-to-r from-accent to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-card hover:shadow-hover">
-                    View All Flash Deals 🔥
-                </button>
-            </div>
-        </div>
-    </section>
-
+        </section>
+    @endif
 
 
     <!-- Trending Categories Section -->
