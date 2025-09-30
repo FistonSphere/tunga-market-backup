@@ -69,7 +69,14 @@ class HomeController extends Controller
 
     // pass milliseconds (JS-friendly) to avoid timezone weirdness
     $targetMs = $target ? ($target->getTimestamp() * 1000) : null;
-        return view('frontend.home', compact('categories','flashDeals'));
+        return view('frontend.home',
+ [
+        'categories'=>$categories,
+        'flashDeals' => $flashDeals,
+        'countdownMode' => $countdownMode,
+        'countdownTargetMs' => $targetMs,
+        'maxDiscount' => $maxDiscount,
+        ]);
     }
 
     public function show($slug)
