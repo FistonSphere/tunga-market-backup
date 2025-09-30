@@ -88,7 +88,63 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row gap-8">
                 <!-- Advanced Filters Sidebar -->
-                
+                <div class="lg:w-80 space-y-6">
+                    <!-- Filter Header -->
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-semibold text-primary">Advanced Filters</h3>
+                        <button class="text-accent hover:text-accent-600 text-body-sm"
+                            onclick="window.location.reload();">Reset All</button>
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div class="card">
+                        <h4 class="font-medium text-primary mb-3">Categories</h4>
+                        <div class="space-y-2" id="categories-list">
+
+                        </div>
+                    </div>
+
+                    <!-- Price Range -->
+                    <div class="card">
+                        <h4 class="font-medium text-primary mb-3">Price Range</h4>
+
+                        <!-- Currency Selector -->
+                        <select id="currency-select" class="input-field w-full mb-3">
+                            <option value="" selected>Currency</option>
+                            {{-- <option value="$">USD ($)</option> --}}
+                            <option value="RWF">RWF (₣)</option>
+                        </select>
+
+                        <div class="space-y-3">
+                            <div class="flex gap-2">
+                                <input type="number" id="min-price" placeholder="Min" min="10" class="input-field flex-1" />
+                                <input type="number" id="max-price" placeholder="Max" min="100" class="input-field flex-1" />
+                            </div>
+
+                            <div class="bg-secondary-100 h-2 rounded-full relative">
+                                <div id="price-progress" class="bg-accent h-2 rounded-full absolute left-0"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Brand Filter -->
+                    <div class="card">
+                        <h4 class="font-medium text-primary mb-3">Brand</h4>
+                        <div class="space-y-2" id="Brand-list"></div>
+                    </div>
+
+                    <!-- Availability Filter -->
+                    <div class="card mt-5">
+                        <h4 class="font-medium text-primary mb-3">Availability</h4>
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" id="in-stock" class="form-checkbox text-primary">
+                            <span>In Stock Only</span>
+                        </label>
+                    </div>
+
+                </div>
 
                 <!-- Product Results -->
                 <div class="flex-1">
