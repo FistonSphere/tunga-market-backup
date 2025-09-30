@@ -63,7 +63,7 @@
                         </div>
 
                         <!-- Quick Filters -->
-                        <div class="flex gap-2">
+                        {{-- <div class="flex gap-2">
                             <select id="categorySelect" class="input-field min-w-32">
                                 <option>All Categories</option>
                                 @foreach ($categories as $category)
@@ -71,7 +71,7 @@
                                 @endforeach
                             </select>
                             <button id="searchBtn" class="btn-primary px-8">Search</button>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <!-- AI Suggestions -->
@@ -459,8 +459,6 @@
         }
     </script>
 
-
-
     <script>
         const productGrid = document.getElementById('productGrid');
         const sortSelect = document.getElementById('sortSelect');
@@ -701,8 +699,6 @@
             fetchFilteredProducts();
         });
 
-
-
         //price range filtering functionality
         document.addEventListener('DOMContentLoaded', function() {
             const currencySelect = document.getElementById('currency-select');
@@ -759,9 +755,7 @@
             // Initial load with all products or default min-max
             fetchFilteredProducts();
         });
-
         //price range filtering functionality
-
         document.addEventListener('DOMContentLoaded', () => {
             const sortSelect = document.getElementById(
                 'sortSelection'); // make sure your <select> has id="sortSelect"
@@ -944,8 +938,6 @@
             // optional: initial call to ensure pagination links are AJAX-enabled
             attachAjaxPagination();
         });
-
-
         //brand filtering functionality
         document.addEventListener('DOMContentLoaded', function() {
             const brandList = document.getElementById('Brand-list');
@@ -1008,9 +1000,7 @@
                     });
             }
         });
-
         //brand filtering functionality
-
         //trending Suggestions
         document.addEventListener("DOMContentLoaded", function() {
             fetch("/trending-suggestions")
@@ -1031,7 +1021,6 @@
                 });
         });
         //trending Suggestions
-
         //advanced searching
         document.addEventListener("DOMContentLoaded", function() {
             const searchInput = document.getElementById("mainSearch");
@@ -1156,9 +1145,6 @@
             });
         });
 
-
-
-
         //category filtering functionality
         document.addEventListener('DOMContentLoaded', function() {
             const categorySelect = document.getElementById('categorySelect');
@@ -1190,7 +1176,6 @@
                     });
             });
         });
-
         //category filtering functionality
         //advanced searching
 
