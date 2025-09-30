@@ -474,7 +474,7 @@
                             @if($category->growth > 0)
                                 <span class="text-success font-semibold">↗ {{ $category->growth }}% growth</span>
                             @else
-                                <span class="text-danger font-semibold" style="color:rgb(190, 14, 14)">↘ {{ abs($category->growth) }}% decline</span>
+                                
                             @endif
                             {{-- <span class="text-success font-semibold">↗ {{ $category->growth }}% growth</span> --}}
                             <span class="text-body-sm text-secondary-500">

@@ -24,9 +24,11 @@ class HomeController extends Controller
             $totalViews = $category->products->sum('views_count');
             $totalSales = $category->products->sum('sales_count');
 
-            $base = $totalViews;
-            dd($base);
-            $category->growth = $base > 0 ? min(100, round(($totalSales / $base) * 100)) : 0;
+            $base = $totalSales + $totalViews;
+            // dd($base);
+            $category->growth = $base > 0
+    ? round((($totalSales * 2) + $totalViews) / ($base * 2) * 100)
+    : 0;
 
             return $category;
         });
