@@ -859,7 +859,7 @@
             </div>
         </div>
     </div>
-    <div id="login-warning-modal-wrapper"
+    <div id="login-warning-modal-wrapper2"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div id="login-warning-modal"
             class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
@@ -880,7 +880,7 @@
             </div>
 
             <!-- Main Message -->
-            <h2 class="text-2xl font-bold text-primary mb-3">Sign in to save your favorites</h2>
+            <h2 class="text-xl font-bold text-primary mb-3" style="text-align: center">Sign in to add to cart</h2>
             <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
                 Join us to unlock your personalized shopping experience and never lose track of the products you love.
             </p>
@@ -1780,6 +1780,7 @@
             };
             window.continueBrowsing = function() {
                 loginWarningModalWrapper.classList.add("hidden");
+                loginWarningModalWrapper2.classList.add("hidden");
             };
         });
 
