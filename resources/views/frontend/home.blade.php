@@ -290,150 +290,63 @@
 
             <!-- Promotional Products Grid -->
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Promotional Product 1 -->
-                <div
-                    class="card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden">
-                    <div class="absolute top-3 left-3 bg-accent text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                        70% OFF
-                    </div>
-                    <div
-                        class="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
-                        HOT
-                    </div>
-                    <div class="relative overflow-hidden rounded-lg mb-4">
-                        <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                            alt="Wireless Earbuds Pro"
-                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                            loading="lazy" />
-                    </div>
-                    <h3 class="font-semibold text-primary mb-2">Wireless Earbuds Pro</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Premium sound quality with noise cancellation</p>
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-xl font-bold text-accent">$29.99</span>
-                            <span class="text-sm text-gray-500 line-through">$99.99</span>
-                        </div>
-                        <div class="flex items-center text-yellow-400">
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                            </svg>
-                            <span class="text-sm text-gray-600 ml-1">4.8 (324)</span>
-                        </div>
-                    </div>
-                    <div class="text-xs text-gray-500 mb-3">⏰ Ends in: <span class="font-semibold text-accent">2d 14h
-                            23m</span></div>
-                    <button class="w-full btn-primary text-sm py-2">Add to Cart</button>
-                </div>
+                @forelse ($flashDeals as $deal)
+                    @php
+                        $product = $deal->product;
+                        $discountPercent = $deal->discount_percent ??
+                            round(100 - ($deal->flash_price / $product->price * 100));
+                        $timeLeft = $deal->end_time->diffForHumans(null, true); // e.g. "2 days 3 hours"
+                    @endphp
 
-                <!-- Promotional Product 2 -->
-                <div
-                    class="card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden">
-                    <div class="absolute top-3 left-3 bg-success text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                        45% OFF
-                    </div>
-                    <div
-                        class="absolute top-3 right-3 bg-purple-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                        LIMITED
-                    </div>
-                    <div class="relative overflow-hidden rounded-lg mb-4">
-                        <img src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                            alt="Smart Home Hub"
-                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                            loading="lazy" />
-                    </div>
-                    <h3 class="font-semibold text-primary mb-2">Smart Home Hub</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Control all your smart devices from one place</p>
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-xl font-bold text-success">$54.99</span>
-                            <span class="text-sm text-gray-500 line-through">$99.99</span>
+                    <div class="card group relative overflow-hidden hover:shadow-hover transition-all duration-300">
+                        <!-- Discount Badge -->
+                        <div class="absolute top-3 left-3 bg-accent text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+                            {{ $discountPercent }}% OFF
                         </div>
-                        <div class="flex items-center text-yellow-400">
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                            </svg>
-                            <span class="text-sm text-gray-600 ml-1">4.6 (156)</span>
-                        </div>
-                    </div>
-                    <div class="text-xs text-gray-500 mb-3">⏰ Ends in: <span class="font-semibold text-success">2d 14h
-                            23m</span></div>
-                    <button class="w-full btn-primary text-sm py-2">Add to Cart</button>
-                </div>
 
-                <!-- Promotional Product 3 -->
-                <div
-                    class="card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden">
-                    <div class="absolute top-3 left-3 bg-warning text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                        60% OFF
-                    </div>
-                    <div
-                        class="absolute top-3 right-3 bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                        BESTSELLER
-                    </div>
-                    <div class="relative overflow-hidden rounded-lg mb-4">
-                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2970&auto=format&fit=crop"
-                            alt="Running Shoes"
-                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                            loading="lazy" />
-                    </div>
-                    <h3 class="font-semibold text-primary mb-2">Premium Running Shoes</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Lightweight with advanced cushioning technology</p>
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-xl font-bold text-warning">$39.99</span>
-                            <span class="text-sm text-gray-500 line-through">$99.99</span>
+                        <!-- HOT/LIMITED Label -->
+                        <div
+                            class="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
+                            HOT
                         </div>
-                        <div class="flex items-center text-yellow-400">
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                            </svg>
-                            <span class="text-sm text-gray-600 ml-1">4.9 (892)</span>
-                        </div>
-                    </div>
-                    <div class="text-xs text-gray-500 mb-3">⏰ Ends in: <span class="font-semibold text-warning">2d 14h
-                            23m</span></div>
-                    <button class="w-full btn-primary text-sm py-2">Add to Cart</button>
-                </div>
 
-                <!-- Promotional Product 4 -->
-                <div
-                    class="card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden">
-                    <div class="absolute top-3 left-3 bg-primary text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                        55% OFF
-                    </div>
-                    <div
-                        class="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                        ECO
-                    </div>
-                    <div class="relative overflow-hidden rounded-lg mb-4">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2958&auto=format&fit=crop"
-                            alt="Bamboo Kitchen Set"
-                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                            loading="lazy" />
-                    </div>
-                    <h3 class="font-semibold text-primary mb-2">Bamboo Kitchen Set</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Sustainable and stylish kitchen essentials</p>
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-xl font-bold text-primary">$22.49</span>
-                            <span class="text-sm text-gray-500 line-through">$49.99</span>
+                        <!-- Product Image -->
+                        <div class="relative overflow-hidden rounded-lg mb-4">
+                            <img src="{{ $product->main_image ?? asset('assets/images/no-image.png') }}"
+                                alt="{{ $product->name }}"
+                                class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300" />
                         </div>
-                        <div class="flex items-center text-yellow-400">
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                            </svg>
-                            <span class="text-sm text-gray-600 ml-1">4.7 (203)</span>
+
+                        <!-- Product Info -->
+                        <h3 class="font-semibold text-primary mb-2">{{ $product->name }}</h3>
+                        <p class="text-body-sm text-secondary-600 mb-3">{{ $product->short_description }}</p>
+
+                        <!-- Price -->
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xl font-bold text-accent">
+                                    {{ $product->currency === '$' ? '$' . number_format($deal->flash_price, 2) : number_format($deal->flash_price) . ' Rwf' }}
+                                </span>
+                                <span class="text-sm text-gray-500 line-through">
+                                    {{ $product->currency === '$' ? '$' . number_format($product->price, 2) : number_format($product->price) . ' Rwf' }}
+                                </span>
+                            </div>
                         </div>
+
+                        <!-- Countdown -->
+                        <div class="text-xs text-gray-500 mb-3">
+                            ⏰ Ends in: <span class="font-semibold text-accent">{{ $timeLeft }}</span>
+                        </div>
+
+                        <button onclick="addToCart({{ $product->id }})" class="w-full btn-primary text-sm py-2">
+                            Add to Cart
+                        </button>
                     </div>
-                    <div class="text-xs text-gray-500 mb-3">⏰ Ends in: <span class="font-semibold text-primary">2d 14h
-                            23m</span></div>
-                    <button class="w-full btn-primary text-sm py-2">Add to Cart</button>
-                </div>
+                @empty
+                    <p class="col-span-full text-center text-secondary-600">No flash deals available right now.</p>
+                @endforelse
             </div>
+
 
             <!-- View All Deals Button -->
             <div class="text-center mt-12">
@@ -469,12 +382,13 @@
                         </div>
                         <h3 class="font-semibold text-primary mb-2">{{ $category->name }}</h3>
                         <p class="text-body-sm text-secondary-600 mb-3">
-                            {{ $category->description ?? 'No description available' }}</p>
+                            {{ $category->description ?? 'No description available' }}
+                        </p>
                         <div class="flex items-center justify-between">
                             @if($category->growth > 0)
                                 <span class="text-success font-semibold">↗ {{ $category->growth }}% growth</span>
                             @else
-                                
+
                             @endif
                             {{-- <span class="text-success font-semibold">↗ {{ $category->growth }}% growth</span> --}}
                             <span class="text-body-sm text-secondary-500">
@@ -850,78 +764,78 @@
 
             if (filteredSuggestions.length > 0) {
                 suggestionsContainer.innerHTML = `
-                    <div class="space-y-2">
-                        <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
-                        <div class="space-y-1">
-                            ${filteredSuggestions.map(suggestion => `
-                                        <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                            <div class="flex items-center space-x-2">
-                                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                                </svg>
-                                                <span>${suggestion}</span>
-                                            </div>
-                                        </button>
-                                    `).join('')}
+                        <div class="space-y-2">
+                            <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
+                            <div class="space-y-1">
+                                ${filteredSuggestions.map(suggestion => `
+                                            <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                                <div class="flex items-center space-x-2">
+                                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                    </svg>
+                                                    <span>${suggestion}</span>
+                                                </div>
+                                            </button>
+                                        `).join('')}
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
             } else {
                 suggestionsContainer.innerHTML = `
-                    <div class="space-y-2">
-                        <div class="text-sm font-medium text-gray-500 mb-3">No suggestions found</div>
-                        <div class="text-center py-8 text-gray-400">
-                            <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
-                            <p class="text-sm">Try different keywords</p>
+                        <div class="space-y-2">
+                            <div class="text-sm font-medium text-gray-500 mb-3">No suggestions found</div>
+                            <div class="text-center py-8 text-gray-400">
+                                <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                                <p class="text-sm">Try different keywords</p>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
             }
         }
 
         function resetSearchSuggestions() {
             const suggestionsContainer = document.getElementById('search-suggestions');
             suggestionsContainer.innerHTML = `
-                <div class="space-y-2">
-                    <div class="text-sm font-medium text-gray-500 mb-3">Popular Searches</div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="selectSuggestion('wireless earbuds')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                            <div class="flex items-center space-x-2">
-                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                </svg>
-                                <span>Wireless Earbuds</span>
-                            </div>
-                        </button>
-                        <button onclick="selectSuggestion('smart home')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                            <div class="flex items-center space-x-2">
-                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                </svg>
-                                <span>Smart Home</span>
-                            </div>
-                        </button>
-                        <button onclick="selectSuggestion('laptop accessories')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                            <div class="flex items-center space-x-2">
-                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                </svg>
-                                <span>Laptop Accessories</span>
-                            </div>
-                        </button>
-                        <button onclick="selectSuggestion('fitness equipment')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                            <div class="flex items-center space-x-2">
-                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                </svg>
-                                <span>Fitness Equipment</span>
-                            </div>
-                        </button>
+                    <div class="space-y-2">
+                        <div class="text-sm font-medium text-gray-500 mb-3">Popular Searches</div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="selectSuggestion('wireless earbuds')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                    </svg>
+                                    <span>Wireless Earbuds</span>
+                                </div>
+                            </button>
+                            <button onclick="selectSuggestion('smart home')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                    </svg>
+                                    <span>Smart Home</span>
+                                </div>
+                            </button>
+                            <button onclick="selectSuggestion('laptop accessories')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                    </svg>
+                                    <span>Laptop Accessories</span>
+                                </div>
+                            </button>
+                            <button onclick="selectSuggestion('fitness equipment')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                    </svg>
+                                    <span>Fitness Equipment</span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
         }
 
         function selectSuggestion(suggestion) {
@@ -961,10 +875,10 @@
                 if (distance < 0) {
                     clearInterval(countdown);
                     document.querySelector('.bg-gradient-to-r.from-accent.to-accent-600').innerHTML = `
-                        <h3 class="text-2xl font-bold mb-4">🎉 Sale Extended!</h3>
-                        <p class="text-lg">Due to popular demand, we've extended our flash sale!</p>
-                        <button class="mt-4 bg-white text-accent px-6 py-2 rounded-lg font-semibold">Shop Now</button>
-                    `;
+                            <h3 class="text-2xl font-bold mb-4">🎉 Sale Extended!</h3>
+                            <p class="text-lg">Due to popular demand, we've extended our flash sale!</p>
+                            <button class="mt-4 bg-white text-accent px-6 py-2 rounded-lg font-semibold">Shop Now</button>
+                        `;
                 }
             }, 1000);
         }
@@ -1082,27 +996,27 @@
                 if (sender === 'user') {
                     messageDiv.className = 'flex justify-end space-x-2 chat-message-slide-in-right';
                     messageDiv.innerHTML = `
-                        <div class="bg-accent text-white rounded-lg p-3 max-w-xs shadow-md">
-                            <p class="text-sm">${message}</p>
-                        </div>
-                        <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                            </svg>
-                        </div>
-                    `;
+                            <div class="bg-accent text-white rounded-lg p-3 max-w-xs shadow-md">
+                                <p class="text-sm">${message}</p>
+                            </div>
+                            <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                            </div>
+                        `;
                 } else {
                     messageDiv.className = 'flex space-x-2 chat-message-slide-in';
                     messageDiv.innerHTML = `
-                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                            </svg>
-                        </div>
-                        <div class="bg-surface rounded-lg p-3 max-w-xs shadow-md">
-                            <p class="text-sm text-secondary-700">${message}</p>
-                        </div>
-                    `;
+                            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                            </div>
+                            <div class="bg-surface rounded-lg p-3 max-w-xs shadow-md">
+                                <p class="text-sm text-secondary-700">${message}</p>
+                            </div>
+                        `;
                 }
 
                 chatContent.appendChild(messageDiv);
@@ -1115,19 +1029,19 @@
                 typingDiv.id = 'typing-indicator';
                 typingDiv.className = 'flex space-x-2 chat-message-slide-in';
                 typingDiv.innerHTML = `
-                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        </svg>
-                    </div>
-                    <div class="bg-surface rounded-lg p-3 shadow-md">
-                        <div class="typing-indicator">
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
+                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
                         </div>
-                    </div>
-                `;
+                        <div class="bg-surface rounded-lg p-3 shadow-md">
+                            <div class="typing-indicator">
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                            </div>
+                        </div>
+                    `;
 
                 chatContent.appendChild(typingDiv);
                 this.scrollToBottom();
