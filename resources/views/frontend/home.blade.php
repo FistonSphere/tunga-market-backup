@@ -462,11 +462,10 @@
                     <a href="{{ route('categories.show', $category->slug) }}"
                         class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
                         <div class="relative overflow-hidden rounded-lg mb-4">
-                            <img src="{{ $category->thumbnail ?? 'https://via.placeholder.com/400x300?text=No+Image' }}"
+                            <img src="{{ $category->thumbnail ?? asset('assets/images/no-image.png') }}"
                                 alt="{{ $category->name }}"
                                 class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                                loading="lazy"
-                                onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Available'; this.onerror=null;" />
+                                loading="lazy" />
 
                             <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
                                 <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"

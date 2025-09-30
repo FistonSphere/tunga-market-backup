@@ -10,9 +10,25 @@ class HomeController extends Controller
 {
     public function index()
     {
-         $categories = Category::where('is_active', 1)
-            ->orderBy('created_at', 'desc')
-            ->get();
+         $categories = Category::withCount(['products' => function($query) {
+            $query->where('status', 'active');
+        }])
+        ->with(['products' => function($query) {
+            $query->select('id','category_id','views_count','sales_count');
+        }])
+        ->where('is_active', 1)
+        ->get();
+
+        // Add calculated growth percentage
+        $categories->map(function ($category) {
+            $totalViews = $category->products->sum('views_count');
+            $totalSales = $category->products->sum('sales_count');
+
+            $base = $totalSales + $totalViews;
+            $category->growth = $base > 0 ? min(100, round(($totalSales / $base) * 100)) : 0;
+
+            return $category;
+        });
         return view('frontend.home', compact('categories'));
     }
 }
