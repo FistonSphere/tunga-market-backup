@@ -26,4 +26,34 @@ class CategoryController extends Controller
 
         return view('frontend.categories-view', compact('category', 'products','categories'));
     }
+
+    public function filter(Request $request, $slug)
+{
+    $category = Category::where('slug', $slug)->firstOrFail();
+
+    $query = $category->products()->where('status', 'active');
+
+    // Filters
+    if ($request->filled('currency')) {
+        $query->where('currency', $request->currency);
+    }
+    if ($request->filled('min_price')) {
+        $query->where('price', '>=', $request->min_price);
+    }
+    if ($request->filled('max_price')) {
+        $query->where('price', '<=', $request->max_price);
+    }
+
+    $products = $query->paginate(12);
+
+    // Render only product grid partial
+    $html = view('partials.product-grid-category', compact('products'))->render();
+    $pagination = view('partials.pagination-category', compact('products'))->render();
+
+    return response()->json([
+        'html' => $html,
+        'pagination' => $products->links()->toHtml(),
+    ]);
+}
+
 }
