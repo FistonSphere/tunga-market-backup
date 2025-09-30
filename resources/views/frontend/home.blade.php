@@ -458,7 +458,7 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                @foreach ($categories as $category)
+                @foreach($categories as $category)
                     <a href="{{ route('categories.show', $category->slug) }}"
                         class="card group cursor-pointer hover:shadow-hover transition-all duration-300">
                         <div class="relative overflow-hidden rounded-lg mb-4">
@@ -466,30 +466,25 @@
                                 alt="{{ $category->name }}"
                                 class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
                                 loading="lazy" />
-
-                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                                <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7
-                                     -1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                </svg>
-                            </div>
                         </div>
-
                         <h3 class="font-semibold text-primary mb-2">{{ $category->name }}</h3>
                         <p class="text-body-sm text-secondary-600 mb-3">
-                            {{ $category->description ?? 'No description available' }}
-                        </p>
-
+                            {{ $category->description ?? 'No description available' }}</p>
                         <div class="flex items-center justify-between">
-                            <span class="text-success font-semibold">↗ {{ rand(10, 40) }}% growth</span>
-                            <span class="text-body-sm text-secondary-500">{{ rand(5, 30) }}K products</span>
+                            @if($category->growth >= 0)
+                                <span class="text-success font-semibold">↗ {{ $category->growth }}% growth</span>
+                            @else
+                                <span class="text-danger font-semibold">↘ {{ abs($category->growth) }}% decline</span>
+                            @endif
+                            {{-- <span class="text-success font-semibold">↗ {{ $category->growth }}% growth</span> --}}
+                            <span class="text-body-sm text-secondary-500">
+                                {{ number_format($category->products_count) }} products
+                            </span>
                         </div>
                     </a>
                 @endforeach
             </div>
+
 
         </div>
     </section>
@@ -773,8 +768,7 @@
                 what's possible when business grows together.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                    class="bg-accent hover:bg-accent-600 text-white font-semibold px-8 py-4 rounded-lg transition-fast">
+                <button class="bg-accent hover:bg-accent-600 text-white font-semibold px-8 py-4 rounded-lg transition-fast">
                     Start Buying Now
                 </button>
                 <button class="bg-white hover:bg-gray-50 text-primary font-semibold px-8 py-4 rounded-lg transition-fast">
@@ -811,14 +805,14 @@
         }
 
         // Close search overlay when clicking outside
-        document.getElementById('search-overlay').addEventListener('click', function(e) {
+        document.getElementById('search-overlay').addEventListener('click', function (e) {
             if (e.target === this) {
                 closeSearchOverlay();
             }
         });
 
         // Close search overlay with Escape key
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closeSearchOverlay();
             }
@@ -856,78 +850,78 @@
 
             if (filteredSuggestions.length > 0) {
                 suggestionsContainer.innerHTML = `
-                <div class="space-y-2">
-                    <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
-                    <div class="space-y-1">
-                        ${filteredSuggestions.map(suggestion => `
-                                    <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                                        <div class="flex items-center space-x-2">
-                                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                            </svg>
-                                            <span>${suggestion}</span>
-                                        </div>
-                                    </button>
-                                `).join('')}
+                    <div class="space-y-2">
+                        <div class="text-sm font-medium text-gray-500 mb-3">Search Suggestions</div>
+                        <div class="space-y-1">
+                            ${filteredSuggestions.map(suggestion => `
+                                        <button onclick="selectSuggestion('${suggestion}')" class="w-full text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                                            <div class="flex items-center space-x-2">
+                                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                </svg>
+                                                <span>${suggestion}</span>
+                                            </div>
+                                        </button>
+                                    `).join('')}
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
             } else {
                 suggestionsContainer.innerHTML = `
-                <div class="space-y-2">
-                    <div class="text-sm font-medium text-gray-500 mb-3">No suggestions found</div>
-                    <div class="text-center py-8 text-gray-400">
-                        <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                        <p class="text-sm">Try different keywords</p>
+                    <div class="space-y-2">
+                        <div class="text-sm font-medium text-gray-500 mb-3">No suggestions found</div>
+                        <div class="text-center py-8 text-gray-400">
+                            <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            <p class="text-sm">Try different keywords</p>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
             }
         }
 
         function resetSearchSuggestions() {
             const suggestionsContainer = document.getElementById('search-suggestions');
             suggestionsContainer.innerHTML = `
-            <div class="space-y-2">
-                <div class="text-sm font-medium text-gray-500 mb-3">Popular Searches</div>
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="selectSuggestion('wireless earbuds')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                        <div class="flex items-center space-x-2">
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
-                            <span>Wireless Earbuds</span>
-                        </div>
-                    </button>
-                    <button onclick="selectSuggestion('smart home')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                        <div class="flex items-center space-x-2">
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
-                            <span>Smart Home</span>
-                        </div>
-                    </button>
-                    <button onclick="selectSuggestion('laptop accessories')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                        <div class="flex items-center space-x-2">
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
-                            <span>Laptop Accessories</span>
-                        </div>
-                    </button>
-                    <button onclick="selectSuggestion('fitness equipment')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
-                        <div class="flex items-center space-x-2">
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
-                            <span>Fitness Equipment</span>
-                        </div>
-                    </button>
+                <div class="space-y-2">
+                    <div class="text-sm font-medium text-gray-500 mb-3">Popular Searches</div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="selectSuggestion('wireless earbuds')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                                <span>Wireless Earbuds</span>
+                            </div>
+                        </button>
+                        <button onclick="selectSuggestion('smart home')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                                <span>Smart Home</span>
+                            </div>
+                        </button>
+                        <button onclick="selectSuggestion('laptop accessories')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                                <span>Laptop Accessories</span>
+                            </div>
+                        </button>
+                        <button onclick="selectSuggestion('fitness equipment')" class="text-left p-3 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-fast">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                                <span>Fitness Equipment</span>
+                            </div>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
         }
 
         function selectSuggestion(suggestion) {
@@ -947,7 +941,7 @@
             const countDownDate = now + (2 * 24 * 60 * 60 * 1000) + (14 * 60 * 60 * 1000) + (23 * 60 * 1000) + (45 * 1000);
 
             // Update the countdown every 1 second
-            const countdown = setInterval(function() {
+            const countdown = setInterval(function () {
                 const now = new Date().getTime();
                 const distance = countDownDate - now;
 
@@ -967,10 +961,10 @@
                 if (distance < 0) {
                     clearInterval(countdown);
                     document.querySelector('.bg-gradient-to-r.from-accent.to-accent-600').innerHTML = `
-                    <h3 class="text-2xl font-bold mb-4">🎉 Sale Extended!</h3>
-                    <p class="text-lg">Due to popular demand, we've extended our flash sale!</p>
-                    <button class="mt-4 bg-white text-accent px-6 py-2 rounded-lg font-semibold">Shop Now</button>
-                `;
+                        <h3 class="text-2xl font-bold mb-4">🎉 Sale Extended!</h3>
+                        <p class="text-lg">Due to popular demand, we've extended our flash sale!</p>
+                        <button class="mt-4 bg-white text-accent px-6 py-2 rounded-lg font-semibold">Shop Now</button>
+                    `;
                 }
             }, 1000);
         }
@@ -1088,27 +1082,27 @@
                 if (sender === 'user') {
                     messageDiv.className = 'flex justify-end space-x-2 chat-message-slide-in-right';
                     messageDiv.innerHTML = `
-                    <div class="bg-accent text-white rounded-lg p-3 max-w-xs shadow-md">
-                        <p class="text-sm">${message}</p>
-                    </div>
-                    <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                        </svg>
-                    </div>
-                `;
+                        <div class="bg-accent text-white rounded-lg p-3 max-w-xs shadow-md">
+                            <p class="text-sm">${message}</p>
+                        </div>
+                        <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                        </div>
+                    `;
                 } else {
                     messageDiv.className = 'flex space-x-2 chat-message-slide-in';
                     messageDiv.innerHTML = `
-                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        </svg>
-                    </div>
-                    <div class="bg-surface rounded-lg p-3 max-w-xs shadow-md">
-                        <p class="text-sm text-secondary-700">${message}</p>
-                    </div>
-                `;
+                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                        </div>
+                        <div class="bg-surface rounded-lg p-3 max-w-xs shadow-md">
+                            <p class="text-sm text-secondary-700">${message}</p>
+                        </div>
+                    `;
                 }
 
                 chatContent.appendChild(messageDiv);
@@ -1121,19 +1115,19 @@
                 typingDiv.id = 'typing-indicator';
                 typingDiv.className = 'flex space-x-2 chat-message-slide-in';
                 typingDiv.innerHTML = `
-                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                </div>
-                <div class="bg-surface rounded-lg p-3 shadow-md">
-                    <div class="typing-indicator">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
                     </div>
-                </div>
-            `;
+                    <div class="bg-surface rounded-lg p-3 shadow-md">
+                        <div class="typing-indicator">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                `;
 
                 chatContent.appendChild(typingDiv);
                 this.scrollToBottom();
@@ -1171,7 +1165,7 @@
                     response =
                         "🔄 We offer 30-day returns on most items with buyer protection. You can start a return request from your order history. Need step-by-step guidance?";
                 } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes(
-                        'hey')) {
+                    'hey')) {
                     response =
                         "👋 Hello there! Welcome to Tunga Market! I'm your AI assistant ready to help with orders, payments, shipping, or any other questions. How can I assist you today?";
                 } else if (lowerMessage.includes('help') || lowerMessage.includes('support')) {
@@ -1262,7 +1256,7 @@
         }
 
         // Initialize all functionality when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Initialize countdown timer
             initCountdownTimer();
 
@@ -1278,7 +1272,7 @@
 
             // Add smooth scroll behavior to navigation links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
+                anchor.addEventListener('click', function (e) {
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
                     if (target) {
