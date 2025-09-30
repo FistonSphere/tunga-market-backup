@@ -261,32 +261,48 @@
             </div>
 
             <!-- Countdown Timer Display -->
-            <div
-                class="bg-gradient-to-r from-accent to-accent-600 text-white rounded-2xl p-8 mb-12 text-center shadow-modal">
-                <h3 class="text-2xl font-bold mb-4">🔥 Flash Sale Ending Soon!</h3>
-                <div class="flex justify-center items-center space-x-8">
-                    <div class="text-center">
-                        <div id="days" class="text-4xl font-bold">02</div>
-                        <div class="text-sm opacity-90">Days</div>
+            @if ($countdownMode !== 'none' && $countdownTargetMs)
+                <div id="flash-countdown"
+                    class="bg-gradient-to-r from-accent to-accent-600 text-white rounded-2xl p-8 mb-12 text-center shadow-modal"
+                    data-mode="{{ $countdownMode }}" data-target-ms="{{ $countdownTargetMs }}">
+                    <h3 id="flash-countdown-title" class="text-2xl font-bold mb-4">
+                        @if($countdownMode === 'ending') 🔥 Flash Sale Ending Soon!
+                        @else ⏳ Flash Sale Starting In
+                        @endif
+                    </h3>
+
+                    <div class="flex justify-center items-center space-x-8">
+                        <div class="text-center">
+                            <div id="flash-days" class="text-4xl font-bold">00</div>
+                            <div class="text-sm opacity-90">Days</div>
+                        </div>
+                        <div class="text-3xl">:</div>
+                        <div class="text-center">
+                            <div id="flash-hours" class="text-4xl font-bold">00</div>
+                            <div class="text-sm opacity-90">Hours</div>
+                        </div>
+                        <div class="text-3xl">:</div>
+                        <div class="text-center">
+                            <div id="flash-minutes" class="text-4xl font-bold">00</div>
+                            <div class="text-sm opacity-90">Minutes</div>
+                        </div>
+                        <div class="text-3xl">:</div>
+                        <div class="text-center">
+                            <div id="flash-seconds" class="text-4xl font-bold">00</div>
+                            <div class="text-sm opacity-90">Seconds</div>
+                        </div>
                     </div>
-                    <div class="text-3xl">:</div>
-                    <div class="text-center">
-                        <div id="hours" class="text-4xl font-bold">14</div>
-                        <div class="text-sm opacity-90">Hours</div>
-                    </div>
-                    <div class="text-3xl">:</div>
-                    <div class="text-center">
-                        <div id="minutes" class="text-4xl font-bold">23</div>
-                        <div class="text-sm opacity-90">Minutes</div>
-                    </div>
-                    <div class="text-3xl">:</div>
-                    <div class="text-center">
-                        <div id="seconds" class="text-4xl font-bold">45</div>
-                        <div class="text-sm opacity-90">Seconds</div>
-                    </div>
+
+                    <p class="mt-4 text-lg opacity-95">
+                        Up to <span id="flash-max-discount" class="font-semibold">{{ $maxDiscount }}%</span> OFF on selected
+                        items!
+                    </p>
                 </div>
-                <p class="mt-4 text-lg opacity-95">Up to 70% OFF on selected items!</p>
-            </div>
+            @else
+                {{-- Optionally render nothing or a small message --}}
+                {{-- <p class="text-center text-secondary-600 mb-8">No flash deals available right now.</p> --}}
+            @endif
+
 
             <!-- Promotional Products Grid -->
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -693,30 +709,83 @@
     </section>
 
     <script>
-function startCountdown(elementId, endTime) {
-    function updateCountdown() {
-        let now = new Date().getTime();
-        let distance = new Date(endTime).getTime() - now;
+        function startCountdown(elementId, endTime) {
+            function updateCountdown() {
+                let now = new Date().getTime();
+                let distance = new Date(endTime).getTime() - now;
 
-        if (distance < 0) {
-            document.getElementById(elementId).innerHTML = "Expired";
-            return;
+                if (distance < 0) {
+                    document.getElementById(elementId).innerHTML = "Expired";
+                    return;
+                }
+
+                let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById(elementId).innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
         }
 
-        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        document.getElementById(elementId).innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('flash-countdown');
+            if (!container) return;
 
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-}
+            const targetMs = Number(container.dataset.targetMs);
+            const mode = container.dataset.mode || 'ending';
 
+            const elDays = document.getElementById('flash-days');
+            const elHours = document.getElementById('flash-hours');
+            const elMinutes = document.getElementById('flash-minutes');
+            const elSeconds = document.getElementById('flash-seconds');
+            const titleEl = document.getElementById('flash-countdown-title');
 
+            function pad(n) { return n < 10 ? '0' + n : n; }
 
+            function update() {
+                const now = Date.now();
+                let distance = targetMs - now;
+
+                if (distance <= 0) {
+                    // expired
+                    elDays.textContent = '00';
+                    elHours.textContent = '00';
+                    elMinutes.textContent = '00';
+                    elSeconds.textContent = '00';
+
+                    // change title to reflect expiration, and optionally auto-refresh deals
+                    if (mode === 'ending') {
+                        titleEl.textContent = 'Flash Sale Ended';
+                    } else {
+                        titleEl.textContent = 'Flash Sale Started';
+                    }
+
+                    // OPTIONAL: attempt to refresh the page or re-fetch deals via AJAX
+                    // setTimeout(() => window.location.reload(), 1500);
+                    clearInterval(interval);
+                    return;
+                }
+
+                const seconds = Math.floor((distance / 1000) % 60);
+                const minutes = Math.floor((distance / (1000 * 60)) % 60);
+                const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+                elDays.textContent = pad(days);
+                elHours.textContent = pad(hours);
+                elMinutes.textContent = pad(minutes);
+                elSeconds.textContent = pad(seconds);
+            }
+
+            // run immediately then every second
+            update();
+            const interval = setInterval(update, 1000);
+        });
 
 
 
