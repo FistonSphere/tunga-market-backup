@@ -201,12 +201,12 @@
                     </div>
                     <!-- Product Grid -->
                     <div id="product-grid">
-                        @include('partials.product-grid', ['products' => $products])
+                        @include('partials.product-grid-category', ['products' => $products])
                     </div>
 
                     <!-- Pagination -->
                     <div id="pagination">
-                        @include('partials.pagination', ['products' => $products])
+                        @include('partials.pagination-category', ['products' => $products])
                     </div>
 
                 </div>
