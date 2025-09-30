@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\FlashDeal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
 {
@@ -34,11 +35,40 @@ class HomeController extends Controller
             return $category;
         });
 
+
+         $now = Carbon::now();
          $flashDeals = FlashDeal::with('product')
         ->active()
         ->orderBy('end_time')
         ->take(8) // show limited deals
         ->get();
+
+        // split active vs upcoming
+    $active    = $flashDeals->filter(fn($d) => $d->start_time <= $now && $d->end_time >= $now);
+    $upcoming  = $flashDeals->filter(fn($d) => $d->start_time > $now);
+
+    if ($active->isNotEmpty()) {
+        $countdownMode = 'ending'; // show "Flash Sale Ending Soon!"
+        $target = $active->min('end_time'); // nearest end among active deals
+    } elseif ($upcoming->isNotEmpty()) {
+        $countdownMode = 'starting'; // show "Flash Sale Starting In"
+        $target = $upcoming->min('start_time'); // nearest start among upcoming deals
+    } else {
+        $countdownMode = 'none';
+        $target = null;
+    }
+
+    // nice stat: max discount across current deals (percent)
+    $maxDiscount = $flashDeals->map(function ($d) {
+        if (!empty($d->discount_percent)) return (int)$d->discount_percent;
+        if ($d->product && $d->product->price > 0) {
+            return (int) round(100 - ($d->flash_price / $d->product->price * 100));
+        }
+        return 0;
+    })->max() ?? 0;
+
+    // pass milliseconds (JS-friendly) to avoid timezone weirdness
+    $targetMs = $target ? ($target->getTimestamp() * 1000) : null;
         return view('frontend.home', compact('categories','flashDeals'));
     }
 
