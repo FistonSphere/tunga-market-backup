@@ -12,7 +12,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-         $categories = Category::withCount(['products' => function($query) {
+        $categories = Category::whereHas('products', function($query) {
+            $query->where('status', 'active');
+        })
+        ->withCount(['products' => function($query) {
             $query->where('status', 'active');
         }])
         ->with(['products' => function($query) {
