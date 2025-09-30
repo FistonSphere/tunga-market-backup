@@ -40,6 +40,6 @@ class HomeController extends Controller
         $category = Category::where('slug', $slug)->firstOrFail();
         $products = $category->products()->where('status', 'active')->paginate(12);
 
-        return view('categories.show', compact('category', 'products'));
+        return view('frontend.categories.show', compact('category', 'products'));
     }
 }
