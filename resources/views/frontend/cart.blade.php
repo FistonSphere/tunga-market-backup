@@ -201,16 +201,31 @@
 
                                                 <div class="flex flex-col items-end space-y-3 mt-4 lg:mt-0">
                                                     <!-- Price -->
-                                                    <div class="text-right">
-                                                        <div class="text-xl font-bold text-primary">
-                                                            {{ $item->product->currency }}{{ number_format($item->price, 2) }}
-                                                        </div>
-                                                        @if ($item->product->discount_price)
-                                                            <div class="text-body-sm text-secondary-500 line-through">
-                                                                {{ $item->product->currency }}{{ number_format($item->product->price, 2) }}
-                                                            </div>
-                                                        @endif
-                                                    </div>
+<div class="text-right">
+    @if ($item->deal_id && $item->flashDeal)
+        <!-- Flash Deal Price -->
+        <div class="text-xl font-bold text-accent">
+            {{ $item->product->currency }}{{ number_format($item->price, 2) }}
+        </div>
+        <div class="text-body-sm text-secondary-500 line-through">
+            {{ $item->product->currency }}{{ number_format($item->product->price, 2) }}
+        </div>
+        <span class="inline-block mt-1 text-xs bg-red-500 text-white px-2 py-0.5 rounded-full font-medium">
+            🔥 Flash Deal
+        </span>
+    @else
+        <!-- Normal / Discount Price -->
+        <div class="text-xl font-bold text-primary">
+            {{ $item->product->currency }}{{ number_format($item->price, 2) }}
+        </div>
+        @if ($item->product->discount_price)
+            <div class="text-body-sm text-secondary-500 line-through">
+                {{ $item->product->currency }}{{ number_format($item->product->price, 2) }}
+            </div>
+        @endif
+    @endif
+</div>
+
 
                                                     <!-- Quantity Controls -->
                                                     <div class="flex items-center space-x-3">

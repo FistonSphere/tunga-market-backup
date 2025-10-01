@@ -15,7 +15,7 @@ class CartController extends Controller
    public function index()
    {
 
-   $cartItems = Cart::with('product')
+   $cartItems = Cart::with(['product', 'flashDeal'])
         ->where('user_id', Auth::id())
         ->get();
 
@@ -49,8 +49,8 @@ class CartController extends Controller
         return 0;
     });
 
-        
-        
+
+
     return view('frontend.cart', compact(
         'cartItems',
         'subtotal',
@@ -259,7 +259,7 @@ public function removeSelected(Request $request)
         $bulkDiscount = $subtotal > 200 ? $subtotal * 0.10 : 0;
         $shipping    = 0;           // adjust if you have shipping rules
         $tax         = $subtotal * 0.1;
-        
+
         $total       = $subtotal - $bulkDiscount + $shipping + $tax;
 
         // (Optional) also return a rendered summary partial if you want to replace the HTML
