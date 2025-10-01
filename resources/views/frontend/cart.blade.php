@@ -582,61 +582,63 @@
             saveQuantity(itemId, newQty);
         }
 
-        function saveQuantity(itemId, qty) {
-            fetch(`/cart/update-item/${itemId}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-                    },
-                    body: JSON.stringify({
-                        quantity: qty
-                    })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    // Update just this item's total
-                    const itemTotalEl = document.getElementById(`item-total-${itemId}`);
-                    if (itemTotalEl) itemTotalEl.textContent = data.itemTotal;
-
-                    // Update order summary fields
-                    const totalItemsEl = document.getElementById("summary-total-items");
-                    const subtotalEl = document.getElementById("summary-subtotal");
-                    const discountEl = document.getElementById("summary-discount");
-                    const shippingEl = document.getElementById("summary-shipping");
-                    const taxEl = document.getElementById("summary-tax");
-                    const totalEl = document.getElementById("summary-total");
-                    const saveMsgEl = document.getElementById("summary-save-message");
-
-                    if (totalItemsEl) totalItemsEl.textContent = data.totalItems;
-                    if (subtotalEl) subtotalEl.textContent = `${data.subtotal} Rwf`;
-                    if (shippingEl) shippingEl.textContent = `${data.shipping} Rwf`;
-                    if (taxEl) taxEl.textContent = `${data.tax} Rwf`;
-                    if (totalEl) totalEl.textContent = `${data.total} Rwf`;
-
-                    // Update discount color & save message
-                    if (discountEl) {
-                        discountEl.textContent = `-${data.bulkDiscount} Rwf`;
-                        const bulkNum = parseFloat(data.bulkDiscount.replace(/,/g, ''));
-                        discountEl.classList.toggle('text-success', bulkNum > 0);
-                        discountEl.classList.toggle('text-secondary-500', bulkNum <= 0);
-                    }
-
-                    if (saveMsgEl) {
-                        const bulkNum = parseFloat(data.bulkDiscount.replace(/,/g, ''));
-                        if (bulkNum > 0) {
-                            saveMsgEl.classList.remove('hidden');
-                            saveMsgEl.textContent = `You save ${data.bulkDiscount} Rwf with bulk pricing!`;
-                        } else {
-                            saveMsgEl.classList.add('hidden');
-                        }
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert('Failed to update quantity. Please try again.');
-                });
+       function saveQuantity(itemId, qty) {
+    fetch(`/cart/update-item/${itemId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ quantity: qty })
+    })
+    .then(res => res.json())
+    .then(data => {
+        // ✅ Update this item's total (flash deal or normal price handled by backend)
+        const itemTotalEl = document.getElementById(`item-total-${itemId}`);
+        if (itemTotalEl) {
+            itemTotalEl.textContent = `${data.itemTotal} Rwf`;
         }
+
+        // ✅ Update order summary fields
+        const totalItemsEl = document.getElementById("summary-total-items");
+        const subtotalEl = document.getElementById("summary-subtotal");
+        const discountEl = document.getElementById("summary-discount");
+        const shippingEl = document.getElementById("summary-shipping");
+        const taxEl = document.getElementById("summary-tax");
+        const totalEl = document.getElementById("summary-total");
+        const saveMsgEl = document.getElementById("summary-save-message");
+
+        if (totalItemsEl) totalItemsEl.textContent = data.totalItems;
+        if (subtotalEl) subtotalEl.textContent = `${data.subtotal} Rwf`;
+        if (shippingEl) shippingEl.textContent = `${data.shipping ?? 0} Rwf`;
+        if (taxEl) taxEl.textContent = `${data.tax} Rwf`;
+        if (totalEl) totalEl.textContent = `${data.total} Rwf`;
+
+        // ✅ Handle bulk discount styling
+        if (discountEl) {
+            discountEl.textContent = `-${data.bulkDiscount} Rwf`;
+            const bulkNum = parseFloat(data.bulkDiscount.replace(/,/g, '')) || 0;
+            discountEl.classList.toggle('text-success', bulkNum > 0);
+            discountEl.classList.toggle('text-secondary-500', bulkNum <= 0);
+        }
+
+        // ✅ Show "You save" message when discount applied
+        if (saveMsgEl) {
+            const bulkNum = parseFloat(data.bulkDiscount.replace(/,/g, '')) || 0;
+            if (bulkNum > 0) {
+                saveMsgEl.classList.remove('hidden');
+                saveMsgEl.textContent = `You save ${data.bulkDiscount} Rwf with bulk pricing!`;
+            } else {
+                saveMsgEl.classList.add('hidden');
+            }
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert('Failed to update quantity. Please try again.');
+    });
+}
+
 
 
 
