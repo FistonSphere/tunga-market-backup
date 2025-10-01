@@ -13,6 +13,7 @@ class Cart extends Model
         'product_id',
         'quantity',
         'price',
+        'deal_id',
         'currency',
         'product_variant_id ',
         'shipping_fee',
@@ -34,5 +35,10 @@ class Cart extends Model
      public function variant()
     {
         return $this->belongsTo(ProductVariant::class, 'product_variant_id');
+    }
+
+     public function flashDeal()
+    {
+        return $this->belongsTo(FlashDeal::class, 'deal_id');
     }
 }
