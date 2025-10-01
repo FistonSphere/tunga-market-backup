@@ -12,44 +12,40 @@ use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-   public function index()
-   {
-
-   $cartItems = Cart::with(['product', 'flashDeal'])
+  public function index()
+{
+    $cartItems = Cart::with(['product', 'flashDeal'])
         ->where('user_id', Auth::id())
         ->get();
 
-    $subtotal = $cartItems->sum(function ($item) {
-        return $item->price * $item->quantity;
+    // Helper to get effective unit price for an item
+    $getPrice = function ($item) {
+        if (!empty($item->deal_id) && $item->flashDeal && isset($item->flashDeal->flash_price)) {
+            return (float) $item->flashDeal->flash_price;
+        }
+        return (float) $item->price;
+    };
+
+    $subtotal = $cartItems->sum(function ($item) use ($getPrice) {
+        return $getPrice($item) * $item->quantity;
     });
 
-    // Example: Bulk discount logic (10% discount if more than 5 items)
     $totalItems = $cartItems->sum('quantity');
     $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
+    $tax = ($subtotal - $bulkDiscount) * 0.1; // or whatever tax logic you want
+    $total = $subtotal - $bulkDiscount + $tax;
 
-    // Example: Shipping flat rate
-    // $shipping = 12.99;
+    // compute savings from flash deals (optional)
+    $discountPromo = $cartItems->sum(function ($cart) use ($getPrice) {
+        $productPrice = (float) ($cart->product->price ?? 0);
+        $effective = $getPrice($cart);
+        return max(0, ($productPrice - $effective) * $cart->quantity);
+    });
 
-    // Example: Tax calculation (7.2%)
-    $tax = ($subtotal) * 0.1;
-
-    $total = $subtotal + $tax;
-    $featureProducts= Product::where('status', 'active')
+    $featureProducts = Product::where('status', 'active')
         ->inRandomOrder()
         ->take(4)
         ->get();
-
-        $discountPromo = Cart::with('product')
-    ->where('user_id', Auth::id())
-    ->get()
-    ->sum(function ($cart) {
-        if ($cart->product && $cart->product->discount_price) {
-            return ($cart->product->price - $cart->product->discount_price) * $cart->quantity;
-        }
-        return 0;
-    });
-
-
 
     return view('frontend.cart', compact(
         'cartItems',
@@ -61,7 +57,8 @@ class CartController extends Controller
         'totalItems',
         'featureProducts'
     ));
-   }
+}
+
 
  public function updateQuantity(Request $request, $id)
 {
