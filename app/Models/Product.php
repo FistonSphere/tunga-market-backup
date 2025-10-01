@@ -118,4 +118,10 @@ class Product extends Model
             ];
         })->values();
     }
+
+    public function flashDeals()
+{
+    return $this->hasMany(FlashDeal::class, 'product_id');
+}
+
 }

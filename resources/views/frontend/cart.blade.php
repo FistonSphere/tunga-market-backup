@@ -241,31 +241,39 @@
 
                                                     <!-- Quantity Controls -->
                                                     <div class="flex items-center space-x-3">
-                                                        <label class="text-body-sm text-secondary-600">Qty:</label>
-                                                        <div class="flex items-center border border-border rounded-lg">
-                                                            <button class="p-2 hover:bg-surface transition-fast"
-                                                                onclick="updateQuantity({{ $item->id }}, -1)">
-                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                                    viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2" d="M20 12H4" />
-                                                                </svg>
-                                                            </button>
-                                                            <input type="number" id="qty-{{ $item->id }}"
-                                                                value="{{ $item->quantity }}" min="1"
-                                                                max="99"
-                                                                class="w-16 text-center border-0 py-2 focus:ring-0 focus:outline-none"
-                                                                onchange="manualQuantityChange({{ $item->id }})" />
-                                                            <button class="p-2 hover:bg-surface transition-fast"
-                                                                onclick="updateQuantity({{ $item->id }}, 1)">
-                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                                    viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                                </svg>
-                                                            </button>
-                                                        </div>
+    <label class="text-body-sm text-secondary-600">Qty:</label>
+
+    @if($item->deal_id && $item->flashDeal)
+        <!-- 🔒 Flash Deal: Lock quantity to 1 -->
+        <div class="flex items-center border border-border rounded-lg bg-gray-100 cursor-not-allowed opacity-70">
+            <input type="number"
+                   value="1"
+                   readonly
+                   class="w-16 text-center border-0 py-2 bg-gray-100 focus:ring-0 focus:outline-none cursor-not-allowed" />
+        </div>
+    @else
+        <!-- Normal product: Quantity selectable -->
+        <div class="flex items-center border border-border rounded-lg">
+            <button class="p-2 hover:bg-surface transition-fast"
+                    onclick="updateQuantity({{ $item->id }}, -1)">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                </svg>
+            </button>
+            <input type="number" id="qty-{{ $item->id }}"
+                   value="{{ $item->quantity }}" min="1" max="99"
+                   class="w-16 text-center border-0 py-2 focus:ring-0 focus:outline-none"
+                   onchange="manualQuantityChange({{ $item->id }})" />
+            <button class="p-2 hover:bg-surface transition-fast"
+                    onclick="updateQuantity({{ $item->id }}, 1)">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m-6-6h6m-6 0H6" />
+                </svg>
+            </button>
+        </div>
+    @endif
                                                     </div>
+
 
 
                                                     <!-- Item Total -->
