@@ -155,10 +155,11 @@
                                 id="coupon-code" />
                             <button class="btn-primary" onclick="applyCoupon()">Apply</button>
                         </div>
-                        <div class="mt-3 text-body-sm text-secondary-600">
+
+                        {{-- <div class="mt-3 text-body-sm text-secondary-600">
                             <span class="text-success">💡 Available coupons:</span> SAVE10 (10% off), BULK25 (25% off orders
                             over $500)
-                        </div>
+                        </div> --}}
                     </div>
 
                     <!-- Item listing -->
@@ -927,7 +928,7 @@
         // Toast Notification
         function showNotify(type, message) {
             // Define possible styles for 'success' and 'error'
-             
+
             const styles = {
                 success: {
                     bg: "bg-red-500",
