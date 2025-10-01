@@ -802,7 +802,36 @@
             const interval = setInterval(update, 1000);
         });
 
+        function startCountdown(elementId, endTime) {
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = endTime - now;
 
+                if (distance <= 0) {
+                    document.getElementById(elementId).innerText = "Expired";
+                    clearInterval(timer);
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById(elementId).innerText =
+                    `${String(days).padStart(2, '0')}d : ${String(hours).padStart(2, '0')}h : ${String(minutes).padStart(2, '0')}m : ${String(seconds).padStart(2, '0')}s`;
+            }
+
+            updateCountdown();
+            const timer = setInterval(updateCountdown, 1000);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll("[id^='countdown-']").forEach(el => {
+                const endTime = parseInt(el.getAttribute("data-endtime"));
+                startCountdown(el.id, endTime);
+            });
+        });
 
 
 
