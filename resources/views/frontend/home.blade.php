@@ -992,12 +992,12 @@
                     if (!data) return;
                     if (data.status === "success") {
                         updateCartCount(data.cartCount);
-                        showToast(data.message, "success");
+                        showNotify(data.message, "success");
                     } else {
-                        showToast(data.message, "error");
+                        showNotify(data.message, "error");
                     }
                 })
-                .catch(() => showToast("Failed to add flash deal to cart.", "error"));
+                .catch(() => showNotify("Failed to add flash deal to cart.", "error"));
         };
 
 
