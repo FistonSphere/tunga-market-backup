@@ -413,7 +413,7 @@
                                 </span>
                             </div>
 
-                            <button onclick="addToCart({{ $product->id }})" class="w-full btn-primary text-sm py-2">
+                            <button onclick="addFlashDealToCart({{ $deal->id }}, {{ $product->id }})" class="w-full btn-primary text-sm py-2">
                                 Add to Cart
                             </button>
                         </div>
