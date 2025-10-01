@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class FlashDealCartController extends Controller
 {
+
+public function index(){
+
+    return view('frontend.deals.flash_deals_showcase');
+}
+
    public function add(Request $request)
     {
         if (!auth()->check()) {
