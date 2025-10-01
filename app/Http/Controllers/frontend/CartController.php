@@ -60,31 +60,42 @@ class CartController extends Controller
 }
 
 
- public function updateQuantity(Request $request, $id)
+public function updateQuantity(Request $request, $id)
 {
     $cartItem = Cart::where('user_id', auth()->id())->findOrFail($id);
-    $cartItem->quantity = $request->quantity;
+    $cartItem->quantity = (int) $request->quantity;
     $cartItem->save();
 
-    // Recalculate order summary
-    $cartItems = Cart::where('user_id', auth()->id())->get();
-    $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
+    // reload items with flashDeal relation
+    $cartItems = Cart::with(['product','flashDeal'])
+        ->where('user_id', auth()->id())
+        ->get();
+
+    $getPrice = function ($item) {
+        if (!empty($item->deal_id) && $item->flashDeal && isset($item->flashDeal->flash_price)) {
+            return (float) $item->flashDeal->flash_price;
+        }
+        return (float) $item->price;
+    };
+
+    $subtotal = $cartItems->sum(fn($item) => $getPrice($item) * $item->quantity);
     $totalItems = $cartItems->sum('quantity');
     $bulkDiscount = $subtotal > 200 ? $subtotal * 0.1 : 0;
-    // $shipping = 15;
     $tax = $subtotal * 0.1;
     $total = $subtotal - $bulkDiscount + $tax;
+
+    $itemPrice = $getPrice($cartItem);
 
     return response()->json([
         'totalItems'    => $totalItems,
         'subtotal'      => number_format($subtotal, 2),
         'bulkDiscount'  => number_format($bulkDiscount, 2),
-        // 'shipping'      => number_format($shipping, 2),
         'tax'           => number_format($tax, 2),
         'total'         => number_format($total, 2),
-        'itemTotal'     => number_format($cartItem->price * $cartItem->quantity, 2),
+        'itemTotal'     => number_format($itemPrice * $cartItem->quantity, 2),
     ]);
 }
+
 
 public function removeItem($id)
 {
