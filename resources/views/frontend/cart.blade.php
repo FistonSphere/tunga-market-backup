@@ -201,30 +201,42 @@
 
                                                 <div class="flex flex-col items-end space-y-3 mt-4 lg:mt-0">
                                                     <!-- Price -->
-<div class="text-right">
-    @if ($item->deal_id && $item->flashDeal)
-        <!-- Flash Deal Price -->
-        <div class="text-xl font-bold text-accent">
-            {{ $item->product->currency }}{{ number_format($item->price, 2) }}
+                                                    @php
+                                                      // effective unit price (uses flash deal price when present)
+                                                      $effectivePrice = ($item->deal_id && $item->flashDeal && isset($item->flashDeal->flash_price))
+                                                          ? (float) $item->flashDeal->flash_price
+                                                          : (float) $item->price;
+
+                                                      // original product price for strike-through (if available)
+                                                      $originalPrice = (float) ($item->product->price ?? 0);
+                                                    @endphp
+
+                                                    <!-- Price -->
+                                                    <div class="text-right">
+    <!-- Effective price (flash or cart price) -->
+    <div class="text-xl font-bold {{ $item->deal_id ? 'text-accent' : 'text-primary' }}">
+        {{ $item->product->currency }}{{ number_format($effectivePrice, 2) }}
+    </div>
+
+    <!-- Strike-through original price if we are showing a discount -->
+    @if ($item->deal_id && $originalPrice > $effectivePrice)
+        <div class="text-body-sm text-secondary-500 line-through">
+            {{ $item->product->currency }}{{ number_format($originalPrice, 2) }}
         </div>
+    @elseif ($item->product->discount_price && $item->product->discount_price < $item->product->price && !$item->deal_id)
+        <!-- if product has a discount but not from flash deal -->
         <div class="text-body-sm text-secondary-500 line-through">
             {{ $item->product->currency }}{{ number_format($item->product->price, 2) }}
         </div>
+    @endif
+
+    <!-- Flash badge -->
+    @if ($item->deal_id && $item->flashDeal)
         <span class="inline-block mt-1 text-xs bg-red-500 text-white px-2 py-0.5 rounded-full font-medium">
             🔥 Flash Deal
         </span>
-    @else
-        <!-- Normal / Discount Price -->
-        <div class="text-xl font-bold text-primary">
-            {{ $item->product->currency }}{{ number_format($item->price, 2) }}
-        </div>
-        @if ($item->product->discount_price)
-            <div class="text-body-sm text-secondary-500 line-through">
-                {{ $item->product->currency }}{{ number_format($item->product->price, 2) }}
-            </div>
-        @endif
     @endif
-</div>
+                                                    </div>
 
 
                                                     <!-- Quantity Controls -->
@@ -258,11 +270,9 @@
 
                                                     <!-- Item Total -->
                                                     <div class="text-right">
-                                                        <div class="text-lg font-bold text-primary item-total"
-                                                            id="item-total-{{ $item->id }}">
-                                                            {{ $item->product->currency }}{{ number_format($item->price * $item->quantity, 2) }}
+                                                        <div class="text-lg font-bold text-primary item-total" id="item-total-{{ $item->id }}">
+                                                           {{ $item->product->currency }}{{ number_format($effectivePrice * $item->quantity, 2) }}
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>

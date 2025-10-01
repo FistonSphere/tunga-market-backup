@@ -34,11 +34,11 @@ public function index(){
     [
         'user_id' => auth()->id(),
         'product_id' => $product->id,
-        'deal_id' => $deal->id, // track flash deal
+        'deal_id' =>  $deal ? $deal->id : null, // track flash deal
     ],
     [
         'quantity' => $request->quantity,
-        'price' => $deal->flash_price,
+        'price' => $deal ? $deal->flash_price : $product->price,
         'currency' => $product->currency, // use product’s currency
     ]
 );
