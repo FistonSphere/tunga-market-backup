@@ -1,5 +1,52 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes progressAnim {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.4s ease-out forwards;
+        }
+
+        .animate-fade-out {
+            animation: fadeOut 0.6s ease-in forwards;
+        }
+
+        .animate-progress {
+            animation: progressAnim 3.5s linear forwards;
+        }
+    </style>
     <!-- Hero Section -->
     <section class="relative bg-gradient-to-br from-primary-50 to-accent-50 overflow-hidden">
         <div class="absolute inset-0 opacity-10">
@@ -993,9 +1040,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                    <div class="font-semibold">${styles[type].title}</div>
-                    <div class="text-sm opacity-90">${message}</div>
-                `;
+                        <div class="font-semibold">${styles[type].title}</div>
+                        <div class="text-sm opacity-90">${message}</div>
+                    `;
 
             // Progress bar
             const progress = document.createElement("div");
