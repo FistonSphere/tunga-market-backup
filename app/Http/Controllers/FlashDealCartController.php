@@ -2,9 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\FlashDeal;
 use Illuminate\Http\Request;
 
 class FlashDealCartController extends Controller
 {
-    //
+   public function add(Request $request)
+    {
+        if (!auth()->check()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $deal = FlashDeal::with('product')->findOrFail($request->deal_id);
+
+        // Check if deal is active
+        if (!$deal->is_active || now()->lt($deal->start_time) || now()->gt($deal->end_time)) {
+            return response()->json(['status' => 'error', 'message' => 'This flash deal is no longer active.']);
+        }
+
+        $product = $deal->product;
+
+        // Add to cart (simplified)
+        Cart::updateOrCreate(
+            [
+                'user_id' => auth()->id(),
+                'product_id' => $product->id,
+                'deal_id' => $deal->id, // track that it's a flash deal
+            ],
+            [
+                'quantity' => $request->quantity,
+                'price' => $deal->flash_price, // force flash deal price
+            ]
+        );
+
+        $cartCount = Cart::where('user_id', auth()->id())->count();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Flash deal added to cart!',
+            'cartCount' => $cartCount,
+        ]);
+    }
 }
