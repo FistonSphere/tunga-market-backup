@@ -350,9 +350,20 @@
                                 </div>
                             </div>
 
+                            @php
+                                $product = $deal->product;
+                                $discountPercent = $deal->discount_percent ??
+                                    round(100 - ($deal->flash_price / $product->price * 100));
+                                $endTimestamp = $deal->end_time->timestamp * 1000; // JS needs ms
+                            @endphp
+
                             <!-- Countdown -->
                             <div class="text-xs text-gray-500 mb-3">
-                                ⏰ Ends in: <span class="font-semibold text-accent">{{ $timeLeft }}</span>
+                                ⏰ Ends in:
+                                <span id="countdown-{{ $deal->id }}" data-endtime="{{ $endTimestamp }}"
+                                    class="font-semibold text-accent">
+                                    -- : -- : -- : --
+                                </span>
                             </div>
 
                             <button onclick="addToCart({{ $product->id }})" class="w-full btn-primary text-sm py-2">
