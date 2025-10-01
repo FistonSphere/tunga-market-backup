@@ -3,6 +3,7 @@
 use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ComparisonController;
+use App\Http\Controllers\FlashDealCartController;
 use App\Http\Controllers\frontend\CareerController;
 use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\frontend\CategoryController;
@@ -127,7 +128,8 @@ Route::post('/orders/{order}/report-issue', [OrderTrackingController::class, 're
     ->name('orders.reportIssue');
 Route::post('/products/{product}/reviews', [ReviewController::class, 'OrderReviewStore'])
     ->name('products.reviews.store');
-
+Route::post('/flash-deals/cart/add', [FlashDealCartController::class, 'add'])
+    ->name('flash-deals.cart.add');
 });
 
 Route::get('/api/product-id/{slug}', [ComparisonController::class, 'getIdBySlug']);
