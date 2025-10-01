@@ -31,16 +31,18 @@ public function index(){
 
         // Add to cart (simplified)
         Cart::updateOrCreate(
-            [
-                'user_id' => auth()->id(),
-                'product_id' => $product->id,
-                'deal_id' => $deal->id, // track that it's a flash deal
-            ],
-            [
-                'quantity' => $request->quantity,
-                'price' => $deal->flash_price, // force flash deal price
-            ]
-        );
+    [
+        'user_id' => auth()->id(),
+        'product_id' => $product->id,
+        'deal_id' => $deal->id, // track flash deal
+    ],
+    [
+        'quantity' => $request->quantity,
+        'price' => $deal->flash_price,
+        'currency' => $product->currency, // use product’s currency
+    ]
+);
+
 
         $cartCount = Cart::where('user_id', auth()->id())->count();
 
