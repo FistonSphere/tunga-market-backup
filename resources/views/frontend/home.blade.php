@@ -723,6 +723,87 @@
         </div>
     </section>
 
+    <!-- Login Warning Modal (hidden by default) -->
+    <div id="login-warning-modal-wrapper"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div id="login-warning-modal"
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
+            <!-- Close Button -->
+            <button onclick="continueBrowsing()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Warning Icon -->
+            <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+            </div>
+
+            <!-- Main Message -->
+            <h2 class="text-2xl font-bold text-primary mb-3">Sign in to save your favorites</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Join us to unlock your personalized shopping experience and never lose track of the products you love.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button onclick="goToSignIn()"
+                    class="w-full btn-primary py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Sign In to My Account
+                </button>
+                <button onclick="continueBrowsing()"
+                    class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
+                    Continue Browsing Without Account
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="login-warning-modal-wrapper2"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div id="login-warning-modal"
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
+            <!-- Close Button -->
+            <button onclick="continueBrowsing()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Warning Icon -->
+            <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+            </div>
+
+            <!-- Main Message -->
+            <h2 class="text-xl font-bold text-primary mb-3" style="text-align: center">Sign in to add to cart</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Join us to unlock your personalized shopping experience and never lose track of the products you love.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button onclick="goToSignIn()"
+                    class="w-full btn-primary py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Sign In to My Account
+                </button>
+                <button onclick="continueBrowsing()"
+                    class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
+                    Continue Browsing Without Account
+                </button>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         function startCountdown(elementId, endTime) {
             function updateCountdown() {
@@ -834,6 +915,105 @@
         });
 
 
+        // ✅ Add Flash Deal to Cart
+        window.addFlashDealToCart = function (dealId, productId) {
+            const quantity = 1; // usually flash deals allow 1 click add (can be extended)
 
+            fetch(`/flash-deals/cart/add`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                body: JSON.stringify({
+                    deal_id: dealId,
+                    product_id: productId,
+                    quantity: quantity
+                })
+            })
+                .then(response => {
+                    if (response.status === 401) {
+                        // If user not logged in → show modal
+                        const loginWarningModalWrapper2 = document.getElementById("login-warning-modal-wrapper2");
+                        loginWarningModalWrapper2.classList.remove("hidden");
+                        return null;
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data) return;
+                    if (data.status === "success") {
+                        updateCartCount(data.cartCount);
+                        showToast(data.message, "success");
+                    } else {
+                        showToast(data.message, "error");
+                    }
+                })
+                .catch(() => showToast("Failed to add flash deal to cart.", "error"));
+        };
+
+
+
+
+        // Toast Notification
+        function showNotify(type, message) {
+            const styles = {
+                success: {
+                    bg: "bg-green-500",
+                    icon: "✔️",
+                    title: "Success"
+                },
+                error: {
+                    bg: "bg-red-500",
+                    icon: "⚠️",
+                    title: "Error"
+                }
+            };
+
+            let container = document.getElementById("toast-container");
+            if (!container) {
+                container = document.createElement("div");
+                container.id = "toast-container";
+                container.className = "fixed top-5 right-5 space-y-3 z-50 flex flex-col";
+                document.body.appendChild(container);
+            }
+
+            // Toast wrapper
+            const notify = document.createElement("div");
+            notify.className =
+                `relative flex items-start space-x-3 ${styles[type].bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
+
+            // Icon
+            const icon = document.createElement("span");
+            icon.className = "text-2xl";
+            icon.innerText = styles[type].icon;
+
+            // Content
+            const content = document.createElement("div");
+            content.className = "flex-1";
+            content.innerHTML = `
+                <div class="font-semibold">${styles[type].title}</div>
+                <div class="text-sm opacity-90">${message}</div>
+            `;
+
+            // Progress bar
+            const progress = document.createElement("div");
+            progress.className =
+                "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
+            progress.style.width = "100%";
+
+            // Append
+            notify.appendChild(icon);
+            notify.appendChild(content);
+            notify.appendChild(progress);
+            container.appendChild(notify);
+
+            // Auto-remove
+            setTimeout(() => {
+                notify.classList.add("animate-fade-out");
+                setTimeout(() => notify.remove(), 500);
+            }, 4000);
+        }
     </script>
 @endsection
