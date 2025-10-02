@@ -14,27 +14,23 @@ public function index()
     // Fetch active deals
     $flashDeals = FlashDeal::with('product')
         ->where('end_time', '>', now())
-        ->orderBy('end_time', 'asc')
         ->get();
 
     // Stats
     $totalDeals   = $flashDeals->count();
+
     $totalSavings = $flashDeals->sum(function ($deal) {
-        return ($deal->product->price - $deal->flash_price) > 0
-            ? ($deal->product->price - $deal->flash_price)
-            : 0;
+        return max(0, ($deal->product->price - $deal->flash_price));
     });
 
     $avgDiscount  = $flashDeals->avg(function ($deal) {
         return round(100 - ($deal->flash_price / $deal->product->price * 100));
     });
 
-    // Time left = earliest ending deal
     $nearestEnd = $flashDeals->min('end_time');
     $timeLeft   = $nearestEnd ? now()->diff($nearestEnd)->format('%ad %hh %im') : '—';
 
     return view('frontend.deals.flash_deals_showcase', compact(
-        'flashDeals',
         'totalDeals',
         'totalSavings',
         'avgDiscount',
