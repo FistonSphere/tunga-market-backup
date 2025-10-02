@@ -34,7 +34,8 @@ public function index()
         'totalDeals',
         'totalSavings',
         'avgDiscount',
-        'timeLeft'
+        'timeLeft',
+        'nearestEnd'
     ));
 }
 
