@@ -73,7 +73,6 @@ class CheckoutController extends Controller
         'cartItems',
         'subtotal',
         'tax',
-        'discount',
         'total',
         'totalItems',
         'addresses'
