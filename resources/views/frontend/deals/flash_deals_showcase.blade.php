@@ -20,24 +20,25 @@
                 </p>
 
                 <!-- Flash Sale Statistics -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4">
-                        <div class="text-2xl font-bold" id="total-deals">247</div>
-                        <div class="text-sm opacity-80">Active Deals</div>
-                    </div>
-                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4">
-                        <div class="text-2xl font-bold" id="total-savings">$1.2M+</div>
-                        <div class="text-sm opacity-80">Total Savings</div>
-                    </div>
-                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4">
-                        <div class="text-2xl font-bold" id="avg-discount">65%</div>
-                        <div class="text-sm opacity-80">Avg Discount</div>
-                    </div>
-                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4">
-                        <div class="text-2xl font-bold" id="time-left">2d 14h</div>
-                        <div class="text-sm opacity-80">Time Left</div>
-                    </div>
-                </div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold">{{ $totalDeals }}</div>
+        <div class="text-sm opacity-80">Active Deals</div>
+    </div>
+    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold">{{ number_format($totalSavings, 0) }} Rwf</div>
+        <div class="text-sm opacity-80">Total Savings</div>
+    </div>
+    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold">{{ round($avgDiscount) }}%</div>
+        <div class="text-sm opacity-80">Avg Discount</div>
+    </div>
+    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold">{{ $timeLeft }}</div>
+        <div class="text-sm opacity-80">Time Left</div>
+    </div>
+</div>
+
 
                 <!-- Global Flash Sale Countdown -->
                 <div class="bg-white bg-opacity-15 backdrop-blur-md rounded-2xl p-6 max-w-2xl mx-auto">
