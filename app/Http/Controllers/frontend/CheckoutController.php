@@ -64,7 +64,7 @@ class CheckoutController extends Controller
     $shipping = 0;
     $tax      = $subtotal * 0.1;
 
-    $total = $subtotal - $bulkDiscount + $shipping + $tax;
+    $total = $subtotal + $tax;
 
     // ✅ Get user saved addresses
     $addresses = ShippingAddress::where('user_id', Auth::id())->get();
