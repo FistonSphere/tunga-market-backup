@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cart extends Model
 {
-
     protected $fillable = [
         'user_id',
         'product_id',
@@ -15,7 +14,7 @@ class Cart extends Model
         'price',
         'deal_id',
         'currency',
-        'product_variant_id ',
+        'product_variant_id',
         'shipping_fee',
         'coupon_code',
     ];
@@ -32,13 +31,32 @@ class Cart extends Model
     {
         return $this->belongsTo(Product::class);
     }
-     public function variant()
+
+    public function variant()
     {
         return $this->belongsTo(ProductVariant::class, 'product_variant_id');
     }
 
-     public function flashDeal()
+    public function flashDeal()
     {
         return $this->belongsTo(FlashDeal::class, 'deal_id');
+    }
+
+    /**
+     * Force quantity = 1 if the cart item is from a flash deal
+     */
+    protected static function booted()
+    {
+        static::creating(function ($cart) {
+            if ($cart->deal_id) {
+                $cart->quantity = 1;
+            }
+        });
+
+        static::updating(function ($cart) {
+            if ($cart->deal_id) {
+                $cart->quantity = 1;
+            }
+        });
     }
 }
