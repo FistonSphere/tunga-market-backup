@@ -57,11 +57,11 @@ class CheckoutController extends Controller
     $totalItems  = $cartItems->sum('quantity');
 
     // Discounts (customize as needed)
-    $bulkDiscount = $subtotal > 200 ? $subtotal * 0.10 : 0;
-    $discount     = $subtotal > 500 ? $subtotal * 0.10 : 0;
+    // $bulkDiscount = $subtotal > 200 ? $subtotal * 0.10 : 0;
+    // $discount     = $subtotal > 500 ? $subtotal * 0.10 : 0;
 
     // Shipping & tax rules (example values)
-    $shipping = 0;
+    // $shipping = 0;
     $tax      = $subtotal * 0.1;
 
     $total = $subtotal + $tax;
