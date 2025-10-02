@@ -98,25 +98,59 @@
                                     <!-- Items -->
                                     <div class="space-y-3">
                                         @foreach ($cartItems as $item)
+                                            @php
+                                                $hasFlash = $item->deal_id && $item->flashDeal;
+                                                $effectivePrice = $hasFlash ? $item->flashDeal->flash_price : $item->price;
+                                                $originalPrice = $item->product->price ?? $item->price;
+                                            @endphp
+
                                             <div class="flex items-center space-x-4">
-                                                <img src="{{ $item->product->main_image ?? 'default-product.jpg' }}"
+                                                <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}"
                                                     alt="{{ $item->product->name }}" class="w-16 h-16 rounded-lg object-cover"
                                                     loading="lazy" />
+
                                                 <div class="flex-1">
-                                                    <h4 class="font-medium text-primary">{{ $item->product->name }}</h4>
+                                                    <h4 class="font-medium text-primary">
+                                                        {{ $item->product->name }}
+                                                    </h4>
                                                     <div class="text-body-sm text-secondary-600">
                                                         Qty: {{ $item->quantity }}
                                                     </div>
+
+                                                    @if ($hasFlash)
+                                                        <span
+                                                            class="inline-block mt-1 text-xs bg-red-500 text-white px-2 py-0.5 rounded-full font-medium">
+                                                            🔥 Flash Deal
+                                                        </span>
+                                                    @endif
                                                 </div>
+
                                                 <div class="text-right">
+                                                    <!-- Effective Price -->
                                                     <div class="font-semibold text-primary">
-                                                        {{ number_format($item->price * $item->quantity, 2) }}
+                                                        {{ number_format($effectivePrice * $item->quantity, 2) }}
                                                         {{ $item->currency }}
                                                     </div>
-                                                    @if ($item->product->discount_price)
+
+                                                    <!-- Show Save amount -->
+                                                    {{-- @if ($hasFlash && $originalPrice > $effectivePrice)
+                                                        <div class="text-body-sm text-success">
+                                                            Save
+                                                            {{ number_format(($originalPrice - $effectivePrice) * $item->quantity, 2) }}
+                                                            {{ $item->currency }}
+                                                        </div>
+                                                    @elseif(!$hasFlash && $item->product->discount_price)
                                                         <div class="text-body-sm text-success">
                                                             Save
                                                             {{ number_format(($item->product->price - $item->product->discount_price) * $item->quantity, 2) }}
+                                                            {{ $item->currency }}
+                                                        </div>
+                                                    @endif --}}
+
+                                                    <!-- Strike-through original price -->
+                                                    @if ($hasFlash && $originalPrice > $effectivePrice)
+                                                        <div class="text-xs text-secondary-500 line-through">
+                                                            {{ number_format($originalPrice * $item->quantity, 2) }}
                                                             {{ $item->currency }}
                                                         </div>
                                                     @endif
@@ -136,6 +170,7 @@
                                     </div>
                                 </div>
                             </div>
+
 
                             <!-- Continue Button -->
                             <div class="flex justify-end mt-6">
@@ -1060,11 +1095,11 @@
     <!-- Edit Address Modal -->
     <div id="editAddressModal"
         style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));" class="fixed inset-0 hidden items-center justify-center
-                backdrop-blur-sm transition-opacity duration-300 ease-out">
+                    backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
         <div id="editAddressCard" class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
-                   transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                       transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1602,12 +1637,12 @@
 
             if (paymentMethod === "irembo-pay") {
                 button.innerHTML = `
-                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing Mobile Payment...
-                `;
+                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Processing Mobile Payment...
+                    `;
 
                 // Simulate IREMBO Pay processing
                 setTimeout(() => {
@@ -1639,12 +1674,12 @@
                 }, 2000);
             } else {
                 button.innerHTML = `
-                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing Order...
-                `;
+                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Processing Order...
+                    `;
 
                 // Standard payment processing
                 setTimeout(() => {
