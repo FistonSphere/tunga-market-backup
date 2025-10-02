@@ -43,20 +43,37 @@ class Cart extends Model
     }
 
     /**
-     * Force quantity = 1 if the cart item is from a flash deal
+     * Enforce flash deal rules (quantity = 1, price = flash_price)
      */
     protected static function booted()
     {
         static::creating(function ($cart) {
-            if ($cart->deal_id) {
-                $cart->quantity = 1;
-            }
+            $cart->applyFlashDealRules();
         });
 
         static::updating(function ($cart) {
-            if ($cart->deal_id) {
-                $cart->quantity = 1;
-            }
+            $cart->applyFlashDealRules();
         });
+    }
+
+    /**
+     * Helper method to enforce flash deal restrictions
+     */
+    protected function applyFlashDealRules()
+    {
+        if ($this->deal_id && $this->flashDeal) {
+            // Force quantity = 1
+            $this->quantity = 1;
+
+            // Ensure cart price matches flash deal price
+            if (isset($this->flashDeal->flash_price)) {
+                $this->price = $this->flashDeal->flash_price;
+            }
+        } else {
+            // Fallback to product price if not a flash deal
+            if ($this->product) {
+                $this->price = $this->product->price;
+            }
+        }
     }
 }
