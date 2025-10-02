@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
-   public function index()
+ public function index()
 {
-    $cartItems = Cart::with('product')
+    $cartItems = Cart::with(['product', 'flashDeal'])
         ->where('user_id', Auth::id())
         ->get();
 
@@ -24,25 +24,51 @@ class CheckoutController extends Controller
             ->with('error', 'Your cart is empty!');
     }
 
-    // Subtotal
-    $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
+    // Ensure flash deal rules are applied
+    foreach ($cartItems as $item) {
+        if ($item->deal_id && $item->flashDeal) {
+            // Check if flash deal is still valid
+            if (
+                now()->lt($item->flashDeal->start_time) ||
+                now()->gt($item->flashDeal->end_time)
+            ) {
+                // Flash deal expired → reset to product price
+                $item->deal_id = null;
+                $item->price   = $item->product->price ?? $item->price;
+                $item->quantity = max(1, $item->quantity);
+                $item->save();
+            } else {
+                // Active flash deal → force correct rules
+                $item->quantity = 1;
+                $item->price    = $item->flashDeal->flash_price;
+                $item->save();
+            }
+        } else {
+            // No flash deal → fallback to product price
+            if ($item->product) {
+                $item->price = $item->product->price;
+                $item->save();
+            }
+        }
+    }
 
-    // Bulk discount (reusing your cart logic)
-    $totalItems = $cartItems->sum('quantity');
-    // $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
+    // Recalculate totals
+    $subtotal    = $cartItems->sum(fn($item) => $item->price * $item->quantity);
+    $totalItems  = $cartItems->sum('quantity');
+
+    // Discounts (customize as needed)
     $bulkDiscount = $subtotal > 200 ? $subtotal * 0.10 : 0;
-    $shipping    = 0;           // adjust if you have shipping rules
-    $tax= $subtotal * 0.1;
+    $discount     = $subtotal > 500 ? $subtotal * 0.10 : 0;
 
-    // dd($subtotal);
-//discount
-$discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
-//shipping
-// $shipping = 12.99;
-    // Final total
-    $total       = $subtotal - $bulkDiscount + $shipping + $tax;
- // ✅ Get user saved addresses
+    // Shipping & tax rules (example values)
+    $shipping = 0;
+    $tax      = $subtotal * 0.1;
+
+    $total = $subtotal - $bulkDiscount + $shipping + $tax;
+
+    // ✅ Get user saved addresses
     $addresses = ShippingAddress::where('user_id', Auth::id())->get();
+
     return view('frontend.checkout', compact(
         'cartItems',
         'subtotal',
@@ -53,6 +79,7 @@ $discount = $subtotal > 500 ? $subtotal * 0.1 : 0;
         'addresses'
     ));
 }
+
 
 
      public function storeShipping(Request $request)
