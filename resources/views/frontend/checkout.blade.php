@@ -84,8 +84,7 @@
                                 <h2 class="text-2xl font-bold text-primary">1. Order Review</h2>
                                 <a href="{{ route('cart.index') }}"
                                     class="text-secondary-600 hover:text-primary transition-fast text-body-sm">
-                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M11 17l-5-5m0 0l5-5m-5 5h12" />
                                     </svg>
@@ -101,8 +100,8 @@
                                         @foreach ($cartItems as $item)
                                             <div class="flex items-center space-x-4">
                                                 <img src="{{ $item->product->main_image ?? 'default-product.jpg' }}"
-                                                    alt="{{ $item->product->name }}"
-                                                    class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
+                                                    alt="{{ $item->product->name }}" class="w-16 h-16 rounded-lg object-cover"
+                                                    loading="lazy" />
                                                 <div class="flex-1">
                                                     <h4 class="font-medium text-primary">{{ $item->product->name }}</h4>
                                                     <div class="text-body-sm text-secondary-600">
@@ -153,8 +152,7 @@
                                 <h2 class="text-2xl font-bold text-primary">2. Shipping & Address</h2>
                                 <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
                                     onclick="previousStep(1)">
-                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M11 17l-5-5m0 0l5-5m-5 5h12" />
                                     </svg>
@@ -171,10 +169,8 @@
                                         @forelse($addresses as $address)
                                             <label
                                                 class="flex items-start space-x-3 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer">
-                                                <input type="radio" name="shipping_address_id"
-                                                    value="{{ $address->id }}"
-                                                    class="mt-1 text-accent focus:ring-accent-500 border-border"
-                                                    {{ $address->is_default ? 'checked' : '' }} />
+                                                <input type="radio" name="shipping_address_id" value="{{ $address->id }}"
+                                                    class="mt-1 text-accent focus:ring-accent-500 border-border" {{ $address->is_default ? 'checked' : '' }} />
                                                 <div class="flex-1">
                                                     <div class="flex items-center space-x-2 mb-1">
                                                         <span class="font-medium text-primary">
@@ -253,8 +249,7 @@
                                             <div class="md:col-span-2">
                                                 <label class="block text-body-sm font-medium text-primary mb-1">Address
                                                     Line 1 *</label>
-                                                <input type="text" name="address_line1" class="input-field"
-                                                    required />
+                                                <input type="text" name="address_line1" class="input-field" required />
                                             </div>
                                             <div class="md:col-span-2">
                                                 <label class="block text-body-sm font-medium text-primary mb-1">Address
@@ -363,8 +358,7 @@
                                 </h2>
                                 <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
                                     onclick="previousStep(2)">
-                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M11 17l-5-5m0 0l5-5m-5 5h12" />
                                     </svg>
@@ -465,30 +459,29 @@
                                             <div>
                                                 <label class="block text-body-sm font-medium text-primary mb-1">Card Number
                                                     *</label>
-                                                <input type="text" class="input-field"
-                                                    placeholder="1234 5678 9012 3456" maxlength="19" required />
+                                                <input type="text" class="input-field" placeholder="1234 5678 9012 3456"
+                                                    maxlength="19" required />
                                             </div>
 
                                             <div class="grid md:grid-cols-3 gap-4">
                                                 <div class="md:col-span-2">
                                                     <label class="block text-body-sm font-medium text-primary mb-1">Expiry
                                                         Date *</label>
-                                                    <input type="text" class="input-field" placeholder="MM/YY"
-                                                        maxlength="5" required />
+                                                    <input type="text" class="input-field" placeholder="MM/YY" maxlength="5"
+                                                        required />
                                                 </div>
                                                 <div>
                                                     <label class="block text-body-sm font-medium text-primary mb-1">CVV
                                                         *</label>
-                                                    <input type="text" class="input-field" placeholder="123"
-                                                        maxlength="4" required />
+                                                    <input type="text" class="input-field" placeholder="123" maxlength="4"
+                                                        required />
                                                 </div>
                                             </div>
 
                                             <div>
                                                 <label class="block text-body-sm font-medium text-primary mb-1">Cardholder
                                                     Name *</label>
-                                                <input type="text" class="input-field" placeholder="John Smith"
-                                                    required />
+                                                <input type="text" class="input-field" placeholder="John Smith" required />
                                             </div>
 
                                             <div class="flex items-center space-x-3">
@@ -707,8 +700,7 @@
                                                 <p class="text-body-sm text-accent-700 mb-2">
                                                     When you click "Place Order":
                                                 </p>
-                                                <ol
-                                                    class="text-body-sm text-accent-700 space-y-1 list-decimal list-inside">
+                                                <ol class="text-body-sm text-accent-700 space-y-1 list-decimal list-inside">
                                                     <li>
                                                         You'll receive a payment request on your phone
                                                     </li>
@@ -757,8 +749,7 @@
                                 <h2 class="text-2xl font-bold text-primary">4. Order Confirmation</h2>
                                 <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
                                     onclick="previousStep(3)">
-                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M11 17l-5-5m0 0l5-5m-5 5h12" />
                                     </svg>
@@ -827,8 +818,8 @@
                                                 class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-0.5"
                                                 required />
                                             <span class="text-body-sm text-secondary-700">I agree to the <a href="#"
-                                                    class="text-accent hover:underline">Terms of Service</a> and <a
-                                                    href="#" class="text-accent hover:underline">Privacy
+                                                    class="text-accent hover:underline">Terms of Service</a> and <a href="#"
+                                                    class="text-accent hover:underline">Privacy
                                                     Policy</a></span>
                                         </label>
 
@@ -911,6 +902,12 @@
                             <!-- Items Summary -->
                             <div class="space-y-3 mb-4">
                                 @foreach ($cartItems as $item)
+                                    @php
+                                        $hasFlash = $item->deal_id && $item->flashDeal;
+                                        $effectivePrice = $hasFlash ? $item->flashDeal->flash_price : $item->price;
+                                        $originalPrice = $item->product->price ?? $item->price;
+                                    @endphp
+
                                     <div class="flex items-center space-x-3">
                                         <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}"
                                             alt="{{ $item->product->name }}" class="w-12 h-12 rounded-lg object-cover"
@@ -920,16 +917,28 @@
                                             <div class="font-medium text-primary text-body-sm">
                                                 {{ $item->product->name }}
                                             </div>
+
                                             <div class="text-body-sm text-secondary-600">
                                                 Qty: {{ $item->quantity }} •
-                                                {{ number_format($item->product->price, 2) }}
-                                                {{ $item->product->currency }} each
+                                                <span class="{{ $hasFlash ? 'text-accent font-semibold' : '' }}">
+                                                    {{ number_format($effectivePrice, 2) }} {{ $item->product->currency }}
+                                                </span> each
                                             </div>
+
+                                            @if($hasFlash && $originalPrice > $effectivePrice)
+                                                <div class="text-xs text-secondary-500 line-through">
+                                                    {{ number_format($originalPrice, 2) }} {{ $item->product->currency }}
+                                                </div>
+                                                <span
+                                                    class="inline-block mt-1 text-xs bg-red-500 text-white px-2 py-0.5 rounded-full font-medium">
+                                                    🔥 Flash Deal
+                                                </span>
+                                            @endif
                                         </div>
 
                                         <div class="text-right">
                                             <div class="font-medium text-primary">
-                                                {{ number_format($item->product->price * $item->quantity, 2) }}
+                                                {{ number_format($effectivePrice * $item->quantity, 2) }}
                                                 {{ $item->product->currency }}
                                             </div>
                                         </div>
@@ -940,19 +949,13 @@
                             <!-- Totals -->
                             <div class="border-t border-border pt-4 space-y-3 text-body-sm">
                                 <div class="flex justify-between">
-                                    <span class="text-secondary-600">Subtotal ({{ $cartItems->sum('quantity') }}
-                                        items):</span>
-                                    <span class="font-medium text-primary">{{ number_format($subtotal, 2) }}
-                                        {{ $item->product->currency }}</span>
+                                    <span class="text-secondary-600">
+                                        Subtotal ({{ $cartItems->sum('quantity') }} items):
+                                    </span>
+                                    <span class="font-medium text-primary">
+                                        {{ number_format($subtotal, 2) }} {{ $item->product->currency }}
+                                    </span>
                                 </div>
-
-                                {{-- @if ($discount > 0)
-                                    <div class="flex justify-between">
-                                        <span class="text-secondary-600">Bulk Discount:</span>
-                                        <span class="font-medium text-success">- {{ number_format($discount, 2) }}
-                                            {{ $item->product->currency }}</span>
-                                    </div>
-                                @endif --}}
 
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Shipping:</span>
@@ -971,91 +974,12 @@
                                         <span class="text-xl font-bold text-primary">{{ number_format($total, 2) }}
                                             {{ $item->product->currency }}</span>
                                     </div>
-
-                                    {{-- @if ($discount > 0)
-                                        <div class="text-success text-body-sm mt-1">
-                                            You save {{ number_format($discount, 2) }} {{ $item->product->currency }}!
-                                        </div>
-                                    @endif --}}
                                 </div>
                             </div>
                         </div>
 
-
-                        <!-- Security & Trust -->
-                        <div class="card">
-                            <h3 class="font-semibold text-primary mb-4">Security & Trust</h3>
-                            <div class="space-y-3">
-                                <div class="flex items-center space-x-3">
-                                    <svg class="w-5 h-5 text-success flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-700">256-bit SSL Encryption</span>
-                                </div>
-                                <div class="flex items-center space-x-3">
-                                    <svg class="w-5 h-5 text-success flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m5.09-5.09A10 10 0 0019.49 5 8.5 8.5 0 0013 8a10 10 0 00-7.07 7.07A8.5 8.5 0 003 12.5a10 10 0 007.07-7.07zM12 12a5.5 5.5 0 1111 0 5.5 5.5 0 01-11 0z" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-700">PCI DSS Compliant</span>
-                                </div>
-                                <div class="flex items-center space-x-3">
-                                    <svg class="w-5 h-5 text-success flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-700">Buyer Protection</span>
-                                </div>
-                                <div class="flex items-center space-x-3">
-                                    <svg class="w-5 h-5 text-success flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 109.75 9.75A9.75 9.75 0 0012 2.25z" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-700">24/7 Support</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Contact Support -->
-                        <div class="card">
-                            <h3 class="font-semibold text-primary mb-4">Need Help?</h3>
-                            <div class="space-y-3">
-                                <button
-                                    class="w-full text-left flex items-center space-x-3 p-3 rounded-lg hover:bg-surface transition-fast">
-                                    <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                    </svg>
-                                    <div>
-                                        <div class="font-medium text-primary">Live Chat</div>
-                                        <div class="text-body-sm text-secondary-600">Average response: 2 minutes</div>
-                                    </div>
-                                </button>
-
-                                <button
-                                    class="w-full text-left flex items-center space-x-3 p-3 rounded-lg hover:bg-surface transition-fast">
-                                    <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                    </svg>
-                                    <div>
-                                        <div class="font-medium text-primary">Call Support</div>
-                                        <div class="text-body-sm text-secondary-600">+1-800-1</div>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
     </section>
 
     <!-- Mobile Progress Bar -->
@@ -1105,8 +1029,7 @@
                     <span id="confirm-save-text">Yes, Save Address</span>
                     <svg id="confirm-save-spinner" class="animate-spin h-5 w-5 ml-2 text-white hidden"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                            stroke-width="4"></circle>
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
                     </svg>
                 </button>
@@ -1136,14 +1059,12 @@
 
     <!-- Edit Address Modal -->
     <div id="editAddressModal"
-        style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));"
-        class="fixed inset-0 hidden items-center justify-center 
-            backdrop-blur-sm transition-opacity duration-300 ease-out">
+        style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));" class="fixed inset-0 hidden items-center justify-center
+                backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
-        <div id="editAddressCard"
-            class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row 
-               transform scale-95 opacity-0 transition-all duration-300 ease-out">
+        <div id="editAddressCard" class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
+                   transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1161,14 +1082,12 @@
 
                     <div>
                         <label class="block text-xs font-medium text-primary mb-1">First Name *</label>
-                        <input type="text" id="edit_first_name" name="first_name" class="input-field py-1 text-sm"
-                            required>
+                        <input type="text" id="edit_first_name" name="first_name" class="input-field py-1 text-sm" required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-primary mb-1">Last Name *</label>
-                        <input type="text" id="edit_last_name" name="last_name" class="input-field py-1 text-sm"
-                            required>
+                        <input type="text" id="edit_last_name" name="last_name" class="input-field py-1 text-sm" required>
                     </div>
 
                     <div class="md:col-span-2">
@@ -1178,20 +1097,18 @@
 
                     <div>
                         <label class="block text-xs font-medium text-primary mb-1">Address Line 1 *</label>
-                        <input type="text" id="edit_address_line1" name="address_line1"
-                            class="input-field py-1 text-sm" required>
+                        <input type="text" id="edit_address_line1" name="address_line1" class="input-field py-1 text-sm"
+                            required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-primary mb-1">Address Line 2 (Optional)</label>
-                        <input type="text" id="edit_address_line2" name="address_line2"
-                            class="input-field py-1 text-sm">
+                        <input type="text" id="edit_address_line2" name="address_line2" class="input-field py-1 text-sm">
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-primary mb-1">Country *</label>
-                        <input type="text" id="edit_country" name="country" class="input-field py-1 text-sm"
-                            required>
+                        <input type="text" id="edit_country" name="country" class="input-field py-1 text-sm" required>
                     </div>
 
                     <div>
@@ -1514,7 +1431,7 @@
             const cardForm = document.getElementById("card-form");
 
             paymentMethods.forEach((method) => {
-                method.addEventListener("change", function() {
+                method.addEventListener("change", function () {
                     // Hide all payment forms first
                     if (iremboForm) iremboForm.classList.add("hidden");
                     if (cardForm) cardForm.classList.add("hidden");
@@ -1541,7 +1458,7 @@
             );
 
             providers.forEach((provider) => {
-                provider.addEventListener("change", function() {
+                provider.addEventListener("change", function () {
                     // Show payment method selection
                     if (paymentMethodSelection) {
                         paymentMethodSelection.classList.remove("hidden");
@@ -1603,7 +1520,7 @@
             const codeInstructions = document.getElementById("code-instructions");
 
             paymentTypes.forEach((type) => {
-                type.addEventListener("change", function() {
+                type.addEventListener("change", function () {
                     // Hide all input sections first
                     if (phoneInputSection) phoneInputSection.classList.add("hidden");
                     if (codeInputSection) codeInputSection.classList.add("hidden");
@@ -1685,12 +1602,12 @@
 
             if (paymentMethod === "irembo-pay") {
                 button.innerHTML = `
-                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Processing Mobile Payment...
-            `;
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Processing Mobile Payment...
+                `;
 
                 // Simulate IREMBO Pay processing
                 setTimeout(() => {
@@ -1722,12 +1639,12 @@
                 }, 2000);
             } else {
                 button.innerHTML = `
-                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Processing Order...
-            `;
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Processing Order...
+                `;
 
                 // Standard payment processing
                 setTimeout(() => {
@@ -1773,7 +1690,7 @@
         function formatPhoneNumber() {
             const phoneInput = document.getElementById("mobile-phone");
             if (phoneInput) {
-                phoneInput.addEventListener("input", function(e) {
+                phoneInput.addEventListener("input", function (e) {
                     let value = e.target.value.replace(/\D/g, "");
                     if (value.length > 9) {
                         value = value.substring(0, 9);
@@ -1787,7 +1704,7 @@
         function formatPIN() {
             const pinInput = document.getElementById("mobile-pin");
             if (pinInput) {
-                pinInput.addEventListener("input", function(e) {
+                pinInput.addEventListener("input", function (e) {
                     let value = e.target.value.replace(/\D/g, "");
                     if (value.length > 4) {
                         value = value.substring(0, 4);
@@ -1801,7 +1718,7 @@
         function formatCode() {
             const codeInput = document.getElementById("mobile-code");
             if (codeInput) {
-                codeInput.addEventListener("input", function(e) {
+                codeInput.addEventListener("input", function (e) {
                     let value = e.target.value.replace(/\D/g, "");
                     if (value.length > 6) {
                         value = value.substring(0, 6);
@@ -1817,7 +1734,7 @@
                 'input[placeholder="1234 5678 9012 3456"]'
             );
             if (cardInput) {
-                cardInput.addEventListener("input", function(e) {
+                cardInput.addEventListener("input", function (e) {
                     let value = e.target.value
                         .replace(/\s+/g, "")
                         .replace(/[^0-9]/gi, "");
@@ -1832,7 +1749,7 @@
                 'input[placeholder="MM/YY"]'
             );
             if (expiryInput) {
-                expiryInput.addEventListener("input", function(e) {
+                expiryInput.addEventListener("input", function (e) {
                     let value = e.target.value.replace(/\D/g, "");
                     if (value.length >= 2) {
                         value = value.substring(0, 2) + "/" + value.substring(2, 4);
@@ -1851,7 +1768,7 @@
 
             if (addressRadios.length && newAddressForm) {
                 addressRadios.forEach((radio) => {
-                    radio.addEventListener("change", function() {
+                    radio.addEventListener("change", function () {
                         if (this.value === "new") {
                             newAddressForm.classList.remove("hidden");
                         } else {
@@ -1913,7 +1830,7 @@
         }
 
         // Initialize everything
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             handleMobileView();
             handlePaymentMethodChange();
             handleMobileProviderChange();
@@ -1986,13 +1903,13 @@
             let formData = new FormData(form);
 
             fetch(form.action, {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-                    }
-                })
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                }
+            })
                 .then(response => response.json())
                 .then(data => {
                     // hide modal
@@ -2027,7 +1944,7 @@
                 });
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const modal = document.getElementById("editAddressModal");
             const modalCard = document.getElementById("editAddressCard");
             const closeModal = document.getElementById("closeEditModal");
@@ -2037,7 +1954,7 @@
 
             // Open modal
             document.querySelectorAll(".edit-address-btn").forEach(btn => {
-                btn.addEventListener("click", function() {
+                btn.addEventListener("click", function () {
                     let id = this.dataset.id;
 
                     fetch(`/shipping-addresses/${id}/edit`)
@@ -2085,7 +2002,7 @@
             });
 
             // Submit form
-            editForm.addEventListener("submit", function(e) {
+            editForm.addEventListener("submit", function (e) {
                 e.preventDefault();
                 let formData = new FormData(editForm);
                 let id = formData.get("id");
@@ -2097,13 +2014,13 @@
                 formData.append("_method", "PUT");
 
                 fetch(`/shipping-address/update/${id}`, {
-                        method: "POST",
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                            "Accept": "application/json"
-                        },
-                        body: formData
-                    })
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                        "Accept": "application/json"
+                    },
+                    body: formData
+                })
                     .then(async res => {
                         if (!res.ok) {
                             throw new Error("Network or validation error");
