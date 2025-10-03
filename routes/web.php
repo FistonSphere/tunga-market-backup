@@ -53,7 +53,7 @@ Route::get('/products/main-filter', [ProductListingController::class, 'filter'])
 Route::get('/search/suggestions', [SearchController::class, 'suggestions']);
 // Route::get('/product-discovery-hub', [ProductDiscoveryHubController::class, 'index']);
 Route::get('/products/main-filter', [ProductDiscoveryHubController::class, 'filter']);
-
+Route::get('/products/flash-deals/{product}/details', [ProductListingController::class, 'details']);
 
 
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');

@@ -624,7 +624,7 @@
 
 
         function openProductModal(productId) {
-            fetch(`/products/${productId}/details`) // create this route in Laravel
+            fetch(`/products/flash-deals/${productId}/details`) // create this route in Laravel
                 .then(res => res.json())
                 .then(data => {
                     // Set main image
