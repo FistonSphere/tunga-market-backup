@@ -80,7 +80,9 @@ Route::get('/products/{product}/reviews', [ReviewController::class, 'fetchFilter
 Route::get('/orders/search/{orderNo}', [OrderTrackingController::class, 'searchByOrderNo'])
     ->name('orders.search');
 Route::get('/flash-deals', [FlashDealCartController::class, 'index'])
-    ->name('flash-deals.showcase');
+    ->name('
+    ');
+    Route::get('/flash-deals/load', [FlashDealCartController::class, 'loadMore'])->name('flash-deals.load');
 // Start Authentication routes
 Route::post('/register', [AuthController::class, 'register'])->name('register-user');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');

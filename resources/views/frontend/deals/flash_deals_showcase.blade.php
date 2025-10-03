@@ -459,6 +459,40 @@
         </script>
     @endif
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const loadMoreBtn = document.getElementById("load-more");
+            const productsGrid = document.getElementById("products-grid");
+            let currentPage = 1;
+
+            loadMoreBtn?.addEventListener("click", function () {
+                if (this.dataset.mode === "collapse") {
+                    // Collapse mode → reset grid to first 4
+                    productsGrid.querySelectorAll(".product-card").forEach((card, i) => {
+                        if (i >= 4) card.remove();
+                    });
+                    this.textContent = "Load More Deals";
+                    this.dataset.mode = "load";
+                    this.dataset.page = 1;
+                    return;
+                }
+
+                // Normal Load More
+                currentPage++;
+                fetch(`/flash-deals/load?page=${currentPage}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        productsGrid.insertAdjacentHTML("beforeend", data.html);
+
+                        if (!data.hasMore) {
+                            loadMoreBtn.textContent = "Collapse";
+                            loadMoreBtn.dataset.mode = "collapse";
+                        } else {
+                            loadMoreBtn.dataset.page = currentPage;
+                        }
+                    })
+                    .catch(err => console.error("Error loading deals:", err));
+            });
+        });
         // Filter Functionality
         function initFilters() {
             const categoryFilter = document.getElementById("category-filter");
@@ -626,22 +660,22 @@
             loadMoreBtn.addEventListener("click", function () {
                 // Simulate loading more products
                 loadMoreBtn.innerHTML = `
-                                                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                            </svg>
-                                                            Loading More...
-                                                        `;
+                                                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                                </svg>
+                                                                Loading More...
+                                                            `;
 
                 setTimeout(() => {
                     // Add more products here
                     page++;
                     loadMoreBtn.innerHTML = `
-                                                                Load More Deals
-                                                                <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-                                                                </svg>
-                                                            `;
+                                                                    Load More Deals
+                                                                    <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                                                    </svg>
+                                                                `;
 
                     // Update showing count
                     const currentCount = parseInt(

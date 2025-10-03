@@ -162,4 +162,25 @@ public function index()
             'cartCount' => $cartCount,
         ]);
     }
+
+
+    public function loadMore(Request $request)
+{
+    $page = $request->get('page', 1);
+    $perPage = 4;
+
+    $flashDeals = FlashDeal::with('product')
+        ->orderBy('created_at', 'desc')
+        ->paginate($perPage, ['*'], 'page', $page);
+
+    $html = '';
+    foreach ($flashDeals as $deal) {
+        $html .= view('frontend.deals.flash_deals_showcase', compact('deal'))->render();
+    }
+
+    return response()->json([
+        'html' => $html,
+        'hasMore' => $flashDeals->hasMorePages(),
+    ]);
+}
 }
