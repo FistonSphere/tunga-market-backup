@@ -1,9 +1,21 @@
 @php
-    $timeLeft = now()->diff($deal->end_time);
-    $endsIn = $timeLeft->d . 'd ' . $timeLeft->h . 'h ' . $timeLeft->i . 'm';
-    $claimedPercent = rand(10, 95);
+    $now = now();
+    $start = $deal->start_time; // make sure you have this column
+    $end = $deal->end_time;
+
+    $totalDuration = $start->diffInSeconds($end);
+    $elapsed = $start->diffInSeconds($now);
     $leftStock = $deal->product->stock_quantity;
+    // Ensure it doesn’t go below 0% or above 100%
+    $timeProgress = $totalDuration > 0
+        ? min(100, max(0, ($elapsed / $totalDuration) * 100))
+        : 100;
+
+    // Time left for display
+    $timeLeft = $now->diff($end);
+    $endsIn = $timeLeft->d . 'd ' . $timeLeft->h . 'h ' . $timeLeft->i . 'm';
 @endphp
+
 
 <div class="product-card card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden"
     onclick="openProductModal('{{ $deal->product->id }}')">
@@ -24,10 +36,10 @@
         <img src="{{ $deal->product->main_image ?? asset('assets/images/no-image.png') }}"
             alt="{{ $deal->product->name }}"
             class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300" loading="lazy" />
-        <div class="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs">
+        {{-- <div class="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs">
             <span class="text-warning">★ {{ number_format($deal->product->rating ?? 4.7, 1) }}</span>
             ({{ rand(50, 500) }} reviews)
-        </div>
+        </div> --}}
     </div>
 
     <div class="p-4">
@@ -60,13 +72,18 @@
         </div>
 
         <!-- Progress bar -->
+        <!-- Progress bar -->
         <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
             <div class="bg-gradient-to-r from-accent to-accent-600 h-2 rounded-full"
-                style="width: {{ $claimedPercent }}%">
+                style="width: {{ $timeProgress }}%">
             </div>
         </div>
+
+        <!-- Time left -->
+        <p class="text-sm opacity-70">⏰ Ends in {{ $endsIn }}</p>
+
         <div class="text-xs text-center text-gray-600 mb-4">
-            {{ $claimedPercent }}% claimed ({{ $leftStock }} left in stock)
+            ({{ $leftStock }} left in stock)
         </div>
 
         <!-- Actions -->
