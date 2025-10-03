@@ -20,24 +20,24 @@
                 </p>
 
                 <!-- Flash Sale Statistics -->
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold">{{ $totalDeals }}</div>
-        <div class="text-sm opacity-80">Active Deals</div>
-    </div>
-    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold">{{ number_format($totalSavings, 0) }} Rwf</div>
-        <div class="text-sm opacity-80">Total Savings</div>
-    </div>
-    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold">{{ round($avgDiscount) }}%</div>
-        <div class="text-sm opacity-80">Avg Discount</div>
-    </div>
-    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold">{{ $timeLeft }}</div>
-        <div class="text-sm opacity-80">Time Left</div>
-    </div>
-</div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold">{{ $totalDeals }}</div>
+                        <div class="text-sm opacity-80">Active Deals</div>
+                    </div>
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold">{{ number_format($totalSavings, 0) }} Rwf</div>
+                        <div class="text-sm opacity-80">Total Savings</div>
+                    </div>
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold">{{ round($avgDiscount) }}%</div>
+                        <div class="text-sm opacity-80">Avg Discount</div>
+                    </div>
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold">{{ $timeLeft }}</div>
+                        <div class="text-sm opacity-80">Time Left</div>
+                    </div>
+                </div>
 
 
                 <!-- Global Flash Sale Countdown -->
@@ -45,24 +45,24 @@
                     <h3 class="text-2xl font-bold mb-4">
                         ⏰ Global Flash Sale Ends In:
                     </h3>
-                    <div class="flex justify-center items-center space-x-4 text-center">
+                    <div id="flash-countdown" class="flex justify-center items-center space-x-4 text-center">
                         <div>
-                            <div id="flash-days" class="text-3xl font-bold">02</div>
+                            <div id="flash-days" class="text-3xl font-bold">00</div>
                             <div class="text-sm opacity-80">Days</div>
                         </div>
                         <div class="text-2xl">:</div>
                         <div>
-                            <div id="flash-hours" class="text-3xl font-bold">14</div>
+                            <div id="flash-hours" class="text-3xl font-bold">00</div>
                             <div class="text-sm opacity-80">Hours</div>
                         </div>
                         <div class="text-2xl">:</div>
                         <div>
-                            <div id="flash-minutes" class="text-3xl font-bold">23</div>
+                            <div id="flash-minutes" class="text-3xl font-bold">00</div>
                             <div class="text-sm opacity-80">Minutes</div>
                         </div>
                         <div class="text-2xl">:</div>
                         <div>
-                            <div id="flash-seconds" class="text-3xl font-bold">45</div>
+                            <div id="flash-seconds" class="text-3xl font-bold">00</div>
                             <div class="text-sm opacity-80">Seconds</div>
                         </div>
                     </div>
@@ -638,256 +638,288 @@
 
 
     <script>
-      // Flash Sale Countdown Timer
-      function initFlashSaleCountdown() {
-        const now = new Date().getTime();
-        const countDownDate =
-          now +
-          2 * 24 * 60 * 60 * 1000 +
-          14 * 60 * 60 * 1000 +
-          23 * 60 * 1000 +
-          45 * 1000;
+        // Flash Sale Countdown Timer
+        function initFlashSaleCountdown() {
+            const now = new Date().getTime();
+            const countDownDate =
+                now +
+                2 * 24 * 60 * 60 * 1000 +
+                14 * 60 * 60 * 1000 +
+                23 * 60 * 1000 +
+                45 * 1000;
 
-        const countdown = setInterval(function () {
-          const now = new Date().getTime();
-          const distance = countDownDate - now;
+            const countdown = setInterval(function () {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
 
-          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          const hours = Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-          );
-          const minutes = Math.floor(
-            (distance % (1000 * 60 * 60)) / (1000 * 60)
-          );
-          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor(
+                    (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                );
+                const minutes = Math.floor(
+                    (distance % (1000 * 60 * 60)) / (1000 * 60)
+                );
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-          document.getElementById("flash-days").innerHTML = String(
-            days
-          ).padStart(2, "0");
-          document.getElementById("flash-hours").innerHTML = String(
-            hours
-          ).padStart(2, "0");
-          document.getElementById("flash-minutes").innerHTML = String(
-            minutes
-          ).padStart(2, "0");
-          document.getElementById("flash-seconds").innerHTML = String(
-            seconds
-          ).padStart(2, "0");
+                document.getElementById("flash-days").innerHTML = String(
+                    days
+                ).padStart(2, "0");
+                document.getElementById("flash-hours").innerHTML = String(
+                    hours
+                ).padStart(2, "0");
+                document.getElementById("flash-minutes").innerHTML = String(
+                    minutes
+                ).padStart(2, "0");
+                document.getElementById("flash-seconds").innerHTML = String(
+                    seconds
+                ).padStart(2, "0");
 
-          if (distance < 0) {
-            clearInterval(countdown);
-            document.querySelector(
-              ".bg-gradient-to-br.from-accent"
-            ).innerHTML = `
-                <div class="text-center">
-                    <h3 class="text-2xl font-bold mb-4">🎉 Flash Sale Extended!</h3>
-                    <p class="text-lg">Due to popular demand, we've extended our flash sale!</p>
-                </div>
-            `;
-          }
-        }, 1000);
-      }
-
-      // Filter Functionality
-      function initFilters() {
-        const categoryFilter = document.getElementById("category-filter");
-        const discountFilter = document.getElementById("discount-filter");
-        const priceFilter = document.getElementById("price-filter");
-        const timeFilter = document.getElementById("time-filter");
-        const sortFilter = document.getElementById("sort-filter");
-        const clearFilters = document.getElementById("clear-filters");
-
-        function applyFilters() {
-          const products = document.querySelectorAll(".product-card");
-          let visibleCount = 0;
-
-          products.forEach((product) => {
-            let show = true;
-
-            // Category filter
-            if (
-              categoryFilter.value &&
-              product.dataset.category !== categoryFilter.value
-            ) {
-              show = false;
-            }
-
-            // Discount filter
-            if (
-              discountFilter.value &&
-              parseInt(product.dataset.discount) <
-                parseInt(discountFilter.value)
-            ) {
-              show = false;
-            }
-
-            // Price filter
-            if (priceFilter.value) {
-              const price = parseFloat(product.dataset.price);
-              const range = priceFilter.value.split("-");
-              if (range[1] === "+") {
-                if (price < parseInt(range[0])) show = false;
-              } else {
-                if (price < parseInt(range[0]) || price > parseInt(range[1]))
-                  show = false;
-              }
-            }
-
-            // Time filter
-            if (timeFilter.value && product.dataset.time !== timeFilter.value) {
-              show = false;
-            }
-
-            if (show) {
-              product.style.display = "block";
-              visibleCount++;
-            } else {
-              product.style.display = "none";
-            }
-          });
-
-          document.getElementById("showing-count").textContent = visibleCount;
+                if (distance < 0) {
+                    clearInterval(countdown);
+                    document.querySelector(
+                        ".bg-gradient-to-br.from-accent"
+                    ).innerHTML = `
+                        <div class="text-center">
+                            <h3 class="text-2xl font-bold mb-4">🎉 Flash Sale Extended!</h3>
+                            <p class="text-lg">Due to popular demand, we've extended our flash sale!</p>
+                        </div>
+                    `;
+                }
+            }, 1000);
         }
 
-        // Attach event listeners
-        [
-          categoryFilter,
-          discountFilter,
-          priceFilter,
-          timeFilter,
-          sortFilter,
-        ].forEach((filter) => {
-          filter.addEventListener("change", applyFilters);
-        });
 
-        clearFilters.addEventListener("click", function () {
-          [
-            categoryFilter,
-            discountFilter,
-            priceFilter,
-            timeFilter,
-            sortFilter,
-          ].forEach((filter) => {
-            filter.selectedIndex = 0;
-          });
-          applyFilters();
-        });
-      }
+        document.addEventListener("DOMContentLoaded", function () {
+            let countdownEnd = new Date("{{ $nearestEnd }}").getTime();
 
-      // Featured Carousel Functionality
-      function initFeaturedCarousel() {
-        const track = document.querySelector(".carousel-track");
-        const prevBtn = document.getElementById("carousel-prev");
-        const nextBtn = document.getElementById("carousel-next");
-        let currentPosition = 0;
-        const itemWidth = 320; // 80 * 4 (w-80 + gap)
+            function updateCountdown() {
+                let now = new Date().getTime();
+                let distance = countdownEnd - now;
 
-        nextBtn.addEventListener("click", function () {
-          currentPosition -= itemWidth;
-          track.style.transform = `translateX(${currentPosition}px)`;
-        });
+                if (distance < 0) {
+                    document.getElementById("flash-countdown").innerHTML =
+                        "<div class='text-xl font-bold text-red-500'>Flash Sale Ended</div>";
+                    clearInterval(timer);
+                    return;
+                }
 
-        prevBtn.addEventListener("click", function () {
-          currentPosition += itemWidth;
-          if (currentPosition > 0) currentPosition = 0;
-          track.style.transform = `translateX(${currentPosition}px)`;
-        });
-      }
+                let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      // View Toggle Functionality
-      function initViewToggle() {
-        const gridView = document.getElementById("grid-view");
-        const listView = document.getElementById("list-view");
-        const productsGrid = document.getElementById("products-grid");
-
-        gridView.addEventListener("click", function () {
-          productsGrid.className =
-            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6";
-          gridView.classList.add("text-accent", "bg-accent-50");
-          listView.classList.remove("text-accent", "bg-accent-50");
-          listView.classList.add("text-gray-400");
-        });
-
-        listView.addEventListener("click", function () {
-          productsGrid.className = "grid grid-cols-1 gap-6";
-          listView.classList.add("text-accent", "bg-accent-50");
-          gridView.classList.remove("text-accent", "bg-accent-50");
-          gridView.classList.add("text-gray-400");
-        });
-      }
-
-      // Search Overlay Functionality
-      function openSearchOverlay() {
-        // Redirect to product discovery with flash deals filter
-        window.location.href = "product_discovery_hub.html?filter=flash-deals";
-      }
-
-      // Wishlist and Cart Functions
-      function handleWishlistClick() {
-        window.location.href = "wishlist_popup.html";
-      }
-
-      function toggleCart() {
-        window.location.href = "shopping_cart.html";
-      }
-
-      // Open Product Modal Function
-      function openProductModal(productId) {
-        // This will open the interactive product details modal
-        window.location.href = `interactive_product_details_modal.html?product=${productId}`;
-      }
-
-      // Load More Functionality
-      function initLoadMore() {
-        const loadMoreBtn = document.getElementById("load-more");
-        let page = 1;
-
-        loadMoreBtn.addEventListener("click", function () {
-          // Simulate loading more products
-          loadMoreBtn.innerHTML = `
-            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Loading More...
-        `;
-
-          setTimeout(() => {
-            // Add more products here
-            page++;
-            loadMoreBtn.innerHTML = `
-                Load More Deals
-                <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-                </svg>
-            `;
-
-            // Update showing count
-            const currentCount = parseInt(
-              document.getElementById("showing-count").textContent
-            );
-            document.getElementById("showing-count").textContent =
-              currentCount + 8;
-
-            if (page >= 5) {
-              loadMoreBtn.style.display = "none";
-              const noMoreMsg = document.createElement("p");
-              noMoreMsg.className = "text-center text-gray-600 mt-8";
-              noMoreMsg.textContent =
-                "You've reached the end of flash deals! Check back soon for more.";
-              loadMoreBtn.parentNode.appendChild(noMoreMsg);
+                document.getElementById("flash-days").innerText = String(days).padStart(2, '0');
+                document.getElementById("flash-hours").innerText = String(hours).padStart(2, '0');
+                document.getElementById("flash-minutes").innerText = String(minutes).padStart(2, '0');
+                document.getElementById("flash-seconds").innerText = String(seconds).padStart(2, '0');
             }
-          }, 2000);
-        });
-      }
 
-      // Initialize all functionality
-      document.addEventListener("DOMContentLoaded", function () {
-        initFlashSaleCountdown();
-        initFilters();
-        initFeaturedCarousel();
-        initViewToggle();
-        initLoadMore();
-      });
+            let timer = setInterval(updateCountdown, 1000);
+            updateCountdown();
+        });
+
+
+
+        // Filter Functionality
+        function initFilters() {
+            const categoryFilter = document.getElementById("category-filter");
+            const discountFilter = document.getElementById("discount-filter");
+            const priceFilter = document.getElementById("price-filter");
+            const timeFilter = document.getElementById("time-filter");
+            const sortFilter = document.getElementById("sort-filter");
+            const clearFilters = document.getElementById("clear-filters");
+
+            function applyFilters() {
+                const products = document.querySelectorAll(".product-card");
+                let visibleCount = 0;
+
+                products.forEach((product) => {
+                    let show = true;
+
+                    // Category filter
+                    if (
+                        categoryFilter.value &&
+                        product.dataset.category !== categoryFilter.value
+                    ) {
+                        show = false;
+                    }
+
+                    // Discount filter
+                    if (
+                        discountFilter.value &&
+                        parseInt(product.dataset.discount) <
+                        parseInt(discountFilter.value)
+                    ) {
+                        show = false;
+                    }
+
+                    // Price filter
+                    if (priceFilter.value) {
+                        const price = parseFloat(product.dataset.price);
+                        const range = priceFilter.value.split("-");
+                        if (range[1] === "+") {
+                            if (price < parseInt(range[0])) show = false;
+                        } else {
+                            if (price < parseInt(range[0]) || price > parseInt(range[1]))
+                                show = false;
+                        }
+                    }
+
+                    // Time filter
+                    if (timeFilter.value && product.dataset.time !== timeFilter.value) {
+                        show = false;
+                    }
+
+                    if (show) {
+                        product.style.display = "block";
+                        visibleCount++;
+                    } else {
+                        product.style.display = "none";
+                    }
+                });
+
+                document.getElementById("showing-count").textContent = visibleCount;
+            }
+
+            // Attach event listeners
+            [
+                categoryFilter,
+                discountFilter,
+                priceFilter,
+                timeFilter,
+                sortFilter,
+            ].forEach((filter) => {
+                filter.addEventListener("change", applyFilters);
+            });
+
+            clearFilters.addEventListener("click", function () {
+                [
+                    categoryFilter,
+                    discountFilter,
+                    priceFilter,
+                    timeFilter,
+                    sortFilter,
+                ].forEach((filter) => {
+                    filter.selectedIndex = 0;
+                });
+                applyFilters();
+            });
+        }
+
+        // Featured Carousel Functionality
+        function initFeaturedCarousel() {
+            const track = document.querySelector(".carousel-track");
+            const prevBtn = document.getElementById("carousel-prev");
+            const nextBtn = document.getElementById("carousel-next");
+            let currentPosition = 0;
+            const itemWidth = 320; // 80 * 4 (w-80 + gap)
+
+            nextBtn.addEventListener("click", function () {
+                currentPosition -= itemWidth;
+                track.style.transform = `translateX(${currentPosition}px)`;
+            });
+
+            prevBtn.addEventListener("click", function () {
+                currentPosition += itemWidth;
+                if (currentPosition > 0) currentPosition = 0;
+                track.style.transform = `translateX(${currentPosition}px)`;
+            });
+        }
+
+        // View Toggle Functionality
+        function initViewToggle() {
+            const gridView = document.getElementById("grid-view");
+            const listView = document.getElementById("list-view");
+            const productsGrid = document.getElementById("products-grid");
+
+            gridView.addEventListener("click", function () {
+                productsGrid.className =
+                    "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6";
+                gridView.classList.add("text-accent", "bg-accent-50");
+                listView.classList.remove("text-accent", "bg-accent-50");
+                listView.classList.add("text-gray-400");
+            });
+
+            listView.addEventListener("click", function () {
+                productsGrid.className = "grid grid-cols-1 gap-6";
+                listView.classList.add("text-accent", "bg-accent-50");
+                gridView.classList.remove("text-accent", "bg-accent-50");
+                gridView.classList.add("text-gray-400");
+            });
+        }
+
+        // Search Overlay Functionality
+        function openSearchOverlay() {
+            // Redirect to product discovery with flash deals filter
+            window.location.href = "product_discovery_hub.html?filter=flash-deals";
+        }
+
+        // Wishlist and Cart Functions
+        function handleWishlistClick() {
+            window.location.href = "wishlist_popup.html";
+        }
+
+        function toggleCart() {
+            window.location.href = "shopping_cart.html";
+        }
+
+        // Open Product Modal Function
+        function openProductModal(productId) {
+            // This will open the interactive product details modal
+            window.location.href = `interactive_product_details_modal.html?product=${productId}`;
+        }
+
+        // Load More Functionality
+        function initLoadMore() {
+            const loadMoreBtn = document.getElementById("load-more");
+            let page = 1;
+
+            loadMoreBtn.addEventListener("click", function () {
+                // Simulate loading more products
+                loadMoreBtn.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Loading More...
+                `;
+
+                setTimeout(() => {
+                    // Add more products here
+                    page++;
+                    loadMoreBtn.innerHTML = `
+                        Load More Deals
+                        <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                        </svg>
+                    `;
+
+                    // Update showing count
+                    const currentCount = parseInt(
+                        document.getElementById("showing-count").textContent
+                    );
+                    document.getElementById("showing-count").textContent =
+                        currentCount + 8;
+
+                    if (page >= 5) {
+                        loadMoreBtn.style.display = "none";
+                        const noMoreMsg = document.createElement("p");
+                        noMoreMsg.className = "text-center text-gray-600 mt-8";
+                        noMoreMsg.textContent =
+                            "You've reached the end of flash deals! Check back soon for more.";
+                        loadMoreBtn.parentNode.appendChild(noMoreMsg);
+                    }
+                }, 2000);
+            });
+        }
+
+        // Initialize all functionality
+        document.addEventListener("DOMContentLoaded", function () {
+            initFlashSaleCountdown();
+            initFilters();
+            initFeaturedCarousel();
+            initViewToggle();
+            initLoadMore();
+        });
     </script>
 @endsection
