@@ -52,7 +52,7 @@ public function index()
     } else {
         $nearestEnd = null;
     }
-dd($activeDeals);
+
     // convert to epoch milliseconds to avoid any client timezone parsing issues
     $nearestEndMs = $nearestEnd ? ($nearestEnd->getTimestamp() * 1000) : null;
     $timeLeft   = $nearestEnd ? now()->diff($nearestEnd)->format('%ad %hh %im') : '—';
