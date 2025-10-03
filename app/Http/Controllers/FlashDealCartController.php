@@ -28,16 +28,15 @@ public function index()
     });
 
     $nearestEnd = $flashDeals->min('end_time');
-    $timeLeft   = $nearestEnd ? now()->diff($nearestEnd)->format('%ad %hh %im') : '—';
 
     return view('frontend.deals.flash_deals_showcase', compact(
         'totalDeals',
         'totalSavings',
         'avgDiscount',
-        'timeLeft',
         'nearestEnd'
     ));
 }
+
 
 
    public function add(Request $request)
