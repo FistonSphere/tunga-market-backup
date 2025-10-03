@@ -45,7 +45,7 @@
                     <h3 class="text-2xl font-bold mb-4">
                         ⏰ Global Flash Sale Ends In:
                     </h3>
-                    <div id="flash-countdown" class="flex justify-center items-center space-x-4 text-center">
+                    <div class="flex justify-center items-center space-x-4 text-center">
                         <div>
                             <div id="flash-days" class="text-3xl font-bold">00</div>
                             <div class="text-sm opacity-80">Days</div>
@@ -636,7 +636,37 @@
     </section>
 
 
+    @if($nearestEnd)
+        <script>
+            const endTime = new Date("{{ $nearestEnd }}").getTime();
 
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = endTime - now;
+
+                if (distance < 0) {
+                    document.getElementById("flash-days").innerText = "00";
+                    document.getElementById("flash-hours").innerText = "00";
+                    document.getElementById("flash-minutes").innerText = "00";
+                    document.getElementById("flash-seconds").innerText = "00";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("flash-days").innerText = String(days).padStart(2, '0');
+                document.getElementById("flash-hours").innerText = String(hours).padStart(2, '0');
+                document.getElementById("flash-minutes").innerText = String(minutes).padStart(2, '0');
+                document.getElementById("flash-seconds").innerText = String(seconds).padStart(2, '0');
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        </script>
+    @endif
     <script>
         // Flash Sale Countdown Timer
         function initFlashSaleCountdown() {
@@ -679,44 +709,15 @@
                     document.querySelector(
                         ".bg-gradient-to-br.from-accent"
                     ).innerHTML = `
-                        <div class="text-center">
-                            <h3 class="text-2xl font-bold mb-4">🎉 Flash Sale Extended!</h3>
-                            <p class="text-lg">Due to popular demand, we've extended our flash sale!</p>
-                        </div>
-                    `;
+                                <div class="text-center">
+                                    <h3 class="text-2xl font-bold mb-4">🎉 Flash Sale Extended!</h3>
+                                    <p class="text-lg">Due to popular demand, we've extended our flash sale!</p>
+                                </div>
+                            `;
                 }
             }, 1000);
         }
 
-
-        document.addEventListener("DOMContentLoaded", function () {
-            let countdownEnd = new Date("{{ $nearestEnd }}").getTime();
-
-            function updateCountdown() {
-                let now = new Date().getTime();
-                let distance = countdownEnd - now;
-
-                if (distance < 0) {
-                    document.getElementById("flash-countdown").innerHTML =
-                        "<div class='text-xl font-bold text-red-500'>Flash Sale Ended</div>";
-                    clearInterval(timer);
-                    return;
-                }
-
-                let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                document.getElementById("flash-days").innerText = String(days).padStart(2, '0');
-                document.getElementById("flash-hours").innerText = String(hours).padStart(2, '0');
-                document.getElementById("flash-minutes").innerText = String(minutes).padStart(2, '0');
-                document.getElementById("flash-seconds").innerText = String(seconds).padStart(2, '0');
-            }
-
-            let timer = setInterval(updateCountdown, 1000);
-            updateCountdown();
-        });
 
 
 
@@ -877,22 +878,22 @@
             loadMoreBtn.addEventListener("click", function () {
                 // Simulate loading more products
                 loadMoreBtn.innerHTML = `
-                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Loading More...
-                `;
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Loading More...
+                        `;
 
                 setTimeout(() => {
                     // Add more products here
                     page++;
                     loadMoreBtn.innerHTML = `
-                        Load More Deals
-                        <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-                        </svg>
-                    `;
+                                Load More Deals
+                                <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                </svg>
+                            `;
 
                     // Update showing count
                     const currentCount = parseInt(
