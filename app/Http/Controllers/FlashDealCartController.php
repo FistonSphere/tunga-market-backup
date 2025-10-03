@@ -87,7 +87,7 @@ public function index()
     foreach ($discountedProducts as $product) {
         $activities->push([
             'type' => 'discount',
-            'message' => "{$product->name} available at discount price RWF {$product->discount_price}.",
+            'message' => "{$product->name} available at discount price RWF " . number_format($product->discount_price) . " Rwf.",
         ]);
     }
 
