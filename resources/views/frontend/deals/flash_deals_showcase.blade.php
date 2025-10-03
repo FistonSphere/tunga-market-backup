@@ -208,8 +208,8 @@
                 </div>
             </div>
 
-            <div class="featured-carousel overflow-hidden">
-                <div class="carousel-track flex space-x-4 transition-transform duration-300">
+            <div class="featured-carousel overflow-hidden relative">
+                <div id="carousel-track" class="carousel-track flex space-x-4 transition-transform duration-300">
                     @forelse($featuredDeals as $deal)
                         @php
                             $timeLeft = now()->diff($deal->end_time);
@@ -221,18 +221,20 @@
                                 onclick="openProductModal('{{ $deal->product->id }}')">
 
                                 <!-- Discount Badge -->
-                                <div class="absolute top-3 left-3 bg-accent text-white px-3 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
+                                <div
+                                    class="absolute top-3 left-3 bg-accent text-white px-3 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
                                     FEATURED {{ $deal->discount_percent }}% OFF
                                 </div>
 
                                 <!-- Urgency Badge -->
-                                <div class="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+                                <div
+                                    class="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
                                     ENDING SOON
                                 </div>
 
                                 <!-- Product Image -->
                                 <div class="relative overflow-hidden rounded-lg mb-4">
-                                    <img src="{{ $deal->product->image_url ?? 'https://via.placeholder.com/300' }}"
+                                    <img src="{{ $deal->product->main_image ?? asset('assets/images/no-image.png') }}"
                                         alt="{{ $deal->product->name }}"
                                         class="w-full h-64 object-cover group-hover:scale-105 transition-all duration-300"
                                         loading="lazy" />
@@ -247,8 +249,10 @@
                                     <!-- Pricing -->
                                     <div class="flex items-center justify-between mb-3">
                                         <div class="flex items-center space-x-2">
-                                            <span class="text-2xl font-bold text-accent">RWF {{ number_format($deal->flash_price) }}</span>
-                                            <span class="text-sm text-gray-500 line-through">RWF {{ number_format($deal->product->price) }}</span>
+                                            <span class="text-2xl font-bold text-accent">RWF
+                                                {{ number_format($deal->flash_price) }}</span>
+                                            <span class="text-sm text-gray-500 line-through">RWF
+                                                {{ number_format($deal->product->price) }}</span>
                                         </div>
                                         <div class="flex items-center text-yellow-400">
                                             ⭐ <span class="text-sm text-gray-600 ml-1">4.7 ({{ rand(200, 1500) }})</span>
@@ -289,400 +293,412 @@
     </section>
 
 
-        <!-- Flash Deals Grid -->
-        <section class="py-8 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-primary">All Flash Deals</h2>
-                    <div class="text-sm text-secondary-600">
-                        Showing <span id="showing-count">12</span> of
-                        <span id="total-count">247</span> deals
-                    </div>
-                </div>
 
-                <!-- Products Grid -->
-                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <!-- Flash Deal Product 1 -->
-                    <div class="product-card card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden"
-                        data-category="electronics" data-discount="70" data-price="29.99" data-time="2h"
-                        onclick="openProductModal('flash-1')">
-                        <div class="absolute top-3 left-3 bg-accent text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                            70% OFF
-                        </div>
-                        <div
-                            class="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
-                            HOT
-                        </div>
-                        <div class="relative overflow-hidden rounded-lg mb-4">
-                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                                alt="Wireless Earbuds Pro"
-                                class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                                loading="lazy" />
-                            <div class="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs">
-                                <span class="text-warning">★ 4.8</span> (324 reviews)
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-semibold text-primary mb-2">
-                                Wireless Earbuds Pro
-                            </h3>
-                            <p class="text-body-sm text-secondary-600 mb-3">
-                                Premium sound quality with noise cancellation
-                            </p>
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="flex items-center space-x-2">
-                                    <span class="text-xl font-bold text-accent">$29.99</span>
-                                    <span class="text-sm text-gray-500 line-through">$99.99</span>
-                                </div>
-                                <div class="text-xs bg-accent-100 text-accent px-2 py-1 rounded-full font-semibold">
-                                    Save $70
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="text-xs text-gray-500">
-                                    ⏰ <span class="font-semibold text-accent">2h 14m left</span>
-                                </div>
-                                <div class="text-xs text-gray-500">
-                                    📦 <span class="font-semibold">Fast shipping</span>
-                                </div>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
-                                <div class="bg-gradient-to-r from-accent to-accent-600 h-2 rounded-full" style="width: 73%">
-                                </div>
-                            </div>
-                            <div class="text-xs text-center text-gray-600 mb-4">
-                                73% claimed (18 left in stock)
-                            </div>
-                            <div class="flex space-x-2">
-                                <button class="flex-1 btn-primary text-sm py-2">
-                                    Add to Cart
-                                </button>
-                                <button class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-fast">
-                                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Flash Deal Product 2 -->
-                    <div class="product-card card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden"
-                        data-category="home" data-discount="45" data-price="54.99" data-time="1d"
-                        onclick="openProductModal('flash-2')">
-                        <div class="absolute top-3 left-3 bg-success text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                            45% OFF
-                        </div>
-                        <div
-                            class="absolute top-3 right-3 bg-purple-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                            LIMITED
-                        </div>
-                        <div class="relative overflow-hidden rounded-lg mb-4">
-                            <img src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                alt="Smart Home Hub"
-                                class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                                loading="lazy" />
-                            <div class="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs">
-                                <span class="text-warning">★ 4.6</span> (156 reviews)
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-semibold text-primary mb-2">Smart Home Hub</h3>
-                            <p class="text-body-sm text-secondary-600 mb-3">
-                                Control all your smart devices from one place
-                            </p>
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="flex items-center space-x-2">
-                                    <span class="text-xl font-bold text-success">$54.99</span>
-                                    <span class="text-sm text-gray-500 line-through">$99.99</span>
-                                </div>
-                                <div class="text-xs bg-success-100 text-success px-2 py-1 rounded-full font-semibold">
-                                    Save $45
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="text-xs text-gray-500">
-                                    ⏰ <span class="font-semibold text-success">1d 12h left</span>
-                                </div>
-                                <div class="text-xs text-gray-500">
-                                    🚚 <span class="font-semibold">Free shipping</span>
-                                </div>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
-                                <div class="bg-gradient-to-r from-success to-success-600 h-2 rounded-full" style="width: 45%">
-                                </div>
-                            </div>
-                            <div class="text-xs text-center text-gray-600 mb-4">
-                                45% claimed (33 left in stock)
-                            </div>
-                            <div class="flex space-x-2">
-                                <button class="flex-1 btn-primary text-sm py-2">
-                                    Add to Cart
-                                </button>
-                                <button class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-fast">
-                                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Flash Deal Product 3 -->
-                    <div class="product-card card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden"
-                        data-category="sports" data-discount="60" data-price="39.99" data-time="6h"
-                        onclick="openProductModal('flash-3')">
-                        <div class="absolute top-3 left-3 bg-warning text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                            60% OFF
-                        </div>
-                        <div
-                            class="absolute top-3 right-3 bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                            BESTSELLER
-                        </div>
-                        <div class="relative overflow-hidden rounded-lg mb-4">
-                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2970&auto=format&fit=crop"
-                                alt="Running Shoes"
-                                class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                                loading="lazy" />
-                            <div class="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs">
-                                <span class="text-warning">★ 4.9</span> (892 reviews)
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-semibold text-primary mb-2">
-                                Premium Running Shoes
-                            </h3>
-                            <p class="text-body-sm text-secondary-600 mb-3">
-                                Lightweight with advanced cushioning technology
-                            </p>
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="flex items-center space-x-2">
-                                    <span class="text-xl font-bold text-warning">$39.99</span>
-                                    <span class="text-sm text-gray-500 line-through">$99.99</span>
-                                </div>
-                                <div class="text-xs bg-warning-100 text-warning px-2 py-1 rounded-full font-semibold">
-                                    Save $60
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="text-xs text-gray-500">
-                                    ⏰ <span class="font-semibold text-warning">6h 45m left</span>
-                                </div>
-                                <div class="text-xs text-gray-500">
-                                    ✈️ <span class="font-semibold">Global shipping</span>
-                                </div>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
-                                <div class="bg-gradient-to-r from-warning to-warning-600 h-2 rounded-full" style="width: 87%">
-                                </div>
-                            </div>
-                            <div class="text-xs text-center text-gray-600 mb-4">
-                                87% claimed (8 left in stock)
-                            </div>
-                            <div class="flex space-x-2">
-                                <button class="flex-1 btn-primary text-sm py-2">
-                                    Add to Cart
-                                </button>
-                                <button class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-fast">
-                                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Flash Deal Product 4 -->
-                    <div class="product-card card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden"
-                        data-category="home" data-discount="55" data-price="22.49" data-time="3d"
-                        onclick="openProductModal('flash-4')">
-                        <div class="absolute top-3 left-3 bg-primary text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                            55% OFF
-                        </div>
-                        <div
-                            class="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                            ECO
-                        </div>
-                        <div class="relative overflow-hidden rounded-lg mb-4">
-                            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2958&auto=format&fit=crop"
-                                alt="Bamboo Kitchen Set"
-                                class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
-                                loading="lazy" />
-                            <div class="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs">
-                                <span class="text-warning">★ 4.7</span> (203 reviews)
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-semibold text-primary mb-2">
-                                Bamboo Kitchen Set
-                            </h3>
-                            <p class="text-body-sm text-secondary-600 mb-3">
-                                Sustainable and stylish kitchen essentials
-                            </p>
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="flex items-center space-x-2">
-                                    <span class="text-xl font-bold text-primary">$22.49</span>
-                                    <span class="text-sm text-gray-500 line-through">$49.99</span>
-                                </div>
-                                <div class="text-xs bg-primary-100 text-primary px-2 py-1 rounded-full font-semibold">
-                                    Save $27
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="text-xs text-gray-500">
-                                    ⏰ <span class="font-semibold text-primary">3d 8h left</span>
-                                </div>
-                                <div class="text-xs text-gray-500">
-                                    🌱 <span class="font-semibold">Eco-friendly</span>
-                                </div>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
-                                <div class="bg-gradient-to-r from-primary to-primary-600 h-2 rounded-full" style="width: 31%">
-                                </div>
-                            </div>
-                            <div class="text-xs text-center text-gray-600 mb-4">
-                                31% claimed (42 left in stock)
-                            </div>
-                            <div class="flex space-x-2">
-                                <button class="flex-1 btn-primary text-sm py-2">
-                                    Add to Cart
-                                </button>
-                                <button class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-fast">
-                                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Load More Button -->
-                <div class="text-center mt-12">
-                    <button id="load-more"
-                        class="bg-gradient-to-r from-accent to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-card hover:shadow-hover">
-                        Load More Deals
-                        <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                        </svg>
-                    </button>
+    <!-- Flash Deals Grid -->
+    <section class="py-8 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-primary">All Flash Deals</h2>
+                <div class="text-sm text-secondary-600">
+                    Showing <span id="showing-count">12</span> of
+                    <span id="total-count">247</span> deals
                 </div>
             </div>
-        </section>
+
+            <!-- Products Grid -->
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Flash Deal Product 1 -->
+                <div class="product-card card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden"
+                    data-category="electronics" data-discount="70" data-price="29.99" data-time="2h"
+                    onclick="openProductModal('flash-1')">
+                    <div class="absolute top-3 left-3 bg-accent text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+                        70% OFF
+                    </div>
+                    <div
+                        class="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
+                        HOT
+                    </div>
+                    <div class="relative overflow-hidden rounded-lg mb-4">
+                        <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
+                            alt="Wireless Earbuds Pro"
+                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
+                            loading="lazy" />
+                        <div class="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs">
+                            <span class="text-warning">★ 4.8</span> (324 reviews)
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-primary mb-2">
+                            Wireless Earbuds Pro
+                        </h3>
+                        <p class="text-body-sm text-secondary-600 mb-3">
+                            Premium sound quality with noise cancellation
+                        </p>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xl font-bold text-accent">$29.99</span>
+                                <span class="text-sm text-gray-500 line-through">$99.99</span>
+                            </div>
+                            <div class="text-xs bg-accent-100 text-accent px-2 py-1 rounded-full font-semibold">
+                                Save $70
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-xs text-gray-500">
+                                ⏰ <span class="font-semibold text-accent">2h 14m left</span>
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                📦 <span class="font-semibold">Fast shipping</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+                            <div class="bg-gradient-to-r from-accent to-accent-600 h-2 rounded-full" style="width: 73%">
+                            </div>
+                        </div>
+                        <div class="text-xs text-center text-gray-600 mb-4">
+                            73% claimed (18 left in stock)
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="flex-1 btn-primary text-sm py-2">
+                                Add to Cart
+                            </button>
+                            <button class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-fast">
+                                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flash Deal Product 2 -->
+                <div class="product-card card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden"
+                    data-category="home" data-discount="45" data-price="54.99" data-time="1d"
+                    onclick="openProductModal('flash-2')">
+                    <div class="absolute top-3 left-3 bg-success text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+                        45% OFF
+                    </div>
+                    <div
+                        class="absolute top-3 right-3 bg-purple-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+                        LIMITED
+                    </div>
+                    <div class="relative overflow-hidden rounded-lg mb-4">
+                        <img src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                            alt="Smart Home Hub"
+                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
+                            loading="lazy" />
+                        <div class="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs">
+                            <span class="text-warning">★ 4.6</span> (156 reviews)
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-primary mb-2">Smart Home Hub</h3>
+                        <p class="text-body-sm text-secondary-600 mb-3">
+                            Control all your smart devices from one place
+                        </p>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xl font-bold text-success">$54.99</span>
+                                <span class="text-sm text-gray-500 line-through">$99.99</span>
+                            </div>
+                            <div class="text-xs bg-success-100 text-success px-2 py-1 rounded-full font-semibold">
+                                Save $45
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-xs text-gray-500">
+                                ⏰ <span class="font-semibold text-success">1d 12h left</span>
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                🚚 <span class="font-semibold">Free shipping</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+                            <div class="bg-gradient-to-r from-success to-success-600 h-2 rounded-full" style="width: 45%">
+                            </div>
+                        </div>
+                        <div class="text-xs text-center text-gray-600 mb-4">
+                            45% claimed (33 left in stock)
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="flex-1 btn-primary text-sm py-2">
+                                Add to Cart
+                            </button>
+                            <button class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-fast">
+                                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flash Deal Product 3 -->
+                <div class="product-card card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden"
+                    data-category="sports" data-discount="60" data-price="39.99" data-time="6h"
+                    onclick="openProductModal('flash-3')">
+                    <div class="absolute top-3 left-3 bg-warning text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+                        60% OFF
+                    </div>
+                    <div
+                        class="absolute top-3 right-3 bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+                        BESTSELLER
+                    </div>
+                    <div class="relative overflow-hidden rounded-lg mb-4">
+                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2970&auto=format&fit=crop"
+                            alt="Running Shoes"
+                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
+                            loading="lazy" />
+                        <div class="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs">
+                            <span class="text-warning">★ 4.9</span> (892 reviews)
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-primary mb-2">
+                            Premium Running Shoes
+                        </h3>
+                        <p class="text-body-sm text-secondary-600 mb-3">
+                            Lightweight with advanced cushioning technology
+                        </p>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xl font-bold text-warning">$39.99</span>
+                                <span class="text-sm text-gray-500 line-through">$99.99</span>
+                            </div>
+                            <div class="text-xs bg-warning-100 text-warning px-2 py-1 rounded-full font-semibold">
+                                Save $60
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-xs text-gray-500">
+                                ⏰ <span class="font-semibold text-warning">6h 45m left</span>
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                ✈️ <span class="font-semibold">Global shipping</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+                            <div class="bg-gradient-to-r from-warning to-warning-600 h-2 rounded-full" style="width: 87%">
+                            </div>
+                        </div>
+                        <div class="text-xs text-center text-gray-600 mb-4">
+                            87% claimed (8 left in stock)
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="flex-1 btn-primary text-sm py-2">
+                                Add to Cart
+                            </button>
+                            <button class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-fast">
+                                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flash Deal Product 4 -->
+                <div class="product-card card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden"
+                    data-category="home" data-discount="55" data-price="22.49" data-time="3d"
+                    onclick="openProductModal('flash-4')">
+                    <div class="absolute top-3 left-3 bg-primary text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+                        55% OFF
+                    </div>
+                    <div
+                        class="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+                        ECO
+                    </div>
+                    <div class="relative overflow-hidden rounded-lg mb-4">
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2958&auto=format&fit=crop"
+                            alt="Bamboo Kitchen Set"
+                            class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
+                            loading="lazy" />
+                        <div class="absolute bottom-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs">
+                            <span class="text-warning">★ 4.7</span> (203 reviews)
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-primary mb-2">
+                            Bamboo Kitchen Set
+                        </h3>
+                        <p class="text-body-sm text-secondary-600 mb-3">
+                            Sustainable and stylish kitchen essentials
+                        </p>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xl font-bold text-primary">$22.49</span>
+                                <span class="text-sm text-gray-500 line-through">$49.99</span>
+                            </div>
+                            <div class="text-xs bg-primary-100 text-primary px-2 py-1 rounded-full font-semibold">
+                                Save $27
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-xs text-gray-500">
+                                ⏰ <span class="font-semibold text-primary">3d 8h left</span>
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                🌱 <span class="font-semibold">Eco-friendly</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+                            <div class="bg-gradient-to-r from-primary to-primary-600 h-2 rounded-full" style="width: 31%">
+                            </div>
+                        </div>
+                        <div class="text-xs text-center text-gray-600 mb-4">
+                            31% claimed (42 left in stock)
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="flex-1 btn-primary text-sm py-2">
+                                Add to Cart
+                            </button>
+                            <button class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-fast">
+                                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button id="load-more"
+                    class="bg-gradient-to-r from-accent to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-card hover:shadow-hover">
+                    Load More Deals
+                    <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
 
 
-        @if($nearestEndMs)
-            <script>
-                (function () {
-                    const endTimeMs = {{ $nearestEndMs }}; // integer epoch ms from server
+    @if($nearestEndMs)
+        <script>
+            (function () {
+                const endTimeMs = {{ $nearestEndMs }}; // integer epoch ms from server
 
-                    function formatTwo(n) { return String(n).padStart(2, '0'); }
+                function formatTwo(n) { return String(n).padStart(2, '0'); }
 
-                    function updateCountdown() {
-                        const now = Date.now();
-                        const distance = endTimeMs - now;
+                function updateCountdown() {
+                    const now = Date.now();
+                    const distance = endTimeMs - now;
 
-                        if (distance <= 0) {
-                            document.getElementById("flash-days").innerText = "00";
-                            document.getElementById("flash-hours").innerText = "00";
-                            document.getElementById("flash-minutes").innerText = "00";
-                            document.getElementById("flash-seconds").innerText = "00";
-                            // update the small stats "time-left" to 00:00
-                            const tl = document.getElementById('time-left');
-                            if (tl) tl.innerText = '00:00:00';
-                            return;
-                        }
+                    if (distance <= 0) {
+                        document.getElementById("flash-days").innerText = "00";
+                        document.getElementById("flash-hours").innerText = "00";
+                        document.getElementById("flash-minutes").innerText = "00";
+                        document.getElementById("flash-seconds").innerText = "00";
+                        // update the small stats "time-left" to 00:00
+                        const tl = document.getElementById('time-left');
+                        if (tl) tl.innerText = '00:00:00';
+                        return;
+                    }
 
-                        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                        document.getElementById("flash-days").innerText = formatTwo(days);
-                        document.getElementById("flash-hours").innerText = formatTwo(hours);
-                        document.getElementById("flash-minutes").innerText = formatTwo(minutes);
-                        document.getElementById("flash-seconds").innerText = formatTwo(seconds);
+                    document.getElementById("flash-days").innerText = formatTwo(days);
+                    document.getElementById("flash-hours").innerText = formatTwo(hours);
+                    document.getElementById("flash-minutes").innerText = formatTwo(minutes);
+                    document.getElementById("flash-seconds").innerText = formatTwo(seconds);
 
-                        // small overview "time-left" (days + hh:mm)
-                        const overview = document.getElementById('time-left');
-                        if (overview) {
-                            overview.innerText = `${days}d ${formatTwo(hours)}h`;
+                    // small overview "time-left" (days + hh:mm)
+                    const overview = document.getElementById('time-left');
+                    if (overview) {
+                        overview.innerText = `${days}d ${formatTwo(hours)}h`;
+                    }
+                }
+
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            })();
+        </script>
+    @endif
+    <script>
+        // Filter Functionality
+        function initFilters() {
+            const categoryFilter = document.getElementById("category-filter");
+            const discountFilter = document.getElementById("discount-filter");
+            const priceFilter = document.getElementById("price-filter");
+            const timeFilter = document.getElementById("time-filter");
+            const sortFilter = document.getElementById("sort-filter");
+            const clearFilters = document.getElementById("clear-filters");
+
+            function applyFilters() {
+                const products = document.querySelectorAll(".product-card");
+                let visibleCount = 0;
+
+                products.forEach((product) => {
+                    let show = true;
+
+                    // Category filter
+                    if (
+                        categoryFilter.value &&
+                        product.dataset.category !== categoryFilter.value
+                    ) {
+                        show = false;
+                    }
+
+                    // Discount filter
+                    if (
+                        discountFilter.value &&
+                        parseInt(product.dataset.discount) <
+                        parseInt(discountFilter.value)
+                    ) {
+                        show = false;
+                    }
+
+                    // Price filter
+                    if (priceFilter.value) {
+                        const price = parseFloat(product.dataset.price);
+                        const range = priceFilter.value.split("-");
+                        if (range[1] === "+") {
+                            if (price < parseInt(range[0])) show = false;
+                        } else {
+                            if (price < parseInt(range[0]) || price > parseInt(range[1]))
+                                show = false;
                         }
                     }
 
-                    updateCountdown();
-                    setInterval(updateCountdown, 1000);
-                })();
-            </script>
-        @endif
-        <script>
-            // Filter Functionality
-            function initFilters() {
-                const categoryFilter = document.getElementById("category-filter");
-                const discountFilter = document.getElementById("discount-filter");
-                const priceFilter = document.getElementById("price-filter");
-                const timeFilter = document.getElementById("time-filter");
-                const sortFilter = document.getElementById("sort-filter");
-                const clearFilters = document.getElementById("clear-filters");
+                    // Time filter
+                    if (timeFilter.value && product.dataset.time !== timeFilter.value) {
+                        show = false;
+                    }
 
-                function applyFilters() {
-                    const products = document.querySelectorAll(".product-card");
-                    let visibleCount = 0;
+                    if (show) {
+                        product.style.display = "block";
+                        visibleCount++;
+                    } else {
+                        product.style.display = "none";
+                    }
+                });
 
-                    products.forEach((product) => {
-                        let show = true;
+                document.getElementById("showing-count").textContent = visibleCount;
+            }
 
-                        // Category filter
-                        if (
-                            categoryFilter.value &&
-                            product.dataset.category !== categoryFilter.value
-                        ) {
-                            show = false;
-                        }
+            // Attach event listeners
+            [
+                categoryFilter,
+                discountFilter,
+                priceFilter,
+                timeFilter,
+                sortFilter,
+            ].forEach((filter) => {
+                filter.addEventListener("change", applyFilters);
+            });
 
-                        // Discount filter
-                        if (
-                            discountFilter.value &&
-                            parseInt(product.dataset.discount) <
-                            parseInt(discountFilter.value)
-                        ) {
-                            show = false;
-                        }
-
-                        // Price filter
-                        if (priceFilter.value) {
-                            const price = parseFloat(product.dataset.price);
-                            const range = priceFilter.value.split("-");
-                            if (range[1] === "+") {
-                                if (price < parseInt(range[0])) show = false;
-                            } else {
-                                if (price < parseInt(range[0]) || price > parseInt(range[1]))
-                                    show = false;
-                            }
-                        }
-
-                        // Time filter
-                        if (timeFilter.value && product.dataset.time !== timeFilter.value) {
-                            show = false;
-                        }
-
-                        if (show) {
-                            product.style.display = "block";
-                            visibleCount++;
-                        } else {
-                            product.style.display = "none";
-                        }
-                    });
-
-                    document.getElementById("showing-count").textContent = visibleCount;
-                }
-
-                // Attach event listeners
+            clearFilters.addEventListener("click", function () {
                 [
                     categoryFilter,
                     discountFilter,
@@ -690,137 +706,135 @@
                     timeFilter,
                     sortFilter,
                 ].forEach((filter) => {
-                    filter.addEventListener("change", applyFilters);
+                    filter.selectedIndex = 0;
                 });
-
-                clearFilters.addEventListener("click", function () {
-                    [
-                        categoryFilter,
-                        discountFilter,
-                        priceFilter,
-                        timeFilter,
-                        sortFilter,
-                    ].forEach((filter) => {
-                        filter.selectedIndex = 0;
-                    });
-                    applyFilters();
-                });
-            }
-
-            // Featured Carousel Functionality
-            function initFeaturedCarousel() {
-                const track = document.querySelector(".carousel-track");
-                const prevBtn = document.getElementById("carousel-prev");
-                const nextBtn = document.getElementById("carousel-next");
-                let currentPosition = 0;
-                const itemWidth = 320; // 80 * 4 (w-80 + gap)
-
-                nextBtn.addEventListener("click", function () {
-                    currentPosition -= itemWidth;
-                    track.style.transform = `translateX(${currentPosition}px)`;
-                });
-
-                prevBtn.addEventListener("click", function () {
-                    currentPosition += itemWidth;
-                    if (currentPosition > 0) currentPosition = 0;
-                    track.style.transform = `translateX(${currentPosition}px)`;
-                });
-            }
-
-            // View Toggle Functionality
-            function initViewToggle() {
-                const gridView = document.getElementById("grid-view");
-                const listView = document.getElementById("list-view");
-                const productsGrid = document.getElementById("products-grid");
-
-                gridView.addEventListener("click", function () {
-                    productsGrid.className =
-                        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6";
-                    gridView.classList.add("text-accent", "bg-accent-50");
-                    listView.classList.remove("text-accent", "bg-accent-50");
-                    listView.classList.add("text-gray-400");
-                });
-
-                listView.addEventListener("click", function () {
-                    productsGrid.className = "grid grid-cols-1 gap-6";
-                    listView.classList.add("text-accent", "bg-accent-50");
-                    gridView.classList.remove("text-accent", "bg-accent-50");
-                    gridView.classList.add("text-gray-400");
-                });
-            }
-
-            // Search Overlay Functionality
-            function openSearchOverlay() {
-                // Redirect to product discovery with flash deals filter
-                window.location.href = "product_discovery_hub.html?filter=flash-deals";
-            }
-
-            // Wishlist and Cart Functions
-            function handleWishlistClick() {
-                window.location.href = "wishlist_popup.html";
-            }
-
-            function toggleCart() {
-                window.location.href = "shopping_cart.html";
-            }
-
-            // Open Product Modal Function
-            function openProductModal(productId) {
-                // This will open the interactive product details modal
-                window.location.href = `interactive_product_details_modal.html?product=${productId}`;
-            }
-
-            // Load More Functionality
-            function initLoadMore() {
-                const loadMoreBtn = document.getElementById("load-more");
-                let page = 1;
-
-                loadMoreBtn.addEventListener("click", function () {
-                    // Simulate loading more products
-                    loadMoreBtn.innerHTML = `
-                                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                            </svg>
-                                            Loading More...
-                                        `;
-
-                    setTimeout(() => {
-                        // Add more products here
-                        page++;
-                        loadMoreBtn.innerHTML = `
-                                                Load More Deals
-                                                <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-                                                </svg>
-                                            `;
-
-                        // Update showing count
-                        const currentCount = parseInt(
-                            document.getElementById("showing-count").textContent
-                        );
-                        document.getElementById("showing-count").textContent =
-                            currentCount + 8;
-
-                        if (page >= 5) {
-                            loadMoreBtn.style.display = "none";
-                            const noMoreMsg = document.createElement("p");
-                            noMoreMsg.className = "text-center text-gray-600 mt-8";
-                            noMoreMsg.textContent =
-                                "You've reached the end of flash deals! Check back soon for more.";
-                            loadMoreBtn.parentNode.appendChild(noMoreMsg);
-                        }
-                    }, 2000);
-                });
-            }
-
-            // Initialize all functionality
-            document.addEventListener("DOMContentLoaded", function () {
-                initFlashSaleCountdown();
-                initFilters();
-                initFeaturedCarousel();
-                initViewToggle();
-                initLoadMore();
+                applyFilters();
             });
-        </script>
+        }
+
+        // Featured Carousel Functionality
+        const track = document.getElementById("carousel-track");
+        const prevBtn = document.getElementById("carousel-prev");
+        const nextBtn = document.getElementById("carousel-next");
+
+        let currentIndex = 0;
+        const itemWidth = 320 + 16; // 320px item width + 16px gap (w-80 + space-x-4)
+        const totalItems = track.children.length;
+        const visibleItems = Math.floor(track.parentElement.offsetWidth / itemWidth);
+
+        function updateCarousel() {
+            const maxIndex = Math.max(totalItems - visibleItems, 0);
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+            track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+        }
+
+        nextBtn.addEventListener("click", () => {
+            currentIndex++;
+            updateCarousel();
+        });
+
+        prevBtn.addEventListener("click", () => {
+            currentIndex--;
+            updateCarousel();
+        });
+
+        window.addEventListener("resize", updateCarousel);
+        updateCarousel();
+        // View Toggle Functionality
+        function initViewToggle() {
+            const gridView = document.getElementById("grid-view");
+            const listView = document.getElementById("list-view");
+            const productsGrid = document.getElementById("products-grid");
+
+            gridView.addEventListener("click", function () {
+                productsGrid.className =
+                    "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6";
+                gridView.classList.add("text-accent", "bg-accent-50");
+                listView.classList.remove("text-accent", "bg-accent-50");
+                listView.classList.add("text-gray-400");
+            });
+
+            listView.addEventListener("click", function () {
+                productsGrid.className = "grid grid-cols-1 gap-6";
+                listView.classList.add("text-accent", "bg-accent-50");
+                gridView.classList.remove("text-accent", "bg-accent-50");
+                gridView.classList.add("text-gray-400");
+            });
+        }
+
+        // Search Overlay Functionality
+        function openSearchOverlay() {
+            // Redirect to product discovery with flash deals filter
+            window.location.href = "product_discovery_hub.html?filter=flash-deals";
+        }
+
+        // Wishlist and Cart Functions
+        function handleWishlistClick() {
+            window.location.href = "wishlist_popup.html";
+        }
+
+        function toggleCart() {
+            window.location.href = "shopping_cart.html";
+        }
+
+        // Open Product Modal Function
+        function openProductModal(productId) {
+            // This will open the interactive product details modal
+            window.location.href = `interactive_product_details_modal.html?product=${productId}`;
+        }
+
+        // Load More Functionality
+        function initLoadMore() {
+            const loadMoreBtn = document.getElementById("load-more");
+            let page = 1;
+
+            loadMoreBtn.addEventListener("click", function () {
+                // Simulate loading more products
+                loadMoreBtn.innerHTML = `
+                                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                    </svg>
+                                                    Loading More...
+                                                `;
+
+                setTimeout(() => {
+                    // Add more products here
+                    page++;
+                    loadMoreBtn.innerHTML = `
+                                                        Load More Deals
+                                                        <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                                        </svg>
+                                                    `;
+
+                    // Update showing count
+                    const currentCount = parseInt(
+                        document.getElementById("showing-count").textContent
+                    );
+                    document.getElementById("showing-count").textContent =
+                        currentCount + 8;
+
+                    if (page >= 5) {
+                        loadMoreBtn.style.display = "none";
+                        const noMoreMsg = document.createElement("p");
+                        noMoreMsg.className = "text-center text-gray-600 mt-8";
+                        noMoreMsg.textContent =
+                            "You've reached the end of flash deals! Check back soon for more.";
+                        loadMoreBtn.parentNode.appendChild(noMoreMsg);
+                    }
+                }, 2000);
+            });
+        }
+
+        // Initialize all functionality
+        document.addEventListener("DOMContentLoaded", function () {
+
+            initFilters();
+            initViewToggle();
+            initLoadMore();
+        });
+    </script>
 @endsection
