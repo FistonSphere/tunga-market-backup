@@ -18,7 +18,7 @@ public function index()
     // Fetch deals that still end in the future
     $flashDeals = FlashDeal::with('product')
         ->where('end_time', '>', now())
-        ->paginate(2);
+        ->paginate(4);
 
     // Stats
     $totalDeals = $flashDeals->count();
@@ -167,7 +167,7 @@ public function index()
 public function loadMore(Request $request) 
 {
     $page = (int) $request->get('page', 1);
-    $perPage = 2;
+    $perPage = 4;
 
     // Corrected skip calculation
     $skip = ($page - 1) * $perPage;
