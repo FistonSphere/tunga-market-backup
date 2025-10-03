@@ -72,36 +72,30 @@
     </section>
 
     <!-- Live Activity Feed -->
-    <section class="bg-primary-50 py-4 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center space-x-2 text-primary">
-                <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
-                <span class="text-sm font-medium">LIVE:</span>
-            </div>
-            <div class="activity-feed flex space-x-8 mt-2 animate-scroll">
-                <div class="flex-shrink-0 text-sm text-secondary-600">
-                    <span class="font-semibold text-primary">Sarah M.</span> just saved
-                    $45 on Wireless Earbuds
+    @if(!$activities->isEmpty())
+        <section class="bg-primary-50 py-4 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center space-x-2 text-primary">
+                    <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                    <span class="text-sm font-medium">LIVE:</span>
                 </div>
-                <div class="flex-shrink-0 text-sm text-secondary-600">
-                    <span class="font-semibold text-primary">Tech Store</span> added 50
-                    new flash deals
-                </div>
-                <div class="flex-shrink-0 text-sm text-secondary-600">
-                    <span class="font-semibold text-primary">Mike R.</span> got 70% OFF
-                    on Smart Home Hub
-                </div>
-                <div class="flex-shrink-0 text-sm text-secondary-600">
-                    <span class="font-semibold text-primary">Lisa K.</span> purchased 3
-                    items with flash discounts
-                </div>
-                <div class="flex-shrink-0 text-sm text-secondary-600">
-                    <span class="font-semibold text-primary">Global Electronics</span>
-                    flash sale ends in 2 hours
+
+                <div class="activity-feed flex space-x-8 mt-2 animate-scroll">
+                    @forelse($activities as $activity)
+                        <div class="flex-shrink-0 text-sm text-secondary-600">
+                            {!! $activity['message'] !!}
+                        </div>
+                    @empty
+                        <div class="flex-shrink-0 text-sm text-secondary-600">
+                            No live activity yet — check back soon!
+                        </div>
+                    @endforelse
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
+
+
 
     <!-- Filters and Sorting Section -->
     <section class="bg-white border-b border-gray-200 sticky top-16 z-40">
@@ -838,22 +832,22 @@
             loadMoreBtn.addEventListener("click", function () {
                 // Simulate loading more products
                 loadMoreBtn.innerHTML = `
-                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Loading More...
-                            `;
+                                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Loading More...
+                                    `;
 
                 setTimeout(() => {
                     // Add more products here
                     page++;
                     loadMoreBtn.innerHTML = `
-                                    Load More Deals
-                                    <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-                                    </svg>
-                                `;
+                                            Load More Deals
+                                            <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                            </svg>
+                                        `;
 
                     // Update showing count
                     const currentCount = parseInt(
