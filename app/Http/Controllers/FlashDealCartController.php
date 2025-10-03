@@ -18,7 +18,7 @@ public function index()
     // Fetch deals that still end in the future
     $flashDeals = FlashDeal::with('product')
         ->where('end_time', '>', now())
-        ->get();
+        ->paginate(4);
 
     // Stats
     $totalDeals = $flashDeals->count();
