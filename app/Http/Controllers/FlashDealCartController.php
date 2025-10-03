@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\FlashDeal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class FlashDealCartController extends Controller
 {
 
-use Carbon\Carbon;
+
 
 public function index()
 {
@@ -54,13 +55,14 @@ public function index()
 
     // convert to epoch milliseconds to avoid any client timezone parsing issues
     $nearestEndMs = $nearestEnd ? ($nearestEnd->getTimestamp() * 1000) : null;
-
+$timeLeft   = $nearestEnd ? now()->diff($nearestEnd)->format('%ad %hh %im') : '—';
     return view('frontend.deals.flash_deals_showcase', compact(
         'flashDeals',
         'totalDeals',
         'totalSavings',
         'avgDiscount',
-        'nearestEndMs'
+        'nearestEndMs',
+        'timeLeft'
     ));
 }
 
