@@ -669,54 +669,54 @@
     @endif
     <script>
         // Flash Sale Countdown Timer
-        function initFlashSaleCountdown() {
-            const now = new Date().getTime();
-            const countDownDate =
-                now +
-                2 * 24 * 60 * 60 * 1000 +
-                14 * 60 * 60 * 1000 +
-                23 * 60 * 1000 +
-                45 * 1000;
+        // function initFlashSaleCountdown() {
+        //     const now = new Date().getTime();
+        //     const countDownDate =
+        //         now +
+        //         2 * 24 * 60 * 60 * 1000 +
+        //         14 * 60 * 60 * 1000 +
+        //         23 * 60 * 1000 +
+        //         45 * 1000;
 
-            const countdown = setInterval(function () {
-                const now = new Date().getTime();
-                const distance = countDownDate - now;
+        //     const countdown = setInterval(function () {
+        //         const now = new Date().getTime();
+        //         const distance = countDownDate - now;
 
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor(
-                    (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-                );
-                const minutes = Math.floor(
-                    (distance % (1000 * 60 * 60)) / (1000 * 60)
-                );
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        //         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        //         const hours = Math.floor(
+        //             (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        //         );
+        //         const minutes = Math.floor(
+        //             (distance % (1000 * 60 * 60)) / (1000 * 60)
+        //         );
+        //         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                document.getElementById("flash-days").innerHTML = String(
-                    days
-                ).padStart(2, "0");
-                document.getElementById("flash-hours").innerHTML = String(
-                    hours
-                ).padStart(2, "0");
-                document.getElementById("flash-minutes").innerHTML = String(
-                    minutes
-                ).padStart(2, "0");
-                document.getElementById("flash-seconds").innerHTML = String(
-                    seconds
-                ).padStart(2, "0");
+        //         document.getElementById("flash-days").innerHTML = String(
+        //             days
+        //         ).padStart(2, "0");
+        //         document.getElementById("flash-hours").innerHTML = String(
+        //             hours
+        //         ).padStart(2, "0");
+        //         document.getElementById("flash-minutes").innerHTML = String(
+        //             minutes
+        //         ).padStart(2, "0");
+        //         document.getElementById("flash-seconds").innerHTML = String(
+        //             seconds
+        //         ).padStart(2, "0");
 
-                if (distance < 0) {
-                    clearInterval(countdown);
-                    document.querySelector(
-                        ".bg-gradient-to-br.from-accent"
-                    ).innerHTML = `
-                                <div class="text-center">
-                                    <h3 class="text-2xl font-bold mb-4">🎉 Flash Sale Extended!</h3>
-                                    <p class="text-lg">Due to popular demand, we've extended our flash sale!</p>
-                                </div>
-                            `;
-                }
-            }, 1000);
-        }
+        //         if (distance < 0) {
+        //             clearInterval(countdown);
+        //             document.querySelector(
+        //                 ".bg-gradient-to-br.from-accent"
+        //             ).innerHTML = `
+        //                         <div class="text-center">
+        //                             <h3 class="text-2xl font-bold mb-4">🎉 Flash Sale Extended!</h3>
+        //                             <p class="text-lg">Due to popular demand, we've extended our flash sale!</p>
+        //                         </div>
+        //                     `;
+        //         }
+        //     }, 1000);
+        // }
 
 
 
