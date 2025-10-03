@@ -102,6 +102,13 @@ public function index()
     // Shuffle so feed feels alive
     $activities = $activities->shuffle()->take(10);
 
+    $featuredDeals = FlashDeal::with('product')
+        ->where('is_active', 1)
+        ->where('start_time', '<=', $now)
+        ->where('end_time', '>', $now)
+        ->orderByDesc('discount_percent') // top discounts first
+        ->take(6) // limit for carousel
+        ->get();
     return view('frontend.deals.flash_deals_showcase', compact(
         'flashDeals',
         'totalDeals',
@@ -110,6 +117,7 @@ public function index()
         'nearestEndMs',
         'timeLeft',
         'activities',
+        'featuredDeals',
     ));
 }
 
