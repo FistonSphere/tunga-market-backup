@@ -100,3 +100,63 @@
         </div>
     </div>
 </div>
+
+<!-- Product Detail Modal -->
+<div id="productModal"
+    class="fixed inset-0 z-50 hidden overflow-y-auto bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-start pt-16 px-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full overflow-hidden relative">
+        <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <div id="modalContent" class="p-6 flex flex-col md:flex-row gap-6">
+            <!-- Left: Images -->
+            <div class="md:w-1/2">
+                <img id="modalMainImage" src="" alt="Product Image" class="w-full h-80 object-cover rounded-lg mb-4">
+                <div id="modalGallery" class="flex gap-2 overflow-x-auto">
+                    <!-- Thumbnails appended dynamically -->
+                </div>
+            </div>
+
+            <!-- Right: Details -->
+            <div class="md:w-1/2 flex flex-col gap-4">
+                <h2 id="modalName" class="text-2xl font-bold text-primary"></h2>
+                <div class="flex items-center gap-3">
+                    <span id="modalPrice" class="text-xl font-bold text-accent"></span>
+                    <span id="modalOldPrice" class="text-gray-400 line-through"></span>
+                    <span id="modalDiscount"
+                        class="text-xs bg-accent-100 text-accent px-2 py-1 rounded-full font-semibold"></span>
+                </div>
+
+                <div id="modalRating" class="flex items-center gap-2 text-yellow-400">
+                    <!-- Stars appended dynamically -->
+                </div>
+
+                <p id="modalDescription" class="text-gray-600"></p>
+
+                <div id="modalSpecs" class="text-sm text-gray-700">
+                    <!-- Specifications appended dynamically -->
+                </div>
+
+                <div id="modalFeatures" class="text-sm text-gray-700">
+                    <!-- Features appended dynamically -->
+                </div>
+
+                <div class="flex gap-2 mt-4">
+                    <button class="btn-primary flex-1 py-2">Add to Cart</button>
+                    <button class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-fast">
+                        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </button>
+                    <button class="btn-accent flex-1 py-2">Buy Now</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
