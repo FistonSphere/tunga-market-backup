@@ -56,13 +56,59 @@ public function index()
     // convert to epoch milliseconds to avoid any client timezone parsing issues
     $nearestEndMs = $nearestEnd ? ($nearestEnd->getTimestamp() * 1000) : null;
     $timeLeft   = $nearestEnd ? now()->diff($nearestEnd)->format('%ad %hh %im') : '—';
+
+     $discountedProducts = Product::whereNotNull('discount_price')
+        ->inRandomOrder()
+        ->take(5)
+        ->get();
+
+    // 3. Static / predefined daily shopping tips (localized for Rwanda)
+    $tips = [
+        "Always compare delivery fees between Kigali-based shops.",
+        "Check if the seller is registered with RDB before large purchases.",
+        "Prefer using Mobile Money (MoMo) for safe transactions.",
+        "Look for products with return policies — common in Rwanda’s major shops.",
+        "Flash sales usually peak on weekends in Kigali — plan purchases ahead.",
+    ];
+
+    // 4. Merge into activity feed
+    $activities = collect();
+
+    // Add deals
+    foreach ($activeDeals as $deal) {
+        $activities->push([
+            'type' => 'deal',
+            'message' => "{$deal->product->name} now {$deal->discount_percent}% OFF in Flash Sale!",
+        ]);
+    }
+
+    // Add discounted products
+    foreach ($discountedProducts as $product) {
+        $activities->push([
+            'type' => 'discount',
+            'message' => "{$product->name} available at discount price RWF {$product->discount_price}.",
+        ]);
+    }
+
+    // Add random tips
+    foreach ($tips as $tip) {
+        $activities->push([
+            'type' => 'tip',
+            'message' => "💡 Tip: {$tip}",
+        ]);
+    }
+
+    // Shuffle so feed feels alive
+    $activities = $activities->shuffle()->take(10);
+
     return view('frontend.deals.flash_deals_showcase', compact(
         'flashDeals',
         'totalDeals',
         'totalSavings',
         'avgDiscount',
         'nearestEndMs',
-        'timeLeft'
+        'timeLeft',
+        'activities',
     ));
 }
 
