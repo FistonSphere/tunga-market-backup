@@ -189,5 +189,86 @@ public function loadMore(Request $request)
     ]);
 }
 
+public function filter(Request $request)
+{
+    $query = \App\Models\FlashDeal::with('product')->active();
+
+    // Category filter
+    if ($request->filled('category')) {
+        $query->whereHas('product', function ($q) use ($request) {
+            $q->where('category', $request->category);
+        });
+    }
+
+    // Discount filter
+    if ($request->filled('discount')) {
+        $query->where('discount_percent', '>=', (int) $request->discount);
+    }
+
+    // Price filter
+    if ($request->filled('price')) {
+        $price = $request->price;
+        if (strpos($price, '-') !== false) {
+            [$min, $max] = explode('-', $price);
+            $query->whereBetween('flash_price', [(float) $min, (float) $max]);
+        } elseif ($price === '100+') {
+            $query->where('flash_price', '>=', 100);
+        }
+    }
+
+    // Time remaining filter
+    if ($request->filled('time')) {
+        $now = now();
+        switch ($request->time) {
+            case '1h':
+                $query->where('end_date', '<=', $now->addHour());
+                break;
+            case '6h':
+                $query->where('end_date', '<=', $now->addHours(6));
+                break;
+            case '1d':
+                $query->where('end_date', '<=', $now->addDay());
+                break;
+            case '3d':
+                $query->where('end_date', '<=', $now->addDays(3));
+                break;
+        }
+    }
+
+    // Sorting
+    switch ($request->sort) {
+        case 'ending-soon':
+            $query->orderBy('end_date', 'asc');
+            break;
+        case 'highest-discount':
+            $query->orderBy('discount_percent', 'desc');
+            break;
+        case 'lowest-price':
+            $query->orderBy('flash_price', 'asc');
+            break;
+        case 'highest-rating':
+            $query->orderByDesc('product.average_rating');
+            break;
+        case 'most-popular':
+            $query->orderByDesc('views_count'); // Assuming you have this field
+            break;
+    }
+
+    $deals = $query->get();
+
+    return response()->json([
+        'deals' => $deals->map(function ($deal) {
+            return [
+                'id' => $deal->id,
+                'name' => $deal->product->name,
+                'image' => $deal->product->main_image,
+                'price' => $deal->product->price,
+                'flash_price' => $deal->flash_price,
+                'discount_percent' => $deal->discount_percent,
+                'end_date' => $deal->end_date,
+            ];
+        }),
+    ]);
+}
 
 }
