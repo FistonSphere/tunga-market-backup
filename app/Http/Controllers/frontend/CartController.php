@@ -369,12 +369,11 @@ public function addToCartDeal(Request $request)
         if (!Auth::check()) {
             return response()->json(['error' => 'unauthenticated'], 401);
         }
-
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'deal_id' => 'nullable|exists:flash_deals,id',
         ]);
-
+dd($request->all());
         $user = Auth::user();
         $product = Product::findOrFail($request->product_id);
 

@@ -676,6 +676,8 @@
 
         }
 
+        
+        
         function goToSignIn() {
             window.location.href = '{{ route('login') }}'; // or your custom sign-in route
         }

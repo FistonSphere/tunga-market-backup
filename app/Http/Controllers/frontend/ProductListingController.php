@@ -277,12 +277,15 @@ public function filter(Request $request)
 
 public function details(Product $product)
 {
+    $deal = $product->flashDeals()->active()->latest()->first();
+
     return response()->json([
         'id' => $product->id,
         'name' => $product->name,
-        'price' => Number_format($product->price),
-        'flash_price' => number_format(optional($product->flashDeals()->active()->latest()->first())->flash_price ?? $product->price),
-        'discount_percent' => optional($product->flashDeals()->active()->latest()->first())->discount_percent ?? 0,
+        'price' => (float) $product->price,
+        'flash_price' => (float) ($deal->flash_price ?? $product->price),
+        'discount_percent' => $deal->discount_percent ?? 0,
+        'deal_id' => $deal ? $deal->id : null, // ✅ Include deal_id
         'description' => $product->long_description ?? $product->short_description,
         'main_image' => $product->main_image ?? asset('assets/images/no-image.png'),
         'gallery' => $product->gallery ?? [],
@@ -291,5 +294,6 @@ public function details(Product $product)
         'average_rating' => $product->average_rating,
     ]);
 }
+
 
 }
