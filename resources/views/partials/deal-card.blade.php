@@ -97,7 +97,8 @@
 
 <!-- Product Detail Modal -->
 <div id="productModal"
-    class="fixed inset-0 hidden overflow-y-auto bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-start pt-16 px-4" style="z-index: 999999;">
+    class="fixed inset-0 hidden overflow-y-auto bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-start pt-16 px-4"
+    style="z-index: 999999;">
     <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full overflow-hidden relative" style="margin-top: 2em;">
         <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -109,7 +110,8 @@
         <div id="modalContent" class="p-6 flex flex-col md:flex-row gap-6">
             <!-- Left: Images -->
             <div class="md:w-1/2" style="">
-                <img id="modalMainImage" src="" alt="Product Image" class="object-cover rounded-lg mb-4" style="width:400px; height:300px; object-fit:cover" />
+                <img id="modalMainImage" src="" alt="Product Image" class="object-cover rounded-lg mb-4"
+                    style="width:400px; height:300px; object-fit:cover" />
                 <div id="modalGallery" class="flex gap-2 overflow-x-auto">
                     <!-- Thumbnails appended dynamically -->
                 </div>
@@ -141,7 +143,11 @@
 
                 <div class="flex gap-2 mt-4">
                     <button id="addToCartBtn" class="btn-primary flex-1 py-2">Add to Cart</button>
-                    <button class="btn-accent flex-1 py-2" style="background: #011529; border-radius: 10px; color: #fff;">Buy Now</button>
+                    <button id="buyNowBtn" class="btn-accent flex-1 py-2"
+                        style="background: #011529; border-radius: 10px; color: #fff;">
+                        Buy Now
+                    </button>
+
                 </div>
 
             </div>
