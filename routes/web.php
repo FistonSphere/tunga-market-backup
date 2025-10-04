@@ -89,7 +89,7 @@ Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-o
 Route::post('/login', [AuthController::class, 'login'])->name('login-user');
 
 
-Route::post('/flash-deals/cart/add', [CartController::class, 'addToCartDeal'])->name('cart.add');
+Route::post('/flash-deals/cart/add', [CartController::class, 'addToCartDeal'])->name('cart.add.deal');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/orders/{order}', [OrderTrackingController::class, 'show'])->name('orders.show');
     Route::get('/user/profile', [AuthController::class, 'profile'])->name('user.profile');
