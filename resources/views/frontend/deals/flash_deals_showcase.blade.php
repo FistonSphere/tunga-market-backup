@@ -684,6 +684,45 @@
         function continueBrowsing() {
             document.getElementById('login-warning-modal-wrapper2').classList.add('hidden');
         }
+        function buyNow(productId, dealId = null) {
+            fetch('{{ route('cart.add.deal') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    deal_id: dealId,
+                }),
+            })
+                .then(async (res) => {
+                    if (res.status === 401) {
+                        // Not logged in
+                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+                        return;
+                    }
+
+                    let data;
+                    try {
+                        data = await res.json();
+                    } catch {
+                        showNotify('error', 'Something went wrong while adding to cart.');
+                        return;
+                    }
+
+                    if (res.ok) {
+                        showNotify('success', 'Redirecting to checkout...');
+                        // ✅ Redirect to checkout after short delay
+                        setTimeout(() => {
+                            window.location.href = '/checkout';
+                        }, 800);
+                    } else {
+                        showNotify('error', data.message || 'Failed to add to cart.');
+                    }
+                })
+                .catch(() => showNotify('error', 'Network error while processing Buy Now.'));
+        }
 
 
         function showNotify(type, message) {
@@ -722,9 +761,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                        <div class="font-semibold">${styles[type].title}</div>
-                                                        <div class="text-sm opacity-90">${message}</div>
-                                                    `;
+                                                            <div class="font-semibold">${styles[type].title}</div>
+                                                            <div class="text-sm opacity-90">${message}</div>
+                                                        `;
 
             // Progress bar
             const progress = document.createElement("div");
