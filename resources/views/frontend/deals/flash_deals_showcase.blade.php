@@ -609,6 +609,20 @@
                         }
                     }, 100);
 
+                    setTimeout(() => {
+                        const addToCartBtn = document.getElementById('addToCartBtn');
+                        const buyNowBtn = document.getElementById('buyNowBtn');
+
+                        if (addToCartBtn) {
+                            addToCartBtn.onclick = () => addToCart(data.id, data.deal_id || null);
+                        }
+
+                        if (buyNowBtn) {
+                            buyNowBtn.onclick = () => buyNow(data.id, data.deal_id || null);
+                        }
+                    }, 100);
+
+
                 })
                 .catch(err => console.error(err));
         }
@@ -708,9 +722,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                    <div class="font-semibold">${styles[type].title}</div>
-                                                    <div class="text-sm opacity-90">${message}</div>
-                                                `;
+                                                        <div class="font-semibold">${styles[type].title}</div>
+                                                        <div class="text-sm opacity-90">${message}</div>
+                                                    `;
 
             // Progress bar
             const progress = document.createElement("div");
