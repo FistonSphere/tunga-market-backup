@@ -280,8 +280,8 @@ public function details(Product $product)
     return response()->json([
         'id' => $product->id,
         'name' => $product->name,
-        'price' => $product->price,
-        'flash_price' => optional($product->flashDeals()->active()->latest()->first())->flash_price ?? $product->price,
+        'price' => Number_format($product->price),
+        'flash_price' => number_format(optional($product->flashDeals()->active()->latest()->first())->flash_price ?? $product->price),
         'discount_percent' => optional($product->flashDeals()->active()->latest()->first())->discount_percent ?? 0,
         'description' => $product->long_description ?? $product->short_description,
         'main_image' => $product->main_image ?? asset('assets/images/no-image.png'),
