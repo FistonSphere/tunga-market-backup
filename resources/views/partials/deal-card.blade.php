@@ -114,7 +114,7 @@
 
         <div id="modalContent" class="p-6 flex flex-col md:flex-row gap-6">
             <!-- Left: Images -->
-            <div class="md:w-1/2">
+            <div class="md:w-1/2" style="width:1000px;">
                 <img id="modalMainImage" src="" alt="Product Image" class="w-full h-80 object-cover rounded-lg mb-4">
                 <div id="modalGallery" class="flex gap-2 overflow-x-auto">
                     <!-- Thumbnails appended dynamically -->
