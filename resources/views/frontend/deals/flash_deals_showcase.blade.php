@@ -565,9 +565,18 @@
 
                     // Show modal
                     document.getElementById('productModal').classList.remove('hidden');
-                    // Attach click event for Add to Cart
-                    const addToCartBtn = document.getElementById('addToCartBtn');
-                    addToCartBtn.onclick = () => addToCart(data.id, data.deal_id || null);
+                    
+                    setTimeout(() => {
+                        const addToCartBtn = document.getElementById('addToCartBtn');
+                        if (addToCartBtn) {
+                            addToCartBtn.onclick = () => {
+                                console.log("Add to Cart clicked for product:", data.id); // Debug
+                                addToCart(data.id, data.deal_id || null);
+                            };
+                        } else {
+                            console.error("Add to Cart button not found!");
+                        }
+                    }, 100);
 
                 })
                 .catch(err => console.error(err));
@@ -593,6 +602,7 @@
                 }),
             })
                 .then(async (res) => {
+                    console.log("Fetch response:", res.status);
                     if (res.status === 401) {
                         // Not authenticated
                         document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
@@ -600,6 +610,7 @@
                     }
 
                     const data = await res.json();
+                    console.log("Response data:", data);
                     if (res.ok) {
                         showNotify('success', data.message || 'Added to cart successfully!');
                     } else {
@@ -654,9 +665,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                        <div class="font-semibold">${styles[type].title}</div>
-                        <div class="text-sm opacity-90">${message}</div>
-                    `;
+                            <div class="font-semibold">${styles[type].title}</div>
+                            <div class="text-sm opacity-90">${message}</div>
+                        `;
 
             // Progress bar
             const progress = document.createElement("div");
