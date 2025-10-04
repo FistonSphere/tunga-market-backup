@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Category;
 use App\Models\FlashDeal;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -109,6 +110,56 @@ public function index()
         ->orderByDesc('discount_percent') // top discounts first
         ->take(6) // limit for carousel
         ->get();
+
+
+     // Get category IDs from products in flash deals
+$categoryIds = Product::whereIn('id', $flashDeals->pluck('product_id'))
+    ->pluck('category_id')
+    ->unique()
+    ->values();
+
+// Fetch actual category names
+$categories = Category::whereIn('id', $categoryIds)
+    ->pluck('name')
+    ->unique()
+    ->values();
+
+
+    // Dynamic price ranges based on existing flash deal prices
+    $prices = Product::whereIn('id', $flashDeals->pluck('product_id'))
+        ->pluck('price')
+        ->toArray();
+
+    $minPrice = floor(min($prices));
+    $maxPrice = ceil(max($prices));
+
+    // Create dynamic price range brackets based on real data
+    $priceRanges = [];
+    if ($maxPrice > 0) {
+        $step = max(25, ceil($maxPrice / 4));
+        for ($i = 0; $i < $maxPrice; $i += $step) {
+            $start = $i;
+            $end = min($i + $step, $maxPrice);
+            $priceRanges[] = "{$start}-{$end}";
+        }
+        $priceRanges[] = "{$maxPrice}+";
+    }
+
+    // Dynamic discount percentages from flash deals
+    $discounts = FlashDeal::selectRaw('DISTINCT FLOOR(discount_percent/10)*10 as discount_group')
+        ->pluck('discount_group')
+        ->sortDesc()
+        ->values();
+
+    // Dynamic time remaining categories based on deal end times
+    $now = now();
+    $timeCategories = collect([
+        '1h' => FlashDeal::where('end_time', '<=', $now->copy()->addHour())->exists(),
+        '6h' => FlashDeal::where('end_time', '<=', $now->copy()->addHours(6))->exists(),
+        '1d' => FlashDeal::where('end_time', '<=', $now->copy()->addDay())->exists(),
+        '3d' => FlashDeal::where('end_time', '<=', $now->copy()->addDays(3))->exists(),
+    ])->filter()->keys(); // Only keep time filters that actually have results
+
     return view('frontend.deals.flash_deals_showcase', compact(
         'flashDeals',
         'totalDeals',
@@ -117,7 +168,11 @@ public function index()
         'nearestEndMs',
         'timeLeft',
         'activities',
-        'featuredDeals',
+        'featuredDeals', 
+        'categories', 
+        'discounts', 
+        'priceRanges', 
+        'timeCategories'
     ));
 }
 
@@ -194,10 +249,21 @@ public function filter(Request $request)
     $query = FlashDeal::with('product');
 
     // CATEGORY FILTER
+     // Filter by category name
     if ($request->filled('category')) {
-        $query->whereHas('product', function ($q) use ($request) {
-            $q->where('category', $request->category);
-        });
+        $category = Category::where('name', $request->category)->first();
+
+        if ($category) {
+            $query->whereHas('product', function ($q) use ($category) {
+                $q->where('category_id', $category->id);
+            });
+        } else {
+            // No matching category — no deals to return
+            return response()->json([
+                'html' => '',
+                'hasMore' => false,
+            ]);
+        }
     }
 
     // DISCOUNT FILTER
