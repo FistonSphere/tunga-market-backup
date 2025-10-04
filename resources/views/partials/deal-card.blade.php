@@ -146,7 +146,7 @@
                 </div>
 
                 <div class="flex gap-2 mt-4">
-                    <button class="btn-primary flex-1 py-2">Add to Cart</button>
+                    <button id="addToCartBtn" class="btn-primary flex-1 py-2">Add to Cart</button>
                     <button class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-fast">
                         <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
