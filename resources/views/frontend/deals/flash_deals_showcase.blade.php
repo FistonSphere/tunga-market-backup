@@ -451,7 +451,7 @@
             </div>
         </div>
     </div>
-
+    <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
     @if($nearestEndMs)
         <script>
             (function () {
@@ -721,9 +721,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                    <div class="font-semibold">${styles[type].title}</div>
-                                    <div class="text-sm opacity-90">${message}</div>
-                                `;
+                                            <div class="font-semibold">${styles[type].title}</div>
+                                            <div class="text-sm opacity-90">${message}</div>
+                                        `;
 
             // Progress bar
             const progress = document.createElement("div");
