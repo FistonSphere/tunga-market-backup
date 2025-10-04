@@ -43,6 +43,7 @@ class HomeController extends Controller
          $flashDeals = FlashDeal::with('product')
         ->where('is_active', 1)
         // ->where('end_time', '>=', $now)
+        ->limit(4)
         ->get();
 
         // split active vs upcoming

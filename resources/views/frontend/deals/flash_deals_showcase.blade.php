@@ -1,7 +1,53 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
 
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes progressAnim {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.4s ease-out forwards;
+        }
+
+        .animate-fade-out {
+            animation: fadeOut 0.6s ease-in forwards;
+        }
+
+        .animate-progress {
+            animation: progressAnim 3.5s linear forwards;
+        }
+    </style>
     <!-- Flash Deals Hero Section -->
     <section class="bg-gradient-to-br from-accent via-accent-600 to-primary text-white py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -590,7 +636,7 @@
 
         // Function to add to cart
         function addToCart(productId, dealId = null) {
-            fetch('/flash-deals/cart/add', {
+            fetch('{{ route('cart.add.deal') }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -605,7 +651,7 @@
                     console.log("Fetch response:", res.status);
 
                     // Detect redirect or unauthorized
-                    if (res.status === 401 || res.redirected || res.url.includes('/login')) {
+                    if (res.status === 401) {
                         document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
                         return;
                     }
@@ -675,9 +721,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                <div class="font-semibold">${styles[type].title}</div>
-                                <div class="text-sm opacity-90">${message}</div>
-                            `;
+                                    <div class="font-semibold">${styles[type].title}</div>
+                                    <div class="text-sm opacity-90">${message}</div>
+                                `;
 
             // Progress bar
             const progress = document.createElement("div");

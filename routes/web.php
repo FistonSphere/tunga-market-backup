@@ -80,8 +80,7 @@ Route::get('/products/{product}/reviews', [ReviewController::class, 'fetchFilter
 Route::get('/orders/search/{orderNo}', [OrderTrackingController::class, 'searchByOrderNo'])
     ->name('orders.search');
 Route::get('/flash-deals', [FlashDealCartController::class, 'index'])
-    ->name('
-    ');
+    ->name('flash-deals.showcase');
     Route::get('/flash-deals/load', [FlashDealCartController::class, 'loadMore'])->name('flash-deals.load');
 // Start Authentication routes
 Route::post('/register', [AuthController::class, 'register'])->name('register-user');
@@ -89,7 +88,7 @@ Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-o
 Route::post('/login', [AuthController::class, 'login'])->name('login-user');
 
 
-Route::post('/flash-deals/cart/add', [CartController::class, 'addToCartDeal'])->name('cart.add.deal');
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/orders/{order}', [OrderTrackingController::class, 'show'])->name('orders.show');
     Route::get('/user/profile', [AuthController::class, 'profile'])->name('user.profile');
@@ -156,3 +155,4 @@ Route::prefix('orders')->group(function () {
 });
 Route::get('/receipt/verify/{order}', action: [OrderDocumentController::class, 'verifyReceipt'])->name('receipt.verify');
 Route::get('/orders/{id}/get-order-no', [OrderTrackingController::class, 'getOrderNo']);
+Route::post('/flash-deals/cart/add', [CartController::class, 'addToCartDeal'])->name('cart.add.deal');
