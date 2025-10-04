@@ -189,5 +189,84 @@ public function loadMore(Request $request)
     ]);
 }
 
+public function filter(Request $request)
+{
+    $query = FlashDeal::with('product');
+
+    // CATEGORY FILTER
+    if ($request->filled('category')) {
+        $query->whereHas('product', function ($q) use ($request) {
+            $q->where('category', $request->category);
+        });
+    }
+
+    // DISCOUNT FILTER
+    if ($request->filled('discount')) {
+        $query->where('discount_percent', '>=', (int) $request->discount);
+    }
+
+    // PRICE FILTER
+    if ($request->filled('price')) {
+        $range = explode('-', $request->price);
+        if (count($range) === 2) {
+            $query->whereHas('product', function ($q) use ($range) {
+                $q->whereBetween('price', [$range[0], $range[1]]);
+            });
+        } elseif (str_contains($request->price, '+')) {
+            $min = (int) rtrim($request->price, '+');
+            $query->whereHas('product', function ($q) use ($min) {
+                $q->where('price', '>=', $min);
+            });
+        }
+    }
+
+    // TIME FILTER
+    if ($request->filled('time')) {
+        $now = now();
+        switch ($request->time) {
+            case '1h': $query->where('end_time', '<=', $now->addHour()); break;
+            case '6h': $query->where('end_time', '<=', $now->addHours(6)); break;
+            case '1d': $query->where('end_time', '<=', $now->addDay()); break;
+            case '3d': $query->where('end_time', '<=', $now->addDays(3)); break;
+        }
+    }
+
+    // SORTING
+    switch ($request->sort) {
+        case 'ending-soon':
+            $query->orderBy('end_time', 'asc');
+            break;
+        case 'highest-discount':
+            $query->orderBy('discount_percent', 'desc');
+            break;
+        case 'lowest-price':
+            $query->join('products', 'flash_deals.product_id', '=', 'products.id')
+                  ->orderBy('products.price', 'asc')
+                  ->select('flash_deals.*');
+            break;
+        case 'highest-rating':
+            $query->join('products', 'flash_deals.product_id', '=', 'products.id')
+                  ->orderBy('products.rating', 'desc')
+                  ->select('flash_deals.*');
+            break;
+        case 'most-popular':
+            $query->orderBy('views', 'desc');
+            break;
+        default:
+            $query->orderBy('created_at', 'desc');
+    }
+
+    // FETCH RESULTS
+    $flashDeals = $query->take(12)->get();
+
+    $html = '';
+    foreach ($flashDeals as $deal) {
+        $html .= view('partials.deal-card', compact('deal'))->render();
+    }
+
+    return response()->json([
+        'html' => $html
+    ]);
+}
 
 }

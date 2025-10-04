@@ -761,9 +761,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                            <div class="font-semibold">${styles[type].title}</div>
-                                                            <div class="text-sm opacity-90">${message}</div>
-                                                        `;
+                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                <div class="text-sm opacity-90">${message}</div>
+                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -785,6 +785,43 @@
         }
 
 
+        document.addEventListener("DOMContentLoaded", function () {
+            const filters = ["category", "discount", "price", "time", "sort"];
+            const productsGrid = document.getElementById("products-grid");
+            const clearBtn = document.getElementById("clear-filters");
+
+            // Listen for changes in any filter
+            filters.forEach(filter => {
+                document.getElementById(`${filter}-filter`)?.addEventListener("change", fetchFlashDeals);
+            });
+
+            // Clear all filters
+            clearBtn?.addEventListener("click", () => {
+                filters.forEach(filter => {
+                    document.getElementById(`${filter}-filter`).value = "";
+                });
+                fetchFlashDeals();
+            });
+
+            function fetchFlashDeals() {
+                const params = {
+                    category: document.getElementById("category-filter").value,
+                    discount: document.getElementById("discount-filter").value,
+                    price: document.getElementById("price-filter").value,
+                    time: document.getElementById("time-filter").value,
+                    sort: document.getElementById("sort-filter").value,
+                };
+
+                const query = new URLSearchParams(params).toString();
+
+                fetch(`/flash-deals/filter?${query}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        productsGrid.innerHTML = data.html || "<p class='text-center text-gray-500 py-8'>No deals found.</p>";
+                    })
+                    .catch(err => console.error("Error loading filtered deals:", err));
+            }
+        });
     </script>
 
 
