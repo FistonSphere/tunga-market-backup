@@ -135,6 +135,8 @@ Route::post('/products/{product}/reviews', [ReviewController::class, 'OrderRevie
 Route::post('/flash-deals/cart/add', [FlashDealCartController::class, 'add'])
     ->name('flash-deals.cart.add');
 });
+Route::get('/flash-deals/filter', [FlashDealCartController::class, 'filter'])->name('flash-deals.filter');
+
 Route::get('/flash-deal/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::get('/api/product-id/{slug}', [ComparisonController::class, 'getIdBySlug']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
