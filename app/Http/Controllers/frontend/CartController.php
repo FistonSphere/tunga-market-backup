@@ -373,7 +373,7 @@ public function addToCartDeal(Request $request)
             'product_id' => 'required|exists:products,id',
             'deal_id' => 'nullable|exists:flash_deals,id',
         ]);
-dd($request->all());
+
         $user = Auth::user();
         $product = Product::findOrFail($request->product_id);
 
