@@ -144,10 +144,75 @@
 
 
     <!-- Filters and Sorting Section -->
-    <section id="flash-deals-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-6">
-        <!-- Flash deals will be dynamically inserted here -->
-    </section>
+    <section class="bg-white border-b border-gray-200 sticky top-16 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+                <!-- Filters -->
+                <div class="flex flex-wrap items-center space-x-4">
+                    <div class="relative">
+                        <select id="category-filter"
+                            class="bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
 
+                        </select>
+                    </div>
+
+                    <div class="relative">
+                        <select id="discount-filter"
+                            class="bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
+
+                        </select>
+                    </div>
+
+                    <div class="relative">
+                        <select id="price-filter"
+                            class="bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
+
+                        </select>
+                    </div>
+
+                    <div class="relative">
+                        <select id="time-filter"
+                            class="bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
+
+                        </select>
+                    </div>
+
+                    <button id="clear-filters" class="text-accent hover:text-accent-600 text-sm font-medium">
+                        Clear All
+                    </button>
+                </div>
+
+                <!-- Sorting and View Options -->
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600">Sort by:</span>
+                        <select id="sort-filter"
+                            class="bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
+                            <option value="ending-soon">Ending Soon</option>
+                            <option value="highest-discount">Highest Discount</option>
+                            <option value="lowest-price">Lowest Price</option>
+                            <option value="highest-rating">Highest Rating</option>
+                            <option value="most-popular">Most Popular</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center space-x-1 border-l pl-4">
+                        <button id="grid-view" class="p-2 text-accent bg-accent-50 rounded-lg">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z" />
+                            </svg>
+                        </button>
+                        <button id="list-view" class="p-2 text-gray-400 hover:text-accent rounded-lg">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Featured Flash Deals Carousel -->
     <section class="py-8 bg-gradient-to-r from-accent-50 to-primary-50">
@@ -679,9 +744,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                    <div class="font-semibold">${styles[type].title}</div>
-                                                                    <div class="text-sm opacity-90">${message}</div>
-                                                                `;
+                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                <div class="text-sm opacity-90">${message}</div>
+                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");

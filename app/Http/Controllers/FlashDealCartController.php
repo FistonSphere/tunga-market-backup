@@ -191,7 +191,7 @@ public function loadMore(Request $request)
 
 public function filter(Request $request)
 {
-    $query = \App\Models\FlashDeal::with('product')->active();
+    $query = FlashDeal::with('product')->active();
 
     // Category filter
     if ($request->filled('category')) {
