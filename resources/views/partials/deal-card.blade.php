@@ -114,8 +114,8 @@
 
         <div id="modalContent" class="p-6 flex flex-col md:flex-row gap-6">
             <!-- Left: Images -->
-            <div class="md:w-1/2" style="width:1000px;">
-                <img id="modalMainImage" src="" alt="Product Image" class="w-full h-80 object-cover rounded-lg mb-4">
+            <div class="md:w-1/2" style="">
+                <img id="modalMainImage" src="" alt="Product Image" class="object-cover rounded-lg mb-4" style="width:400px; height:300px; object-fit:cover" />
                 <div id="modalGallery" class="flex gap-2 overflow-x-auto">
                     <!-- Thumbnails appended dynamically -->
                 </div>
@@ -153,7 +153,7 @@
                                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                         </svg>
                     </button>
-                    <button class="btn-accent flex-1 py-2">Buy Now</button>
+                    <button class="btn-accent flex-1 py-2" style="background: #011529; border-radius: 10px; color: #fff;">Buy Now</button>
                 </div>
 
             </div>
