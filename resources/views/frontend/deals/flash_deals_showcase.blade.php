@@ -367,7 +367,7 @@
         </div>
     </div>
     <div id="login-warning-modal-wrapper2"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden" style="z-index: 999999;">
         <div id="login-warning-modal"
             class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
             <!-- Close Button -->
@@ -565,7 +565,7 @@
 
                     // Show modal
                     document.getElementById('productModal').classList.remove('hidden');
-                    
+
                     setTimeout(() => {
                         const addToCartBtn = document.getElementById('addToCartBtn');
                         if (addToCartBtn) {
@@ -603,14 +603,23 @@
             })
                 .then(async (res) => {
                     console.log("Fetch response:", res.status);
-                    if (res.status === 401) {
-                        // Not authenticated
+
+                    // Detect redirect or unauthorized
+                    if (res.status === 401 || res.redirected || res.url.includes('/login')) {
                         document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
                         return;
                     }
 
-                    const data = await res.json();
-                    console.log("Response data:", data);
+                    // Try parsing JSON safely
+                    let data;
+                    try {
+                        data = await res.json();
+                    } catch (e) {
+                        console.warn("Non-JSON response, likely a redirect to login page.");
+                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+                        return;
+                    }
+
                     if (res.ok) {
                         showNotify('success', data.message || 'Added to cart successfully!');
                     } else {
@@ -618,10 +627,11 @@
                     }
                 })
                 .catch(() => showNotify('error', 'Something went wrong while adding to cart.'));
+
         }
 
         function goToSignIn() {
-            window.location.href = '/login'; // or your custom sign-in route
+            window.location.href = {{ route('login') }}; // or your custom sign-in route
         }
 
         function continueBrowsing() {
@@ -665,9 +675,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                            <div class="font-semibold">${styles[type].title}</div>
-                            <div class="text-sm opacity-90">${message}</div>
-                        `;
+                                <div class="font-semibold">${styles[type].title}</div>
+                                <div class="text-sm opacity-90">${message}</div>
+                            `;
 
             // Progress bar
             const progress = document.createElement("div");
