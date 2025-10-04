@@ -655,22 +655,22 @@
             loadMoreBtn.addEventListener("click", function () {
                 // Simulate loading more products
                 loadMoreBtn.innerHTML = `
-                                                                                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                                                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                                                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                                                                    </svg>
-                                                                                                    Loading More...
-                                                                                                `;
+                                                                                                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                                                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                                                                            </svg>
+                                                                                                            Loading More...
+                                                                                                        `;
 
                 setTimeout(() => {
                     // Add more products here
                     page++;
                     loadMoreBtn.innerHTML = `
-                                                                                                        Load More Deals
-                                                                                                        <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-                                                                                                        </svg>
-                                                                                                    `;
+                                                                                                                Load More Deals
+                                                                                                                <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                                                                                                </svg>
+                                                                                                            `;
 
                     // Update showing count
                     const currentCount = parseInt(
@@ -776,6 +776,10 @@
 
                     // Show modal
                     document.getElementById('productModal').classList.remove('hidden');
+                    // Attach click event for Add to Cart
+                    const addToCartBtn = document.getElementById('addToCartBtn');
+                    addToCartBtn.onclick = () => addToCart(data.id, data.deal_id || null);
+
                 })
                 .catch(err => console.error(err));
         }
@@ -816,6 +820,13 @@
                 .catch(() => showNotify('error', 'Something went wrong while adding to cart.'));
         }
 
+        function goToSignIn() {
+            window.location.href = '/login'; // or your custom sign-in route
+        }
+
+        function continueBrowsing() {
+            document.getElementById('login-warning-modal-wrapper2').classList.add('hidden');
+        }
 
 
         function showNotify(type, message) {
@@ -854,9 +865,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                <div class="font-semibold">${styles[type].title}</div>
-                <div class="text-sm opacity-90">${message}</div>
-            `;
+                        <div class="font-semibold">${styles[type].title}</div>
+                        <div class="text-sm opacity-90">${message}</div>
+                    `;
 
             // Progress bar
             const progress = document.createElement("div");
