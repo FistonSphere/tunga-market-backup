@@ -275,6 +275,21 @@ public function filter(Request $request)
     ]);
 }
 
-
+public function details(Product $product)
+{
+    return response()->json([
+        'id' => $product->id,
+        'name' => $product->name,
+        'price' => $product->price,
+        'flash_price' => optional($product->flashDeals()->active()->latest()->first())->flash_price ?? $product->price,
+        'discount_percent' => optional($product->flashDeals()->active()->latest()->first())->discount_percent ?? 0,
+        'description' => $product->long_description ?? $product->short_description,
+        'main_image' => $product->main_image ?? asset('assets/images/no-image.png'),
+        'gallery' => $product->gallery ?? [],
+        'specifications' => $product->specifications ?? [],
+        'features' => $product->features ?? [],
+        'average_rating' => $product->average_rating,
+    ]);
+}
 
 }

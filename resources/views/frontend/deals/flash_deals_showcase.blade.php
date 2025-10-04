@@ -577,22 +577,22 @@
             loadMoreBtn.addEventListener("click", function () {
                 // Simulate loading more products
                 loadMoreBtn.innerHTML = `
-                                                                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                                            </svg>
-                                                                            Loading More...
-                                                                        `;
+                                                                                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                                                        </svg>
+                                                                                        Loading More...
+                                                                                    `;
 
                 setTimeout(() => {
                     // Add more products here
                     page++;
                     loadMoreBtn.innerHTML = `
-                                                                                Load More Deals
-                                                                                <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-                                                                                </svg>
-                                                                            `;
+                                                                                            Load More Deals
+                                                                                            <svg class="w-5 h-5 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                                                                            </svg>
+                                                                                        `;
 
                     // Update showing count
                     const currentCount = parseInt(
@@ -624,11 +624,18 @@
 
 
         function openProductModal(productId) {
-            fetch(`/products/flash-deals/${productId}/details`) // create this route in Laravel
+            fetch(`/products/flash-deals/${productId}/details`)
                 .then(res => res.json())
                 .then(data => {
+                    // Parse JSON strings to arrays/objects
+                    const gallery = Array.isArray(data.gallery) ? data.gallery : (data.gallery ? JSON.parse(data.gallery) : []);
+                    const features = Array.isArray(data.features) ? data.features : (data.features ? JSON.parse(data.features) : []);
+                    const specifications = typeof data.specifications === 'object'
+                        ? data.specifications
+                        : (data.specifications ? JSON.parse(data.specifications) : {});
+
                     // Set main image
-                    document.getElementById('modalMainImage').src = data.main_image;
+                    document.getElementById('modalMainImage').src = gallery[0] || data.main_image;
 
                     // Set name and prices
                     document.getElementById('modalName').textContent = data.name;
@@ -642,31 +649,43 @@
                     // Gallery thumbnails
                     const galleryDiv = document.getElementById('modalGallery');
                     galleryDiv.innerHTML = '';
-                    data.gallery.forEach(img => {
-                        const thumb = document.createElement('img');
-                        thumb.src = img;
-                        thumb.className = 'w-20 h-20 object-cover rounded-lg cursor-pointer';
-                        thumb.onclick = () => document.getElementById('modalMainImage').src = img;
-                        galleryDiv.appendChild(thumb);
-                    });
+                    if (gallery.length) {
+                        gallery.forEach(img => {
+                            const thumb = document.createElement('img');
+                            thumb.src = img;
+                            thumb.className = 'w-20 h-20 object-cover rounded-lg cursor-pointer';
+                            thumb.onclick = () => document.getElementById('modalMainImage').src = img;
+                            galleryDiv.appendChild(thumb);
+                        });
+                    } else {
+                        galleryDiv.innerHTML = '<p class="text-gray-400 text-sm">No gallery images available.</p>';
+                    }
 
-                    // Specifications
+                    // Specifications (object)
                     const specsDiv = document.getElementById('modalSpecs');
                     specsDiv.innerHTML = `<h4 class="font-semibold mb-1">Specifications:</h4>`;
-                    data.specifications.forEach(spec => {
-                        const li = document.createElement('p');
-                        li.textContent = `• ${spec}`;
-                        specsDiv.appendChild(li);
-                    });
+                    if (Object.keys(specifications).length) {
+                        for (const [key, value] of Object.entries(specifications)) {
+                            const li = document.createElement('p');
+                            li.textContent = `• ${key}: ${value}`;
+                            specsDiv.appendChild(li);
+                        }
+                    } else {
+                        specsDiv.innerHTML += '<p class="text-gray-400 text-sm">No specifications available.</p>';
+                    }
 
                     // Features
                     const featuresDiv = document.getElementById('modalFeatures');
                     featuresDiv.innerHTML = `<h4 class="font-semibold mb-1">Features:</h4>`;
-                    data.features.forEach(f => {
-                        const li = document.createElement('p');
-                        li.textContent = `• ${f}`;
-                        featuresDiv.appendChild(li);
-                    });
+                    if (features.length) {
+                        features.forEach(f => {
+                            const li = document.createElement('p');
+                            li.textContent = `• ${f}`;
+                            featuresDiv.appendChild(li);
+                        });
+                    } else {
+                        featuresDiv.innerHTML += '<p class="text-gray-400 text-sm">No features available.</p>';
+                    }
 
                     // Ratings
                     const ratingDiv = document.getElementById('modalRating');
@@ -683,9 +702,15 @@
                 .catch(err => console.error(err));
         }
 
+
+
         function closeProductModal() {
             document.getElementById('productModal').classList.add('hidden');
         }
 
+
     </script>
+
+
+
 @endsection
