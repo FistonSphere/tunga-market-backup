@@ -191,84 +191,73 @@ public function loadMore(Request $request)
 
 public function filter(Request $request)
 {
-    $query = FlashDeal::with('product')->active();
+    $query = Product::query()
+        ->whereHas('flashDeals', function($q) {
+            $q->active(); // scopeActive for active flash deals
+        });
 
     // Category filter
-    if ($request->filled('category')) {
-        $query->whereHas('product', function ($q) use ($request) {
-            $q->where('category', $request->category);
-        });
+    if ($request->category) {
+        $query->where('category', $request->category);
     }
 
     // Discount filter
-    if ($request->filled('discount')) {
-        $query->where('discount_percent', '>=', (int) $request->discount);
+    if ($request->discount) {
+        $query->whereHas('flashDeals', function($q) use ($request) {
+            $q->where('discount_percent', '>=', $request->discount);
+        });
     }
 
     // Price filter
-    if ($request->filled('price')) {
-        $price = $request->price;
-        if (strpos($price, '-') !== false) {
-            [$min, $max] = explode('-', $price);
-            $query->whereBetween('flash_price', [(float) $min, (float) $max]);
-        } elseif ($price === '100+') {
+    if ($request->price) {
+        if ($request->price === '100+') {
             $query->where('flash_price', '>=', 100);
+        } else {
+            [$min, $max] = explode('-', $request->price);
+            $query->whereBetween('flash_price', [(int)$min, (int)$max]);
         }
     }
 
     // Time remaining filter
-    if ($request->filled('time')) {
+    if ($request->time) {
         $now = now();
-        switch ($request->time) {
-            case '1h':
-                $query->where('end_date', '<=', $now->addHour());
-                break;
-            case '6h':
-                $query->where('end_date', '<=', $now->addHours(6));
-                break;
-            case '1d':
-                $query->where('end_date', '<=', $now->addDay());
-                break;
-            case '3d':
-                $query->where('end_date', '<=', $now->addDays(3));
-                break;
-        }
+        $query->whereHas('flashDeals', function($q) use ($request, $now) {
+            if ($request->time === '1h') {
+                $q->where('end_date', '<=', $now->copy()->addHour());
+            } elseif ($request->time === '6h') {
+                $q->where('end_date', '<=', $now->copy()->addHours(6));
+            } elseif ($request->time === '1d') {
+                $q->where('end_date', '<=', $now->copy()->addDay());
+            } elseif ($request->time === '3d') {
+                $q->where('end_date', '<=', $now->copy()->addDays(3));
+            }
+        });
     }
 
     // Sorting
     switch ($request->sort) {
         case 'ending-soon':
-            $query->orderBy('end_date', 'asc');
+            $query->with(['flashDeals' => fn($q) => $q->orderBy('end_date', 'asc')]);
             break;
         case 'highest-discount':
-            $query->orderBy('discount_percent', 'desc');
+            $query->with(['flashDeals' => fn($q) => $q->orderBy('discount_percent', 'desc')]);
             break;
         case 'lowest-price':
             $query->orderBy('flash_price', 'asc');
             break;
         case 'highest-rating':
-            $query->orderByDesc('product.average_rating');
+            $query->orderBy('average_rating', 'desc');
             break;
         case 'most-popular':
-            $query->orderByDesc('views_count'); // Assuming you have this field
+            $query->orderBy('views', 'desc'); // assuming you track views
             break;
+        default:
+            $query->latest();
     }
 
-    $deals = $query->get();
+    $products = $query->with('flashDeals')->paginate(12);
 
-    return response()->json([
-        'deals' => $deals->map(function ($deal) {
-            return [
-                'id' => $deal->id,
-                'name' => $deal->product->name,
-                'image' => $deal->product->main_image,
-                'price' => $deal->product->price,
-                'flash_price' => $deal->flash_price,
-                'discount_percent' => $deal->discount_percent,
-                'end_date' => $deal->end_date,
-            ];
-        }),
-    ]);
+    return response()->json($products);
 }
 
 }

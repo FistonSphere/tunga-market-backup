@@ -152,28 +152,45 @@
                     <div class="relative">
                         <select id="category-filter"
                             class="bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
-
+                            <option value>All Categories</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="fashion">Fashion</option>
+                            <option value="home">Home & Garden</option>
+                            <option value="sports">Sports & Fitness</option>
+                            <option value="beauty">Beauty & Health</option>
                         </select>
                     </div>
 
                     <div class="relative">
                         <select id="discount-filter"
                             class="bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
-
+                            <option value>All Discounts</option>
+                            <option value="70">70%+ OFF</option>
+                            <option value="50">50%+ OFF</option>
+                            <option value="30">30%+ OFF</option>
+                            <option value="10">10%+ OFF</option>
                         </select>
                     </div>
 
                     <div class="relative">
                         <select id="price-filter"
                             class="bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
-
+                            <option value>All Prices</option>
+                            <option value="0-25">$0 - $25</option>
+                            <option value="25-50">$25 - $50</option>
+                            <option value="50-100">$50 - $100</option>
+                            <option value="100+">$100+</option>
                         </select>
                     </div>
 
                     <div class="relative">
                         <select id="time-filter"
                             class="bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
-
+                            <option value>Time Remaining</option>
+                            <option value="1h">Less than 1 hour</option>
+                            <option value="6h">Less than 6 hours</option>
+                            <option value="1d">Less than 1 day</option>
+                            <option value="3d">Less than 3 days</option>
                         </select>
                     </div>
 
@@ -744,9 +761,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                <div class="font-semibold">${styles[type].title}</div>
-                                                                <div class="text-sm opacity-90">${message}</div>
-                                                            `;
+                                                            <div class="font-semibold">${styles[type].title}</div>
+                                                            <div class="text-sm opacity-90">${message}</div>
+                                                        `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -767,58 +784,6 @@
             }, 4000);
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const filters = ['category-filter', 'discount-filter', 'price-filter', 'time-filter', 'sort-filter'];
-
-            filters.forEach(id => {
-                document.getElementById(id).addEventListener('change', applyFilters);
-            });
-
-            document.getElementById('clear-filters').addEventListener('click', () => {
-                filters.forEach(id => document.getElementById(id).value = '');
-                applyFilters();
-            });
-        });
-
-        function applyFilters() {
-            const params = {
-                category: document.getElementById('category-filter').value,
-                discount: document.getElementById('discount-filter').value,
-                price: document.getElementById('price-filter').value,
-                time: document.getElementById('time-filter').value,
-                sort: document.getElementById('sort-filter').value,
-            };
-
-            const query = new URLSearchParams(params).toString();
-
-            fetch(`/flash-deals/filter?${query}`)
-                .then(res => res.json())
-                .then(data => {
-                    const container = document.getElementById('flash-deals-container');
-                    container.innerHTML = ''; // clear previous deals
-
-                    if (!data.deals.length) {
-                        container.innerHTML = `<p class="text-center text-gray-500 py-8">No flash deals found.</p>`;
-                        return;
-                    }
-
-                    data.deals.forEach(deal => {
-                        const card = document.createElement('div');
-                        card.className = 'bg-white rounded-xl shadow hover:shadow-lg transition p-4';
-                        card.innerHTML = `
-                        <img src="${deal.image}" alt="${deal.name}" class="w-full h-48 object-cover rounded-lg mb-3">
-                        <h3 class="font-semibold text-lg mb-2">${deal.name}</h3>
-                        <p class="text-accent font-bold">RWF ${deal.flash_price.toLocaleString()}</p>
-                        <p class="text-sm line-through text-gray-400">RWF ${deal.price.toLocaleString()}</p>
-                        <p class="text-xs text-green-600">${deal.discount_percent}% OFF</p>
-                    `;
-                        container.appendChild(card);
-                    });
-                })
-                .catch(() => {
-                    showNotify('error', 'Failed to load flash deals.');
-                });
-        }
 
     </script>
 
