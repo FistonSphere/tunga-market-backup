@@ -7,7 +7,6 @@ use App\Models\Product;
 use App\Models\ProductViewSnapshot;
 use Carbon\Carbon;
 
-
 class SnapshotProductViews extends Command
 {
     protected $signature = 'snapshot:product-views';
