@@ -558,78 +558,60 @@
                 </p>
             </div>
 
-            <div class="grid lg:grid-cols-3 gap-8">
-                <!-- Trading Activity -->
+            <div class="grid lg:grid-cols-2 gap-8">
+
+
+                <!-- Popular Products -->
+                @if(!$trending->isEmpty())
+                    <div class="card">
+                        <h3 class="font-semibold text-primary mb-4">Trending Products</h3>
+                        <div id="trending-list" class="space-y-4">
+                            @foreach($trending as $item)
+                                <div class="flex items-center space-x-3">
+                                    <img src="{{ $item['main_image'] ?? asset('assets/images/no-image.png') }}"
+                                        alt="{{ $item['name'] }}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                    <div class="flex-1">
+                                        <div class="font-medium text-primary">{{ $item['name'] }}</div>
+                                        <div class="text-body-sm text-secondary-600">
+                                            @if(is_null($item['percent_change']))
+                                                ↗ {{ $item['views'] }} views
+                                            @else
+                                                @if($item['trend'] === 'up')
+                                                    <span class="text-success">↗ {{ $item['percent_change'] }}%</span>
+                                                @elseif($item['trend'] === 'down')
+                                                    <span class="text-error">↘ {{ abs($item['percent_change']) }}%</span>
+                                                @else
+                                                    <span class="text-secondary-600">— {{ $item['percent_change'] ?? 0 }}%</span>
+                                                @endif
+                                                &nbsp; • &nbsp; {{ $item['views'] }} views
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                @endif
+
+                <!-- FX Rates -->
                 <div class="card">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="font-semibold text-primary">Trading Activity</h3>
+                        <h3 class="font-semibold text-primary">FX Rates (base USD)</h3>
                         <div class="flex items-center space-x-1">
                             <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
                             <span class="text-body-sm text-success">Live</span>
                         </div>
                     </div>
 
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between">
-                            <span class="text-body-sm text-secondary-600">Orders Today</span>
-                            <span class="font-semibold text-primary" id="orders-today">{{ $ordersToday ?? 0 }}</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-body-sm text-secondary-600">Active Negotiations</span>
-                            <span class="font-semibold text-primary" id="active-neg">{{ $activeNegotiations ?? 0 }}</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-body-sm text-secondary-600">New Suppliers (7d)</span>
-                            <span class="font-semibold text-primary" id="new-suppliers">{{ $newSuppliers ?? 0 }}</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-body-sm text-secondary-600">Countries Active</span>
-                            <span class="font-semibold text-primary"
-                                id="countries-active">{{ $countriesActive ?? 0 }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Popular Products -->
-                <div class="card">
-                    <h3 class="font-semibold text-primary mb-4">Trending Products</h3>
-                    <div id="trending-list" class="space-y-4">
-                        @foreach($trending as $item)
-                            <div class="flex items-center space-x-3">
-                                <img src="{{ $item['main_image'] ?? asset('assets/images/no-image.png') }}"
-                                    alt="{{ $item['name'] }}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                <div class="flex-1">
-                                    <div class="font-medium text-primary">{{ $item['name'] }}</div>
-                                    <div class="text-body-sm text-secondary-600">
-                                        @if(is_null($item['percent_change']))
-                                            ↗ {{ $item['views'] }} views
-                                        @else
-                                            @if($item['trend'] === 'up')
-                                                <span class="text-success">↗ {{ $item['percent_change'] }}%</span>
-                                            @elseif($item['trend'] === 'down')
-                                                <span class="text-error">↘ {{ abs($item['percent_change']) }}%</span>
-                                            @else
-                                                <span class="text-secondary-600">— {{ $item['percent_change'] ?? 0 }}%</span>
-                                            @endif
-                                            &nbsp; • &nbsp; {{ $item['views'] }} views
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-
-                <!-- FX Rates -->
-                <div class="card">
-                    <h3 class="font-semibold text-primary mb-4">FX Rates (base USD)</h3>
                     <div id="fx-rates" class="space-y-3">
                         <!-- these will be filled by JS -->
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-2">
                                 <img src="https://flagcdn.com/us.svg" alt="US" class="w-5 h-5 rounded-sm" loading="lazy" />
                                 <span class="text-body-sm text-secondary-600">→</span>
-                                <img src="https://flagcdn.com/rw.svg" alt="Rwanda" class="w-5 h-5 rounded-sm" loading="lazy" />
+                                <img src="https://flagcdn.com/rw.svg" alt="Rwanda" class="w-5 h-5 rounded-sm"
+                                    loading="lazy" />
                             </div>
                             <div class="font-semibold text-primary" id="rate-RWF">—</div>
                         </div>
@@ -653,7 +635,8 @@
                             <div class="flex items-center space-x-2">
                                 <img src="https://flagcdn.com/us.svg" alt="US" class="w-5 h-5 rounded-sm" loading="lazy" />
                                 <span class="text-body-sm text-secondary-600">→</span>
-                                <img src="https://flagcdn.com/ke.svg" alt="Kenya" class="w-5 h-5 rounded-sm" loading="lazy" />
+                                <img src="https://flagcdn.com/ke.svg" alt="Kenya" class="w-5 h-5 rounded-sm"
+                                    loading="lazy" />
                             </div>
                             <div class="font-semibold text-primary" id="rate-KES">—</div>
                         </div>
@@ -1027,9 +1010,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                            <div class="font-semibold">${styles[type].title}</div>
-                                                            <div class="text-sm opacity-90">${message}</div>
-                                                        `;
+                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                <div class="text-sm opacity-90">${message}</div>
+                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1075,64 +1058,64 @@
             swiperEl.addEventListener('mouseenter', () => swiper.autoplay.stop());
             swiperEl.addEventListener('mouseleave', () => swiper.autoplay.start());
         });
-    document.addEventListener('DOMContentLoaded', function() {
-        const ratesUrl = "{{ route('market.pulse.rates') }}";
-        let prevRates = {};
+        document.addEventListener('DOMContentLoaded', function () {
+            const ratesUrl = "{{ route('market.pulse.rates') }}";
+            let prevRates = {};
 
-        async function fetchRates () {
-            const spinner = document.getElementById('fx-spinner');
-            spinner.classList.remove('hidden');
-            try {
-                const res = await fetch(ratesUrl);
-                const data = await res.json();
-                spinner.classList.add('hidden');
+            async function fetchRates() {
+                const spinner = document.getElementById('fx-spinner');
+                spinner.classList.remove('hidden');
+                try {
+                    const res = await fetch(ratesUrl);
+                    const data = await res.json();
+                    spinner.classList.add('hidden');
 
-                const rates = data.rates || {};
-                const ts = data.timestamp ? new Date(data.timestamp * 1000) : new Date();
+                    const rates = data.rates || {};
+                    const ts = data.timestamp ? new Date(data.timestamp * 1000) : new Date();
 
-                // update UI -> format to 4 decimal for floats except RWF which can be integer
-                if (rates.RWF !== undefined) {
-                    document.getElementById('rate-RWF').innerText = Number(rates.RWF).toLocaleString(undefined, {maximumFractionDigits: 2});
-                }
-                if (rates.EUR !== undefined) {
-                    document.getElementById('rate-EUR').innerText = Number(rates.EUR).toFixed(4);
-                }
-                if (rates.GBP !== undefined) {
-                    document.getElementById('rate-GBP').innerText = Number(rates.GBP).toFixed(4);
-                }
-                if (rates.KES !== undefined) {
-                    document.getElementById('rate-KES').innerText = Number(rates.KES).toFixed(3);
-                }
-
-                document.getElementById('fx-last-updated').innerText = ts.toLocaleString();
-
-                // simple up/down visual (if you want to show arrows)
-                Object.keys(rates).forEach(k => {
-                    const el = document.getElementById('rate-' + k);
-                    if (!el) return;
-                    const prev = prevRates[k] ?? null;
-                    if (prev !== null) {
-                        if (rates[k] > prev) el.classList.add('text-success'); else el.classList.remove('text-success');
-                        if (rates[k] < prev) el.classList.add('text-error'); else el.classList.remove('text-error');
+                    // update UI -> format to 4 decimal for floats except RWF which can be integer
+                    if (rates.RWF !== undefined) {
+                        document.getElementById('rate-RWF').innerText = Number(rates.RWF).toLocaleString(undefined, { maximumFractionDigits: 2 });
                     }
-                    prevRates[k] = rates[k];
-                });
+                    if (rates.EUR !== undefined) {
+                        document.getElementById('rate-EUR').innerText = Number(rates.EUR).toFixed(4);
+                    }
+                    if (rates.GBP !== undefined) {
+                        document.getElementById('rate-GBP').innerText = Number(rates.GBP).toFixed(4);
+                    }
+                    if (rates.KES !== undefined) {
+                        document.getElementById('rate-KES').innerText = Number(rates.KES).toFixed(3);
+                    }
 
-            } catch (err) {
-                spinner.classList.add('hidden');
-                console.error('Failed to fetch FX rates', err);
+                    document.getElementById('fx-last-updated').innerText = ts.toLocaleString();
+
+                    // simple up/down visual (if you want to show arrows)
+                    Object.keys(rates).forEach(k => {
+                        const el = document.getElementById('rate-' + k);
+                        if (!el) return;
+                        const prev = prevRates[k] ?? null;
+                        if (prev !== null) {
+                            if (rates[k] > prev) el.classList.add('text-success'); else el.classList.remove('text-success');
+                            if (rates[k] < prev) el.classList.add('text-error'); else el.classList.remove('text-error');
+                        }
+                        prevRates[k] = rates[k];
+                    });
+
+                } catch (err) {
+                    spinner.classList.add('hidden');
+                    console.error('Failed to fetch FX rates', err);
+                }
             }
-        }
 
-        // initial fetch + interval
-        fetchRates();
-        setInterval(fetchRates, 60 * 1000); // refresh every 60s
+            // initial fetch + interval
+            fetchRates();
+            setInterval(fetchRates, 60 * 1000); // refresh every 60s
 
-        // Optional: re-fetch trending products every 5 minutes
-        // (You can implement a /market-pulse/trending endpoint if you want to live-update trending list)
-    });
-        
-        
-        
-        </script>
+            // Optional: re-fetch trending products every 5 minutes
+            // (You can implement a /market-pulse/trending endpoint if you want to live-update trending list)
+        });
+
+
+
+    </script>
 @endsection
