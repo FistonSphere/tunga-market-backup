@@ -179,10 +179,11 @@
                             <option value="">All Prices</option>
                             @foreach($priceRanges as $range)
                                 @if(Str::contains($range, '+'))
-                                    <option value="{{ $range }}">${{ str_replace('+', '', $range) }}+</option>
+                                    <option value="{{ $range }}">{{ Number_format(str_replace('+', '', $range)) }} Rwf +</option>
                                 @else
                                     @php [$min, $max] = explode('-', $range); @endphp
-                                    <option value="{{ $range }}">${{ $min }} - ${{ $max }}</option>
+                                    <option value="{{ $range }}">{{ Number_format($min) }} Rwf - {{ Number_format($max) }} Rwf
+                                    </option>
                                 @endif
                             @endforeach
                         </select>
@@ -219,11 +220,10 @@
                         <span class="text-sm text-gray-600">Sort by:</span>
                         <select id="sort-filter"
                             class="bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
+                            <option value="">Select</option>
                             <option value="ending-soon">Ending Soon</option>
                             <option value="highest-discount">Highest Discount</option>
                             <option value="lowest-price">Lowest Price</option>
-                            <option value="highest-rating">Highest Rating</option>
-                            <option value="most-popular">Most Popular</option>
                         </select>
                     </div>
 
@@ -357,19 +357,22 @@
                     <span id="total-count">{{ $flashDeals->total() }}</span> deals
                 </div>
             </div>
-
-            <!-- Products Grid -->
-            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                @foreach($flashDeals as $deal)
-                    @include('partials.deal-card', ['deal' => $deal])
-
-                @endforeach
-            </div>
-
             <!-- Load er Spinner -->
-            <div id="loading-spinner" class="hidden flex justify-center items-center py-10">
-                <div class="animate-spin rounded-full h-12 w-12 border-4 border-accent border-t-transparent"></div>
-            </div>
+            <div id="loading-overlay"
+             class="hidden absolute inset-0 bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center z-50 transition-opacity duration-300">
+            <div class="animate-spin rounded-full h-12 w-12 border-4 border-accent border-t-transparent mb-4"></div>
+            <p class="text-gray-700 font-medium">Fetching the best deals for you...</p>
+             </div>
+                <!-- Products Grid -->
+                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+                    @foreach($flashDeals as $deal)
+                        @include('partials.deal-card', ['deal' => $deal])
+
+                    @endforeach
+                </div>
+
+
                 <!-- Load More Button -->
                 @if($flashDeals->total() > 2)
                     <div class="text-center mt-12">
@@ -779,9 +782,9 @@
                 const content = document.createElement("div");
                 content.className = "flex-1";
                 content.innerHTML = `
-                                                                        <div class="font-semibold">${styles[type].title}</div>
-                                                                        <div class="text-sm opacity-90">${message}</div>
-                                                                    `;
+                                                                                    <div class="font-semibold">${styles[type].title}</div>
+                                                                                    <div class="text-sm opacity-90">${message}</div>
+                                                                                `;
 
                 // Progress bar
                 const progress = document.createElement("div");
@@ -807,13 +810,12 @@
                 const filters = ["category", "discount", "price", "time", "sort"];
                 const productsGrid = document.getElementById("products-grid");
                 const clearBtn = document.getElementById("clear-filters");
+                const spinner = document.getElementById("loading-spinner");
 
-                // Listen for changes in any filter
                 filters.forEach(filter => {
                     document.getElementById(`${filter}-filter`)?.addEventListener("change", fetchFlashDeals);
                 });
 
-                // Clear all filters
                 clearBtn?.addEventListener("click", () => {
                     filters.forEach(filter => {
                         document.getElementById(`${filter}-filter`).value = "";
@@ -827,20 +829,33 @@
                         discount: document.getElementById("discount-filter").value,
                         price: document.getElementById("price-filter").value,
                         time: document.getElementById("time-filter").value,
-                        sort: document.getElementById("sort-filter").value,
+                        sort: document.getElementById("sort-filter")?.value,
                     };
 
                     const query = new URLSearchParams(params).toString();
+
+                    // Show spinner and clear products grid temporarily
+                    spinner.classList.remove("hidden");
+                    productsGrid.classList.add("opacity-30");
 
                     fetch(`/flash-deals/filter?${query}`)
                         .then(res => res.json())
                         .then(data => {
                             productsGrid.innerHTML = data.html || "<p class='text-center text-gray-500 py-8'>No deals found.</p>";
                         })
-                        .catch(err => console.error("Error loading filtered deals:", err));
+                        .catch(err => {
+                            console.error("Error loading filtered deals:", err);
+                            productsGrid.innerHTML = "<p class='text-center text-red-500 py-8'>Failed to load deals. Try again.</p>";
+                        })
+                        .finally(() => {
+                            // Hide spinner and restore opacity after loading completes
+                            setTimeout(() => {
+                                spinner.classList.add("hidden");
+                                productsGrid.classList.remove("opacity-30");
+                            }, 300);
+                        });
                 }
             });
-
 
 
 
