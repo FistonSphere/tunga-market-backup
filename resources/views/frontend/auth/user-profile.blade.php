@@ -237,13 +237,12 @@
                                         <h3 class="text-lg font-semibold text-primary mb-4">Address Information</h3>
                                         <div class="space-y-4">
                                             <input type="text" name="address_line" class="input-field"
-                                                placeholder="Address Line 1"
-                                                value="{{ auth()->user()->address_line }}" />
+                                                placeholder="Address Line 1" value="{{ auth()->user()->address_line }}" />
                                             <div class="grid grid-cols-2 gap-4">
-                                                <input type="text" name="city" class="input-field"
-                                                    placeholder="City" value="{{ auth()->user()->city }}" />
-                                                <input type="text" name="state" class="input-field"
-                                                    placeholder="State" value="{{ auth()->user()->state }}" />
+                                                <input type="text" name="city" class="input-field" placeholder="City"
+                                                    value="{{ auth()->user()->city }}" />
+                                                <input type="text" name="state" class="input-field" placeholder="State"
+                                                    value="{{ auth()->user()->state }}" />
                                             </div>
                                             <select name="country" class="input-field">
                                                 @foreach ($countries as $country)
@@ -268,8 +267,8 @@
                                             <span>Save Changes</span>
                                             <svg id="loadingIcon" class="w-4 h-4 animate-spin hidden"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <circle class="opacity-25" cx="12" cy="12" r="10"
-                                                    stroke="currentColor" stroke-width="4"></circle>
+                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                    stroke-width="4"></circle>
                                                 <path class="opacity-75" fill="currentColor"
                                                     d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
                                             </svg>
@@ -298,125 +297,98 @@
                             </div>
 
                             <div class="space-y-4">
-                                <!-- Order 1 -->
-                                <div class="border border-secondary-200 rounded-lg p-6 hover:shadow-hover transition-fast">
-                                    <div class="flex items-center justify-between mb-4">
-                                        <div>
-                                            <h3 class="font-semibold text-primary">Order #AM2025-789456</h3>
-                                            <p class="text-secondary-600">January 26, 2025 • $2,847.50</p>
-                                        </div>
-                                        <div class="flex items-center space-x-3">
-                                            <span
-                                                class="px-3 py-1 bg-warning-100 text-warning-700 rounded-full text-sm font-semibold">Processing</span>
-                                            <button onclick="window.open('professional_invoice_template.html', '_blank')"
-                                                class="text-accent hover:text-accent-600 font-semibold text-sm">
-                                                Download Invoice
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="grid md:grid-cols-3 gap-4">
-                                        <div>
-                                            <h4 class="font-medium text-secondary-700 mb-2">Items</h4>
-                                            <p class="text-secondary-600 text-sm">Premium Wireless Earbuds Pro (50x)</p>
-                                            <p class="text-secondary-600 text-sm">Smart Home Hub Controller (25x)</p>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-medium text-secondary-700 mb-2">Delivery</h4>
-                                            <p class="text-secondary-600 text-sm">Express International</p>
-                                            <p class="text-secondary-600 text-sm">Est. Feb 2-5, 2025</p>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-medium text-secondary-700 mb-2">Actions</h4>
-                                            <div class="flex space-x-2">
-                                                <button
-                                                    class="text-primary hover:text-primary-600 text-sm font-semibold">Track
-                                                    Order</button>
-                                                <button
-                                                    class="text-accent hover:text-accent-600 text-sm font-semibold">Reorder</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @forelse ($orders as $orderId => $items)
+                                    @php
+                                        $order = $items->first()->order;
+                                        $status = ucfirst($order->status ?? 'Pending');
+                                        $statusColor = match ($order->status) {
+                                            'processing' => 'bg-warning-100 text-warning-700',
+                                            'shipped' => 'bg-primary-100 text-primary-700',
+                                            'delivered' => 'bg-success-100 text-success-700',
+                                            'cancelled' => 'bg-danger-100 text-danger-700',
+                                            default => 'bg-gray-100 text-gray-700',
+                                        };
+                                    @endphp
 
-                                <!-- Order 2 -->
-                                <div class="border border-secondary-200 rounded-lg p-6 hover:shadow-hover transition-fast">
-                                    <div class="flex items-center justify-between mb-4">
-                                        <div>
-                                            <h3 class="font-semibold text-primary">Order #AM2025-654321</h3>
-                                            <p class="text-secondary-600">January 24, 2025 • $1,245.99</p>
-                                        </div>
-                                        <div class="flex items-center space-x-3">
-                                            <span
-                                                class="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold">Shipped</span>
-                                            <button onclick="window.open('professional_invoice_template.html', '_blank')"
-                                                class="text-accent hover:text-accent-600 font-semibold text-sm">
-                                                Download Invoice
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="grid md:grid-cols-3 gap-4">
-                                        <div>
-                                            <h4 class="font-medium text-secondary-700 mb-2">Items</h4>
-                                            <p class="text-secondary-600 text-sm">Smart Home Hub Controller (15x)</p>
-                                            <p class="text-secondary-600 text-sm">Motion Sensors (30x)</p>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-medium text-secondary-700 mb-2">Delivery</h4>
-                                            <p class="text-secondary-600 text-sm">Standard International</p>
-                                            <p class="text-secondary-600 text-sm">Est. Jan 28-30, 2025</p>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-medium text-secondary-700 mb-2">Actions</h4>
-                                            <div class="flex space-x-2">
-                                                <button
-                                                    class="text-primary hover:text-primary-600 text-sm font-semibold">Track
-                                                    Order</button>
-                                                <button
-                                                    class="text-accent hover:text-accent-600 text-sm font-semibold">Reorder</button>
+                                    <div class="border border-secondary-200 rounded-lg p-6 hover:shadow-hover transition-fast">
+                                        <div class="flex items-center justify-between mb-4">
+                                            <div>
+                                                <h3 class="font-semibold text-primary">
+                                                    Order #{{ $order->order_number ?? 'N/A' }}
+                                                </h3>
+                                                <p class="text-secondary-600">
+                                                    {{ $order->created_at->format('F j, Y') }} •
+                                                    ${{ number_format($order->total_amount, 2) }}
+                                                </p>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <!-- Order 3 -->
-                                <div class="border border-secondary-200 rounded-lg p-6 hover:shadow-hover transition-fast">
-                                    <div class="flex items-center justify-between mb-4">
-                                        <div>
-                                            <h3 class="font-semibold text-primary">Order #AM2025-456789</h3>
-                                            <p class="text-secondary-600">January 22, 2025 • $689.75</p>
-                                        </div>
-                                        <div class="flex items-center space-x-3">
-                                            <span
-                                                class="px-3 py-1 bg-success-100 text-success-700 rounded-full text-sm font-semibold">Delivered</span>
-                                            <button onclick="window.open('professional_invoice_template.html', '_blank')"
-                                                class="text-accent hover:text-accent-600 font-semibold text-sm">
-                                                Download Invoice
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="grid md:grid-cols-3 gap-4">
-                                        <div>
-                                            <h4 class="font-medium text-secondary-700 mb-2">Items</h4>
-                                            <p class="text-secondary-600 text-sm">Bluetooth Speaker Pro (12x)</p>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-medium text-secondary-700 mb-2">Delivery</h4>
-                                            <p class="text-secondary-600 text-sm">Express Shipping</p>
-                                            <p class="text-secondary-600 text-sm">Delivered Jan 24, 2025</p>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-medium text-secondary-700 mb-2">Actions</h4>
-                                            <div class="flex space-x-2">
+                                            <div class="flex items-center space-x-3">
+                                                <span class="px-3 py-1 {{ $statusColor }} rounded-full text-sm font-semibold">
+                                                    {{ $status }}
+                                                </span>
                                                 <button
-                                                    class="text-success hover:text-success-600 text-sm font-semibold">Leave
-                                                    Review</button>
-                                                <button
-                                                    class="text-accent hover:text-accent-600 text-sm font-semibold">Reorder</button>
+                                                    onclick="window.open('{{ route('orders.invoice', $order->id) }}', '_blank')"
+                                                    class="text-accent hover:text-accent-600 font-semibold text-sm">
+                                                    Download Invoice
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid md:grid-cols-3 gap-4">
+                                            <!-- Items -->
+                                            <div>
+                                                <h4 class="font-medium text-secondary-700 mb-2">Items</h4>
+                                                @foreach ($items as $item)
+                                                    <p class="text-secondary-600 text-sm">
+                                                        {{ $item->product->name ?? 'Unknown Product' }}
+                                                        ({{ $item->quantity }}x)
+                                                    </p>
+                                                @endforeach
+                                            </div>
+
+                                            <!-- Delivery -->
+                                            <div>
+                                                <h4 class="font-medium text-secondary-700 mb-2">Delivery</h4>
+                                                <p class="text-secondary-600 text-sm">
+                                                    {{ ucfirst($order->shipping_method ?? 'Standard') }}
+                                                </p>
+                                                <p class="text-secondary-600 text-sm">
+                                                    {{ $order->delivery_estimate ?? 'N/A' }}
+                                                </p>
+                                            </div>
+
+                                            <!-- Actions -->
+                                            <div>
+                                                <h4 class="font-medium text-secondary-700 mb-2">Actions</h4>
+                                                <div class="flex space-x-2">
+                                                    @if($order->status === 'processing' || $order->status === 'shipped')
+                                                        <button
+                                                            onclick="window.location.href='{{ route('orders.track', $order->id) }}'"
+                                                            class="text-primary hover:text-primary-600 text-sm font-semibold">
+                                                            Track Order
+                                                        </button>
+                                                    @elseif($order->status === 'delivered')
+                                                        <button class="text-success hover:text-success-600 text-sm font-semibold">
+                                                            Leave Review
+                                                        </button>
+                                                    @endif
+
+                                                    <button
+                                                        onclick="window.location.href='{{ route('orders.reorder', $order->id) }}'"
+                                                        class="text-accent hover:text-accent-600 text-sm font-semibold">
+                                                        Reorder
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @empty
+                                    <div class="text-center py-8 text-secondary-500">
+                                        <p>No orders found in your history.</p>
+                                    </div>
+                                @endforelse
                             </div>
+
 
                             <div class="mt-6 flex justify-center">
                                 <button class="btn-secondary">Load More Orders</button>
@@ -458,8 +430,7 @@
                                                 </div>
 
                                                 <div>
-                                                    <label
-                                                        class="block text-sm font-medium text-secondary-700 mb-2">Confirm
+                                                    <label class="block text-sm font-medium text-secondary-700 mb-2">Confirm
                                                         New Password</label>
                                                     <input type="password" name="new_password_confirmation"
                                                         class="input-field" placeholder="Confirm new password" />
@@ -470,8 +441,8 @@
 
                                             <button type="submit" id="update-password-btn" class="btn-primary">
                                                 <span class="default-text">Update Password</span>
-                                                <span class="loading-spinner hidden"><i
-                                                        class="fas fa-spinner fa-spin"></i> Updating...</span>
+                                                <span class="loading-spinner hidden"><i class="fas fa-spinner fa-spin"></i>
+                                                    Updating...</span>
                                             </button>
                                         </div>
                                     </form>
@@ -724,40 +695,40 @@
                                             <h4 class="font-semibold text-primary mb-3">Plan Features</h4>
                                             <ul class="space-y-2">
                                                 <li class="flex items-center space-x-2">
-                                                    <svg class="w-4 h-4 text-success" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2" d="M5 13l4 4L19 7" />
                                                     </svg>
                                                     <span class="text-secondary-600">Unlimited orders</span>
                                                 </li>
                                                 <li class="flex items-center space-x-2">
-                                                    <svg class="w-4 h-4 text-success" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2" d="M5 13l4 4L19 7" />
                                                     </svg>
                                                     <span class="text-secondary-600">Priority support</span>
                                                 </li>
                                                 <li class="flex items-center space-x-2">
-                                                    <svg class="w-4 h-4 text-success" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2" d="M5 13l4 4L19 7" />
                                                     </svg>
                                                     <span class="text-secondary-600">Advanced analytics</span>
                                                 </li>
                                                 <li class="flex items-center space-x-2">
-                                                    <svg class="w-4 h-4 text-success" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2" d="M5 13l4 4L19 7" />
                                                     </svg>
                                                     <span class="text-secondary-600">API access</span>
                                                 </li>
                                                 <li class="flex items-center space-x-2">
-                                                    <svg class="w-4 h-4 text-success" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2" d="M5 13l4 4L19 7" />
                                                     </svg>
@@ -810,8 +781,8 @@
                                                 <div class="flex items-center space-x-3">
                                                     <div
                                                         class="w-8 h-8 bg-primary-100 rounded flex items-center justify-center">
-                                                        <svg class="w-4 h-4 text-primary" fill="none"
-                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 stroke-width="2"
                                                                 d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
@@ -1001,14 +972,12 @@
                                         <div>
                                             <h4 class="font-semibold text-secondary-700 mb-3">Useful Resources</h4>
                                             <div class="space-y-2">
-                                                <a href="#"
-                                                    class="block text-accent hover:text-accent-600 text-sm">Getting Started
+                                                <a href="#" class="block text-accent hover:text-accent-600 text-sm">Getting
+                                                    Started
                                                     Guide</a>
-                                                <a href="#"
-                                                    class="block text-accent hover:text-accent-600 text-sm">API
+                                                <a href="#" class="block text-accent hover:text-accent-600 text-sm">API
                                                     Documentation</a>
-                                                <a href="#"
-                                                    class="block text-accent hover:text-accent-600 text-sm">Video
+                                                <a href="#" class="block text-accent hover:text-accent-600 text-sm">Video
                                                     Tutorials</a>
                                                 <a href="#"
                                                     class="block text-accent hover:text-accent-600 text-sm">Community
@@ -1154,35 +1123,35 @@
 
             const icons = {
                 success: `<svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>`,
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>`,
                 info: `<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>`,
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>`,
                 warning: `<svg class="w-5 h-5 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                </svg>`,
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                    </svg>`,
                 error: `<svg class="w-5 h-5 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>`
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>`
             };
 
             notification.innerHTML = `
-                <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
-                    <div class="flex items-start space-x-3">
-                        ${icons[type]}
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-primary">${title}</h4>
-                            <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                    <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
+                        <div class="flex items-start space-x-3">
+                            ${icons[type]}
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-primary">${title}</h4>
+                                <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                            </div>
+                            <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
                         </div>
-                        <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
-                        </button>
                     </div>
-                </div>
-            `;
+                `;
 
             notification.classList.remove('translate-x-full');
 
@@ -1191,7 +1160,7 @@
             }, 5000);
         }
 
-        
+
         function hideDashboardNotification() {
             const notification = document.getElementById('dashboard-notification');
             if (notification) {
@@ -1199,9 +1168,9 @@
             }
         }
 
-        
+
         // Initialize dashboard
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Set default active section
             showSection('profile');
 
@@ -1212,26 +1181,26 @@
         // Add CSS for active nav items
         const styling = document.createElement('style');
         styling.textContent = `
-            .nav-item.active {
-                background-color: var(--color-primary);
-                color: white;
-            }
+                .nav-item.active {
+                    background-color: var(--color-primary);
+                    color: white;
+                }
 
-            .content-section {
-                animation: fadeIn 0.3s ease-in-out;
-            }
+                .content-section {
+                    animation: fadeIn 0.3s ease-in-out;
+                }
 
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(10px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-        `;
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `;
         document.head.appendChild(styling);
-    
-    
+
+
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const avatarElement = document.getElementById('welcomeAvatar');
             if (avatarElement) {
                 const firstName = document.getElementById('welcomeFirstName')?.value?.trim();
@@ -1268,7 +1237,7 @@
             }
         }
 
-        document.getElementById('profileForm').addEventListener('submit', function(e) {
+        document.getElementById('profileForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
             const form = e.target;
@@ -1286,14 +1255,14 @@
             xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute(
                 'content'));
 
-            xhr.upload.addEventListener('progress', function(e) {
+            xhr.upload.addEventListener('progress', function (e) {
                 if (e.lengthComputable) {
                     const percent = (e.loaded / e.total) * 100;
                     progressFill.style.width = percent + '%';
                 }
             });
 
-            xhr.onload = function() {
+            xhr.onload = function () {
                 loader.classList.add('hidden');
                 progressBar.classList.add('hidden');
                 progressFill.style.width = '0%';
@@ -1319,7 +1288,7 @@
                         gravity: "top",
                         position: "right",
                         backgroundColor: "#10b981",
-                        callback: function() {
+                        callback: function () {
                             location.reload(); // Guaranteed reload after toast ends
                         }
                     }).showToast();
@@ -1334,7 +1303,7 @@
                 }
             };
 
-            xhr.onerror = function() {
+            xhr.onerror = function () {
                 loader.classList.add('hidden');
                 progressBar.classList.add('hidden');
                 Toastify({
@@ -1355,7 +1324,7 @@
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.alt = "Profile";
@@ -1367,11 +1336,11 @@
             };
             reader.readAsDataURL(file);
         }
-    
+
     </script>
 
     <script>
-        document.getElementById('update-password-form').addEventListener('submit', function(e) {
+        document.getElementById('update-password-form').addEventListener('submit', function (e) {
             e.preventDefault();
 
             const form = e.target;
@@ -1387,13 +1356,13 @@
             document.querySelectorAll('[id^=error-]').forEach(el => el.innerText = '');
 
             fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json'
-                    },
-                    body: formData
-                })
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                },
+                body: formData
+            })
                 .then(response => response.json().then(data => ({
                     status: response.status,
                     body: data
