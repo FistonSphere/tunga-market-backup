@@ -354,10 +354,10 @@
                                             <div>
                                                 <h4 class="font-medium text-secondary-700 mb-2">Delivery</h4>
                                                 <p class="text-secondary-600 text-sm">
-                                                    {{ $order->shippingAddress->delivery_method ?? 'Standard Shipping' }}
+                                                   {{ $order->shippingAddress->address_line1 }}
                                                 </p>
                                                 <p class="text-secondary-600 text-sm">
-                                                    {{ $order->shippingAddress->estimated_delivery ?? 'Est. Delivery Pending' }}
+                                                    {{ $order->shippingAddress->city }}, {{ $order->shippingAddress->state }}
                                                 </p>
                                             </div>
 

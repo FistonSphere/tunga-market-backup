@@ -85,3 +85,4 @@ public function calculateAndSaveTotal()
 
     return $this->total;
 }
+}
