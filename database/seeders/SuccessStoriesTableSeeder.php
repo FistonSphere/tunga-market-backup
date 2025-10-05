@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\SuccessStory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,7 +13,6 @@ class SuccessStoriesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        public function run()
     {
         SuccessStory::truncate();
 
@@ -51,3 +51,4 @@ class SuccessStoriesTableSeeder extends Seeder
         }
     }
     }
+}
