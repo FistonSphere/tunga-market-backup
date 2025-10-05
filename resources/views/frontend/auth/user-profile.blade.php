@@ -18,20 +18,50 @@
         </script>
 
         <style>
-            @keyframes slide-in {
+            @keyframes slideIn {
                 from {
                     opacity: 0;
-                    transform: translateY(20px);
+                    transform: translateX(100%);
                 }
 
                 to {
                     opacity: 1;
-                    transform: translateY(0);
+                    transform: translateX(0);
+                }
+            }
+
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+
+                to {
+                    opacity: 0;
+                    transform: translateX(100%);
+                }
+            }
+
+            @keyframes progressAnim {
+                from {
+                    width: 100%;
+                }
+
+                to {
+                    width: 0%;
                 }
             }
 
             .animate-slide-in {
-                animation: slide-in 0.3s ease-out;
+                animation: slideIn 0.4s ease-out forwards;
+            }
+
+            .animate-fade-out {
+                animation: fadeOut 0.6s ease-in forwards;
+            }
+
+            .animate-progress {
+                animation: progressAnim 3.5s linear forwards;
             }
         </style>
     @endif
@@ -344,7 +374,7 @@
                                                     <p class="text-secondary-600 text-sm">
                                                         {{ $item->product->name }}
                                                         ({{ $item->quantity }}x)
-                                                        
+
                                                         {{ strtoupper($item->product->currency) ?? 'USD' }}{{ number_format($item->price) }}
                                                     </p>
                                                 @endforeach
@@ -354,7 +384,7 @@
                                             <div>
                                                 <h4 class="font-medium text-secondary-700 mb-2">Delivery</h4>
                                                 <p class="text-secondary-600 text-sm">
-                                                   {{ $order->shippingAddress->address_line1 }}
+                                                    {{ $order->shippingAddress->address_line1 }}
                                                 </p>
                                                 <p class="text-secondary-600 text-sm">
                                                     {{ $order->shippingAddress->city }}, {{ $order->shippingAddress->state }}
@@ -377,8 +407,7 @@
                                                         </button>
                                                     @endif
 
-                                                    <button
-                                                        onclick="window.location.href='{{ route('orders.reorder', $order->id) }}'"
+                                                    <button onclick="reorderItems()"
                                                         class="text-accent hover:text-accent-600 text-sm font-semibold">
                                                         Reorder
                                                     </button>
@@ -998,6 +1027,49 @@
         </div>
     </section>
 
+    <!-- Reorder Modal -->
+    <div id="reorder-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
+
+            <!-- Close -->
+            <button onclick="closeReorderModal()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Icon -->
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+            </div>
+
+            <!-- Title -->
+            <h2 class="text-2xl font-bold text-primary mb-3 text-center">Reorder Items?</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Do you want to reorder all items from this order? They will be added back to your cart.
+            </p>
+
+            <!-- Actions -->
+            <div class="space-y-3">
+                <button onclick="confirmReorder()"
+                    class="w-full bg-primary text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Yes, Reorder
+                </button>
+                <button onclick="closeReorderModal()"
+                    class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
     <script>
         // Mobile menu toggle
         // document.getElementById('mobileMenuBtn').addEventListener('click', function() {
@@ -1127,35 +1199,35 @@
 
             const icons = {
                 success: `<svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>`,
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>`,
                 info: `<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>`,
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>`,
                 warning: `<svg class="w-5 h-5 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                        </svg>`,
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                                    </svg>`,
                 error: `<svg class="w-5 h-5 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>`
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>`
             };
 
             notification.innerHTML = `
-                        <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
-                            <div class="flex items-start space-x-3">
-                                ${icons[type]}
-                                <div class="flex-1">
-                                    <h4 class="font-semibold text-primary">${title}</h4>
-                                    <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
-                                </div>
-                                <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    `;
+                                    <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
+                                        <div class="flex items-start space-x-3">
+                                            ${icons[type]}
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-primary">${title}</h4>
+                                                <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                                            </div>
+                                            <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                `;
 
             notification.classList.remove('translate-x-full');
 
@@ -1185,20 +1257,20 @@
         // Add CSS for active nav items
         const styling = document.createElement('style');
         styling.textContent = `
-                    .nav-item.active {
-                        background-color: var(--color-primary);
-                        color: white;
-                    }
+                                .nav-item.active {
+                                    background-color: var(--color-primary);
+                                    color: white;
+                                }
 
-                    .content-section {
-                        animation: fadeIn 0.3s ease-in-out;
-                    }
+                                .content-section {
+                                    animation: fadeIn 0.3s ease-in-out;
+                                }
 
-                    @keyframes fadeIn {
-                        from { opacity: 0; transform: translateY(10px); }
-                        to { opacity: 1; transform: translateY(0); }
-                    }
-                `;
+                                @keyframes fadeIn {
+                                    from { opacity: 0; transform: translateY(10px); }
+                                    to { opacity: 1; transform: translateY(0); }
+                                }
+                            `;
         document.head.appendChild(styling);
 
 
@@ -1422,5 +1494,101 @@
                     }).showToast();
                 });
         });
+
+
+        function reorderItems() {
+            document.getElementById("reorder-modal").classList.remove("hidden");
+        }
+
+        function closeReorderModal() {
+            document.getElementById("reorder-modal").classList.add("hidden");
+        }
+
+        function confirmReorder() {
+            const orderId = "{{ $order->id }}";
+
+            fetch(`/orders/${orderId}/reorder`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    closeReorderModal();
+                    if (data.success) {
+                        showNotify("success", "Items have been added to your cart successfully!");
+                    } else {
+                        showNotify("error", data.message || "Something went wrong, please try again.");
+                    }
+                })
+                .catch(() => {
+                    closeReorderModal();
+                    showNotify("error", "Network error, please try again.");
+                });
+        }
+
+        // Toast Notification
+        function showNotify(type, message) {
+            const styles = {
+                success: {
+                    bg: "bg-green-500",
+                    icon: "✔️",
+                    title: "Success"
+                },
+                error: {
+                    bg: "bg-red-500",
+                    icon: "⚠️",
+                    title: "Error"
+                }
+            };
+
+            let container = document.getElementById("toast-container");
+            if (!container) {
+                container = document.createElement("div");
+                container.id = "toast-container";
+                container.className = "fixed top-5 right-5 space-y-3 z-50 flex flex-col";
+                document.body.appendChild(container);
+            }
+
+            // Toast wrapper
+            const notify = document.createElement("div");
+            notify.className =
+                `relative flex items-start space-x-3 ${styles[type].bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
+
+            // Icon
+            const icon = document.createElement("span");
+            icon.className = "text-2xl";
+            icon.innerText = styles[type].icon;
+
+            // Content
+            const content = document.createElement("div");
+            content.className = "flex-1";
+            content.innerHTML = `
+                        <div class="font-semibold">${styles[type].title}</div>
+                        <div class="text-sm opacity-90">${message}</div>
+                    `;
+
+            // Progress bar
+            const progress = document.createElement("div");
+            progress.className =
+                "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
+            progress.style.width = "100%";
+
+            // Append
+            notify.appendChild(icon);
+            notify.appendChild(content);
+            notify.appendChild(progress);
+            container.appendChild(notify);
+
+            // Auto-remove
+            setTimeout(() => {
+                notify.classList.add("animate-fade-out");
+                setTimeout(() => notify.remove(), 500);
+            }, 4000);
+        }
+
+
     </script>
 @endsection
