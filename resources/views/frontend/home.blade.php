@@ -502,8 +502,7 @@
                                 <div
                                     class="group relative bg-white/80 backdrop-blur-lg border border-gray-100 rounded-2xl shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 ease-out p-8 text-center">
                                     <div class="relative mb-6">
-                                        <img src="{{ $story->photo }}"
-                                            alt="{{ $story->name }} - {{ $story->company }}"
+                                        <img src="{{ $story->photo }}" alt="{{ $story->name }} - {{ $story->company }}"
                                             class="w-20 h-20 rounded-full mx-auto object-cover border-4 border-accent/30 shadow-lg transition-transform duration-500 group-hover:scale-110"
                                             onerror="this.src='https://via.placeholder.com/150'; this.onerror=null;" />
                                         <div
@@ -554,502 +553,530 @@
 
     @endif
 
-        <!-- Live Market Pulse -->
-        <section class="py-16 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-heading font-bold text-primary mb-4">Live Market Pulse</h2>
-                    <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                        Real-time insights into global trading activity and emerging opportunities
-                    </p>
-                </div>
-
-                <div class="grid lg:grid-cols-3 gap-8">
-                    <!-- Trading Activity -->
-                    <div class="card">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="font-semibold text-primary">Trading Activity</h3>
-                            <div class="flex items-center space-x-1">
-                                <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
-                                <span class="text-body-sm text-success">Live</span>
-                            </div>
-                        </div>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <span class="text-body-sm text-secondary-600">Orders Today</span>
-                                <span class="font-semibold text-primary">12,847</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-body-sm text-secondary-600">Active Negotiations</span>
-                                <span class="font-semibold text-primary">3,291</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-body-sm text-secondary-600">New Suppliers</span>
-                                <span class="font-semibold text-primary">156</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-body-sm text-secondary-600">Countries Active</span>
-                                <span class="font-semibold text-primary">89</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Popular Products -->
-                    <div class="card">
-                        <h3 class="font-semibold text-primary mb-4">Trending Products</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-center space-x-3">
-                                <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                                    alt="Wireless Earbuds" class="w-12 h-12 rounded-lg object-cover" loading="lazy"
-                                    onerror="this.src='https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                                <div class="flex-1">
-                                    <div class="font-medium text-primary">Wireless Earbuds</div>
-                                    <div class="text-body-sm text-secondary-600">↗ 42% increase</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <img src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                    alt="Smart Home Devices" class="w-12 h-12 rounded-lg object-cover" loading="lazy"
-                                    onerror="this.src='https://images.pixabay.com/photo/2017/05/10/19/29/robot-2301646_1280.jpg'; this.onerror=null;" />
-                                <div class="flex-1">
-                                    <div class="font-medium text-primary">Smart Home Devices</div>
-                                    <div class="text-body-sm text-secondary-600">↗ 38% increase</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <img src="https://images.pixabay.com/photo/2017/08/01/11/48/woman-2564660_1280.jpg"
-                                    alt="Sustainable Fashion" class="w-12 h-12 rounded-lg object-cover" loading="lazy"
-                                    onerror="this.src='https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=2942&auto=format&fit=crop'; this.onerror=null;" />
-                                <div class="flex-1">
-                                    <div class="font-medium text-primary">Sustainable Fashion</div>
-                                    <div class="text-body-sm text-secondary-600">↗ 29% increase</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Emerging Opportunities -->
-                    <div class="card">
-                        <h3 class="font-semibold text-primary mb-4">Emerging Opportunities</h3>
-                        <div class="space-y-4">
-                            <div class="p-3 bg-accent-50 rounded-lg">
-                                <div class="font-medium text-primary mb-1">Green Technology</div>
-                                <div class="text-body-sm text-secondary-600 mb-2">Solar panels & energy storage</div>
-                                <div class="text-body-sm text-accent font-semibold">High demand in Europe</div>
-                            </div>
-                            <div class="p-3 bg-success-50 rounded-lg">
-                                <div class="font-medium text-primary mb-1">Health & Wellness</div>
-                                <div class="text-body-sm text-secondary-600 mb-2">Fitness equipment & supplements</div>
-                                <div class="text-body-sm text-success font-semibold">Growing in North America</div>
-                            </div>
-                            <div class="p-3 bg-primary-50 rounded-lg">
-                                <div class="font-medium text-primary mb-1">Pet Care Products</div>
-                                <div class="text-body-sm text-secondary-600 mb-2">Premium pet accessories</div>
-                                <div class="text-body-sm text-primary font-semibold">Trending globally</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Trust & Verification Center -->
-        <section class="py-16 bg-secondary-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-heading font-bold text-primary mb-4">Built on Trust</h2>
-                    <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                        Comprehensive verification and security measures that protect every transaction
-                    </p>
-                </div>
-
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Supplier Verification -->
-                    <div class="card text-center">
-                        <div class="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-primary mb-2">Verified Suppliers</h3>
-                        <p class="text-body-sm text-secondary-600 mb-3">Multi-tier verification process</p>
-                        <div class="text-2xl font-bold text-success">98.7%</div>
-                        <div class="text-body-sm text-secondary-500">Verification rate</div>
-                    </div>
-
-                    <!-- Secure Payments -->
-                    <div class="card text-center">
-                        <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-primary mb-2">Secure Payments</h3>
-                        <p class="text-body-sm text-secondary-600 mb-3">Bank-level encryption</p>
-                        <div class="text-2xl font-bold text-primary">$2.8B+</div>
-                        <div class="text-body-sm text-secondary-500">Protected annually</div>
-                    </div>
-
-                    <!-- Quality Assurance -->
-                    <div class="card text-center">
-                        <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-primary mb-2">Quality Assurance</h3>
-                        <p class="text-body-sm text-secondary-600 mb-3">Third-party inspections</p>
-                        <div class="text-2xl font-bold text-accent">4.8/5</div>
-                        <div class="text-body-sm text-secondary-500">Average rating</div>
-                    </div>
-
-                    <!-- Global Support -->
-                    <div class="card text-center">
-                        <div class="w-16 h-16 bg-warning-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 109.75 9.75A9.75 9.75 0 0012 2.25z" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-primary mb-2">24/7 Support</h3>
-                        <p class="text-body-sm text-secondary-600 mb-3">Multilingual assistance</p>
-                        <div class="text-2xl font-bold text-warning">
-                            < 2min</div>
-                                <div class="text-body-sm text-secondary-500">Response time</div>
-                        </div>
-                    </div>
-                </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="py-20 bg-gradient-to-r from-primary to-primary-700">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-heading font-bold text-white mb-6">
-                    Ready to Transform Your Business?
-                </h2>
-                <p class="text-body-lg text-primary-100 mb-8 max-w-2xl mx-auto">
-                    Join thousands of businesses already growing with Tunga Market. Start your journey today and discover
-                    what's possible when business grows together.
+    <!-- Live Market Pulse -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-heading font-bold text-primary mb-4">Live Market Pulse</h2>
+                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
+                    Real-time insights into global trading activity and emerging opportunities
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button class="bg-accent hover:bg-accent-600 text-white font-semibold px-8 py-4 rounded-lg transition-fast">
-                        Start Buying Now
-                    </button>
-                    <button class="bg-white hover:bg-gray-50 text-primary font-semibold px-8 py-4 rounded-lg transition-fast">
-                        Become a Seller
-                    </button>
-                </div>
             </div>
-        </section>
 
-        <!-- Login Warning Modal (hidden by default) -->
-        <div id="login-warning-modal-wrapper"
-            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div id="login-warning-modal"
-                class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
-                <!-- Close Button -->
-                <button onclick="continueBrowsing()"
-                    class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-
-                <!-- Warning Icon -->
-                <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Trading Activity -->
+                <div class="card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-primary">Trading Activity</h3>
+                        <div class="flex items-center space-x-1">
+                            <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                            <span class="text-body-sm text-success">Live</span>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-body-sm text-secondary-600">Orders Today</span>
+                            <span class="font-semibold text-primary">12,847</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-body-sm text-secondary-600">Active Negotiations</span>
+                            <span class="font-semibold text-primary">3,291</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-body-sm text-secondary-600">New Suppliers</span>
+                            <span class="font-semibold text-primary">156</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-body-sm text-secondary-600">Countries Active</span>
+                            <span class="font-semibold text-primary">89</span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Main Message -->
-                <h2 class="text-2xl font-bold text-primary mb-3">Sign in to save your favorites</h2>
-                <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
-                    Join us to unlock your personalized shopping experience and never lose track of the products you love.
-                </p>
+                <!-- Popular Products -->
+                <div class="card">
+                    <h3 class="font-semibold text-primary mb-4">Trending Products</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
+                                alt="Wireless Earbuds" class="w-12 h-12 rounded-lg object-cover" loading="lazy"
+                                onerror="this.src='https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
+                            <div class="flex-1">
+                                <div class="font-medium text-primary">Wireless Earbuds</div>
+                                <div class="text-body-sm text-secondary-600">↗ 42% increase</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <img src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                                alt="Smart Home Devices" class="w-12 h-12 rounded-lg object-cover" loading="lazy"
+                                onerror="this.src='https://images.pixabay.com/photo/2017/05/10/19/29/robot-2301646_1280.jpg'; this.onerror=null;" />
+                            <div class="flex-1">
+                                <div class="font-medium text-primary">Smart Home Devices</div>
+                                <div class="text-body-sm text-secondary-600">↗ 38% increase</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <img src="https://images.pixabay.com/photo/2017/08/01/11/48/woman-2564660_1280.jpg"
+                                alt="Sustainable Fashion" class="w-12 h-12 rounded-lg object-cover" loading="lazy"
+                                onerror="this.src='https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=2942&auto=format&fit=crop'; this.onerror=null;" />
+                            <div class="flex-1">
+                                <div class="font-medium text-primary">Sustainable Fashion</div>
+                                <div class="text-body-sm text-secondary-600">↗ 29% increase</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <!-- Action Buttons -->
-                <div class="space-y-3">
-                    <button onclick="goToSignIn()"
-                        class="w-full btn-primary py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                        Sign In to My Account
-                    </button>
-                    <button onclick="continueBrowsing()"
-                        class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
-                        Continue Browsing Without Account
-                    </button>
+                <!-- Emerging Opportunities -->
+                <div class="card">
+                    <h3 class="font-semibold text-primary mb-4">Emerging Opportunities</h3>
+                    <div class="space-y-4">
+                        <div class="p-3 bg-accent-50 rounded-lg">
+                            <div class="font-medium text-primary mb-1">Green Technology</div>
+                            <div class="text-body-sm text-secondary-600 mb-2">Solar panels & energy storage</div>
+                            <div class="text-body-sm text-accent font-semibold">High demand in Europe</div>
+                        </div>
+                        <div class="p-3 bg-success-50 rounded-lg">
+                            <div class="font-medium text-primary mb-1">Health & Wellness</div>
+                            <div class="text-body-sm text-secondary-600 mb-2">Fitness equipment & supplements</div>
+                            <div class="text-body-sm text-success font-semibold">Growing in North America</div>
+                        </div>
+                        <div class="p-3 bg-primary-50 rounded-lg">
+                            <div class="font-medium text-primary mb-1">Pet Care Products</div>
+                            <div class="text-body-sm text-secondary-600 mb-2">Premium pet accessories</div>
+                            <div class="text-body-sm text-primary font-semibold">Trending globally</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div id="login-warning-modal-wrapper2"
-            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div id="login-warning-modal"
-                class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
-                <!-- Close Button -->
-                <button onclick="continueBrowsing()"
-                    class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+    </section>
 
-                <!-- Warning Icon -->
-                <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
+    <!-- Trust & Verification Center -->
+    <section class="py-16 bg-secondary-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-heading font-bold text-primary mb-4">Built on Trust</h2>
+                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
+                    Comprehensive verification and security measures that protect every transaction
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Supplier Verification -->
+                <div class="card text-center">
+                    <div class="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-primary mb-2">Verified Suppliers</h3>
+                    <p class="text-body-sm text-secondary-600 mb-3">Multi-tier verification process</p>
+                    <div class="text-2xl font-bold text-success">98.7%</div>
+                    <div class="text-body-sm text-secondary-500">Verification rate</div>
                 </div>
 
-                <!-- Main Message -->
-                <h2 class="text-xl font-bold text-primary mb-3" style="text-align: center">Sign in to add to cart</h2>
-                <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
-                    Join us to unlock your personalized shopping experience and never lose track of the products you love.
-                </p>
+                <!-- Secure Payments -->
+                <div class="card text-center">
+                    <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-primary mb-2">Secure Payments</h3>
+                    <p class="text-body-sm text-secondary-600 mb-3">Bank-level encryption</p>
+                    <div class="text-2xl font-bold text-primary">$2.8B+</div>
+                    <div class="text-body-sm text-secondary-500">Protected annually</div>
+                </div>
 
-                <!-- Action Buttons -->
-                <div class="space-y-3">
-                    <button onclick="goToSignIn()"
-                        class="w-full btn-primary py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                        Sign In to My Account
-                    </button>
-                    <button onclick="continueBrowsing()"
-                        class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
-                        Continue Browsing Without Account
-                    </button>
+                <!-- Quality Assurance -->
+                <div class="card text-center">
+                    <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-primary mb-2">Quality Assurance</h3>
+                    <p class="text-body-sm text-secondary-600 mb-3">Third-party inspections</p>
+                    <div class="text-2xl font-bold text-accent">4.8/5</div>
+                    <div class="text-body-sm text-secondary-500">Average rating</div>
+                </div>
+
+                <!-- Global Support -->
+                <div class="card text-center">
+                    <div class="w-16 h-16 bg-warning-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 109.75 9.75A9.75 9.75 0 0012 2.25z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-primary mb-2">24/7 Support</h3>
+                    <p class="text-body-sm text-secondary-600 mb-3">Multilingual assistance</p>
+                    <div class="text-2xl font-bold text-warning">
+                        < 2min</div>
+                            <div class="text-body-sm text-secondary-500">Response time</div>
+                    </div>
                 </div>
             </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-primary to-primary-700">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-heading font-bold text-white mb-6">
+                Ready to Transform Your Business?
+            </h2>
+            <p class="text-body-lg text-primary-100 mb-8 max-w-2xl mx-auto">
+                Join thousands of businesses already growing with Tunga Market. Start your journey today and discover
+                what's possible when business grows together.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-accent hover:bg-accent-600 text-white font-semibold px-8 py-4 rounded-lg transition-fast">
+                    Start Buying Now
+                </button>
+                <button class="bg-white hover:bg-gray-50 text-primary font-semibold px-8 py-4 rounded-lg transition-fast">
+                    Become a Seller
+                </button>
+            </div>
         </div>
+    </section>
 
-        <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
-        <script>
-            function startCountdown(elementId, endTime) {
-                function updateCountdown() {
-                    let now = new Date().getTime();
-                    let distance = new Date(endTime).getTime() - now;
+    <!-- Login Warning Modal (hidden by default) -->
+    <div id="login-warning-modal-wrapper"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div id="login-warning-modal"
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
+            <!-- Close Button -->
+            <button onclick="continueBrowsing()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
 
-                    if (distance < 0) {
-                        document.getElementById(elementId).innerHTML = "Expired";
-                        return;
-                    }
+            <!-- Warning Icon -->
+            <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+            </div>
 
-                    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            <!-- Main Message -->
+            <h2 class="text-2xl font-bold text-primary mb-3">Sign in to save your favorites</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Join us to unlock your personalized shopping experience and never lose track of the products you love.
+            </p>
 
-                    document.getElementById(elementId).innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button onclick="goToSignIn()"
+                    class="w-full btn-primary py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Sign In to My Account
+                </button>
+                <button onclick="continueBrowsing()"
+                    class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
+                    Continue Browsing Without Account
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="login-warning-modal-wrapper2"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div id="login-warning-modal"
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
+            <!-- Close Button -->
+            <button onclick="continueBrowsing()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Warning Icon -->
+            <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+            </div>
+
+            <!-- Main Message -->
+            <h2 class="text-xl font-bold text-primary mb-3" style="text-align: center">Sign in to add to cart</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Join us to unlock your personalized shopping experience and never lose track of the products you love.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button onclick="goToSignIn()"
+                    class="w-full btn-primary py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Sign In to My Account
+                </button>
+                <button onclick="continueBrowsing()"
+                    class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
+                    Continue Browsing Without Account
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
+    <script>
+        function startCountdown(elementId, endTime) {
+            function updateCountdown() {
+                let now = new Date().getTime();
+                let distance = new Date(endTime).getTime() - now;
+
+                if (distance < 0) {
+                    document.getElementById(elementId).innerHTML = "Expired";
+                    return;
                 }
 
-                setInterval(updateCountdown, 1000);
-                updateCountdown();
+                let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById(elementId).innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
             }
 
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+        }
 
-            document.addEventListener('DOMContentLoaded', function () {
-                const container = document.getElementById('flash-countdown');
-                if (!container) return;
 
-                const targetMs = Number(container.dataset.targetMs);
-                const mode = container.dataset.mode || 'ending';
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('flash-countdown');
+            if (!container) return;
 
-                const elDays = document.getElementById('flash-days');
-                const elHours = document.getElementById('flash-hours');
-                const elMinutes = document.getElementById('flash-minutes');
-                const elSeconds = document.getElementById('flash-seconds');
-                const titleEl = document.getElementById('flash-countdown-title');
+            const targetMs = Number(container.dataset.targetMs);
+            const mode = container.dataset.mode || 'ending';
 
-                function pad(n) { return n < 10 ? '0' + n : n; }
+            const elDays = document.getElementById('flash-days');
+            const elHours = document.getElementById('flash-hours');
+            const elMinutes = document.getElementById('flash-minutes');
+            const elSeconds = document.getElementById('flash-seconds');
+            const titleEl = document.getElementById('flash-countdown-title');
 
-                function update() {
-                    const now = Date.now();
-                    let distance = targetMs - now;
+            function pad(n) { return n < 10 ? '0' + n : n; }
 
-                    if (distance <= 0) {
-                        // expired
-                        elDays.textContent = '00';
-                        elHours.textContent = '00';
-                        elMinutes.textContent = '00';
-                        elSeconds.textContent = '00';
+            function update() {
+                const now = Date.now();
+                let distance = targetMs - now;
 
-                        // change title to reflect expiration, and optionally auto-refresh deals
-                        if (mode === 'ending') {
-                            titleEl.textContent = 'Flash Sale Ended';
-                        } else {
-                            titleEl.textContent = 'Flash Sale Started';
-                        }
+                if (distance <= 0) {
+                    // expired
+                    elDays.textContent = '00';
+                    elHours.textContent = '00';
+                    elMinutes.textContent = '00';
+                    elSeconds.textContent = '00';
 
-                        // OPTIONAL: attempt to refresh the page or re-fetch deals via AJAX
-                        // setTimeout(() => window.location.reload(), 1500);
-                        clearInterval(interval);
+                    // change title to reflect expiration, and optionally auto-refresh deals
+                    if (mode === 'ending') {
+                        titleEl.textContent = 'Flash Sale Ended';
+                    } else {
+                        titleEl.textContent = 'Flash Sale Started';
+                    }
+
+                    // OPTIONAL: attempt to refresh the page or re-fetch deals via AJAX
+                    // setTimeout(() => window.location.reload(), 1500);
+                    clearInterval(interval);
+                    return;
+                }
+
+                const seconds = Math.floor((distance / 1000) % 60);
+                const minutes = Math.floor((distance / (1000 * 60)) % 60);
+                const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+                elDays.textContent = pad(days);
+                elHours.textContent = pad(hours);
+                elMinutes.textContent = pad(minutes);
+                elSeconds.textContent = pad(seconds);
+            }
+
+            // run immediately then every second
+            update();
+            const interval = setInterval(update, 1000);
+        });
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll("[id^='countdown-']").forEach(el => {
+                const endTime = parseInt(el.getAttribute("data-endtime"));
+                startCountdown(el.id, endTime);
+            });
+        });
+
+
+        // Function to add to cart
+        function addFlashDealToCart(productId, dealId = null) {
+            fetch('{{ route('cart.add.deal') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    deal_id: dealId,
+                }),
+            })
+                .then(async (res) => {
+                    console.log("Fetch response:", res.status);
+
+                    // Detect redirect or unauthorized
+                    if (res.status === 401) {
+                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
                         return;
                     }
 
-                    const seconds = Math.floor((distance / 1000) % 60);
-                    const minutes = Math.floor((distance / (1000 * 60)) % 60);
-                    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    // Try parsing JSON safely
+                    let data;
+                    try {
+                        data = await res.json();
+                    } catch (e) {
+                        console.warn("Non-JSON response, likely a redirect to login page.");
+                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+                        return;
+                    }
 
-                    elDays.textContent = pad(days);
-                    elHours.textContent = pad(hours);
-                    elMinutes.textContent = pad(minutes);
-                    elSeconds.textContent = pad(seconds);
-                }
-
-                // run immediately then every second
-                update();
-                const interval = setInterval(update, 1000);
-            });
-
-
-
-
-            document.addEventListener("DOMContentLoaded", function () {
-                document.querySelectorAll("[id^='countdown-']").forEach(el => {
-                    const endTime = parseInt(el.getAttribute("data-endtime"));
-                    startCountdown(el.id, endTime);
-                });
-            });
-
-
-            // Function to add to cart
-            function addFlashDealToCart(productId, dealId = null) {
-                fetch('{{ route('cart.add.deal') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    },
-                    body: JSON.stringify({
-                        product_id: productId,
-                        deal_id: dealId,
-                    }),
+                    if (res.ok) {
+                        showNotify('success', data.message || 'Added to cart successfully!');
+                    } else {
+                        showNotify('error', data.message || 'Failed to add to cart.');
+                    }
                 })
-                    .then(async (res) => {
-                        console.log("Fetch response:", res.status);
+                .catch(() => showNotify('error', 'Something went wrong while adding to cart.'));
 
-                        // Detect redirect or unauthorized
-                        if (res.status === 401) {
-                            document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
-                            return;
-                        }
-
-                        // Try parsing JSON safely
-                        let data;
-                        try {
-                            data = await res.json();
-                        } catch (e) {
-                            console.warn("Non-JSON response, likely a redirect to login page.");
-                            document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
-                            return;
-                        }
-
-                        if (res.ok) {
-                            showNotify('success', data.message || 'Added to cart successfully!');
-                        } else {
-                            showNotify('error', data.message || 'Failed to add to cart.');
-                        }
-                    })
-                    .catch(() => showNotify('error', 'Something went wrong while adding to cart.'));
-
-            }
+        }
 
 
 
-            function goToSignIn() {
-                window.location.href = '{{ route('login') }}'; // or your custom sign-in route
-            }
+        function goToSignIn() {
+            window.location.href = '{{ route('login') }}'; // or your custom sign-in route
+        }
 
-            function continueBrowsing() {
-                document.getElementById('login-warning-modal-wrapper2').classList.add('hidden');
-            }
+        function continueBrowsing() {
+            document.getElementById('login-warning-modal-wrapper2').classList.add('hidden');
+        }
 
 
-            // Toast Notification
-            function showNotify(type, message) {
-                const styles = {
-                    success: {
-                        bg: "bg-green-500",
-                        icon: "✔️",
-                        title: "Success"
-                    },
-                    error: {
-                        bg: "bg-red-500",
-                        icon: "⚠️",
-                        title: "Error"
-                    }
-                };
-
-                let container = document.getElementById("toast-container");
-                if (!container) {
-                    container = document.createElement("div");
-                    container.id = "toast-container";
-                    container.className = "fixed top-5 right-5 space-y-3 z-50 flex flex-col";
-                    document.body.appendChild(container);
+        // Toast Notification
+        function showNotify(type, message) {
+            const styles = {
+                success: {
+                    bg: "bg-green-500",
+                    icon: "✔️",
+                    title: "Success"
+                },
+                error: {
+                    bg: "bg-red-500",
+                    icon: "⚠️",
+                    title: "Error"
                 }
+            };
 
-                // Toast wrapper
-                const notify = document.createElement("div");
-                notify.className =
-                    `relative flex items-start space-x-3 ${styles[type].bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
-
-                // Icon
-                const icon = document.createElement("span");
-                icon.className = "text-2xl";
-                icon.innerText = styles[type].icon;
-
-                // Content
-                const content = document.createElement("div");
-                content.className = "flex-1";
-                content.innerHTML = `
-                                                <div class="font-semibold">${styles[type].title}</div>
-                                                <div class="text-sm opacity-90">${message}</div>
-                                            `;
-
-                // Progress bar
-                const progress = document.createElement("div");
-                progress.className =
-                    "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
-                progress.style.width = "100%";
-
-                // Append
-                notify.appendChild(icon);
-                notify.appendChild(content);
-                notify.appendChild(progress);
-                container.appendChild(notify);
-
-                // Auto-remove
-                setTimeout(() => {
-                    notify.classList.add("animate-fade-out");
-                    setTimeout(() => notify.remove(), 500);
-                }, 4000);
+            let container = document.getElementById("toast-container");
+            if (!container) {
+                container = document.createElement("div");
+                container.id = "toast-container";
+                container.className = "fixed top-5 right-5 space-y-3 z-50 flex flex-col";
+                document.body.appendChild(container);
             }
 
-            document.addEventListener('DOMContentLoaded', function () {
-                const swiper = new Swiper('.successSwiper', {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                    loop: true,
-                    autoplay: false,
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                    },
-                    breakpoints: {
-                        640: { slidesPerView: 1 },
-                        768: { slidesPerView: 2 },
-                        1024: { slidesPerView: 3 },
-                    },
-                });
+            // Toast wrapper
+            const notify = document.createElement("div");
+            notify.className =
+                `relative flex items-start space-x-3 ${styles[type].bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
 
-                // Pause autoplay when hovering
-                const swiperEl = document.querySelector('.successSwiper');
-                swiperEl.addEventListener('mouseenter', () => swiper.autoplay.stop());
-                swiperEl.addEventListener('mouseleave', () => swiper.autoplay.start());
+            // Icon
+            const icon = document.createElement("span");
+            icon.className = "text-2xl";
+            icon.innerText = styles[type].icon;
+
+            // Content
+            const content = document.createElement("div");
+            content.className = "flex-1";
+            content.innerHTML = `
+                                                    <div class="font-semibold">${styles[type].title}</div>
+                                                    <div class="text-sm opacity-90">${message}</div>
+                                                `;
+
+            // Progress bar
+            const progress = document.createElement("div");
+            progress.className =
+                "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
+            progress.style.width = "100%";
+
+            // Append
+            notify.appendChild(icon);
+            notify.appendChild(content);
+            notify.appendChild(progress);
+            container.appendChild(notify);
+
+            // Auto-remove
+            setTimeout(() => {
+                notify.classList.add("animate-fade-out");
+                setTimeout(() => notify.remove(), 500);
+            }, 4000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const swiper = new Swiper('.successSwiper', {
+                effect: 'fade', // smooth fade transition
+                fadeEffect: {
+                    crossFade: true
+                },
+                slidesPerView: 1,
+                spaceBetween: 30,
+                loop: true,
+                autoplay: {
+                    delay: 4500,
+                    disableOnInteraction: false,
+                },
+                speed: 1000, // smooth transition
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                    dynamicBullets: true,
+                },
+                breakpoints: {
+                    768: {
+                        effect: 'coverflow',
+                        slidesPerView: 2,
+                        coverflowEffect: {
+                            rotate: 15,
+                            stretch: 0,
+                            depth: 120,
+                            modifier: 1,
+                            slideShadows: false,
+                        },
+                    },
+                    1024: {
+                        effect: 'coverflow',
+                        slidesPerView: 3,
+                        coverflowEffect: {
+                            rotate: 25,
+                            stretch: 0,
+                            depth: 200,
+                            modifier: 1.2,
+                            slideShadows: false,
+                        },
+                    },
+                },
             });
-        </script>
+
+            // Pause autoplay when hovering over the carousel
+            const swiperEl = document.querySelector('.successSwiper');
+            swiperEl.addEventListener('mouseenter', () => swiper.autoplay.stop());
+            swiperEl.addEventListener('mouseleave', () => swiper.autoplay.start());
+        });
+    </script>
 @endsection
