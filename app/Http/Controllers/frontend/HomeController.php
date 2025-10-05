@@ -74,6 +74,67 @@ class HomeController extends Controller
     // pass milliseconds (JS-friendly) to avoid timezone weirdness
     $targetMs = $target ? ($target->getTimestamp() * 1000) : null;
     $successStories = SuccessStory::where('is_active', true)->latest()->take(6)->get();
+
+     // load initial trending products (top 5 by views)
+        $topProducts = Product::where('status', 'active')
+            ->orderBy('views_count', 'desc')
+            ->take(5)
+            ->get();
+
+        // compute percent change compared to ~24h earlier snapshot if available
+        $trending = $topProducts->map(function ($p) {
+            $nowViews = (int) $p->views_count;
+
+            // find the most recent snapshot at least 24 hours ago
+            $old = ProductViewSnapshot::where('product_id', $p->id)
+                    ->where('recorded_at', '<=', Carbon::now()->subDay())
+                    ->orderBy('recorded_at', 'desc')
+                    ->first();
+
+            if ($old) {
+                $oldViews = max(1, (int)$old->views_count); // avoid division by zero
+                $percent = round((($nowViews - $oldViews) / $oldViews) * 100, 1);
+                $trend = $percent > 0 ? 'up' : ($percent < 0 ? 'down' : 'flat');
+            } else {
+                $percent = null;
+                $trend = 'flat';
+            }
+
+            return [
+                'id' => $p->id,
+                'name' => $p->name,
+                'slug' => $p->slug,
+                'main_image' => $p->main_image,
+                'views' => $nowViews,
+                'percent_change' => $percent,
+                'trend' => $trend,
+            ];
+        });
+
+        // For Trading activity stats - attempt to collect real values if models exist, otherwise fallback
+        $ordersToday = 0;
+        $newSuppliers = 0;
+        $activeNegotiations = 0;
+        $countriesActive = 0;
+        try {
+            if (class_exists(\App\Models\Order::class)) {
+                $ordersToday = \App\Models\Order::whereDate('created_at', now())->count();
+            }
+            // if (class_exists(\App\Models\Supplier::class)) {
+            //     $newSuppliers = \App\Models\Supplier::whereDate('created_at', '>=', now()->subDays(7))->count();
+            // }
+            // // If you have negotiations table replace below
+            // if (class_exists(\App\Models\Negotiation::class)) {
+            //     $activeNegotiations = \App\Models\Negotiation::where('status', 'open')->count();
+            // }
+            // countries active: count distinct countries in users/sellers (fallback to products)
+            if (class_exists(\App\Models\User::class)) {
+                $countriesActive = \App\Models\User::distinct('country')->count('country');
+            }
+        } catch (\Throwable $e) {
+            // gracefully ignore missing models / columns on dev
+        }
+
         return view('frontend.home',
  [
         'categories'=>$categories,
@@ -82,6 +143,10 @@ class HomeController extends Controller
         'countdownTargetMs' => $targetMs,
         'maxDiscount' => $maxDiscount,
         'successStories' => $successStories,
+         'trending'=>$trending, 
+         'ordersToday'=>$ordersToday, 
+         'countriesActive'=>$countriesActive
+        
         ]);
     }
 
