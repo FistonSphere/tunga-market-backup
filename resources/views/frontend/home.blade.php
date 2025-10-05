@@ -626,19 +626,35 @@
                     <div id="fx-rates" class="space-y-3">
                         <!-- these will be filled by JS -->
                         <div class="flex items-center justify-between">
-                            <div class="text-body-sm text-secondary-600">USD → RWF</div>
+                            <div class="flex items-center space-x-2">
+                                <img src="https://flagcdn.com/us.svg" alt="US" class="w-5 h-5 rounded-sm" loading="lazy" />
+                                <span class="text-body-sm text-secondary-600">→</span>
+                                <img src="https://flagcdn.com/rw.svg" alt="Rwanda" class="w-5 h-5 rounded-sm" loading="lazy" />
+                            </div>
                             <div class="font-semibold text-primary" id="rate-RWF">—</div>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-body-sm text-secondary-600">USD → EUR</div>
+                            <div class="flex items-center space-x-2">
+                                <img src="https://flagcdn.com/us.svg" alt="US" class="w-5 h-5 rounded-sm" loading="lazy" />
+                                <span class="text-body-sm text-secondary-600">→</span>
+                                <img src="https://flagcdn.com/eu.svg" alt="EU" class="w-5 h-5 rounded-sm" loading="lazy" />
+                            </div>
                             <div class="font-semibold text-primary" id="rate-EUR">—</div>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-body-sm text-secondary-600">USD → GBP</div>
+                            <div class="flex items-center space-x-2">
+                                <img src="https://flagcdn.com/us.svg" alt="US" class="w-5 h-5 rounded-sm" loading="lazy" />
+                                <span class="text-body-sm text-secondary-600">→</span>
+                                <img src="https://flagcdn.com/gb.svg" alt="UK" class="w-5 h-5 rounded-sm" loading="lazy" />
+                            </div>
                             <div class="font-semibold text-primary" id="rate-GBP">—</div>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-body-sm text-secondary-600">USD → KES</div>
+                            <div class="flex items-center space-x-2">
+                                <img src="https://flagcdn.com/us.svg" alt="US" class="w-5 h-5 rounded-sm" loading="lazy" />
+                                <span class="text-body-sm text-secondary-600">→</span>
+                                <img src="https://flagcdn.com/ke.svg" alt="Kenya" class="w-5 h-5 rounded-sm" loading="lazy" />
+                            </div>
                             <div class="font-semibold text-primary" id="rate-KES">—</div>
                         </div>
 
@@ -1115,5 +1131,8 @@
         // Optional: re-fetch trending products every 5 minutes
         // (You can implement a /market-pulse/trending endpoint if you want to live-update trending list)
     });
+        
+        
+        
         </script>
 @endsection

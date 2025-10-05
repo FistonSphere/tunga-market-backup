@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -154,31 +155,42 @@ class HomeController extends Controller
         ]);
     }
 
-     public function ratesJson()
-    {
-        // cached for 60 seconds
+  public function ratesJson()
+{
+    try {
         $data = Cache::remember('market_rates_v1', 60, function () {
-            $apiUrl = 'https://api.exchangerate.host/latest';
-            $resp = Http::timeout(8)->get($apiUrl, [
-                'base' => 'USD',
-                'symbols' => 'USD,EUR,GBP,KES,RWF'
-            ]);
+            $apiUrl = 'https://open.er-api.com/v6/latest/USD';
+            $resp = Http::timeout(10)->get($apiUrl);
+
             if ($resp->ok()) {
                 $d = $resp->json();
 
-                // Some helper computed rates: show RWF per USD (as returned), and USD per RWF (inverse) maybe
+                // Ensure it has valid rates
+                $rates = $d['rates'] ?? [];
+
                 return [
-                    'timestamp' => $d['timestamp'] ?? null,
-                    'base' => $d['base'] ?? 'USD',
-                    'rates' => $d['rates'] ?? [],
+                    'timestamp' => $d['time_last_update_unix'] ?? now()->timestamp,
+                    'base' => $d['base_code'] ?? 'USD',
+                    'rates' => [
+                        'RWF' => $rates['RWF'] ?? 1300.00, // fallback approximate rate
+                        'EUR' => $rates['EUR'] ?? null,
+                        'GBP' => $rates['GBP'] ?? null,
+                        'KES' => $rates['KES'] ?? null,
+                    ],
                 ];
             }
-            return ['rates' => []];
+
+            return ['timestamp' => now()->timestamp, 'rates' => []];
         });
 
-        // include a small random "direction" simulation if you want to see arrows initially removed
         return response()->json($data);
+    } catch (\Throwable $e) {
+        \Log::error('Failed to fetch FX rates', ['error' => $e->getMessage()]);
+        return response()->json(['timestamp' => now()->timestamp, 'rates' => []], 500);
     }
+}
+
+
     
     public function show($slug)
     {
