@@ -47,6 +47,16 @@
         .animate-progress {
             animation: progressAnim 3.5s linear forwards;
         }
+
+        #loading-overlay {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #loading-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
     </style>
     <!-- Flash Deals Hero Section -->
     <section class="bg-gradient-to-br from-accent via-accent-600 to-primary text-white py-16">
@@ -359,507 +369,511 @@
             </div>
             <!-- Load er Spinner -->
             <div id="loading-overlay"
-             class="hidden absolute inset-0 bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center z-50 transition-opacity duration-300">
-            <div class="animate-spin rounded-full h-12 w-12 border-4 border-accent border-t-transparent mb-4"></div>
-            <p class="text-gray-700 font-medium">Fetching the best deals for you...</p>
-             </div>
-                <!-- Products Grid -->
-                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-
-                    @foreach($flashDeals as $deal)
-                        @include('partials.deal-card', ['deal' => $deal])
-
-                    @endforeach
-                </div>
-
-
-                <!-- Load More Button -->
-                @if($flashDeals->total() > 2)
-                    <div class="text-center mt-12">
-                        <button id="load-more" data-page="1"
-                            class="bg-gradient-to-r from-accent to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-card hover:shadow-hover">
-                            Load More Deals
-                        </button>
-                    </div>
-                @endif
-
+                class="hidden absolute inset-0 bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center z-50 transition-opacity duration-300">
+                <div class="animate-spin rounded-full h-12 w-12 border-4 border-accent border-t-transparent mb-4"></div>
+                <p class="text-gray-700 font-medium">Fetching the best deals for you...</p>
             </div>
-        </section>
+            <!-- Products Grid -->
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
-        <!-- Login Warning Modal (hidden by default) -->
-        <div id="login-warning-modal-wrapper2"
-            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden" style="z-index: 999999;">
-            <div id="login-warning-modal"
-                class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
-                <!-- Close Button -->
-                <button onclick="continueBrowsing()"
-                    class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                @foreach($flashDeals as $deal)
+                    @include('partials.deal-card', ['deal' => $deal])
+
+                @endforeach
+            </div>
+
+
+            <!-- Load More Button -->
+            @if($flashDeals->total() > 2)
+                <div class="text-center mt-12">
+                    <button id="load-more" data-page="1"
+                        class="bg-gradient-to-r from-accent to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-card hover:shadow-hover">
+                        Load More Deals
+                    </button>
+                </div>
+            @endif
+
+        </div>
+    </section>
+
+    <!-- Login Warning Modal (hidden by default) -->
+    <div id="login-warning-modal-wrapper2"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden" style="z-index: 999999;">
+        <div id="login-warning-modal"
+            class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
+            <!-- Close Button -->
+            <button onclick="continueBrowsing()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-fast p-1 rounded-full hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Warning Icon -->
+            <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+            </div>
+
+            <!-- Main Message -->
+            <h2 class="text-xl font-bold text-primary mb-3" style="text-align: center">Sign in to add to cart</h2>
+            <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
+                Join us to unlock your personalized shopping experience and never lose track of the products you love.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button onclick="goToSignIn()"
+                    class="w-full btn-primary py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Sign In to My Account
                 </button>
-
-                <!-- Warning Icon -->
-                <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                </div>
-
-                <!-- Main Message -->
-                <h2 class="text-xl font-bold text-primary mb-3" style="text-align: center">Sign in to add to cart</h2>
-                <p class="text-body text-secondary-600 mb-6 leading-relaxed text-center">
-                    Join us to unlock your personalized shopping experience and never lose track of the products you love.
-                </p>
-
-                <!-- Action Buttons -->
-                <div class="space-y-3">
-                    <button onclick="goToSignIn()"
-                        class="w-full btn-primary py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                        Sign In to My Account
-                    </button>
-                    <button onclick="continueBrowsing()"
-                        class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
-                        Continue Browsing Without Account
-                    </button>
-                </div>
+                <button onclick="continueBrowsing()"
+                    class="text-secondary-500 hover:text-accent transition-fast text-body-sm font-medium w-full">
+                    Continue Browsing Without Account
+                </button>
             </div>
         </div>
-        <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
-        @if($nearestEndMs)
-            <script>
-                (function () {
-                    const endTimeMs = {{ $nearestEndMs }}; // integer epoch ms from server
-
-                    function formatTwo(n) { return String(n).padStart(2, '0'); }
-
-                    function updateCountdown() {
-                        const now = Date.now();
-                        const distance = endTimeMs - now;
-
-                        if (distance <= 0) {
-                            document.getElementById("flash-days").innerText = "00";
-                            document.getElementById("flash-hours").innerText = "00";
-                            document.getElementById("flash-minutes").innerText = "00";
-                            document.getElementById("flash-seconds").innerText = "00";
-                            // update the small stats "time-left" to 00:00
-                            const tl = document.getElementById('time-left');
-                            if (tl) tl.innerText = '00:00:00';
-                            return;
-                        }
-
-                        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                        document.getElementById("flash-days").innerText = formatTwo(days);
-                        document.getElementById("flash-hours").innerText = formatTwo(hours);
-                        document.getElementById("flash-minutes").innerText = formatTwo(minutes);
-                        document.getElementById("flash-seconds").innerText = formatTwo(seconds);
-
-                        // small overview "time-left" (days + hh:mm)
-                        const overview = document.getElementById('time-left');
-                        if (overview) {
-                            overview.innerText = `${days}d ${formatTwo(hours)}h`;
-                        }
-                    }
-
-                    updateCountdown();
-                    setInterval(updateCountdown, 1000);
-                })();
-            </script>
-        @endif
+    </div>
+    <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
+    @if($nearestEndMs)
         <script>
+            (function () {
+                const endTimeMs = {{ $nearestEndMs }}; // integer epoch ms from server
 
-            const track = document.getElementById("carousel-track");
-            const prevBtn = document.getElementById("carousel-prev");
-            const nextBtn = document.getElementById("carousel-next");
+                function formatTwo(n) { return String(n).padStart(2, '0'); }
 
-            let currentIndex = 0;
-            const itemWidth = 320 + 16; // 320px item width + 16px gap (w-80 + space-x-4)
-            const totalItems = track.children.length;
-            const visibleItems = Math.floor(track.parentElement.offsetWidth / itemWidth);
+                function updateCountdown() {
+                    const now = Date.now();
+                    const distance = endTimeMs - now;
 
-            function updateCarousel() {
-                const maxIndex = Math.max(totalItems - visibleItems, 0);
-                if (currentIndex < 0) currentIndex = 0;
-                if (currentIndex > maxIndex) currentIndex = maxIndex;
-
-                track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
-            }
-
-            nextBtn.addEventListener("click", () => {
-                currentIndex++;
-                updateCarousel();
-            });
-
-            prevBtn.addEventListener("click", () => {
-                currentIndex--;
-                updateCarousel();
-            });
-
-            window.addEventListener("resize", updateCarousel);
-            updateCarousel();
-
-            document.addEventListener("DOMContentLoaded", function () {
-                const loadMoreBtn = document.getElementById("load-more");
-                const productsGrid = document.getElementById("products-grid");
-                let currentPage = 1;
-
-                loadMoreBtn?.addEventListener("click", function () {
-                    if (this.dataset.mode === "collapse") {
-                        // Collapse mode → reset grid to first 4
-                        productsGrid.querySelectorAll(".product-card").forEach((card, i) => {
-                            if (i >= 4) card.remove();
-                        });
-                        this.textContent = "Load More Deals";
-                        this.dataset.mode = "load";
-                        this.dataset.page = 1;
+                    if (distance <= 0) {
+                        document.getElementById("flash-days").innerText = "00";
+                        document.getElementById("flash-hours").innerText = "00";
+                        document.getElementById("flash-minutes").innerText = "00";
+                        document.getElementById("flash-seconds").innerText = "00";
+                        // update the small stats "time-left" to 00:00
+                        const tl = document.getElementById('time-left');
+                        if (tl) tl.innerText = '00:00:00';
                         return;
                     }
 
-                    // Normal Load More
-                    currentPage++;
-                    fetch(`/flash-deals/load?page=${currentPage}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            productsGrid.insertAdjacentHTML("beforeend", data.html);
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                            if (!data.hasMore) {
-                                loadMoreBtn.textContent = "Collapse";
-                                loadMoreBtn.dataset.mode = "collapse";
-                            } else {
-                                loadMoreBtn.dataset.page = currentPage;
-                            }
-                        })
-                        .catch(err => console.error("Error loading deals:", err));
-                });
-            });
+                    document.getElementById("flash-days").innerText = formatTwo(days);
+                    document.getElementById("flash-hours").innerText = formatTwo(hours);
+                    document.getElementById("flash-minutes").innerText = formatTwo(minutes);
+                    document.getElementById("flash-seconds").innerText = formatTwo(seconds);
 
+                    // small overview "time-left" (days + hh:mm)
+                    const overview = document.getElementById('time-left');
+                    if (overview) {
+                        overview.innerText = `${days}d ${formatTwo(hours)}h`;
+                    }
+                }
 
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            })();
+        </script>
+    @endif
+    <script>
 
+        const track = document.getElementById("carousel-track");
+        const prevBtn = document.getElementById("carousel-prev");
+        const nextBtn = document.getElementById("carousel-next");
 
+        let currentIndex = 0;
+        const itemWidth = 320 + 16; // 320px item width + 16px gap (w-80 + space-x-4)
+        const totalItems = track.children.length;
+        const visibleItems = Math.floor(track.parentElement.offsetWidth / itemWidth);
 
-            function openProductModal(productId) {
-                fetch(`/products/flash-deals/${productId}/details`)
+        function updateCarousel() {
+            const maxIndex = Math.max(totalItems - visibleItems, 0);
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+            track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+        }
+
+        nextBtn.addEventListener("click", () => {
+            currentIndex++;
+            updateCarousel();
+        });
+
+        prevBtn.addEventListener("click", () => {
+            currentIndex--;
+            updateCarousel();
+        });
+
+        window.addEventListener("resize", updateCarousel);
+        updateCarousel();
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const loadMoreBtn = document.getElementById("load-more");
+            const productsGrid = document.getElementById("products-grid");
+            let currentPage = 1;
+
+            loadMoreBtn?.addEventListener("click", function () {
+                if (this.dataset.mode === "collapse") {
+                    // Collapse mode → reset grid to first 4
+                    productsGrid.querySelectorAll(".product-card").forEach((card, i) => {
+                        if (i >= 4) card.remove();
+                    });
+                    this.textContent = "Load More Deals";
+                    this.dataset.mode = "load";
+                    this.dataset.page = 1;
+                    return;
+                }
+
+                // Normal Load More
+                currentPage++;
+                fetch(`/flash-deals/load?page=${currentPage}`)
                     .then(res => res.json())
                     .then(data => {
-                        // Parse JSON strings to arrays/objects
-                        const gallery = Array.isArray(data.gallery) ? data.gallery : (data.gallery ? JSON.parse(data.gallery) : []);
-                        const features = Array.isArray(data.features) ? data.features : (data.features ? JSON.parse(data.features) : []);
-                        const specifications = typeof data.specifications === 'object'
-                            ? data.specifications
-                            : (data.specifications ? JSON.parse(data.specifications) : {});
+                        productsGrid.insertAdjacentHTML("beforeend", data.html);
 
-                        // Set main image
-                        document.getElementById('modalMainImage').src = gallery[0] || data.main_image;
-
-                        // Set name and prices
-                        document.getElementById('modalName').textContent = data.name;
-                        document.getElementById('modalPrice').textContent = `RWF ${data.flash_price.toLocaleString()}`;
-                        document.getElementById('modalOldPrice').textContent = `RWF ${data.price.toLocaleString()}`;
-                        document.getElementById('modalDiscount').textContent = `${data.discount_percent}% OFF`;
-
-                        // Description
-                        document.getElementById('modalDescription').textContent = data.description;
-
-                        // Gallery thumbnails
-                        const galleryDiv = document.getElementById('modalGallery');
-                        galleryDiv.innerHTML = '';
-                        if (gallery.length) {
-                            gallery.forEach(img => {
-                                const thumb = document.createElement('img');
-                                thumb.src = img;
-                                thumb.className = 'w-20 h-20 object-cover rounded-lg cursor-pointer';
-                                thumb.onclick = () => document.getElementById('modalMainImage').src = img;
-                                galleryDiv.appendChild(thumb);
-                            });
+                        if (!data.hasMore) {
+                            loadMoreBtn.textContent = "Collapse";
+                            loadMoreBtn.dataset.mode = "collapse";
                         } else {
-                            galleryDiv.innerHTML = '<p class="text-gray-400 text-sm">No gallery images available.</p>';
-                        }
-
-                        // Specifications (object)
-                        const specsDiv = document.getElementById('modalSpecs');
-                        specsDiv.innerHTML = `<h4 class="font-semibold mb-1">Specifications:</h4>`;
-                        if (Object.keys(specifications).length) {
-                            for (const [key, value] of Object.entries(specifications)) {
-                                const li = document.createElement('p');
-                                li.textContent = `• ${key}: ${value}`;
-                                specsDiv.appendChild(li);
-                            }
-                        } else {
-                            specsDiv.innerHTML += '<p class="text-gray-400 text-sm">No specifications available.</p>';
-                        }
-
-                        // Features
-                        const featuresDiv = document.getElementById('modalFeatures');
-                        featuresDiv.innerHTML = `<h4 class="font-semibold mb-1">Features:</h4>`;
-                        if (features.length) {
-                            features.forEach(f => {
-                                const li = document.createElement('p');
-                                li.textContent = `• ${f}`;
-                                featuresDiv.appendChild(li);
-                            });
-                        } else {
-                            featuresDiv.innerHTML += '<p class="text-gray-400 text-sm">No features available.</p>';
-                        }
-
-                        // Ratings
-                        const ratingDiv = document.getElementById('modalRating');
-                        ratingDiv.innerHTML = '';
-                        for (let i = 1; i <= 5; i++) {
-                            const star = document.createElement('span');
-                            star.textContent = i <= data.average_rating ? '★' : '☆';
-                            ratingDiv.appendChild(star);
-                        }
-
-                        // Show modal
-                        document.getElementById('productModal').classList.remove('hidden');
-
-                        setTimeout(() => {
-                            const addToCartBtn = document.getElementById('addToCartBtn');
-                            if (addToCartBtn) {
-                                addToCartBtn.onclick = () => {
-                                    console.log("Add to Cart clicked for product:", data.id); // Debug
-                                    addToCart(data.id, data.deal_id || null);
-                                };
-                            } else {
-                                console.error("Add to Cart button not found!");
-                            }
-                        }, 100);
-
-                        setTimeout(() => {
-                            const addToCartBtn = document.getElementById('addToCartBtn');
-                            const buyNowBtn = document.getElementById('buyNowBtn');
-
-                            if (addToCartBtn) {
-                                addToCartBtn.onclick = () => addToCart(data.id, data.deal_id || null);
-                            }
-
-                            if (buyNowBtn) {
-                                buyNowBtn.onclick = () => buyNow(data.id, data.deal_id || null);
-                            }
-                        }, 100);
-
-
-                    })
-                    .catch(err => console.error(err));
-            }
-
-
-
-            function closeProductModal() {
-                document.getElementById('productModal').classList.add('hidden');
-            }
-
-            // Function to add to cart
-            function addToCart(productId, dealId = null) {
-                fetch('{{ route('cart.add.deal') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    },
-                    body: JSON.stringify({
-                        product_id: productId,
-                        deal_id: dealId,
-                    }),
-                })
-                    .then(async (res) => {
-                        console.log("Fetch response:", res.status);
-
-                        // Detect redirect or unauthorized
-                        if (res.status === 401) {
-                            document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
-                            return;
-                        }
-
-                        // Try parsing JSON safely
-                        let data;
-                        try {
-                            data = await res.json();
-                        } catch (e) {
-                            console.warn("Non-JSON response, likely a redirect to login page.");
-                            document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
-                            return;
-                        }
-
-                        if (res.ok) {
-                            showNotify('success', data.message || 'Added to cart successfully!');
-                        } else {
-                            showNotify('error', data.message || 'Failed to add to cart.');
+                            loadMoreBtn.dataset.page = currentPage;
                         }
                     })
-                    .catch(() => showNotify('error', 'Something went wrong while adding to cart.'));
-
-            }
-
-
-
-            function goToSignIn() {
-                window.location.href = '{{ route('login') }}'; // or your custom sign-in route
-            }
-
-            function continueBrowsing() {
-                document.getElementById('login-warning-modal-wrapper2').classList.add('hidden');
-            }
-            function buyNow(productId, dealId = null) {
-                fetch('{{ route('cart.add.deal') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    },
-                    body: JSON.stringify({
-                        product_id: productId,
-                        deal_id: dealId,
-                    }),
-                })
-                    .then(async (res) => {
-                        if (res.status === 401) {
-                            // Not logged in
-                            document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
-                            return;
-                        }
-
-                        let data;
-                        try {
-                            data = await res.json();
-                        } catch {
-                            showNotify('error', 'Something went wrong while adding to cart.');
-                            return;
-                        }
-
-                        if (res.ok) {
-                            showNotify('success', 'Redirecting to checkout...');
-                            // ✅ Redirect to checkout after short delay
-                            setTimeout(() => {
-                                window.location.href = '/checkout';
-                            }, 800);
-                        } else {
-                            showNotify('error', data.message || 'Failed to add to cart.');
-                        }
-                    })
-                    .catch(() => showNotify('error', 'Network error while processing Buy Now.'));
-            }
+                    .catch(err => console.error("Error loading deals:", err));
+            });
+        });
 
 
-            function showNotify(type, message) {
-                const styles = {
-                    success: {
-                        bg: "bg-green-500",
-                        icon: "✔️",
-                        title: "Success"
-                    },
-                    error: {
-                        bg: "bg-red-500",
-                        icon: "⚠️",
-                        title: "Error"
-                    }
-                };
-
-                let container = document.getElementById("toast-container");
-                if (!container) {
-                    container = document.createElement("div");
-                    container.id = "toast-container";
-                    container.className = "fixed top-5 right-5 space-y-3 z-50 flex flex-col";
-                    document.body.appendChild(container);
-                }
-
-                // Toast wrapper
-                const notify = document.createElement("div");
-                notify.className =
-                    `relative flex items-start space-x-3 ${styles[type].bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
-
-                // Icon
-                const icon = document.createElement("span");
-                icon.className = "text-2xl";
-                icon.innerText = styles[type].icon;
-
-                // Content
-                const content = document.createElement("div");
-                content.className = "flex-1";
-                content.innerHTML = `
-                                                                                    <div class="font-semibold">${styles[type].title}</div>
-                                                                                    <div class="text-sm opacity-90">${message}</div>
-                                                                                `;
-
-                // Progress bar
-                const progress = document.createElement("div");
-                progress.className =
-                    "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
-                progress.style.width = "100%";
-
-                // Append
-                notify.appendChild(icon);
-                notify.appendChild(content);
-                notify.appendChild(progress);
-                container.appendChild(notify);
-
-                // Auto-remove
-                setTimeout(() => {
-                    notify.classList.add("animate-fade-out");
-                    setTimeout(() => notify.remove(), 500);
-                }, 4000);
-            }
 
 
-            document.addEventListener("DOMContentLoaded", function () {
-                const filters = ["category", "discount", "price", "time", "sort"];
-                const productsGrid = document.getElementById("products-grid");
-                const clearBtn = document.getElementById("clear-filters");
-                const spinner = document.getElementById("loading-spinner");
 
-                filters.forEach(filter => {
-                    document.getElementById(`${filter}-filter`)?.addEventListener("change", fetchFlashDeals);
-                });
+        function openProductModal(productId) {
+            fetch(`/products/flash-deals/${productId}/details`)
+                .then(res => res.json())
+                .then(data => {
+                    // Parse JSON strings to arrays/objects
+                    const gallery = Array.isArray(data.gallery) ? data.gallery : (data.gallery ? JSON.parse(data.gallery) : []);
+                    const features = Array.isArray(data.features) ? data.features : (data.features ? JSON.parse(data.features) : []);
+                    const specifications = typeof data.specifications === 'object'
+                        ? data.specifications
+                        : (data.specifications ? JSON.parse(data.specifications) : {});
 
-                clearBtn?.addEventListener("click", () => {
-                    filters.forEach(filter => {
-                        document.getElementById(`${filter}-filter`).value = "";
-                    });
-                    fetchFlashDeals();
-                });
+                    // Set main image
+                    document.getElementById('modalMainImage').src = gallery[0] || data.main_image;
 
-                function fetchFlashDeals() {
-                    const params = {
-                        category: document.getElementById("category-filter").value,
-                        discount: document.getElementById("discount-filter").value,
-                        price: document.getElementById("price-filter").value,
-                        time: document.getElementById("time-filter").value,
-                        sort: document.getElementById("sort-filter")?.value,
-                    };
+                    // Set name and prices
+                    document.getElementById('modalName').textContent = data.name;
+                    document.getElementById('modalPrice').textContent = `RWF ${data.flash_price.toLocaleString()}`;
+                    document.getElementById('modalOldPrice').textContent = `RWF ${data.price.toLocaleString()}`;
+                    document.getElementById('modalDiscount').textContent = `${data.discount_percent}% OFF`;
 
-                    const query = new URLSearchParams(params).toString();
+                    // Description
+                    document.getElementById('modalDescription').textContent = data.description;
 
-                    // Show spinner and clear products grid temporarily
-                    spinner.classList.remove("hidden");
-                    productsGrid.classList.add("opacity-30");
-
-                    fetch(`/flash-deals/filter?${query}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            productsGrid.innerHTML = data.html || "<p class='text-center text-gray-500 py-8'>No deals found.</p>";
-                        })
-                        .catch(err => {
-                            console.error("Error loading filtered deals:", err);
-                            productsGrid.innerHTML = "<p class='text-center text-red-500 py-8'>Failed to load deals. Try again.</p>";
-                        })
-                        .finally(() => {
-                            // Hide spinner and restore opacity after loading completes
-                            setTimeout(() => {
-                                spinner.classList.add("hidden");
-                                productsGrid.classList.remove("opacity-30");
-                            }, 300);
+                    // Gallery thumbnails
+                    const galleryDiv = document.getElementById('modalGallery');
+                    galleryDiv.innerHTML = '';
+                    if (gallery.length) {
+                        gallery.forEach(img => {
+                            const thumb = document.createElement('img');
+                            thumb.src = img;
+                            thumb.className = 'w-20 h-20 object-cover rounded-lg cursor-pointer';
+                            thumb.onclick = () => document.getElementById('modalMainImage').src = img;
+                            galleryDiv.appendChild(thumb);
                         });
+                    } else {
+                        galleryDiv.innerHTML = '<p class="text-gray-400 text-sm">No gallery images available.</p>';
+                    }
+
+                    // Specifications (object)
+                    const specsDiv = document.getElementById('modalSpecs');
+                    specsDiv.innerHTML = `<h4 class="font-semibold mb-1">Specifications:</h4>`;
+                    if (Object.keys(specifications).length) {
+                        for (const [key, value] of Object.entries(specifications)) {
+                            const li = document.createElement('p');
+                            li.textContent = `• ${key}: ${value}`;
+                            specsDiv.appendChild(li);
+                        }
+                    } else {
+                        specsDiv.innerHTML += '<p class="text-gray-400 text-sm">No specifications available.</p>';
+                    }
+
+                    // Features
+                    const featuresDiv = document.getElementById('modalFeatures');
+                    featuresDiv.innerHTML = `<h4 class="font-semibold mb-1">Features:</h4>`;
+                    if (features.length) {
+                        features.forEach(f => {
+                            const li = document.createElement('p');
+                            li.textContent = `• ${f}`;
+                            featuresDiv.appendChild(li);
+                        });
+                    } else {
+                        featuresDiv.innerHTML += '<p class="text-gray-400 text-sm">No features available.</p>';
+                    }
+
+                    // Ratings
+                    const ratingDiv = document.getElementById('modalRating');
+                    ratingDiv.innerHTML = '';
+                    for (let i = 1; i <= 5; i++) {
+                        const star = document.createElement('span');
+                        star.textContent = i <= data.average_rating ? '★' : '☆';
+                        ratingDiv.appendChild(star);
+                    }
+
+                    // Show modal
+                    document.getElementById('productModal').classList.remove('hidden');
+
+                    setTimeout(() => {
+                        const addToCartBtn = document.getElementById('addToCartBtn');
+                        if (addToCartBtn) {
+                            addToCartBtn.onclick = () => {
+                                console.log("Add to Cart clicked for product:", data.id); // Debug
+                                addToCart(data.id, data.deal_id || null);
+                            };
+                        } else {
+                            console.error("Add to Cart button not found!");
+                        }
+                    }, 100);
+
+                    setTimeout(() => {
+                        const addToCartBtn = document.getElementById('addToCartBtn');
+                        const buyNowBtn = document.getElementById('buyNowBtn');
+
+                        if (addToCartBtn) {
+                            addToCartBtn.onclick = () => addToCart(data.id, data.deal_id || null);
+                        }
+
+                        if (buyNowBtn) {
+                            buyNowBtn.onclick = () => buyNow(data.id, data.deal_id || null);
+                        }
+                    }, 100);
+
+
+                })
+                .catch(err => console.error(err));
+        }
+
+
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        // Function to add to cart
+        function addToCart(productId, dealId = null) {
+            fetch('{{ route('cart.add.deal') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    deal_id: dealId,
+                }),
+            })
+                .then(async (res) => {
+                    console.log("Fetch response:", res.status);
+
+                    // Detect redirect or unauthorized
+                    if (res.status === 401) {
+                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+                        return;
+                    }
+
+                    // Try parsing JSON safely
+                    let data;
+                    try {
+                        data = await res.json();
+                    } catch (e) {
+                        console.warn("Non-JSON response, likely a redirect to login page.");
+                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+                        return;
+                    }
+
+                    if (res.ok) {
+                        showNotify('success', data.message || 'Added to cart successfully!');
+                    } else {
+                        showNotify('error', data.message || 'Failed to add to cart.');
+                    }
+                })
+                .catch(() => showNotify('error', 'Something went wrong while adding to cart.'));
+
+        }
+
+
+
+        function goToSignIn() {
+            window.location.href = '{{ route('login') }}'; // or your custom sign-in route
+        }
+
+        function continueBrowsing() {
+            document.getElementById('login-warning-modal-wrapper2').classList.add('hidden');
+        }
+        function buyNow(productId, dealId = null) {
+            fetch('{{ route('cart.add.deal') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    deal_id: dealId,
+                }),
+            })
+                .then(async (res) => {
+                    if (res.status === 401) {
+                        // Not logged in
+                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+                        return;
+                    }
+
+                    let data;
+                    try {
+                        data = await res.json();
+                    } catch {
+                        showNotify('error', 'Something went wrong while adding to cart.');
+                        return;
+                    }
+
+                    if (res.ok) {
+                        showNotify('success', 'Redirecting to checkout...');
+                        // ✅ Redirect to checkout after short delay
+                        setTimeout(() => {
+                            window.location.href = '/checkout';
+                        }, 800);
+                    } else {
+                        showNotify('error', data.message || 'Failed to add to cart.');
+                    }
+                })
+                .catch(() => showNotify('error', 'Network error while processing Buy Now.'));
+        }
+
+
+        function showNotify(type, message) {
+            const styles = {
+                success: {
+                    bg: "bg-green-500",
+                    icon: "✔️",
+                    title: "Success"
+                },
+                error: {
+                    bg: "bg-red-500",
+                    icon: "⚠️",
+                    title: "Error"
                 }
+            };
+
+            let container = document.getElementById("toast-container");
+            if (!container) {
+                container = document.createElement("div");
+                container.id = "toast-container";
+                container.className = "fixed top-5 right-5 space-y-3 z-50 flex flex-col";
+                document.body.appendChild(container);
+            }
+
+            // Toast wrapper
+            const notify = document.createElement("div");
+            notify.className =
+                `relative flex items-start space-x-3 ${styles[type].bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
+
+            // Icon
+            const icon = document.createElement("span");
+            icon.className = "text-2xl";
+            icon.innerText = styles[type].icon;
+
+            // Content
+            const content = document.createElement("div");
+            content.className = "flex-1";
+            content.innerHTML = `
+                                                                                            <div class="font-semibold">${styles[type].title}</div>
+                                                                                            <div class="text-sm opacity-90">${message}</div>
+                                                                                        `;
+
+            // Progress bar
+            const progress = document.createElement("div");
+            progress.className =
+                "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
+            progress.style.width = "100%";
+
+            // Append
+            notify.appendChild(icon);
+            notify.appendChild(content);
+            notify.appendChild(progress);
+            container.appendChild(notify);
+
+            // Auto-remove
+            setTimeout(() => {
+                notify.classList.add("animate-fade-out");
+                setTimeout(() => notify.remove(), 500);
+            }, 4000);
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const filters = ["category", "discount", "price", "time", "sort"];
+            const productsGrid = document.getElementById("products-grid");
+            const clearBtn = document.getElementById("clear-filters");
+            const overlay = document.getElementById("loading-overlay");
+
+            filters.forEach(filter => {
+                document.getElementById(`${filter}-filter`)?.addEventListener("change", fetchFlashDeals);
             });
 
+            clearBtn?.addEventListener("click", () => {
+                filters.forEach(filter => {
+                    document.getElementById(`${filter}-filter`).value = "";
+                });
+                fetchFlashDeals();
+            });
+
+            function showOverlay() {
+                overlay.classList.remove("hidden");
+                setTimeout(() => overlay.classList.add("show"), 50);
+            }
+
+            function hideOverlay() {
+                overlay.classList.remove("show");
+                setTimeout(() => overlay.classList.add("hidden"), 300);
+            }
+
+            function fetchFlashDeals() {
+                const params = {
+                    category: document.getElementById("category-filter").value,
+                    discount: document.getElementById("discount-filter").value,
+                    price: document.getElementById("price-filter").value,
+                    time: document.getElementById("time-filter").value,
+                    sort: document.getElementById("sort-filter")?.value,
+                };
+
+                const query = new URLSearchParams(params).toString();
+
+                showOverlay();
+
+                fetch(`/flash-deals/filter?${query}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        productsGrid.innerHTML = data.html || "<p class='text-center text-gray-500 py-8'>No deals found.</p>";
+                        productsGrid.appendChild(overlay); // Re-attach overlay inside the grid
+                    })
+                    .catch(err => {
+                        console.error("Error loading filtered deals:", err);
+                        productsGrid.innerHTML = "<p class='text-center text-red-500 py-8'>Failed to load deals. Try again.</p>";
+                        productsGrid.appendChild(overlay);
+                    })
+                    .finally(() => hideOverlay());
+            }
+        });
 
 
-        </script>
+
+    </script>
 
 
 
