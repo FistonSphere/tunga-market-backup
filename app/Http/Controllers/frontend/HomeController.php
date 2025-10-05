@@ -150,6 +150,32 @@ class HomeController extends Controller
         ]);
     }
 
+     public function ratesJson()
+    {
+        // cached for 60 seconds
+        $data = Cache::remember('market_rates_v1', 60, function () {
+            $apiUrl = 'https://api.exchangerate.host/latest';
+            $resp = Http::timeout(8)->get($apiUrl, [
+                'base' => 'USD',
+                'symbols' => 'USD,EUR,GBP,KES,RWF'
+            ]);
+            if ($resp->ok()) {
+                $d = $resp->json();
+
+                // Some helper computed rates: show RWF per USD (as returned), and USD per RWF (inverse) maybe
+                return [
+                    'timestamp' => $d['timestamp'] ?? null,
+                    'base' => $d['base'] ?? 'USD',
+                    'rates' => $d['rates'] ?? [],
+                ];
+            }
+            return ['rates' => []];
+        });
+
+        // include a small random "direction" simulation if you want to see arrows initially removed
+        return response()->json($data);
+    }
+    
     public function show($slug)
     {
         $category = Category::where('slug', $slug)->firstOrFail();
