@@ -661,14 +661,14 @@
     <section class="py-16 bg-secondary-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Built on Trust</h2>
+                <h2 class="text-heading font-bold text-primary mb-4">Shop With Confidence</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Comprehensive verification and security measures that protect every transaction
+                    Your safety and satisfaction are our top priorities, enjoy secure shopping and trusted service every step of the way.
                 </p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Supplier Verification -->
+                <!-- Buyer Protection -->
                 <div class="card text-center">
                     <div class="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -676,10 +676,10 @@
                                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <h3 class="font-semibold text-primary mb-2">Verified Suppliers</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Multi-tier verification process</p>
-                    <div class="text-2xl font-bold text-success">98.7%</div>
-                    <div class="text-body-sm text-secondary-500">Verification rate</div>
+                    <h3 class="font-semibold text-primary mb-2">Buyer Protection</h3>
+                    <p class="text-body-sm text-secondary-600 mb-3">Full refund if your order isn’t as described</p>
+                    <div class="text-2xl font-bold text-success">100%</div>
+                    <div class="text-body-sm text-secondary-500">Purchase guarantee</div>
                 </div>
 
                 <!-- Secure Payments -->
@@ -691,12 +691,12 @@
                         </svg>
                     </div>
                     <h3 class="font-semibold text-primary mb-2">Secure Payments</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Bank-level encryption</p>
-                    <div class="text-2xl font-bold text-primary">$2.8B+</div>
-                    <div class="text-body-sm text-secondary-500">Protected annually</div>
+                    <p class="text-body-sm text-secondary-600 mb-3">Your data is protected with <br>bank-level encryption</p>
+                    <div class="text-2xl font-bold text-primary">Millions</div>
+                    <div class="text-body-sm text-secondary-500">of safe transactions</div>
                 </div>
 
-                <!-- Quality Assurance -->
+                <!-- Quality Guarantee -->
                 <div class="card text-center">
                     <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -704,13 +704,13 @@
                                 d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                         </svg>
                     </div>
-                    <h3 class="font-semibold text-primary mb-2">Quality Assurance</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Third-party inspections</p>
+                    <h3 class="font-semibold text-primary mb-2">Quality Guarantee</h3>
+                    <p class="text-body-sm text-secondary-600 mb-3">Products checked for quality before shipping</p>
                     <div class="text-2xl font-bold text-accent">4.8/5</div>
-                    <div class="text-body-sm text-secondary-500">Average rating</div>
+                    <div class="text-body-sm text-secondary-500">Average customer rating</div>
                 </div>
 
-                <!-- Global Support -->
+                <!-- Customer Support -->
                 <div class="card text-center">
                     <div class="w-16 h-16 bg-warning-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -718,33 +718,30 @@
                                 d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 109.75 9.75A9.75 9.75 0 0012 2.25z" />
                         </svg>
                     </div>
-                    <h3 class="font-semibold text-primary mb-2">24/7 Support</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Multilingual assistance</p>
+                    <h3 class="font-semibold text-primary mb-2">24/7 Customer Support</h3>
+                    <p class="text-body-sm text-secondary-600 mb-3">Friendly help whenever you need it</p>
                     <div class="text-2xl font-bold text-warning">
-                        < 2min</div>
-                            <div class="text-body-sm text-secondary-500">Response time</div>
+                        &lt; 2min
                     </div>
+                    <div class="text-body-sm text-secondary-500">Average response time</div>
                 </div>
             </div>
+        </div>
     </section>
 
     <!-- CTA Section -->
     <section class="py-20 bg-gradient-to-r from-primary to-primary-700">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-heading font-bold text-white mb-6">
-                Ready to Transform Your Business?
+                Ready to Grow With Tunga Market?
             </h2>
             <p class="text-body-lg text-primary-100 mb-8 max-w-2xl mx-auto">
-                Join thousands of businesses already growing with Tunga Market. Start your journey today and discover
-                what's possible when business grows together.
+                Shop the latest products, enjoy exclusive deals, and experience secure, hassle-free shopping. Join Tunga Market and make every purchase count for you and your family!
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button class="bg-accent hover:bg-accent-600 text-white font-semibold px-8 py-4 rounded-lg transition-fast">
+                <a href="{{ route('product.discovery') }}" class="bg-accent hover:bg-accent-600 text-white font-semibold px-8 py-4 rounded-lg transition-fast flex items-center justify-center">
                     Start Buying Now
-                </button>
-                <button class="bg-white hover:bg-gray-50 text-primary font-semibold px-8 py-4 rounded-lg transition-fast">
-                    Become a Seller
-                </button>
+                </a>
             </div>
         </div>
     </section>
