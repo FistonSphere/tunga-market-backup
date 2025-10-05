@@ -482,55 +482,56 @@
     @endif
 
 
-    
-    <!-- Success Stories Section -->
-    <section class="py-16 bg-gradient-to-r from-primary-50 to-accent-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Success Stories</h2>
-                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Real transformations from businesses that chose to grow with Tunga Market
-                </p>
-            </div>
 
-            <div class="grid lg:grid-cols-3 gap-8">
-                @forelse($successStories as $story)
-                    <div class="card text-center">
-                        <div class="relative mb-6">
-                            <img src="{{ $story->photo }}" alt="{{ $story->name }} - {{ $story->company }}"
-                                class="w-20 h-20 rounded-full mx-auto object-cover"
-                                onerror="this.src='https://via.placeholder.com/150'; this.onerror=null;" />
-                            <div
-                                class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-accent text-white rounded-full p-1">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd" />
-                                </svg>
+    <!-- Success Stories Section -->
+    @if(!$successStories->isEmpty())
+        <section class="py-16 bg-gradient-to-r from-primary-50 to-accent-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-heading font-bold text-primary mb-4">Success Stories</h2>
+                    <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
+                        Real transformations from businesses that chose to grow with Tunga Market
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    @forelse($successStories as $story)
+                        <div class="card text-center">
+                            <div class="relative mb-6">
+                                <img src="{{ $story->photo }}" alt="{{ $story->name }} - {{ $story->company }}"
+                                    class="w-20 h-20 rounded-full mx-auto object-cover"
+                                    onerror="this.src='https://via.placeholder.com/150'; this.onerror=null;" />
+                                <div
+                                    class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-accent text-white rounded-full p-1">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <blockquote class="text-body text-secondary-700 mb-4 italic">
+                                “{{ $story->testimonial }}”
+                            </blockquote>
+                            <div class="text-primary font-semibold">{{ $story->name }}</div>
+                            <div class="text-body-sm text-secondary-600">{{ $story->role }}, {{ $story->company }}</div>
+                            <div class="mt-4 flex items-center justify-center space-x-4 text-body-sm">
+                                @if($story->highlight_1)
+                                    <span class="text-success">{{ $story->highlight_1 }}</span>
+                                @endif
+                                @if($story->highlight_2)
+                                    <span class="text-accent">{{ $story->highlight_2 }}</span>
+                                @endif
                             </div>
                         </div>
-
-                        <blockquote class="text-body text-secondary-700 mb-4 italic">
-                            “{{ $story->testimonial }}”
-                        </blockquote>
-                        <div class="text-primary font-semibold">{{ $story->name }}</div>
-                        <div class="text-body-sm text-secondary-600">{{ $story->role }}, {{ $story->company }}</div>
-                        <div class="mt-4 flex items-center justify-center space-x-4 text-body-sm">
-                            @if($story->highlight_1)
-                                <span class="text-success">{{ $story->highlight_1 }}</span>
-                            @endif
-                            @if($story->highlight_2)
-                                <span class="text-accent">{{ $story->highlight_2 }}</span>
-                            @endif
-                        </div>
-                    </div>
-                @empty
-                    <p class="text-center text-gray-500 col-span-3 py-8">No success stories available yet.</p>
-                @endforelse
+                    @empty
+                        <p class="text-center text-gray-500 col-span-3 py-8">No success stories available yet.</p>
+                    @endforelse
+                </div>
             </div>
-        </div>
-    </section>
-
+        </section>
+    @endif
 
     <!-- Live Market Pulse -->
     <section class="py-16 bg-white">
@@ -984,9 +985,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                <div class="font-semibold">${styles[type].title}</div>
-                                <div class="text-sm opacity-90">${message}</div>
-                            `;
+                                    <div class="font-semibold">${styles[type].title}</div>
+                                    <div class="text-sm opacity-90">${message}</div>
+                                `;
 
             // Progress bar
             const progress = document.createElement("div");
