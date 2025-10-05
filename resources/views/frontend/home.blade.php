@@ -485,7 +485,7 @@
 
     <!-- Success Stories Section -->
     @if(!$successStories->isEmpty())
-        <section class="py-20 bg-gradient-to-r from-primary-50 to-accent-50 overflow-hidden">
+        <section class="py-16 bg-gradient-to-r from-primary-50 to-accent-50 overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
                     <h2 class="text-heading font-bold text-primary mb-4">Success Stories</h2>
@@ -494,19 +494,18 @@
                     </p>
                 </div>
 
-                <!-- Swiper Carousel -->
-                <div class="swiper successSwiper pb-10">
+                <div class="swiper successSwiper">
                     <div class="swiper-wrapper">
                         @forelse($successStories as $story)
                             <div class="swiper-slide">
                                 <div
-                                    class="group relative bg-white/80 backdrop-blur-lg border border-gray-100 rounded-2xl shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 ease-out p-8 text-center">
+                                    class="card text-center p-6 shadow-md bg-white rounded-2xl hover:shadow-xl transition-all duration-300">
                                     <div class="relative mb-6">
                                         <img src="{{ $story->photo }}" alt="{{ $story->name }} - {{ $story->company }}"
-                                            class="w-20 h-20 rounded-full mx-auto object-cover border-4 border-accent/30 shadow-lg transition-transform duration-500 group-hover:scale-110"
+                                            class="w-20 h-20 rounded-full mx-auto object-cover border-4 border-accent/20 shadow"
                                             onerror="this.src='https://via.placeholder.com/150'; this.onerror=null;" />
                                         <div
-                                            class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-accent to-accent-600 text-white rounded-full p-1 shadow-md">
+                                            class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-accent text-white rounded-full p-1">
                                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd"
                                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -515,41 +514,35 @@
                                         </div>
                                     </div>
 
-                                    <blockquote class="text-body text-secondary-700 mb-4 italic leading-relaxed">
+                                    <blockquote class="text-body text-secondary-700 mb-4 italic">
                                         “{{ $story->testimonial }}”
                                     </blockquote>
 
-                                    <div class="text-primary font-semibold text-lg">{{ $story->name }}</div>
+                                    <div class="text-primary font-semibold">{{ $story->name }}</div>
                                     <div class="text-body-sm text-secondary-600">{{ $story->role }}, {{ $story->company }}</div>
 
-                                    <div class="mt-4 flex items-center justify-center space-x-4 text-sm">
+                                    <div class="mt-4 flex items-center justify-center space-x-4 text-body-sm">
                                         @if($story->highlight_1)
-                                            <span class="text-success font-medium">{{ $story->highlight_1 }}</span>
+                                            <span class="text-success">{{ $story->highlight_1 }}</span>
                                         @endif
                                         @if($story->highlight_2)
-                                            <span class="text-accent font-medium">{{ $story->highlight_2 }}</span>
+                                            <span class="text-accent">{{ $story->highlight_2 }}</span>
                                         @endif
-                                    </div>
-
-                                    <!-- 3D Glow Effect -->
-                                    <div
-                                        class="absolute inset-0 rounded-2xl bg-gradient-to-r from-accent/10 to-accent/5 opacity-0 group-hover:opacity-100 blur-xl transition duration-700">
                                     </div>
                                 </div>
                             </div>
                         @empty
-                            <div class="swiper-slide">
-                                <p class="text-center text-gray-500 py-8">No success stories available yet.</p>
+                            <div class="text-center py-8 text-gray-500">
+                                No success stories available yet.
                             </div>
                         @endforelse
                     </div>
 
                     <!-- Pagination Dots -->
-                    <div class="swiper-pagination mt-8"></div>
+                    <div class="swiper-pagination mt-6"></div>
                 </div>
             </div>
         </section>
-
 
     @endif
 
@@ -1005,9 +998,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                    <div class="font-semibold">${styles[type].title}</div>
-                                                    <div class="text-sm opacity-90">${message}</div>
-                                                `;
+                                            <div class="font-semibold">${styles[type].title}</div>
+                                            <div class="text-sm opacity-90">${message}</div>
+                                        `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1030,50 +1023,25 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             const swiper = new Swiper('.successSwiper', {
-                effect: 'fade', // smooth fade transition
-                fadeEffect: {
-                    crossFade: true
-                },
                 slidesPerView: 1,
-                spaceBetween: 30,
+                spaceBetween: 20,
                 loop: true,
                 autoplay: {
-                    delay: 4500,
+                    delay: 2000,
                     disableOnInteraction: false,
                 },
-                speed: 1000, // smooth transition
                 pagination: {
                     el: '.swiper-pagination',
                     clickable: true,
-                    dynamicBullets: true,
                 },
                 breakpoints: {
-                    768: {
-                        effect: 'coverflow',
-                        slidesPerView: 2,
-                        coverflowEffect: {
-                            rotate: 15,
-                            stretch: 0,
-                            depth: 120,
-                            modifier: 1,
-                            slideShadows: false,
-                        },
-                    },
-                    1024: {
-                        effect: 'coverflow',
-                        slidesPerView: 3,
-                        coverflowEffect: {
-                            rotate: 25,
-                            stretch: 0,
-                            depth: 200,
-                            modifier: 1.2,
-                            slideShadows: false,
-                        },
-                    },
+                    640: { slidesPerView: 1 },
+                    768: { slidesPerView: 2 },
+                    1024: { slidesPerView: 3 },
                 },
             });
 
-            // Pause autoplay when hovering over the carousel
+            // Pause autoplay when hovering
             const swiperEl = document.querySelector('.successSwiper');
             swiperEl.addEventListener('mouseenter', () => swiper.autoplay.stop());
             swiperEl.addEventListener('mouseleave', () => swiper.autoplay.start());
