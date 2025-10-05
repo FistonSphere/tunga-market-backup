@@ -413,7 +413,8 @@
                                 </span>
                             </div>
 
-                            <button onclick="addFlashDealToCart({{ $deal->id }}, {{ $product->id }})" class="w-full btn-primary text-sm py-2">
+                            <button onclick="addFlashDealToCart({{ $deal->id }}, {{ $product->id }})"
+                                class="w-full btn-primary text-sm py-2">
                                 Add to Cart
                             </button>
                         </div>
@@ -425,7 +426,8 @@
 
                 <!-- View All Deals Button -->
                 <div class="text-center mt-12">
-                    <a href="{{ route('flash-deals.showcase') }}" class="bg-gradient-to-r from-accent to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-card hover:shadow-hover">
+                    <a href="{{ route('flash-deals.showcase') }}"
+                        class="bg-gradient-to-r from-accent to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-card hover:shadow-hover">
                         View All Flash Deals 🔥
                     </a>
                 </div>
@@ -929,7 +931,7 @@
             const interval = setInterval(update, 1000);
         });
 
-        
+
 
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -940,45 +942,57 @@
         });
 
 
-        // ✅ Add Flash Deal to Cart
-        window.addFlashDealToCart = function (dealId, productId) {
-            const quantity = 1; // usually flash deals allow 1 click add (can be extended)
-
-            fetch(`/flash-deals/cart/add`, {
-                method: "POST",
+        // Function to add to cart
+        function addFlashDealToCart(productId, dealId = null) {
+            fetch('{{ route('cart.add.deal') }}', {
+                method: 'POST',
                 headers: {
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                    "Content-Type": "application/json",
-                    "X-Requested-With": "XMLHttpRequest"
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                 },
                 body: JSON.stringify({
-                    deal_id: dealId,
                     product_id: productId,
-                    quantity: quantity
-                })
+                    deal_id: dealId,
+                }),
             })
-                .then(response => {
-                    if (response.status === 401) {
-                        // If user not logged in → show modal
-                        const loginWarningModalWrapper2 = document.getElementById("login-warning-modal-wrapper2");
-                        loginWarningModalWrapper2.classList.remove("hidden");
-                        return null;
+                .then(async (res) => {
+                    console.log("Fetch response:", res.status);
+
+                    // Detect redirect or unauthorized
+                    if (res.status === 401) {
+                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+                        return;
                     }
-                    return response.json();
-                })
-                .then(data => {
-                    if (!data) return;
-                    if (data.status === "success") {
-                        updateCartCount(data.cartCount);
-                        showNotify(data.message, "success");
+
+                    // Try parsing JSON safely
+                    let data;
+                    try {
+                        data = await res.json();
+                    } catch (e) {
+                        console.warn("Non-JSON response, likely a redirect to login page.");
+                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+                        return;
+                    }
+
+                    if (res.ok) {
+                        showNotify('success', data.message || 'Added to cart successfully!');
                     } else {
-                        showNotify(data.message, "error");
+                        showNotify('error', data.message || 'Failed to add to cart.');
                     }
                 })
-                .catch(() => showNotify("Failed to add flash deal to cart.", "error"));
-        };
+                .catch(() => showNotify('error', 'Something went wrong while adding to cart.'));
+
+        }
 
 
+
+        function goToSignIn() {
+            window.location.href = '{{ route('login') }}'; // or your custom sign-in route
+        }
+
+        function continueBrowsing() {
+            document.getElementById('login-warning-modal-wrapper2').classList.add('hidden');
+        }
 
 
         // Toast Notification
@@ -1018,9 +1032,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                        <div class="font-semibold">${styles[type].title}</div>
-                        <div class="text-sm opacity-90">${message}</div>
-                    `;
+                            <div class="font-semibold">${styles[type].title}</div>
+                            <div class="text-sm opacity-90">${message}</div>
+                        `;
 
             // Progress bar
             const progress = document.createElement("div");
