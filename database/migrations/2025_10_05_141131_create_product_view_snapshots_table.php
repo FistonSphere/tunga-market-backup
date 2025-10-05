@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('product_view_snapshots', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_id')->index();
+            $table->unsignedBigInteger('views_count')->default(0);
+            $table->timestamp('recorded_at')->useCurrent();
             $table->timestamps();
+
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
