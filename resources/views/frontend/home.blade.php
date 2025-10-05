@@ -1011,9 +1011,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                        <div class="font-semibold">${styles[type].title}</div>
-                                                        <div class="text-sm opacity-90">${message}</div>
-                                                    `;
+                                                            <div class="font-semibold">${styles[type].title}</div>
+                                                            <div class="text-sm opacity-90">${message}</div>
+                                                        `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1059,5 +1059,61 @@
             swiperEl.addEventListener('mouseenter', () => swiper.autoplay.stop());
             swiperEl.addEventListener('mouseleave', () => swiper.autoplay.start());
         });
-    </script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ratesUrl = "{{ route('market.pulse.rates') }}";
+        let prevRates = {};
+
+        async function fetchRates () {
+            const spinner = document.getElementById('fx-spinner');
+            spinner.classList.remove('hidden');
+            try {
+                const res = await fetch(ratesUrl);
+                const data = await res.json();
+                spinner.classList.add('hidden');
+
+                const rates = data.rates || {};
+                const ts = data.timestamp ? new Date(data.timestamp * 1000) : new Date();
+
+                // update UI -> format to 4 decimal for floats except RWF which can be integer
+                if (rates.RWF !== undefined) {
+                    document.getElementById('rate-RWF').innerText = Number(rates.RWF).toLocaleString(undefined, {maximumFractionDigits: 2});
+                }
+                if (rates.EUR !== undefined) {
+                    document.getElementById('rate-EUR').innerText = Number(rates.EUR).toFixed(4);
+                }
+                if (rates.GBP !== undefined) {
+                    document.getElementById('rate-GBP').innerText = Number(rates.GBP).toFixed(4);
+                }
+                if (rates.KES !== undefined) {
+                    document.getElementById('rate-KES').innerText = Number(rates.KES).toFixed(3);
+                }
+
+                document.getElementById('fx-last-updated').innerText = ts.toLocaleString();
+
+                // simple up/down visual (if you want to show arrows)
+                Object.keys(rates).forEach(k => {
+                    const el = document.getElementById('rate-' + k);
+                    if (!el) return;
+                    const prev = prevRates[k] ?? null;
+                    if (prev !== null) {
+                        if (rates[k] > prev) el.classList.add('text-success'); else el.classList.remove('text-success');
+                        if (rates[k] < prev) el.classList.add('text-error'); else el.classList.remove('text-error');
+                    }
+                    prevRates[k] = rates[k];
+                });
+
+            } catch (err) {
+                spinner.classList.add('hidden');
+                console.error('Failed to fetch FX rates', err);
+            }
+        }
+
+        // initial fetch + interval
+        fetchRates();
+        setInterval(fetchRates, 60 * 1000); // refresh every 60s
+
+        // Optional: re-fetch trending products every 5 minutes
+        // (You can implement a /market-pulse/trending endpoint if you want to live-update trending list)
+    });
+        </script>
 @endsection

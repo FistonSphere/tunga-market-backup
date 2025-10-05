@@ -5,9 +5,13 @@ namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\FlashDeal;
+use App\Models\Product;
+use App\Models\ProductViewSnapshot;
 use App\Models\SuccessStory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -183,4 +187,32 @@ class HomeController extends Controller
 
         return view('frontend.categories.show', compact('category', 'products'));
     }
+
+    public function trendingJson()
+{
+    $topProducts = Product::where('status', 'active')->orderBy('views_count', 'desc')->take(10)->get();
+    $items = $topProducts->map(function ($p) {
+        $nowViews = (int) $p->views_count;
+        $old = ProductViewSnapshot::where('product_id', $p->id)
+                ->where('recorded_at', '<=', now()->subDay())
+                ->orderBy('recorded_at', 'desc')
+                ->first();
+        $percent = null; $trend = 'flat';
+        if ($old) {
+            $oldViews = max(1, (int) $old->views_count);
+            $percent = round((($nowViews - $oldViews) / $oldViews) * 100, 1);
+            $trend = $percent > 0 ? 'up' : ($percent < 0 ? 'down' : 'flat');
+        }
+        return [
+            'id' => $p->id,
+            'name' => $p->name,
+            'image' => $p->main_image,
+            'views' => $nowViews,
+            'percent_change' => $percent,
+            'trend' => $trend,
+        ];
+    });
+    return response()->json(['items' => $items]);
+}
+
 }
