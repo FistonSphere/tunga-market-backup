@@ -297,28 +297,30 @@
                             </div>
 
                             <div class="space-y-4">
-                                @forelse ($orders as $orderId => $items)
+                                @forelse ($orders as $order)
                                     @php
-                                        $order = $items->first()->order;
+                                        $order = $order->order;
                                         $status = ucfirst($order->status ?? 'Pending');
                                         $statusColor = match ($order->status) {
-                                            'processing' => 'bg-warning-100 text-warning-700',
+                                            'Processing' => 'bg-warning-100 text-warning-700',
                                             'shipped' => 'bg-primary-100 text-primary-700',
-                                            'delivered' => 'bg-success-100 text-success-700',
-                                            'cancelled' => 'bg-danger-100 text-danger-700',
+                                            'Delivered' => 'bg-success-100 text-success-700',
+                                            'Canceled' => 'bg-danger-100 text-danger-700',
                                             default => 'bg-gray-100 text-gray-700',
                                         };
+                                        $orderNo = $order->items->first()->order_no ?? 'N/A';
                                     @endphp
 
                                     <div class="border border-secondary-200 rounded-lg p-6 hover:shadow-hover transition-fast">
                                         <div class="flex items-center justify-between mb-4">
                                             <div>
                                                 <h3 class="font-semibold text-primary">
-                                                    Order #{{ $order->order_number ?? 'N/A' }}
+                                                    Order #{{ $orderNo }}
                                                 </h3>
                                                 <p class="text-secondary-600">
-                                                    {{ $order->created_at->format('F j, Y') }} •
-                                                    ${{ number_format($order->total_amount, 2) }}
+                                                    {{ $order->created_at->format('F j, Y') }}
+                                                    • {{ strtoupper($order->currency) ?? 'USD' }}
+                                                    {{ number_format($order->total, 2) }}
                                                 </p>
                                             </div>
 
@@ -338,10 +340,12 @@
                                             <!-- Items -->
                                             <div>
                                                 <h4 class="font-medium text-secondary-700 mb-2">Items</h4>
-                                                @foreach ($items as $item)
+                                                @foreach ($order->items as $item)
                                                     <p class="text-secondary-600 text-sm">
-                                                        {{ $item->product->name ?? 'Unknown Product' }}
+                                                        {{ $item->product->name }}
                                                         ({{ $item->quantity }}x)
+                                                        
+                                                        {{ strtoupper($item->product->currency) ?? 'USD' }}{{ number_format($item->price) }}
                                                     </p>
                                                 @endforeach
                                             </div>
@@ -350,10 +354,10 @@
                                             <div>
                                                 <h4 class="font-medium text-secondary-700 mb-2">Delivery</h4>
                                                 <p class="text-secondary-600 text-sm">
-                                                    {{ ucfirst($order->shipping_method ?? 'Standard') }}
+                                                    {{ $order->shippingAddress->delivery_method ?? 'Standard Shipping' }}
                                                 </p>
                                                 <p class="text-secondary-600 text-sm">
-                                                    {{ $order->delivery_estimate ?? 'N/A' }}
+                                                    {{ $order->shippingAddress->estimated_delivery ?? 'Est. Delivery Pending' }}
                                                 </p>
                                             </div>
 
@@ -361,7 +365,7 @@
                                             <div>
                                                 <h4 class="font-medium text-secondary-700 mb-2">Actions</h4>
                                                 <div class="flex space-x-2">
-                                                    @if($order->status === 'processing' || $order->status === 'shipped')
+                                                    @if(in_array($order->status, ['processing', 'shipped']))
                                                         <button
                                                             onclick="window.location.href='{{ route('orders.track', $order->id) }}'"
                                                             class="text-primary hover:text-primary-600 text-sm font-semibold">
@@ -1123,35 +1127,35 @@
 
             const icons = {
                 success: `<svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>`,
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>`,
                 info: `<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>`,
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>`,
                 warning: `<svg class="w-5 h-5 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                    </svg>`,
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                        </svg>`,
                 error: `<svg class="w-5 h-5 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>`
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>`
             };
 
             notification.innerHTML = `
-                    <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
-                        <div class="flex items-start space-x-3">
-                            ${icons[type]}
-                            <div class="flex-1">
-                                <h4 class="font-semibold text-primary">${title}</h4>
-                                <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                        <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
+                            <div class="flex items-start space-x-3">
+                                ${icons[type]}
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-primary">${title}</h4>
+                                    <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                                </div>
+                                <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                </button>
                             </div>
-                            <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
                         </div>
-                    </div>
-                `;
+                    `;
 
             notification.classList.remove('translate-x-full');
 
@@ -1181,20 +1185,20 @@
         // Add CSS for active nav items
         const styling = document.createElement('style');
         styling.textContent = `
-                .nav-item.active {
-                    background-color: var(--color-primary);
-                    color: white;
-                }
+                    .nav-item.active {
+                        background-color: var(--color-primary);
+                        color: white;
+                    }
 
-                .content-section {
-                    animation: fadeIn 0.3s ease-in-out;
-                }
+                    .content-section {
+                        animation: fadeIn 0.3s ease-in-out;
+                    }
 
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            `;
+                    @keyframes fadeIn {
+                        from { opacity: 0; transform: translateY(10px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                `;
         document.head.appendChild(styling);
 
 

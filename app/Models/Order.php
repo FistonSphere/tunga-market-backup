@@ -74,5 +74,14 @@ public function generateInvoiceNumber()
     return $this->receipt_number;
 }
 
+public function calculateAndSaveTotal()
+{
+    $total = $this->items->sum(function ($item) {
+        return $item->price * $item->quantity;
+    });
 
+    $this->total = $total;
+    $this->save();
+
+    return $this->total;
 }

@@ -206,14 +206,38 @@ class AuthController extends Controller
     {
         $user = Auth::user();
          $countries = Countries::all()->pluck('name.common')->sort();
-      $orders = OrderItem::with(['order', 'product'])
-        ->whereHas('order', function ($query) {
+        $status = $request->get('status');
+        $toDate = $request->get('to_date');
+        $fromDate = $request->get('from_date');
+          $orders = OrderItem::with(['order', 'product'])
+        ->whereHas('order', function ($query) use ($status) {
             $query->where('user_id', auth()->id());
+
+            // Status filter
+            if ($status && strtolower($status) !== 'all') {
+                $query->where('status', $status);
+            }
         })
-        ->get()
-        ->groupBy('order_id');
-       
-        return view('frontend.auth.user-profile', compact('user', 'countries','orders'));
+        // Date range filter on OrderItem's created_at
+        ->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
+            $query->whereBetween('created_at', [
+                $fromDate . ' 00:00:00',
+                $toDate . ' 23:59:59'
+            ]);
+        })
+        ->when($fromDate && !$toDate, function ($query) use ($fromDate) {
+            $query->whereDate('created_at', '>=', $fromDate);
+        })
+        ->when(!$fromDate && $toDate, function ($query) use ($toDate) {
+            $query->whereDate('created_at', '<=', $toDate);
+        })
+        ->paginate(5)
+        ->appends([
+            'status' => $status,
+            'from_date' => $fromDate,
+            'to_date' => $toDate,
+        ]);
+        return view('frontend.auth.user-profile', compact('user', 'countries','orders','status','fromDate','toDate'));
     }
 
       public function update(Request $request)
