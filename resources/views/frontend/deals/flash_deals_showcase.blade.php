@@ -47,16 +47,6 @@
         .animate-progress {
             animation: progressAnim 3.5s linear forwards;
         }
-
-        #loading-overlay {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        #loading-overlay.show {
-            opacity: 1;
-            pointer-events: all;
-        }
     </style>
     <!-- Flash Deals Hero Section -->
     <section class="bg-gradient-to-br from-accent via-accent-600 to-primary text-white py-16">
@@ -192,8 +182,7 @@
                                     <option value="{{ $range }}">{{ Number_format(str_replace('+', '', $range)) }} Rwf +</option>
                                 @else
                                     @php [$min, $max] = explode('-', $range); @endphp
-                                    <option value="{{ $range }}">{{ Number_format($min) }} Rwf - {{ Number_format($max) }} Rwf
-                                    </option>
+                                    <option value="{{ $range }}">{{ Number_format($min) }} Rwf - {{ Number_format($max) }} Rwf</option>
                                 @endif
                             @endforeach
                         </select>
@@ -368,10 +357,8 @@
                 </div>
             </div>
             <!-- Load er Spinner -->
-            <div id="loading-overlay"
-                class="hidden absolute inset-0 bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center z-50 transition-opacity duration-300">
-                <div class="animate-spin rounded-full h-12 w-12 border-4 border-accent border-t-transparent mb-4"></div>
-                <p class="text-gray-700 font-medium">Fetching the best deals for you...</p>
+            <div id="loading-spinner" class="hidden flex justify-center items-center py-10">
+                <div class="animate-spin rounded-full h-12 w-12 border-4 border-accent border-t-transparent"></div>
             </div>
             <!-- Products Grid -->
             <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -792,9 +779,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                            <div class="font-semibold">${styles[type].title}</div>
-                                                                                            <div class="text-sm opacity-90">${message}</div>
-                                                                                        `;
+                                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                                <div class="text-sm opacity-90">${message}</div>
+                                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -820,7 +807,7 @@
             const filters = ["category", "discount", "price", "time", "sort"];
             const productsGrid = document.getElementById("products-grid");
             const clearBtn = document.getElementById("clear-filters");
-            const overlay = document.getElementById("loading-overlay");
+            const spinner = document.getElementById("loading-spinner");
 
             filters.forEach(filter => {
                 document.getElementById(`${filter}-filter`)?.addEventListener("change", fetchFlashDeals);
@@ -833,16 +820,6 @@
                 fetchFlashDeals();
             });
 
-            function showOverlay() {
-                overlay.classList.remove("hidden");
-                setTimeout(() => overlay.classList.add("show"), 50);
-            }
-
-            function hideOverlay() {
-                overlay.classList.remove("show");
-                setTimeout(() => overlay.classList.add("hidden"), 300);
-            }
-
             function fetchFlashDeals() {
                 const params = {
                     category: document.getElementById("category-filter").value,
@@ -854,20 +831,26 @@
 
                 const query = new URLSearchParams(params).toString();
 
-                showOverlay();
+                // Show spinner and clear products grid temporarily
+                spinner.classList.remove("hidden");
+                productsGrid.classList.add("opacity-30");
 
                 fetch(`/flash-deals/filter?${query}`)
                     .then(res => res.json())
                     .then(data => {
                         productsGrid.innerHTML = data.html || "<p class='text-center text-gray-500 py-8'>No deals found.</p>";
-                        productsGrid.appendChild(overlay); // Re-attach overlay inside the grid
                     })
                     .catch(err => {
                         console.error("Error loading filtered deals:", err);
                         productsGrid.innerHTML = "<p class='text-center text-red-500 py-8'>Failed to load deals. Try again.</p>";
-                        productsGrid.appendChild(overlay);
                     })
-                    .finally(() => hideOverlay());
+                    .finally(() => {
+                        // Hide spinner and restore opacity after loading completes
+                        setTimeout(() => {
+                            spinner.classList.add("hidden");
+                            productsGrid.classList.remove("opacity-30");
+                        }, 300);
+                    });
             }
         });
 
