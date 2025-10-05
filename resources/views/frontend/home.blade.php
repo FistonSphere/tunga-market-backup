@@ -482,6 +482,7 @@
     @endif
 
 
+    
     <!-- Success Stories Section -->
     <section class="py-16 bg-gradient-to-r from-primary-50 to-accent-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -493,92 +494,43 @@
             </div>
 
             <div class="grid lg:grid-cols-3 gap-8">
-                <!-- Success Story 1 -->
-                <div class="card text-center">
-                    <div class="relative mb-6">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2787&auto=format&fit=crop"
-                            alt="Sarah Chen - TechStart Solutions" class="w-20 h-20 rounded-full mx-auto object-cover"
-                            loading="lazy"
-                            onerror="this.src='https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                        <div
-                            class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-accent text-white rounded-full p-1">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd" />
-                            </svg>
+                @forelse($successStories as $story)
+                    <div class="card text-center">
+                        <div class="relative mb-6">
+                            <img src="{{ $story->photo }}" alt="{{ $story->name }} - {{ $story->company }}"
+                                class="w-20 h-20 rounded-full mx-auto object-cover"
+                                onerror="this.src='https://via.placeholder.com/150'; this.onerror=null;" />
+                            <div
+                                class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-accent text-white rounded-full p-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
                         </div>
-                    </div>
-                    <blockquote class="text-body text-secondary-700 mb-4 italic">
-                        "Tunga Market transformed our sourcing process. We've reduced costs by 35% while improving
-                        quality through their verified supplier network."
-                    </blockquote>
-                    <div class="text-primary font-semibold">Sarah Chen</div>
-                    <div class="text-body-sm text-secondary-600">CEO, TechStart Solutions</div>
-                    <div class="mt-4 flex items-center justify-center space-x-4 text-body-sm">
-                        <span class="text-success">↗ 35% cost reduction</span>
-                        <span class="text-accent">2.5M+ revenue growth</span>
-                    </div>
-                </div>
 
-                <!-- Success Story 2 -->
-                <div class="card text-center">
-                    <div class="relative mb-6">
-                        <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                            alt="Marcus Rodriguez - Global Textiles" class="w-20 h-20 rounded-full mx-auto object-cover"
-                            loading="lazy"
-                            onerror="this.src='https://images.pixabay.com/photo/2016/11/21/12/42/beard-1845166_1280.jpg'; this.onerror=null;" />
-                        <div
-                            class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-accent text-white rounded-full p-1">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd" />
-                            </svg>
+                        <blockquote class="text-body text-secondary-700 mb-4 italic">
+                            “{{ $story->testimonial }}”
+                        </blockquote>
+                        <div class="text-primary font-semibold">{{ $story->name }}</div>
+                        <div class="text-body-sm text-secondary-600">{{ $story->role }}, {{ $story->company }}</div>
+                        <div class="mt-4 flex items-center justify-center space-x-4 text-body-sm">
+                            @if($story->highlight_1)
+                                <span class="text-success">{{ $story->highlight_1 }}</span>
+                            @endif
+                            @if($story->highlight_2)
+                                <span class="text-accent">{{ $story->highlight_2 }}</span>
+                            @endif
                         </div>
                     </div>
-                    <blockquote class="text-body text-secondary-700 mb-4 italic">
-                        "The community features helped us connect with buyers we never would have found. Our export volume
-                        tripled in just 8 months."
-                    </blockquote>
-                    <div class="text-primary font-semibold">Marcus Rodriguez</div>
-                    <div class="text-body-sm text-secondary-600">Founder, Global Textiles</div>
-                    <div class="mt-4 flex items-center justify-center space-x-4 text-body-sm">
-                        <span class="text-success">↗ 300% export growth</span>
-                        <span class="text-accent">45+ new markets</span>
-                    </div>
-                </div>
-
-                <!-- Success Story 3 -->
-                <div class="card text-center">
-                    <div class="relative mb-6">
-                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?q=80&w=2787&auto=format&fit=crop"
-                            alt="Priya Patel - EcoHome Innovations" class="w-20 h-20 rounded-full mx-auto object-cover"
-                            loading="lazy"
-                            onerror="this.src='https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                        <div
-                            class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-accent text-white rounded-full p-1">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                    </div>
-                    <blockquote class="text-body text-secondary-700 mb-4 italic">
-                        "From startup to scale-up in 18 months. The AI-powered recommendations helped us discover profitable
-                        niches we hadn't considered."
-                    </blockquote>
-                    <div class="text-primary font-semibold">Priya Patel</div>
-                    <div class="text-body-sm text-secondary-600">Director, EcoHome Innovations</div>
-                    <div class="mt-4 flex items-center justify-center space-x-4 text-body-sm">
-                        <span class="text-success">↗ 450% revenue</span>
-                        <span class="text-accent">12 new product lines</span>
-                    </div>
-                </div>
+                @empty
+                    <p class="text-center text-gray-500 col-span-3 py-8">No success stories available yet.</p>
+                @endforelse
             </div>
         </div>
     </section>
+
 
     <!-- Live Market Pulse -->
     <section class="py-16 bg-white">
@@ -1032,9 +984,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                            <div class="font-semibold">${styles[type].title}</div>
-                            <div class="text-sm opacity-90">${message}</div>
-                        `;
+                                <div class="font-semibold">${styles[type].title}</div>
+                                <div class="text-sm opacity-90">${message}</div>
+                            `;
 
             // Progress bar
             const progress = document.createElement("div");

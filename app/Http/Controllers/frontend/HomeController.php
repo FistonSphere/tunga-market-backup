@@ -5,6 +5,7 @@ namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\FlashDeal;
+use App\Models\SuccessStory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -72,6 +73,7 @@ class HomeController extends Controller
 
     // pass milliseconds (JS-friendly) to avoid timezone weirdness
     $targetMs = $target ? ($target->getTimestamp() * 1000) : null;
+    $successStories = SuccessStory::where('is_active', true)->latest()->take(6)->get();
         return view('frontend.home',
  [
         'categories'=>$categories,
@@ -79,6 +81,7 @@ class HomeController extends Controller
         'countdownMode' => $countdownMode,
         'countdownTargetMs' => $targetMs,
         'maxDiscount' => $maxDiscount,
+        'successStories' => $successStories,
         ]);
     }
 
