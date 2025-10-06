@@ -249,7 +249,7 @@ class AuthController extends Controller
     $hasPending = $recentRequests->where('status', 'Pending')->count();
     $accountStatus = $hasPending ? 'Attention Required' : 'Account in Good Standing';
     $accountStatusColor = $hasPending ? 'bg-warning-100 text-warning-700' : 'bg-success-50 border-success-200 text-success-700';
-        return view('frontend.auth.user-profile', compact('user', 'countries','orders','status','fromDate','toDate', 'recentRequests', 'accountStatus', 'accountStatusColor'));
+        return view('frontend.auth.user-profile', compact('user', 'countries','orders','status','fromDate','toDate', 'recentRequests', 'accountStatus', 'accountStatusColor','hasPending'));
     }
 
 

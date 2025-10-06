@@ -939,8 +939,6 @@
                         page: window.location.pathname
                     })
                 }).then(res => res.json())
-                    .then(data => console.log('Activity logged:', data))
-                    .catch(err => console.error('Error logging activity:', err));
             };
 
             const acceptCookies = () => {

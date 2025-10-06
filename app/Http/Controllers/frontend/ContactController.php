@@ -128,4 +128,19 @@ public function storeEnquiry(Request $request){
         ]);
 
 }
+
+
+public function show($id)
+{
+    $ticket = Enquiry::findOrFail($id);
+
+    return response()->json([
+        'ticket' => $ticket->ticket,
+        'subject' => $ticket->subject,
+        'status' => $ticket->status,
+        'message' => $ticket->message,
+        'created_at' => $ticket->created_at->format('M d, Y H:i A'),
+    ]);
+}
+
 }

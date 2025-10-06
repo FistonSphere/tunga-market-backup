@@ -1046,8 +1046,8 @@
 
                                                 <div class="border border-secondary-200 rounded-lg p-3">
                                                     <div class="flex justify-between items-start mb-2">
-                                                        <div class="font-semibold text-primary">Ticket #{{ $request->ticket }}
-                                                        </div>
+                                                        <button class="font-semibold text-primary" onclick="viewTicket('{{ $request->ticket }}')">Ticket #{{ $request->ticket }}
+                                                        </button>
                                                         <span
                                                             class="px-2 py-1 {{ $statusClass }} rounded text-xs font-semibold">{{ $request->status }}</span>
                                                     </div>
