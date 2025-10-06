@@ -23,16 +23,46 @@
             <!-- Key Stats -->
             <div class="grid md:grid-cols-3 gap-8 mt-12">
                 <div class="text-center">
-                    <div class="text-4xl font-bold text-accent mb-2">2.8M+</div>
-                    <div class="text-secondary-600">Happy Shoppers</div>
+                    <div class="text-4xl font-bold text-accent mb-2" id="customer-count"></div>
+                    <script>
+                        // Base values
+                        const baseCustomers = 10;
+                        const totalIncrease = 20;
+                        const intervalMinutes = 60;
+                        const intervalMs = intervalMinutes * 60 * 1000;
+                        const startTime = new Date('2025-10-05T00:00:00Z'); // Set to your launch date/time (UTC)
+                        const now = new Date();
+                        const elapsedIntervals = Math.floor((now - startTime) / intervalMs);
+                        let currentCustomers = baseCustomers + Math.min(elapsedIntervals, totalIncrease);
+
+                        function formatCustomers(num) {
+                            if (num >= 1000000) return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M+';
+                            if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K+';
+                            return num + '+';
+                        }
+
+                        document.getElementById('customer-count').textContent = formatCustomers(currentCustomers);
+
+                        // Randomly increase by 1 every 60min until totalIncrease is reached
+                        if (currentCustomers < baseCustomers + totalIncrease) {
+                            setTimeout(function increaseCustomer() {
+                                if (currentCustomers < baseCustomers + totalIncrease) {
+                                    currentCustomers++;
+                                    document.getElementById('customer-count').textContent = formatCustomers(currentCustomers);
+                                    setTimeout(increaseCustomer, intervalMs + Math.floor(Math.random() * 60000)); // add up to 1min randomness
+                                }
+                            }, intervalMs + Math.floor(Math.random() * 60000));
+                        }
+                    </script>
+                    <div class="text-secondary-600">Satisfied Customers</div>
                 </div>
                 <div class="text-center">
                     <div class="text-4xl font-bold text-success mb-2">150+</div>
-                    <div class="text-secondary-600">Countries Delivered</div>
+                    <div class="text-secondary-600">Countries Shipped To</div>
                 </div>
                 <div class="text-center">
                     <div class="text-4xl font-bold text-primary mb-2">$5.2B+</div>
-                    <div class="text-secondary-600">Orders Processed</div>
+                    <div class="text-secondary-600">Total Purchases</div>
                 </div>
             </div>
         </div>
