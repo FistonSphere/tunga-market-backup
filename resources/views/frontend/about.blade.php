@@ -99,8 +99,7 @@
                     </div>
                     <h2 class="text-heading font-bold text-primary mb-4">Our Vision</h2>
                     <p class="text-body text-secondary-600 mb-6">
-                        To become the world's most trusted and innovative global trade ecosystem, where businesses of all
-                        sizes can thrive, connect, and contribute to a more connected and prosperous world economy.
+                        To become Rwanda’s most trusted and innovative online marketplace, where every individual can discover, buy, and enjoy quality products with ease and confidence anytime, anywhere.
                     </p>
                     <ul class="space-y-3">
                         <li class="flex items-center text-secondary-600">
@@ -109,7 +108,7 @@
                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                     clip-rule="evenodd" />
                             </svg>
-                            Global leader in trade technology
+                            The go-to destination for online shopping in Rwanda
                         </li>
                         <li class="flex items-center text-secondary-600">
                             <svg class="w-5 h-5 text-accent mr-3" fill="currentColor" viewBox="0 0 20 20">
@@ -117,7 +116,7 @@
                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                     clip-rule="evenodd" />
                             </svg>
-                            Sustainable economic growth worldwide
+                            Making shopping safe, simple, and rewarding for everyone
                         </li>
                         <li class="flex items-center text-secondary-600">
                             <svg class="w-5 h-5 text-accent mr-3" fill="currentColor" viewBox="0 0 20 20">
@@ -125,10 +124,9 @@
                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                     clip-rule="evenodd" />
                             </svg>
-                            Connected global business community
+                            Building a vibrant community of happy shoppers across Rwanda
                         </li>
                     </ul>
-                </div>
             </div>
         </div>
     </section>
