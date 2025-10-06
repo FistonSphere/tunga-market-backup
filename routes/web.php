@@ -60,6 +60,7 @@ Route::get('/products/main-filter', [ProductDiscoveryHubController::class, 'filt
 Route::get('/products/flash-deals/{product}/details', [ProductListingController::class, 'details']);
 
 
+
 Route::get('/compare', [ProductListingController::class, 'compare'])->name('products.compare');
 Route::get('/authentication', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -90,12 +91,14 @@ Route::get('/flash-deals', [FlashDealCartController::class, 'index'])
 Route::post('/register', [AuthController::class, 'register'])->name('register-user');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
 Route::post('/login', [AuthController::class, 'login'])->name('login-user');
+
 Route::post('/cookies/accept', [UserActivityController::class, 'acceptCookies'])->name('cookies.accept');
 Route::post('/activity/log', [UserActivityController::class, 'logActivity'])->name('activity.log');
 
 
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/orders/{product}/details', [AuthController::class, 'details']);
     Route::get('/orders/{order}', [OrderTrackingController::class, 'show'])->name('orders.show');
     Route::get('/user/profile', [AuthController::class, 'profile'])->name('user.profile');
     Route::post('/user/update-profile', [AuthController::class, 'updateProfile'])->name('user.update.profile');

@@ -424,9 +424,51 @@
                                 @endforelse
                             </div>
 
-                            @if($orders->total() > 4)
-                                <div class="mt-6 flex justify-center">
-                                    <button id="load-more" data-page="1" class="btn-secondary">Load More Orders</button>
+
+                            <!-- Pagination -->
+                            @if ($orders->hasPages())
+                                <div class="flex items-center justify-between px-4 py-3 border-t border-border">
+                                    <div class="text-sm text-secondary-600">
+                                        Showing
+                                        {{ $orders->firstItem() }} - {{ $orders->lastItem() }}
+                                        of {{ $orders->total() }} orders
+                                    </div>
+
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        {{-- Previous Page --}}
+                                        @if ($orders->onFirstPage())
+                                            <span
+                                                class="px-3 py-1 text-sm border border-border rounded text-gray-400 cursor-not-allowed">Previous</span>
+                                        @else
+                                            <a href="{{ $orders->previousPageUrl() }}"
+                                                class="px-3 py-1 text-sm border border-border rounded hover:bg-surface transition-fast">
+                                                Previous
+                                            </a>
+                                        @endif
+
+                                        {{-- Page Numbers --}}
+                                        @foreach ($orders->links()->elements[0] ?? [] as $page => $url)
+                                            @if ($page == $orders->currentPage())
+                                                <span class="px-3 py-1 text-sm bg-accent text-white rounded">{{ $page }}</span>
+                                            @else
+                                                <a href="{{ $url }}"
+                                                    class="px-3 py-1 text-sm border border-border rounded hover:bg-surface transition-fast">
+                                                    {{ $page }}
+                                                </a>
+                                            @endif
+                                        @endforeach
+
+                                        {{-- Next Page --}}
+                                        @if ($orders->hasMorePages())
+                                            <a href="{{ $orders->nextPageUrl() }}"
+                                                class="px-3 py-1 text-sm border border-border rounded hover:bg-surface transition-fast">
+                                                Next
+                                            </a>
+                                        @else
+                                            <span
+                                                class="px-3 py-1 text-sm border border-border rounded text-gray-400 cursor-not-allowed">Next</span>
+                                        @endif
+                                    </div>
                                 </div>
                             @endif
                         </div>

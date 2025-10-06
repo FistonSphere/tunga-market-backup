@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Mail\PasswordChangedNotification;
 use App\Mail\SendOtpMail;
+use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -231,7 +232,7 @@ class AuthController extends Controller
         ->when(!$fromDate && $toDate, function ($query) use ($toDate) {
             $query->whereDate('created_at', '<=', $toDate);
         })
-        ->paginate(5)
+        ->paginate(3)
         ->appends([
             'status' => $status,
             'from_date' => $fromDate,
@@ -239,6 +240,9 @@ class AuthController extends Controller
         ]);
         return view('frontend.auth.user-profile', compact('user', 'countries','orders','status','fromDate','toDate'));
     }
+
+
+
 
       public function update(Request $request)
 {
@@ -334,5 +338,7 @@ public function updatePassword(Request $request)
             ]
         ]);
     }
+
+
 
 }
