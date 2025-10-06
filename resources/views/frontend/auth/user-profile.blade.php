@@ -1046,14 +1046,17 @@
 
                                                 <div class="border border-secondary-200 rounded-lg p-3">
                                                     <div class="flex justify-between items-start mb-2">
-                                                        <button class="font-semibold text-primary" onclick="viewTicket('{{ $request->ticket }}')">Ticket #{{ $request->ticket }}
+                                                        <button class="font-semibold text-primary"
+                                                            onclick="viewTicket('{{ $request->ticket }}')">Ticket
+                                                            #{{ $request->ticket }}
                                                         </button>
                                                         <span
                                                             class="px-2 py-1 {{ $statusClass }} rounded text-xs font-semibold">{{ $request->status }}</span>
                                                     </div>
                                                     <div class="text-secondary-600 text-sm mb-1">{{ $request->subject }}</div>
                                                     <div class="text-secondary-500 text-xs">Submitted on
-                                                        {{ $request->created_at->format('M d, Y') }}</div>
+                                                        {{ $request->created_at->format('M d, Y') }}
+                                                    </div>
                                                 </div>
                                             @empty
                                                 <div class="text-center py-4 text-secondary-500">
@@ -1113,14 +1116,107 @@
         </div>
     </div>
 
+    <!-- Support Ticket Modal -->
+    <div id="ticketModal"
+        class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+        <div
+            class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 transform transition-all scale-95 opacity-0 duration-300">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 class="text-lg font-bold text-secondary-800">Support Ticket Details</h3>
+                <button id="closeTicketModal"
+                    class="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+            </div>
+            <div id="ticketDetails" class="space-y-3 text-sm text-secondary-700">
+                <p>Loading...</p>
+            </div>
+            <div class="mt-6 text-right">
+                <button id="closeModalBtn"
+                    class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition">Close</button>
+            </div>
+        </div>
+    </div>
+
+
 
     <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
     <script>
-        // Mobile menu toggle
-        // document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-        //     const mobileMenu = document.getElementById('mobileMenu');
-        //     mobileMenu.classList.toggle('hidden');
-        // });
+        function viewTicket(ticket) {
+            const modal = document.getElementById('ticketModal');
+            const modalContent = modal.querySelector('.max-w-lg');
+            const detailsDiv = document.getElementById('ticketDetails');
+
+            // Reset modal content
+            detailsDiv.innerHTML = '<p class="animate-pulse text-secondary-500">Loading ticket details...</p>';
+            modal.classList.remove('hidden');
+
+            // Smooth fade in
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+
+            fetch(`/support/ticket/${ticket}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        detailsDiv.innerHTML = `<p class="text-red-600">${data.error}</p>`;
+                        return;
+                    }
+
+                    detailsDiv.innerHTML = `
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="font-semibold text-gray-700">Ticket:</span>
+                                <span class="text-primary font-medium">${data.ticket}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold text-gray-700">Status:</span>
+                                <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded text-xs font-semibold">${data.status}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold text-gray-700">Priority:</span>
+                                <span>${data.priority ?? 'N/A'}</span>
+                            </div>
+                            <div class="border-t pt-2">
+                                <p><span class="font-semibold">Subject:</span> ${data.subject}</p>
+                                <p><span class="font-semibold">Message:</span></p>
+                                <p class="bg-gray-50 p-2 rounded-md">${data.message}</p>
+                            </div>
+                            <div class="border-t pt-2">
+                                <p><span class="font-semibold">Contact Info:</span></p>
+                                <p>${data.first_name} ${data.last_name}</p>
+                                <p>${data.email}</p>
+                                <p>${data.phone ?? 'N/A'}</p>
+                                <p>${data.company ?? ''} ${data.role ? `(${data.role})` : ''}</p>
+                            </div>
+                            <div class="border-t pt-2 text-xs text-gray-500">
+                                <p>Submitted: ${data.created_at}</p>
+                                ${data.callback_requested ? `<p>Callback: ${data.callback_time} (${data.callback_timezone})</p>` : ''}
+                            </div>
+                            ${data.attachments && data.attachments.length ? `
+                                <div class="border-t pt-2">
+                                    <p class="font-semibold text-gray-700 mb-1">Attachments:</p>
+                                    ${data.attachments.map(a => `<a href="${a}" target="_blank" class="text-primary hover:underline block">${a}</a>`).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                })
+                .catch(() => {
+                    detailsDiv.innerHTML = '<p class="text-red-600">Error fetching ticket details.</p>';
+                });
+        }
+
+        document.getElementById('closeTicketModal').addEventListener('click', closeTicketModal);
+        document.getElementById('closeModalBtn').addEventListener('click', closeTicketModal);
+
+        function closeTicketModal() {
+            const modal = document.getElementById('ticketModal');
+            const modalContent = modal.querySelector('.max-w-lg');
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 200);
+        }
 
         // Session timer
         let sessionMinutes = 24;
@@ -1244,35 +1340,35 @@
 
             const icons = {
                 success: `<svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                        </svg>`,
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                                </svg>`,
                 info: `<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                        </svg>`,
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                                </svg>`,
                 warning: `<svg class="w-5 h-5 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                                                        </svg>`,
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                                                                </svg>`,
                 error: `<svg class="w-5 h-5 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                        </svg>`
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                                </svg>`
             };
 
             notification.innerHTML = `
-                                                        <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
-                                                            <div class="flex items-start space-x-3">
-                                                                ${icons[type]}
-                                                                <div class="flex-1">
-                                                                    <h4 class="font-semibold text-primary">${title}</h4>
-                                                                    <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                                                                <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
+                                                                    <div class="flex items-start space-x-3">
+                                                                        ${icons[type]}
+                                                                        <div class="flex-1">
+                                                                            <h4 class="font-semibold text-primary">${title}</h4>
+                                                                            <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                                                                        </div>
+                                                                        <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+                                                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                                                            </svg>
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
-                                                                <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
-                                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    `;
+                                                            `;
 
             notification.classList.remove('translate-x-full');
 
@@ -1302,20 +1398,20 @@
         // Add CSS for active nav items
         const styling = document.createElement('style');
         styling.textContent = `
-                                                    .nav-item.active {
-                                                        background-color: var(--color-primary);
-                                                        color: white;
-                                                    }
+                                                            .nav-item.active {
+                                                                background-color: var(--color-primary);
+                                                                color: white;
+                                                            }
 
-                                                    .content-section {
-                                                        animation: fadeIn 0.3s ease-in-out;
-                                                    }
+                                                            .content-section {
+                                                                animation: fadeIn 0.3s ease-in-out;
+                                                            }
 
-                                                    @keyframes fadeIn {
-                                                        from { opacity: 0; transform: translateY(10px); }
-                                                        to { opacity: 1; transform: translateY(0); }
-                                                    }
-                                                `;
+                                                            @keyframes fadeIn {
+                                                                from { opacity: 0; transform: translateY(10px); }
+                                                                to { opacity: 1; transform: translateY(0); }
+                                                            }
+                                                        `;
         document.head.appendChild(styling);
 
 
@@ -1611,9 +1707,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                            <div class="font-semibold">${styles[type].title}</div>
-                                            <div class="text-sm opacity-90">${message}</div>
-                                        `;
+                                                    <div class="font-semibold">${styles[type].title}</div>
+                                                    <div class="text-sm opacity-90">${message}</div>
+                                                `;
 
             // Progress bar
             const progress = document.createElement("div");

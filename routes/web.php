@@ -45,7 +45,7 @@ Route::get('/products/min-max-price', function () {
     ]);
 });
 Route::post('/enquiries/store', [ContactController::class, 'storeEnquiry'])->name('enquiries.store');
-Route::get('/support/ticket/{id}', [ContactController::class, 'show']);
+Route::get('/support/ticket/{ticket}', [ContactController::class,  'showTicket'])->name('support.ticket.show');
 
 Route::get('/products/sort', [ProductListingController::class, 'sortProducts']);
 Route::get('/products/brand/filter', [ProductListingController::class, 'brandFilter'])->name('products.filter');

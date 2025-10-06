@@ -130,17 +130,34 @@ public function storeEnquiry(Request $request){
 }
 
 
-public function show($id)
-{
-    $ticket = Enquiry::findOrFail($id);
+ public function showTicket($ticket)
+    {
+        $request = ContactRequest::where('ticket', $ticket)->first();
 
-    return response()->json([
-        'ticket' => $ticket->ticket,
-        'subject' => $ticket->subject,
-        'status' => $ticket->status,
-        'message' => $ticket->message,
-        'created_at' => $ticket->created_at->format('M d, Y H:i A'),
-    ]);
-}
+        if (!$request) {
+            return response()->json(['error' => 'Ticket not found'], 404);
+        }
+
+        return response()->json([
+            'ticket' => $request->ticket,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'company' => $request->company,
+            'role' => $request->role,
+            'subject' => $request->subject,
+            'message' => $request->message,
+            'status' => $request->status,
+            'priority' => $request->priority,
+            'contact_type_title' => $request->contact_type_title,
+            'contact_type_description' => $request->contact_type_description,
+            'callback_requested' => $request->callback_requested,
+            'callback_time' => $request->callback_time,
+            'callback_timezone' => $request->callback_timezone,
+            'attachments' => $request->attachments,
+            'created_at' => $request->created_at->format('M d, Y h:i A'),
+        ]);
+    }
 
 }
