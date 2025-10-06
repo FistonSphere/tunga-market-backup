@@ -1,127 +1,162 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold text-gray-800 mb-4">🍪 Cookies Policy</h1>
-            <p class="text-gray-600 mb-6">
-                Last Updated: {{ now()->format('F d, Y') }}
-            </p>
+    <section class="relative py-20 bg-gradient-to-b from-orange-50 via-white to-gray-50 overflow-hidden">
+        <!-- Decorative background shapes -->
+        <div class="absolute top-0 left-0 w-60 h-60 bg-orange-200 rounded-full blur-3xl opacity-30 -z-10"></div>
+        <div class="absolute bottom-0 right-0 w-72 h-72 bg-blue-200 rounded-full blur-3xl opacity-30 -z-10"></div>
 
-            <p class="text-gray-700 mb-6">
-                Welcome to <strong>Tunga Market</strong>. This Cookies Policy explains how we use cookies and similar
-                tracking technologies
-                on our website <a href="https://tungamarket.com"
-                    class="text-blue-600 hover:underline">https://tungamarket.com</a>.
-                Please read this policy carefully to understand how and why cookies are used and your rights regarding their
-                control.
-            </p>
-
-            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">1. What Are Cookies?</h2>
-            <p class="text-gray-700 mb-6">
-                Cookies are small text files stored on your device (computer, smartphone, or tablet) when you visit a
-                website.
-                They help the website recognize your device, remember preferences, and improve overall user experience.
-            </p>
-
-            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">2. Types of Cookies We Use</h2>
-            <ul class="list-disc pl-8 text-gray-700 space-y-2 mb-6">
-                <li><strong>Strictly Necessary Cookies:</strong> Required for the website to function properly, such as
-                    authentication, session management, and security.</li>
-                <li><strong>Performance Cookies:</strong> Help us understand how visitors use our site by collecting
-                    analytics and usage data (e.g., Google Analytics).</li>
-                <li><strong>Functional Cookies:</strong> Remember user preferences, such as language, location, and saved
-                    settings.</li>
-                <li><strong>Advertising & Targeting Cookies:</strong> Used to deliver relevant ads and measure marketing
-                    campaign performance.</li>
-                <li><strong>Third-Party Cookies:</strong> Set by external platforms or services integrated into our site
-                    (e.g., social media logins, embedded content, or analytics tools).</li>
-            </ul>
-
-            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">3. Why We Use Cookies</h2>
-            <p class="text-gray-700 mb-6">
-                We use cookies to:
-            </p>
-            <ul class="list-disc pl-8 text-gray-700 space-y-2 mb-6">
-                <li>Authenticate users and prevent fraudulent access.</li>
-                <li>Remember your shopping cart and user preferences.</li>
-                <li>Analyze traffic and usage to improve website performance.</li>
-                <li>Personalize content, promotions, and recommendations.</li>
-                <li>Facilitate secure payments and order management.</li>
-            </ul>
-
-            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">4. Managing Cookies</h2>
-            <p class="text-gray-700 mb-6">
-                You can control or delete cookies at any time. Most web browsers automatically accept cookies,
-                but you can modify your browser settings to decline them. Be aware that disabling cookies may
-                affect some website features and functionality.
-            </p>
-
-            <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-2">How to Manage Cookies in Your Browser:</h3>
-            <ul class="list-disc pl-8 text-gray-700 space-y-2 mb-6">
-                <li><strong>Google Chrome:</strong> Settings → Privacy and Security → Cookies and other site data</li>
-                <li><strong>Mozilla Firefox:</strong> Options → Privacy & Security → Cookies and Site Data</li>
-                <li><strong>Microsoft Edge:</strong> Settings → Cookies and site permissions</li>
-                <li><strong>Safari:</strong> Preferences → Privacy → Manage Website Data</li>
-            </ul>
-
-            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">5. Third-Party Tools and Analytics</h2>
-            <p class="text-gray-700 mb-6">
-                We may use third-party tools such as <strong>Google Analytics, Meta Pixel,</strong> or
-                <strong>Hotjar</strong>
-                to collect data about your usage patterns. These services may use cookies to gather statistics about site
-                activity.
-                You can opt out of these cookies by visiting their respective opt-out pages.
-            </p>
-
-            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">6. Consent and Withdrawal</h2>
-            <p class="text-gray-700 mb-6">
-                By using our website, you consent to the use of cookies as described in this policy.
-                You can withdraw your consent at any time by updating your cookie preferences through our
-                <strong>Cookie Settings</strong> or your browser configuration.
-            </p>
-
-            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">7. Updates to This Policy</h2>
-            <p class="text-gray-700 mb-6">
-                We may update this Cookies Policy from time to time to reflect changes in technology, law, or our business
-                practices.
-                We encourage you to review this page regularly for the latest version.
-            </p>
-
-            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">8. Contact Us</h2>
-            <p class="text-gray-700 mb-2">
-                If you have any questions or concerns about this Cookies Policy, please contact us:
-            </p>
-            <ul class="text-gray-700 pl-6">
-                <li>Email: <a href="mailto:support@tungamarket.com"
-                        class="text-blue-600 hover:underline">support@tungamarket.com</a></li>
-                <li>Phone: +250 788 000 111</li>
-                <li>Address: KG 8 Ave, Kigali, Rwanda</li>
-            </ul>
-
-            <div class="mt-8 border-t pt-4 text-sm text-gray-500">
-                <p>© {{ date('Y') }} Tunga Market. All Rights Reserved.</p>
-            </div>
-            <div id="cookie-banner"
-                class="fixed bottom-4 right-4 bg-gray-900 text-white p-5 rounded-xl shadow-lg max-w-sm z-50">
-                <p class="text-sm mb-3">We use cookies to improve your browsing experience and analyze site traffic. By
-                    continuing to use Tunga Market, you agree to our <a href="/cookies-policy"
-                        class="underline text-blue-400">Cookies Policy</a>.</p>
-                <button onclick="acceptCookies()"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Accept</button>
+        <div class="max-w-6xl mx-auto px-6 md:px-10">
+            <div class="text-center mb-12">
+                <div
+                    class="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full shadow-md mb-4 animate-bounce-slow">
+                    <span class="text-3xl">🍪</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">Cookies Policy</h1>
+                <p class="text-gray-500 mt-3 text-sm">Last Updated: {{ now()->format('F d, Y') }}</p>
+                <p class="mt-4 text-lg text-gray-700 max-w-3xl mx-auto">
+                    Welcome to <strong class="text-orange-600">Tunga Market</strong>.
+                    This page explains how and why we use cookies to provide a better, faster, and safer shopping
+                    experience.
+                </p>
             </div>
 
+            <div
+                class="bg-white rounded-3xl shadow-lg border border-gray-100 p-8 md:p-12 space-y-12 transition-all hover:shadow-2xl">
+                <!-- Section Template -->
+                <div class="group transition-transform duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 1. What Are Cookies?
+                    </h2>
+                    <p class="text-gray-700 leading-relaxed">
+                        Cookies are small text files stored on your device when you visit a website.
+                        They allow us to recognize your preferences, secure your account, and improve your browsing
+                        experience.
+                    </p>
+                </div>
 
+                <div class="group transition-transform duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 2. Types of Cookies We Use
+                    </h2>
+                    <ul class="grid sm:grid-cols-2 gap-4 text-gray-700">
+                        <li class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-orange-50 transition"><strong>Strictly
+                                Necessary:</strong> Enable core functionality like login & cart.</li>
+                        <li class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-orange-50 transition">
+                            <strong>Performance:</strong> Monitor site traffic & performance analytics.
+                        </li>
+                        <li class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-orange-50 transition">
+                            <strong>Functional:</strong> Remember settings, language & preferences.
+                        </li>
+                        <li class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-orange-50 transition">
+                            <strong>Advertising:</strong> Display relevant ads & improve promotions.
+                        </li>
+                        <li class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-orange-50 transition">
+                            <strong>Third-Party:</strong> Set by external tools (Google, Facebook, etc.).
+                        </li>
+                    </ul>
+                </div>
 
+                <div class="group transition-transform duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 3. Why We Use Cookies
+                    </h2>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                        <li>Authenticate users securely and prevent fraud.</li>
+                        <li>Remember carts and preferences for easier checkout.</li>
+                        <li>Analyze usage trends to enhance site performance.</li>
+                        <li>Personalize your experience and show relevant offers.</li>
+                        <li>Support order management and secure payments.</li>
+                    </ul>
+                </div>
+
+                <div class="group transition-transform duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 4. Managing Cookies
+                    </h2>
+                    <p class="text-gray-700 mb-3">You can manage or delete cookies anytime. Most browsers let you disable
+                        them, but note that some site features may not work properly without cookies.</p>
+                    <div class="bg-orange-50 p-5 rounded-xl text-sm" style="padding: 1.25rem;">
+                        <p class="font-semibold text-gray-800 mb-2">Browser Instructions:</p>
+                        <ul class="list-disc pl-6 text-gray-700 space-y-1">
+                            <li><strong>Chrome:</strong> Settings → Privacy and Security → Cookies</li>
+                            <li><strong>Firefox:</strong> Options → Privacy & Security → Cookies</li>
+                            <li><strong>Edge:</strong> Settings → Cookies and Site Permissions</li>
+                            <li><strong>Safari:</strong> Preferences → Privacy → Manage Website Data</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="group transition-transform duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 5. Third-Party Tools & Analytics
+                    </h2>
+                    <p class="text-gray-700">
+                        We use tools such as <strong>Google Analytics</strong>, <strong>Meta Pixel</strong>, and
+                        <strong>Hotjar</strong> for better user insights.
+                        These tools use cookies to track usage anonymously. You can opt out via their official websites.
+                    </p>
+                </div>
+
+                <div class="group transition-transform duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 6. Consent & Withdrawal
+                    </h2>
+                    <p class="text-gray-700">
+                        By continuing to use our site, you consent to our cookie usage.
+                        You can revoke or update your cookie preferences anytime via our <strong>Cookie Settings</strong>
+                        panel or your browser.
+                    </p>
+                </div>
+
+                <div class="group transition-transform duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 7. Updates to This Policy
+                    </h2>
+                    <p class="text-gray-700">
+                        We may update this page periodically to reflect changes in laws or our practices.
+                        Revisit this page regularly to stay informed.
+                    </p>
+                </div>
+
+                <div class="group transition-transform duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 8. Contact Us
+                    </h2>
+                    <ul class="text-gray-700 space-y-1">
+                        <li>Email: <a href="mailto:support@tungamarket.com"
+                                class="text-blue-600 hover:underline">support@tungamarket.com</a></li>
+                        <li>Phone: +250 788 000 111</li>
+                        <li>Address: KG 8 Ave, Kigali, Rwanda</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center text-sm text-gray-500">
+                © {{ date('Y') }} <strong>Tunga Market</strong> • All Rights Reserved.
+            </div>
         </div>
+
+
     </section>
-    <script>
-        function acceptCookies() {
-            document.cookie = "cookies_accepted=true; path=/; max-age=" + 60 * 60 * 24 * 365;
-            document.getElementById('cookie-banner').style.display = 'none';
+
+
+
+    <style>
+        @keyframes bounce-slow {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
         }
-        if (document.cookie.includes('cookies_accepted=true')) {
-            document.getElementById('cookie-banner').style.display = 'none';
+
+        .animate-bounce-slow {
+            animation: bounce-slow 2s infinite ease-in-out;
         }
-    </script>
+    </style>
 @endsection

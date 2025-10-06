@@ -549,6 +549,8 @@
                                 class="text-secondary-300 hover:text-accent transition-fast">Product Discovery</a></li>
                         <li><a href="{{ route('compare') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Compare</a></li>
+                        <li><a href="{{ route('order.tracking') }}"
+                                class="text-secondary-300 hover:text-accent transition-fast">Track Orders</a></li>
 
                     </ul>
                 </div>
@@ -561,6 +563,8 @@
                                 class="text-secondary-300 hover:text-accent transition-fast">Help Center</a></li>
                         <li><a href="{{ route('contact') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Contact Us</a></li>
+                        <li><a href="{{ route('policies.cookies') }}"
+                                class="text-secondary-300 hover:text-accent transition-fast">Cookies Policy</a></li>
 
                     </ul>
                 </div>
@@ -571,8 +575,7 @@
                     <ul class="space-y-2">
                         <li><a href="{{ route('about') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">About Us</a></li>
-                        <li><a href="{{ route('careers') }}"
-                                class="text-secondary-300 hover:text-accent transition-fast">Careers</a></li>
+                        
 
                     </ul>
                 </div>
