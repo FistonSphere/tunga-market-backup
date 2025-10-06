@@ -988,7 +988,7 @@
                                                 <div class="text-secondary-600 text-sm">Call Now</div>
                                             </div>
                                         </a>
-                                        <a href="{{ route('help') }}"
+                                        <a href="{{ route('help.center') }}"
                                             class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
                                             <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
