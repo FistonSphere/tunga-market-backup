@@ -16,6 +16,7 @@ class ContactRequest extends Model
         'role',
         'subject',
         'message',
+        'status',
         'contact_type_title',
         'contact_type_description',
         'priority',
