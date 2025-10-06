@@ -31,7 +31,9 @@
                     <p class="text-gray-700 leading-relaxed">
                         Welcome to <strong>Tunga Market!</strong>
                         This Cookies Policy explains how and why cookies and similar tracking technologies are used when you
-                        visit our platform (<a href="https://www.tungamarket.com" style="color: blue">www.tungamarket.com</a>). Cookies help us improve your browsing experience, analyze
+                        visit our platform (<a href="https://www.tungamarket.com"
+                            style="color: blue">www.tungamarket.com</a>). Cookies help us improve your browsing experience,
+                        analyze
                         performance, personalize your interactions, and provide secure and efficient services.
                         By continuing to use our website, you agree to the use of cookies in accordance with this policy.
                         You can modify your preferences or withdraw consent anytime through our cookie settings panel.
@@ -43,9 +45,12 @@
                         <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 2. What Are Cookies?
                     </h2>
                     <p class="text-gray-700 leading-relaxed">
-                        Cookies are small text files stored on your device when you visit a website.
-                        They allow us to recognize your preferences, secure your account, and improve your browsing
-                        experience.
+                        Cookies are small text files that are stored on your device (computer, smartphone, or tablet) when
+                        you visit a website. They allow the website to recognize your device, remember your actions and
+                        preferences, and help improve website functionality and performance.
+                        Cookies do not typically contain personal information but may be linked with other personal data
+                        that we collect and store.
+
                     </p>
                 </div>
 
