@@ -86,7 +86,8 @@
 
                         </li>
                         <li class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-orange-50 transition">
-                            <strong>Third-Party:</strong> Set by external tools (Google, Facebook, etc.).
+                            <strong>Security & Authentication Cookies:</strong> These help protect your account and prevent
+                            fraudulent use. They also track suspicious or repeated login attempts and enhance security.
                         </li>
                     </ul>
                 </div>
