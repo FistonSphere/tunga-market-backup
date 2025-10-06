@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Mail\PasswordChangedNotification;
 use App\Mail\SendOtpMail;
+use App\Models\ContactRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
@@ -238,6 +239,16 @@ class AuthController extends Controller
             'from_date' => $fromDate,
             'to_date' => $toDate,
         ]);
+
+        $recentRequests = ContactRequest::where('email', $user->email)
+        ->orderBy('created_at', 'desc')
+        ->take(5)
+        ->get();
+
+    // Determine account status dynamically (example logic)
+    $hasPending = $recentRequests->where('status', 'Pending')->count();
+    $accountStatus = $hasPending ? 'Attention Required' : 'Account in Good Standing';
+    $accountStatusColor = $hasPending ? 'bg-warning-100 text-warning-700' : 'bg-success-50 border-success-200 text-success-700';
         return view('frontend.auth.user-profile', compact('user', 'countries','orders','status','fromDate','toDate'));
     }
 

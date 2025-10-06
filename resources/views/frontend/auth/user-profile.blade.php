@@ -1047,22 +1047,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div>
-                                            <h4 class="font-semibold text-secondary-700 mb-3">Useful Resources</h4>
-                                            <div class="space-y-2">
-                                                <a href="#" class="block text-accent hover:text-accent-600 text-sm">Getting
-                                                    Started
-                                                    Guide</a>
-                                                <a href="#" class="block text-accent hover:text-accent-600 text-sm">API
-                                                    Documentation</a>
-                                                <a href="#" class="block text-accent hover:text-accent-600 text-sm">Video
-                                                    Tutorials</a>
-                                                <a href="#"
-                                                    class="block text-accent hover:text-accent-600 text-sm">Community
-                                                    Forums</a>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
