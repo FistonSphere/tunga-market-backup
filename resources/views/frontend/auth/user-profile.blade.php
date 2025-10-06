@@ -109,20 +109,16 @@
                 </div>
 
                 <!-- Quick Stats -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
                     <div class="card text-center">
-                        <div class="text-2xl font-bold text-accent">{{ $orders->where('status', 'Processing')->count() }}</div>
-                        <div class="text-sm text-secondary-600">Active Orders</div>
+                        <div class="text-2xl font-bold text-accent">{{ $orders->count() }}</div>
+                        <div class="text-sm text-secondary-600">Total Orders</div>
                     </div>
                     <div class="card text-center">
                         <div class="text-2xl font-bold text-success">
                             {{ Number_format($orders->sum(function($order) { return $order->quantity * $order->price; })) }} Rwf
                         </div>
                         <div class="text-sm text-secondary-600">This Month</div>
-                    </div>
-                    <div class="card text-center">
-                        <div class="text-2xl font-bold text-primary">156</div>
-                        <div class="text-sm text-secondary-600">Total Orders</div>
                     </div>
                     <div class="card text-center">
                         <div class="text-2xl font-bold text-warning">4.9</div>
