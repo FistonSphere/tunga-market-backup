@@ -1006,49 +1006,64 @@
                                 <!-- Account Status & History -->
                                 <div>
                                     <h3 class="text-lg font-semibold text-primary mb-4">Account Status</h3>
-                                    <div class="space-y-4">
-                                        <div class="bg-success-50 border border-success-200 rounded-lg p-4">
-                                            <div class="flex items-center space-x-3">
-                                                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                <div>
-                                                    <div class="font-semibold text-success-700">Account in Good Standing
-                                                    </div>
-                                                    <div class="text-success-600 text-sm">All systems operational</div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div>
-                                            <h4 class="font-semibold text-secondary-700 mb-3">Recent Support Activity</h4>
-                                            <div class="space-y-3">
-                                                <div class="border border-secondary-200 rounded-lg p-3">
-                                                    <div class="flex justify-between items-start mb-2">
-                                                        <div class="font-semibold text-primary">Ticket #12345</div>
-                                                        <span
-                                                            class="px-2 py-1 bg-success-100 text-success-700 rounded text-xs font-semibold">Resolved</span>
-                                                    </div>
-                                                    <div class="text-secondary-600 text-sm mb-1">Payment processing issue
-                                                    </div>
-                                                    <div class="text-secondary-500 text-xs">Resolved on Jan 24, 2025</div>
+                                    <!-- Account Status Box -->
+                                    <div class="{{ $accountStatusColor }} border rounded-lg p-4">
+                                        <div class="flex items-center space-x-3">
+                                            <svg class="w-5 h-5 @if($hasPending) text-warning @else text-success @endif"
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="@if($hasPending) M6 18L18 6M6 6l12 12 @else M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z @endif" />
+                                            </svg>
+                                            <div>
+                                                <div class="font-semibold">
+                                                    {{ $accountStatus }}
                                                 </div>
-                                                <div class="border border-secondary-200 rounded-lg p-3">
-                                                    <div class="flex justify-between items-start mb-2">
-                                                        <div class="font-semibold text-primary">Ticket #12344</div>
-                                                        <span
-                                                            class="px-2 py-1 bg-success-100 text-success-700 rounded text-xs font-semibold">Resolved</span>
-                                                    </div>
-                                                    <div class="text-secondary-600 text-sm mb-1">API rate limit questions
-                                                    </div>
-                                                    <div class="text-secondary-500 text-xs">Resolved on Jan 20, 2025</div>
+                                                <div class="text-sm text-secondary-600">
+                                                    @if($hasPending)
+                                                        You have {{ $hasPending }} pending support request(s)
+                                                    @else
+                                                        All systems operational
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- Recent Support Activity -->
+                                    <div class="mt-6">
+                                        <h4 class="font-semibold text-secondary-700 mb-3">Recent Support Activity</h4>
+                                        <div class="space-y-3">
+                                            @forelse($recentRequests as $request)
+                                                @php
+                                                    $statusColors = [
+                                                        'Pending' => 'bg-warning-100 text-warning-700',
+                                                        'In Progress' => 'bg-primary-100 text-primary-700',
+                                                        'Resolved' => 'bg-success-100 text-success-700',
+                                                    ];
+                                                    $statusClass = $statusColors[$request->status] ?? 'bg-gray-100 text-gray-700';
+                                                @endphp
+
+                                                <div class="border border-secondary-200 rounded-lg p-3">
+                                                    <div class="flex justify-between items-start mb-2">
+                                                        <div class="font-semibold text-primary">Ticket #{{ $request->ticket }}
+                                                        </div>
+                                                        <span
+                                                            class="px-2 py-1 {{ $statusClass }} rounded text-xs font-semibold">{{ $request->status }}</span>
+                                                    </div>
+                                                    <div class="text-secondary-600 text-sm mb-1">{{ $request->subject }}</div>
+                                                    <div class="text-secondary-500 text-xs">Submitted on
+                                                        {{ $request->created_at->format('M d, Y') }}</div>
+                                                </div>
+                                            @empty
+                                                <div class="text-center py-4 text-secondary-500">
+                                                    <p>No support requests found.</p>
+                                                </div>
+                                            @endforelse
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -1229,35 +1244,35 @@
 
             const icons = {
                 success: `<svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                    </svg>`,
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                        </svg>`,
                 info: `<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                    </svg>`,
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                        </svg>`,
                 warning: `<svg class="w-5 h-5 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                                                    </svg>`,
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                                                        </svg>`,
                 error: `<svg class="w-5 h-5 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                    </svg>`
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                        </svg>`
             };
 
             notification.innerHTML = `
-                                                    <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
-                                                        <div class="flex items-start space-x-3">
-                                                            ${icons[type]}
-                                                            <div class="flex-1">
-                                                                <h4 class="font-semibold text-primary">${title}</h4>
-                                                                <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                                                        <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
+                                                            <div class="flex items-start space-x-3">
+                                                                ${icons[type]}
+                                                                <div class="flex-1">
+                                                                    <h4 class="font-semibold text-primary">${title}</h4>
+                                                                    <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                                                                </div>
+                                                                <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+                                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                                                    </svg>
+                                                                </button>
                                                             </div>
-                                                            <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
-                                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                                                </svg>
-                                                            </button>
                                                         </div>
-                                                    </div>
-                                                `;
+                                                    `;
 
             notification.classList.remove('translate-x-full');
 
@@ -1287,20 +1302,20 @@
         // Add CSS for active nav items
         const styling = document.createElement('style');
         styling.textContent = `
-                                                .nav-item.active {
-                                                    background-color: var(--color-primary);
-                                                    color: white;
-                                                }
+                                                    .nav-item.active {
+                                                        background-color: var(--color-primary);
+                                                        color: white;
+                                                    }
 
-                                                .content-section {
-                                                    animation: fadeIn 0.3s ease-in-out;
-                                                }
+                                                    .content-section {
+                                                        animation: fadeIn 0.3s ease-in-out;
+                                                    }
 
-                                                @keyframes fadeIn {
-                                                    from { opacity: 0; transform: translateY(10px); }
-                                                    to { opacity: 1; transform: translateY(0); }
-                                                }
-                                            `;
+                                                    @keyframes fadeIn {
+                                                        from { opacity: 0; transform: translateY(10px); }
+                                                        to { opacity: 1; transform: translateY(0); }
+                                                    }
+                                                `;
         document.head.appendChild(styling);
 
 
@@ -1596,9 +1611,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                        <div class="font-semibold">${styles[type].title}</div>
-                                        <div class="text-sm opacity-90">${message}</div>
-                                    `;
+                                            <div class="font-semibold">${styles[type].title}</div>
+                                            <div class="text-sm opacity-90">${message}</div>
+                                        `;
 
             // Progress bar
             const progress = document.createElement("div");
