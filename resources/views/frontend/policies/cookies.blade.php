@@ -240,6 +240,10 @@
                     <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
                         <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 13. Contact Us
                     </h2>
+                    <p class="text-gray-700">
+                        If you have any questions or concerns about our use of cookies or data privacy, contact us at:
+
+                    </p>
                     <ul class="text-gray-700 space-y-1">
                         <li>Email: <a href="mailto:support@tungamarket.com"
                                 class="text-blue-600 hover:underline">support@tungamarket.com</a></li>
