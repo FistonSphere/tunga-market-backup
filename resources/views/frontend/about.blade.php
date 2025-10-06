@@ -139,7 +139,7 @@
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">Leadership Team</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Meet the visionaries driving innovation and growth in global commerce
+                    Meet the passionate leaders dedicated to making your shopping experience better, safer, and more rewarding every day.
                 </p>
             </div>
 
