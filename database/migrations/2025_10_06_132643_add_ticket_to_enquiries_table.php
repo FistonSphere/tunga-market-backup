@@ -9,20 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::table('enquiries', function (Blueprint $table) {
-            //
+            $table->string('ticket')->unique()->after('id');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::table('enquiries', function (Blueprint $table) {
-            //
+            $table->dropColumn('ticket');
         });
     }
 };
