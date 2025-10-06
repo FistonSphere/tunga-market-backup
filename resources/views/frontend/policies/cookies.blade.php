@@ -89,6 +89,15 @@
                             <strong>Security & Authentication Cookies:</strong> These help protect your account and prevent
                             fraudulent use. They also track suspicious or repeated login attempts and enhance security.
                         </li>
+                        <li class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-orange-50 transition">
+                            <strong>Session & Persistent Cookies:</strong>
+                            <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                                <li>• Session cookies: temporary and deleted when you
+                                    close your browser.</li>
+                                <li>• Persistent cookies: remain stored on your device for a set period or until manually
+                                    deleted.</li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
 
