@@ -116,9 +116,7 @@
                     </div>
                     <div class="card text-center">
                         <div class="text-2xl font-bold text-success">
-                            {{ Number_format($orders->sum(function ($order) {
-        return $order->quantity * $order->price; })) }}
-                            Rwf
+                            {{ Number_format($orders->sum(function ($order) {return $order->quantity * $order->price; })) }} Rwf
                         </div>
                         <div class="text-sm text-secondary-600">This Month</div>
                     </div>

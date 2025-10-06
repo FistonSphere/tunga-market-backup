@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+
     protected $fillable = [
         'first_name',
         'last_name',
@@ -29,15 +30,12 @@ class User extends Authenticatable
         'two_factor_expires_at',
         'role'
     ];
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    public function wishlistItems()
-{
-    return $this->hasMany(Wishlist::class);
-}
     protected function casts(): array
     {
         return [
@@ -46,23 +44,36 @@ class User extends Authenticatable
         ];
     }
 
+    // ✅ Relationship: a user has many orders
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    // ✅ Relationship: user’s activity logs
+    public function activityLogs()
+    {
+        return $this->hasMany(UserActivityLog::class);
+    }
+
+    // ✅ Dynamic platform rating attribute
     public function getPlatformRatingAttribute()
-{
-    $views = $this->activityLogs()->count();
-    $orders = $this->orders()->count();
+    {
+        $views = $this->activityLogs()->count();
+        $orders = $this->orders()->count();
 
-    // Weight metrics (adjust to your logic)
-    $score = ($views * 0.01) + ($orders * 0.5);
+        // Weight metrics (customizable)
+        $score = ($views * 0.01) + ($orders * 0.5);
 
-    // Cap it to 5
-    $rating = min(5, round($score, 1));
+        // Cap it to 5
+        $rating = min(5, round($score, 1));
 
-    return $rating ?: 0.0;
-}
+        return $rating ?: 0.0;
+    }
 
-public function activityLogs()
-{
-    return $this->hasMany(UserActivityLog::class);
-}
-
+    // Wishlist relationship
+    public function wishlistItems()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
 }
