@@ -57,7 +57,8 @@
                     </div>
                     <h2 class="text-heading font-bold text-primary mb-4">Our Mission</h2>
                     <p class="text-body text-secondary-600 mb-6">
-                        To empower everyday shoppers by providing a safe, simple, and rewarding online marketplace that connects people with quality products and trusted sellers worldwide.
+                        To empower everyday shoppers by providing a safe, simple, and rewarding online marketplace that
+                        connects people with quality products and trusted sellers worldwide.
                     </p>
                     <ul class="space-y-3">
                         <li class="flex items-center text-secondary-600">
@@ -99,7 +100,8 @@
                     </div>
                     <h2 class="text-heading font-bold text-primary mb-4">Our Vision</h2>
                     <p class="text-body text-secondary-600 mb-6">
-                        To become Rwanda’s most trusted and innovative online marketplace, where every individual can discover, buy, and enjoy quality products with ease and confidence anytime, anywhere.
+                        To become Rwanda’s most trusted and innovative online marketplace, where every individual can
+                        discover, buy, and enjoy quality products with ease and confidence anytime, anywhere.
                     </p>
                     <ul class="space-y-3">
                         <li class="flex items-center text-secondary-600">
@@ -127,8 +129,8 @@
                             Building a vibrant community of happy shoppers across Rwanda
                         </li>
                     </ul>
+                </div>
             </div>
-        </div>
     </section>
 
     <!-- Leadership Team Section -->
@@ -164,10 +166,25 @@
                         commerce drives our platform's innovation.
                     </p>
                     <div class="flex justify-center space-x-3">
-                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast">
+                        <!-- Instagram -->
+                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="Instagram">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path
-                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286z" />
+                                    d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                            </svg>
+                        </a>
+                        <!-- Facebook -->
+                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="Facebook">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.261c-1.243 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12" />
+                            </svg>
+                        </a>
+                        <!-- X (Twitter) -->
+                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="X (Twitter)">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M17.53 3H21l-7.19 8.21L22 21h-6.56l-5.18-6.09L3.47 21H0l7.64-8.73L2 3h6.68l4.7 5.53L17.53 3zm-2.1 15.19h1.82l-5.01-5.89-1.64 1.87 4.83 4.02zm-7.36-13.1l5.01 5.89 1.64-1.87-4.83-4.02H8.07z" />
                             </svg>
                         </a>
                     </div>
@@ -193,10 +210,25 @@
                         innovations in secure global trade.
                     </p>
                     <div class="flex justify-center space-x-3">
-                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast">
+                        <!-- Instagram -->
+                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="Instagram">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path
-                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286z" />
+                                    d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                            </svg>
+                        </a>
+                        <!-- Facebook -->
+                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="Facebook">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.261c-1.243 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12" />
+                            </svg>
+                        </a>
+                        <!-- X (Twitter) -->
+                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="X (Twitter)">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M17.53 3H21l-7.19 8.21L22 21h-6.56l-5.18-6.09L3.47 21H0l7.64-8.73L2 3h6.68l4.7 5.53L17.53 3zm-2.1 15.19h1.82l-5.01-5.89-1.64 1.87 4.83 4.02zm-7.36-13.1l5.01 5.89 1.64-1.87-4.83-4.02H8.07z" />
                             </svg>
                         </a>
                     </div>
@@ -223,10 +255,25 @@
                         financial operations across all markets.
                     </p>
                     <div class="flex justify-center space-x-3">
-                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast">
+                        <!-- Instagram -->
+                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="Instagram">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path
-                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286z" />
+                                    d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                            </svg>
+                        </a>
+                        <!-- Facebook -->
+                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="Facebook">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.261c-1.243 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12" />
+                            </svg>
+                        </a>
+                        <!-- X (Twitter) -->
+                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="X (Twitter)">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M17.53 3H21l-7.19 8.21L22 21h-6.56l-5.18-6.09L3.47 21H0l7.64-8.73L2 3h6.68l4.7 5.53L17.53 3zm-2.1 15.19h1.82l-5.01-5.89-1.64 1.87 4.83 4.02zm-7.36-13.1l5.01 5.89 1.64-1.87-4.83-4.02H8.07z" />
                             </svg>
                         </a>
                     </div>
