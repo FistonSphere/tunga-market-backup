@@ -203,41 +203,42 @@
                         <li>Customize your preferences.</li>
                         <li>Reject non-essential cookies.</li>
                     </ul>
-                    <p class="text-gray-700 mb-3">You can modify or withdraw your consent at any time by clicking the “Cookie Settings” link in the website footer.
+                    <p class="text-gray-700 mb-3">You can modify or withdraw your consent at any time by clicking the
+                        “Cookie Settings” link in the website footer.
                     <p>
                 </div>
-
-
-
-
-
-
-
-
                 <div class="group transition-transform duration-300 hover:-translate-y-1">
                     <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
-                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 6. Consent & Withdrawal
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 11. Your Privacy Rights
+                    </h2>
+                    <p class="text-gray-700 mb-3">Depending on your location, you may have rights to:
+                    </p>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                        <li>Access your data collected through cookies.</li>
+                        <li>Request deletion of cookie-based data.</li>
+                        <li>Restrict or object to processing.</li>
+                        <li>Lodge a complaint with a data protection authority.</li>
+                    </ul>
+                    <p class="text-gray-700 mb-3">We comply with relevant data protection laws, including <strong> GDPR,
+                            CCPA, and Rwanda’s Data Protection and Privacy Law</strong>.
+                    <p>
+                </div>
+                <div class="group transition-transform duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 12. Updates to This Policy
                     </h2>
                     <p class="text-gray-700">
-                        By continuing to use our site, you consent to our cookie usage.
-                        You can revoke or update your cookie preferences anytime via our <strong>Cookie Settings</strong>
-                        panel or your browser.
+                        We may occasionally update this Cookies Policy to reflect changes in legal requirements or website
+                        functionality.
+                        Any updates will be posted here with a new “Last Updated” date. Please review this page
+                        periodically.
+
                     </p>
                 </div>
 
                 <div class="group transition-transform duration-300 hover:-translate-y-1">
                     <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
-                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 7. Updates to This Policy
-                    </h2>
-                    <p class="text-gray-700">
-                        We may update this page periodically to reflect changes in laws or our practices.
-                        Revisit this page regularly to stay informed.
-                    </p>
-                </div>
-
-                <div class="group transition-transform duration-300 hover:-translate-y-1">
-                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
-                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 8. Contact Us
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 13. Contact Us
                     </h2>
                     <ul class="text-gray-700 space-y-1">
                         <li>Email: <a href="mailto:support@tungamarket.com"
