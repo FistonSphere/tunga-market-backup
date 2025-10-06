@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description"
         content="Next-generation B2B/B2C hybrid marketplace that transcends traditional e-commerce limitations through trading ecosystem and immersive visual storytelling." />
@@ -905,7 +905,23 @@
     <div id="toast-container2" aria-live="polite" aria-atomic="true"
         style="position: fixed; top: 1rem; right: 1rem; z-index: 999999;"></div>
 
-
+@if(!session('cookies_accepted'))
+<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0">
+        <div class="text-sm text-secondary-700">
+            🍪 We use cookies to enhance your browsing experience, analyze traffic, and personalize content.
+            By continuing, you agree to our <a href="#" class="text-accent font-semibold hover:underline">Cookie Policy</a>.
+        </div>
+        <div class="flex space-x-3">
+            <button id="acceptCookies" class="bg-accent text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-accent-600 transition">
+                Accept Cookies
+            </button>
+            <button id="declineCookies" class="bg-gray-200 text-secondary-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-300 transition">
+                Decline
+            </button>
+        </div>
+    </div>
+</div>
     <script>
         // Enhanced Navigation Functionality
         class EnhancedNavigation {
