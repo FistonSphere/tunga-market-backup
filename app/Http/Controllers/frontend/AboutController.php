@@ -10,7 +10,7 @@ class AboutController extends Controller
 {
     public function index(){
         // Logic to retrieve and display about information
-        $teamMembers = TeamMember::all();
-        return view('frontend.about'); // Adjust the view name as necessary
+        $teamMembers = TeamMember::where('status', 'active')->get();
+        return view('frontend.about', compact('teamMembers')); // Adjust the view name as necessary
     }
 }

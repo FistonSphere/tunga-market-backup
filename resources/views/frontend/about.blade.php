@@ -139,148 +139,71 @@
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">Leadership Team</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Meet the passionate leaders dedicated to making your shopping experience better, safer, and more rewarding every day.
+                    Meet the passionate leaders dedicated to making your experience better, safer, and more rewarding every
+                    day.
                 </p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- CEO -->
-                <div class="card text-center group hover:shadow-hover transition-all duration-300">
-                    <div class="relative mb-6">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop"
-                            alt="Sarah Chen - CEO" class="w-24 h-24 rounded-full mx-auto object-cover shadow-card"
-                            loading="lazy" />
-                        <div
-                            class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-primary text-white rounded-full p-2">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd" />
-                            </svg>
+                @forelse($teamMembers as $member)
+                    <div
+                        class="card text-center group hover:shadow-hover hover:scale-[1.02] transition-all duration-300 bg-white rounded-2xl p-6">
+                        <div class="relative mb-6">
+                            <img src="{{ $member->photo ?? 'https://via.placeholder.com/150' }}" alt="{{ $member->name }}"
+                                class="w-24 h-24 rounded-full mx-auto object-cover shadow-card" loading="lazy" />
+                            <div
+                                class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-primary text-white rounded-full p-2">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
                         </div>
-                    </div>
-                    <h3 class="font-semibold text-primary mb-1">Sarah Chen</h3>
-                    <p class="text-body-sm text-accent mb-3">Chief Executive Officer</p>
-                    <p class="text-body-sm text-secondary-600 mb-4">
-                        Former VP at Alibaba with 15+ years in global trade. Sarah's vision of democratizing international
-                        commerce drives our platform's innovation.
-                    </p>
-                    <div class="flex justify-center space-x-3">
-                        <!-- Instagram -->
-                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="Instagram">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-                            </svg>
-                        </a>
-                        <!-- Facebook -->
-                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="Facebook">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.261c-1.243 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12" />
-                            </svg>
-                        </a>
-                        <!-- X (Twitter) -->
-                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="X (Twitter)">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M17.53 3H21l-7.19 8.21L22 21h-6.56l-5.18-6.09L3.47 21H0l7.64-8.73L2 3h6.68l4.7 5.53L17.53 3zm-2.1 15.19h1.82l-5.01-5.89-1.64 1.87 4.83 4.02zm-7.36-13.1l5.01 5.89 1.64-1.87-4.83-4.02H8.07z" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
 
-                <!-- CTO -->
-                <div class="card text-center group hover:shadow-hover transition-all duration-300">
-                    <div class="relative mb-6">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop"
-                            alt="Michael Rodriguez - CTO" class="w-24 h-24 rounded-full mx-auto object-cover shadow-card"
-                            loading="lazy" />
-                        <div
-                            class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-accent text-white rounded-full p-2">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="font-semibold text-primary mb-1">Michael Rodriguez</h3>
-                    <p class="text-body-sm text-accent mb-3">Chief Technology Officer</p>
-                    <p class="text-body-sm text-secondary-600 mb-4">
-                        AI and blockchain expert with experience at Google and Amazon. Michael leads our technology
-                        innovations in secure global trade.
-                    </p>
-                    <div class="flex justify-center space-x-3">
-                        <!-- Instagram -->
-                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="Instagram">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-                            </svg>
-                        </a>
-                        <!-- Facebook -->
-                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="Facebook">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.261c-1.243 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12" />
-                            </svg>
-                        </a>
-                        <!-- X (Twitter) -->
-                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="X (Twitter)">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M17.53 3H21l-7.19 8.21L22 21h-6.56l-5.18-6.09L3.47 21H0l7.64-8.73L2 3h6.68l4.7 5.53L17.53 3zm-2.1 15.19h1.82l-5.01-5.89-1.64 1.87 4.83 4.02zm-7.36-13.1l5.01 5.89 1.64-1.87-4.83-4.02H8.07z" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+                        <h3 class="font-semibold text-primary mb-1">{{ $member->name }}</h3>
+                        <p class="text-body-sm text-accent mb-3">{{ $member->position }}</p>
+                        <p class="text-body-sm text-secondary-600 mb-4">{{ $member->bio }}</p>
 
-                <!-- CFO -->
-                <div class="card text-center group hover:shadow-hover transition-all duration-300">
-                    <div class="relative mb-6">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop"
-                            alt="Priya Patel - CFO" class="w-24 h-24 rounded-full mx-auto object-cover shadow-card"
-                            loading="lazy" />
-                        <div
-                            class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-success text-white rounded-full p-2">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                            </svg>
+                        <div class="flex justify-center space-x-3">
+                            @if($member->instagram)
+                                <a href="{{ $member->instagram }}" target="_blank"
+                                    class="text-secondary-400 hover:text-primary transition-fast" aria-label="Instagram">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                    </svg>
+                                </a>
+                            @endif
+
+                            @if($member->facebook)
+                                <a href="{{ $member->facebook }}" target="_blank"
+                                    class="text-secondary-400 hover:text-primary transition-fast" aria-label="Facebook">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.261c-1.243 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12" />
+                                    </svg>
+                                </a>
+                            @endif
+
+                            @if($member->twitter)
+                                <a href="{{ $member->twitter }}" target="_blank"
+                                    class="text-secondary-400 hover:text-primary transition-fast" aria-label="Twitter">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M17.53 3H21l-7.19 8.21L22 21h-6.56l-5.18-6.09L3.47 21H0l7.64-8.73L2 3h6.68l4.7 5.53L17.53 3zm-2.1 15.19h1.82l-5.01-5.89-1.64 1.87 4.83 4.02zm-7.36-13.1l5.01 5.89 1.64-1.87-4.83-4.02H8.07z" />
+                                    </svg>
+                                </a>
+                            @endif
                         </div>
                     </div>
-                    <h3 class="font-semibold text-primary mb-1">Priya Patel</h3>
-                    <p class="text-body-sm text-accent mb-3">Chief Financial Officer</p>
-                    <p class="text-body-sm text-secondary-600 mb-4">
-                        Financial strategist with Goldman Sachs background. Priya ensures sustainable growth and transparent
-                        financial operations across all markets.
-                    </p>
-                    <div class="flex justify-center space-x-3">
-                        <!-- Instagram -->
-                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="Instagram">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-                            </svg>
-                        </a>
-                        <!-- Facebook -->
-                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="Facebook">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.261c-1.243 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12" />
-                            </svg>
-                        </a>
-                        <!-- X (Twitter) -->
-                        <a href="#" class="text-secondary-400 hover:text-primary transition-fast" aria-label="X (Twitter)">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M17.53 3H21l-7.19 8.21L22 21h-6.56l-5.18-6.09L3.47 21H0l7.64-8.73L2 3h6.68l4.7 5.53L17.53 3zm-2.1 15.19h1.82l-5.01-5.89-1.64 1.87 4.83 4.02zm-7.36-13.1l5.01 5.89 1.64-1.87-4.83-4.02H8.07z" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+                @empty
+                    <p class="col-span-full text-center text-gray-500 py-6">No team members available.</p>
+                @endforelse
             </div>
         </div>
     </section>
+
 
     <!-- Company Milestones -->
     <section class="py-16 bg-white">
