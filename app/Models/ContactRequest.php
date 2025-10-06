@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class ContactRequest extends Model
 {
@@ -22,6 +23,7 @@ class ContactRequest extends Model
         'callback_requested',
         'callback_time',
         'callback_timezone',
+        'ticket',
     ];
 
     protected $casts = [
@@ -29,4 +31,22 @@ class ContactRequest extends Model
         'callback_requested' => 'boolean',
     ];
 
+    protected static function booted()
+    {
+        static::creating(function ($enquiry) {
+            $enquiry->ticket = self::generateTicket();
+        });
+    }
+
+    /**
+     * Generate a unique ticket ID
+     */
+    public static function generateTicket()
+    {
+        do {
+            $ticket = 'TKT-' . strtoupper(Str::random(8));
+        } while (self::where('ticket', $ticket)->exists());
+
+        return $ticket;
+    }
 }
