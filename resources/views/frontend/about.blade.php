@@ -265,7 +265,7 @@
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">Our Values</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    The principles that guide every decision and interaction at Tunga Market
+                    The principles that shape every shopping experience and interaction at Tunga Market
                 </p>
             </div>
 
@@ -281,7 +281,7 @@
                     </div>
                     <h3 class="font-semibold text-primary mb-2">Trust</h3>
                     <p class="text-body-sm text-secondary-600">
-                        Building lasting relationships through transparency, reliability, and verified partnerships.
+                        Creating confidence for every shopper through transparency, secure payments, and verified sellers.
                     </p>
                 </div>
 
@@ -296,7 +296,7 @@
                     </div>
                     <h3 class="font-semibold text-primary mb-2">Innovation</h3>
                     <p class="text-body-sm text-secondary-600">
-                        Continuously pushing boundaries with cutting-edge technology and creative solutions.
+                        Making shopping easier and more enjoyable with the latest technology and creative features.
                     </p>
                 </div>
 
@@ -311,7 +311,7 @@
                     </div>
                     <h3 class="font-semibold text-primary mb-2">Sustainability</h3>
                     <p class="text-body-sm text-secondary-600">
-                        Promoting responsible business practices for a sustainable global economy.
+                        Supporting eco-friendly products and responsible shopping for a better future.
                     </p>
                 </div>
 
@@ -326,88 +326,8 @@
                     </div>
                     <h3 class="font-semibold text-primary mb-2">Empowerment</h3>
                     <p class="text-body-sm text-secondary-600">
-                        Enabling businesses worldwide to reach their full potential in global markets.
+                        Giving every shopper the freedom to choose, discover, and enjoy the best products for their needs.
                     </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Global Presence -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Global Presence</h2>
-                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Our international offices and strategic partnerships spanning across continents
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Americas -->
-                <div class="card">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
-                            <span class="text-2xl">🌎</span>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-primary">Americas</h3>
-                            <p class="text-body-sm text-secondary-600">North & South America</p>
-                        </div>
-                    </div>
-                    <ul class="space-y-2 text-body-sm text-secondary-600">
-                        <li>• New York, USA (Headquarters)</li>
-                        <li>• São Paulo, Brazil</li>
-                        <li>• Toronto, Canada</li>
-                        <li>• Mexico City, Mexico</li>
-                    </ul>
-                    <div class="mt-4 text-body-sm text-primary font-semibold">
-                        1.2M+ Active Users
-                    </div>
-                </div>
-
-                <!-- Europe -->
-                <div class="card">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center mr-4">
-                            <span class="text-2xl">🌍</span>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-primary">Europe</h3>
-                            <p class="text-body-sm text-secondary-600">European Union & UK</p>
-                        </div>
-                    </div>
-                    <ul class="space-y-2 text-body-sm text-secondary-600">
-                        <li>• London, United Kingdom</li>
-                        <li>• Berlin, Germany</li>
-                        <li>• Paris, France</li>
-                        <li>• Amsterdam, Netherlands</li>
-                    </ul>
-                    <div class="mt-4 text-body-sm text-primary font-semibold">
-                        890K+ Active Users
-                    </div>
-                </div>
-
-                <!-- Asia-Pacific -->
-                <div class="card">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-success-100 rounded-lg flex items-center justify-center mr-4">
-                            <span class="text-2xl">🌏</span>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-primary">Asia-Pacific</h3>
-                            <p class="text-body-sm text-secondary-600">Asia & Oceania</p>
-                        </div>
-                    </div>
-                    <ul class="space-y-2 text-body-sm text-secondary-600">
-                        <li>• Singapore (Regional HQ)</li>
-                        <li>• Tokyo, Japan</li>
-                        <li>• Sydney, Australia</li>
-                        <li>• Mumbai, India</li>
-                    </ul>
-                    <div class="mt-4 text-body-sm text-primary font-semibold">
-                        710K+ Active Users
-                    </div>
                 </div>
             </div>
         </div>
@@ -419,7 +339,7 @@
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">Corporate Responsibility</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Our commitment to ethical business practices and positive social impact
+                    Our commitment to ethical shopping and making a positive impact in our communities
                 </p>
             </div>
 
@@ -437,9 +357,8 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-medium text-primary">Carbon Neutral Operations</h4>
-                                <p class="text-body-sm text-secondary-600">100% renewable energy across all offices by 2025
-                                </p>
+                                <h4 class="font-medium text-primary">Eco-Friendly Shopping</h4>
+                                <p class="text-body-sm text-secondary-600">We highlight and promote products with sustainable packaging and responsible sourcing.</p>
                             </div>
                         </div>
                         <div class="flex items-start">
@@ -451,9 +370,8 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-medium text-primary">Green Trade Program</h4>
-                                <p class="text-body-sm text-secondary-600">Promoting eco-friendly suppliers and sustainable
-                                    products</p>
+                                <h4 class="font-medium text-primary">Green Delivery Options</h4>
+                                <p class="text-body-sm text-secondary-600">Choose eco-friendly delivery at checkout to reduce your carbon footprint.</p>
                             </div>
                         </div>
                         <div class="flex items-start">
@@ -465,9 +383,8 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-medium text-primary">Digital-First Approach</h4>
-                                <p class="text-body-sm text-secondary-600">Reducing paper usage by 90% through digital
-                                    documentation</p>
+                                <h4 class="font-medium text-primary">Digital Receipts</h4>
+                                <p class="text-body-sm text-secondary-600">We use digital receipts to reduce paper waste and help you track your purchases easily.</p>
                             </div>
                         </div>
                     </div>
@@ -486,9 +403,8 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-medium text-primary">SME Support Program</h4>
-                                <p class="text-body-sm text-secondary-600">Free resources and training for small businesses
-                                </p>
+                                <h4 class="font-medium text-primary">Supporting Local Communities</h4>
+                                <p class="text-body-sm text-secondary-600">We partner with local organizations to give back and support community projects.</p>
                             </div>
                         </div>
                         <div class="flex items-start">
@@ -500,9 +416,8 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-medium text-primary">Education Partnerships</h4>
-                                <p class="text-body-sm text-secondary-600">Collaborating with universities on trade
-                                    education</p>
+                                <h4 class="font-medium text-primary">Education for Shoppers</h4>
+                                <p class="text-body-sm text-secondary-600">We provide tips and resources to help you shop safely and make informed choices online.</p>
                             </div>
                         </div>
                         <div class="flex items-start">
@@ -515,8 +430,7 @@
                             </div>
                             <div>
                                 <h4 class="font-medium text-primary">Diversity & Inclusion</h4>
-                                <p class="text-body-sm text-secondary-600">Building inclusive opportunities across all
-                                    demographics</p>
+                                <p class="text-body-sm text-secondary-600">We celebrate diversity and make sure everyone feels welcome and valued at Tunga Market.</p>
                             </div>
                         </div>
                     </div>
@@ -529,20 +443,19 @@
     <section class="py-20 bg-gradient-to-r from-primary to-primary-700">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-heading font-bold text-white mb-6">
-                Join Our Mission
+                Shop with Confidence
             </h2>
             <p class="text-body-lg text-primary-100 mb-8 max-w-2xl mx-auto">
-                Be part of the global commerce revolution. Whether you're looking to buy, sell, or build the future of trade
-                with us, there's a place for you at Tunga Market.
+                Discover amazing products, enjoy secure shopping, and experience convenience like never before. Join thousands of happy shoppers at Tunga Market today!
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="careers.html"
+                <a href="{{ route('login') }}"
                     class="bg-accent hover:bg-accent-600 text-white font-semibold px-8 py-4 rounded-lg transition-fast">
-                    Explore Careers
+                    Create Account
                 </a>
-                <a href="{{ route('home') }} "
+                <a href="{{ route('home') }}"
                     class="bg-white hover:bg-gray-50 text-primary font-semibold px-8 py-4 rounded-lg transition-fast">
-                    Start Trading
+                    Start Shopping
                 </a>
             </div>
         </div>
