@@ -304,12 +304,10 @@
                                 <div class="flex items-center space-x-4">
                                     <select class="input-field w-auto">
                                         <option value="all">All Orders</option>
-                                        <option value="pending">Pending</option>
-                                        <option value="processing">Processing</option>
-                                        <option value="shipped">Shipped</option>
-                                        <option value="delivered">Delivered</option>
+                                        <option value="Processing">Processing</option>
+                                        <option value="Delivered">Delivered</option>
+                                        <option value="Canceled">Canceled</option>
                                     </select>
-                                    <button class="btn-secondary">Export</button>
                                 </div>
                             </div>
 
