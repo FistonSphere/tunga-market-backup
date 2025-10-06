@@ -11,6 +11,6 @@ class TeamMember extends Model
 
     protected $fillable = [
         'name', 'position', 'photo', 'bio',
-        'instagram', 'facebook', 'twitter'
+        'instagram', 'facebook', 'twitter','status'
     ];
 }
