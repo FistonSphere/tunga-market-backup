@@ -949,7 +949,8 @@
                                 <div>
                                     <h3 class="text-lg font-semibold text-primary mb-4">Quick Actions</h3>
                                     <div class="space-y-3">
-                                        <button
+                                        <a href="https://wa.me/250787444019?text={{ urlencode('Hello Tunga Market Support, I need help with...') }}"
+                                            target="_blank"
                                             class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
                                             <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -957,11 +958,11 @@
                                                     d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                             </svg>
                                             <div>
-                                                <div class="font-semibold text-primary">Start Live Chat</div>
+                                                <div class="font-semibold text-primary">WhatsApp Chat Support</div>
                                                 <div class="text-secondary-600 text-sm">Get instant help from our support
                                                     team</div>
                                             </div>
-                                        </button>
+                                        </a>
                                         <button
                                             class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
                                             <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor"
@@ -970,7 +971,7 @@
                                                     d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                             </svg>
                                             <div>
-                                                <div class="font-semibold text-primary">Submit Support Ticket</div>
+                                                <div class="font-semibold text-primary">Submit Support</div>
                                                 <div class="text-secondary-600 text-sm">Create a detailed support request
                                                 </div>
                                             </div>
@@ -1244,35 +1245,35 @@
 
             const icons = {
                 success: `<svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                </svg>`,
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                    </svg>`,
                 info: `<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                </svg>`,
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                    </svg>`,
                 warning: `<svg class="w-5 h-5 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                                                </svg>`,
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                                                    </svg>`,
                 error: `<svg class="w-5 h-5 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                </svg>`
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                    </svg>`
             };
 
             notification.innerHTML = `
-                                                <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
-                                                    <div class="flex items-start space-x-3">
-                                                        ${icons[type]}
-                                                        <div class="flex-1">
-                                                            <h4 class="font-semibold text-primary">${title}</h4>
-                                                            <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                                                    <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
+                                                        <div class="flex items-start space-x-3">
+                                                            ${icons[type]}
+                                                            <div class="flex-1">
+                                                                <h4 class="font-semibold text-primary">${title}</h4>
+                                                                <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                                                            </div>
+                                                            <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+                                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                                                </svg>
+                                                            </button>
                                                         </div>
-                                                        <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
-                                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                                            </svg>
-                                                        </button>
                                                     </div>
-                                                </div>
-                                            `;
+                                                `;
 
             notification.classList.remove('translate-x-full');
 
@@ -1302,20 +1303,20 @@
         // Add CSS for active nav items
         const styling = document.createElement('style');
         styling.textContent = `
-                                            .nav-item.active {
-                                                background-color: var(--color-primary);
-                                                color: white;
-                                            }
+                                                .nav-item.active {
+                                                    background-color: var(--color-primary);
+                                                    color: white;
+                                                }
 
-                                            .content-section {
-                                                animation: fadeIn 0.3s ease-in-out;
-                                            }
+                                                .content-section {
+                                                    animation: fadeIn 0.3s ease-in-out;
+                                                }
 
-                                            @keyframes fadeIn {
-                                                from { opacity: 0; transform: translateY(10px); }
-                                                to { opacity: 1; transform: translateY(0); }
-                                            }
-                                        `;
+                                                @keyframes fadeIn {
+                                                    from { opacity: 0; transform: translateY(10px); }
+                                                    to { opacity: 1; transform: translateY(0); }
+                                                }
+                                            `;
         document.head.appendChild(styling);
 
 
@@ -1611,9 +1612,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                    <div class="font-semibold">${styles[type].title}</div>
-                                    <div class="text-sm opacity-90">${message}</div>
-                                `;
+                                        <div class="font-semibold">${styles[type].title}</div>
+                                        <div class="text-sm opacity-90">${message}</div>
+                                    `;
 
             // Progress bar
             const progress = document.createElement("div");
