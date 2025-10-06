@@ -111,7 +111,7 @@
                 <!-- Quick Stats -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     <div class="card text-center">
-                        <div class="text-2xl font-bold text-accent">{{ $orders->count() }}</div>
+                        <div class="text-2xl font-bold text-accent">{{ $orders->where('status', 'Delivered')->count() }}</div>
                         <div class="text-sm text-secondary-600">Active Orders</div>
                     </div>
                     <div class="card text-center">
