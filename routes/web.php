@@ -20,6 +20,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SmsController;
 use App\Http\Controllers\UserActivityController;
+use App\Http\Controllers\UserSessionController;
 use App\Http\Controllers\WishlistController;
 use App\Models\Category;
 use App\Models\Product;
@@ -98,6 +99,10 @@ Route::post('/activity/log', [UserActivityController::class, 'logActivity'])->na
 
 
 Route::group(['middleware' => 'auth'], function () {
+     Route::get('/user/sessions', [UserSessionController::class, 'index']);
+    Route::post('/user/sessions', [UserSessionController::class, 'store']);
+    Route::delete('/user/sessions/{id}', [UserSessionController::class, 'destroy']);
+    Route::delete('/user/sessions', [UserSessionController::class, 'destroyAll']);
     Route::get('/orders/{product}/details', [AuthController::class, 'details']);
     Route::get('/orders/{order}', [OrderTrackingController::class, 'show'])->name('orders.show');
     Route::get('/user/profile', [AuthController::class, 'profile'])->name('user.profile');
