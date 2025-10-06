@@ -103,20 +103,23 @@
 
                 <div class="group transition-transform duration-300 hover:-translate-y-1">
                     <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
-                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 3. Why We Use Cookies
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 4. Why We Use Cookies
                     </h2>
+                    <p class="text-gray-700 mb-3">We use cookies for several purposes, including:</p>
                     <ul class="list-disc pl-6 space-y-2 text-gray-700">
-                        <li>Authenticate users securely and prevent fraud.</li>
-                        <li>Remember carts and preferences for easier checkout.</li>
-                        <li>Analyze usage trends to enhance site performance.</li>
-                        <li>Personalize your experience and show relevant offers.</li>
-                        <li>Support order management and secure payments.</li>
+                        <li>Enhancing website functionality and usability.</li>
+                        <li>Remembering login and cart information.</li>
+                        <li>Understanding how you interact with our content.</li>
+                        <li>Delivering personalized product recommendations.</li>
+                        <li>Improving system performance and troubleshooting errors.</li>
+                        <li>Tracking affiliate referrals and promotions.</li>
+                        <li>Securing transactions and preventing fraud.</li>
                     </ul>
                 </div>
 
                 <div class="group transition-transform duration-300 hover:-translate-y-1">
                     <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
-                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 4. Managing Cookies
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 5. Managing Cookies
                     </h2>
                     <p class="text-gray-700 mb-3">You can manage or delete cookies anytime. Most browsers let you disable
                         them, but note that some site features may not work properly without cookies.</p>
@@ -133,14 +136,63 @@
 
                 <div class="group transition-transform duration-300 hover:-translate-y-1">
                     <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
-                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 5. Third-Party Tools & Analytics
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 6. Managing and Disabling Cookies
                     </h2>
-                    <p class="text-gray-700">
-                        We use tools such as <strong>Google Analytics</strong>, <strong>Meta Pixel</strong>, and
-                        <strong>Hotjar</strong> for better user insights.
-                        These tools use cookies to track usage anonymously. You can opt out via their official websites.
+                    <p class="text-gray-700 mb-3">You have full control over your cookie preferences.
+                        You can:
+                    </p>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                        <li>Adjust cookie settings directly in our Cookie Consent Panel (bottom of the website).</li>
+                        <li>Modify browser settings to refuse or delete cookies.</li>
+                    </ul>
+                    <p class="text-gray-700 mb-3">However, please note that disabling certain cookies may affect your
+                        ability to access specific features or make your browsing experience less efficient.</p>
+                </div>
+                <div class="group transition-transform duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 7. Data Retention
+                    </h2>
+                    <p class="text-gray-700 mb-3">We retain cookie-related information for as long as necessary to fulfill
+                        their intended purpose or comply with legal obligations.
+                        Persistent cookies are typically stored between 1 month to 12 months, depending on their type and
+                        purpose.
+
                     </p>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="group transition-transform duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 5. Third-Party Tools & Analytics
+                    </h2>
+                    <p class="text-gray-700 mb-3">Some cookies on our website are placed by third parties acting on our
+                        behalf or in partnership with us. These may include:</p>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                        <li><strong>Analytics providers </strong>(e.g., Google, Hotjar, Mixpanel).</li>
+                        <li><strong>Advertising network </strong>(e.g., Facebook, TikTok, LinkedIn).</li>
+                        <li><strong>Payment processors </strong>(e.g., IremboPay, Mobile Money, MasterCard, etc).</li>
+                        <li><strong>Security providers </strong>(e.g., Cloudflare, AWS).</li>
+                    </ul>
+                    <p class="text-gray-700 mb-3">These third parties may use cookies to collect data about your online
+                        behavior across multiple websites.</p>
+                </div>
+
+
+
+
+
+
+
 
                 <div class="group transition-transform duration-300 hover:-translate-y-1">
                     <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
