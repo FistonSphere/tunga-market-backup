@@ -562,56 +562,15 @@
                                 <!-- Active Sessions -->
                                 <div class="border-t border-secondary-200 pt-8">
                                     <h3 class="text-lg font-semibold text-primary mb-4">Active Sessions</h3>
-                                    <div class="space-y-3">
-                                        <!-- Current Session -->
-                                        <div
-                                            class="flex items-center justify-between p-4 bg-success-50 border border-success-200 rounded-lg">
-                                            <div class="flex items-center space-x-3">
-                                                <div class="w-3 h-3 bg-success rounded-full"></div>
-                                                <div>
-                                                    <h4 class="font-semibold text-primary">Current Session</h4>
-                                                    <p class="text-secondary-600 text-sm">Chrome on Windows • San
-                                                        Francisco, CA • Last active: Now</p>
-                                                </div>
-                                            </div>
-                                            <span class="text-success text-sm font-semibold">This Device</span>
-                                        </div>
-
-                                        <!-- Other Sessions -->
-                                        <div
-                                            class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
-                                            <div class="flex items-center space-x-3">
-                                                <div class="w-3 h-3 bg-secondary-400 rounded-full"></div>
-                                                <div>
-                                                    <h4 class="font-semibold text-primary">Mobile Session</h4>
-                                                    <p class="text-secondary-600 text-sm">Tunga Market Mobile App • Los
-                                                        Angeles,
-                                                        CA • Last active: 2 hours ago</p>
-                                                </div>
-                                            </div>
-                                            <button
-                                                class="text-error hover:text-error-600 text-sm font-semibold">Revoke</button>
-                                        </div>
-
-                                        <div
-                                            class="flex items-center justify-between p-4 border border-secondary-200 rounded-lg">
-                                            <div class="flex items-center space-x-3">
-                                                <div class="w-3 h-3 bg-secondary-400 rounded-full"></div>
-                                                <div>
-                                                    <h4 class="font-semibold text-primary">Safari Session</h4>
-                                                    <p class="text-secondary-600 text-sm">Safari on Mac • San Francisco, CA
-                                                        • Last active: 1 day ago</p>
-                                                </div>
-                                            </div>
-                                            <button
-                                                class="text-error hover:text-error-600 text-sm font-semibold">Revoke</button>
-                                        </div>
-                                    </div>
+                                    <div id="active-sessions-list" class="space-y-3"></div>
                                     <div class="mt-4">
-                                        <button class="text-error hover:text-error-600 font-semibold">Revoke All Other
-                                            Sessions</button>
+                                        <button id="revoke-all-sessions"
+                                            class="text-error hover:text-error-600 font-semibold">
+                                            Revoke All Other Sessions
+                                        </button>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -974,49 +933,49 @@
                     }
 
                     detailsDiv.innerHTML = `
-                    <div class="space-y-2">
-                        <div class="flex justify-between">
-                            <span class="font-semibold text-gray-700">Ticket:</span>
-                            <span class="text-primary font-medium">${data.ticket}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="font-semibold text-gray-700">Status:</span>
-                            <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded text-xs font-semibold">${data.status}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="font-semibold text-gray-700">Priority:</span>
-                            <span class="capitalize">${data.priority ?? 'N/A'}</span>
-                        </div>
-
-                        <div class="border-t pt-2">
-                            <p><span class="font-semibold">Subject:</span> ${data.subject}</p>
-                            <p><span class="font-semibold">Message:</span></p>
-                            <div class="bg-gray-50 p-3 rounded-md text-sm text-secondary-700 max-h-48 overflow-y-auto">
-                                ${data.message}
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="font-semibold text-gray-700">Ticket:</span>
+                                <span class="text-primary font-medium">${data.ticket}</span>
                             </div>
-                        </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold text-gray-700">Status:</span>
+                                <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded text-xs font-semibold">${data.status}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold text-gray-700">Priority:</span>
+                                <span class="capitalize">${data.priority ?? 'N/A'}</span>
+                            </div>
 
-                        <div class="border-t pt-2">
-                            <p><span class="font-semibold">Contact Info:</span></p>
-                            <p>${data.first_name} ${data.last_name}</p>
-                            <p>${data.email}</p>
-                            <p>${data.phone ?? 'N/A'}</p>
-                            <p>${data.company ?? ''} ${data.role ? `(${data.role})` : ''}</p>
-                        </div>
-
-                        <div class="border-t pt-2 text-xs text-gray-500">
-                            <p>Submitted: ${data.created_at}</p>
-                            ${data.callback_requested ? `<p>Callback: ${data.callback_time} (${data.callback_timezone})</p>` : ''}
-                        </div>
-
-                        ${attachments.length ? `
                             <div class="border-t pt-2">
-                                <p class="font-semibold text-gray-700 mb-1">Attachments:</p>
-                                ${attachments.map(a => `<a href="${a}" target="_blank" class="text-primary hover:underline block">${a}</a>`).join('')}
+                                <p><span class="font-semibold">Subject:</span> ${data.subject}</p>
+                                <p><span class="font-semibold">Message:</span></p>
+                                <div class="bg-gray-50 p-3 rounded-md text-sm text-secondary-700 max-h-48 overflow-y-auto">
+                                    ${data.message}
+                                </div>
                             </div>
-                        ` : ''}
-                    </div>
-                `;
+
+                            <div class="border-t pt-2">
+                                <p><span class="font-semibold">Contact Info:</span></p>
+                                <p>${data.first_name} ${data.last_name}</p>
+                                <p>${data.email}</p>
+                                <p>${data.phone ?? 'N/A'}</p>
+                                <p>${data.company ?? ''} ${data.role ? `(${data.role})` : ''}</p>
+                            </div>
+
+                            <div class="border-t pt-2 text-xs text-gray-500">
+                                <p>Submitted: ${data.created_at}</p>
+                                ${data.callback_requested ? `<p>Callback: ${data.callback_time} (${data.callback_timezone})</p>` : ''}
+                            </div>
+
+                            ${attachments.length ? `
+                                <div class="border-t pt-2">
+                                    <p class="font-semibold text-gray-700 mb-1">Attachments:</p>
+                                    ${attachments.map(a => `<a href="${a}" target="_blank" class="text-primary hover:underline block">${a}</a>`).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
                 })
                 .catch(error => {
                     console.error('Error fetching ticket:', error);
@@ -1158,35 +1117,35 @@
 
             const icons = {
                 success: `<svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                                        </svg>`,
+                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                                            </svg>`,
                 info: `<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                                        </svg>`,
+                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                                            </svg>`,
                 warning: `<svg class="w-5 h-5 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                                                                        </svg>`,
+                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                                                                            </svg>`,
                 error: `<svg class="w-5 h-5 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                                        </svg>`
+                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                                            </svg>`
             };
 
             notification.innerHTML = `
-                                                                        <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
-                                                                            <div class="flex items-start space-x-3">
-                                                                                ${icons[type]}
-                                                                                <div class="flex-1">
-                                                                                    <h4 class="font-semibold text-primary">${title}</h4>
-                                                                                    <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                                                                            <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
+                                                                                <div class="flex items-start space-x-3">
+                                                                                    ${icons[type]}
+                                                                                    <div class="flex-1">
+                                                                                        <h4 class="font-semibold text-primary">${title}</h4>
+                                                                                        <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                                                                                    </div>
+                                                                                    <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+                                                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                                                                        </svg>
+                                                                                    </button>
                                                                                 </div>
-                                                                                <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
-                                                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                                                                    </svg>
-                                                                                </button>
                                                                             </div>
-                                                                        </div>
-                                                                    `;
+                                                                        `;
 
             notification.classList.remove('translate-x-full');
 
@@ -1216,20 +1175,20 @@
         // Add CSS for active nav items
         const styling = document.createElement('style');
         styling.textContent = `
-                                                                    .nav-item.active {
-                                                                        background-color: var(--color-primary);
-                                                                        color: white;
-                                                                    }
+                                                                        .nav-item.active {
+                                                                            background-color: var(--color-primary);
+                                                                            color: white;
+                                                                        }
 
-                                                                    .content-section {
-                                                                        animation: fadeIn 0.3s ease-in-out;
-                                                                    }
+                                                                        .content-section {
+                                                                            animation: fadeIn 0.3s ease-in-out;
+                                                                        }
 
-                                                                    @keyframes fadeIn {
-                                                                        from { opacity: 0; transform: translateY(10px); }
-                                                                        to { opacity: 1; transform: translateY(0); }
-                                                                    }
-                                                                `;
+                                                                        @keyframes fadeIn {
+                                                                            from { opacity: 0; transform: translateY(10px); }
+                                                                            to { opacity: 1; transform: translateY(0); }
+                                                                        }
+                                                                    `;
         document.head.appendChild(styling);
 
 
@@ -1525,9 +1484,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                            <div class="font-semibold">${styles[type].title}</div>
-                                                            <div class="text-sm opacity-90">${message}</div>
-                                                        `;
+                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                <div class="text-sm opacity-90">${message}</div>
+                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1560,19 +1519,19 @@
                         data.forEach(session => {
                             const isCurrent = session.is_current ? 'bg-success-50 border-success-200' : 'border-secondary-200';
                             sessionContainer.innerHTML += `
-                            <div class="flex items-center justify-between p-4 border ${isCurrent} rounded-lg">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-3 h-3 ${session.is_current ? 'bg-success' : 'bg-secondary-400'} rounded-full"></div>
-                                    <div>
-                                        <h4 class="font-semibold text-primary">${session.device} - ${session.browser}</h4>
-                                        <p class="text-secondary-600 text-sm">${session.platform} • ${session.location ?? 'Unknown'} • Last active: ${session.last_active_at}</p>
+                                <div class="flex items-center justify-between p-4 border ${isCurrent} rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 ${session.is_current ? 'bg-success' : 'bg-secondary-400'} rounded-full"></div>
+                                        <div>
+                                            <h4 class="font-semibold text-primary">${session.device} - ${session.browser}</h4>
+                                            <p class="text-secondary-600 text-sm">${session.platform} • ${session.location ?? 'Unknown'} • Last active: ${session.last_active_at}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                ${session.is_current
+                                    ${session.is_current
                                     ? '<span class="text-success text-sm font-semibold">This Device</span>'
                                     : `<button class="text-error hover:text-error-600 text-sm font-semibold" onclick="revokeSession(${session.id})">Revoke</button>`}
-                            </div>
-                        `;
+                                </div>
+                            `;
                         });
                     });
             }
