@@ -95,7 +95,9 @@ Route::post('/login', [AuthController::class, 'login'])->name('login-user');
 
 Route::post('/cookies/accept', [UserActivityController::class, 'acceptCookies'])->name('cookies.accept');
 Route::post('/activity/log', [UserActivityController::class, 'logActivity'])->name('activity.log');
-
+Route::get('/policies/cookies', function() {
+    return view('frontend.policies.cookies');
+})->name('policies.cookies');
 
 
 Route::group(['middleware' => 'auth'], function () {

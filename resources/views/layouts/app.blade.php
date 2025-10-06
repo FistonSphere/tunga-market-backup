@@ -908,7 +908,7 @@
                 <div class="text-sm text-secondary-700">
                     🍪 We use cookies to enhance your browsing experience, analyze traffic, and personalize content.
                     By continuing, you agree to our
-                    <a href="#" class="text-accent font-semibold hover:underline">Cookie Policy</a>.
+                    <a href="{{ route('policies.cookies') }}" class="text-accent font-semibold hover:underline">Cookie Policy</a>.
                 </div>
                 <div class="flex space-x-3">
                     <button id="acceptCookies"
