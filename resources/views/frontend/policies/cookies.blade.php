@@ -159,21 +159,9 @@
 
                     </p>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
                 <div class="group transition-transform duration-300 hover:-translate-y-1">
                     <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
-                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 5. Third-Party Tools & Analytics
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 8. Third-Party Tools & Analytics
                     </h2>
                     <p class="text-gray-700 mb-3">Some cookies on our website are placed by third parties acting on our
                         behalf or in partnership with us. These may include:</p>
@@ -185,6 +173,19 @@
                     </ul>
                     <p class="text-gray-700 mb-3">These third parties may use cookies to collect data about your online
                         behavior across multiple websites.</p>
+                </div>
+                <div class="group transition-transform duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 9. Use of Device and Activity Data
+                    </h2>
+                    <p class="text-gray-700 mb-3">When you accept cookies, we may collect and store:</p>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                        <li>Your <strong>device information </strong>(browser, OS, device type, screen size).</li>
+                        <li>Your <strong>pages you visit most often</strong>.</li>
+                        <li><strong>Actions performed </strong>(e.g., add to cart, wishlist, checkout).</li>
+                        <li><strong>Session duration and bounce rate</strong>.</li>
+                    </ul>
+                    <p class="text-gray-700 mb-3">This helps us enhance your shopping experience and improve product recommendations and user ratings.<p>
                 </div>
 
 
