@@ -18,6 +18,10 @@
         </script>
 
         <style>
+            #ordersContainer {
+                transition: all 0.3s ease-in-out;
+            }
+
             @keyframes slideIn {
                 from {
                     opacity: 0;
@@ -302,16 +306,159 @@
                             <div class="flex items-center justify-between mb-6">
                                 <h2 class="text-2xl font-bold text-primary">Order History</h2>
                                 <div class="flex items-center space-x-4">
-                                    <select class="input-field w-auto">
+                                    <select id="orderFilter" class="input-field w-auto">
                                         <option value="all">All Orders</option>
                                         <option value="Processing">Processing</option>
                                         <option value="Delivered">Delivered</option>
                                         <option value="Canceled">Canceled</option>
                                     </select>
+
                                 </div>
                             </div>
 
-                            @include('frontend.sections.partials.orders-list', ['orders' => $orders])
+                            <div id="ordersContainer" class="space-y-4">
+                                @forelse ($orders as $order)
+                                    @php
+                                        $order = $order->order;
+                                        $status = ucfirst($order->status ?? 'Pending');
+                                        $statusColor = match ($order->status) {
+                                            'Processing' => 'bg-warning-100 text-warning-700',
+                                            'shipped' => 'bg-primary-100 text-primary-700',
+                                            'Delivered' => 'bg-success-100 text-success-700',
+                                            'Canceled' => 'bg-danger-100 text-danger-700',
+                                            default => 'bg-gray-100 text-gray-700',
+                                        };
+                                        $orderNo = $order->items->first()->order_no ?? 'N/A';
+                                    @endphp
+
+                                    <div class="border border-secondary-200 rounded-lg p-6 hover:shadow-hover transition-fast">
+                                        <div class="flex items-center justify-between mb-4">
+                                            <div>
+                                                <h3 class="font-semibold text-primary">
+                                                    Order #{{ $orderNo }}
+                                                </h3>
+                                                <p class="text-secondary-600">
+                                                    {{ $order->created_at->format('F j, Y') }}
+                                                    • {{ strtoupper($order->currency) ?? 'USD' }}
+                                                    {{ number_format($order->total, 2) }}
+                                                </p>
+                                            </div>
+
+                                            <div class="flex items-center space-x-3">
+                                                <span class="px-3 py-1 {{ $statusColor }} rounded-full text-sm font-semibold">
+                                                    {{ $status }}
+                                                </span>
+                                                <button
+                                                    onclick="window.open('{{ route('orders.invoice', $order->id) }}', '_blank')"
+                                                    class="text-accent hover:text-accent-600 font-semibold text-sm">
+                                                    Download Invoice
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid md:grid-cols-3 gap-4">
+                                            <!-- Items -->
+                                            <div>
+                                                <h4 class="font-medium text-secondary-700 mb-2">Items</h4>
+                                                @foreach ($order->items as $item)
+                                                    <p class="text-secondary-600 text-sm">
+                                                        {{ $item->product->name }}
+                                                        ({{ $item->quantity }}x)
+
+                                                        {{ strtoupper($item->product->currency) ?? 'USD' }}{{ number_format($item->price) }}
+                                                    </p>
+                                                @endforeach
+                                            </div>
+
+                                            <!-- Delivery -->
+                                            <div>
+                                                <h4 class="font-medium text-secondary-700 mb-2">Delivery</h4>
+                                                <p class="text-secondary-600 text-sm">
+                                                    {{ $order->shippingAddress->address_line1 }}
+                                                </p>
+                                                <p class="text-secondary-600 text-sm">
+                                                    {{ $order->shippingAddress->city }}, {{ $order->shippingAddress->state }}
+                                                </p>
+                                            </div>
+
+                                            <!-- Actions -->
+                                            <div>
+                                                <h4 class="font-medium text-secondary-700 mb-2">Actions</h4>
+                                                <div class="flex space-x-2">
+                                                    @if(in_array($order->status, ['processing', 'shipped']))
+                                                        <button
+                                                            onclick="window.location.href='{{ route('orders.track', $order->id) }}'"
+                                                            class="text-primary hover:text-primary-600 text-sm font-semibold">
+                                                            Track Order
+                                                        </button>
+                                                    @elseif($order->status === 'delivered')
+                                                        <button class="text-success hover:text-success-600 text-sm font-semibold">
+                                                            Leave Review
+                                                        </button>
+                                                    @endif
+
+                                                    <button onclick="reorderItems()"
+                                                        class="text-accent hover:text-accent-600 text-sm font-semibold">
+                                                        Reorder
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="text-center py-8 text-secondary-500">
+                                        <p>No orders found in your history.</p>
+                                    </div>
+                                @endforelse
+                            </div>
+
+
+                            <!-- Pagination -->
+                            @if ($orders->hasPages())
+                                <div class="flex items-center justify-between px-4 py-3 border-t border-border">
+                                    <div class="text-sm text-secondary-600">
+                                        Showing
+                                        {{ $orders->firstItem() }} - {{ $orders->lastItem() }}
+                                        of {{ $orders->total() }} orders
+                                    </div>
+
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        {{-- Previous Page --}}
+                                        @if ($orders->onFirstPage())
+                                            <span
+                                                class="px-3 py-1 text-sm border border-border rounded text-gray-400 cursor-not-allowed">Previous</span>
+                                        @else
+                                            <a href="{{ $orders->previousPageUrl() }}"
+                                                class="px-3 py-1 text-sm border border-border rounded hover:bg-surface transition-fast">
+                                                Previous
+                                            </a>
+                                        @endif
+
+                                        {{-- Page Numbers --}}
+                                        @foreach ($orders->links()->elements[0] ?? [] as $page => $url)
+                                            @if ($page == $orders->currentPage())
+                                                <span class="px-3 py-1 text-sm bg-accent text-white rounded">{{ $page }}</span>
+                                            @else
+                                                <a href="{{ $url }}"
+                                                    class="px-3 py-1 text-sm border border-border rounded hover:bg-surface transition-fast">
+                                                    {{ $page }}
+                                                </a>
+                                            @endif
+                                        @endforeach
+
+                                        {{-- Next Page --}}
+                                        @if ($orders->hasMorePages())
+                                            <a href="{{ $orders->nextPageUrl() }}"
+                                                class="px-3 py-1 text-sm border border-border rounded hover:bg-surface transition-fast">
+                                                Next
+                                            </a>
+                                        @else
+                                            <span
+                                                class="px-3 py-1 text-sm border border-border rounded text-gray-400 cursor-not-allowed">Next</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -1293,26 +1440,133 @@
         });
 
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const filterSelect = document.querySelector('select.input-field');
-            const ordersContainer = document.getElementById('orders-container');
 
-            filterSelect.addEventListener('change', function () {
-                const selectedStatus = this.value;
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterSelect = document.getElementById('orderFilter');
+        const ordersContainer = document.getElementById('ordersContainer');
 
-                fetch(`{{ route('orders.filter') }}?status=${selectedStatus}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        ordersContainer.innerHTML = `<div class="flex justify-center py-10">
-            <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-primary"></div>
-        </div>`;
-                        ordersContainer.innerHTML = data.html;
-                    })
-                    .catch(error => {
-                        console.error('Error loading filtered orders:', error);
-                        ordersContainer.innerHTML = `<p class="text-center text-red-500 py-6">Failed to load orders. Try again.</p>`;
+        filterSelect.addEventListener('change', function () {
+            const selectedStatus = this.value;
+
+            // Show a loader
+            ordersContainer.innerHTML = `
+                <div class="flex justify-center py-10">
+                    <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-primary"></div>
+                </div>
+            `;
+
+            fetch(`{{ route('profile.orders.filter') }}?status=${selectedStatus}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.orders.length) {
+                        ordersContainer.innerHTML = `
+                            <div class="text-center py-8 text-secondary-500">
+                                <p>No orders found in this category.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    let html = '';
+                    data.orders.forEach(orderData => {
+                        const order = orderData.order || orderData;
+                        const status = order.status ? order.status.charAt(0).toUpperCase() + order.status.slice(1) : 'Pending';
+                        const orderNo = order.items?.[0]?.order_no || 'N/A';
+                        const currency = order.currency ? order.currency.toUpperCase() : 'USD';
+                        const total = order.total ? parseFloat(order.total).toFixed(2) : '0.00';
+                        const date = new Date(order.created_at).toLocaleDateString('en-US', {
+                            month: 'long', day: 'numeric', year: 'numeric'
+                        });
+
+                        const statusColor = {
+                            'Processing': 'bg-warning-100 text-warning-700',
+                            'shipped': 'bg-primary-100 text-primary-700',
+                            'Delivered': 'bg-success-100 text-success-700',
+                            'Canceled': 'bg-danger-100 text-danger-700'
+                        }[order.status] || 'bg-gray-100 text-gray-700';
+
+                        // Build full HTML card like Blade structure
+                        html += `
+                            <div class="border border-secondary-200 rounded-lg p-6 hover:shadow-hover transition-fast mb-4">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div>
+                                        <h3 class="font-semibold text-primary">Order #${orderNo}</h3>
+                                        <p class="text-secondary-600">
+                                            ${date} • ${currency} ${total}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <span class="px-3 py-1 ${statusColor} rounded-full text-sm font-semibold">
+                                            ${status}
+                                        </span>
+                                        <button
+                                            onclick="window.open('/orders/${order.id}/invoice', '_blank')"
+                                            class="text-accent hover:text-accent-600 font-semibold text-sm">
+                                            Download Invoice
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <!-- Items -->
+                                    <div>
+                                        <h4 class="font-medium text-secondary-700 mb-2">Items</h4>
+                                        ${order.items?.map(item => `
+                                            <p class="text-secondary-600 text-sm">
+                                                ${item.product?.name || 'Unnamed'} (${item.quantity}x)
+                                                ${currency}${Number(item.price).toLocaleString()}
+                                            </p>
+                                        `).join('') || '<p class="text-secondary-500 text-sm">No items</p>'}
+                                    </div>
+
+                                    <!-- Delivery -->
+                                    <div>
+                                        <h4 class="font-medium text-secondary-700 mb-2">Delivery</h4>
+                                        <p class="text-secondary-600 text-sm">
+                                            ${order.shipping_address?.address_line1 || 'N/A'}
+                                        </p>
+                                        <p class="text-secondary-600 text-sm">
+                                            ${order.shipping_address?.city || ''}, ${order.shipping_address?.state || ''}
+                                        </p>
+                                    </div>
+
+                                    <!-- Actions -->
+                                    <div>
+                                        <h4 class="font-medium text-secondary-700 mb-2">Actions</h4>
+                                        <div class="flex space-x-2">
+                                            ${order.status === 'processing' || order.status === 'shipped' ? `
+                                                <button onclick="window.location.href='/orders/${order.id}/track'"
+                                                    class="text-primary hover:text-primary-600 text-sm font-semibold">
+                                                    Track Order
+                                                </button>
+                                            ` : order.status === 'delivered' ? `
+                                                <button class="text-success hover:text-success-600 text-sm font-semibold">
+                                                    Leave Review
+                                                </button>
+                                            ` : ''}
+                                            <button onclick="reorderItems()"
+                                                class="text-accent hover:text-accent-600 text-sm font-semibold">
+                                                Reorder
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
                     });
-            });
+
+                    ordersContainer.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading filtered orders:', error);
+                    ordersContainer.innerHTML = `
+                        <p class="text-center text-red-500 py-6">
+                            Failed to load orders. Please try again later.
+                        </p>
+                    `;
+                });
         });
-    </script>
+    });
+
+        </script>
 @endsection

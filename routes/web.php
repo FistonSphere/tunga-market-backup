@@ -144,7 +144,7 @@ Route::group(['middleware' => 'auth'], function () {
         return response()->json(['success' => true, 'productId' => $product->id]);
     });
 Route::post('/orders/{order}/reorder', [OrderTrackingController::class, 'reorder'])->name('orders.reorder');
-Route::get('/orders/filter', [OrderTrackingController::class, 'filter'])->name('orders.filter');
+Route::get('/profile/orders/filter', [OrderTrackingController::class, 'filter'])->name('profile.orders.filter');
 Route::post('/orders/{order}/report-issue', [OrderTrackingController::class, 'reportIssue'])
     ->name('orders.reportIssue');
 Route::post('/products/{product}/reviews', [ReviewController::class, 'OrderReviewStore'])

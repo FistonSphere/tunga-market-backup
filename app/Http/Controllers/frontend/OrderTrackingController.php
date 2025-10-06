@@ -265,17 +265,17 @@ public function filter(Request $request)
 {
     $status = $request->query('status');
 
+    // Get authenticated user's orders
     $query = auth()->user()->orders()->with(['items.product', 'shippingAddress']);
 
     if ($status && $status !== 'all') {
         $query->where('status', $status);
     }
 
-    $orders = $query->latest()->paginate(5);
+    $orders = $query->latest()->get();
 
-    // Return rendered partial view for orders only (not the full page)
-    $html = view('partials.orders-list', compact('orders'))->render();
-
-    return response()->json(['html' => $html]);
+    return response()->json([
+        'orders' => $orders
+    ]);
 }
 }
