@@ -73,10 +73,17 @@
 
                         </li>
                         <li class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-orange-50 transition">
-                            <strong>Functional:</strong> Remember settings, language & preferences.
+                            <strong>Functional Cookies:</strong> These cookies remember your preferences, such as language,
+                            location, and login details to provide a personalized experience every time you return to our
+                            site.
                         </li>
                         <li class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-orange-50 transition">
-                            <strong>Advertising:</strong> Display relevant ads & improve promotions.
+                            <strong>Targeting & Advertising Cookies:</strong> We use these cookies to deliver relevant ads
+                            that match your interests. They also limit how often you see an advertisement and help measure
+                            the effectiveness of our marketing campaigns.
+                            These may include cookies from trusted third-party partners, like Google Ads, Facebook Ads, and
+                            affiliate networks.
+
                         </li>
                         <li class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-orange-50 transition">
                             <strong>Third-Party:</strong> Set by external tools (Google, Facebook, etc.).
