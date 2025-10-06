@@ -28,16 +28,15 @@
                 <div class="grid md:grid-cols-3 gap-8 mt-12">
                     <div class="text-center">
                         <div class="text-4xl font-bold text-accent mb-2" id="customer-count"></div>
-
                         <div class="text-secondary-600">Satisfied Customers</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-4xl font-bold text-success mb-2">150+</div>
+                        <div class="text-4xl font-bold text-success mb-2">5+</div>
                         <div class="text-secondary-600">Countries Shipped To</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-4xl font-bold text-primary mb-2">$5.2B+</div>
-                        <div class="text-secondary-600">Total Purchases</div>
+                        <div class="text-4xl font-bold text-primary mb-2">50+</div>
+                        <div class="text-secondary-600">Verified Sellers</div>
                     </div>
                 </div>
             </div>
