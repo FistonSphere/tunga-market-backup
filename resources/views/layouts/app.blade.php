@@ -1838,6 +1838,15 @@
         }
 
         //remove product from wishlist
+
+        document.getElementById('acceptCookies').addEventListener('click', function() {
+    fetch('{{ route('cookies.accept') }}', { method: 'POST', headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } })
+        .then(() => document.getElementById('cookie-banner').remove());
+});
+
+document.getElementById('declineCookies').addEventListener('click', function() {
+    document.getElementById('cookie-banner').remove();
+});
     </script>
 
 
