@@ -371,7 +371,7 @@
 
 
             <!-- Load More Button -->
-            @if($flashDeals->total() > 2)
+            @if($flashDeals->total() > 4)
                 <div class="text-center mt-12">
                     <button id="load-more" data-page="1"
                         class="bg-gradient-to-r from-accent to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-card hover:shadow-hover">
