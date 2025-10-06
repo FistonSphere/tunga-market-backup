@@ -976,7 +976,7 @@
                                                 </div>
                                             </div>
                                         </a>
-                                        <button
+                                        <a href="tel:+250787444019"
                                             class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
                                             <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -984,11 +984,11 @@
                                                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                             </svg>
                                             <div>
-                                                <div class="font-semibold text-primary">Schedule Phone Call</div>
-                                                <div class="text-secondary-600 text-sm">Book a call with our experts</div>
+                                                <div class="font-semibold text-primary">Phone Support</div>
+                                                <div class="text-secondary-600 text-sm">Call Now</div>
                                             </div>
-                                        </button>
-                                        <button
+                                        </a>
+                                        <a href="{{ route('help') }}"
                                             class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
                                             <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -999,7 +999,7 @@
                                                 <div class="font-semibold text-primary">Browse Help Center</div>
                                                 <div class="text-secondary-600 text-sm">Search our knowledge base</div>
                                             </div>
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
 
