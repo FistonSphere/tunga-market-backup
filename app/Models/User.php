@@ -36,7 +36,7 @@ class User extends Authenticatable
 
     public function wishlistItems()
 {
-    return $this->hasMany(Wishlist::class); 
+    return $this->hasMany(Wishlist::class);
 }
     protected function casts(): array
     {
@@ -45,4 +45,24 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function getPlatformRatingAttribute()
+{
+    $views = $this->activityLogs()->count();
+    $orders = $this->orders()->count();
+
+    // Weight metrics (adjust to your logic)
+    $score = ($views * 0.01) + ($orders * 0.5);
+
+    // Cap it to 5
+    $rating = min(5, round($score, 1));
+
+    return $rating ?: 0.0;
+}
+
+public function activityLogs()
+{
+    return $this->hasMany(UserActivityLog::class);
+}
+
 }
