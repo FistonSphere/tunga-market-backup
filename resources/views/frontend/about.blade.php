@@ -57,9 +57,7 @@
                     </div>
                     <h2 class="text-heading font-bold text-primary mb-4">Our Mission</h2>
                     <p class="text-body text-secondary-600 mb-6">
-                        To democratize international trade by providing a trusted, technology-driven platform that connects
-                        businesses worldwide, eliminates barriers, and creates opportunities for sustainable growth in the
-                        global marketplace.
+                        To empower everyday shoppers by providing a safe, simple, and rewarding online marketplace that connects people with quality products and trusted sellers worldwide.
                     </p>
                     <ul class="space-y-3">
                         <li class="flex items-center text-secondary-600">
@@ -68,7 +66,7 @@
                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                     clip-rule="evenodd" />
                             </svg>
-                            Breaking down international trade barriers
+                            Making global shopping accessible to everyone
                         </li>
                         <li class="flex items-center text-secondary-600">
                             <svg class="w-5 h-5 text-success mr-3" fill="currentColor" viewBox="0 0 20 20">
@@ -76,7 +74,7 @@
                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                     clip-rule="evenodd" />
                             </svg>
-                            Empowering businesses through technology
+                            Empowering shoppers with choice and convenience
                         </li>
                         <li class="flex items-center text-secondary-600">
                             <svg class="w-5 h-5 text-success mr-3" fill="currentColor" viewBox="0 0 20 20">
@@ -84,7 +82,7 @@
                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                     clip-rule="evenodd" />
                             </svg>
-                            Building trust in global commerce
+                            Building trust for a secure shopping experience
                         </li>
                     </ul>
                 </div>
