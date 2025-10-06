@@ -9,11 +9,16 @@ use Illuminate\Support\Facades\DB;
 
 class UserSessionController extends Controller
 {
-    public function index()
+ public function index()
     {
-        $sessions = UserSession::where('user_id', Auth::id())
-            ->orderByDesc('last_active_at')
-            ->get();
+        $sessions = UserSession::where('user_id', Auth::id())->get();
+
+        $currentSessionId = session()->getId();
+
+        $sessions->transform(function ($session) use ($currentSessionId) {
+            $session->is_current = $session->session_id === $currentSessionId;
+            return $session;
+        });
 
         return response()->json($sessions);
     }
@@ -46,20 +51,35 @@ class UserSessionController extends Controller
         return response()->json(['message' => 'Session stored successfully']);
     }
 
-    public function destroy($id)
+   public function destroy($id)
     {
-        $session = UserSession::where('user_id', Auth::id())->findOrFail($id);
-        $session->delete();
-        return response()->json(['message' => 'Session revoked successfully']);
+        $userSession = UserSession::where('user_id', Auth::id())->findOrFail($id);
+
+        // Delete from custom table
+        $userSession->delete();
+
+        // Also delete the actual Laravel session from 'sessions' table
+        DB::table('sessions')->where('id', $userSession->session_id)->delete();
+
+        return response()->json(['message' => 'Session revoked and logged out successfully']);
     }
 
     public function destroyAll()
     {
-        UserSession::where('user_id', Auth::id())
-            ->where('session_id', '!=', session()->getId())
-            ->delete();
+        $currentSessionId = session()->getId();
 
-        return response()->json(['message' => 'All other sessions revoked']);
+        // Get all sessions except the current one
+        $sessions = UserSession::where('user_id', Auth::id())
+            ->where('session_id', '!=', $currentSessionId)
+            ->get();
+
+        foreach ($sessions as $session) {
+            // Delete from both tables
+            DB::table('sessions')->where('id', $session->session_id)->delete();
+            $session->delete();
+        }
+
+        return response()->json(['message' => 'All other sessions revoked and logged out']);
     }
 
     private function getDevice($agent)
