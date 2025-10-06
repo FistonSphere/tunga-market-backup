@@ -56,13 +56,21 @@
 
                 <div class="group transition-transform duration-300 hover:-translate-y-1">
                     <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
-                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 2. Types of Cookies We Use
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 3. Types of Cookies We Use
                     </h2>
                     <ul class="grid sm:grid-cols-2 gap-4 text-gray-700">
                         <li class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-orange-50 transition"><strong>Strictly
-                                Necessary:</strong> Enable core functionality like login & cart.</li>
+                                Necessary:</strong> These cookies are essential for the operation of our website. They
+                            enable you to navigate the platform, use shopping carts, log in securely, and access protected
+                            areas.
+                            Without these cookies, our services may not function properly.
+                            .</li>
                         <li class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-orange-50 transition">
-                            <strong>Performance:</strong> Monitor site traffic & performance analytics.
+                            <strong>Performance & Analytics Cookies:</strong> These cookies help us understand how visitors
+                            use our site — which pages are visited most often, how long users stay, and how they navigate.
+                            They help us optimize our content, design, and user experience. We may use third-party analytics
+                            tools such as Google Analytics and Meta Pixel.
+
                         </li>
                         <li class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-orange-50 transition">
                             <strong>Functional:</strong> Remember settings, language & preferences.
