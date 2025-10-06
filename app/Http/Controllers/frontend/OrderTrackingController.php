@@ -112,7 +112,7 @@ public function show($orderId)
 
     return view('frontend.orders.show', [
         'order' => $order,
-        'subtotal' => $subtotal, 
+        'subtotal' => $subtotal,
         'tax' => $tax,
         'finalTotal' => $finalTotal,
         'timeline' => $timeline,
@@ -144,7 +144,7 @@ public function reorder(Order $order)
                     'product_id'   => $item->product_id,
                     'quantity'     => $item->quantity,
                     'price'        => $item->price,
-                    'currency'     => 'Rwf', 
+                    'currency'     => 'Rwf',
                     'created_at'   => now(),
                     'updated_at'   => now(),
                 ]);
@@ -261,5 +261,21 @@ public function getOrderNo($id)
     ]);
 }
 
+public function filter(Request $request)
+{
+    $status = $request->query('status');
 
+    $query = auth()->user()->orders()->with(['items.product', 'shippingAddress']);
+
+    if ($status && $status !== 'all') {
+        $query->where('status', $status);
+    }
+
+    $orders = $query->latest()->paginate(5);
+
+    // Return rendered partial view for orders only (not the full page)
+    $html = view('partials.orders-list', compact('orders'))->render();
+
+    return response()->json(['html' => $html]);
+}
 }
