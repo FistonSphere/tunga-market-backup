@@ -19,6 +19,7 @@ use App\Http\Controllers\ProductDiscoveryHubController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SmsController;
+use App\Http\Controllers\UserActivityController;
 use App\Http\Controllers\WishlistController;
 use App\Models\Category;
 use App\Models\Product;
@@ -89,10 +90,8 @@ Route::get('/flash-deals', [FlashDealCartController::class, 'index'])
 Route::post('/register', [AuthController::class, 'register'])->name('register-user');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
 Route::post('/login', [AuthController::class, 'login'])->name('login-user');
-Route::post('/cookies/accept', function () {
-    session(['cookies_accepted' => true]);
-    return response()->json(['success' => true]);
-})->name('cookies.accept');
+Route::post('/cookies/accept', [UserActivityController::class, 'acceptCookies'])->name('cookies.accept');
+Route::post('/activity/log', [UserActivityController::class, 'logActivity'])->name('activity.log');
 
 
 

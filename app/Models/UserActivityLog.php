@@ -12,4 +12,8 @@ class UserActivityLog extends Model
     protected $fillable = [
         'user_id', 'ip_address', 'device', 'browser', 'platform', 'location', 'page_visited'
     ];
+      public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

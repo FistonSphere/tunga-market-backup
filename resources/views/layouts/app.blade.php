@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="module"
         src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Falimaxcom1831back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.6">
-    </script>
+        </script>
     <!-- Toastify JS -->
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <!-- Swiper CSS -->
@@ -32,7 +32,7 @@
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="/" class ="imglogolink">
+                    <a href="/" class="imglogolink">
                         <img src="{{ asset('assets/images/logo.png') }}"
                             style="width: 80px; height: 40px; border-radius: 8px; object-fit: cover;"
                             alt="Tunga Market Logo" class="Imglogo text-primary" />
@@ -347,8 +347,8 @@
 
                 <!-- Mobile Menu Button -->
                 <button onclick="toggleMobileMenu()" class="md:hidden p-2" id="mobileMenuBtn">
-                    <svg id="mobile-menu-icon" class="h-6 w-6 text-secondary-600" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
+                    <svg id="mobile-menu-icon" class="h-6 w-6 text-secondary-600" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
@@ -578,8 +578,7 @@
                 </div>
             </div>
 
-            <div
-                class="border-t border-secondary-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="border-t border-secondary-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-secondary-400">
                     © <span id="copyright-year">2025</span> Tunga Market. All Rights Reserved.
                 </p>
@@ -715,8 +714,7 @@
                                         </div>
 
                                         <div class="flex items-center text-success text-body-sm">
-                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M5 13l4 4L19 7" />
                                             </svg>
@@ -725,10 +723,9 @@
 
                                         @if ($product->has_price_drop)
                                             <div class="flex items-center text-warning text-body-sm">
-                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
                                                 </svg>
                                                 Price Drop!
                                             </div>
@@ -741,8 +738,8 @@
                             <button
                                 class="absolute top-3 right-3 text-gray-400 hover:text-red-500 transition remove-wishlist"
                                 data-id="{{ $product->id }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M6 18L18 6M6 6l12 12" />
                                 </svg>
@@ -763,8 +760,7 @@
                     <div class="flex items-center space-x-4">
                         <button onclick="addAllToCart()"
                             class="text-accent hover:text-accent-600 transition-fast font-semibold text-body-sm">
-                            <svg class="w-4 h-4 mr-1 inline" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 mr-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7m0 0h9.5M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7" />
                             </svg>
@@ -859,8 +855,8 @@
     </div>
     <!-- Clear Wishlist Confirmation Modal (hidden by default) -->
     <div id="clear-wishlist-modal-wrapper"
-        class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center" role="dialog"
-        aria-modal="true" aria-labelledby="clear-wishlist-title" aria-describedby="clear-wishlist-desc">
+        class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center" role="dialog" aria-modal="true"
+        aria-labelledby="clear-wishlist-title" aria-describedby="clear-wishlist-desc">
         <div id="clear-wishlist-modal"
             class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 scale-95 opacity-0"
             role="document" tabindex="-1">
@@ -905,23 +901,75 @@
     <div id="toast-container2" aria-live="polite" aria-atomic="true"
         style="position: fixed; top: 1rem; right: 1rem; z-index: 999999;"></div>
 
-@if(!session('cookies_accepted'))
-<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0">
-        <div class="text-sm text-secondary-700">
-            🍪 We use cookies to enhance your browsing experience, analyze traffic, and personalize content.
-            By continuing, you agree to our <a href="#" class="text-accent font-semibold hover:underline">Cookie Policy</a>.
+    @if(!session('cookies_accepted'))
+        <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
+            <div
+                class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0">
+                <div class="text-sm text-secondary-700">
+                    🍪 We use cookies to enhance your browsing experience, analyze traffic, and personalize content.
+                    By continuing, you agree to our
+                    <a href="#" class="text-accent font-semibold hover:underline">Cookie Policy</a>.
+                </div>
+                <div class="flex space-x-3">
+                    <button id="acceptCookies"
+                        class="bg-accent text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-accent-600 transition">
+                        Accept Cookies
+                    </button>
+                    <button id="declineCookies"
+                        class="bg-gray-200 text-secondary-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-300 transition">
+                        Decline
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="flex space-x-3">
-            <button id="acceptCookies" class="bg-accent text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-accent-600 transition">
-                Accept Cookies
-            </button>
-            <button id="declineCookies" class="bg-gray-200 text-secondary-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-300 transition">
-                Decline
-            </button>
-        </div>
-    </div>
-</div>
+    @endif
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cookieBanner = document.getElementById('cookie-banner');
+
+            const logUserActivity = () => {
+                fetch('{{ route("activity.log") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        page: window.location.pathname
+                    })
+                }).then(res => res.json())
+                    .then(data => console.log('Activity logged:', data))
+                    .catch(err => console.error('Error logging activity:', err));
+            };
+
+            const acceptCookies = () => {
+                fetch('{{ route("cookies.accept") }}', {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data.message);
+                        cookieBanner?.remove();
+                        // Start tracking after accepting cookies
+                        logUserActivity();
+                        setInterval(logUserActivity, 30000); // logs every 30s
+                    });
+            };
+
+            document.getElementById('acceptCookies')?.addEventListener('click', acceptCookies);
+            document.getElementById('declineCookies')?.addEventListener('click', () => cookieBanner?.remove());
+
+            // Auto log activity on each page load if cookies already accepted
+            @if(session('cookies_accepted'))
+                logUserActivity();
+                setInterval(logUserActivity, 30000);
+            @endif
+});
+    </script>
+
+
     <script>
         // Enhanced Navigation Functionality
         class EnhancedNavigation {
@@ -1059,13 +1107,13 @@
             if (input) input.value = '';
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const modalSearchInput = document.getElementById("search-input");
             const modalSuggestionsContainer = document.getElementById("search-suggestions");
 
             let debounceTimeout;
 
-            modalSearchInput.addEventListener("input", function() {
+            modalSearchInput.addEventListener("input", function () {
                 const query = this.value.trim();
 
                 clearTimeout(debounceTimeout);
@@ -1450,7 +1498,7 @@
             wishlistManager.removeItemFromWishlist(item);
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const modalWrapper = document.getElementById('clear-wishlist-modal-wrapper');
             const modal = document.getElementById('clear-wishlist-modal');
             const btnConfirm = document.getElementById('confirm-clear-wishlist');
@@ -1513,24 +1561,24 @@
             }
 
             // ===== public functions =====
-            window.showClearWishlistModal = function() {
+            window.showClearWishlistModal = function () {
                 openModal();
             };
 
             // confirm -> send request to server
             if (btnConfirm) {
-                btnConfirm.addEventListener('click', function() {
+                btnConfirm.addEventListener('click', function () {
                     btnConfirm.disabled = true;
                     btnConfirm.classList.add('opacity-70', 'cursor-wait');
 
                     fetch('/wishlist-clear', {
-                            method: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                    .content,
-                                'Accept': 'application/json'
-                            }
-                        })
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                .content,
+                            'Accept': 'application/json'
+                        }
+                    })
                         .then(res => {
                             btnConfirm.disabled = false;
                             btnConfirm.classList.remove('opacity-70', 'cursor-wait');
@@ -1569,7 +1617,7 @@
 
             // close when clicking outside modal content
             if (modalWrapper) {
-                modalWrapper.addEventListener('click', function(e) {
+                modalWrapper.addEventListener('click', function (e) {
                     if (e.target === modalWrapper) closeModal();
                 });
             }
@@ -1599,7 +1647,7 @@
             });
         }
 
-        wishlistManager.showToast = function(title, message, type = 'info') {
+        wishlistManager.showToast = function (title, message, type = 'info') {
             const container = document.getElementById('toast-container2');
             if (!container) return;
 
@@ -1640,12 +1688,12 @@
             }
 
             fetch('/wishlist/add-all-to-cart', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Content-Type': 'application/json'
-                    }
-                })
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json'
+                }
+            })
                 .then(res => res.json())
                 .then(data => {
                     if (data.status === 'success') {
@@ -1711,14 +1759,14 @@
         }
 
         // Handle back button and ESC key
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closeWishlistPopup();
             }
         });
 
         // Handle click outside popup
-        document.getElementById('wishlist-overlay').addEventListener('click', function(e) {
+        document.getElementById('wishlist-overlay').addEventListener('click', function (e) {
             if (e.target === this) {
                 closeWishlistPopup();
             }
@@ -1758,7 +1806,7 @@
         }
 
         // Handle window resize
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
             if (window.innerWidth <= 768) {
                 document.body.style.paddingBottom = '70px';
                 document.getElementById('mobile-bottom-nav').style.display = 'block';
@@ -1769,7 +1817,7 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const avatar = document.getElementById('userAvatar');
             if (avatar) {
                 const firstName = document.getElementById('userFirstName')?.value?.trim();
@@ -1795,21 +1843,21 @@
         }
 
         //remove product from wishlist
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.remove-wishlist').forEach(btn => {
-                btn.addEventListener('click', function(e) {
+                btn.addEventListener('click', function (e) {
                     e.preventDefault();
 
                     let productId = this.dataset.id;
 
                     fetch(`/wishlist/${productId}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector(
-                                    'meta[name="csrf-token"]').content,
-                                'Accept': 'application/json'
-                            }
-                        })
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector(
+                                'meta[name="csrf-token"]').content,
+                            'Accept': 'application/json'
+                        }
+                    })
                         .then(res => res.json())
                         .then(data => {
                             if (data.success) {
@@ -1838,15 +1886,6 @@
         }
 
         //remove product from wishlist
-
-        document.getElementById('acceptCookies').addEventListener('click', function() {
-            fetch('{{ route('cookies.accept') }}', { method: 'POST', headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } })
-                .then(() => document.getElementById('cookie-banner').remove());
-                });
-
-        document.getElementById('declineCookies').addEventListener('click', function() {
-            document.getElementById('cookie-banner').remove();
-        });
     </script>
 
 
