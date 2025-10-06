@@ -26,7 +26,21 @@
                 <!-- Section Template -->
                 <div class="group transition-transform duration-300 hover:-translate-y-1">
                     <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
-                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 1. What Are Cookies?
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 1. Introduction
+                    </h2>
+                    <p class="text-gray-700 leading-relaxed">
+                        Welcome to <strong>Tunga Market!</strong>
+                        This Cookies Policy explains how and why cookies and similar tracking technologies are used when you
+                        visit our platform (<a href="https://www.tungamarket.com" style="color: blue">www.tungamarket.com</a>). Cookies help us improve your browsing experience, analyze
+                        performance, personalize your interactions, and provide secure and efficient services.
+                        By continuing to use our website, you agree to the use of cookies in accordance with this policy.
+                        You can modify your preferences or withdraw consent anytime through our cookie settings panel.
+
+                    </p>
+                </div>
+                <div class="group transition-transform duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
+                        <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 2. What Are Cookies?
                     </h2>
                     <p class="text-gray-700 leading-relaxed">
                         Cookies are small text files stored on your device when you visit a website.
