@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\UserSessionController;
 use App\Mail\PasswordChangedNotification;
 use App\Mail\SendOtpMail;
 use App\Models\ContactRequest;
@@ -180,23 +181,27 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        // Attempt login
-        if (Auth::attempt([
-            'email' => $request->email,
-            'password' => $request->password
-        ], $request->has('remember'))) {
-
-            $request->session()->regenerate();
-
-            return redirect()->intended()->with('success', 'Login successful!');
-        }
-
-        return back()->withErrors(['password' => 'The provided credentials are incorrect.'])->withInput();
+    if ($validator->fails()) {
+        return back()->withErrors($validator)->withInput();
     }
+
+
+
+    // Attempt login
+    if (Auth::attempt([
+        'email' => $request->email,
+        'password' => $request->password
+    ], $request->has('remember'))) {
+
+        $request->session()->regenerate();
+// Call store as an instance method
+    $userSessionController = new UserSessionController();
+    $userSessionController->store($request);
+        return redirect()->intended()->with('success', 'Login successful!');
+    }
+
+    return back()->withErrors(['password' => 'The provided credentials are incorrect.'])->withInput();
+}
     public function logout(Request $request)
     {
         auth()->logout();
