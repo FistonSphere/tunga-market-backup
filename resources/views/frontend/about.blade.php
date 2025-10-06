@@ -13,26 +13,26 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
             <h1 class="text-hero font-bold text-primary mb-6">
-                Building the Future of
-                <span class="text-gradient">Global Commerce</span>
+                Empowering Shoppers for
+                <span class="text-gradient">A Better Marketplace</span>
             </h1>
             <p class="text-body-lg text-secondary-600 mb-8 max-w-3xl mx-auto">
-                At Tunga Market, we're democratizing international trade through cutting-edge technology, verified partnerships, and unwavering commitment to trust. Our mission is to make global commerce accessible, transparent, and profitable for businesses of all sizes.
+                At Tunga Market, we make shopping simple, secure, and rewarding. Discover a world of products, enjoy seamless experiences, and shop with confidence wherever you are. Our mission is to connect people with quality goods and trusted sellers, making global shopping accessible to everyone.
             </p>
 
             <!-- Key Stats -->
             <div class="grid md:grid-cols-3 gap-8 mt-12">
                 <div class="text-center">
                     <div class="text-4xl font-bold text-accent mb-2">2.8M+</div>
-                    <div class="text-secondary-600">Active Users</div>
+                    <div class="text-secondary-600">Happy Shoppers</div>
                 </div>
                 <div class="text-center">
                     <div class="text-4xl font-bold text-success mb-2">150+</div>
-                    <div class="text-secondary-600">Countries Served</div>
+                    <div class="text-secondary-600">Countries Delivered</div>
                 </div>
                 <div class="text-center">
                     <div class="text-4xl font-bold text-primary mb-2">$5.2B+</div>
-                    <div class="text-secondary-600">Trade Volume</div>
+                    <div class="text-secondary-600">Orders Processed</div>
                 </div>
             </div>
         </div>
