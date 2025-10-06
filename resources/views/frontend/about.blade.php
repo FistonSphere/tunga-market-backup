@@ -134,75 +134,78 @@
     </section>
 
     <!-- Leadership Team Section -->
-    <section class="py-16 bg-secondary-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Leadership Team</h2>
-                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Meet the passionate leaders dedicated to making your experience better, safer, and more rewarding every
-                    day.
-                </p>
-            </div>
+    @if(!$teamMembers->isEmpty())
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @forelse($teamMembers as $member)
-                    <div
-                        class="card text-center group hover:shadow-hover hover:scale-[1.02] transition-all duration-300 bg-white rounded-2xl p-6">
-                        <div class="relative mb-6">
-                            <img src="{{ $member->photo ?? 'https://via.placeholder.com/150' }}" alt="{{ $member->name }}"
-                                class="w-24 h-24 rounded-full mx-auto object-cover shadow-card" loading="lazy" />
-                            <div
-                                class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-primary text-white rounded-full p-2">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd" />
-                                </svg>
+        <section class="py-16 bg-secondary-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-heading font-bold text-primary mb-4">Leadership Team</h2>
+                    <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
+                        Meet the passionate leaders dedicated to making your experience better, safer, and more rewarding every
+                        day.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @forelse($teamMembers as $member)
+                        <div
+                            class="card text-center group hover:shadow-hover hover:scale-[1.02] transition-all duration-300 bg-white rounded-2xl p-6">
+                            <div class="relative mb-6">
+                                <img src="{{ $member->photo ?? 'https://via.placeholder.com/150' }}" alt="{{ $member->name }}"
+                                    class="w-24 h-24 rounded-full mx-auto object-cover shadow-card" loading="lazy" />
+                                <div
+                                    class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-primary text-white rounded-full p-2">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <h3 class="font-semibold text-primary mb-1">{{ $member->name }}</h3>
+                            <p class="text-body-sm text-accent mb-3">{{ $member->position }}</p>
+                            <p class="text-body-sm text-secondary-600 mb-4">{{ $member->bio }}</p>
+
+                            <div class="flex justify-center space-x-3">
+                                @if($member->instagram)
+                                    <a href="{{ $member->instagram }}" target="_blank"
+                                        class="text-secondary-400 hover:text-primary transition-fast" aria-label="Instagram">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                        </svg>
+                                    </a>
+                                @endif
+
+                                @if($member->facebook)
+                                    <a href="{{ $member->facebook }}" target="_blank"
+                                        class="text-secondary-400 hover:text-primary transition-fast" aria-label="Facebook">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.261c-1.243 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12" />
+                                        </svg>
+                                    </a>
+                                @endif
+
+                                @if($member->twitter)
+                                    <a href="{{ $member->twitter }}" target="_blank"
+                                        class="text-secondary-400 hover:text-primary transition-fast" aria-label="Twitter">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M17.53 3H21l-7.19 8.21L22 21h-6.56l-5.18-6.09L3.47 21H0l7.64-8.73L2 3h6.68l4.7 5.53L17.53 3zm-2.1 15.19h1.82l-5.01-5.89-1.64 1.87 4.83 4.02zm-7.36-13.1l5.01 5.89 1.64-1.87-4.83-4.02H8.07z" />
+                                        </svg>
+                                    </a>
+                                @endif
                             </div>
                         </div>
-
-                        <h3 class="font-semibold text-primary mb-1">{{ $member->name }}</h3>
-                        <p class="text-body-sm text-accent mb-3">{{ $member->position }}</p>
-                        <p class="text-body-sm text-secondary-600 mb-4">{{ $member->bio }}</p>
-
-                        <div class="flex justify-center space-x-3">
-                            @if($member->instagram)
-                                <a href="{{ $member->instagram }}" target="_blank"
-                                    class="text-secondary-400 hover:text-primary transition-fast" aria-label="Instagram">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-                                    </svg>
-                                </a>
-                            @endif
-
-                            @if($member->facebook)
-                                <a href="{{ $member->facebook }}" target="_blank"
-                                    class="text-secondary-400 hover:text-primary transition-fast" aria-label="Facebook">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.261c-1.243 0-1.632.771-1.632 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12" />
-                                    </svg>
-                                </a>
-                            @endif
-
-                            @if($member->twitter)
-                                <a href="{{ $member->twitter }}" target="_blank"
-                                    class="text-secondary-400 hover:text-primary transition-fast" aria-label="Twitter">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M17.53 3H21l-7.19 8.21L22 21h-6.56l-5.18-6.09L3.47 21H0l7.64-8.73L2 3h6.68l4.7 5.53L17.53 3zm-2.1 15.19h1.82l-5.01-5.89-1.64 1.87 4.83 4.02zm-7.36-13.1l5.01 5.89 1.64-1.87-4.83-4.02H8.07z" />
-                                    </svg>
-                                </a>
-                            @endif
-                        </div>
-                    </div>
-                @empty
-                    <p class="col-span-full text-center text-gray-500 py-6">No team members available.</p>
-                @endforelse
+                    @empty
+                        <p class="col-span-full text-center text-gray-500 py-6">No team members available.</p>
+                    @endforelse
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
 
     <!-- Company Milestones -->
@@ -211,7 +214,7 @@
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">Our Journey</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Key milestones that shaped Tunga Market into the global platform it is today
+                    Our journey is just beginning! Here are the first steps as we launch Tunga Market and start bringing a new shopping experience to Rwanda.
                 </p>
             </div>
 
@@ -220,87 +223,36 @@
                 <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-accent-100"></div>
 
                 <div class="space-y-12">
-                    <!-- 2019 - Founded -->
+                    <!-- 2025 - Launch Year -->
                     <div class="flex items-center">
                         <div class="w-1/2 pr-8 text-right">
                             <div class="card">
-                                <h3 class="font-semibold text-primary mb-2">Company Founded</h3>
+                                <h3 class="font-semibold text-primary mb-2">Tunga Market Launch</h3>
                                 <p class="text-body-sm text-secondary-600">
-                                    Tunga Market launched with a vision to democratize global trade through technology and
-                                    trust.
+                                    In 2025, we opened our doors to shoppers across Rwanda, making it easy and safe for everyone to discover and buy quality products online.
                                 </p>
                             </div>
                         </div>
                         <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center shadow-card z-10">
-                            <span class="text-white font-bold">2019</span>
+                            <span class="text-white font-bold">2025</span>
                         </div>
                         <div class="w-1/2 pl-8"></div>
                     </div>
 
-                    <!-- 2020 - First Million -->
+                    <!-- Looking Ahead -->
                     <div class="flex items-center">
                         <div class="w-1/2 pr-8"></div>
                         <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-card z-10">
-                            <span class="text-white font-bold">2020</span>
+                            <span class="text-white font-bold">Future</span>
                         </div>
                         <div class="w-1/2 pl-8">
                             <div class="card">
-                                <h3 class="font-semibold text-primary mb-2">1M+ Users Milestone</h3>
+                                <h3 class="font-semibold text-primary mb-2">Exciting Times Ahead</h3>
                                 <p class="text-body-sm text-secondary-600">
-                                    Reached our first million users, establishing ourselves as a trusted platform for global
-                                    trade.
+                                    We’re just getting started! Our goal is to bring more products, better service, and a seamless shopping experience to every home in Rwanda. Thank you for being part of our story from day one.
                                 </p>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- 2021 - AI Integration -->
-                    <div class="flex items-center">
-                        <div class="w-1/2 pr-8 text-right">
-                            <div class="card">
-                                <h3 class="font-semibold text-primary mb-2">AI-Powered Features</h3>
-                                <p class="text-body-sm text-secondary-600">
-                                    Launched advanced AI algorithms for supplier matching and trade recommendations.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="w-16 h-16 bg-success rounded-full flex items-center justify-center shadow-card z-10">
-                            <span class="text-white font-bold">2021</span>
-                        </div>
-                        <div class="w-1/2 pl-8"></div>
-                    </div>
-
-                    <!-- 2022 - Global Expansion -->
-                    <div class="flex items-center">
-                        <div class="w-1/2 pr-8"></div>
-                        <div class="w-16 h-16 bg-warning rounded-full flex items-center justify-center shadow-card z-10">
-                            <span class="text-white font-bold">2022</span>
-                        </div>
-                        <div class="w-1/2 pl-8">
-                            <div class="card">
-                                <h3 class="font-semibold text-primary mb-2">Global Expansion</h3>
-                                <p class="text-body-sm text-secondary-600">
-                                    Expanded to 100+ countries with localized support and multi-currency transactions.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 2025 - Present -->
-                    <div class="flex items-center">
-                        <div class="w-1/2 pr-8 text-right">
-                            <div class="card">
-                                <h3 class="font-semibold text-primary mb-2">Market Leader</h3>
-                                <p class="text-body-sm text-secondary-600">
-                                    Today we serve 2.8M+ users across 150+ countries with $5.2B+ in trade volume.
-                                </p>
-                            </div>
-                        </div>
-                        <div
-                            class="w-16 h-16 bg-gradient-to-r from-accent to-primary rounded-full flex items-center justify-center shadow-card z-10">
-                            <span class="text-white font-bold text-xs">2025</span>
-                        </div>
-                        <div class="w-1/2 pl-8"></div>
                     </div>
                 </div>
             </div>
