@@ -165,14 +165,6 @@
                                 </svg>
                                 <span>Security</span>
                             </button>
-                            <button onclick="showSection('notifications')"
-                                class="nav-item w-full text-left p-3 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 17h5l-5 5v-5z" />
-                                </svg>
-                                <span>Notifications</span>
-                            </button>
 
                             <button onclick="showSection('support')"
                                 class="nav-item w-full text-left p-3 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
@@ -521,7 +513,7 @@
                                 </div>
 
                                 <!-- Two-Factor Authentication -->
-                                <div class="border-t border-secondary-200 pt-8">
+                                {{-- <div class="border-t border-secondary-200 pt-8">
                                     <h3 class="text-lg font-semibold text-primary mb-4">Two-Factor Authentication</h3>
                                     <div class="bg-warning-50 border border-warning-200 rounded-lg p-4 mb-4">
                                         <div class="flex items-start space-x-3">
@@ -557,7 +549,7 @@
                                             <button class="btn-primary">Setup</button>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <!-- Active Sessions -->
                                 <div class="border-t border-secondary-200 pt-8">
@@ -575,128 +567,6 @@
                         </div>
                     </div>
 
-                    <!-- Notifications Section -->
-                    <div id="notifications-section" class="content-section hidden">
-                        <div class="card">
-                            <h2 class="text-2xl font-bold text-primary mb-6">Notification Preferences</h2>
-
-                            <div class="space-y-8">
-                                <!-- Email Notifications -->
-                                <div>
-                                    <h3 class="text-lg font-semibold text-primary mb-4">Email Notifications</h3>
-                                    <div class="space-y-4">
-                                        <label class="flex items-center justify-between">
-                                            <div>
-                                                <div class="font-semibold text-secondary-700">Order Updates</div>
-                                                <div class="text-secondary-600 text-sm">Shipping confirmations, delivery
-                                                    notifications</div>
-                                            </div>
-                                            <input type="checkbox" checked
-                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                        </label>
-                                        <label class="flex items-center justify-between">
-                                            <div>
-                                                <div class="font-semibold text-secondary-700">Promotional Offers</div>
-                                                <div class="text-secondary-600 text-sm">Special deals, discounts, and new
-                                                    product alerts</div>
-                                            </div>
-                                            <input type="checkbox" checked
-                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                        </label>
-                                        <label class="flex items-center justify-between">
-                                            <div>
-                                                <div class="font-semibold text-secondary-700">Account Security</div>
-                                                <div class="text-secondary-600 text-sm">Login alerts, password changes,
-                                                    security updates</div>
-                                            </div>
-                                            <input type="checkbox" checked
-                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                        </label>
-                                        <label class="flex items-center justify-between">
-                                            <div>
-                                                <div class="font-semibold text-secondary-700">Weekly Summary</div>
-                                                <div class="text-secondary-600 text-sm">Weekly business performance and
-                                                    activity summary</div>
-                                            </div>
-                                            <input type="checkbox"
-                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <!-- SMS Notifications -->
-                                <div class="border-t border-secondary-200 pt-8">
-                                    <h3 class="text-lg font-semibold text-primary mb-4">SMS Notifications</h3>
-                                    <div class="space-y-4">
-                                        <label class="flex items-center justify-between">
-                                            <div>
-                                                <div class="font-semibold text-secondary-700">Critical Order Updates</div>
-                                                <div class="text-secondary-600 text-sm">Urgent shipping delays, delivery
-                                                    issues</div>
-                                            </div>
-                                            <input type="checkbox" checked
-                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                        </label>
-                                        <label class="flex items-center justify-between">
-                                            <div>
-                                                <div class="font-semibold text-secondary-700">Security Alerts</div>
-                                                <div class="text-secondary-600 text-sm">Suspicious login attempts, account
-                                                    changes</div>
-                                            </div>
-                                            <input type="checkbox" checked
-                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                        </label>
-                                        <label class="flex items-center justify-between">
-                                            <div>
-                                                <div class="font-semibold text-secondary-700">Delivery Notifications</div>
-                                                <div class="text-secondary-600 text-sm">Package out for delivery, delivered
-                                                    confirmations</div>
-                                            </div>
-                                            <input type="checkbox"
-                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <!-- Push Notifications -->
-                                <div class="border-t border-secondary-200 pt-8">
-                                    <h3 class="text-lg font-semibold text-primary mb-4">Push Notifications</h3>
-                                    <div class="space-y-4">
-                                        <label class="flex items-center justify-between">
-                                            <div>
-                                                <div class="font-semibold text-secondary-700">Real-time Order Updates</div>
-                                                <div class="text-secondary-600 text-sm">Live tracking, status changes</div>
-                                            </div>
-                                            <input type="checkbox" checked
-                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                        </label>
-                                        <label class="flex items-center justify-between">
-                                            <div>
-                                                <div class="font-semibold text-secondary-700">Community Activity</div>
-                                                <div class="text-secondary-600 text-sm">New messages, forum replies,
-                                                    mentions</div>
-                                            </div>
-                                            <input type="checkbox"
-                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                        </label>
-                                        <label class="flex items-center justify-between">
-                                            <div>
-                                                <div class="font-semibold text-secondary-700">Price Alerts</div>
-                                                <div class="text-secondary-600 text-sm">Watchlist price drops, special
-                                                    offers</div>
-                                            </div>
-                                            <input type="checkbox"
-                                                class="rounded border-secondary-300 text-primary focus:ring-primary" />
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mt-8 pt-6 border-t border-secondary-200">
-                                <button class="btn-primary" onclick="saveNotificationSettings()">Save Preferences</button>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Support Section -->
                     <div id="support-section" class="content-section hidden">
