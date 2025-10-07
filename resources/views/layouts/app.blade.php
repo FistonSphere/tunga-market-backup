@@ -575,7 +575,7 @@
                     <ul class="space-y-2">
                         <li><a href="{{ route('about') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">About Us</a></li>
-                        
+
 
                     </ul>
                 </div>
