@@ -299,7 +299,7 @@
 
                         <!-- User Profile & Actions -->
                         <div class="border-t border-border pt-4 space-y-3">
-                            <div class="flex space-x-4">
+                            <div class="flex space-x-4" style="gap: 150px;">
                                 <a href="{{ route('user.profile') }}" class="flex items-center space-x-3">
                                     @if ($hasProfilePic)
                                         <img src="{{ $user->profile_picture }}" alt="User Avatar"
