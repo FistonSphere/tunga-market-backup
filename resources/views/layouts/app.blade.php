@@ -694,17 +694,7 @@
                 </svg>
                 <span class="text-xs">Discover</span>
             </button>
-            <button id="open-wishlist-btn" class="relative text-secondary-600 hover:text-accent transition-fast p-2"
-                title="Wishlist">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                <span id="wishlist-count"
-                    class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
-                    {{ is_countable($wishlist) ? count($wishlist) : 0 }}
-                </span>
-            </button>
+
             <button id="open-wishlist-btn"
                 class="flex flex-col items-center p-2 text-accent hover:text-accent-600 transition-fast">
                 <div class="relative">
@@ -713,8 +703,7 @@
                             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                     <span id="wishlist-count"
-                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">
-                        {{ is_countable($wishlist) ? count($wishlist) : 0 }}</span>
+                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold"> {{ is_countable($wishlist) ? count($wishlist) : 0 }}</span>
                 </div>
                 <span class="text-xs font-semibold">Wishlist</span>
             </button>
@@ -727,8 +716,7 @@
                             d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7m0 0h9.5M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7" />
                     </svg>
                     <span
-                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">
-                        {{ $cartCount }}</span>
+                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold"> {{ $cartCount }}</span>
                 </div>
                 <span class="text-xs">Cart</span>
             </button>
