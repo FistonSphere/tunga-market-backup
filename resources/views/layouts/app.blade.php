@@ -283,46 +283,13 @@
             <div id="mobile-menu" class="md:hidden border-t border-border bg-white shadow-lg hidden">
                 <div class="px-4 py-6 space-y-4">
                     <a href="{{ route('home') }}" class="block text-primary font-semibold py-2">Home</a>
-                    <a href="{{ route('product.discovery') }}"
-                        class="block text-secondary-600 hover:text-primary transition-fast py-2">Discover</a>
+                    <a href="{{ route('about') }}"
+                        class="block text-secondary-600 hover:text-primary transition-fast py-2">About Us</a>
+                    <a href="{{ route('compare') }}"
+                        class="block text-secondary-600 hover:text-primary transition-fast py-2">Compare</a>
+                    <a href="{{ route('help.center') }}"
+                        class="block text-secondary-600 hover:text-primary transition-fast py-2">Help Center</a>
 
-                    <!-- Mobile Explore Section -->
-                    <div class="border-t border-border pt-4">
-                        <h3 class="text-sm font-semibold text-secondary-600 uppercase tracking-wide mb-3">Explore</h3>
-                        <div class="space-y-2 pl-4">
-                            <a href="{{ route('about') }}"
-                                class="block text-secondary-700 hover:text-primary transition-fast py-2">About Us</a>
-                            <a href="{{ route('compare') }}"
-                                class="block text-secondary-700 hover:text-primary transition-fast py-2"> Compare</a>
-                            <a href="{{ route('help.center') }}"
-                                class="block text-secondary-700 hover:text-primary transition-fast py-2">
-                                Help Center</a>
-                            <a href="{{ route('careers') }}"
-                                class="block text-secondary-700 hover:text-primary transition-fast py-2"> Careers</a>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Company & Support -->
-                    {{-- <div class="border-t border-border pt-4">
-                        <h3 class="text-sm font-semibold text-secondary-600 uppercase tracking-wide mb-3">Company &
-                            Support
-                        </h3>
-                        <div class="grid grid-cols-2 gap-2 pl-4">
-                            <a href="{{ route('about') }}"
-                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">About Us</a>
-                            <a href="{{ route('contact') }}"
-                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Contact
-                                Us</a>
-                            <a href="{{ route('help.center') }}"
-                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Help
-                                Center</a>
-                            <a href="{{ route('contact') }}"
-                                class="text-sm text-secondary-700 hover:text-primary transition-fast py-1">Contact
-                                Us</a>
-                        </div>
-                    </div> --}}
-
-                    <!-- Mobile Actions -->
                     <!-- If user is authenticated -->
                     @auth
                         @php

@@ -319,7 +319,7 @@
                             @endif
                         </h3>
 
-                        <div class="flex justify-center items-center space-x-8">
+                        <div class="flex justify-center items-center space-x-2">
                             <div class="text-center">
                                 <div id="flash-days" class="text-4xl font-bold">00</div>
                                 <div class="text-sm opacity-90">Days</div>
