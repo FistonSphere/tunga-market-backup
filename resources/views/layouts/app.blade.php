@@ -298,28 +298,30 @@
                         @endphp
 
                         <!-- User Profile & Actions -->
-                        <div class="hidden md:flex items-center space-x-4">
-                            <a href="{{ route('user.profile') }}" class="flex items-center space-x-3">
-                                @if ($hasProfilePic)
-                                    <img src="{{ $user->profile_picture }}" alt="User Avatar"
-                                        class="w-8 h-8 rounded-full object-cover" />
-                                @else
-                                    <div id="userAvatar"
-                                        class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                                    </div>
-                                @endif
+                        <div class="border-t border-border pt-4 space-y-3">
+                            <div class="flex space-x-4">
+                                <a href="{{ route('user.profile') }}" class="flex items-center space-x-3">
+                                    @if ($hasProfilePic)
+                                        <img src="{{ $user->profile_picture }}" alt="User Avatar"
+                                            class="w-8 h-8 rounded-full object-cover" />
+                                    @else
+                                        <div id="userAvatar"
+                                            class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                        </div>
+                                    @endif
 
-                                <span class="text-primary font-semibold">
-                                    Hi, {{ $user->first_name ?? 'My Account' }}
-                                </span>
-                            </a>
+                                    <span class="text-primary font-semibold">
+                                        Hi, {{ $user->first_name ?? 'My Account' }}
+                                    </span>
+                                </a>
 
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="btn-primary">
-                                    Logout
-                                </button>
-                            </form>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="btn-primary">
+                                        Logout
+                                    </button>
+                                </form>
+                            </div>
                         </div>
 
                         @if (!$hasProfilePic)
