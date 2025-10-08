@@ -257,14 +257,6 @@
                 </div>
 
                 <!-- Mobile Menu Button -->
-                {{-- <button class="md:hidden p-2" id="mobileMenuBtn">
-                    <svg class="h-6 w-6 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button> --}}
-
-                <!-- Mobile Menu Button -->
                 <button onclick="toggleMobileMenu()" class="md:hidden p-2" id="mobileMenuBtn">
                     <svg id="mobile-menu-icon" class="h-6 w-6 text-secondary-600" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
@@ -702,16 +694,27 @@
                 </svg>
                 <span class="text-xs">Discover</span>
             </button>
-
-            <button onclick="viewFullWishlist()"
+            <button id="open-wishlist-btn" class="relative text-secondary-600 hover:text-accent transition-fast p-2"
+                title="Wishlist">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                <span id="wishlist-count"
+                    class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+                    {{ is_countable($wishlist) ? count($wishlist) : 0 }}
+                </span>
+            </button>
+            <button id="open-wishlist-btn"
                 class="flex flex-col items-center p-2 text-accent hover:text-accent-600 transition-fast">
                 <div class="relative">
                     <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
-                    <span
-                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">{{ is_countable($wishlist) ? count($wishlist) : 0 }}</span>
+                    <span id="wishlist-count"
+                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">
+                        {{ is_countable($wishlist) ? count($wishlist) : 0 }}</span>
                 </div>
                 <span class="text-xs font-semibold">Wishlist</span>
             </button>
@@ -724,7 +727,8 @@
                             d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7m0 0h9.5M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7" />
                     </svg>
                     <span
-                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">7</span>
+                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">
+                        {{ $cartCount }}</span>
                 </div>
                 <span class="text-xs">Cart</span>
             </button>
@@ -1176,191 +1180,12 @@
             }
         });
 
-        class WishlistPopupManager {
-            constructor() {
-                this.wishlistCount = this.getStoredCount('wishlistCount', 12);
-                this.cartCount = this.getStoredCount('cartCount', 7);
-                this.updateCounts();
-                this.initializeDragAndDrop();
-                this.handleMobileInteractions();
-            }
-
-            getStoredCount(key, defaultValue = 0) {
-                try {
-                    const stored = localStorage.getItem(key);
-                    return stored ? parseInt(stored) : defaultValue;
-                } catch (e) {
-                    return defaultValue;
-                }
-            }
-
-            setStoredCount(key, value) {
-                try {
-                    localStorage.setItem(key, value.toString());
-                } catch (e) {
-                    console.warn('Could not store count in localStorage');
-                }
-            }
-
-            updateCounts() {
-                const totalCountElement = document.getElementById('total-wishlist-count');
-                if (totalCountElement) {
-                    totalCountElement.textContent = this.wishlistCount;
-                }
-
-                // Update mobile nav counts
-                const mobileWishlistBadge = document.querySelector('#mobile-bottom-nav .bg-accent');
-                const mobileCartBadge = document.querySelector('#mobile-bottom-nav [class*="bg-accent"]:last-child');
-
-                if (mobileWishlistBadge) {
-                    mobileWishlistBadge.textContent = this.wishlistCount > 99 ? '99+' : this.wishlistCount;
-                }
-            }
-
-            showToast(title, message, type = 'success') {
-                const toast = document.getElementById('toast-notification');
-                const toastTitle = document.getElementById('toast-title');
-                const toastMessage = document.getElementById('toast-message');
-
-                const colors = {
-                    success: {
-                        border: 'border-success',
-                        icon: 'text-success'
-                    },
-                    warning: {
-                        border: 'border-warning',
-                        icon: 'text-warning'
-                    },
-                    error: {
-                        border: 'border-error',
-                        icon: 'text-error'
-                    },
-                    info: {
-                        border: 'border-primary',
-                        icon: 'text-primary'
-                    }
-                };
-
-                const toastContent = toast.querySelector('div');
-                toastContent.className =
-                    `bg-white shadow-modal rounded-lg p-4 ${colors[type].border} border-l-4 max-w-sm`;
-
-                toastTitle.textContent = title;
-                toastMessage.textContent = message;
-
-                toast.classList.remove('translate-x-full');
-
-                setTimeout(() => {
-                    this.hideToast();
-                }, 4000);
-            }
-
-            hideToast() {
-                const toast = document.getElementById('toast-notification');
-                toast.classList.add('translate-x-full');
-            }
-
-            initializeDragAndDrop() {
-                const wishlistItems = document.querySelectorAll('.wishlist-item');
-                wishlistItems.forEach((item, index) => {
-                    item.draggable = true;
-                    item.addEventListener('dragstart', this.handleDragStart.bind(this));
-                    item.addEventListener('dragover', this.handleDragOver.bind(this));
-                    item.addEventListener('drop', this.handleDrop.bind(this));
-                });
-            }
-
-            handleDragStart(e) {
-                e.dataTransfer.setData('text/plain', '');
-                e.currentTarget.classList.add('opacity-50');
-            }
-
-            handleDragOver(e) {
-                e.preventDefault();
-            }
-
-            handleDrop(e) {
-                e.preventDefault();
-                e.currentTarget.classList.remove('opacity-50');
-                this.showToast('Items Reordered', 'Wishlist items have been reordered successfully.');
-            }
-
-            handleMobileInteractions() {
-                if (window.innerWidth <= 768) {
-                    // Add swipe gestures for mobile
-                    const wishlistItems = document.querySelectorAll('.wishlist-item');
-                    wishlistItems.forEach(item => {
-                        let startX = 0;
-                        let currentX = 0;
-                        let cardBeingDragged = null;
-
-                        item.addEventListener('touchstart', (e) => {
-                            startX = e.touches[0].clientX;
-                            cardBeingDragged = e.currentTarget;
-                        }, {
-                            passive: true
-                        });
-
-                        item.addEventListener('touchmove', (e) => {
-                            if (!cardBeingDragged) return;
-                            currentX = e.touches[0].clientX;
-                            const diffX = currentX - startX;
-
-                            if (diffX < -50) {
-                                cardBeingDragged.style.transform = `translateX(${diffX}px)`;
-                                cardBeingDragged.style.opacity = Math.max(0.5, 1 + diffX / 200);
-                            }
-                        }, {
-                            passive: true
-                        });
-
-                        item.addEventListener('touchend', (e) => {
-                            if (!cardBeingDragged) return;
-                            const diffX = currentX - startX;
-
-                            if (diffX < -100) {
-                                // Remove item
-                                this.removeItemFromWishlist(cardBeingDragged);
-                            } else {
-                                // Reset position
-                                cardBeingDragged.style.transform = '';
-                                cardBeingDragged.style.opacity = '';
-                            }
-
-                            cardBeingDragged = null;
-                            startX = 0;
-                            currentX = 0;
-                        }, {
-                            passive: true
-                        });
-                    });
-                }
-            }
-
-            removeItemFromWishlist(item) {
-                const productName = item.querySelector('h3').textContent;
-                item.style.transform = 'translateX(-100%)';
-                item.style.opacity = '0';
-
-                setTimeout(() => {
-                    item.remove();
-                    this.wishlistCount--;
-                    this.setStoredCount('wishlistCount', this.wishlistCount);
-                    this.updateCounts();
-                    this.showToast('Item Removed', `${productName} removed from wishlist`);
-                }, 300);
-            }
-        }
 
         // Initialize wishlist popup manager
-        const wishlistManager = new WishlistPopupManager();
+
 
         // Global Functions
-        function closeWishlistPopup() {
-            const overlay = document.getElementById('wishlist-overlay').style.display = 'none';
 
-
-        }
 
         function addToCartFromWishlist(button) {
             const item = button.closest('.wishlist-item');
