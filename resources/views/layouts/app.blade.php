@@ -695,7 +695,7 @@
                 <span class="text-xs">Discover</span>
             </button>
 
-            <button id="open-wishlist-btn"
+            <button id="open-wishlist-btn2"
                 class="flex flex-col items-center p-2 text-accent hover:text-accent-600 transition-fast">
                 <div class="relative">
                     <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1146,6 +1146,9 @@
             overlay.style.display = 'flex';
             overlay.style.animation = 'fadeIn 0.3s ease-out forwards';
         });
+
+
+
 
         // Hide wishlist popup function
         function closeWishlistPopup() {
