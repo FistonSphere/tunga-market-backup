@@ -70,7 +70,7 @@
                         <!-- Full-Width Landscape Dropdown Card -->
                         <div id="explore-dropdown"
                             class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-screen max-w-screen-xl bg-white rounded-xl shadow-modal border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50"
-                            style="margin-left: calc(7.5vw + 50%); margin-top: 1.3em;">
+                            style="width: 40em;margin-top: 1.3em;">
                             <div class="p-8">
                                 <!-- Horizontal Layout Container -->
                                 <div class="flex flex-col lg:flex-row gap-8">
@@ -116,7 +116,7 @@
                                                 </div>
                                             </a>
 
-                                            <a href="{{ route('compare') }}"
+                                            <a href="{{ route('help.center') }}"
                                                 class="group/item p-6 rounded-lg hover:bg-accent-50 transition-all duration-300 border border-transparent hover:border-accent-200">
                                                 <div class="flex items-center space-x-4">
                                                     <div
@@ -129,93 +129,12 @@
                                                         </svg>
                                                     </div>
                                                     <div>
-                                                        <h4 class="font-semibold text-primary text-lg">Community</h4>
-                                                        <p class="text-sm text-secondary-600">Connect with traders and
-                                                            businesses</p>
+                                                        <h4 class="font-semibold text-primary text-lg">Help Center</h4>
                                                     </div>
                                                 </div>
                                             </a>
 
-                                            <a href="mobile_commerce_app_landing.html"
-                                                class="group/item p-6 rounded-lg hover:bg-accent-50 transition-all duration-300 border border-transparent hover:border-accent-200">
-                                                <div class="flex items-center space-x-4">
-                                                    <div
-                                                        class="w-12 h-12 bg-warning-100 rounded-lg flex items-center justify-center group-hover/item:bg-warning-200 transition-fast">
-                                                        <svg class="w-6 h-6 text-warning" fill="none"
-                                                            stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2"
-                                                                d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                                        </svg>
-                                                    </div>
-                                                    <div>
-                                                        <h4 class="font-semibold text-primary text-lg">Mobile App</h4>
-                                                        <p class="text-sm text-secondary-600">Download our mobile app
-                                                            for
-                                                            trading</p>
-                                                    </div>
-                                                </div>
-                                            </a>
                                         </div>
-                                    </div>
-
-                                    <!-- Vertical Divider -->
-                                    <div class="hidden lg:block w-px bg-border"></div>
-
-                                    <!-- Right Section: Company & Support -->
-                                    <div class="flex-1">
-                                        <h3
-                                            class="text-sm font-semibold text-secondary-600 uppercase tracking-wide mb-6">
-                                            Company & Support</h3>
-                                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                                            <a href="{{ route('about') }}"
-                                                class="{{ request()->routeIs('about') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">About
-                                                Us</a>
-                                            <a href="{{ route('help.center') }}"
-                                                class="{{ request()->routeIs('help.center') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Help
-                                                Center</a>
-                                            <a href="{{ route('careers') }}"
-                                                class="{{ request()->routeIs('careers') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }} text-sm text-secondary-700 hover:text-primary hover:bg-gray-50 px-4 py-3 rounded-lg transition-fast font-medium">Careers</a>
-                                        </div>
-
-                                        <!-- Additional Features Section -->
-                                        {{-- <div class="mt-8 pt-6 border-t border-border">
-                                            <h4
-                                                class="text-sm font-semibold text-secondary-600 uppercase tracking-wide mb-4">
-                                                Quick Access</h4>
-                                            <div class="flex flex-wrap gap-3">
-                                                <a href="order_tracking_center.html"
-                                                    class="inline-flex items-center space-x-2 text-sm bg-primary-50 text-primary px-4 py-2 rounded-full hover:bg-primary-100 transition-fast">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                                                    </svg>
-                                                    <span>Track Orders</span>
-                                                </a>
-                                                <a href="wishlist_popup.html"
-                                                    class="inline-flex items-center space-x-2 text-sm bg-accent-50 text-accent px-4 py-2 rounded-full hover:bg-accent-100 transition-fast">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                                    </svg>
-                                                    <span>My Wishlist</span>
-                                                </a>
-                                                <a href="live_chat_support_center.html"
-                                                    class="inline-flex items-center space-x-2 text-sm bg-success-50 text-success px-4 py-2 rounded-full hover:bg-success-100 transition-fast">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                                    </svg>
-                                                    <span>Live Support</span>
-                                                </a>
-                                            </div>
-                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -911,7 +830,8 @@
                 <div class="text-sm text-secondary-700">
                     🍪 We use cookies to enhance your browsing experience, analyze traffic, and personalize content.
                     By continuing, you agree to our
-                    <a href="{{ route('policies.cookies') }}" class="text-accent font-semibold hover:underline">Cookie Policy</a>.
+                    <a href="{{ route('policies.cookies') }}" class="text-accent font-semibold hover:underline">Cookie
+                        Policy</a>.
                 </div>
                 <div class="flex space-x-3">
                     <button id="acceptCookies"
