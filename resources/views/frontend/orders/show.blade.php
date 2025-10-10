@@ -1164,8 +1164,8 @@
         }, 4000);
     }
 
-    
-    
+
+
     //report issue
     const reportIssueUrl = "{{ route('orders.reportIssue', $order->id) }}";
 
@@ -1325,7 +1325,7 @@
             ],
             workingHours: ["Our store is open Mon-Fri, 9 AM - 6 PM."],
             trackOrder: ["You can track your order in 'My Orders' section."],
-            returnPolicy: ["You can return items within 30 days of delivery."],
+            returnPolicy: ["You can return items within 7 days of delivery."],
             payment: ["We accept Credit/Debit cards, Mobile Money, and Airtel Money."],
             shipping: ["Free shipping for all orders. Delivery: 30 min - 7 days."],
             discounts: ["Check the 'Deals' section for current discounts."],

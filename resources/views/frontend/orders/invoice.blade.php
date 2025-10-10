@@ -9,7 +9,7 @@
     <meta name="description"
         content="Invoice with QR code for order tracking - Download and print your Tunga Market invoice" />
 
-    
+
     <style>
         /* Ensure print keeps design */
         @media print {
@@ -77,7 +77,7 @@
                         {{ $shipping->first_name . ' ' . $shipping->last_name }} Invoice</h1>
                 </div>
                 <div class="flex items-center space-x-3">
-                    
+
                     <button onclick="window.print()" class="btn-primary">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -437,9 +437,9 @@
                         <div>
                             <h3 class="text-lg font-semibold text-primary mb-4">Terms & Conditions</h3>
                             <div class="text-sm text-secondary-700 space-y-2">
-                                <p><strong>Payment Terms:</strong> Payment is due within 30 days of invoice date. Late
+                                <p><strong>Payment Terms:</strong> Payment is due within 7 days of invoice date. Late
                                     payments may incur additional charges as per our terms of service.</p>
-                                <p><strong>Returns:</strong> Items may be returned within 30 days of delivery in
+                                <p><strong>Returns:</strong> Items may be returned within 7 days of delivery in
                                     original condition. Return shipping costs apply unless item is defective.</p>
                                 <p><strong>Warranty:</strong> All products come with manufacturer warranty as specified
                                     in product documentation. Extended warranty options available.</p>

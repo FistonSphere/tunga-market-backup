@@ -89,7 +89,7 @@
                         {{ $shipping->first_name . ' ' . $shipping->last_name }} Receipt</h1>
                 </div>
                 <div class="flex items-center space-x-3">
-                   
+
                     <button onclick="downloadReceiptPDF()" class="btn-primary">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -387,30 +387,30 @@
 
                                 <!-- Status -->
                                 <div
-                                    class="mt-3 p-2 
+                                    class="mt-3 p-2
             @if ($order->payment->status === 'paid') bg-success-50 border border-success-200
             @elseif ($order->payment->status === 'pending')
                 bg-warning-50 border border-warning-200
-            @else 
+            @else
                 bg-error-50 border border-error-200 @endif
             rounded">
                                     <div class="flex items-center space-x-2">
-                                        <svg class="w-4 h-4 
-                    @if ($order->payment->status === 'paid') text-success 
-                    @elseif ($order->payment->status === 'pending') text-warning 
+                                        <svg class="w-4 h-4
+                    @if ($order->payment->status === 'paid') text-success
+                    @elseif ($order->payment->status === 'pending') text-warning
                     @else text-error @endif"
                                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="@if ($order->payment->status === 'paid') M5 13l4 4L19 7 
-                             @elseif ($order->payment->status === 'pending') 
-                                M12 8v4m0 4h.01M12 20a8 8 0 100-16 8 8 0 000 16z 
-                             @else 
+                                                d="@if ($order->payment->status === 'paid') M5 13l4 4L19 7
+                             @elseif ($order->payment->status === 'pending')
+                                M12 8v4m0 4h.01M12 20a8 8 0 100-16 8 8 0 000 16z
+                             @else
                                 M6 18L18 6M6 6l12 12 @endif" />
                                         </svg>
                                         <span
                                             class="font-semibold text-sm
-                    @if ($order->payment->status === 'paid') text-success-700 
-                    @elseif ($order->payment->status === 'pending') text-warning-700 
+                    @if ($order->payment->status === 'paid') text-success-700
+                    @elseif ($order->payment->status === 'pending') text-warning-700
                     @else text-error-700 @endif">
                                             {{ strtoupper($order->payment->status) }}
                                         </span>
@@ -480,7 +480,7 @@
                             <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm space-y-2">
                                 <div>
                                     <h4 class="font-semibold text-amber-800 mb-1">Return Policy</h4>
-                                    <p class="text-amber-700">Items may be returned within 30 days of purchase in
+                                    <p class="text-amber-700">Items may be returned within 7 days of purchase in
                                         original condition. Return shipping costs apply unless item is defective.</p>
                                 </div>
                                 <div>
