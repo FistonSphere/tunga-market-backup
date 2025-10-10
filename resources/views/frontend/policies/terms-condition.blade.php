@@ -10,7 +10,7 @@
             </div>
 
             <!-- Introduction -->
-            <div class="bg-white shadow-md rounded-2xl p-8 mb-10 transition-transform duration-300 hover:shadow-lg">
+            <div class="bg-white shadow-md rounded-2xl p-8 transition-transform duration-300 hover:shadow-lg mb-8">
                 <p class="text-gray-700 leading-relaxed mb-4">
                     Welcome to <strong class="text-orange-600">Tunga Market</strong>. These Terms and Conditions ("Terms")
                     govern your access and use of our website,
@@ -52,7 +52,7 @@
                         ],
                         [
                             'title' => '7. Pricing and Payments',
-                            'content' => 'All prices are clearly stated and may include or exclude taxes. Payments can be made via Mobile Money, Card, or PayPal. Tunga Market ensures payment security but is not liable for delays from third-party processors.'
+                            'content' => 'All prices are clearly stated and may include or exclude taxes. Payments can be made via Mobile Money, Airtel, or Card. Tunga Market ensures payment security but is not liable for delays from third-party processors.'
                         ],
                         [
                             'title' => '8. Returns, Refunds, and Disputes',
