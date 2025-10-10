@@ -733,13 +733,13 @@
     </div>
     <div id="toast-success"
         class="hidden fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 opacity-0"
-        style="z-index: 9999;">
+        style="z-index: 999999;">
         Added to Wishlist!
     </div>
     <!-- Clear Wishlist Confirmation Modal (hidden by default) -->
     <div id="clear-wishlist-modal-wrapper"
-        class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center" role="dialog" aria-modal="true"
-        aria-labelledby="clear-wishlist-title" aria-describedby="clear-wishlist-desc">
+        class="fixed inset-0 bg-black/50 hidden flex items-center justify-center" role="dialog" aria-modal="true"
+        aria-labelledby="clear-wishlist-title" aria-describedby="clear-wishlist-desc" style="z-index: 999999;">
         <div id="clear-wishlist-modal"
             class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 scale-95 opacity-0"
             role="document" tabindex="-1">
@@ -1145,6 +1145,12 @@
             const overlay = document.getElementById('wishlist-overlay');
             overlay.style.display = 'flex';
             overlay.style.animation = 'fadeIn 0.3s ease-out forwards';
+        });
+        document.getElementById('open-wishlist-btn2').addEventListener('click', () => {
+            const overlay = document.getElementById('wishlist-overlay');
+            overlay.style.display = 'flex';
+            overlay.style.animation = 'fadeIn 0.3s ease-out forwards';
+            // window.location.href = '{{ route("help.center") }}';
         });
 
 
