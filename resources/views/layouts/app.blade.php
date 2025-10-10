@@ -441,8 +441,7 @@
                     <ul class="space-y-2">
                         <li><a href="{{ route('help.center') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Help Center</a></li>
-                        <li><a href="{{ route('contact') }}"
-                                class="text-secondary-300 hover:text-accent transition-fast">Contact Us</a></li>
+
                         <li><a href="{{ route('policies.cookies') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Cookies Policy</a></li>
 
@@ -455,7 +454,8 @@
                     <ul class="space-y-2">
                         <li><a href="{{ route('about') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">About Us</a></li>
-
+                        <li><a href="{{ route('contact') }}"
+                                class="text-secondary-300 hover:text-accent transition-fast">Contact Us</a></li>
 
                     </ul>
                 </div>
@@ -703,7 +703,8 @@
                             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                     <span id="wishlist-count"
-                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold"> {{ is_countable($wishlist) ? count($wishlist) : 0 }}</span>
+                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">
+                        {{ is_countable($wishlist) ? count($wishlist) : 0 }}</span>
                 </div>
                 <span class="text-xs font-semibold">Wishlist</span>
             </button>
@@ -716,7 +717,8 @@
                             d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7m0 0h9.5M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7" />
                     </svg>
                     <span
-                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold"> {{ $cartCount }}</span>
+                        class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">
+                        {{ $cartCount }}</span>
                 </div>
                 <span class="text-xs">Cart</span>
             </button>
@@ -737,9 +739,9 @@
         Added to Wishlist!
     </div>
     <!-- Clear Wishlist Confirmation Modal (hidden by default) -->
-    <div id="clear-wishlist-modal-wrapper"
-        class="fixed inset-0 bg-black/50 hidden flex items-center justify-center" role="dialog" aria-modal="true"
-        aria-labelledby="clear-wishlist-title" aria-describedby="clear-wishlist-desc" style="z-index: 999999;">
+    <div id="clear-wishlist-modal-wrapper" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center"
+        role="dialog" aria-modal="true" aria-labelledby="clear-wishlist-title" aria-describedby="clear-wishlist-desc"
+        style="z-index: 999999;">
         <div id="clear-wishlist-modal"
             class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 scale-95 opacity-0"
             role="document" tabindex="-1">
