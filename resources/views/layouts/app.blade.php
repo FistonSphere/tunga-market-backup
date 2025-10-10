@@ -441,6 +441,8 @@
                     <ul class="space-y-2">
                         <li><a href="{{ route('help.center') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Help Center</a></li>
+                        <li><a href="{{ route('terms.and.conditions') }}"
+                                class="text-secondary-300 hover:text-accent transition-fast">Terms & Conditions</a></li>
 
                         <li><a href="{{ route('policies.cookies') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Cookies Policy</a></li>
