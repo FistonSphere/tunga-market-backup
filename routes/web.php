@@ -179,3 +179,7 @@ Route::post('/flash-deals/cart/add', [CartController::class, 'addToCartDeal'])->
 Route::get('/terms-and-conditions', function() {
     return view('frontend.policies.terms-condition');
 })->name('terms.and.conditions');
+
+Route::get('/privacy-policy', function() {
+    return view('frontend.policies.privacy-policy');
+})->name('privacy.policy');
