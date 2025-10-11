@@ -778,9 +778,9 @@
 
             <!-- Warning Icon -->
             <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856C19.07 19 20 18.07 20 16.938V7.062C20 5.93 19.07 5 17.938 5H6.062C4.93 5 4 5.93 4 7.062v9.876C4 18.07 4.93 19 6.062 19z" />
                 </svg>
             </div>
 
@@ -793,7 +793,7 @@
             <!-- Modal Action Buttons -->
             <div class="space-y-3">
                 <button onclick="confirmAccountDeletion()"
-                    class="w-full btn-danger py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    class="w-full btn-primary py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
                     Yes, Delete My Account
                 </button>
                 <button onclick="closeDeleteWarningModal()"
@@ -804,7 +804,9 @@
         </div>
     </div>
 
-
+<div id="notification" class="fixed top-4 right-4 space-y-2 shadow-md rounded p-4  text-white hidden" style="z-index:9999999; background-color:rgb(225 20 20)">
+    <p id="notificationMessage" class="text-sm text-gray-800"></p>
+</div>
     <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
     <script>
         function viewTicket(ticket) {
@@ -841,49 +843,49 @@
                     }
 
                     detailsDiv.innerHTML = `
-                                                                <div class="space-y-2">
-                                                                    <div class="flex justify-between">
-                                                                        <span class="font-semibold text-gray-700">Ticket:</span>
-                                                                        <span class="text-primary font-medium">${data.ticket}</span>
-                                                                    </div>
-                                                                    <div class="flex justify-between">
-                                                                        <span class="font-semibold text-gray-700">Status:</span>
-                                                                        <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded text-xs font-semibold">${data.status}</span>
-                                                                    </div>
-                                                                    <div class="flex justify-between">
-                                                                        <span class="font-semibold text-gray-700">Priority:</span>
-                                                                        <span class="capitalize">${data.priority ?? 'N/A'}</span>
-                                                                    </div>
+                                                                            <div class="space-y-2">
+                                                                                <div class="flex justify-between">
+                                                                                    <span class="font-semibold text-gray-700">Ticket:</span>
+                                                                                    <span class="text-primary font-medium">${data.ticket}</span>
+                                                                                </div>
+                                                                                <div class="flex justify-between">
+                                                                                    <span class="font-semibold text-gray-700">Status:</span>
+                                                                                    <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded text-xs font-semibold">${data.status}</span>
+                                                                                </div>
+                                                                                <div class="flex justify-between">
+                                                                                    <span class="font-semibold text-gray-700">Priority:</span>
+                                                                                    <span class="capitalize">${data.priority ?? 'N/A'}</span>
+                                                                                </div>
 
-                                                                    <div class="border-t pt-2">
-                                                                        <p><span class="font-semibold">Subject:</span> ${data.subject}</p>
-                                                                        <p><span class="font-semibold">Message:</span></p>
-                                                                        <div class="bg-gray-50 p-3 rounded-md text-sm text-secondary-700 max-h-48 overflow-y-auto">
-                                                                            ${data.message}
-                                                                        </div>
-                                                                    </div>
+                                                                                <div class="border-t pt-2">
+                                                                                    <p><span class="font-semibold">Subject:</span> ${data.subject}</p>
+                                                                                    <p><span class="font-semibold">Message:</span></p>
+                                                                                    <div class="bg-gray-50 p-3 rounded-md text-sm text-secondary-700 max-h-48 overflow-y-auto">
+                                                                                        ${data.message}
+                                                                                    </div>
+                                                                                </div>
 
-                                                                    <div class="border-t pt-2">
-                                                                        <p><span class="font-semibold">Contact Info:</span></p>
-                                                                        <p>${data.first_name} ${data.last_name}</p>
-                                                                        <p>${data.email}</p>
-                                                                        <p>${data.phone ?? 'N/A'}</p>
-                                                                        <p>${data.company ?? ''} ${data.role ? `(${data.role})` : ''}</p>
-                                                                    </div>
+                                                                                <div class="border-t pt-2">
+                                                                                    <p><span class="font-semibold">Contact Info:</span></p>
+                                                                                    <p>${data.first_name} ${data.last_name}</p>
+                                                                                    <p>${data.email}</p>
+                                                                                    <p>${data.phone ?? 'N/A'}</p>
+                                                                                    <p>${data.company ?? ''} ${data.role ? `(${data.role})` : ''}</p>
+                                                                                </div>
 
-                                                                    <div class="border-t pt-2 text-xs text-gray-500">
-                                                                        <p>Submitted: ${data.created_at}</p>
-                                                                        ${data.callback_requested ? `<p>Callback: ${data.callback_time} (${data.callback_timezone})</p>` : ''}
-                                                                    </div>
+                                                                                <div class="border-t pt-2 text-xs text-gray-500">
+                                                                                    <p>Submitted: ${data.created_at}</p>
+                                                                                    ${data.callback_requested ? `<p>Callback: ${data.callback_time} (${data.callback_timezone})</p>` : ''}
+                                                                                </div>
 
-                                                                    ${attachments.length ? `
-                                                                        <div class="border-t pt-2">
-                                                                            <p class="font-semibold text-gray-700 mb-1">Attachments:</p>
-                                                                            ${attachments.map(a => `<a href="${a}" target="_blank" class="text-primary hover:underline block">${a}</a>`).join('')}
-                                                                        </div>
-                                                                    ` : ''}
-                                                                </div>
-                                                            `;
+                                                                                ${attachments.length ? `
+                                                                                    <div class="border-t pt-2">
+                                                                                        <p class="font-semibold text-gray-700 mb-1">Attachments:</p>
+                                                                                        ${attachments.map(a => `<a href="${a}" target="_blank" class="text-primary hover:underline block">${a}</a>`).join('')}
+                                                                                    </div>
+                                                                                ` : ''}
+                                                                            </div>
+                                                                        `;
                 })
                 .catch(error => {
                     console.error('Error fetching ticket:', error);
@@ -1025,35 +1027,35 @@
 
             const icons = {
                 success: `<svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                                                                                    </svg>`,
+                                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                                                                                                </svg>`,
                 info: `<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                                                                                    </svg>`,
+                                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                                                                                                </svg>`,
                 warning: `<svg class="w-5 h-5 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                                                                                                                    </svg>`,
+                                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                                                                                                                                </svg>`,
                 error: `<svg class="w-5 h-5 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                                                                                    </svg>`
+                                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                                                                                                </svg>`
             };
 
             notification.innerHTML = `
-                                                                                                                    <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
-                                                                                                                        <div class="flex items-start space-x-3">
-                                                                                                                            ${icons[type]}
-                                                                                                                            <div class="flex-1">
-                                                                                                                                <h4 class="font-semibold text-primary">${title}</h4>
-                                                                                                                                <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
-                                                                                                                            </div>
-                                                                                                                            <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
-                                                                                                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                                                                                                                </svg>
-                                                                                                                            </button>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                `;
+                                                                                                                                <div class="bg-white shadow-modal rounded-lg p-4 border-l-4 ${colors[type]}">
+                                                                                                                                    <div class="flex items-start space-x-3">
+                                                                                                                                        ${icons[type]}
+                                                                                                                                        <div class="flex-1">
+                                                                                                                                            <h4 class="font-semibold text-primary">${title}</h4>
+                                                                                                                                            <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                                                                                                                                        </div>
+                                                                                                                                        <button onclick="hideDashboardNotification()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+                                                                                                                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                                                                                                                            </svg>
+                                                                                                                                        </button>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                            `;
 
             notification.classList.remove('translate-x-full');
 
@@ -1083,20 +1085,20 @@
         // Add CSS for active nav items
         const styling = document.createElement('style');
         styling.textContent = `
-                                                                                                                .nav-item.active {
-                                                                                                                    background-color: var(--color-primary);
-                                                                                                                    color: white;
-                                                                                                                }
+                                                                                                                            .nav-item.active {
+                                                                                                                                background-color: var(--color-primary);
+                                                                                                                                color: white;
+                                                                                                                            }
 
-                                                                                                                .content-section {
-                                                                                                                    animation: fadeIn 0.3s ease-in-out;
-                                                                                                                }
+                                                                                                                            .content-section {
+                                                                                                                                animation: fadeIn 0.3s ease-in-out;
+                                                                                                                            }
 
-                                                                                                                @keyframes fadeIn {
-                                                                                                                    from { opacity: 0; transform: translateY(10px); }
-                                                                                                                    to { opacity: 1; transform: translateY(0); }
-                                                                                                                }
-                                                                                                            `;
+                                                                                                                            @keyframes fadeIn {
+                                                                                                                                from { opacity: 0; transform: translateY(10px); }
+                                                                                                                                to { opacity: 1; transform: translateY(0); }
+                                                                                                                            }
+                                                                                                                        `;
         document.head.appendChild(styling);
 
 
@@ -1356,24 +1358,20 @@
         }
 
         //account deletion
-        function showWarningModal() {
-            document.getElementById('warningModal').classList.remove('hidden');
-            document.getElementById('warningModal').classList.add('flex');
+        function showDeleteWarningModal() {
+            document.getElementById('delete-warning-modal-wrapper').classList.remove('hidden');
         }
 
-        function closeWarningModal() {
-            document.getElementById('warningModal').classList.add('hidden');
+        function closeDeleteWarningModal() {
+            document.getElementById('delete-warning-modal-wrapper').classList.add('hidden');
         }
 
-        function submitDeletionForm() {
-            // Hide modal first
-            closeWarningModal();
+        function confirmAccountDeletion() {
+            closeDeleteWarningModal();
 
-            // Get form
             const form = document.getElementById('deleteAccountForm');
-
-            // Submit via Fetch API
             const formData = new FormData(form);
+
             fetch(form.action, {
                 method: 'POST',
                 headers: {
@@ -1384,25 +1382,30 @@
             })
                 .then(async response => {
                     const data = await response.json();
-
                     if (response.ok) {
-                        showNotify("✅ Account deleted successfully.");
+                        showNotification("✅ Your account has been deleted.");
                         setTimeout(() => {
-                            window.location.href = "{{ url('/') }}"; // Redirect to home
+                            window.location.href = "{{ url('/') }}";
                         }, 2000);
                     } else {
-                        let message = data?.message || '❌ Failed to delete account.';
-                        showNotify(message);
+                        showNotification(data?.message || "❌ Unable to delete account.");
                     }
                 })
-                .catch(error => {
-                    console.error(error);
-                    showNotify("❌ An unexpected error occurred.");
+                .catch(() => {
+                    showNotification("❌ Something went wrong. Please try again.");
                 });
         }
         //account deletion
 
-
+        function showNotification(message) {
+            const box = document.getElementById('notification');
+            const msg = document.getElementById('notificationMessage');
+            msg.textContent = message;
+            box.classList.remove('hidden');
+            setTimeout(() => {
+                box.classList.add('hidden');
+            }, 4000);
+        }
 
 
         // Toast Notification
@@ -1442,9 +1445,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                        <div class="font-semibold">${styles[type].title}</div>
-                                                                                                        <div class="text-sm opacity-90">${message}</div>
-                                                                                                    `;
+                                                                                                                    <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                    <div class="text-sm opacity-90">${message}</div>
+                                                                                                                `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1478,19 +1481,19 @@
                         data.forEach(session => {
                             const isCurrent = session.is_current ? 'bg-success-50 border-success-200' : 'border-secondary-200';
                             sessionContainer.innerHTML += `
-                                                                <div class="flex items-center justify-between p-4 border ${isCurrent} rounded-lg">
-                                                                    <div class="flex items-center space-x-3">
-                                                                        <div class="w-3 h-3 ${session.is_current ? 'bg-success' : 'bg-secondary-400'} rounded-full"></div>
-                                                                        <div>
-                                                                            <h4 class="font-semibold text-primary">${session.device} - ${session.browser}</h4>
-                                                                            <p class="text-secondary-600 text-sm">${session.platform} • ${session.location ?? 'Unknown'} • Last active: ${session.last_active_at}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    ${session.is_current
+                                                                            <div class="flex items-center justify-between p-4 border ${isCurrent} rounded-lg">
+                                                                                <div class="flex items-center space-x-3">
+                                                                                    <div class="w-3 h-3 ${session.is_current ? 'bg-success' : 'bg-secondary-400'} rounded-full"></div>
+                                                                                    <div>
+                                                                                        <h4 class="font-semibold text-primary">${session.device} - ${session.browser}</h4>
+                                                                                        <p class="text-secondary-600 text-sm">${session.platform} • ${session.location ?? 'Unknown'} • Last active: ${session.last_active_at}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                ${session.is_current
                                     ? '<span class="text-success text-sm font-semibold">This Device</span>'
                                     : `<button class="text-error hover:text-error-600 text-sm font-semibold" onclick="revokeSession(${session.id})">Revoke</button>`}
-                                                                </div>
-                                                            `;
+                                                                            </div>
+                                                                        `;
                         });
                     });
             }
@@ -1535,20 +1538,20 @@
 
                 // Show a loader
                 ordersContainer.innerHTML = `
-                                    <div class="flex justify-center py-10">
-                                        <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-primary"></div>
-                                    </div>
-                                `;
+                                                <div class="flex justify-center py-10">
+                                                    <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-primary"></div>
+                                                </div>
+                                            `;
 
                 fetch(`{{ route('profile.orders.filter') }}?status=${selectedStatus}`)
                     .then(response => response.json())
                     .then(data => {
                         if (!data.orders.length) {
                             ordersContainer.innerHTML = `
-                                                <div class="text-center py-8 text-secondary-500">
-                                                    <p>No orders found in this category.</p>
-                                                </div>
-                                            `;
+                                                            <div class="text-center py-8 text-secondary-500">
+                                                                <p>No orders found in this category.</p>
+                                                            </div>
+                                                        `;
                             return;
                         }
 
@@ -1572,72 +1575,72 @@
 
                             // Build full HTML card like Blade structure
                             html += `
-                                                <div class="border border-secondary-200 rounded-lg p-6 hover:shadow-hover transition-fast mb-4">
-                                                    <div class="flex items-center justify-between mb-4">
-                                                        <div>
-                                                            <h3 class="font-semibold text-primary">Order #${orderNo}</h3>
-                                                            <p class="text-secondary-600">
-                                                                ${date} • ${currency} ${total}
-                                                            </p>
-                                                        </div>
-                                                        <div class="flex items-center space-x-3">
-                                                            <span class="px-3 py-1 ${statusColor} rounded-full text-sm font-semibold">
-                                                                ${status}
-                                                            </span>
-                                                            <button
-                                                                onclick="window.open('/orders/${order.id}/invoice', '_blank')"
-                                                                class="text-accent hover:text-accent-600 font-semibold text-sm">
-                                                                Download Invoice
-                                                            </button>
-                                                        </div>
-                                                    </div>
+                                                            <div class="border border-secondary-200 rounded-lg p-6 hover:shadow-hover transition-fast mb-4">
+                                                                <div class="flex items-center justify-between mb-4">
+                                                                    <div>
+                                                                        <h3 class="font-semibold text-primary">Order #${orderNo}</h3>
+                                                                        <p class="text-secondary-600">
+                                                                            ${date} • ${currency} ${total}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="flex items-center space-x-3">
+                                                                        <span class="px-3 py-1 ${statusColor} rounded-full text-sm font-semibold">
+                                                                            ${status}
+                                                                        </span>
+                                                                        <button
+                                                                            onclick="window.open('/orders/${order.id}/invoice', '_blank')"
+                                                                            class="text-accent hover:text-accent-600 font-semibold text-sm">
+                                                                            Download Invoice
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
 
-                                                    <div class="grid md:grid-cols-3 gap-4">
-                                                        <!-- Items -->
-                                                        <div>
-                                                            <h4 class="font-medium text-secondary-700 mb-2">Items</h4>
-                                                            ${order.items?.map(item => `
-                                                                <p class="text-secondary-600 text-sm">
-                                                                    ${item.product?.name || 'Unnamed'} (${item.quantity}x)
-                                                                    ${currency}${Number(item.price).toLocaleString()}
-                                                                </p>
-                                                            `).join('') || '<p class="text-secondary-500 text-sm">No items</p>'}
-                                                        </div>
+                                                                <div class="grid md:grid-cols-3 gap-4">
+                                                                    <!-- Items -->
+                                                                    <div>
+                                                                        <h4 class="font-medium text-secondary-700 mb-2">Items</h4>
+                                                                        ${order.items?.map(item => `
+                                                                            <p class="text-secondary-600 text-sm">
+                                                                                ${item.product?.name || 'Unnamed'} (${item.quantity}x)
+                                                                                ${currency}${Number(item.price).toLocaleString()}
+                                                                            </p>
+                                                                        `).join('') || '<p class="text-secondary-500 text-sm">No items</p>'}
+                                                                    </div>
 
-                                                        <!-- Delivery -->
-                                                        <div>
-                                                            <h4 class="font-medium text-secondary-700 mb-2">Delivery</h4>
-                                                            <p class="text-secondary-600 text-sm">
-                                                                ${order.shipping_address?.address_line1 || 'N/A'}
-                                                            </p>
-                                                            <p class="text-secondary-600 text-sm">
-                                                                ${order.shipping_address?.city || ''}, ${order.shipping_address?.state || ''}
-                                                            </p>
-                                                        </div>
+                                                                    <!-- Delivery -->
+                                                                    <div>
+                                                                        <h4 class="font-medium text-secondary-700 mb-2">Delivery</h4>
+                                                                        <p class="text-secondary-600 text-sm">
+                                                                            ${order.shipping_address?.address_line1 || 'N/A'}
+                                                                        </p>
+                                                                        <p class="text-secondary-600 text-sm">
+                                                                            ${order.shipping_address?.city || ''}, ${order.shipping_address?.state || ''}
+                                                                        </p>
+                                                                    </div>
 
-                                                        <!-- Actions -->
-                                                        <div>
-                                                            <h4 class="font-medium text-secondary-700 mb-2">Actions</h4>
-                                                            <div class="flex space-x-2">
-                                                                ${order.status === 'processing' || order.status === 'shipped' ? `
-                                                                    <button onclick="window.location.href='/orders/${order.id}/track'"
-                                                                        class="text-primary hover:text-primary-600 text-sm font-semibold">
-                                                                        Track Order
-                                                                    </button>
-                                                                ` : order.status === 'delivered' ? `
-                                                                    <button class="text-success hover:text-success-600 text-sm font-semibold">
-                                                                        Leave Review
-                                                                    </button>
-                                                                ` : ''}
-                                                                <button onclick="reorderItems()"
-                                                                    class="text-accent hover:text-accent-600 text-sm font-semibold">
-                                                                    Reorder
-                                                                </button>
+                                                                    <!-- Actions -->
+                                                                    <div>
+                                                                        <h4 class="font-medium text-secondary-700 mb-2">Actions</h4>
+                                                                        <div class="flex space-x-2">
+                                                                            ${order.status === 'processing' || order.status === 'shipped' ? `
+                                                                                <button onclick="window.location.href='/orders/${order.id}/track'"
+                                                                                    class="text-primary hover:text-primary-600 text-sm font-semibold">
+                                                                                    Track Order
+                                                                                </button>
+                                                                            ` : order.status === 'delivered' ? `
+                                                                                <button class="text-success hover:text-success-600 text-sm font-semibold">
+                                                                                    Leave Review
+                                                                                </button>
+                                                                            ` : ''}
+                                                                            <button onclick="reorderItems()"
+                                                                                class="text-accent hover:text-accent-600 text-sm font-semibold">
+                                                                                Reorder
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            `;
+                                                        `;
                         });
 
                         ordersContainer.innerHTML = html;
@@ -1645,10 +1648,10 @@
                     .catch(error => {
                         console.error('Error loading filtered orders:', error);
                         ordersContainer.innerHTML = `
-                                            <p class="text-center text-red-500 py-6">
-                                                Failed to load orders. Please try again later.
-                                            </p>
-                                        `;
+                                                        <p class="text-center text-red-500 py-6">
+                                                            Failed to load orders. Please try again later.
+                                                        </p>
+                                                    `;
                     });
             });
         });

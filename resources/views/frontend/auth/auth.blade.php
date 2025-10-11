@@ -11,10 +11,10 @@
         }
     </style>
 
-    <div id="toast"
-        class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded shadow-lg opacity-0 transition-opacity duration-300 z-50">
-        <span id="toastMessage"></span>
-    </div>
+
+
+
+
     <!-- Main Authentication Section -->
     <section
         class="min-h-screen bg-gradient-to-br from-primary-50 to-accent-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -582,7 +582,23 @@
         </div>
     </section>
 
+    <!-- Toast Notification -->
+    <div id="notification-login"
+        class="fixed right-6 max-w-sm w-full flex items-start space-x-4 p-4 rounded-lg shadow-lg border transition-all duration-300 transform" style="z-index: 999999; background-color: green;">
+        <div id="notificationIcon" class="flex-shrink-0"></div>
+        <div class="flex-1">
+            <p id="notificationMessage" class="text-sm font-medium text-gray-800"></p>
+        </div>
+        <button onclick="hideNotification()"
+            class="text-gray-400 hover:text-gray-600 transition p-1 rounded-full hover:bg-gray-100">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+
     <script>
+
         document.addEventListener("DOMContentLoaded", function () {
             const urlParams = new URLSearchParams(window.location.search);
             const formType = urlParams.get('form');
@@ -601,7 +617,7 @@
         });
 
 
-        
+
         const passwordInput = document.getElementById('signupPassword');
         const confirmPasswordInput = document.getElementById('signupPasswordConfirm');
         const submitBtn = document.getElementById('signupSubmitBtn');
@@ -704,11 +720,11 @@
             // Start loading
             verifyButton.disabled = true;
             verifyButton.innerHTML = `
-            <svg class="animate-spin h-5 w-5 mx-auto text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-            </svg>
-        `;
+                    <svg class="animate-spin h-5 w-5 mx-auto text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                    </svg>
+                `;
 
             fetch("{{ route('verify-otp') }}", {
                 method: "POST",
@@ -804,24 +820,24 @@
         // Add CSS for form toggles
         const style = document.createElement('style');
         style.textContent = `
-                .form-toggle {
-                    position: relative;
-                    color: var(--color-secondary-600);
-                }
+                        .form-toggle {
+                            position: relative;
+                            color: var(--color-secondary-600);
+                        }
 
-                .form-toggle.active {
-                    color: var(--color-primary);
-                    border-bottom: 2px solid var(--color-primary);
-                }
+                        .form-toggle.active {
+                            color: var(--color-primary);
+                            border-bottom: 2px solid var(--color-primary);
+                        }
 
-                .auth-form {
-                    display: none;
-                }
+                        .auth-form {
+                            display: none;
+                        }
 
-                .auth-form.active {
-                    display: block;
-                }
-            `;
+                        .auth-form.active {
+                            display: block;
+                        }
+                    `;
         document.head.appendChild(style);
 
         // Initialize first form as active
@@ -830,5 +846,71 @@
                 'border-primary');
             document.querySelector('[data-form="signin"]').classList.remove('text-secondary-600');
         });
+
+
+
+          document.addEventListener('DOMContentLoaded', function () {
+        @if(session('success'))
+            showNotification("{{ session('success') }}", "success");
+        @endif
+
+        @if($errors->any())
+            @php
+                $errorMsg = $errors->first();
+            @endphp
+            showNotification("{{ $errorMsg }}", "error");
+        @endif
+    });
+
+    function showNotification(message, type = 'info') {
+        const box = document.getElementById('notification-login');
+        const msg = document.getElementById('notificationMessage');
+        const icon = document.getElementById('notificationIcon');
+
+        // Reset styles
+        box.className = 'fixed top-6 right-6 max-w-sm w-full flex items-start space-x-4 p-4 rounded-lg shadow-lg border transition-all duration-300 transform z-[9999999]';
+
+        msg.textContent = message;
+
+        switch (type) {
+            case 'success':
+                box.classList.add('bg-green-100', 'border-green-300', 'text-green-700');
+                icon.innerHTML = `
+                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5 13l4 4L19 7" />
+                    </svg>
+                `;
+                break;
+            case 'error':
+                box.classList.add('bg-red-100', 'border-red-300', 'text-red-700');
+                icon.innerHTML = `
+                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                `;
+                break;
+            default:
+                box.classList.add('bg-blue-100', 'border-blue-300', 'text-blue-700');
+                icon.innerHTML = `
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                    </svg>
+                `;
+        }
+
+        box.classList.remove('hidden');
+
+        setTimeout(() => {
+            hideNotification();
+        }, 4000);
+    }
+
+    function hideNotification() {
+        const box = document.getElementById('notification-login');
+        box.classList.add('hidden');
+    }
     </script>
 @endsection
