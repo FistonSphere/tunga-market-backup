@@ -245,67 +245,26 @@
         </section>
 
 
-        <!-- Data Usage Section -->
-        <section id="data-usage" class="mb-12">
+        <!-- Information we collect -->
+        <section id="data-collection" class="mb-12">
             <div class="bg-white rounded-2xl shadow-card overflow-hidden">
-                <div class="bg-gradient-to-r from-success to-success-600 text-white p-6">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-primary to-primary-700 text-white p-6">
                     <h2 class="text-subheading font-semibold mb-2 flex items-center">
                         <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                d="M12 4v1m0 14v1m8-9h1M3 12H2m15.364-7.364l.707.707M6.343 17.657l-.707.707M18.364 17.657l.707-.707M5.636 6.343l-.707-.707" />
                         </svg>
-                        2. How We Use Information
+                        2. Information We Collect
                     </h2>
-                    <p class="text-success-100">Your data helps us provide and improve our services while respecting your
-                        privacy.</p>
+                    <p class="text-primary-100">We collect data necessary to deliver our services effectively, securely, and
+                        in compliance with Rwandan privacy laws.</p>
                 </div>
+
+                <!-- Content -->
                 <div class="p-8">
                     <div class="grid md:grid-cols-2 gap-8">
-                        <!-- Platform Functionality -->
-                        <div class="space-y-4">
-                            <div class="flex items-center mb-4">
-                                <div class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center mr-3">
-                                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                </div>
-                                <h3 class="font-semibold text-primary">Platform Functionality</h3>
-                            </div>
-                            <ul class="space-y-3">
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Process orders and manage
-                                        transactions</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Provide customer support and resolve
-                                        issues</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Maintain account security and prevent
-                                        fraud</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- Personalization -->
+                        <!-- Account Information -->
                         <div class="space-y-4">
                             <div class="flex items-center mb-4">
                                 <div class="w-8 h-8 bg-accent-100 rounded-lg flex items-center justify-center mr-3">
@@ -314,7 +273,51 @@
                                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                     </svg>
                                 </div>
-                                <h3 class="font-semibold text-primary">Personalization</h3>
+                                <h3 class="font-semibold text-primary">Account Information</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-primary mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Full name, email, phone number, and login
+                                        credentials (encrypted).</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-primary mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Business or seller registration data
+                                        (company name, TIN, and verification documents).</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-primary mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Security preferences, two-factor
+                                        authentication, and password recovery settings.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Transaction Information -->
+                        <div class="space-y-4">
+                            <div class="flex items-center mb-4">
+                                <div class="w-8 h-8 bg-success-100 rounded-lg flex items-center justify-center mr-3">
+                                    <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8c-2.21 0-4 .895-4 2v6h8v-6c0-1.105-1.79-2-4-2z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 2v4m0 16v-4m8-8h2M2 10h2" />
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold text-primary">Transaction & Payment Data</h3>
                             </div>
                             <ul class="space-y-3">
                                 <li class="flex items-start">
@@ -323,8 +326,8 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span class="text-body-sm text-secondary-600">Recommend relevant products and
-                                        services</span>
+                                    <span class="text-body-sm text-secondary-600">Order history, invoices, and payment
+                                        method details (processed securely via payment gateways).</span>
                                 </li>
                                 <li class="flex items-start">
                                     <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
@@ -332,16 +335,78 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span class="text-body-sm text-secondary-600">Customize your shopping experience</span>
+                                    <span class="text-body-sm text-secondary-600">Delivery and shipping details, including
+                                        address and contact recipient.</span>
                                 </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <hr class="my-10 border-gray-200">
+
+                    <!-- Behavioral & Technical Data -->
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <div class="flex items-center mb-4">
+                                <div class="w-8 h-8 bg-warning-100 rounded-lg flex items-center justify-center mr-3">
+                                    <svg class="w-4 h-4 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 10l4.553 2.276A1 1 0 0120 13.138v5.724a1 1 0 01-.447.862L15 22M9 10L4.447 12.276A1 1 0 004 13.138v5.724a1 1 0 00.447.862L9 22" />
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold text-primary">Behavioral & Technical Data</h3>
+                            </div>
+                            <ul class="space-y-3">
                                 <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
+                                    <svg class="w-4 h-4 text-warning mt-1 mr-3 flex-shrink-0" fill="none"
                                         stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span class="text-body-sm text-secondary-600">Show targeted content and
-                                        promotions</span>
+                                    <span class="text-body-sm text-secondary-600">Browsing activity, clicks, searches, and
+                                        session duration on our platform.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-warning mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Device type, IP address, browser version,
+                                        and operating system for analytics and security.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Optional: Communications Data -->
+                        <div class="space-y-4">
+                            <div class="flex items-center mb-4">
+                                <div class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center mr-3">
+                                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 10h8m-8 4h6m-9 6h12a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold text-primary">Communication & Support Data</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-primary mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Messages sent to customer support or live
+                                        chat, including attachments or screenshots.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-primary mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Survey responses, product feedback, and
+                                        review submissions.</span>
                                 </li>
                             </ul>
                         </div>
@@ -349,6 +414,7 @@
                 </div>
             </div>
         </section>
+
 
         <!-- User Rights Section -->
         <section id="user-rights" class="mb-12">
