@@ -464,8 +464,7 @@
                                 </svg>
                             </div>
                             <h3 class="font-semibold text-primary mb-3">Encryption</h3>
-                            <p class="text-body-sm text-secondary-600">All data is encrypted both at rest and in transit
-                                using industry-standard AES-256 encryption.</p>
+                            <p class="text-body-sm text-secondary-600">Your personal data is encrypted both at rest and in transit using industry-standard AES-256 encryption, keeping your shopping and account information safe.</p>
                         </div>
 
                         <div class="text-center">
@@ -475,9 +474,8 @@
                                         d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
                             </div>
-                            <h3 class="font-semibold text-primary mb-3">Access Controls</h3>
-                            <p class="text-body-sm text-secondary-600">Strict access controls ensure only authorized
-                                personnel can access your information.</p>
+                            <h3 class="font-semibold text-primary mb-3">Account Protection</h3>
+                            <p class="text-body-sm text-secondary-600">We use strong account security and privacy controls so only you can access your personal information and order history.</p>
                         </div>
 
                         <div class="text-center">
@@ -487,9 +485,8 @@
                                         d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                                 </svg>
                             </div>
-                            <h3 class="font-semibold text-primary mb-3">Incident Response</h3>
-                            <p class="text-body-sm text-secondary-600">24/7 monitoring with rapid incident response
-                                procedures to address any security concerns.</p>
+                            <h3 class="font-semibold text-primary mb-3">Continuous Monitoring</h3>
+                            <p class="text-body-sm text-secondary-600">We monitor our systems 24/7 and respond quickly to any suspicious activity to keep your shopping experience secure.</p>
                         </div>
                     </div>
 
