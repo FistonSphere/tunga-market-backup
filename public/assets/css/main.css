@@ -5839,6 +5839,7 @@ div#wishlist-overlay {
 }
 @media (max-width: 390px) {
     #notification-login {
-        bottom: 40em !important;
+        bottom: 30em !important;
+        width: 90%;
     }
 }
