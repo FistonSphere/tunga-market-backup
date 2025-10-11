@@ -252,7 +252,8 @@
 
                     @guest
                         <a href="{{ route('login') }}" class="text-primary hover:text-accent transition-fast">Sign In</a>
-                        <a href="{{ route('login') }}" class="btn-primary">Get Started</a>
+                        <a href="{{ route('login', ['form' => 'signup']) }}" class="btn-primary">Get Started</a>
+
                     @endguest
                 </div>
 

@@ -156,8 +156,7 @@
                         @csrf
                         <div>
                             <label class="block text-sm font-medium text-secondary-700 mb-2">Email Address</label>
-                            <input type="email" class="input-field" name="email" placeholder="Enter your email"
-                                required />
+                            <input type="email" class="input-field" name="email" placeholder="Enter your email" required />
                         </div>
 
                         <div>
@@ -198,8 +197,7 @@
                         <div class="flex items-start space-x-3">
                             <div
                                 class="w-5 h-5 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <svg class="w-3 h-3 text-primary" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
+                                <svg class="w-3 h-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
@@ -267,13 +265,12 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-secondary-700 mb-2">First Name</label>
-                                <input type="text" class="input-field" placeholder="First Name" name= "first_name"
+                                <input type="text" class="input-field" placeholder="First Name" name="first_name"
                                     required />
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-secondary-700 mb-2">Last Name</label>
-                                <input type="text" class="input-field" placeholder="Last Name" name="last_name"
-                                    required />
+                                <input type="text" class="input-field" placeholder="Last Name" name="last_name" required />
                             </div>
                         </div>
 
@@ -283,7 +280,8 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-secondary-700 mb-2">Phone Number</label>
-                            <input type="text" class="input-field" placeholder="(e.g., +25078XXXXXXX)" name="phone" required />
+                            <input type="text" class="input-field" placeholder="(e.g., +25078XXXXXXX)" name="phone"
+                                required />
                         </div>
 
                         <div>
@@ -340,8 +338,8 @@
                             <input type="checkbox" id="agreeTerms"
                                 class="mt-1 rounded border-secondary-300 text-primary focus:ring-primary" required />
                             <label for="agreeTerms" class="text-sm text-secondary-600">
-                                I agree to the <a href="#"
-                                    class="text-accent hover:text-accent-600 font-medium">Terms of Service</a> and
+                                I agree to the <a href="#" class="text-accent hover:text-accent-600 font-medium">Terms of
+                                    Service</a> and
                                 <a href="#" class="text-accent hover:text-accent-600 font-medium">Privacy
                                     Policy</a>
                             </label>
@@ -357,8 +355,7 @@
                         <div class="flex items-start space-x-3">
                             <div
                                 class="w-5 h-5 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <svg class="w-3 h-3 text-accent" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
+                                <svg class="w-3 h-3 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
@@ -586,6 +583,25 @@
     </section>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const formType = urlParams.get('form');
+
+            if (formType === 'signup') {
+                // Remove 'active' class from Sign In button & form
+                document.querySelector('[data-form="signin"]').classList.remove('active');
+                document.getElementById('signinForm').classList.remove('active');
+                document.getElementById('signinForm').classList.add('hidden');
+
+                // Add 'active' class to Sign Up button & form
+                document.querySelector('[data-form="signup"]').classList.add('active');
+                document.getElementById('signupForm').classList.remove('hidden');
+                document.getElementById('signupForm').classList.add('active');
+            }
+        });
+
+
+        
         const passwordInput = document.getElementById('signupPassword');
         const confirmPasswordInput = document.getElementById('signupPasswordConfirm');
         const submitBtn = document.getElementById('signupSubmitBtn');
@@ -656,17 +672,17 @@
         const otpButton = document.querySelector("#otpModal button");
         const otpInput = document.getElementById("otpInput");
 
-        document.getElementById("registerForm").addEventListener("submit", function(e) {
+        document.getElementById("registerForm").addEventListener("submit", function (e) {
             e.preventDefault();
             const formData = new FormData(this);
 
             fetch("{{ route('register-user') }}", {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
-                    },
-                    body: formData,
-                })
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                },
+                body: formData,
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.message) {
@@ -688,22 +704,22 @@
             // Start loading
             verifyButton.disabled = true;
             verifyButton.innerHTML = `
-        <svg class="animate-spin h-5 w-5 mx-auto text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-        </svg>
-    `;
+            <svg class="animate-spin h-5 w-5 mx-auto text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+        `;
 
             fetch("{{ route('verify-otp') }}", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
-                    },
-                    body: JSON.stringify({
-                        otp
-                    })
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                },
+                body: JSON.stringify({
+                    otp
                 })
+            })
                 .then(res => res.json())
                 .then(data => {
                     verifyButton.disabled = false;
@@ -745,7 +761,7 @@
 
     <script>
         // Mobile menu toggle
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        document.getElementById('mobileMenuBtn').addEventListener('click', function () {
             const mobileMenu = document.getElementById('mobileMenu');
             mobileMenu.classList.toggle('hidden');
         });
@@ -755,7 +771,7 @@
         const authForms = document.querySelectorAll('.auth-form');
 
         formToggles.forEach(toggle => {
-            toggle.addEventListener('click', function() {
+            toggle.addEventListener('click', function () {
                 const targetForm = this.dataset.form;
 
                 // Reset all toggles and forms
@@ -788,28 +804,28 @@
         // Add CSS for form toggles
         const style = document.createElement('style');
         style.textContent = `
-            .form-toggle {
-                position: relative;
-                color: var(--color-secondary-600);
-            }
+                .form-toggle {
+                    position: relative;
+                    color: var(--color-secondary-600);
+                }
 
-            .form-toggle.active {
-                color: var(--color-primary);
-                border-bottom: 2px solid var(--color-primary);
-            }
+                .form-toggle.active {
+                    color: var(--color-primary);
+                    border-bottom: 2px solid var(--color-primary);
+                }
 
-            .auth-form {
-                display: none;
-            }
+                .auth-form {
+                    display: none;
+                }
 
-            .auth-form.active {
-                display: block;
-            }
-        `;
+                .auth-form.active {
+                    display: block;
+                }
+            `;
         document.head.appendChild(style);
 
         // Initialize first form as active
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('[data-form="signin"]').classList.add('active', 'text-primary', 'border-b-2',
                 'border-primary');
             document.querySelector('[data-form="signin"]').classList.remove('text-secondary-600');

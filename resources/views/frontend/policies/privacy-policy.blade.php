@@ -623,336 +623,19 @@
         <section id="user-rights" class="mb-12">
             <div class="bg-white rounded-2xl shadow-card overflow-hidden">
                 <!-- Header -->
-                <div class="bg-gradient-to-r from-success to-success-600 text-white p-6">
-                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
-                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 13l4 4L19 7M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" />
-                        </svg>
-                        7. Your Rights & Choices
-                    </h2>
-                    <p class="text-success-100">You have control over your personal data and how we use it.</p>
-                </div>
-
-                <!-- Content -->
-                <div class="p-8 space-y-8">
-                    <!-- Access & Correction -->
-                    <div class="border-l-4 border-primary pl-6">
-                        <h3 class="font-semibold text-primary mb-3 flex items-center">
-                            <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-3">
-                                <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 8 8">
-                                    <circle cx="4" cy="4" r="3" />
-                                </svg>
-                            </div>
-                            Access & Correction
-                        </h3>
-                        <p class="text-body text-secondary-600">
-                            You have the right to request access to the personal data we hold about you. You may also
-                            request
-                            corrections or updates if your data is inaccurate, incomplete, or outdated.
-                        </p>
-                    </div>
-
-                    <!-- Data Portability -->
-                    <div class="border-l-4 border-accent pl-6">
-                        <h3 class="font-semibold text-primary mb-3 flex items-center">
-                            <div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center mr-3">
-                                <svg class="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 8 8">
-                                    <circle cx="4" cy="4" r="3" />
-                                </svg>
-                            </div>
-                            Data Portability
-                        </h3>
-                        <p class="text-body text-secondary-600">
-                            Where technically feasible, you may request a copy of your personal data in a structured,
-                            commonly
-                            used, and machine-readable format for transfer to another service provider.
-                        </p>
-                    </div>
-
-                    <!-- Consent Withdrawal -->
-                    <div class="border-l-4 border-success pl-6">
-                        <h3 class="font-semibold text-primary mb-3 flex items-center">
-                            <div class="w-6 h-6 bg-success-100 rounded-full flex items-center justify-center mr-3">
-                                <svg class="w-3 h-3 text-success" fill="currentColor" viewBox="0 0 8 8">
-                                    <circle cx="4" cy="4" r="3" />
-                                </svg>
-                            </div>
-                            Withdrawal of Consent
-                        </h3>
-                        <p class="text-body text-secondary-600">
-                            You can withdraw your consent for certain processing activities at any time, without affecting
-                            the
-                            lawfulness of processing based on consent before withdrawal.
-                        </p>
-                    </div>
-
-                    <!-- Deletion / Erasure -->
-                    <div class="border-l-4 border-warning pl-6">
-                        <h3 class="font-semibold text-primary mb-3 flex items-center">
-                            <div class="w-6 h-6 bg-warning-100 rounded-full flex items-center justify-center mr-3">
-                                <svg class="w-3 h-3 text-warning" fill="currentColor" viewBox="0 0 8 8">
-                                    <circle cx="4" cy="4" r="3" />
-                                </svg>
-                            </div>
-                            Deletion / Erasure
-                        </h3>
-                        <p class="text-body text-secondary-600">
-                            You may request the deletion of your personal data when it is no longer necessary for the
-                            purposes
-                            it was collected, or if you object to the processing and there is no overriding legitimate
-                            reason to
-                            retain it. Certain legal or contractual obligations may prevent immediate deletion.
-                        </p>
-                    </div>
-
-                    <!-- Objection & Restriction -->
-                    <div class="border-l-4 border-info pl-6">
-                        <h3 class="font-semibold text-primary mb-3 flex items-center">
-                            <div class="w-6 h-6 bg-info-100 rounded-full flex items-center justify-center mr-3">
-                                <svg class="w-3 h-3 text-info" fill="currentColor" viewBox="0 0 8 8">
-                                    <circle cx="4" cy="4" r="3" />
-                                </svg>
-                            </div>
-                            Objection & Restriction
-                        </h3>
-                        <p class="text-body text-secondary-600">
-                            You may object to the processing of your personal data for marketing purposes or request that we
-                            restrict processing while we verify or resolve any concerns regarding accuracy or legality.
-                        </p>
-                    </div>
-
-                    <!-- How to Exercise Rights -->
-                    <div class="border-l-4 border-accent pl-6">
-                        <h3 class="font-semibold text-primary mb-3 flex items-center">
-                            <div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center mr-3">
-                                <svg class="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 8 8">
-                                    <circle cx="4" cy="4" r="3" />
-                                </svg>
-                            </div>
-                            How to Exercise Your Rights
-                        </h3>
-                        <p class="text-body text-secondary-600">
-                            To exercise any of the rights above, you can contact us at
-                            <strong>privacy@tungamarket.rw</strong>
-                            or through your account dashboard. We will respond to your request within the timelines required
-                            by
-                            Law No. 058/2021.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-
-
-        <!-- How we use information Section -->
-        <section id="data-usage" class="mb-12">
-            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
-                <div class="bg-gradient-to-r from-primary to-primary-600 text-white p-6">
-                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
-                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12h6m2 8H7a2 2 0 01-2-2V6a2 2 0 012-2h5l2 2h6a2 2 0 012 2v12a2 2 0 01-2 2z" />
-                        </svg>
-                        4. How We Use Information
-                    </h2>
-                    <p class="text-primary-100">We use your data responsibly to operate, enhance, and secure our services
-                        while
-                        respecting your privacy and legal rights.</p>
-                </div>
-                <div class="p-8 space-y-10">
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <!-- Service Operations -->
-                        <div class="space-y-4">
-                            <div class="flex items-center mb-4">
-                                <div class="w-8 h-8 bg-success-100 rounded-lg flex items-center justify-center mr-3">
-                                    <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
-                                <h3 class="font-semibold text-primary">Service Operations & Improvement</h3>
-                            </div>
-                            <ul class="space-y-3">
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Operate, maintain, and improve the
-                                        functionality of our platform.</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Provide support, resolve issues, and
-                                        respond to user requests.</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Ensure system reliability, detect fraud,
-                                        and maintain data integrity.</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- Communication -->
-                        <div class="space-y-4">
-                            <div class="flex items-center mb-4">
-                                <div class="w-8 h-8 bg-accent-100 rounded-lg flex items-center justify-center mr-3">
-                                    <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-9 13V10" />
-                                    </svg>
-                                </div>
-                                <h3 class="font-semibold text-primary">Communication & Updates</h3>
-                            </div>
-                            <ul class="space-y-3">
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Send important notifications, service
-                                        updates, or policy changes.</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Respond to customer service inquiries and
-                                        feedback.</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Send marketing communications (only with
-                                        your consent).</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <!-- Legal and Security -->
-                        <div class="space-y-4">
-                            <div class="flex items-center mb-4">
-                                <div class="w-8 h-8 bg-warning-100 rounded-lg flex items-center justify-center mr-3">
-                                    <svg class="w-4 h-4 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <h3 class="font-semibold text-primary">Legal & Security Obligations</h3>
-                            </div>
-                            <ul class="space-y-3">
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Comply with legal, regulatory, and
-                                        anti-fraud requirements.</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Protect the rights, property, and safety
-                                        of users and the company.</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Fulfill obligations under Rwanda’s data
-                                        protection laws.</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- Analytics and Improvement -->
-                        <div class="space-y-4">
-                            <div class="flex items-center mb-4">
-                                <div class="w-8 h-8 bg-info-100 rounded-lg flex items-center justify-center mr-3">
-                                    <svg class="w-4 h-4 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M11 19a8 8 0 100-16 8 8 0 000 16zm4-9H8m4 4H8" />
-                                    </svg>
-                                </div>
-                                <h3 class="font-semibold text-primary">Analytics & Service Enhancement</h3>
-                            </div>
-                            <ul class="space-y-3">
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Analyze user behavior to improve usability
-                                        and experience.</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Measure marketing campaign
-                                        effectiveness.</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Develop new features and improve service
-                                        delivery.</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-
-        <!-- User Rights Section -->
-        <section id="user-rights" class="mb-12">
-            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
                 <div class="bg-gradient-to-r from-accent to-accent-600 text-white p-6">
                     <h2 class="text-subheading font-semibold mb-2 flex items-center">
                         <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                         </svg>
-                        3. Your Rights & Controls
+                        7. Your Rights & Choices
                     </h2>
-                    <p class="text-accent-100">You have full control over your personal data and privacy settings.</p>
+                    <p class="text-accent-100">You have full control over your personal data and privacy settings, in line
+                        with Rwandan law.</p>
                 </div>
+
+                <!-- Content -->
                 <div class="p-8">
                     <div class="grid md:grid-cols-2 gap-8 mb-8">
                         <!-- Data Access -->
@@ -967,8 +650,8 @@
                                 </svg>
                                 Access Your Data
                             </h3>
-                            <p class="text-body-sm text-secondary-600 mb-4">Request a copy of all personal information we
-                                have about you.</p>
+                            <p class="text-body-sm text-secondary-600 mb-4">Request a full copy of personal information that
+                                we hold about you, including account, transaction, and interaction data.</p>
                             <a href="user_account_dashboard.html?section=privacy"
                                 class="inline-flex items-center text-primary hover:text-accent transition-fast font-medium text-body-sm">
                                 Go to Privacy Settings
@@ -989,8 +672,8 @@
                                 </svg>
                                 Correct Your Data
                             </h3>
-                            <p class="text-body-sm text-secondary-600 mb-4">Update or correct any inaccurate personal
-                                information.</p>
+                            <p class="text-body-sm text-secondary-600 mb-4">Update or correct any inaccurate or incomplete
+                                personal information to ensure it is accurate and up to date.</p>
                             <a href="user_account_dashboard.html?section=profile"
                                 class="inline-flex items-center text-success hover:text-success-600 transition-fast font-medium text-body-sm">
                                 Edit Profile
@@ -1011,8 +694,8 @@
                                 </svg>
                                 Delete Your Data
                             </h3>
-                            <p class="text-body-sm text-secondary-600 mb-4">Request deletion of your personal information
-                                (right to be forgotten).</p>
+                            <p class="text-body-sm text-secondary-600 mb-4">Exercise your “right to be forgotten” by
+                                requesting deletion of personal data, subject to legal or contractual obligations.</p>
                             <a href="user_account_dashboard.html?section=privacy&action=delete"
                                 class="inline-flex items-center text-warning hover:text-warning-600 transition-fast font-medium text-body-sm">
                                 Request Deletion
@@ -1032,8 +715,8 @@
                                 </svg>
                                 Export Your Data
                             </h3>
-                            <p class="text-body-sm text-secondary-600 mb-4">Download your data in a portable,
-                                machine-readable format.</p>
+                            <p class="text-body-sm text-secondary-600 mb-4">Download your personal data in a structured,
+                                machine-readable format for portability and transfer.</p>
                             <a href="user_account_dashboard.html?section=privacy&action=export"
                                 class="inline-flex items-center text-accent hover:text-accent-600 transition-fast font-medium text-body-sm">
                                 Export Data
@@ -1045,26 +728,12 @@
                         </div>
                     </div>
 
-                    <!-- Quick Actions -->
-                    <div class="bg-secondary-50 rounded-xl p-6">
-                        <h3 class="font-semibold text-primary mb-4">Quick Privacy Actions</h3>
-                        <div class="flex flex-wrap gap-3">
-                            <button onclick="openPrivacySettings()" class="btn-primary text-body-sm py-2 px-4">
-                                Privacy Dashboard
-                            </button>
-                            <button onclick="openOptOutSettings()"
-                                class="bg-secondary-200 hover:bg-secondary-300 text-secondary-700 text-body-sm py-2 px-4 rounded-lg transition-fast">
-                                Opt-Out Settings
-                            </button>
-                            <button onclick="contactPrivacyOfficer()"
-                                class="bg-white hover:bg-gray-50 text-secondary-600 text-body-sm py-2 px-4 rounded-lg border border-border transition-fast">
-                                Contact Privacy Officer
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
+
+
+
 
         <!-- Security Section -->
         <section id="security" class="mb-12">
