@@ -674,7 +674,7 @@
                             </h3>
                             <p class="text-body-sm text-secondary-600 mb-4">Update or correct any inaccurate or incomplete
                                 personal information to ensure it is accurate and up to date.</p>
-                            <a href="user_account_dashboard.html?section=profile"
+                            <a href="{{ route('user.profile') }}?id=profile-section"
                                 class="inline-flex items-center text-success hover:text-success-600 transition-fast font-medium text-body-sm">
                                 Edit Profile
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
