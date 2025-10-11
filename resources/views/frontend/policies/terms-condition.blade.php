@@ -534,8 +534,7 @@
 
                         <p>
                             Our data handling practices are outlined in a separate and detailed
-                            <a href=""
-                                class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
+                            <a href="" class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
                                 Privacy Policy
                             </a>, which forms an integral part of these Terms and Conditions.
                             By using the Platform, Users acknowledge and agree to the collection and processing of their
@@ -623,20 +622,108 @@
                 </div>
             </section>
 
-            <!-- Footer -->
-            <div class="bg-gradient-to-r from-orange-50 to-white mt-16 rounded-2xl shadow-inner p-8 text-center">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">📞 Contact Information</h2>
-                <p class="text-gray-700 mb-2">If you have any questions about these Terms, contact us:</p>
-                <ul class="text-gray-700 space-y-2">
-                    <li>Email: <a href="mailto:legal@tungamarket.com"
-                            class="text-blue-600 hover:underline">legal@tungamarket.com</a></li>
-                    <li>Phone: +250 788 000 000</li>
-                    <li>Address: KG 8 Ave, Kigali, Rwanda</li>
-                </ul>
-                <div class="mt-8 border-t pt-4 text-sm text-gray-500">
-                    <p>© {{ date('Y') }} <strong>Tunga Market</strong>. All Rights Reserved.</p>
+            <section id="general-provisions"
+                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mb-10 transition-all duration-300">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 border-b pb-3">
+                    Part 7: General Provisions
+                </h2>
+
+                <!-- Severability -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        Severability
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            If any provision or clause of these Terms and Conditions is found by a court or other competent
+                            authority
+                            to be <strong>invalid, unlawful, or unenforceable</strong>, such provision shall be modified to
+                            the minimum extent
+                            necessary to make it valid and enforceable. If modification is not possible, that clause shall
+                            be deemed
+                            severed, and the remaining provisions shall continue to remain in <strong>full force and
+                                effect</strong>.
+                        </p>
+                    </div>
                 </div>
-            </div>
+
+                <!-- Entire Agreement -->
+                <div class="space-y-6 mt-10">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        Entire Agreement
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            These Terms and Conditions, together with the
+                            <a href="{{ route('privacy.policy') }}"
+                                class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
+                                Privacy Policy
+                            </a>
+                            and the
+                            <a href="{{ route('return.policy') }}"
+                                class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
+                                Return & Refund Policy
+                            </a>, constitute the <strong>entire agreement</strong> between the User and the Company
+                            concerning the use
+                            of the Platform and its related services.
+                        </p>
+
+                        <p>
+                            Any prior agreements, representations, or understandings—whether oral or written—are hereby
+                            superseded
+                            and replaced in full by this document. No employee, agent, or representative of the Company is
+                            authorized
+                            to modify or supplement these Terms without written authorization.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="space-y-6 mt-10">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        Contact Information
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            For any questions, legal concerns, or customer support related to these Terms and Conditions,
+                            Users may
+                            contact the Company through the following official channels:
+                        </p>
+
+                        <div
+                            class="bg-gray-50 dark:bg-gray-800 rounded-xl p-5 mt-4 border border-gray-100 dark:border-gray-700 shadow-sm">
+                            <p class="mb-2"><strong>📧 Legal & Compliance Email:</strong> <a
+                                    href="mailto:legal@yourcompany.rw"
+                                    class="text-blue-600 dark:text-blue-400 underline">legal@yourcompany.rw</a></p>
+                            <p class="mb-2"><strong>📧 Customer Support Email:</strong> <a
+                                    href="mailto:support@yourcompany.rw"
+                                    class="text-blue-600 dark:text-blue-400 underline">support@yourcompany.rw</a></p>
+                            <p><strong>📍 Physical Address:</strong> Kigali, Rwanda</p>
+                        </div>
+
+                        <p class="mt-4">
+                            The Company strives to respond to all legal and customer inquiries within
+                            <strong>five (5) business days</strong> of receipt.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Footer / Closing Note -->
+                <div class="mt-10 border-t pt-6 text-center text-gray-600 dark:text-gray-400 text-sm italic">
+                    <p>
+                        © {{ date('Y') }} YourCompany Ltd. All rights reserved.
+                        These Terms and Conditions were last updated on <strong>{{ date('F j, Y') }}</strong>.
+                    </p>
+                </div>
+            </section>
+
+        
         </div>
 
         <!-- Floating Banner -->
