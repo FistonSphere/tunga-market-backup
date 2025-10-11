@@ -9,21 +9,9 @@
                 <p class="text-gray-500 text-sm">Last Updated: {{ now()->format('F d, Y') }}</p>
             </div>
 
-            <!-- Intro -->
-            <div class="bg-white shadow-md rounded-2xl p-8 mb-8 transition-transform duration-300 hover:shadow-lg">
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    Welcome to <strong class="text-orange-600">Tunga Market</strong>. These Terms and Conditions ("Terms")
-                    govern your access and use of our website and related services. By using our platform, you agree to
-                    these Terms in full.
-                </p>
-                <p class="text-gray-700 leading-relaxed">
-                    If you do not agree with any part of these Terms, please discontinue using Tunga Market immediately.
-                </p>
-            </div>
-
             <!-- Section Blocks -->
             <section id="foundational-clauses"
-                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mb-10 transition-all duration-300">
+                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mt-8 transition-all duration-300">
                 <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 border-b pb-3">
                     Part 1: Foundational & Identification Clauses
                 </h2>
@@ -52,7 +40,7 @@
                         <p>
                             The platform is owned and operated by <strong>GIZZA GROUP Ltd</strong>, a company duly
                             registered
-                            under the laws of the Republic of Rwanda with registration number <strong>120084023</strong>,
+                            under the laws of the Republic of Rwanda
                             and having its principal place of business at <strong>Remera, Gasabo, Kigali - Rwanda</strong>.
                         </p>
 
@@ -120,7 +108,7 @@
                         <p>
                             Notification of any significant changes will be provided through appropriate channels, which may
                             include
-                            <strong>email notifications, in-app messages, website banners, or public announcements</strong>.
+                            <strong>email notifications, website banners, or public announcements</strong>.
                             The method of communication will depend on the nature and impact of the modification.
                         </p>
 
@@ -182,7 +170,7 @@
             <section id="post-purchase"
                 class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mt-8 transition-all duration-300">
                 <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 border-b pb-3">
-                    Part 3: Post-Purchase — Returns, Refunds, and Warranties
+                    Part 3: Post-Purchase, Returns, Refunds, and Warranties
                 </h2>
 
                 <!-- 4. Return, Refund, and Exchange Policy -->
@@ -700,10 +688,10 @@
                             class="bg-gray-50 dark:bg-gray-800 rounded-xl p-5 mt-4 border border-gray-100 dark:border-gray-700 shadow-sm">
                             <p class="mb-2"><strong>📧 Legal & Compliance Email:</strong> <a
                                     href="mailto:legal@yourcompany.rw"
-                                    class="text-blue-600 dark:text-blue-400 underline">legal@yourcompany.rw</a></p>
+                                    class="text-blue-600 dark:text-blue-400 underline">legal@tungamarket.com</a></p>
                             <p class="mb-2"><strong>📧 Customer Support Email:</strong> <a
                                     href="mailto:support@yourcompany.rw"
-                                    class="text-blue-600 dark:text-blue-400 underline">support@yourcompany.rw</a></p>
+                                    class="text-blue-600 dark:text-blue-400 underline">support@tungamarket.com</a></p>
                             <p><strong>📍 Physical Address:</strong> Kigali, Rwanda</p>
                         </div>
 
@@ -717,7 +705,7 @@
                 <!-- Footer / Closing Note -->
                 <div class="mt-10 border-t pt-6 text-center text-gray-600 dark:text-gray-400 text-sm italic">
                     <p>
-                        © {{ date('Y') }} YourCompany Ltd. All rights reserved.
+                        © {{ date('Y') }} GIZZA GROUP Ltd. All rights reserved.
                         These Terms and Conditions were last updated on <strong>{{ date('F j, Y') }}</strong>.
                     </p>
                 </div>
