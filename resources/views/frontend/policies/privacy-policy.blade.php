@@ -144,97 +144,106 @@
         </section>
 
 
-        <!-- Data Collection Section -->
-        <section id="data-collection" class="mb-12">
+        <!-- Introduction -->
+        <section id="introduction" class="mb-12">
             <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+                <!-- Header -->
                 <div class="bg-gradient-to-r from-primary to-primary-700 text-white p-6">
                     <h2 class="text-subheading font-semibold mb-2 flex items-center">
                         <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                d="M13 16h-1v-4h-1m1-4h.01M12 20h9a2 2 0 002-2V6a2 2 0 00-2-2H3a2 2 0 00-2 2v12a2 2 0 002 2h9z" />
                         </svg>
-                        1. Information We Collect
+                        1. Introduction & Scope
                     </h2>
-                    <p class="text-primary-100">We collect information to provide better services to all our users.</p>
+                    <p class="text-primary-100">Learn how we handle your personal information in line with Rwandan privacy
+                        laws.</p>
                 </div>
-                <div class="p-8">
-                    <div class="space-y-8">
-                        <!-- Account Information -->
-                        <div class="border-l-4 border-success pl-6">
-                            <h3 class="font-semibold text-primary mb-3 flex items-center">
-                                <div class="w-6 h-6 bg-success-100 rounded-full flex items-center justify-center mr-3">
-                                    <svg class="w-3 h-3 text-success" fill="currentColor" viewBox="0 0 8 8">
-                                        <circle cx="4" cy="4" r="3" />
-                                    </svg>
-                                </div>
-                                Account Information
-                            </h3>
-                            <div class="space-y-3">
-                                <p class="text-body text-secondary-600">When you create an Tunga Market account, we
-                                    collect:</p>
-                                <ul class="list-disc list-inside space-y-2 ml-4">
-                                    <li class="text-body-sm text-secondary-600"><strong>Personal Details:</strong> Name,
-                                        email address, phone number, and profile information</li>
-                                    <li class="text-body-sm text-secondary-600"><strong>Business Information:</strong>
-                                        Company name, business type, and verification documents (for business accounts)</li>
-                                    <li class="text-body-sm text-secondary-600"><strong>Authentication Data:</strong>
-                                        Password (encrypted), security questions, and two-factor authentication settings
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
 
-                        <!-- Transaction Data -->
-                        <div class="border-l-4 border-accent pl-6">
-                            <h3 class="font-semibold text-primary mb-3 flex items-center">
-                                <div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center mr-3">
-                                    <svg class="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 8 8">
-                                        <circle cx="4" cy="4" r="3" />
-                                    </svg>
-                                </div>
-                                Transaction Data
-                            </h3>
-                            <div class="space-y-3">
-                                <p class="text-body text-secondary-600">To process your orders and provide commerce
-                                    services:</p>
-                                <ul class="list-disc list-inside space-y-2 ml-4">
-                                    <li class="text-body-sm text-secondary-600"><strong>Purchase History:</strong> Products
-                                        bought, order amounts, payment methods, and delivery details</li>
-                                    <li class="text-body-sm text-secondary-600"><strong>Payment Information:</strong>
-                                        Billing address and payment method details (processed securely by payment
-                                        processors)</li>
-                                    <li class="text-body-sm text-secondary-600"><strong>Shipping Details:</strong> Delivery
-                                        addresses, contact information for shipments</li>
-                                </ul>
+                <!-- Content -->
+                <div class="p-8 space-y-8">
+                    <!-- Purpose -->
+                    <div class="border-l-4 border-primary pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
                             </div>
-                        </div>
+                            Purpose of This Policy
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            This Privacy Policy explains how <strong>Tunga Market</strong> (“we,” “our,” or “the Company”)
+                            collects, uses, discloses, and protects the personal data of individuals (“you,” “users,” or
+                            “customers”)
+                            who interact with our platform, services, and related digital products.
+                        </p>
+                        <p class="text-body text-secondary-600">
+                            It is designed to comply with <strong>Law No. 058/2021 of the Republic of Rwanda</strong>
+                            relating to
+                            the protection of personal data and privacy, and other applicable international privacy
+                            standards.
+                        </p>
+                    </div>
 
-                        <!-- Behavioral Analytics -->
-                        <div class="border-l-4 border-primary pl-6">
-                            <h3 class="font-semibold text-primary mb-3 flex items-center">
-                                <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-3">
-                                    <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 8 8">
-                                        <circle cx="4" cy="4" r="3" />
-                                    </svg>
-                                </div>
-                                Behavioral Analytics
-                            </h3>
-                            <div class="space-y-3">
-                                <p class="text-body text-secondary-600">To improve your experience and our platform:</p>
-                                <ul class="list-disc list-inside space-y-2 ml-4">
-                                    <li class="text-body-sm text-secondary-600"><strong>Usage Data:</strong> Pages visited,
-                                        features used, search queries, and interaction patterns</li>
-                                    <li class="text-body-sm text-secondary-600"><strong>Device Information:</strong> Browser
-                                        type, device model, operating system, and IP address</li>
-                                    <li class="text-body-sm text-secondary-600"><strong>Preferences:</strong> Product
-                                        interests, wishlist items, and personalization settings</li>
-                                </ul>
+                    <!-- Scope -->
+                    <div class="border-l-4 border-accent pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
                             </div>
-                        </div>
+                            Scope of Application
+                        </h3>
+                        <ul class="list-disc list-inside space-y-2 ml-4 text-body-sm text-secondary-600">
+                            <li>Applies to all data collected through our website, mobile applications, and customer
+                                interactions.</li>
+                            <li>Covers both personal and non-personal information gathered from users, customers, and
+                                merchants.</li>
+                            <li>Includes any third-party integrations, payment gateways, and analytics tools used in our
+                                platform.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Acceptance -->
+                    <div class="border-l-4 border-success pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-success-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-success" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Acceptance of Policy
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            By accessing or using our platform, you acknowledge that you have read, understood, and agreed
+                            to this Privacy Policy and the Terms & Conditions. If you do not agree, please discontinue use
+                            of our services.
+                        </p>
+                    </div>
+
+                    <!-- Updates -->
+                    <div class="border-l-4 border-warning pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-warning-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-warning" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Policy Updates
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            We may update this Privacy Policy periodically to reflect changes in our practices or legal
+                            obligations. When updates occur, we will notify users via in-app notification, email, or website
+                            banner.
+                            The latest version will always be accessible on this page.
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
+
 
         <!-- Data Usage Section -->
         <section id="data-usage" class="mb-12">
