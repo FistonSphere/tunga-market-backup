@@ -197,7 +197,7 @@
                             Scope of Application
                         </h3>
                         <ul class="list-disc list-inside space-y-2 ml-4 text-body-sm text-secondary-600">
-                            <li>Applies to all data collected through our website, mobile applications, and customer
+                            <li>Applies to all data collected through our website, and customer
                                 interactions.</li>
                             <li>Covers both personal and non-personal information gathered from users, customers, and
                                 merchants.</li>
