@@ -623,7 +623,7 @@
             </section>
 
             <section id="general-provisions"
-                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mb-10 transition-all duration-300">
+                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mt-8 transition-all duration-300">
                 <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 border-b pb-3">
                     Part 7: General Provisions
                 </h2>
@@ -659,12 +659,12 @@
                         class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
                         <p>
                             These Terms and Conditions, together with the
-                            <a href="{{ route('privacy.policy') }}"
+                            <a href=""
                                 class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
                                 Privacy Policy
                             </a>
                             and the
-                            <a href="{{ route('return.policy') }}"
+                            <a href=""
                                 class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
                                 Return & Refund Policy
                             </a>, constitute the <strong>entire agreement</strong> between the User and the Company
@@ -723,7 +723,7 @@
                 </div>
             </section>
 
-        
+
         </div>
 
         <!-- Floating Banner -->
