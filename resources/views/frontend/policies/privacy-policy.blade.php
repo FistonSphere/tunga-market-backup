@@ -466,10 +466,10 @@
             </div>
         </section>
 
-        <!-- Data Retention & Storage Section -->
+        <!-- Data Sharing & Disclosuree Section -->
         <section id="data-retention" class="mb-12">
             <div class="bg-white rounded-2xl shadow-card overflow-hidden">
-                <div class="bg-gradient-to-r from-info to-info-600 text-white p-6">
+                <div class="bg-accent from-info to-info-600 text-white p-6">
                     <h2 class="text-subheading font-semibold mb-2 flex items-center">
                         <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -516,6 +516,235 @@
                 </div>
             </div>
         </section>
+
+        <!-- Data Retention & Storage Section -->
+        <section id="data-sharing" class="mb-12">
+            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+                <!-- Header -->
+                <div class="bg-secondary from-secondary to-secondary-700 text-white p-6">
+                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12h18M3 6h18M3 18h18" />
+                        </svg>
+                        6. Data Sharing & Disclosure
+                    </h2>
+                    <p class="text-secondary-100">We only share your personal data when necessary, secure, and legally
+                        justified.</p>
+                </div>
+
+                <!-- Content -->
+                <div class="p-8 space-y-8">
+                    <!-- With Service Providers -->
+                    <div class="border-l-4 border-primary pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Sharing with Service Providers
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            We may share your personal data with trusted third-party service providers who assist us in:
+                        </p>
+                        <ul class="list-disc list-inside space-y-2 ml-4 text-body-sm text-secondary-600">
+                            <li>Processing payments and orders through payment gateways.</li>
+                            <li>Delivering products and managing logistics.</li>
+                            <li>Providing analytics, marketing, or IT support services.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Legal Compliance -->
+                    <div class="border-l-4 border-accent pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Legal and Regulatory Compliance
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            We may disclose your personal data if required to do so by law, regulation, or governmental
+                            request,
+                            or if we believe disclosure is necessary to:
+                        </p>
+                        <ul class="list-disc list-inside space-y-2 ml-4 text-body-sm text-secondary-600">
+                            <li>Comply with legal obligations or respond to lawful requests from authorities.</li>
+                            <li>Enforce our Terms & Conditions or protect our rights, property, or safety.</li>
+                            <li>Investigate fraud, security breaches, or other illegal activities.</li>
+                        </ul>
+                    </div>
+
+                    <!-- With Affiliates or Business Partners -->
+                    <div class="border-l-4 border-success pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-success-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-success" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Affiliates & Business Partners
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            Your data may be shared with our affiliates or business partners solely for legitimate business
+                            purposes, such as:
+                        </p>
+                        <ul class="list-disc list-inside space-y-2 ml-4 text-body-sm text-secondary-600">
+                            <li>Improving services or delivering joint offerings.</li>
+                            <li>Sending communications or marketing only with your consent.</li>
+                            <li>Conducting analytics and research to enhance user experience.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Data Sharing Principles -->
+                    <div class="border-l-4 border-warning pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-warning-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-warning" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Principles of Data Sharing
+                        </h3>
+                        <ul class="list-disc list-inside space-y-2 ml-4 text-body-sm text-secondary-600">
+                            <li>We share only the minimum data necessary to perform the service.</li>
+                            <li>We ensure all recipients implement adequate data protection measures.</li>
+                            <li>We never sell your personal data to third parties for commercial purposes without your
+                                consent.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Your Rights & Choices Section -->
+        <section id="user-rights" class="mb-12">
+            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-success to-success-600 text-white p-6">
+                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5 13l4 4L19 7M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" />
+                        </svg>
+                        7. Your Rights & Choices
+                    </h2>
+                    <p class="text-success-100">You have control over your personal data and how we use it.</p>
+                </div>
+
+                <!-- Content -->
+                <div class="p-8 space-y-8">
+                    <!-- Access & Correction -->
+                    <div class="border-l-4 border-primary pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Access & Correction
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            You have the right to request access to the personal data we hold about you. You may also
+                            request
+                            corrections or updates if your data is inaccurate, incomplete, or outdated.
+                        </p>
+                    </div>
+
+                    <!-- Data Portability -->
+                    <div class="border-l-4 border-accent pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Data Portability
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            Where technically feasible, you may request a copy of your personal data in a structured,
+                            commonly
+                            used, and machine-readable format for transfer to another service provider.
+                        </p>
+                    </div>
+
+                    <!-- Consent Withdrawal -->
+                    <div class="border-l-4 border-success pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-success-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-success" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Withdrawal of Consent
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            You can withdraw your consent for certain processing activities at any time, without affecting
+                            the
+                            lawfulness of processing based on consent before withdrawal.
+                        </p>
+                    </div>
+
+                    <!-- Deletion / Erasure -->
+                    <div class="border-l-4 border-warning pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-warning-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-warning" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Deletion / Erasure
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            You may request the deletion of your personal data when it is no longer necessary for the
+                            purposes
+                            it was collected, or if you object to the processing and there is no overriding legitimate
+                            reason to
+                            retain it. Certain legal or contractual obligations may prevent immediate deletion.
+                        </p>
+                    </div>
+
+                    <!-- Objection & Restriction -->
+                    <div class="border-l-4 border-info pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-info-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-info" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Objection & Restriction
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            You may object to the processing of your personal data for marketing purposes or request that we
+                            restrict processing while we verify or resolve any concerns regarding accuracy or legality.
+                        </p>
+                    </div>
+
+                    <!-- How to Exercise Rights -->
+                    <div class="border-l-4 border-accent pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            How to Exercise Your Rights
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            To exercise any of the rights above, you can contact us at
+                            <strong>privacy@tungamarket.rw</strong>
+                            or through your account dashboard. We will respond to your request within the timelines required
+                            by
+                            Law No. 058/2021.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
 
 
         <!-- How we use information Section -->
