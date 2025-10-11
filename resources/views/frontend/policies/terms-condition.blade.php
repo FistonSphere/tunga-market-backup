@@ -509,6 +509,119 @@
                     </div>
                 </div>
             </section>
+            <section id="rwanda-compliance"
+                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mb-10 transition-all duration-300">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 border-b pb-3">
+                    Part 6: Rwanda-Specific Legal Compliance
+                </h2>
+
+                <!-- Data Privacy and Protection -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        Data Privacy and Protection
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            The Company is fully committed to complying with
+                            <strong>Law No. 058/2021 of 13/10/2021</strong> relating to the protection of personal data and
+                            privacy
+                            in the Republic of Rwanda. This law governs the collection, use, storage, disclosure, and
+                            protection
+                            of personal information of Users and Customers.
+                        </p>
+
+                        <p>
+                            Our data handling practices are outlined in a separate and detailed
+                            <a href="{{ route('privacy.policy') }}"
+                                class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
+                                Privacy Policy
+                            </a>, which forms an integral part of these Terms and Conditions.
+                            By using the Platform, Users acknowledge and agree to the collection and processing of their
+                            data
+                            as described therein.
+                        </p>
+
+                        <h4 class="font-bold text-lg mt-5 mb-2">Key Principles of Data Processing</h4>
+                        <ul class="list-disc ml-6 space-y-2">
+                            <li><strong>Lawful Basis:</strong> All data is processed based on consent, contractual
+                                necessity, or legal obligation.</li>
+                            <li><strong>Transparency:</strong> Users are informed about what data is collected, why, and how
+                                it is used.</li>
+                            <li><strong>Security:</strong> Appropriate technical and organizational measures are implemented
+                                to protect data against unauthorized access or misuse.</li>
+                            <li><strong>User Rights:</strong> Users have the right to access, correct, delete, or restrict
+                                the processing of their personal data at any time.</li>
+                            <li><strong>Retention:</strong> Personal data is retained only for as long as necessary to
+                                fulfill the purpose for which it was collected, or as required by law.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Consumer Protection -->
+                <div class="space-y-6 mt-10">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        Consumer Protection
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            The Company operates in accordance with the <strong>Rwanda Consumer Protection Law</strong> and
+                            commits to fair, transparent, and ethical business practices.
+                            Users and Customers are entitled to receive truthful information about products, services, and
+                            pricing.
+                        </p>
+
+                        <ul class="list-disc ml-6 space-y-2">
+                            <li>No misleading, false, or exaggerated advertising is permitted on the Platform.</li>
+                            <li>All descriptions and promotional content must accurately represent the product or service
+                                offered.</li>
+                            <li>The Company provides a <strong>dedicated Customer Service channel</strong> to handle
+                                inquiries, feedback, and complaints promptly.</li>
+                        </ul>
+
+                        <p class="mt-4">
+                            For any consumer-related concerns, Users may contact our support team via:
+                            <br>
+                            <span class="block mt-2">
+                                📧 <strong>Email:</strong> support@yourcompany.rw <br>
+                                ☎️ <strong>Phone:</strong> +250 7XX XXX XXX <br>
+                                📍 <strong>Address:</strong> Kigali, Rwanda
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- E-Waste and Environmental Regulations -->
+                <div class="space-y-6 mt-10">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        E-Waste and Environmental Regulations
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            Where applicable, the Company ensures compliance with Rwandan environmental and waste management
+                            standards, particularly concerning the sale and disposal of electronic equipment.
+                        </p>
+
+                        <p>
+                            Customers are encouraged to dispose of electronic devices responsibly, in line with
+                            <strong>Rwanda Utilities Regulatory Authority (RURA)</strong> and <strong>Rwanda Environment
+                                Management Authority (REMA)</strong>
+                            guidelines on electronic waste (e-waste) management.
+                        </p>
+
+                        <p>
+                            The Company may provide or recommend authorized recycling centers or collection programs for
+                            the safe disposal of electronic goods, supporting Rwanda’s commitment to environmental
+                            sustainability.
+                        </p>
+                    </div>
+                </div>
+            </section>
 
             <!-- Footer -->
             <div class="bg-gradient-to-r from-orange-50 to-white mt-16 rounded-2xl shadow-inner p-8 text-center">
