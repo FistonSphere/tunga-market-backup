@@ -584,7 +584,7 @@
 
     <!-- Toast Notification -->
     <div id="notification-login"
-        class="fixed right-6 max-w-sm w-full flex items-start space-x-4 p-4 rounded-lg shadow-lg border transition-all duration-300 transform" style="z-index: 999999; background-color: green;">
+        class="fixed right-6 max-w-sm w-full flex items-start space-x-4 p-4 rounded-lg shadow-lg border transition-all duration-300 transform hidden" style="z-index: 999999; color: white; background-color: rgb(2, 1, 19);">
         <div id="notificationIcon" class="flex-shrink-0"></div>
         <div class="flex-1">
             <p id="notificationMessage" class="text-sm font-medium text-gray-800"></p>

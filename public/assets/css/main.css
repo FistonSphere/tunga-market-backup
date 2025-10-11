@@ -5822,11 +5822,7 @@ div#wishlist-overlay {
     z-index: 99999;
 }
 
-@media(min-width:776px){
-    #notification-login{
-        bottom: 28em!important;
-    }
-}
+
 @media (min-width: 487px) and (max-width: 768px) {
     #notification-login {
         bottom: 24em !important;
@@ -5834,7 +5830,7 @@ div#wishlist-overlay {
 }
 @media (min-width: 486px) {
     #notification-login {
-        bottom: 60em !important;
+        bottom: 30em !important;
     }
 }
 @media (max-width: 390px) {
