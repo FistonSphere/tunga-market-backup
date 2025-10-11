@@ -10,10 +10,10 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M8 7V3a4 4 0 118 0v4m-4 9v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
                 </svg>
-                <span>Last Updated: January 10, 2025</span>
+                <span>Last Updated: {{ now()->format('F d, Y') }}</span>
             </div>
             <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                Your privacy is important to us. This Privacy Policy explains how AliMax Commerce collects, uses, and
+                Your privacy is important to us. This Privacy Policy explains how Tunga Market collects, uses, and
                 protects your personal information when you use our platform.
             </p>
         </div>
@@ -143,7 +143,7 @@
                                 Account Information
                             </h3>
                             <div class="space-y-3">
-                                <p class="text-body text-secondary-600">When you create an AliMax Commerce account, we
+                                <p class="text-body text-secondary-600">When you create an Tunga Market account, we
                                     collect:</p>
                                 <ul class="list-disc list-inside space-y-2 ml-4">
                                     <li class="text-body-sm text-secondary-600"><strong>Personal Details:</strong> Name,
@@ -504,9 +504,9 @@
                                 <h4 class="font-semibold text-primary mb-2">Report Security Concerns</h4>
                                 <p class="text-body-sm text-secondary-600 mb-3">If you notice any suspicious activity or
                                     security concerns with your account, please contact us immediately.</p>
-                                <a href="mailto:security@alimaxcommerce.com"
+                                <a href="mailto:security@tungamarket.com"
                                     class="inline-flex items-center text-warning hover:text-warning-600 transition-fast font-medium text-body-sm">
-                                    security@alimaxcommerce.com
+                                    security@tungamarket.com
                                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -660,8 +660,8 @@
                             matters.</p>
                         <div class="space-y-2">
                             <p class="text-body-sm">
-                                <strong>Email:</strong> <a href="mailto:privacy@alimaxcommerce.com"
-                                    class="underline hover:no-underline">privacy@alimaxcommerce.com</a>
+                                <strong>Email:</strong> <a href="mailto:privacy@tungamarket.com"
+                                    class="underline hover:no-underline">privacy@tungamarket.com</a>
                             </p>
                             <p class="text-body-sm">
                                 <strong>Response Time:</strong> Within 48 hours
@@ -686,8 +686,8 @@
                                 <strong>Address:</strong> 123 Commerce Street, Business District, Global City 12345
                             </p>
                             <p class="text-body-sm">
-                                <strong>Email:</strong> <a href="mailto:legal@alimaxcommerce.com"
-                                    class="underline hover:no-underline">legal@alimaxcommerce.com</a>
+                                <strong>Email:</strong> <a href="mailto:legal@tungamarket.com"
+                                    class="underline hover:no-underline">legal@tungamarket.com</a>
                             </p>
                         </div>
                     </div>
@@ -698,7 +698,7 @@
                         You can also reach us through our general support channels:
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a href="help_center.html"
+                        <a href="{{ route('help.center') }}"
                             class="btn-secondary bg-white hover:bg-gray-100 text-accent py-3 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
                             Help Center
                         </a>

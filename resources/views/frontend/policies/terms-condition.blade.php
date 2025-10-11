@@ -29,7 +29,7 @@
                             that you have
                             read, understood, and agreed to be bound by these <strong>Terms and Conditions</strong> (the
                             “Terms”), together
-                            with any other applicable policies such as our <a href="#"
+                            with any other applicable policies such as our <a href="{{ route('privacy.policy') }}"
                                 class="text-blue-600 dark:text-blue-400 hover:underline">Privacy Policy</a>.
                             These Terms constitute a legally binding agreement between you and the Company operating this
                             platform.
@@ -522,7 +522,7 @@
 
                         <p>
                             Our data handling practices are outlined in a separate and detailed
-                            <a href="" class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
+                            <a href="{{ route('privacy.policy') }}" class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
                                 Privacy Policy
                             </a>, which forms an integral part of these Terms and Conditions.
                             By using the Platform, Users acknowledge and agree to the collection and processing of their
@@ -647,7 +647,7 @@
                         class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
                         <p>
                             These Terms and Conditions, together with the
-                            <a href=""
+                            <a href="{{ route('privacy.policy') }}"
                                 class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
                                 Privacy Policy
                             </a>
