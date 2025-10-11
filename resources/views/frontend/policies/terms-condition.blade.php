@@ -510,7 +510,7 @@
                 </div>
             </section>
             <section id="rwanda-compliance"
-                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mb-10 transition-all duration-300">
+                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mt-8 transition-all duration-300">
                 <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 border-b pb-3">
                     Part 6: Rwanda-Specific Legal Compliance
                 </h2>
@@ -534,7 +534,7 @@
 
                         <p>
                             Our data handling practices are outlined in a separate and detailed
-                            <a href="{{ route('privacy.policy') }}"
+                            <a href=""
                                 class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
                                 Privacy Policy
                             </a>, which forms an integral part of these Terms and Conditions.
