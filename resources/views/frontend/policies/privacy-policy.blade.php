@@ -342,7 +342,7 @@
                         </div>
                     </div>
 
-                    <hr class="my-10 border-gray-200">
+                    <hr class="my-10 border-gray-200 mb-3 mt-3">
 
                     <!-- Behavioral & Technical Data -->
                     <div class="grid md:grid-cols-2 gap-8">
@@ -414,6 +414,301 @@
                 </div>
             </div>
         </section>
+
+        <!-- Lawful Basis for Processing Section -->
+        <section id="lawful-basis" class="mb-12">
+            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+                <div class="bg-gradient-to-r from-warning to-warning-600 text-white p-6">
+                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-3.866 0-7 3.134-7 7s3.134 7 7 7 7-3.134 7-7-3.134-7-7-7z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v6M12 16v6" />
+                        </svg>
+                        3. Lawful Basis for Processing
+                    </h2>
+                    <p class="text-warning-100">We process your personal data only when we have a lawful reason, as required
+                        by
+                        applicable data protection laws.</p>
+                </div>
+                <div class="p-8 space-y-6">
+                    <ul class="list-disc list-inside space-y-3 ml-4">
+                        <li class="text-body-sm text-secondary-600">
+                            <strong>Consent:</strong> You provide explicit consent to process your data for specific
+                            purposes,
+                            such as marketing communications or personalization of your shopping experience.
+                        </li>
+                        <li class="text-body-sm text-secondary-600">
+                            <strong>Contractual Necessity:</strong> Processing is necessary to fulfill a contract with you,
+                            including order processing, payment, and delivery.
+                        </li>
+                        <li class="text-body-sm text-secondary-600">
+                            <strong>Legal Obligation:</strong> Processing is necessary to comply with laws and regulations
+                            in
+                            Rwanda, such as tax reporting or consumer protection.
+                        </li>
+                        <li class="text-body-sm text-secondary-600">
+                            <strong>Legitimate Interests:</strong> We may process your data for legitimate business
+                            interests,
+                            such as improving our platform, preventing fraud, or conducting analytics, provided it does not
+                            override your rights.
+                        </li>
+                        <li class="text-body-sm text-secondary-600">
+                            <strong>Vital Interests:</strong> In rare cases, we may process data to protect your life or the
+                            life of another individual.
+                        </li>
+                    </ul>
+                    <p class="text-body-sm text-secondary-600 mt-4">
+                        By using our platform, you acknowledge that we may rely on any of these lawful bases to process your
+                        information for the purposes described in this Privacy Policy.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Retention & Storage Section -->
+        <section id="data-retention" class="mb-12">
+            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+                <div class="bg-gradient-to-r from-info to-info-600 text-white p-6">
+                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 7v4a1 1 0 001 1h3v7a1 1 0 001 1h8a1 1 0 001-1v-7h3a1 1 0 001-1V7a1 1 0 00-1-1h-3V4a1 1 0 00-1-1H8a1 1 0 00-1 1v2H4a1 1 0 00-1 1z" />
+                        </svg>
+                        5. Data Retention & Storage
+                    </h2>
+                    <p class="text-info-100">We retain your personal data only as long as necessary for business and legal
+                        purposes, and store it securely to protect your privacy.</p>
+                </div>
+                <div class="p-8 space-y-6">
+                    <ul class="list-disc list-inside space-y-3 ml-4">
+                        <li class="text-body-sm text-secondary-600">
+                            <strong>Retention Period:</strong> Personal data is retained only for as long as necessary to
+                            provide
+                            services, fulfill legal obligations, resolve disputes, or enforce our agreements. Specific
+                            retention
+                            periods may vary by data type.
+                        </li>
+                        <li class="text-body-sm text-secondary-600">
+                            <strong>Inactive Accounts:</strong> Data from inactive or closed accounts may be anonymized or
+                            deleted
+                            after a set period, usually 12-24 months, unless required for legal or regulatory reasons.
+                        </li>
+                        <li class="text-body-sm text-secondary-600">
+                            <strong>Storage Locations:</strong> Data may be stored on secure servers located in Rwanda or in
+                            other countries that maintain adequate data protection standards.
+                        </li>
+                        <li class="text-body-sm text-secondary-600">
+                            <strong>Data Security:</strong> We implement administrative, technical, and physical safeguards
+                            to
+                            protect your data from unauthorized access, alteration, disclosure, or destruction.
+                        </li>
+                        <li class="text-body-sm text-secondary-600">
+                            <strong>Backup & Recovery:</strong> We maintain secure backups to prevent data loss and enable
+                            recovery in case of incidents, while ensuring compliance with privacy regulations.
+                        </li>
+                    </ul>
+                    <p class="text-body-sm text-secondary-600 mt-4">
+                        By continuing to use our platform, you consent to the collection, storage, and retention of your
+                        personal
+                        data as described in this section and elsewhere in our Privacy Policy.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- How we use information Section -->
+        <section id="data-usage" class="mb-12">
+            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+                <div class="bg-gradient-to-r from-primary to-primary-600 text-white p-6">
+                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m2 8H7a2 2 0 01-2-2V6a2 2 0 012-2h5l2 2h6a2 2 0 012 2v12a2 2 0 01-2 2z" />
+                        </svg>
+                        4. How We Use Information
+                    </h2>
+                    <p class="text-primary-100">We use your data responsibly to operate, enhance, and secure our services
+                        while
+                        respecting your privacy and legal rights.</p>
+                </div>
+                <div class="p-8 space-y-10">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Service Operations -->
+                        <div class="space-y-4">
+                            <div class="flex items-center mb-4">
+                                <div class="w-8 h-8 bg-success-100 rounded-lg flex items-center justify-center mr-3">
+                                    <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold text-primary">Service Operations & Improvement</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Operate, maintain, and improve the
+                                        functionality of our platform.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Provide support, resolve issues, and
+                                        respond to user requests.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Ensure system reliability, detect fraud,
+                                        and maintain data integrity.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Communication -->
+                        <div class="space-y-4">
+                            <div class="flex items-center mb-4">
+                                <div class="w-8 h-8 bg-accent-100 rounded-lg flex items-center justify-center mr-3">
+                                    <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-9 13V10" />
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold text-primary">Communication & Updates</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Send important notifications, service
+                                        updates, or policy changes.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Respond to customer service inquiries and
+                                        feedback.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Send marketing communications (only with
+                                        your consent).</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Legal and Security -->
+                        <div class="space-y-4">
+                            <div class="flex items-center mb-4">
+                                <div class="w-8 h-8 bg-warning-100 rounded-lg flex items-center justify-center mr-3">
+                                    <svg class="w-4 h-4 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold text-primary">Legal & Security Obligations</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Comply with legal, regulatory, and
+                                        anti-fraud requirements.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Protect the rights, property, and safety
+                                        of users and the company.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Fulfill obligations under Rwanda’s data
+                                        protection laws.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Analytics and Improvement -->
+                        <div class="space-y-4">
+                            <div class="flex items-center mb-4">
+                                <div class="w-8 h-8 bg-info-100 rounded-lg flex items-center justify-center mr-3">
+                                    <svg class="w-4 h-4 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M11 19a8 8 0 100-16 8 8 0 000 16zm4-9H8m4 4H8" />
+                                    </svg>
+                                </div>
+                                <h3 class="font-semibold text-primary">Analytics & Service Enhancement</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Analyze user behavior to improve usability
+                                        and experience.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Measure marketing campaign
+                                        effectiveness.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-4 h-4 text-success mt-1 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-body-sm text-secondary-600">Develop new features and improve service
+                                        delivery.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
 
         <!-- User Rights Section -->
