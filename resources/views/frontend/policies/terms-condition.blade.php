@@ -385,6 +385,130 @@
                 </div>
             </section>
 
+            <section id="limitations-and-law"
+                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mt-8 transition-all duration-300">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 border-b pb-3">
+                    Part 5: Limitations, Disclaimers, and Governing Law
+                </h2>
+
+                <!-- Limitation of Liability -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        Limitation of Liability
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            To the fullest extent permitted by law, the Company, its affiliates, officers, employees, and
+                            agents shall
+                            <strong>not be liable</strong> for any indirect, incidental, consequential, special, or
+                            exemplary damages,
+                            including but not limited to loss of profits, revenue, data, or goodwill, arising out of or in
+                            connection with
+                            the use of the Platform, the inability to use the Platform, or any transaction conducted through
+                            it.
+                        </p>
+
+                        <p>
+                            In no event shall the Company’s total liability to any User or Customer exceed the
+                            <strong>total amount paid for the specific product(s) or service(s)</strong> that gave rise to
+                            the claim.
+                            This limitation applies regardless of the nature of the legal action, whether in contract, tort,
+                            negligence,
+                            strict liability, or otherwise.
+                        </p>
+
+                        <p>
+                            The Company shall not be liable for any <strong>service interruptions, errors, delays, software
+                                bugs, data loss,
+                                or failures caused by events beyond its reasonable control</strong>, including but not
+                            limited to acts of nature,
+                            war, civil unrest, labor disputes, government actions, or failures of internet or
+                            telecommunication providers
+                            (collectively known as “<strong>force majeure</strong>” events).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Indemnification -->
+                <div class="space-y-6 mt-10">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        Indemnification
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            The User agrees to <strong>indemnify, defend, and hold harmless</strong> the Company, its
+                            affiliates, employees,
+                            agents, and partners from and against any and all claims, damages, losses, liabilities, costs,
+                            or expenses
+                            (including reasonable legal fees) arising from:
+                        </p>
+
+                        <ul class="list-disc ml-6 space-y-2">
+                            <li>Any breach by the User of these Terms and Conditions;</li>
+                            <li>Any misuse, abuse, or unauthorized use of the Platform or its services;</li>
+                            <li>Any violation of applicable laws or the rights of third parties resulting from the User’s
+                                actions.</li>
+                        </ul>
+
+                        <p>
+                            This obligation shall survive the termination or expiration of the User’s relationship with the
+                            Company and the use of the Platform.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Governing Law and Dispute Resolution -->
+                <div class="space-y-6 mt-10">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        Governing Law and Dispute Resolution
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <h4 class="font-bold text-lg mt-4 mb-2">Governing Law</h4>
+                        <p>
+                            These Terms and Conditions shall be <strong>governed by and construed in accordance with the
+                                laws of the Republic of Rwanda</strong>,
+                            without regard to its conflict of law principles.
+                        </p>
+
+                        <h4 class="font-bold text-lg mt-6 mb-2">Dispute Resolution Process</h4>
+                        <p>
+                            In the event of a dispute or claim arising from the interpretation or execution of these Terms,
+                            Users are encouraged to
+                            <strong>first contact the Company’s Customer Service team</strong> to seek an amicable
+                            resolution.
+                        </p>
+
+                        <p>
+                            If the dispute cannot be resolved through mutual negotiation, the parties agree to attempt
+                            resolution through
+                            <strong>mediation or arbitration</strong> administered by the
+                            <strong>Kigali International Arbitration Centre (KIAC)</strong>, in accordance with its rules
+                            and procedures.
+                            Arbitration shall take place in Kigali, Rwanda, and proceedings shall be conducted in English.
+                        </p>
+
+                        <p>
+                            If mediation or arbitration fails or is deemed inappropriate, the matter shall be submitted to
+                            the
+                            <strong>Commercial Court of Nyarugenge, Kigali</strong>, which shall have exclusive jurisdiction
+                            over any legal proceedings
+                            related to these Terms and Conditions.
+                        </p>
+
+                        <p>
+                            Both parties agree to submit to the jurisdiction of the Rwandan courts and waive any objection
+                            to the venue or
+                            convenience of such forums.
+                        </p>
+                    </div>
+                </div>
+            </section>
 
             <!-- Footer -->
             <div class="bg-gradient-to-r from-orange-50 to-white mt-16 rounded-2xl shadow-inner p-8 text-center">
