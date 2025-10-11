@@ -94,6 +94,203 @@
                 </div>
             </section>
 
+            <section id="modification-of-terms"
+                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mt-8 transition-all duration-300">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 border-b pb-3">
+                    Part 2: Modification of Terms
+                </h2>
+
+                <!-- 2. Modification of Terms -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        2. Modification of Terms
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            The Company reserves the right to <strong>modify, update, or amend</strong> these Terms and
+                            Conditions at any time,
+                            in its sole discretion, to reflect changes in operational, legal, or regulatory requirements, or
+                            to enhance the user experience.
+                            Such modifications will take effect immediately upon being posted on the Platform, unless
+                            otherwise stated.
+                        </p>
+
+                        <p>
+                            Notification of any significant changes will be provided through appropriate channels, which may
+                            include
+                            <strong>email notifications, in-app messages, website banners, or public announcements</strong>.
+                            The method of communication will depend on the nature and impact of the modification.
+                        </p>
+
+                        <p>
+                            By continuing to access or use the Platform after changes have been posted,
+                            you are deemed to have <strong>accepted the revised Terms</strong>.
+                            For substantial modifications that materially affect your rights or obligations,
+                            the Company may request your <strong>express consent</strong> before the changes take effect.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 3. Platform Description and Use -->
+                <div class="space-y-6 mt-10">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        3. Platform Description and Use
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            The Platform serves as a <strong>digital marketplace</strong> designed to facilitate the
+                            offering, browsing, and
+                            purchase of goods and/or services between the Company, third-party providers, and Users.
+                            It operates to ensure secure transactions, transparent pricing, and a reliable user experience.
+                        </p>
+
+                        <p>
+                            Users agree not to use the Platform for any <strong>illegal, fraudulent, or unauthorized
+                                activities</strong>, including
+                            but not limited to money laundering, data theft, intellectual property infringement, or the
+                            distribution of prohibited items.
+                            The Company reserves the right to suspend or terminate any account found engaging in such
+                            activities.
+                        </p>
+
+                        <h4 class="font-bold text-lg mt-6 mb-2">User Account Responsibilities</h4>
+                        <ul class="list-disc ml-6 space-y-2">
+                            <li>
+                                Users are responsible for maintaining the <strong>confidentiality of their login
+                                    credentials</strong>,
+                                including usernames, passwords, and any other information linked to their account.
+                            </li>
+                            <li>
+                                Any activity carried out under a User’s account will be deemed to have been performed by
+                                that User.
+                                The Company shall not be held liable for any unauthorized access resulting from compromised
+                                credentials.
+                            </li>
+                            <li>
+                                Users must <strong>immediately notify the Company</strong> of any unauthorized access,
+                                suspected breach,
+                                or misuse of their account to prevent further unauthorized actions.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section id="post-purchase"
+                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mb-10 transition-all duration-300">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 border-b pb-3">
+                    Part 3: Post-Purchase — Returns, Refunds, and Warranties
+                </h2>
+
+                <!-- 4. Return, Refund, and Exchange Policy -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        4. Return, Refund, and Exchange Policy
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            The Company is committed to upholding the rights of consumers in accordance with
+                            <strong>Rwandan consumer protection laws and regulations</strong>. We aim to ensure that every
+                            customer is satisfied with their purchase and that any post-purchase issues are addressed
+                            promptly and fairly.
+                        </p>
+
+                        <h4 class="font-bold text-lg mt-6 mb-2">Return Window</h4>
+                        <p>
+                            Customers may request a return or exchange within <strong>seven (7) calendar days</strong> from
+                            the date of delivery.
+                            Requests submitted after this period may not be eligible unless otherwise mandated by applicable
+                            law.
+                        </p>
+
+                        <h4 class="font-bold text-lg mt-6 mb-2">Conditions for Return</h4>
+                        <ul class="list-disc ml-6 space-y-2">
+                            <li>Items must be <strong>unused</strong>, <strong>unworn</strong>, and in their
+                                <strong>original packaging</strong> with all labels and tags intact.</li>
+                            <li>Proof of purchase (such as an invoice or order confirmation) must be provided when
+                                submitting a return request.</li>
+                            <li>The following items are <strong>non-returnable and non-refundable</strong> unless proven
+                                defective upon delivery:
+                                <ul class="list-disc ml-6 mt-1">
+                                    <li>Perishable or consumable goods</li>
+                                    <li>Personalized, customized, or engraved products</li>
+                                    <li>Digital or downloadable items</li>
+                                    <li>Intimate apparel or hygiene products</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h4 class="font-bold text-lg mt-6 mb-2">Return Process</h4>
+                        <ol class="list-decimal ml-6 space-y-2">
+                            <li>Contact our <strong>Customer Support Team</strong> via email or in-app support within the
+                                return period.</li>
+                            <li>Provide order details, a brief reason for the return, and photos (if applicable) of the
+                                product.</li>
+                            <li>Wait for confirmation and a <strong>Return Authorization Number (RAN)</strong> before
+                                shipping or dropping off the product.</li>
+                            <li>Return the item using the specified delivery channel or pickup service provided by the
+                                Company.</li>
+                        </ol>
+
+                        <h4 class="font-bold text-lg mt-6 mb-2">Refund Method and Timeline</h4>
+                        <p>
+                            Approved refunds will be processed through the <strong>original method of payment</strong>.
+                            Please allow between <strong>seven (7) to fourteen (14) business days</strong> for the refund to
+                            appear in your account,
+                            depending on your payment provider’s processing times.
+                            Refunds for Mobile Money or card transactions may reflect sooner or later depending on the
+                            intermediary bank.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 5. Warranties and Guarantees -->
+                <div class="space-y-6 mt-10">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        5. Warranties and Guarantees
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            All products offered on the Platform are subject to a <strong>legal warranty of
+                                conformity</strong> as prescribed by
+                            Rwandan law. This warranty ensures that the product delivered is as described, fit for its
+                            intended purpose, and
+                            free from manufacturing defects at the time of delivery.
+                        </p>
+
+                        <p>
+                            In addition to the legal warranty, certain products may also come with a <strong>commercial
+                                manufacturer’s warranty</strong>.
+                            The details, coverage period, and terms of such warranties will be explicitly provided by the
+                            manufacturer or supplier
+                            and displayed on the product page or accompanying documentation.
+                        </p>
+
+                        <h4 class="font-bold text-lg mt-6 mb-2">Warranty Claims Process</h4>
+                        <ol class="list-decimal ml-6 space-y-2">
+                            <li>Submit a written warranty claim through the Platform or Customer Support, specifying the
+                                defect and providing proof of purchase.</li>
+                            <li>The product will undergo inspection by the Company or the authorized manufacturer’s service
+                                center.</li>
+                            <li>If the claim is approved, the product will be <strong>repaired, replaced, or
+                                    refunded</strong> in accordance with the applicable warranty policy.</li>
+                        </ol>
+
+                        <p>
+                            Please note that warranties do not cover damages resulting from misuse, negligence, unauthorized
+                            repairs, or accidental damage
+                            caused after delivery to the customer.
+                        </p>
+                    </div>
+                </div>
+            </section>
 
 
             <!-- Footer -->
