@@ -355,7 +355,7 @@ public function updatePassword(Request $request)
         ]);
     }
 
-public function delete(Request $request)
+public function deleteAccount(Request $request)
 {
     $request->validate([
         'password' => 'required',
