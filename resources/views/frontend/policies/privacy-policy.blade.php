@@ -67,55 +67,82 @@
         </section>
 
         <!-- Table of Contents -->
-        <section class="bg-white rounded-2xl shadow-card p-8 mb-12">
+        <section class="bg-white dark:bg-gray-900 rounded-2xl shadow-card p-8 mb-12 transition-all duration-300">
             <h2 class="text-subheading font-semibold text-primary mb-6">Table of Contents</h2>
             <nav class="grid md:grid-cols-2 gap-4">
                 <div class="space-y-2">
+                    <a href="#introduction"
+                        class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
+                        <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                        1. Introduction & Scope
+                    </a>
                     <a href="#data-collection"
                         class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
                         <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
-                        1. Information We Collect
+                        2. Information We Collect
+                    </a>
+                    <a href="#lawful-basis"
+                        class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
+                        <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                        3. Lawful Basis for Processing
                     </a>
                     <a href="#data-usage"
                         class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
                         <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
-                        2. How We Use Information
+                        4. How We Use Your Information
                     </a>
+                    <a href="#data-retention"
+                        class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
+                        <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                        5. Data Retention & Storage
+                    </a>
+                    <a href="#data-sharing"
+                        class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
+                        <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                        6. Data Sharing & Disclosure
+                    </a>
+                </div>
+
+                <div class="space-y-2">
                     <a href="#user-rights"
                         class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
                         <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
-                        3. Your Rights & Controls
+                        7. Your Rights & Choices
                     </a>
-                    <a href="#third-party"
-                        class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
-                        <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
-                        4. Third-Party Sharing
-                    </a>
-                </div>
-                <div class="space-y-2">
                     <a href="#security"
                         class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
                         <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
-                        5. Security Measures
+                        8. Security Measures
                     </a>
                     <a href="#cookies"
                         class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
                         <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
-                        6. Cookies & Tracking
+                        9. Cookies & Tracking Technologies
                     </a>
-                    <a href="#international"
+                    <a href="#data-transfer"
                         class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
                         <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
-                        7. International Compliance
+                        10. International Data Transfers
+                    </a>
+                    <a href="#children-privacy"
+                        class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
+                        <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                        11. Children’s Privacy
+                    </a>
+                    <a href="#policy-updates"
+                        class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
+                        <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
+                        12. Changes to This Policy
                     </a>
                     <a href="#contact"
                         class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
                         <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
-                        8. Contact Information
+                        13. Contact Information
                     </a>
                 </div>
             </nav>
         </section>
+
 
         <!-- Data Collection Section -->
         <section id="data-collection" class="mb-12">
@@ -464,7 +491,9 @@
                                 </svg>
                             </div>
                             <h3 class="font-semibold text-primary mb-3">Encryption</h3>
-                            <p class="text-body-sm text-secondary-600">Your personal data is encrypted both at rest and in transit using industry-standard AES-256 encryption, keeping your shopping and account information safe.</p>
+                            <p class="text-body-sm text-secondary-600">Your personal data is encrypted both at rest and in
+                                transit using industry-standard AES-256 encryption, keeping your shopping and account
+                                information safe.</p>
                         </div>
 
                         <div class="text-center">
@@ -475,7 +504,8 @@
                                 </svg>
                             </div>
                             <h3 class="font-semibold text-primary mb-3">Account Protection</h3>
-                            <p class="text-body-sm text-secondary-600">We use strong account security and privacy controls so only you can access your personal information and order history.</p>
+                            <p class="text-body-sm text-secondary-600">We use strong account security and privacy controls
+                                so only you can access your personal information and order history.</p>
                         </div>
 
                         <div class="text-center">
@@ -486,7 +516,8 @@
                                 </svg>
                             </div>
                             <h3 class="font-semibold text-primary mb-3">Continuous Monitoring</h3>
-                            <p class="text-body-sm text-secondary-600">We monitor our systems 24/7 and respond quickly to any suspicious activity to keep your shopping experience secure.</p>
+                            <p class="text-body-sm text-secondary-600">We monitor our systems 24/7 and respond quickly to
+                                any suspicious activity to keep your shopping experience secure.</p>
                         </div>
                     </div>
 
