@@ -180,7 +180,7 @@
                 </div>
             </section>
             <section id="post-purchase"
-                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mb-10 transition-all duration-300">
+                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mt-8 transition-all duration-300">
                 <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 border-b pb-3">
                     Part 3: Post-Purchase — Returns, Refunds, and Warranties
                 </h2>
@@ -211,7 +211,8 @@
                         <h4 class="font-bold text-lg mt-6 mb-2">Conditions for Return</h4>
                         <ul class="list-disc ml-6 space-y-2">
                             <li>Items must be <strong>unused</strong>, <strong>unworn</strong>, and in their
-                                <strong>original packaging</strong> with all labels and tags intact.</li>
+                                <strong>original packaging</strong> with all labels and tags intact.
+                            </li>
                             <li>Proof of purchase (such as an invoice or order confirmation) must be provided when
                                 submitting a return request.</li>
                             <li>The following items are <strong>non-returnable and non-refundable</strong> unless proven
@@ -287,6 +288,98 @@
                             Please note that warranties do not cover damages resulting from misuse, negligence, unauthorized
                             repairs, or accidental damage
                             caused after delivery to the customer.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section id="intellectual-property"
+                class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-8 mt-8 transition-all duration-300">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 border-b pb-3">
+                    Part 4: User-Generated Content and Intellectual Property
+                </h2>
+
+                <!-- Intellectual Property Rights -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        Intellectual Property (IP) Rights
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            All materials, content, and functionality available on this Platform, including but not limited
+                            to
+                            <strong>logos, trademarks, text, images, graphics, software, code, and design elements</strong>,
+                            are the exclusive
+                            property of the Company or its respective licensors. Such materials are protected under
+                            applicable
+                            <strong>copyright, trademark, and intellectual property laws</strong> of the Republic of Rwanda
+                            and international conventions.
+                        </p>
+
+                        <p>
+                            Users are granted a <strong>limited, non-exclusive, non-transferable license</strong> to access
+                            and use the Platform
+                            solely for <strong>personal and non-commercial purposes</strong>. This license does not permit
+                            any reproduction,
+                            modification, distribution, transmission, public display, or derivative use of any materials on
+                            the Platform without
+                            the Company’s prior written consent.
+                        </p>
+
+                        <p>
+                            Any unauthorized use of the Platform’s intellectual property may result in the immediate
+                            termination of access and
+                            may expose the user to civil and criminal liability under applicable laws.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- User-Generated Content -->
+                <div class="space-y-6 mt-10">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        User-Generated Content (Reviews, Comments, and Feedback)
+                    </h3>
+
+                    <div
+                        class="prose prose-gray dark:prose-invert max-w-none leading-relaxed text-justify text-gray-700 dark:text-gray-300">
+                        <p>
+                            The Platform may allow Users to post, submit, or share <strong>reviews, comments, feedback, or
+                                other forms of content</strong>
+                            (“User-Generated Content”). By submitting such content, the User grants the Company a
+                            <strong>worldwide, perpetual, irrevocable, royalty-free, and transferable license</strong> to
+                            use, reproduce, modify, adapt,
+                            publish, translate, create derivative works from, distribute, and display such content in any
+                            media format.
+                        </p>
+
+                        <p>
+                            Users represent and warrant that any content they post does not infringe on the rights of any
+                            third party and complies
+                            with applicable laws. The following are strictly prohibited:
+                        </p>
+
+                        <ul class="list-disc ml-6 space-y-2">
+                            <li>Content that is defamatory, harassing, obscene, offensive, or threatening;</li>
+                            <li>Material that promotes hatred, discrimination, or violence against individuals or groups;
+                            </li>
+                            <li>Any content that violates intellectual property rights, privacy, or publicity rights of
+                                others;</li>
+                            <li>False or misleading statements intended to harm the reputation of others.</li>
+                        </ul>
+
+                        <p>
+                            The Company reserves the right, at its <strong>sole discretion</strong>, to monitor, edit, or
+                            remove any User-Generated Content
+                            that violates these Terms or is otherwise deemed inappropriate, without prior notice to the
+                            User.
+                        </p>
+
+                        <p>
+                            Users acknowledge that all reviews and comments reflect the opinions of the individual authors
+                            and not necessarily
+                            those of the Company. The Company disclaims any responsibility or liability arising from such
+                            content.
                         </p>
                     </div>
                 </div>
