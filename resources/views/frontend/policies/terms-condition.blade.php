@@ -586,7 +586,7 @@
                             For any consumer-related concerns, Users may contact our support team via:
                             <br>
                             <span class="block mt-2">
-                                📧 <strong>Email:</strong> support@yourcompany.rw <br>
+                                📧 <strong>Email:</strong> support@tungamarket.com <br>
                                 ☎️ <strong>Phone:</strong> +250 7XX XXX XXX <br>
                                 📍 <strong>Address:</strong> Kigali, Rwanda
                             </span>
