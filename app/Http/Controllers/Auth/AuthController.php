@@ -355,6 +355,26 @@ public function updatePassword(Request $request)
         ]);
     }
 
+public function delete(Request $request)
+{
+    $request->validate([
+        'password' => 'required',
+    ]);
+
+    if (!Hash::check($request->password, $request->user()->password)) {
+        return response()->json(['message' => 'Incorrect password.'], 403);
+    }
+
+    try {
+        $user = $request->user();
+        Auth::logout();
+        $user->delete();
+
+        return response()->json(['message' => 'Account deleted successfully.']);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Error occurred while deleting account.'], 500);
+    }
+}
 
 
 }
