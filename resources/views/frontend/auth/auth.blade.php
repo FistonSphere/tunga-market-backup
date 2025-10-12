@@ -572,7 +572,7 @@
             <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-sm">
                 <h2 class="text-lg font-semibold mb-2 text-center">Email Verification</h2>
                 <p class="text-sm text-secondary-600 mb-4 text-center">
-                    We’ve sent a 4-digit code to your email. Enter it below to continue.
+                    We’ve sent a 4-digit code to your email or SMS. Enter it below to continue.
                 </p>
                 <input id="otpInput" type="text" maxlength="4"
                     class="w-full border border-secondary-300 rounded-md px-4 py-2 text-center tracking-widest text-xl"
