@@ -1333,7 +1333,8 @@
         }
 
         function confirmReorder() {
-            w
+            const orderId = "{{ $order->id ?? '' }}";
+
             fetch(`/orders/${orderId}/reorder`, {
                 method: "POST",
                 headers: {

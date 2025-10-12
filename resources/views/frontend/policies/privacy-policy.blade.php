@@ -652,7 +652,7 @@
                             </h3>
                             <p class="text-body-sm text-secondary-600 mb-4">Request a full copy of personal information that
                                 we hold about you, including account, transaction, and interaction data.</p>
-                            
+
                         </div>
 
                         <!-- Data Correction -->
@@ -689,7 +689,7 @@
                             </h3>
                             <p class="text-body-sm text-secondary-600 mb-4">Exercise your “right to be forgotten” by
                                 requesting deletion of personal data, subject to legal or contractual obligations.</p>
-                            <a href="user_account_dashboard.html?section=privacy&action=delete"
+                            <a href="{{ route('user.profile') }}?section=security-section"
                                 class="inline-flex items-center text-warning hover:text-warning-600 transition-fast font-medium text-body-sm">
                                 Request Deletion
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
