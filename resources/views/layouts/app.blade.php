@@ -460,7 +460,7 @@
                         <li><a href="{{ route('contact') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Contact Us</a></li>
                         <li><a href="{{ route('privacy.policy') }}"
-                                class="text-secondary-300 hover:text-accent transition-fast">Contact Us</a></li>
+                                class="text-secondary-300 hover:text-accent transition-fast">Privacy Policy</a></li>
 
                     </ul>
                 </div>
