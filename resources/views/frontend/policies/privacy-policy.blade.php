@@ -1031,7 +1031,7 @@
         <section id="children-privacy" class="mb-12">
             <div class="bg-white rounded-2xl shadow-card overflow-hidden">
                 <!-- Header -->
-                <div class="bg-gradient-to-r from-accent to-accent-700 text-white p-6">
+                <div class="bg-accent from-accent to-accent-700 text-white p-6">
                     <h2 class="text-subheading font-semibold mb-2 flex items-center">
                         <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1123,6 +1123,86 @@
                             class="bg-accent hover:bg-accent-700 text-white text-body-sm py-2 px-4 rounded-lg transition-fast">
                             Contact Privacy Officer
                         </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="policy-updates" class="mb-12">
+            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+                <!-- Header -->
+                <div class="bg-secondary from-accent to-accent-700 text-white p-6">
+                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        12. Changes to This Policy
+                    </h2>
+                    <p class="text-accent-100">
+                        Transparency is our priority — we will always inform you when updates are made to this Privacy
+                        Policy.
+                    </p>
+                </div>
+
+                <!-- Content -->
+                <div class="p-8 space-y-8">
+                    <!-- Policy Updates -->
+                    <div class="border-l-4 border-primary pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Policy Updates and Notifications
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            <strong>Tunga Market</strong> reserves the right to revise or update this Privacy Policy from
+                            time to time
+                            to reflect changes in legal requirements, technological advancements, or our operational
+                            practices.
+                        </p>
+                        <p class="text-body text-secondary-600">
+                            When we make significant updates, we will notify users through prominent notices on our website,
+                            email notifications, or other appropriate means before the changes take effect.
+                        </p>
+                    </div>
+
+                    <!-- Effective Date -->
+                    <div class="border-l-4 border-success pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-success-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-success" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Effective Date
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            The most recent version of this Privacy Policy will always be available on this page, with the
+                            date of
+                            the latest revision clearly indicated at the top. Continued use of our services after such
+                            updates
+                            constitutes acceptance of the revised terms.
+                        </p>
+                    </div>
+
+                    <!-- User Responsibility -->
+                    <div class="border-l-4 border-warning pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-warning-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-warning" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            User Responsibility
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            We encourage users to review this Privacy Policy periodically to stay informed about how
+                            <strong>Tunga Market</strong> protects personal data and ensures compliance with Rwanda’s
+                            <em>Law No. 058/2021 of 13/10/2021 on the Protection of Personal Data and Privacy</em>.
+                        </p>
                     </div>
                 </div>
             </div>
