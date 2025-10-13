@@ -710,7 +710,7 @@
                             </h3>
                             <p class="text-body-sm text-secondary-600 mb-4">Download your personal data in a structured,
                                 machine-readable format for portability and transfer.</p>
-                            
+
                         </div>
                     </div>
 
@@ -718,6 +718,102 @@
             </div>
         </section>
 
+        <section id="security-measures" class="mb-12">
+            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-primary to-primary-700 text-white p-6">
+                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 11c0-1.104.896-2 2-2s2 .896 2 2v2a2 2 0 11-4 0v-2zm-2 0a4 4 0 018 0v2a4 4 0 01-8 0v-2zm-4 8h16v2H6v-2zM4 5h16v2H4V5z" />
+                        </svg>
+                        8. Security Measures
+                    </h2>
+                    <p class="text-primary-100">
+                        We prioritize safeguarding your personal information using technical and organizational security
+                        measures in line with Rwanda’s data protection standards.
+                    </p>
+                </div>
+
+                <!-- Content -->
+                <div class="p-8 space-y-8">
+                    <!-- Technical Safeguards -->
+                    <div class="border-l-4 border-primary pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Technical Safeguards
+                        </h3>
+                        <ul class="list-disc list-inside space-y-2 ml-4 text-body-sm text-secondary-600">
+                            <li>Use of SSL/TLS encryption to secure data transmission between your device and our servers.
+                            </li>
+                            <li>Regular security audits, vulnerability assessments, and system monitoring to detect
+                                unauthorized access.</li>
+                            <li>Secure password hashing and encryption of sensitive user information in databases.</li>
+                            <li>Implementation of two-factor authentication (2FA) for sensitive operations where applicable.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Organizational Measures -->
+                    <div class="border-l-4 border-accent pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Organizational Measures
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            Our internal policies are designed to restrict access to personal data only to authorized
+                            personnel who
+                            require it for legitimate business functions. Employees receive regular data protection and
+                            cybersecurity training.
+                        </p>
+                    </div>
+
+                    <!-- Incident Response -->
+                    <div class="border-l-4 border-warning pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-warning-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-warning" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Data Breach Response
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            In the unlikely event of a data breach, we will take immediate action to mitigate the risk,
+                            notify affected
+                            individuals, and inform the <strong>National Cyber Security Authority (NCSA)</strong> and the
+                            <strong>Data Protection Office</strong> as required under
+                            <strong>Law No. 058/2021</strong>.
+                        </p>
+                    </div>
+
+                    <!-- User Responsibility -->
+                    <div class="border-l-4 border-success pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-success-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-success" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            User Responsibility
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            While we employ strict measures to protect your information, you are responsible for maintaining
+                            the
+                            confidentiality of your login credentials and ensuring secure use of your account.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
 
 
