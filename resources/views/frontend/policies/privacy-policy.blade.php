@@ -925,7 +925,7 @@
             </div>
         </section>
 
-        <section id="international-transfers" class="mb-12">
+        <section id="data-transfers" class="mb-12">
             <div class="bg-white rounded-2xl shadow-card overflow-hidden">
                 <!-- Header -->
                 <div class="bg-gradient-to-r from-primary to-primary-700 text-white p-6">
