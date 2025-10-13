@@ -1250,7 +1250,7 @@
                                 <strong>Response Time:</strong> Within 48 hours
                             </p>
                             <p class="text-body-sm">
-                                <strong>Office Hours:</strong> Monday – Friday, 8:00 AM – 5:00 PM (CAT)
+                                <strong>Office Hours:</strong> Monday – Friday, 8:00 AM – 5:00 PM (UTC)
                             </p>
                         </div>
                     </div>
@@ -1296,9 +1296,10 @@
                             class="btn-secondary bg-white hover:bg-gray-100 text-primary py-3 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
                             Visit Help Center
                         </a>
-                        <a href="live_chat_support_center.html"
+                        <a href="https://wa.me/250787444019?text={{ urlencode('Hello Tunga Market Support, I need help with...') }}"
+                            target="_blank"
                             class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 border border-white/20">
-                            Live Chat Support
+                            WhatsApp Chat Support
                         </a>
                     </div>
                 </div>
