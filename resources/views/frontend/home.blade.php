@@ -144,158 +144,62 @@
     </section>
 
     <!-- Advertisement Carousel -->
-    <section class="py-12 bg-gradient-to-r from-accent-50 to-primary-50 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-8">
-                <h2 class="text-heading font-bold text-primary mb-2">Featured Partnerships</h2>
-                <p class="text-body text-secondary-600">Discover exclusive deals from our trusted brand partners</p>
-            </div>
+    @if(!$advertisements->isEmpty())
+        <section class="py-12 bg-gradient-to-r from-accent-50 to-primary-50 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-heading font-bold text-primary mb-2">Featured Partnerships</h2>
+                    <p class="text-body text-secondary-600">Discover exclusive deals from our trusted brand partners</p>
+                </div>
 
-            <!-- Moving Advertisement Cards Container -->
-            <div class="relative h-32 overflow-hidden">
-                <div class="advertisement-track flex space-x-6 animate-scroll">
-                    <!-- Advertisement Card 1 -->
-                    <div
-                        class="advertisement-card flex-shrink-0 w-80 h-24 bg-white rounded-xl shadow-card border border-gray-100 flex items-center p-4 hover:shadow-hover transition-all duration-300">
-                        <div
-                            class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mr-4">
-                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-primary text-sm">TechGlobal Solutions</h3>
-                            <p class="text-xs text-secondary-600">Electronics & Gadgets</p>
-                            <div class="flex items-center mt-1">
-                                <span class="text-accent font-bold text-sm">30% OFF</span>
-                                <span class="text-xs text-gray-500 ml-2">Limited Time</span>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Moving Advertisement Cards -->
+                <div class="relative h-32 overflow-hidden">
+                    <div class="advertisement-track flex space-x-6 animate-scroll">
 
-                    <!-- Advertisement Card 2 -->
-                    <div
-                        class="advertisement-card flex-shrink-0 w-80 h-24 bg-white rounded-xl shadow-card border border-gray-100 flex items-center p-4 hover:shadow-hover transition-all duration-300">
-                        <div
-                            class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mr-4">
-                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 7h-8l-1-1H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h13c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z" />
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-primary text-sm">EcoLife Products</h3>
-                            <p class="text-xs text-secondary-600">Home & Garden</p>
-                            <div class="flex items-center mt-1">
-                                <span class="text-success font-bold text-sm">25% OFF</span>
-                                <span class="text-xs text-gray-500 ml-2">This Week</span>
-                            </div>
-                        </div>
-                    </div>
+                        @forelse($advertisements as $ad)
+                            <div
+                                class="advertisement-card flex-shrink-0 w-80 h-24 bg-white rounded-xl shadow-card border border-gray-100 flex items-center p-4 hover:shadow-hover transition-all duration-300">
 
-                    <!-- Advertisement Card 3 -->
-                    <div
-                        class="advertisement-card flex-shrink-0 w-80 h-24 bg-white rounded-xl shadow-card border border-gray-100 flex items-center p-4 hover:shadow-hover transition-all duration-300">
-                        <div
-                            class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
-                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-primary text-sm">FashionForward</h3>
-                            <p class="text-xs text-secondary-600">Apparel & Accessories</p>
-                            <div class="flex items-center mt-1">
-                                <span class="text-accent font-bold text-sm">40% OFF</span>
-                                <span class="text-xs text-gray-500 ml-2">Flash Sale</span>
-                            </div>
-                        </div>
-                    </div>
+                                {{-- Icon or Image --}}
+                                <div
+                                    class="w-16 h-16 rounded-lg flex items-center justify-center mr-4
+                                                @if($ad->gradient_from && $ad->gradient_to) bg-gradient-to-br from-{{ $ad->gradient_from }} to-{{ $ad->gradient_to }} @else bg-gray-200 @endif">
 
-                    <!-- Advertisement Card 4 -->
-                    <div
-                        class="advertisement-card flex-shrink-0 w-80 h-24 bg-white rounded-xl shadow-card border border-gray-100 flex items-center p-4 hover:shadow-hover transition-all duration-300">
-                        <div
-                            class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center mr-4">
-                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-primary text-sm">SportPro Equipment</h3>
-                            <p class="text-xs text-secondary-600">Sports & Fitness</p>
-                            <div class="flex items-center mt-1">
-                                <span class="text-success font-bold text-sm">35% OFF</span>
-                                <span class="text-xs text-gray-500 ml-2">New Year Sale</span>
-                            </div>
-                        </div>
-                    </div>
+                                    @if($ad->banner_type === 'svg' && $ad->icon_svg)
+                                        {!! $ad->icon_svg !!}
+                                    @elseif($ad->banner_type === 'image' && $ad->image_url)
+                                        <img src="{{ asset($ad->image_url) }}" alt="{{ $ad->title }}"
+                                            class="w-10 h-10 object-contain rounded-md">
+                                    @else
+                                        <!-- Default icon -->
+                                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                        </svg>
+                                    @endif
+                                </div>
 
-                    <!-- Advertisement Card 5 -->
-                    <div
-                        class="advertisement-card flex-shrink-0 w-80 h-24 bg-white rounded-xl shadow-card border border-gray-100 flex items-center p-4 hover:shadow-hover transition-all duration-300">
-                        <div
-                            class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg flex items-center justify-center mr-4">
-                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-6h11v6zm0-7H4V9h11v2zm5 7h-4V9h4v9z" />
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-primary text-sm">Digital Innovations</h3>
-                            <p class="text-xs text-secondary-600">Software & Tools</p>
-                            <div class="flex items-center mt-1">
-                                <span class="text-accent font-bold text-sm">50% OFF</span>
-                                <span class="text-xs text-gray-500 ml-2">Annual Deal</span>
+                                {{-- Text Details --}}
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-primary text-sm truncate">{{ $ad->title }}</h3>
+                                    <p class="text-xs text-secondary-600">{{ $ad->category }}</p>
+                                    <div class="flex items-center mt-1">
+                                        <span class="font-bold text-sm text-accent">{{ $ad->discount_text }}</span>
+                                        @if($ad->period_text)
+                                            <span class="text-xs text-gray-500 ml-2">{{ $ad->period_text }}</span>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        @empty
+                            <div class="w-full text-center text-gray-500">No active advertisements at the moment.</div>
+                        @endforelse
 
-                    <!-- Duplicate cards for seamless loop -->
-                    <div
-                        class="advertisement-card flex-shrink-0 w-80 h-24 bg-white rounded-xl shadow-card border border-gray-100 flex items-center p-4 hover:shadow-hover transition-all duration-300">
-                        <div
-                            class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mr-4">
-                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-primary text-sm">TechGlobal Solutions</h3>
-                            <p class="text-xs text-secondary-600">Electronics & Gadgets</p>
-                            <div class="flex items-center mt-1">
-                                <span class="text-accent font-bold text-sm">30% OFF</span>
-                                <span class="text-xs text-gray-500 ml-2">Limited Time</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        class="advertisement-card flex-shrink-0 w-80 h-24 bg-white rounded-xl shadow-card border border-gray-100 flex items-center p-4 hover:shadow-hover transition-all duration-300">
-                        <div
-                            class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mr-4">
-                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 7h-8l-1-1H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h13c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z" />
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-primary text-sm">EcoLife Products</h3>
-                            <p class="text-xs text-secondary-600">Home & Garden</p>
-                            <div class="flex items-center mt-1">
-                                <span class="text-success font-bold text-sm">25% OFF</span>
-                                <span class="text-xs text-gray-500 ml-2">This Week</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
     <!-- Countdown Promotion Deals -->
     @if(!$flashDeals->isEmpty())
@@ -663,7 +567,8 @@
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">Shop With Confidence</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Your safety and satisfaction are our top priorities, enjoy secure shopping and trusted service every step of the way.
+                    Your safety and satisfaction are our top priorities, enjoy secure shopping and trusted service every
+                    step of the way.
                 </p>
             </div>
 
@@ -691,7 +596,8 @@
                         </svg>
                     </div>
                     <h3 class="font-semibold text-primary mb-2">Secure Payments</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Your data is protected with <br>bank-level encryption</p>
+                    <p class="text-body-sm text-secondary-600 mb-3">Your data is protected with <br>bank-level encryption
+                    </p>
                     <div class="text-2xl font-bold text-primary">Millions</div>
                     <div class="text-body-sm text-secondary-500">of safe transactions</div>
                 </div>
@@ -736,10 +642,12 @@
                 Ready to Grow With Tunga Market?
             </h2>
             <p class="text-body-lg text-primary-100 mb-8 max-w-2xl mx-auto">
-                Shop the latest products, enjoy exclusive deals, and experience secure, hassle-free shopping. Join Tunga Market and make every purchase count for you and your family!
+                Shop the latest products, enjoy exclusive deals, and experience secure, hassle-free shopping. Join Tunga
+                Market and make every purchase count for you and your family!
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ route('product.discovery') }}" class="bg-accent hover:bg-accent-600 text-white font-semibold px-8 py-4 rounded-lg transition-fast flex items-center justify-center">
+                <a href="{{ route('product.discovery') }}"
+                    class="bg-accent hover:bg-accent-600 text-white font-semibold px-8 py-4 rounded-lg transition-fast flex items-center justify-center">
                     Start Buying Now
                 </a>
             </div>
@@ -1007,9 +915,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                <div class="font-semibold">${styles[type].title}</div>
-                                                                <div class="text-sm opacity-90">${message}</div>
-                                                            `;
+                                                                        <div class="font-semibold">${styles[type].title}</div>
+                                                                        <div class="text-sm opacity-90">${message}</div>
+                                                                    `;
 
             // Progress bar
             const progress = document.createElement("div");

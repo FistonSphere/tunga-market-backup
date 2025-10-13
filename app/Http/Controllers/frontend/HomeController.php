@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Advertisement;
 use App\Models\Category;
 use App\Models\FlashDeal;
 use App\Models\Product;
@@ -140,6 +141,7 @@ class HomeController extends Controller
             // gracefully ignore missing models / columns on dev
         }
 
+        $advertisements = Advertisement::latest()->take(12)->get();
         return view('frontend.home',
  [
         'categories'=>$categories,
@@ -148,10 +150,11 @@ class HomeController extends Controller
         'countdownTargetMs' => $targetMs,
         'maxDiscount' => $maxDiscount,
         'successStories' => $successStories,
-         'trending'=>$trending, 
-         'ordersToday'=>$ordersToday, 
-         'countriesActive'=>$countriesActive
-        
+         'trending'=>$trending,
+         'ordersToday'=>$ordersToday,
+         'countriesActive'=>$countriesActive,
+         'advertisements'=>$advertisements,
+
         ]);
     }
 
@@ -191,7 +194,7 @@ class HomeController extends Controller
 }
 
 
-    
+
     public function show($slug)
     {
         $category = Category::where('slug', $slug)->firstOrFail();
