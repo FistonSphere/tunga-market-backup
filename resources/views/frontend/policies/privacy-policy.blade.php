@@ -710,14 +710,7 @@
                             </h3>
                             <p class="text-body-sm text-secondary-600 mb-4">Download your personal data in a structured,
                                 machine-readable format for portability and transfer.</p>
-                            <a href="user_account_dashboard.html?section=privacy&action=export"
-                                class="inline-flex items-center text-accent hover:text-accent-600 transition-fast font-medium text-body-sm">
-                                Export Data
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                            </a>
+                            
                         </div>
                     </div>
 
