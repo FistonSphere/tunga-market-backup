@@ -925,6 +925,109 @@
             </div>
         </section>
 
+        <section id="international-transfers" class="mb-12">
+            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-primary to-primary-700 text-white p-6">
+                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                        </svg>
+                        10. International Data Transfers
+                    </h2>
+                    <p class="text-primary-100">
+                        Learn how we securely handle your data when it is transferred across international borders.
+                    </p>
+                </div>
+
+                <!-- Content -->
+                <div class="p-8 space-y-8">
+                    <!-- Overview -->
+                    <div class="border-l-4 border-primary pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Overview
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            As part of our global operations, we may transfer and store your personal data outside Rwanda.
+                            These transfers occur only when necessary for service provision, cloud hosting, or partnerships
+                            with trusted third-party service providers located in other jurisdictions.
+                        </p>
+                    </div>
+
+                    <!-- Legal Safeguards -->
+                    <div class="border-l-4 border-success pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-success-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-success" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Legal Safeguards
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            When transferring data internationally, we ensure that adequate protection measures are in place
+                            consistent with <strong>Law No. 058/2021 of the Republic of Rwanda</strong> and other applicable
+                            international privacy standards. These include:
+                        </p>
+                        <ul class="list-disc list-inside space-y-2 ml-4 text-body-sm text-secondary-600">
+                            <li>Using countries recognized as having adequate data protection frameworks.</li>
+                            <li>Implementing contractual clauses approved by competent data protection authorities.</li>
+                            <li>Applying technical and organizational safeguards to protect data confidentiality and
+                                integrity.</li>
+                            <li>Requiring our third-party partners to comply with equivalent privacy and security standards.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Cloud & Third-Party Providers -->
+                    <div class="border-l-4 border-accent pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Cloud & Third-Party Providers
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            Your data may be processed or stored on servers operated by international cloud providers
+                            (such as AWS, Google Cloud, or Microsoft Azure) that maintain data centers across multiple
+                            regions.
+                            All transfers to these providers are governed by strict data processing agreements.
+                        </p>
+                    </div>
+
+                    <!-- Your Rights -->
+                    <div class="border-l-4 border-warning pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-warning-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-warning" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Your Rights Regarding Transfers
+                        </h3>
+                        <p class="text-body text-secondary-600 mb-4">
+                            You have the right to be informed when your data is transferred internationally and to request
+                            details
+                            on the safeguards applied to such transfers. You may also object to certain transfers where
+                            allowed by law.
+                        </p>
+                        <button onclick="contactPrivacyOfficer()"
+                            class="bg-primary hover:bg-primary-700 text-white text-body-sm py-2 px-4 rounded-lg transition-fast">
+                            Contact Privacy Officer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
 
         <!-- Security Section -->
