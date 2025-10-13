@@ -815,6 +815,116 @@
             </div>
         </section>
 
+        <section id="cookies-tracking" class="mb-12">
+            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-warning to-warning-600 text-white p-6">
+                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 2a10 10 0 00-3.515 19.401c.554.1.757-.24.757-.534 0-.264-.01-1.137-.015-2.063-3.083.672-3.733-1.486-3.733-1.486a2.938 2.938 0 00-1.234-1.63c-1.009-.69.077-.676.077-.676a2.337 2.337 0 011.705 1.147 2.37 2.37 0 003.24.925 2.366 2.366 0 01.706-1.489c-2.462-.28-5.056-1.233-5.056-5.486a4.293 4.293 0 011.145-2.972 3.994 3.994 0 01.108-2.933s.93-.298 3.05 1.137a10.333 10.333 0 015.556 0c2.12-1.435 3.05-1.137 3.05-1.137a3.994 3.994 0 01.108 2.933 4.293 4.293 0 011.145 2.972c0 4.263-2.598 5.202-5.07 5.475a2.659 2.659 0 01.762 2.064c0 1.49-.013 2.689-.013 3.055 0 .295.2.64.767.531A10.002 10.002 0 0012 2z" />
+                        </svg>
+                        9. Cookies & Tracking Technologies
+                    </h2>
+                    <p class="text-warning-100">
+                        We use cookies and similar technologies to enhance your browsing experience and analyze site
+                        performance responsibly.
+                    </p>
+                </div>
+
+                <!-- Content -->
+                <div class="p-8 space-y-8">
+                    <!-- What Are Cookies -->
+                    <div class="border-l-4 border-warning pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-warning-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-warning" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            What Are Cookies?
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            Cookies are small text files stored on your device when you visit our website. They help us
+                            remember your preferences,
+                            improve performance, and provide insights into how our services are used.
+                        </p>
+                    </div>
+
+                    <!-- Types of Cookies -->
+                    <div class="border-l-4 border-primary pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Types of Cookies We Use
+                        </h3>
+                        <ul class="list-disc list-inside space-y-2 ml-4 text-body-sm text-secondary-600">
+                            <li><strong>Essential Cookies:</strong> Required for website functionality and security (e.g.,
+                                authentication, session management).</li>
+                            <li><strong>Performance Cookies:</strong> Help us understand how users interact with the site to
+                                improve user experience.</li>
+                            <li><strong>Functional Cookies:</strong> Remember preferences and settings for a more
+                                personalized experience.</li>
+                            <li><strong>Analytics & Marketing Cookies:</strong> Used to analyze traffic and deliver relevant
+                                advertising (only with your consent).</li>
+                        </ul>
+                    </div>
+
+                    <!-- Tracking Technologies -->
+                    <div class="border-l-4 border-accent pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Other Tracking Technologies
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            In addition to cookies, we may use web beacons, pixels, or similar technologies to measure
+                            campaign effectiveness,
+                            monitor traffic sources, and ensure smooth system operations. These tools do not access personal
+                            data without your consent.
+                        </p>
+                    </div>
+
+                    <!-- Managing Cookies -->
+                    <div class="border-l-4 border-success pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-success-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-success" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Managing Your Cookie Preferences
+                        </h3>
+                        <p class="text-body text-secondary-600 mb-4">
+                            You can manage, disable, or delete cookies directly through your browser settings or our consent
+                            banner.
+                            Please note that disabling essential cookies may affect certain website features.
+                        </p>
+
+                        <div class="flex flex-wrap gap-3">
+                            <button onclick="openCookieSettings()" class="btn-primary text-body-sm py-2 px-4">
+                                Open Cookie Settings
+                            </button>
+                            <button onclick="optOutOfAnalytics()"
+                                class="bg-warning-100 hover:bg-warning-200 text-warning-800 text-body-sm py-2 px-4 rounded-lg transition-fast">
+                                Opt-Out of Analytics
+                            </button>
+                            <button onclick="learnMoreAboutCookies()"
+                                class="bg-white hover:bg-gray-50 text-secondary-600 text-body-sm py-2 px-4 rounded-lg border border-border transition-fast">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
 
         <!-- Security Section -->
