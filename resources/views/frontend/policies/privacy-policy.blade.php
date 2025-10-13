@@ -109,12 +109,12 @@
                         <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
                         7. Your Rights & Choices
                     </a>
-                    <a href="#security"
+                    <a href="#security-measures"
                         class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
                         <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
                         8. Security Measures
                     </a>
-                    <a href="#cookies"
+                    <a href="#cookies-tracking"
                         class="flex items-center text-body text-secondary-600 hover:text-accent transition-fast p-2 rounded-lg hover:bg-accent-50">
                         <span class="w-2 h-2 bg-accent rounded-full mr-3"></span>
                         9. Cookies & Tracking Technologies
