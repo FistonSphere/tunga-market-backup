@@ -1208,216 +1208,25 @@
             </div>
         </section>
 
-
-        <!-- Security Section -->
-        <section id="security" class="mb-12">
-            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
-                <div class="bg-gradient-to-r from-secondary-600 to-secondary-800 text-white p-6">
-                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
-                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
-                        5. Security Measures
-                    </h2>
-                    <p class="text-secondary-200">We implement industry-leading security measures to protect your
-                        information.</p>
-                </div>
-                <div class="p-8">
-                    <div class="grid md:grid-cols-3 gap-8">
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-success-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
-                            </div>
-                            <h3 class="font-semibold text-primary mb-3">Encryption</h3>
-                            <p class="text-body-sm text-secondary-600">Your personal data is encrypted both at rest and in
-                                transit using industry-standard AES-256 encryption, keeping your shopping and account
-                                information safe.</p>
-                        </div>
-
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                </svg>
-                            </div>
-                            <h3 class="font-semibold text-primary mb-3">Account Protection</h3>
-                            <p class="text-body-sm text-secondary-600">We use strong account security and privacy controls
-                                so only you can access your personal information and order history.</p>
-                        </div>
-
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-accent-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
-                            </div>
-                            <h3 class="font-semibold text-primary mb-3">Continuous Monitoring</h3>
-                            <p class="text-body-sm text-secondary-600">We monitor our systems 24/7 and respond quickly to
-                                any suspicious activity to keep your shopping experience secure.</p>
-                        </div>
-                    </div>
-
-                    <div class="mt-8 p-6 bg-warning-50 rounded-xl border-l-4 border-warning">
-                        <div class="flex items-start">
-                            <svg class="w-6 h-6 text-warning mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <div>
-                                <h4 class="font-semibold text-primary mb-2">Report Security Concerns</h4>
-                                <p class="text-body-sm text-secondary-600 mb-3">If you notice any suspicious activity or
-                                    security concerns with your account, please contact us immediately.</p>
-                                <a href="mailto:security@tungamarket.com"
-                                    class="inline-flex items-center text-warning hover:text-warning-600 transition-fast font-medium text-body-sm">
-                                    security@tungamarket.com
-                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- International Compliance Section -->
-        <section id="international" class="mb-12">
-            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
-                <div class="bg-gradient-to-r from-primary-400 to-primary-600 text-white p-6">
-                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
-                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        7. International Compliance
-                    </h2>
-                    <p class="text-primary-100">We comply with privacy regulations worldwide to protect your rights.</p>
-                </div>
-                <div class="p-8">
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div>
-                            <h3 class="font-semibold text-primary mb-4 flex items-center">
-                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAzMiAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAwNDNBNSIvPgo8cmVjdCB5PSIxNiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjgiIGZpbGw9IiNGRkQ1MDAiLz4KPC9zdmc+"
-                                    alt="EU Flag" class="w-8 h-6 mr-3" />
-                                GDPR (European Union)
-                            </h3>
-                            <ul class="space-y-2">
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-0.5 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Lawful basis for all data
-                                        processing</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-0.5 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Right to data portability and
-                                        deletion</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-0.5 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">72-hour breach notification</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            <h3 class="font-semibold text-primary mb-4 flex items-center">
-                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAzMiAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iI0I4MjIzNCIvPgo8cGF0aCBkPSJNMCAwaDMydjI0SDBWMHoiIGZpbGw9IiNCODIyMzQiLz4KPC9zdmc+"
-                                    alt="California Flag" class="w-8 h-6 mr-3" />
-                                CCPA (California, USA)
-                            </h3>
-                            <ul class="space-y-2">
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-0.5 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Right to know what data we collect</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-0.5 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">Opt-out of data sale (we don't sell
-                                        data)</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="w-4 h-4 text-success mt-0.5 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-body-sm text-secondary-600">No discrimination for privacy
-                                        choices</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="mt-8 p-6 bg-primary-50 rounded-xl">
-                        <h4 class="font-semibold text-primary mb-3">Global Privacy Standards</h4>
-                        <p class="text-body text-secondary-600 mb-4">
-                            We maintain the highest privacy standards globally, implementing region-specific protections
-                            while ensuring consistent privacy rights for all users.
-                        </p>
-                        <div class="flex flex-wrap gap-3">
-                            <span
-                                class="px-3 py-1 bg-white text-primary text-body-sm font-medium rounded-full border border-primary-200">GDPR
-                                Compliant</span>
-                            <span
-                                class="px-3 py-1 bg-white text-primary text-body-sm font-medium rounded-full border border-primary-200">CCPA
-                                Compliant</span>
-                            <span
-                                class="px-3 py-1 bg-white text-primary text-body-sm font-medium rounded-full border border-primary-200">PIPEDA
-                                Ready</span>
-                            <span
-                                class="px-3 py-1 bg-white text-primary text-body-sm font-medium rounded-full border border-primary-200">LGPD
-                                Compatible</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
         <section id="contact" class="mb-12">
-            <div class="bg-gradient-to-r from-accent to-accent-600 text-white rounded-2xl shadow-modal p-8">
+            <div class="bg-gradient-to-r from-primary to-primary-700 text-white rounded-2xl shadow-modal p-8">
+                <!-- Header -->
                 <div class="text-center mb-8">
                     <h2 class="text-subheading font-semibold mb-3 flex items-center justify-center">
                         <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        8. Contact Information
+                        13. Contact Information
                     </h2>
-                    <p class="text-accent-100 text-body-lg">
-                        Have questions about your privacy? We're here to help.
+                    <p class="text-primary-100 text-body-lg">
+                        Have questions about your privacy or need assistance with your data rights? We’re here to help.
                     </p>
                 </div>
+
+                <!-- Contact Cards -->
                 <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Privacy Officer -->
                     <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
                         <h3 class="font-semibold mb-4 flex items-center">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1426,19 +1235,27 @@
                             </svg>
                             Privacy Officer
                         </h3>
-                        <p class="text-accent-100 text-body-sm mb-4">For privacy-related inquiries and data protection
-                            matters.</p>
+                        <p class="text-primary-100 text-body-sm mb-4">
+                            For privacy-related questions, access requests, or to exercise your rights under Rwanda’s
+                            <em>Law No. 058/2021 on Data Protection and Privacy</em>.
+                        </p>
                         <div class="space-y-2">
                             <p class="text-body-sm">
-                                <strong>Email:</strong> <a href="mailto:privacy@tungamarket.com"
-                                    class="underline hover:no-underline">privacy@tungamarket.com</a>
+                                <strong>Email:</strong>
+                                <a href="mailto:privacy@tungamarket.com" class="underline hover:no-underline">
+                                    privacy@tungamarket.com
+                                </a>
                             </p>
                             <p class="text-body-sm">
                                 <strong>Response Time:</strong> Within 48 hours
                             </p>
+                            <p class="text-body-sm">
+                                <strong>Office Hours:</strong> Monday – Friday, 8:00 AM – 5:00 PM (CAT)
+                            </p>
                         </div>
                     </div>
 
+                    <!-- Legal Department -->
                     <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
                         <h3 class="font-semibold mb-4 flex items-center">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1449,28 +1266,35 @@
                             </svg>
                             Legal Department
                         </h3>
-                        <p class="text-accent-100 text-body-sm mb-4">For legal notices, regulatory compliance, and formal
-                            requests.</p>
+                        <p class="text-primary-100 text-body-sm mb-4">
+                            For legal correspondence, compliance inquiries, or formal notices regarding this Privacy Policy.
+                        </p>
                         <div class="space-y-2">
                             <p class="text-body-sm">
-                                <strong>Address:</strong> 123 Commerce Street, Business District, Global City 12345
+                                <strong>Address:</strong> Tunga Market Headquarters, KN 78 Street, Kigali, Rwanda
                             </p>
                             <p class="text-body-sm">
-                                <strong>Email:</strong> <a href="mailto:legal@tungamarket.com"
-                                    class="underline hover:no-underline">legal@tungamarket.com</a>
+                                <strong>Email:</strong>
+                                <a href="mailto:legal@tungamarket.com" class="underline hover:no-underline">
+                                    legal@tungamarket.com
+                                </a>
+                            </p>
+                            <p class="text-body-sm">
+                                <strong>Attention:</strong> Legal & Compliance Team
                             </p>
                         </div>
                     </div>
                 </div>
 
+                <!-- Support Section -->
                 <div class="mt-8 text-center">
-                    <p class="text-accent-100 text-body-sm mb-4">
-                        You can also reach us through our general support channels:
+                    <p class="text-primary-100 text-body-sm mb-4">
+                        You may also reach out to our general support channels for non-legal or technical inquiries:
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
                         <a href="{{ route('help.center') }}"
-                            class="btn-secondary bg-white hover:bg-gray-100 text-accent py-3 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                            Help Center
+                            class="btn-secondary bg-white hover:bg-gray-100 text-primary py-3 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                            Visit Help Center
                         </a>
                         <a href="live_chat_support_center.html"
                             class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 border border-white/20">
@@ -1480,6 +1304,7 @@
                 </div>
             </div>
         </section>
+
     </main>
 
 @endsection
