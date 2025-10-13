@@ -1028,6 +1028,105 @@
             </div>
         </section>
 
+        <section id="children-privacy" class="mb-12">
+            <div class="bg-white rounded-2xl shadow-card overflow-hidden">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-accent to-accent-700 text-white p-6">
+                    <h2 class="text-subheading font-semibold mb-2 flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5V4H2v16h5m10 0V10l-4 4-4-4v10m8 0H9" />
+                        </svg>
+                        11. Children’s Privacy
+                    </h2>
+                    <p class="text-accent-100">
+                        We take the privacy and safety of children seriously and comply with all applicable child protection
+                        laws.
+                    </p>
+                </div>
+
+                <!-- Content -->
+                <div class="p-8 space-y-8">
+                    <!-- Policy Statement -->
+                    <div class="border-l-4 border-primary pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Policy Overview
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            <strong>Tunga Market</strong> does not knowingly collect or process personal data from
+                            individuals
+                            under the age of <strong>16</strong>. Our services are intended for users who can lawfully enter
+                            into
+                            binding contracts under the laws of the Republic of Rwanda.
+                        </p>
+                    </div>
+
+                    <!-- Parental Consent -->
+                    <div class="border-l-4 border-success pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-success-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-success" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Parental Consent
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            If we become aware that a child under 16 has provided personal information without verified
+                            parental
+                            consent, we will take immediate steps to delete such information from our records and systems.
+                        </p>
+                        <p class="text-body text-secondary-600">
+                            Parents or guardians who believe their child has submitted personal data may contact us to
+                            review,
+                            correct, or request deletion of that information.
+                        </p>
+                    </div>
+
+                    <!-- Educational & Safety Commitment -->
+                    <div class="border-l-4 border-warning pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-warning-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-warning" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Educational & Safety Commitment
+                        </h3>
+                        <p class="text-body text-secondary-600">
+                            We encourage parents and guardians to educate children about responsible online behavior and the
+                            importance of safeguarding personal information. <strong>Tunga Market</strong> promotes a safe,
+                            family-friendly digital environment that aligns with Rwandan child protection guidelines.
+                        </p>
+                    </div>
+
+                    <!-- Contact for Concerns -->
+                    <div class="border-l-4 border-accent pl-6">
+                        <h3 class="font-semibold text-primary mb-3 flex items-center">
+                            <div class="w-6 h-6 bg-accent-100 rounded-full flex items-center justify-center mr-3">
+                                <svg class="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </div>
+                            Contact for Child Privacy Concerns
+                        </h3>
+                        <p class="text-body text-secondary-600 mb-4">
+                            If you believe we may have collected data from a child under 16, please reach out immediately.
+                            We will act promptly to address and resolve the issue in line with our compliance obligations.
+                        </p>
+                        <button onclick="contactPrivacyOfficer()"
+                            class="bg-accent hover:bg-accent-700 text-white text-body-sm py-2 px-4 rounded-lg transition-fast">
+                            Contact Privacy Officer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
 
         <!-- Security Section -->
