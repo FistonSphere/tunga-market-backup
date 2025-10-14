@@ -164,81 +164,106 @@
     <!-- Advertisement Carousel -->
     <section class="py-12 bg-gradient-to-r from-accent-50 to-primary-50 overflow-hidden relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Section Header -->
             <div class="text-center mb-8">
-                <h2 class="text-heading font-bold text-primary mb-2">🎉 Featured Deals & Hot Promotions</h2>
-                <p class="text-body text-secondary-600">
-                    Discover exclusive deals, trending products, and promotions from our premium marketplace
-                </p>
+                <h2 class="text-heading font-bold text-primary mb-2">🎉 Featured Brand Partnerships & Deals</h2>
+                <p class="text-body text-secondary-600">Discover exclusive deals, brand partnerships, and trending products
+                    from our premium global marketplace</p>
             </div>
 
-            <!-- Advertisement Carousel Container -->
-            <div class="relative h-52 overflow-hidden rounded-2xl shadow-card mb-8">
-                <div
-                    class="advertisement-track absolute inset-0 flex items-center space-x-6 px-6 transition-transform duration-500 ease-out">
+            <!-- Enhanced Advertisement Banner Container -->
+            <div
+                class="relative h-48 overflow-hidden rounded-2xl bg-gradient-to-r from-white via-gray-50 to-white shadow-card mb-8">
+                <!-- Main Advertisement Track -->
+                <div class="advertisement-track absolute inset-0 flex items-center space-x-6 px-6">
 
-                    <!-- Example: Dynamic Advertisement Card Loop -->
-                    @foreach($ads as $ad)
-                        <div
-                            class="advertisement-card flex-shrink-0 w-[420px] h-44 rounded-xl shadow-lg relative overflow-hidden
-                                    @if($ad->type === 'video') bg-gradient-to-br from-purple-600 via-pink-600 to-red-500 @else bg-white/70 @endif">
 
-                            <!-- Background Image / Video Thumbnail -->
-                            <div class="absolute inset-0">
-                                @if($ad->type === 'video')
-                                    <img src="{{ $ad->media_url }}" alt="{{ $ad->title }}" class="w-full h-full object-cover" />
-                                    <div class="absolute inset-0 bg-black/40"></div>
-                                @else
-                                    <img src="{{ $ad->media_url }}" alt="{{ $ad->title }}" class="w-full h-full object-cover" />
-                                @endif
-                            </div>
-
-                            <!-- Overlay Content -->
-                            <div class="absolute inset-0 p-5 flex flex-col justify-between text-white z-10">
-                                <div class="flex items-center mb-2">
-                                    @if($ad->badge)
-                                        <span
-                                            class="bg-gradient-to-r from-yellow-400 to-orange-500 px-3 py-1 rounded-full text-xs font-bold">
-                                            {{ $ad->badge }}
-                                        </span>
-                                    @endif
-                                </div>
-
-                                <div>
-                                    <h3 class="font-bold text-xl mb-1">{{ $ad->title }}</h3>
-                                    <p class="text-sm mb-3">{{ $ad->subtitle }}</p>
-                                </div>
-
-                                <div class="flex items-center justify-between bg-black/40 rounded-lg p-2">
-                                    <div>
-                                        <span class="text-lg font-bold">{{ $ad->cta_text }}</span>
-                                        @if($ad->extra_info)
-                                            <p class="text-xs text-gray-200">{{ $ad->extra_info }}</p>
-                                        @endif
-                                    </div>
-                                    @if($ad->type === 'video')
-                                        <div class="flex items-center">
-                                            <span class="text-2xl">🎬</span>
-                                            <p class="text-xs text-gray-200">Video</p>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <!-- Play Button for Video Ads -->
-                            @if($ad->type === 'video')
-                                <div
-                                    class="absolute top-4 right-4 w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm cursor-pointer">
-                                    <svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M8 5v14l11-7z" />
-                                    </svg>
-                                </div>
-                            @endif
+                    <!-- Video-Style Banner Ad 2 - Fashion Showcase -->
+                    <div
+                        class="advertisement-card flex-shrink-0 w-[420px] h-40 bg-gradient-to-br from-purple-600 via-pink-600 to-red-500 rounded-xl shadow-lg relative overflow-hidden">
+                        <!-- Video Thumbnail Style -->
+                        <div class="absolute inset-0">
+                            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800&auto=format&fit=crop"
+                                alt="Fashion Store" class="w-full h-full object-cover" />
+                            <!-- Black overlay -->
+                            <div class="absolute inset-0 bg-black/50"></div>
                         </div>
-                    @endforeach
+
+
+                        <!-- Play Button Overlay -->
+                        <div
+                            class="absolute top-4 right-4 w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                        </div>
+
+                        <div class="absolute inset-0 p-6 flex flex-col justify-center text-white z-10">
+                            <div class="flex items-center mb-2">
+                                <span
+                                    class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">NEW
+                                    ARRIVALS</span>
+                            </div>
+                            <h3 class="font-bold text-2xl mb-1 text-accent-500">Fashion Week 2025</h3>
+                            <p class="text-pink-100 text-sm mb-3">Trending styles from global designers</p>
+                            <div class="flex items-center justify-between" style="padding:2px;border-radius: 8px; background-color: #001528">
+                                <div>
+                                    <span class="text-lg font-bold">Watch Collection →</span>
+                                    <p class="text-xs text-pink-200">👗 1000+ New Items</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-2xl">🎬</span>
+                                    <p class="text-xs text-pink-200">Video Showcase</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Beauty & Cosmetics Banner Ad 6 - Lifestyle -->
+                    <div
+                        class="advertisement-card flex-shrink-0 w-[420px] h-40 bg-gradient-to-br from-pink-500 to-rose-600 rounded-xl shadow-lg relative overflow-hidden">
+                        <!-- Beauty Products Collage -->
+                        <div class="absolute right-4 top-4 flex flex-wrap gap-1 max-w-20">
+                            <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=100&auto=format&fit=crop"
+                                alt="Makeup" class="w-6 h-6 rounded-full object-cover border border-white/30" />
+                            <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?q=80&w=100&auto=format&fit=crop"
+                                alt="Skincare" class="w-6 h-6 rounded-full object-cover border border-white/30" />
+                            <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=100&auto=format&fit=crop"
+                                alt="Perfume" class="w-6 h-6 rounded-full object-cover border border-white/30" />
+                            <img src="https://images.unsplash.com/photo-1590736969955-71cc94901144?q=80&w=100&auto=format&fit=crop"
+                                alt="Beauty Tools" class="w-6 h-6 rounded-full object-cover border border-white/30" />
+                        </div>
+
+                        <!-- Sparkle Animation -->
+                        <div class="absolute top-6 left-4">
+                            <div class="flex space-x-1">
+                                <span class="text-yellow-300 animate-pulse">✨</span>
+                                <span class="text-yellow-300 animate-bounce">💄</span>
+                                <span class="text-yellow-300 animate-ping">✨</span>
+                            </div>
+                        </div>
+
+                        <div class="absolute inset-0 p-6 flex flex-col justify-center text-black">
+                            <div class="flex items-center mb-2">
+                                <span
+                                    class="bg-gradient-to-r from-yellow-400 to-pink-400 text-pink-800 px-3 py-1 rounded-full text-xs font-bold">BEAUTY
+                                    WEEK</span>
+                            </div>
+                            <h3 class="font-bold text-2xl mb-1">Global Beauty</h3>
+                            <p class="text-pink-100 text-sm mb-3">Premium skincare & luxury cosmetics</p>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-2xl font-bold">45% OFF</span>
+                                    <p class="text-xs text-pink-200">💖 Beauty Lovers</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-bold">🛍️ Shop Collection</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Fade edges for smooth carousel look -->
+                <!-- Enhanced Fade edges -->
                 <div
                     class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-50 via-gray-50/80 to-transparent z-10">
                 </div>
@@ -246,26 +271,27 @@
                     class="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 via-gray-50/80 to-transparent z-10">
                 </div>
             </div>
+        </div>
 
-            <!-- Floating Promotional Badges -->
-            <div class="absolute top-4 right-4 animate-bounce">
-                <div class="bg-accent text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-                    🔥 LIVE DEALS
-                </div>
+        <!-- Enhanced Floating promotional badges with more variety -->
+        <div class="absolute top-4 right-4 animate-bounce">
+            <div class="bg-accent text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                🔥 LIVE DEALS
             </div>
-            <div class="absolute top-1/3 left-4 animate-bounce">
-                <div class="bg-primary text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-                    🌟 NEW ARRIVALS
-                </div>
+        </div>
+
+        <div class="absolute top-1/3 left-4 animate-bounce">
+            <div class="bg-primary text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                🌟 NEW ARRIVALS
             </div>
-            <div class="absolute bottom-1/3 right-4 animate-bounce" style="animation-delay: 1s;">
-                <div class="bg-warning text-black px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-                    📦 FREE SHIPPING
-                </div>
+        </div>
+
+        <div class="absolute bottom-1/3 right-4 animate-bounce" style="animation-delay: 1s;">
+            <div class="bg-warning text-black px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                📦 FREE SHIPPING
             </div>
         </div>
     </section>
-
 
     <!-- Countdown Promotion Deals -->
     @if(!$flashDeals->isEmpty())
@@ -981,9 +1007,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                    <div class="font-semibold">${styles[type].title}</div>
-                                                                                                    <div class="text-sm opacity-90">${message}</div>
-                                                                                                `;
+                                                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                                                <div class="text-sm opacity-90">${message}</div>
+                                                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");
