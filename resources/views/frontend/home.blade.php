@@ -815,7 +815,7 @@
         </div>
     </div>
     <div id="login-warning-modal-wrapper2"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden" style="z-index:99999999">
         <div id="login-warning-modal"
             class="bg-white rounded-2xl shadow-modal w-full max-w-md mx-auto transform transition-all duration-300 relative p-8">
             <!-- Close Button -->
