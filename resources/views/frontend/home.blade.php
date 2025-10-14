@@ -175,34 +175,37 @@
                 class="relative h-48 overflow-hidden rounded-2xl bg-gradient-to-r from-white via-gray-50 to-white shadow-card mb-8">
                 <!-- Main Advertisement Track -->
                 <div class="advertisement-track absolute inset-0 flex items-center space-x-6 px-6">
-                   
+
 
                     <!-- Video-Style Banner Ad 2 - Fashion Showcase -->
                     <div
                         class="advertisement-card flex-shrink-0 w-[420px] h-40 bg-gradient-to-br from-purple-600 via-pink-600 to-red-500 rounded-xl shadow-lg relative overflow-hidden">
                         <!-- Video Thumbnail Style -->
-                        <div class="absolute inset-0 opacity-20">
+                        <div class="absolute inset-0">
                             <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800&auto=format&fit=crop"
                                 alt="Fashion Store" class="w-full h-full object-cover" />
+                            <!-- Black overlay -->
+                            <div class="absolute inset-0 bg-black/50"></div> <!-- 50% black -->
                         </div>
+
 
                         <!-- Play Button Overlay -->
                         <div
                             class="absolute top-4 right-4 w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <svg class="w-6 h-6 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z" />
                             </svg>
                         </div>
 
-                        <div class="absolute inset-0 p-6 flex flex-col justify-center text-black z-10">
+                        <div class="absolute inset-0 p-6 flex flex-col justify-center text-white z-10">
                             <div class="flex items-center mb-2">
                                 <span
-                                    class="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-3 py-1 rounded-full text-xs font-bold">NEW
+                                    class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">NEW
                                     ARRIVALS</span>
                             </div>
-                            <h3 class="font-bold text-2xl mb-1">Fashion Week 2025</h3>
+                            <h3 class="font-bold text-2xl mb-1 text-accent-500">Fashion Week 2025</h3>
                             <p class="text-pink-100 text-sm mb-3">Trending styles from global designers</p>
-                            <div class="flex items-center justify-between">
+                            <div class="flex items-center justify-between bg-secondary" style="border-radius: 8px">
                                 <div>
                                     <span class="text-lg font-bold">Watch Collection →</span>
                                     <p class="text-xs text-pink-200">👗 1000+ New Items</p>
@@ -231,7 +234,7 @@
                         <!-- Product Showcase -->
                         <div class="absolute right-4 top-4 grid grid-cols-3 gap-1">
                             <div class="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                                <svg class="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
                                     <path
                                         d="M9.5 2A1.5 1.5 0 008 3.5v1A1.5 1.5 0 009.5 6h5A1.5 1.5 0 0016 4.5v-1A1.5 1.5 0 0014.5 2h-5z" />
                                     <path
@@ -362,153 +365,17 @@
                     class="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 via-gray-50/80 to-transparent z-10">
                 </div>
             </div>
-
-            <!-- Secondary Advertisement Grid - Image & Video Showcase -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <!-- Image Advertisement 1 - Product Category -->
-                <div
-                    class="group cursor-pointer bg-white rounded-xl shadow-card overflow-hidden hover:shadow-hover transition-all duration-300 transform hover:scale-105">
-                    <div class="relative h-32 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=600&auto=format&fit=crop"
-                            alt="Fashion Collection"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        <div class="absolute bottom-3 left-3 text-black">
-                            <h4 class="font-bold text-sm">Fashion Forward</h4>
-                            <p class="text-xs opacity-90">2000+ Items</p>
-                        </div>
-                        <div class="absolute top-3 right-3 bg-accent text-black px-2 py-1 rounded-full text-xs font-bold">
-                            NEW
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <p class="text-sm text-secondary-600 mb-2">Trending styles & seasonal collections</p>
-                        <button class="text-accent font-semibold text-sm hover:text-accent-600 transition-colors">Browse
-                            Collection →</button>
-                    </div>
-                </div>
-
-                <!-- Video Advertisement 2 - Brand Story -->
-                <div
-                    class="group cursor-pointer bg-white rounded-xl shadow-card overflow-hidden hover:shadow-hover transition-all duration-300 transform hover:scale-105">
-                    <div class="relative h-32 overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600">
-                        <!-- Video thumbnail with play button -->
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div
-                                class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
-                                <svg class="w-8 h-8 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z" />
-                                </svg>
-                            </div>
-                        </div>
-
-                        <!-- Animated background elements -->
-                        <div class="absolute top-4 left-4 w-3 h-3 bg-white rounded-full opacity-60 animate-pulse"></div>
-                        <div class="absolute bottom-4 right-4 w-2 h-2 bg-white rounded-full opacity-40 animate-bounce">
-                        </div>
-
-                        <div class="absolute bottom-3 left-3 text-black">
-                            <h4 class="font-bold text-sm">Brand Stories</h4>
-                            <p class="text-xs opacity-90">Watch & Discover</p>
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <p class="text-sm text-secondary-600 mb-2">Exclusive behind-the-scenes content</p>
-                        <button class="text-accent font-semibold text-sm hover:text-accent-600 transition-colors">Watch
-                            Videos →</button>
-                    </div>
-                </div>
-
-                <!-- Image Advertisement 3 - Deals Collage -->
-                <div
-                    class="group cursor-pointer bg-white rounded-xl shadow-card overflow-hidden hover:shadow-hover transition-all duration-300 transform hover:scale-105">
-                    <div class="relative h-32 overflow-hidden">
-                        <!-- Product image grid -->
-                        <div class="grid grid-cols-2 h-full gap-1">
-                            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=300&auto=format&fit=crop"
-                                alt="Home Decor" class="w-full h-full object-cover" />
-                            <div class="grid grid-rows-2 gap-1">
-                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=200&auto=format&fit=crop"
-                                    alt="Sports" class="w-full h-full object-cover" />
-                                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=200&auto=format&fit=crop"
-                                    alt="Shoes" class="w-full h-full object-cover" />
-                            </div>
-                        </div>
-
-                        <!-- Overlay with deal info -->
-                        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                            <div class="text-center text-black">
-                                <h4 class="font-bold text-lg">Daily Deals</h4>
-                                <p class="text-sm">Up to 60% OFF</p>
-                            </div>
-                        </div>
-
-                        <div
-                            class="absolute top-3 right-3 bg-red-500 text-black px-2 py-1 rounded-full text-xs font-bold animate-pulse">
-                            HOT
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <p class="text-sm text-secondary-600 mb-2">Limited time offers across categories</p>
-                        <button class="text-accent font-semibold text-sm hover:text-accent-600 transition-colors">View All
-                            Deals →</button>
-                    </div>
-                </div>
-
-                <!-- Interactive Advertisement 4 - Supplier Spotlight -->
-                <div
-                    class="group cursor-pointer bg-white rounded-xl shadow-card overflow-hidden hover:shadow-hover transition-all duration-300 transform hover:scale-105">
-                    <div class="relative h-32 overflow-hidden bg-gradient-to-r from-green-500 to-teal-600">
-                        <!-- Supplier logos/avatars -->
-                        <div class="absolute top-3 left-3 flex space-x-1">
-                            <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                                <span class="text-xs font-bold text-green-600">S1</span>
-                            </div>
-                            <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                                <span class="text-xs font-bold text-green-600">S2</span>
-                            </div>
-                            <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                                <span class="text-xs font-bold text-green-600">+5</span>
-                            </div>
-                        </div>
-
-                        <!-- Verification badges -->
-                        <div class="absolute top-3 right-3 flex flex-col space-y-1">
-                            <span class="bg-emerald-500 text-black px-2 py-0.5 rounded-full text-xs font-bold">✓
-                                VERIFIED</span>
-                            <span class="bg-blue-500 text-black px-2 py-0.5 rounded-full text-xs font-bold">★ TOP
-                                RATED</span>
-                        </div>
-
-                        <div class="absolute bottom-3 left-3 text-black">
-                            <h4 class="font-bold text-sm">Verified Suppliers</h4>
-                            <p class="text-xs opacity-90">Trusted Partners</p>
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <p class="text-sm text-secondary-600 mb-2">Connect with certified global suppliers</p>
-                        <button class="text-accent font-semibold text-sm hover:text-accent-600 transition-colors">Find
-                            Suppliers →</button>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Enhanced Floating promotional badges with more variety -->
         <div class="absolute top-4 right-4 animate-bounce">
-            <div class="bg-accent text-black px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+            <div class="bg-accent text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
                 🔥 LIVE DEALS
             </div>
         </div>
 
-        <div class="absolute bottom-4 left-4 animate-pulse">
-            <div class="bg-success text-black px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-                💰 SAVE UP TO 70%
-            </div>
-        </div>
-
-        <div class="absolute top-1/3 left-4 animate-float">
-            <div class="bg-primary text-black px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+        <div class="absolute top-1/3 left-4 animate-bounce">
+            <div class="bg-primary text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
                 🌟 NEW ARRIVALS
             </div>
         </div>
@@ -1234,9 +1101,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                            <div class="font-semibold">${styles[type].title}</div>
-                                                                                            <div class="text-sm opacity-90">${message}</div>
-                                                                                        `;
+                                                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                                                <div class="text-sm opacity-90">${message}</div>
+                                                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");
