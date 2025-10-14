@@ -284,9 +284,6 @@
                                                     </span>
                                                 @endif
                                             </div>
-                                            <div class="flex items-center text-yellow-400">
-                                                ⭐ <span class="text-sm text-gray-600 ml-1">4.7 ({{ rand(200, 1500) }})</span>
-                                            </div>
                                         </div>
 
                                         <!-- Actions -->
