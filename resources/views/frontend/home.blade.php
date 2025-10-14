@@ -1497,57 +1497,6 @@
         }
 
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const filters = ["category", "discount", "price", "time", "sort"];
-            const productsGrid = document.getElementById("products-grid");
-            const clearBtn = document.getElementById("clear-filters");
-            const spinner = document.getElementById("loading-spinner");
-
-            filters.forEach(filter => {
-                document.getElementById(`${filter}-filter`)?.addEventListener("change", fetchFlashDeals);
-            });
-
-            clearBtn?.addEventListener("click", () => {
-                filters.forEach(filter => {
-                    document.getElementById(`${filter}-filter`).value = "";
-                });
-                fetchFlashDeals();
-            });
-
-            function fetchFlashDeals() {
-                const params = {
-                    category: document.getElementById("category-filter").value,
-                    discount: document.getElementById("discount-filter").value,
-                    price: document.getElementById("price-filter").value,
-                    time: document.getElementById("time-filter").value,
-                    sort: document.getElementById("sort-filter")?.value,
-                };
-
-                const query = new URLSearchParams(params).toString();
-
-                // Show spinner and clear products grid temporarily
-                spinner.classList.remove("hidden");
-                productsGrid.classList.add("opacity-30");
-
-                fetch(`/flash-deals/filter?${query}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        productsGrid.innerHTML = data.html || "<p class='text-center text-gray-500 py-8'>No deals found.</p>";
-                    })
-                    .catch(err => {
-                        console.error("Error loading filtered deals:", err);
-                        productsGrid.innerHTML = "<p class='text-center text-red-500 py-8'>Failed to load deals. Try again.</p>";
-                    })
-                    .finally(() => {
-                        // Hide spinner and restore opacity after loading completes
-                        setTimeout(() => {
-                            spinner.classList.add("hidden");
-                            productsGrid.classList.remove("opacity-30");
-                        }, 300);
-                    });
-            }
-        });
-
-
+        
     </script>
 @endsection
