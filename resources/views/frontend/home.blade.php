@@ -162,38 +162,312 @@
     </section>
 
     <!-- Advertisement Carousel -->
-    @if(!$advertisements->isEmpty())
-        <section class="py-12 bg-gradient-to-r from-accent-50 to-primary-50 overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-8">
-                    <h2 class="text-heading font-bold text-primary mb-2">Featured Partnerships</h2>
-                    <p class="text-body text-secondary-600">Discover exclusive deals from our trusted brand partners</p>
-                </div>
+    <section class="py-12 bg-gradient-to-r from-accent-50 to-primary-50 overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8">
+                <h2 class="text-heading font-bold text-primary mb-2">🎉 Featured Brand Partnerships</h2>
+                <p class="text-body text-secondary-600">Discover exclusive deals from our premium global brand partners</p>
+            </div>
 
-                <!-- Moving Advertisement Cards -->
-                <div class="relative overflow-hidden">
-                    <div class="advertisement-track flex space-x-6 animate-scroll">
-
-                        @foreach ($advertisements as $ad)
-                            @if($ad->banner_type === 'image')
-                                <img src="{{ asset($ad->image_url) }}" alt="{{ $ad->title }}" style="width: 450px; object-fit: cover; height: 200px;" class="rounded-xl" />
-                            @else
-                                <div class="rounded-xl p-8 text-white"
-                                    style="background: linear-gradient(to right, {{ $ad->gradient_from }}, {{ $ad->gradient_to }}); width: 450px; height: 200px;">
-                                    {!! $ad->icon_svg !!}
-                                    <h3 class="text-2xl font-semibold mt-4">{{ $ad->title }}</h3>
-                                    <p class="opacity-90">{{ $ad->discount_text }} - {{ $ad->period_text }}</p>
-                                    <a href="{{ $ad->cta_url }}" class="btn-primary mt-4 inline-block">{{ $ad->cta_text }}</a>
+            <!-- Moving Advertisement Banner Container -->
+            <div
+                class="relative h-40 overflow-hidden rounded-2xl bg-gradient-to-r from-white via-gray-50 to-white shadow-card">
+                <!-- Main Advertisement Track -->
+                <div class="advertisement-track absolute inset-0 flex items-center space-x-6 px-6">
+                    <!-- Advertisement Banner 1 - TechGlobal Solutions -->
+                    <div
+                        class="advertisement-card flex-shrink-0 w-96 h-28 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl shadow-lg flex items-center p-6 text-white relative overflow-hidden">
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-20">
+                            <svg class="w-full h-full" viewBox="0 0 400 120" fill="none">
+                                <circle cx="350" cy="20" r="30" fill="currentColor" opacity="0.3" />
+                                <circle cx="380" cy="80" r="20" fill="currentColor" opacity="0.2" />
+                            </svg>
+                        </div>
+                        <div class="relative z-10 flex items-center space-x-4">
+                            <div
+                                class="w-16 h-16 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-xl mb-1">TechGlobal Solutions</h3>
+                                <p class="text-blue-100 text-sm mb-2">Premium Electronics & Smart Devices</p>
+                                <div class="flex items-center space-x-4">
+                                    <span class="bg-white text-blue-600 px-3 py-1 rounded-full font-bold text-lg">30%
+                                        OFF</span>
+                                    <span class="text-blue-100 text-sm">⏰ Limited Time Only</span>
                                 </div>
-                            @endif
-                        @endforeach
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- Advertisement Banner 2 - EcoLife Products -->
+                    <div
+                        class="advertisement-card flex-shrink-0 w-96 h-28 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl shadow-lg flex items-center p-6 text-white relative overflow-hidden">
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-20">
+                            <svg class="w-full h-full" viewBox="0 0 400 120" fill="none">
+                                <path d="M0 60 Q100 20 200 60 T400 60" stroke="currentColor" stroke-width="2" fill="none"
+                                    opacity="0.3" />
+                                <circle cx="50" cy="30" r="15" fill="currentColor" opacity="0.2" />
+                            </svg>
+                        </div>
+                        <div class="relative z-10 flex items-center space-x-4">
+                            <div
+                                class="w-16 h-16 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 7h-8l-1-1H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h13c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-xl mb-1">EcoLife Products</h3>
+                                <p class="text-green-100 text-sm mb-2">Sustainable Home & Garden Solutions</p>
+                                <div class="flex items-center space-x-4">
+                                    <span class="bg-white text-green-600 px-3 py-1 rounded-full font-bold text-lg">25%
+                                        OFF</span>
+                                    <span class="text-green-100 text-sm">🌱 Eco-Friendly</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- Advertisement Banner 3 - FashionForward -->
+                    <div
+                        class="advertisement-card flex-shrink-0 w-96 h-28 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl shadow-lg flex items-center p-6 text-white relative overflow-hidden">
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-20">
+                            <svg class="w-full h-full" viewBox="0 0 400 120" fill="none">
+                                <rect x="300" y="10" width="80" height="80" rx="10" fill="currentColor" opacity="0.2" />
+                                <circle cx="320" cy="100" r="25" fill="currentColor" opacity="0.3" />
+                            </svg>
+                        </div>
+                        <div class="relative z-10 flex items-center space-x-4">
+                            <div
+                                class="w-16 h-16 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-xl mb-1">FashionForward</h3>
+                                <p class="text-purple-100 text-sm mb-2">Trendy Apparel & Luxury Accessories</p>
+                                <div class="flex items-center space-x-4">
+                                    <span class="bg-white text-purple-600 px-3 py-1 rounded-full font-bold text-lg">40%
+                                        OFF</span>
+                                    <span class="text-purple-100 text-sm">✨ Flash Sale</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advertisement Banner 4 - SportPro Equipment -->
+                    <div
+                        class="advertisement-card flex-shrink-0 w-96 h-28 bg-gradient-to-r from-red-500 to-orange-600 rounded-xl shadow-lg flex items-center p-6 text-white relative overflow-hidden">
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-20">
+                            <svg class="w-full h-full" viewBox="0 0 400 120" fill="none">
+                                <polygon points="350,10 370,50 350,90 330,50" fill="currentColor" opacity="0.3" />
+                                <circle cx="30" cy="90" r="20" fill="currentColor" opacity="0.2" />
+                            </svg>
+                        </div>
+                        <div class="relative z-10 flex items-center space-x-4">
+                            <div
+                                class="w-16 h-16 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-xl mb-1">SportPro Equipment</h3>
+                                <p class="text-red-100 text-sm mb-2">Professional Sports & Fitness Gear</p>
+                                <div class="flex items-center space-x-4">
+                                    <span class="bg-white text-red-600 px-3 py-1 rounded-full font-bold text-lg">35%
+                                        OFF</span>
+                                    <span class="text-red-100 text-sm">🏃‍♂️ New Year Sale</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advertisement Banner 5 - Digital Innovations -->
+                    <div
+                        class="advertisement-card flex-shrink-0 w-96 h-28 bg-gradient-to-r from-indigo-500 to-blue-700 rounded-xl shadow-lg flex items-center p-6 text-white relative overflow-hidden">
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-20">
+                            <svg class="w-full h-full" viewBox="0 0 400 120" fill="none">
+                                <path d="M300 20 L380 40 L360 80 L280 60 Z" fill="currentColor" opacity="0.3" />
+                                <rect x="10" y="40" width="40" height="40" rx="5" fill="currentColor" opacity="0.2" />
+                            </svg>
+                        </div>
+                        <div class="relative z-10 flex items-center space-x-4">
+                            <div
+                                class="w-16 h-16 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-6h11v6zm0-7H4V9h11v2zm5 7h-4V9h4v9z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-xl mb-1">Digital Innovations</h3>
+                                <p class="text-indigo-100 text-sm mb-2">Software Solutions & Digital Tools</p>
+                                <div class="flex items-center space-x-4">
+                                    <span class="bg-white text-indigo-600 px-3 py-1 rounded-full font-bold text-lg">50%
+                                        OFF</span>
+                                    <span class="text-indigo-100 text-sm">💻 Annual Deal</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advertisement Banner 6 - Global Beauty -->
+                    <div
+                        class="advertisement-card flex-shrink-0 w-96 h-28 bg-gradient-to-r from-pink-500 to-rose-600 rounded-xl shadow-lg flex items-center p-6 text-white relative overflow-hidden">
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-20">
+                            <svg class="w-full h-full" viewBox="0 0 400 120" fill="none">
+                                <circle cx="320" cy="30" r="25" fill="currentColor" opacity="0.3" />
+                                <path d="M20 80 Q60 60 100 80 T180 80" stroke="currentColor" stroke-width="3" fill="none"
+                                    opacity="0.2" />
+                            </svg>
+                        </div>
+                        <div class="relative z-10 flex items-center space-x-4">
+                            <div
+                                class="w-16 h-16 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M9 11H7v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-9h-2m-7 0V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v5m-6 0h4" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-xl mb-1">Global Beauty</h3>
+                                <p class="text-pink-100 text-sm mb-2">Premium Skincare & Cosmetics</p>
+                                <div class="flex items-center space-x-4">
+                                    <span class="bg-white text-pink-600 px-3 py-1 rounded-full font-bold text-lg">45%
+                                        OFF</span>
+                                    <span class="text-pink-100 text-sm">💄 Beauty Week</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Duplicate banners for seamless loop -->
+                    <!-- Duplicate Banner 1 -->
+                    <div
+                        class="advertisement-card flex-shrink-0 w-96 h-28 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl shadow-lg flex items-center p-6 text-white relative overflow-hidden">
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-20">
+                            <svg class="w-full h-full" viewBox="0 0 400 120" fill="none">
+                                <circle cx="350" cy="20" r="30" fill="currentColor" opacity="0.3" />
+                                <circle cx="380" cy="80" r="20" fill="currentColor" opacity="0.2" />
+                            </svg>
+                        </div>
+                        <div class="relative z-10 flex items-center space-x-4">
+                            <div
+                                class="w-16 h-16 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-xl mb-1">TechGlobal Solutions</h3>
+                                <p class="text-blue-100 text-sm mb-2">Premium Electronics & Smart Devices</p>
+                                <div class="flex items-center space-x-4">
+                                    <span class="bg-white text-blue-600 px-3 py-1 rounded-full font-bold text-lg">30%
+                                        OFF</span>
+                                    <span class="text-blue-100 text-sm">⏰ Limited Time Only</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Duplicate Banner 2 -->
+                    <div
+                        class="advertisement-card flex-shrink-0 w-96 h-28 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl shadow-lg flex items-center p-6 text-white relative overflow-hidden">
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-20">
+                            <svg class="w-full h-full" viewBox="0 0 400 120" fill="none">
+                                <path d="M0 60 Q100 20 200 60 T400 60" stroke="currentColor" stroke-width="2" fill="none"
+                                    opacity="0.3" />
+                                <circle cx="50" cy="30" r="15" fill="currentColor" opacity="0.2" />
+                            </svg>
+                        </div>
+                        <div class="relative z-10 flex items-center space-x-4">
+                            <div
+                                class="w-16 h-16 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 7h-8l-1-1H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h13c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-xl mb-1">EcoLife Products</h3>
+                                <p class="text-green-100 text-sm mb-2">Sustainable Home & Garden Solutions</p>
+                                <div class="flex items-center space-x-4">
+                                    <span class="bg-white text-green-600 px-3 py-1 rounded-full font-bold text-lg">25%
+                                        OFF</span>
+                                    <span class="text-green-100 text-sm">🌱 Eco-Friendly</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Duplicate Banner 3 -->
+                    <div
+                        class="advertisement-card flex-shrink-0 w-96 h-28 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl shadow-lg flex items-center p-6 text-white relative overflow-hidden">
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-20">
+                            <svg class="w-full h-full" viewBox="0 0 400 120" fill="none">
+                                <rect x="300" y="10" width="80" height="80" rx="10" fill="currentColor" opacity="0.2" />
+                                <circle cx="320" cy="100" r="25" fill="currentColor" opacity="0.3" />
+                            </svg>
+                        </div>
+                        <div class="relative z-10 flex items-center space-x-4">
+                            <div
+                                class="w-16 h-16 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-xl mb-1">FashionForward</h3>
+                                <p class="text-purple-100 text-sm mb-2">Trendy Apparel & Luxury Accessories</p>
+                                <div class="flex items-center space-x-4">
+                                    <span class="bg-white text-purple-600 px-3 py-1 rounded-full font-bold text-lg">40%
+                                        OFF</span>
+                                    <span class="text-purple-100 text-sm">✨ Flash Sale</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Fade edges for smooth appearance -->
+                <div class="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-50 to-transparent z-10"></div>
+                <div class="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-gray-50 to-transparent z-10"></div>
             </div>
-        </section>
-    @endif
+        </div>
+
+        <!-- Floating promotional badges -->
+        <div class="absolute top-4 right-4 animate-bounce">
+            <div class="bg-accent text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                🔥 LIVE DEALS
+            </div>
+        </div>
+
+        <div class="absolute bottom-4 left-4 animate-pulse">
+            <div class="bg-success text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                💰 SAVE UP TO 50%
+            </div>
+        </div>
+    </section>
 
     <!-- Countdown Promotion Deals -->
     @if(!$flashDeals->isEmpty())
@@ -909,9 +1183,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                    <div class="font-semibold">${styles[type].title}</div>
-                                                                                    <div class="text-sm opacity-90">${message}</div>
-                                                                                `;
+                                                                                        <div class="font-semibold">${styles[type].title}</div>
+                                                                                        <div class="text-sm opacity-90">${message}</div>
+                                                                                    `;
 
             // Progress bar
             const progress = document.createElement("div");
