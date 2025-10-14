@@ -407,29 +407,38 @@ public function addToCartDeal(Request $request)
 
     public function AddCartFromHome(Request $request)
 {
-    $request->validate([
+   $request->validate([
         'product_id' => 'required|exists:products,id',
         'quantity' => 'nullable|integer|min:1',
     ]);
 
     $product = Product::findOrFail($request->product_id);
     $quantity = $request->input('quantity', 1);
+    $userId = auth()->id();
 
     // Use discount_price if available
     $price = $product->discount_price ?? $product->price;
 
-    $cart = Cart::updateOrCreate(
-        [
-            'user_id' => auth()->id(),
-            'product_id' => $product->id,
-            'deal_id' => null, // Regular product, no flash deal
-        ],
-        [
-            'quantity' => $quantity,
-            'price' => $price,
-            'currency' => $product->currency,
-        ]
-    );
+    // Try to find existing cart item for same product & user
+    $existing = Cart::where('user_id', $userId)
+    ->where('product_id', $product->id)
+    ->whereNull('deal_id')
+    ->first();
+
+if ($existing) {
+    $existing->quantity += $quantity;
+    $existing->save();
+    $cart = $existing;
+} else {
+    $cart = Cart::create([
+        'user_id' => $userId,
+        'product_id' => $product->id,
+        'quantity' => $quantity,
+        'price' => $price,
+        'currency' => $product->currency,
+    ]);
+}
+
 
     return response()->json([
         'message' => 'Product added to cart successfully!',
