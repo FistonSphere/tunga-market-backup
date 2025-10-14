@@ -244,49 +244,45 @@
 
                 <div class="featured-carousel overflow-hidden relative">
                     <div id="carousel-track" class="carousel-track flex space-x-4 transition-transform duration-300">
-                        @foreach($flashDeals as $deal)
-                            @php
-                                $timeLeft = now()->diff($deal->end_time);
-                                $endsIn = $timeLeft->d . 'd ' . $timeLeft->h . 'h ' . $timeLeft->i . 'm';
-                            @endphp
-
+                        @foreach($featuredWithMostViewed as $product)
                             <div class="carousel-item flex-shrink-0 w-80">
                                 <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden h-full"
-                                    onclick="openProductModal('{{ $deal->product->id }}')">
+                                    onclick="openProductModal('{{ $product->id }}')">
 
-                                    <!-- Discount Badge -->
-                                    <div
-                                        class="absolute top-3 left-3 bg-accent text-white px-3 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
-                                        FEATURED {{ $deal->discount_percent }}% OFF
-                                    </div>
-
-                                    <!-- Urgency Badge -->
-                                    <div
-                                        class="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                                        ENDING SOON
-                                    </div>
+                                    <!-- Featured Badge -->
+                                    @if($product->is_featured)
+                                        <div
+                                            class="absolute top-3 left-3 bg-accent text-white px-3 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
+                                            FEATURED
+                                        </div>
+                                    @endif
 
                                     <!-- Product Image -->
                                     <div class="relative overflow-hidden rounded-lg mb-4">
-                                        <img src="{{ $deal->product->main_image ?? asset('assets/images/no-image.png') }}"
-                                            alt="{{ $deal->product->name }}"
+                                        <img src="{{ $product->main_image ?? asset('assets/images/no-image.png') }}"
+                                            alt="{{ $product->name }}"
                                             class="w-full h-64 object-cover group-hover:scale-105 transition-all duration-300"
                                             loading="lazy" />
                                     </div>
 
                                     <div class="p-4">
-                                        <h3 class="font-bold text-primary mb-2">{{ $deal->product->name }}</h3>
+                                        <h3 class="font-bold text-primary mb-2">{{ $product->name }}</h3>
                                         <p class="text-body-sm text-secondary-600 mb-3">
-                                            {{ Str::limit($deal->product->description, 60) }}
+                                            {{ Str::limit($product->short_description, 60) }}
                                         </p>
 
                                         <!-- Pricing -->
                                         <div class="flex items-center justify-between mb-3">
                                             <div class="flex items-center space-x-2">
-                                                <span class="text-2xl font-bold text-accent">RWF
-                                                    {{ number_format($deal->flash_price) }}</span>
-                                                <span class="text-sm text-gray-500 line-through">RWF
-                                                    {{ number_format($deal->product->price) }}</span>
+                                                <span class="text-2xl font-bold text-accent">
+                                                    {{ $product->currency }}
+                                                    {{ number_format($product->discount_price ?? $product->price) }}
+                                                </span>
+                                                @if($product->discount_price)
+                                                    <span class="text-sm text-gray-500 line-through">
+                                                        {{ $product->currency }} {{ number_format($product->price) }}
+                                                    </span>
+                                                @endif
                                             </div>
                                             <div class="flex items-center text-yellow-400">
                                                 ⭐ <span class="text-sm text-gray-600 ml-1">4.7 ({{ rand(200, 1500) }})</span>
@@ -303,6 +299,7 @@
                         @endforeach
                     </div>
                 </div>
+
             </div>
             <!-- featured products Container -->
 
@@ -1128,9 +1125,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                                                <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                                                <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                                            `;
+                                                                                                                                                                    <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                                    <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                                                `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1476,9 +1473,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                            <div class="font-semibold">${styles[type].title}</div>
-                                                                                            <div class="text-sm opacity-90">${message}</div>
-                                                                                        `;
+                                                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                                                <div class="text-sm opacity-90">${message}</div>
+                                                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");
