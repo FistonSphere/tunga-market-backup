@@ -98,7 +98,7 @@ Route::post('/activity/log', [UserActivityController::class, 'logActivity'])->na
 Route::get('/policies/cookies', function() {
     return view('frontend.policies.cookies');
 })->name('policies.cookies');
-
+Route::get('/home/products/{id}/details', [HomeController::class, 'getDetails']);
 
 Route::group(['middleware' => 'auth'], function () {
      Route::get('/user/sessions', [UserSessionController::class, 'index']);

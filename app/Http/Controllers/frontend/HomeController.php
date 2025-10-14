@@ -127,14 +127,6 @@ class HomeController extends Controller
             if (class_exists(\App\Models\Order::class)) {
                 $ordersToday = \App\Models\Order::whereDate('created_at', now())->count();
             }
-            // if (class_exists(\App\Models\Supplier::class)) {
-            //     $newSuppliers = \App\Models\Supplier::whereDate('created_at', '>=', now()->subDays(7))->count();
-            // }
-            // // If you have negotiations table replace below
-            // if (class_exists(\App\Models\Negotiation::class)) {
-            //     $activeNegotiations = \App\Models\Negotiation::where('status', 'open')->count();
-            // }
-            // countries active: count distinct countries in users/sellers (fallback to products)
             if (class_exists(\App\Models\User::class)) {
                 $countriesActive = \App\Models\User::distinct('country')->count('country');
             }
