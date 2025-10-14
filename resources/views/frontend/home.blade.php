@@ -1230,265 +1230,258 @@
 
 
 
-        function openProductModal(productId) {
-            fetch(`/home/products/${productId}/details`)
-                .then(res => res.json())
-                .then(data => {
-                    // Parse JSON fields
-                    const gallery = Array.isArray(data.gallery) ? data.gallery : (data.gallery ? JSON.parse(data.gallery) : []);
-                    const features = Array.isArray(data.features) ? data.features : (data.features ? JSON.parse(data.features) : []);
-                    const specifications = typeof data.specifications === 'object'
-                        ? data.specifications
-                        : (data.specifications ? JSON.parse(data.specifications) : {});
+        // function openProductModal(productId) {
+        //     fetch(`/home/products/${productId}/details`)
+        //         .then(res => res.json())
+        //         .then(data => {
+        //             // Parse JSON fields
+        //             const gallery = Array.isArray(data.gallery) ? data.gallery : (data.gallery ? JSON.parse(data.gallery) : []);
+        //             const features = Array.isArray(data.features) ? data.features : (data.features ? JSON.parse(data.features) : []);
+        //             const specifications = typeof data.specifications === 'object'
+        //                 ? data.specifications
+        //                 : (data.specifications ? JSON.parse(data.specifications) : {});
 
-                    // Main image
-                    document.getElementById('modalMainImage').src = gallery[0] || data.main_image;
+        //             // Main image
+        //             document.getElementById('modalMainImage').src = gallery[0] || data.main_image;
 
-                    // Name and Price
-                    document.getElementById('modalName').textContent = data.name;
+        //             // Name and Price
+        //             document.getElementById('modalName').textContent = data.name;
 
-                    const price = data.discount_price ?? data.price;
-                    document.getElementById('modalPrice').textContent = `${data.currency} ${parseFloat(price).toLocaleString()}`;
+        //             const price = data.discount_price ?? data.price;
+        //             document.getElementById('modalPrice').textContent = `${data.currency} ${parseFloat(price).toLocaleString()}`;
 
-                    // Old Price (if discount exists)
-                    const oldPriceElem = document.getElementById('modalOldPrice');
-                    if (data.discount_price) {
-                        oldPriceElem.textContent = `${data.currency} ${parseFloat(data.price).toLocaleString()}`;
-                        oldPriceElem.classList.remove('hidden');
-                    } else {
-                        oldPriceElem.classList.add('hidden');
-                    }
+        //             // Old Price (if discount exists)
+        //             const oldPriceElem = document.getElementById('modalOldPrice');
+        //             if (data.discount_price) {
+        //                 oldPriceElem.textContent = `${data.currency} ${parseFloat(data.price).toLocaleString()}`;
+        //                 oldPriceElem.classList.remove('hidden');
+        //             } else {
+        //                 oldPriceElem.classList.add('hidden');
+        //             }
 
-                    // Remove or hide discount badge
-                    const discountElem = document.getElementById('modalDiscount');
-                    if (discountElem) {
-                        discountElem.classList.add('hidden');
-                    }
+        //             // Remove or hide discount badge
+        //             const discountElem = document.getElementById('modalDiscount');
+        //             if (discountElem) {
+        //                 discountElem.classList.add('hidden');
+        //             }
 
-                    // Description
-                    document.getElementById('modalDescription').textContent = data.short_description ?? 'No description available.';
+        //             // Description
+        //             document.getElementById('modalDescription').textContent = data.short_description ?? 'No description available.';
 
-                    // Gallery
-                    const galleryDiv = document.getElementById('modalGallery');
-                    galleryDiv.innerHTML = '';
-                    if (gallery.length) {
-                        gallery.forEach(img => {
-                            const thumb = document.createElement('img');
-                            thumb.src = img;
-                            thumb.className = 'w-20 h-20 object-cover rounded-lg cursor-pointer';
-                            thumb.onclick = () => document.getElementById('modalMainImage').src = img;
-                            galleryDiv.appendChild(thumb);
-                        });
-                    } else {
-                        galleryDiv.innerHTML = '<p class="text-gray-400 text-sm">No gallery images available.</p>';
-                    }
+        //             // Gallery
+        //             const galleryDiv = document.getElementById('modalGallery');
+        //             galleryDiv.innerHTML = '';
+        //             if (gallery.length) {
+        //                 gallery.forEach(img => {
+        //                     const thumb = document.createElement('img');
+        //                     thumb.src = img;
+        //                     thumb.className = 'w-20 h-20 object-cover rounded-lg cursor-pointer';
+        //                     thumb.onclick = () => document.getElementById('modalMainImage').src = img;
+        //                     galleryDiv.appendChild(thumb);
+        //                 });
+        //             } else {
+        //                 galleryDiv.innerHTML = '<p class="text-gray-400 text-sm">No gallery images available.</p>';
+        //             }
 
-                    // Specifications
-                    const specsDiv = document.getElementById('modalSpecs');
-                    specsDiv.innerHTML = `<h4 class="font-semibold mb-1">Specifications:</h4>`;
-                    if (Object.keys(specifications).length) {
-                        for (const [key, value] of Object.entries(specifications)) {
-                            const li = document.createElement('p');
-                            li.textContent = `• ${key}: ${value}`;
-                            specsDiv.appendChild(li);
-                        }
-                    } else {
-                        specsDiv.innerHTML += '<p class="text-gray-400 text-sm">No specifications available.</p>';
-                    }
+        //             // Specifications
+        //             const specsDiv = document.getElementById('modalSpecs');
+        //             specsDiv.innerHTML = `<h4 class="font-semibold mb-1">Specifications:</h4>`;
+        //             if (Object.keys(specifications).length) {
+        //                 for (const [key, value] of Object.entries(specifications)) {
+        //                     const li = document.createElement('p');
+        //                     li.textContent = `• ${key}: ${value}`;
+        //                     specsDiv.appendChild(li);
+        //                 }
+        //             } else {
+        //                 specsDiv.innerHTML += '<p class="text-gray-400 text-sm">No specifications available.</p>';
+        //             }
 
-                    // Features
-                    const featuresDiv = document.getElementById('modalFeatures');
-                    featuresDiv.innerHTML = `<h4 class="font-semibold mb-1">Features:</h4>`;
-                    if (features.length) {
-                        features.forEach(f => {
-                            const li = document.createElement('p');
-                            li.textContent = `• ${f}`;
-                            featuresDiv.appendChild(li);
-                        });
-                    } else {
-                        featuresDiv.innerHTML += '<p class="text-gray-400 text-sm">No features available.</p>';
-                    }
+        //             // Features
+        //             const featuresDiv = document.getElementById('modalFeatures');
+        //             featuresDiv.innerHTML = `<h4 class="font-semibold mb-1">Features:</h4>`;
+        //             if (features.length) {
+        //                 features.forEach(f => {
+        //                     const li = document.createElement('p');
+        //                     li.textContent = `• ${f}`;
+        //                     featuresDiv.appendChild(li);
+        //                 });
+        //             } else {
+        //                 featuresDiv.innerHTML += '<p class="text-gray-400 text-sm">No features available.</p>';
+        //             }
 
-                    // Ratings
-                    const ratingDiv = document.getElementById('modalRating');
-                    ratingDiv.innerHTML = '';
-                    const avgRating = data.average_rating ?? Math.floor(Math.random() * 2) + 4; // fallback if not available
-                    for (let i = 1; i <= 5; i++) {
-                        const star = document.createElement('span');
-                        star.textContent = i <= avgRating ? '★' : '☆';
-                        ratingDiv.appendChild(star);
-                    }
+        //             // Ratings
+        //             const ratingDiv = document.getElementById('modalRating');
+        //             ratingDiv.innerHTML = '';
+        //             const avgRating = data.average_rating ?? Math.floor(Math.random() * 2) + 4; // fallback if not available
+        //             for (let i = 1; i <= 5; i++) {
+        //                 const star = document.createElement('span');
+        //                 star.textContent = i <= avgRating ? '★' : '☆';
+        //                 ratingDiv.appendChild(star);
+        //             }
 
-                    // Show modal
-                    document.getElementById('productModal').classList.remove('hidden');
+        //             // Show modal
+        //             document.getElementById('productModal').classList.remove('hidden');
 
-                    // Add to Cart and Buy Now buttons
-                    setTimeout(() => {
-                        const addToCartBtn = document.getElementById('addToCartBtn');
-                        const buyNowBtn = document.getElementById('buyNowBtn');
+        //             // Add to Cart and Buy Now buttons
+        //             setTimeout(() => {
+        //                 const addToCartBtn = document.getElementById('addToCartBtn');
+        //                 const buyNowBtn = document.getElementById('buyNowBtn');
 
-                        if (addToCartBtn) {
-                            addToCartBtn.onclick = () => addToCart(data.id);
-                        }
+        //                 if (addToCartBtn) {
+        //                     addToCartBtn.onclick = () => addToCart(data.id);
+        //                 }
 
-                        if (buyNowBtn) {
-                            buyNowBtn.onclick = () => buyNow(data.id);
-                        }
-                    }, 100);
+        //                 if (buyNowBtn) {
+        //                     buyNowBtn.onclick = () => buyNow(data.id);
+        //                 }
+        //             }, 100);
 
-                })
-                .catch(err => console.error(err));
-        }
-
-
-        function closeProductModal() {
-            document.getElementById('productModal').classList.add('hidden');
-        }
-
-        // Function to add to cart
-        function addToCart(productId) {
-            fetch('{{ route('home.cart.add') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify({
-                    product_id: productId,
-                    quantity: 1, // Default quantity
-                }),
-            })
-                .then(async (res) => {
-                    if (res.status === 401) {
-                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
-                        return;
-                    }
-
-                    let data;
-                    try {
-                        data = await res.json();
-                    } catch (e) {
-                        console.warn("Non-JSON response");
-                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
-                        return;
-                    }
-
-                    if (res.ok) {
-                        showNotify('success', data.message || 'Product added to cart!');
-                    } else {
-                        showNotify('error', data.message || 'Failed to add product to cart.');
-                    }
-                })
-                .catch(() => showNotify('error', 'Something went wrong while adding to cart.'));
-        }
+        //         })
+        //         .catch(err => console.error(err));
+        // }
 
 
-        function goToSignIn() {
-            window.location.href = '{{ route('login') }}'; // or your custom sign-in route
-        }
+        // function closeProductModal() {
+        //     document.getElementById('productModal').classList.add('hidden');
+        // }
 
-        function continueBrowsing() {
-            document.getElementById('login-warning-modal-wrapper2').classList.add('hidden');
-        }
-        function buyNow(productId, dealId = null) {
-            fetch('{{ route('cart.add.deal') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify({
-                    product_id: productId,
-                    deal_id: dealId,
-                }),
-            })
-                .then(async (res) => {
-                    if (res.status === 401) {
-                        // Not logged in
-                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
-                        return;
-                    }
+        // // Function to add to cart
+        // function addToCart(productId) {
+        //     fetch('{{ route('home.cart.add') }}', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        //         },
+        //         body: JSON.stringify({
+        //             product_id: productId,
+        //             quantity: 1, // Default quantity
+        //         }),
+        //     })
+        //         .then(async (res) => {
+        //             if (res.status === 401) {
+        //                 document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+        //                 return;
+        //             }
 
-                    let data;
-                    try {
-                        data = await res.json();
-                    } catch {
-                        showNotify('error', 'Something went wrong while adding to cart.');
-                        return;
-                    }
+        //             let data;
+        //             try {
+        //                 data = await res.json();
+        //             } catch (e) {
+        //                 console.warn("Non-JSON response");
+        //                 document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+        //                 return;
+        //             }
 
-                    if (res.ok) {
-                        showNotify('success', 'Redirecting to checkout...');
-                        // ✅ Redirect to checkout after short delay
-                        setTimeout(() => {
-                            window.location.href = '/checkout';
-                        }, 800);
-                    } else {
-                        showNotify('error', data.message || 'Failed to add to cart.');
-                    }
-                })
-                .catch(() => showNotify('error', 'Network error while processing Buy Now.'));
-        }
+        //             if (res.ok) {
+        //                 showNotify('success', data.message || 'Product added to cart!');
+        //             } else {
+        //                 showNotify('error', data.message || 'Failed to add product to cart.');
+        //             }
+        //         })
+        //         .catch(() => showNotify('error', 'Something went wrong while adding to cart.'));
+        // }
 
 
-        function showNotify(type, message) {
-            const styles = {
-                success: {
-                    bg: "bg-green-500",
-                    icon: "✔️",
-                    title: "Success"
-                },
-                error: {
-                    bg: "bg-red-500",
-                    icon: "⚠️",
-                    title: "Error"
-                }
-            };
+        // function buyNow(productId, dealId = null) {
+        //     fetch('{{ route('cart.add.deal') }}', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        //         },
+        //         body: JSON.stringify({
+        //             product_id: productId,
+        //             deal_id: dealId,
+        //         }),
+        //     })
+        //         .then(async (res) => {
+        //             if (res.status === 401) {
+        //                 // Not logged in
+        //                 document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+        //                 return;
+        //             }
 
-            let container = document.getElementById("toast-container");
-            if (!container) {
-                container = document.createElement("div");
-                container.id = "toast-container";
-                container.className = "fixed top-5 right-5 space-y-3 z-50 flex flex-col";
-                document.body.appendChild(container);
-            }
+        //             let data;
+        //             try {
+        //                 data = await res.json();
+        //             } catch {
+        //                 showNotify('error', 'Something went wrong while adding to cart.');
+        //                 return;
+        //             }
 
-            // Toast wrapper
-            const notify = document.createElement("div");
-            notify.className =
-                `relative flex items-start space-x-3 ${styles[type].bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
+        //             if (res.ok) {
+        //                 showNotify('success', 'Redirecting to checkout...');
+        //                 // ✅ Redirect to checkout after short delay
+        //                 setTimeout(() => {
+        //                     window.location.href = '/checkout';
+        //                 }, 800);
+        //             } else {
+        //                 showNotify('error', data.message || 'Failed to add to cart.');
+        //             }
+        //         })
+        //         .catch(() => showNotify('error', 'Network error while processing Buy Now.'));
+        // }
 
-            // Icon
-            const icon = document.createElement("span");
-            icon.className = "text-2xl";
-            icon.innerText = styles[type].icon;
 
-            // Content
-            const content = document.createElement("div");
-            content.className = "flex-1";
-            content.innerHTML = `
-                                                                                                        <div class="font-semibold">${styles[type].title}</div>
-                                                                                                        <div class="text-sm opacity-90">${message}</div>
-                                                                                                    `;
+        // function showNotify(type, message) {
+        //     const styles = {
+        //         success: {
+        //             bg: "bg-green-500",
+        //             icon: "✔️",
+        //             title: "Success"
+        //         },
+        //         error: {
+        //             bg: "bg-red-500",
+        //             icon: "⚠️",
+        //             title: "Error"
+        //         }
+        //     };
 
-            // Progress bar
-            const progress = document.createElement("div");
-            progress.className =
-                "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
-            progress.style.width = "100%";
+        //     let container = document.getElementById("toast-container");
+        //     if (!container) {
+        //         container = document.createElement("div");
+        //         container.id = "toast-container";
+        //         container.className = "fixed top-5 right-5 space-y-3 z-50 flex flex-col";
+        //         document.body.appendChild(container);
+        //     }
 
-            // Append
-            notify.appendChild(icon);
-            notify.appendChild(content);
-            notify.appendChild(progress);
-            container.appendChild(notify);
+        //     // Toast wrapper
+        //     const notify = document.createElement("div");
+        //     notify.className =
+        //         `relative flex items-start space-x-3 ${styles[type].bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
 
-            // Auto-remove
-            setTimeout(() => {
-                notify.classList.add("animate-fade-out");
-                setTimeout(() => notify.remove(), 500);
-            }, 4000);
-        }
+        //     // Icon
+        //     const icon = document.createElement("span");
+        //     icon.className = "text-2xl";
+        //     icon.innerText = styles[type].icon;
+
+        //     // Content
+        //     const content = document.createElement("div");
+        //     content.className = "flex-1";
+        //     content.innerHTML = `
+        //                                                                                                 <div class="font-semibold">${styles[type].title}</div>
+        //                                                                                                 <div class="text-sm opacity-90">${message}</div>
+        //                                                                                             `;
+
+        //     // Progress bar
+        //     const progress = document.createElement("div");
+        //     progress.className =
+        //         "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
+        //     progress.style.width = "100%";
+
+        //     // Append
+        //     notify.appendChild(icon);
+        //     notify.appendChild(content);
+        //     notify.appendChild(progress);
+        //     container.appendChild(notify);
+
+        //     // Auto-remove
+        //     setTimeout(() => {
+        //         notify.classList.add("animate-fade-out");
+        //         setTimeout(() => notify.remove(), 500);
+        //     }, 4000);
+        // }
 
 
 
