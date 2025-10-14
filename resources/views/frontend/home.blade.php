@@ -870,6 +870,37 @@
 
     <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
     <script>
+        const track = document.getElementById("carousel-track");
+        const prevBtn = document.getElementById("carousel-prev");
+        const nextBtn = document.getElementById("carousel-next");
+
+        let currentIndex = 0;
+        const itemWidth = 320 + 16; // 320px item width + 16px gap (w-80 + space-x-4)
+        const totalItems = track.children.length;
+        const visibleItems = Math.floor(track.parentElement.offsetWidth / itemWidth);
+
+        function updateCarousel() {
+            const maxIndex = Math.max(totalItems - visibleItems, 0);
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+            track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+        }
+
+        nextBtn.addEventListener("click", () => {
+            currentIndex++;
+            updateCarousel();
+        });
+
+        prevBtn.addEventListener("click", () => {
+            currentIndex--;
+            updateCarousel();
+        });
+
+        window.addEventListener("resize", updateCarousel);
+        updateCarousel();
+
+
         function startCountdown(elementId, endTime) {
             function updateCountdown() {
                 let now = new Date().getTime();
@@ -1049,9 +1080,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                        <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                        <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                    `;
+                                                                                                                                                    <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                    <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                                `;
 
             // Progress bar
             const progress = document.createElement("div");
