@@ -166,9 +166,12 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="text-center mb-8">
-                <h2 class="text-heading font-bold text-primary mb-2">🎉 Featured Brand Partnerships & Deals</h2>
-                <p class="text-body text-secondary-600">Discover exclusive deals, brand partnerships, and trending products
-                    from our premium global marketplace</p>
+                <h2 class="text-heading font-bold text-primary mb-2">
+                    🎉 Featured Brand Partnerships & Deals
+                </h2>
+                <p class="text-body text-secondary-600">
+                    Discover exclusive deals, brand partnerships, and trending products from our premium global marketplace
+                </p>
             </div>
 
             <!-- Advertisement Banner Container -->
@@ -176,17 +179,12 @@
                 class="relative h-48 overflow-hidden rounded-2xl bg-gradient-to-r from-white via-gray-50 to-white shadow-card mb-8">
                 <div class="advertisement-track absolute inset-0 flex items-center space-x-6 px-6">
                     @forelse($ads as $ad)
-                        @php
-                            $bgClass = match ($ad->type) {
-                                'video' => 'bg-gradient-to-br from-sky-800 via-cyan-800 to-blue-900',   // cool, deep blues
-                                'svg' => 'bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900', // neutral & modern
-                                default => 'bg-gradient-to-br from-[#ff5f0e] to-[#b34700]',             // brand orange variation
-                            };
-                        @endphp
-
-                        <div
-                            class="advertisement-card flex-shrink-0 w-[420px] h-40 rounded-xl shadow-xl relative overflow-hidden {{ $bgClass }}">
-
+                        <div @class([
+                            'advertisement-card flex-shrink-0 w-[420px] h-40 rounded-xl shadow-xl relative overflow-hidden',
+                            'bg-gradient-to-br from-sky-800 via-cyan-800 to-blue-900' => $ad->type === 'video',
+                            'bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900' => $ad->type === 'svg',
+                            'bg-gradient-to-br from-accent to-brandorange' => !in_array($ad->type, ['video', 'svg']),
+                        ])>
                             <!-- Media Display -->
                             <div class="absolute inset-0">
                                 @if($ad->type === 'video')
@@ -226,8 +224,7 @@
                             <div class="absolute inset-0 p-5 flex flex-col justify-center text-white z-10">
                                 @if($ad->badge)
                                     <div class="flex items-center mb-2">
-                                        <span
-                                            class="bg-[#ff5f0e] text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
+                                        <span class="bg-accent text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
                                             {{ strtoupper($ad->badge) }}
                                         </span>
                                     </div>
@@ -268,7 +265,6 @@
                     class="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 via-gray-50/80 to-transparent z-10">
                 </div>
             </div>
-
         </div>
 
         <!-- Floating Promotional Badges -->
@@ -281,9 +277,10 @@
         </div>
 
         <div class="absolute bottom-1/3 right-4 animate-bounce" style="animation-delay: 1s;">
-            <div class="bg-warning text-black px-3 py-1 rounded-full text-sm font-bold shadow-lg">📦 FREE SHIPPING</div>
+            <div class="bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold shadow-lg">📦 FREE SHIPPING</div>
         </div>
     </section>
+
 
 
     <!-- Countdown Promotion Deals -->
@@ -1000,9 +997,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                <div class="text-sm opacity-90">${message}</div>
-                                                                                                            `;
+                                                                                                                        <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                        <div class="text-sm opacity-90">${message}</div>
+                                                                                                                    `;
 
             // Progress bar
             const progress = document.createElement("div");
