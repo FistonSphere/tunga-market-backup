@@ -316,8 +316,7 @@
         </div>
     </section>
 
-
-
+    
     <!-- Countdown Promotion Deals -->
     @if(!$flashDeals->isEmpty())
         <section class="py-16 bg-gradient-to-br from-accent-50 via-white to-primary-50">
