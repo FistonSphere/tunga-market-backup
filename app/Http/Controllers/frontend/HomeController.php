@@ -142,7 +142,20 @@ class HomeController extends Controller
             // gracefully ignore missing models / columns on dev
         }
 
-       $ads = Ad::orderBy('order', 'asc')->where('status', 'active')->get();
+       $featuredProducts = Product::where('is_featured', true)
+    ->where('status', 'active')
+    ->inRandomOrder()
+    ->take(8)
+    ->get();
+
+$mostViewedProduct = Product::where('status', 'active')
+    ->orderByDesc('views_count')
+    ->first();
+
+$featuredWithMostViewed = $featuredProducts
+    ->push($mostViewedProduct)
+    ->unique('id')
+    ->shuffle();
 
         return view('frontend.home',
  [
@@ -152,11 +165,10 @@ class HomeController extends Controller
         'countdownTargetMs' => $targetMs,
         'maxDiscount' => $maxDiscount,
         'successStories' => $successStories,
-         'trending'=>$trending,
-         'ordersToday'=>$ordersToday,
-         'countriesActive'=>$countriesActive,
-         'ads'=>$ads,
-
+        'trending'=>$trending,
+        'ordersToday'=>$ordersToday,
+        'countriesActive'=>$countriesActive,
+        'featuredWithMostViewed'=>$featuredWithMostViewed,
         ]);
     }
 
