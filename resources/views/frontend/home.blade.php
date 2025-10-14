@@ -175,97 +175,10 @@
             </div>
 
 
-            <!-- Advertisement Banner Container -->
-            <div
-                class="relative h-48 overflow-hidden rounded-2xl bg-gradient-to-r from-white via-gray-50 to-white shadow-card mb-8">
-                <div class="advertisement-track absolute inset-0 flex items-center space-x-6 px-6">
-                    @forelse($ads as $ad)
-                        <div @class([
-                            'advertisement-card flex-shrink-0 w-[420px] h-40 rounded-xl shadow-xl relative overflow-hidden',
-                            'bg-gradient-to-br from-sky-800 via-cyan-800 to-blue-900' => $ad->type === 'video',
-                            'bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900' => $ad->type === 'svg',
-                            'bg-gradient-to-br from-accent to-brandorange' => !in_array($ad->type, ['video', 'svg']),
-                        ])>
-                            <!-- Media Display -->
-                            <div class="absolute inset-0">
-                                @if($ad->type === 'video')
-                                    <video autoplay loop muted playsinline class="w-full h-full object-cover rounded-xl">
-                                        <source src="{{ $ad->media_url }}" type="video/mp4">
-                                    </video>
-                                @elseif($ad->type === 'svg')
-                                    <div class="flex items-center justify-center h-full bg-white/10">
-                                        @php
-                                            $svgPath = public_path($ad->media_url);
-                                        @endphp
-                                        @if(file_exists($svgPath))
-                                            {!! file_get_contents($svgPath) !!}
-                                        @else
-                                            <span class="text-white text-sm">SVG not found</span>
-                                        @endif
-                                    </div>
-                                @else
-                                    <img src="{{ $ad->media_url }}" alt="{{ $ad->title }}" class="w-full h-full object-cover" />
-                                @endif
+            <!-- featured products Container -->
+            
+            <!-- featured products Container -->
 
-                                <!-- Dark overlay -->
-                                <div class="absolute inset-0 bg-black/40"></div>
-                            </div>
-
-                            <!-- Play Icon for Videos -->
-                            @if($ad->type === 'video')
-                                <div
-                                    class="absolute top-4 right-4 w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                                    <svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M8 5v14l11-7z" />
-                                    </svg>
-                                </div>
-                            @endif
-
-                            <!-- Ad Content Overlay -->
-                            <div class="absolute inset-0 p-5 flex flex-col justify-center text-white z-10">
-                                @if($ad->badge)
-                                    <div class="flex items-center mb-2">
-                                        <span class="bg-accent text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
-                                            {{ strtoupper($ad->badge) }}
-                                        </span>
-                                    </div>
-                                @endif
-
-                                <h3 class="font-bold text-xl md:text-2xl leading-tight mb-1">{{ $ad->title }}</h3>
-
-                                @if($ad->subtitle)
-                                    <p class="text-sm text-gray-100 mb-3">{{ $ad->subtitle }}</p>
-                                @endif
-
-                                <div class="flex items-center justify-between rounded-md bg-black/40 px-3 py-2">
-                                    <div>
-                                        <span class="text-base font-semibold">{{ $ad->cta_text ?? 'Shop Now →' }}</span>
-                                        @if($ad->extra_info)
-                                            <p class="text-xs text-gray-200">{{ $ad->extra_info }}</p>
-                                        @endif
-                                    </div>
-
-                                    @if($ad->link)
-                                        <a href="{{ $ad->link }}" class="text-white font-medium hover:underline">Visit</a>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="w-full h-40 flex items-center justify-center text-gray-500 font-medium">
-                            No advertisements available right now.
-                        </div>
-                    @endforelse
-                </div>
-
-                <!-- Fade Edges -->
-                <div
-                    class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-50 via-gray-50/80 to-transparent z-10">
-                </div>
-                <div
-                    class="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 via-gray-50/80 to-transparent z-10">
-                </div>
-            </div>
         </div>
 
         <!-- Floating Promotional Badges -->
