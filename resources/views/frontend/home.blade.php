@@ -167,12 +167,13 @@
             <!-- Header -->
             <div class="text-center mb-8">
                 <h2 class="text-heading font-bold text-primary mb-2">
-                    🎉 Featured Brand Partnerships & Deals
+                    🌟 Handpicked Just for You
                 </h2>
                 <p class="text-body text-secondary-600">
-                    Discover exclusive deals, brand partnerships, and trending products from our premium global marketplace
+                    Explore featured products curated to match your style, needs, and trends only the best, just for you.
                 </p>
             </div>
+
 
             <!-- Advertisement Banner Container -->
             <div
@@ -997,9 +998,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                        <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                        <div class="text-sm opacity-90">${message}</div>
-                                                                                                                    `;
+                                                                                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                <div class="text-sm opacity-90">${message}</div>
+                                                                                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");
