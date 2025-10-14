@@ -141,7 +141,7 @@ class HomeController extends Controller
             // gracefully ignore missing models / columns on dev
         }
 
-        $advertisements = Advertisement::where('is_active', true)
+        $ads = Advertisement::where('is_active', true)
     ->where(function ($query) {
         $query->whereNull('start_date')
               ->orWhere('start_date', '<=', now());
@@ -166,7 +166,7 @@ class HomeController extends Controller
          'trending'=>$trending,
          'ordersToday'=>$ordersToday,
          'countriesActive'=>$countriesActive,
-         'advertisements'=>$advertisements,
+         'ads'=>$ads,
 
         ]);
     }
