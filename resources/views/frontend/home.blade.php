@@ -174,44 +174,43 @@
                 <div class="relative h-32 overflow-hidden">
                     <div class="advertisement-track flex space-x-6 animate-scroll">
 
-                        @forelse($advertisements as $ad)
+                        @foreach ($advertisements as $ad)
                             <div
                                 class="advertisement-card flex-shrink-0 w-80 h-24 bg-white rounded-xl shadow-card border border-gray-100 flex items-center p-4 hover:shadow-hover transition-all duration-300">
 
-                                {{-- Icon or Image --}}
-                                <div
-                                    class="w-16 h-16 rounded-lg flex items-center justify-center mr-4
-                                                            @if($ad->gradient_from && $ad->gradient_to) bg-gradient-to-br from-{{ $ad->gradient_from }} to-{{ $ad->gradient_to }} @else bg-gray-200 @endif">
+                                {{-- Banner Area --}}
+                                <div class="w-16 h-16 rounded-lg flex items-center justify-center mr-4"
+                                    style="background: linear-gradient(to bottom right, {{ $ad->gradient_from ?? '#ccc' }}, {{ $ad->gradient_to ?? '#999' }})">
 
-                                    @if($ad->banner_type === 'svg' && $ad->icon_svg)
+                                    @if ($ad->banner_type === 'svg' && $ad->icon_svg)
                                         {!! $ad->icon_svg !!}
-                                    @elseif($ad->banner_type === 'image' && $ad->image_url)
-                                        <img src="{{ asset($ad->image_url) }}" alt="{{ $ad->title }}"
-                                            class="w-10 h-10 object-contain rounded-md">
+                                    @elseif ($ad->banner_type === 'image' && $ad->image_url)
+                                        <img src="{{ asset($ad->image_url) }}" alt="{{ $ad->title }}" class="w-12 h-12 object-contain">
+                                    @elseif ($ad->banner_type === 'video' && $ad->video_url)
+                                        <video autoplay loop muted class="w-12 h-12 rounded-lg object-cover">
+                                            <source src="{{ asset($ad->video_url) }}" type="video/mp4">
+                                        </video>
                                     @else
-                                        <!-- Default icon -->
-                                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
+                                        <span class="text-white font-semibold text-xs">Ad</span>
                                     @endif
                                 </div>
 
-                                {{-- Text Details --}}
+                                {{-- Text Section --}}
                                 <div class="flex-1">
-                                    <h3 class="font-semibold text-primary text-sm truncate">{{ $ad->title }}</h3>
+                                    <h3 class="font-semibold text-primary text-sm">{{ $ad->title }}</h3>
                                     <p class="text-xs text-secondary-600">{{ $ad->category }}</p>
                                     <div class="flex items-center mt-1">
-                                        <span class="font-bold text-sm text-accent">{{ $ad->discount_text }}</span>
-                                        @if($ad->period_text)
-                                            <span class="text-xs text-gray-500 ml-2">{{ $ad->period_text }}</span>
-                                        @endif
+                                        <span class="text-accent font-bold text-sm">{{ $ad->discount_text }}</span>
+                                        <span class="text-xs text-gray-500 ml-2">{{ $ad->period_text }}</span>
                                     </div>
+                                    @if ($ad->cta_url)
+                                        <a href="{{ $ad->cta_url }}"
+                                            class="text-xs text-blue-600 hover:underline">{{ $ad->cta_text ?? 'Learn More' }}</a>
+                                    @endif
                                 </div>
                             </div>
-                        @empty
-                            <div class="w-full text-center text-gray-500">No active advertisements at the moment.</div>
-                        @endforelse
+                        @endforeach
+
 
                     </div>
                 </div>
@@ -933,9 +932,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                            <div class="font-semibold">${styles[type].title}</div>
-                                                                            <div class="text-sm opacity-90">${message}</div>
-                                                                        `;
+                                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                                <div class="text-sm opacity-90">${message}</div>
+                                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");
