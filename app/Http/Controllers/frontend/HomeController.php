@@ -141,7 +141,20 @@ class HomeController extends Controller
             // gracefully ignore missing models / columns on dev
         }
 
-        $advertisements = Advertisement::latest()->take(12)->get();
+        $advertisements = Advertisement::where('is_active', true)
+    ->where(function ($query) {
+        $query->whereNull('start_date')
+              ->orWhere('start_date', '<=', now());
+    })
+    ->where(function ($query) {
+        $query->whereNull('end_date')
+              ->orWhere('end_date', '>=', now());
+    })
+    ->where('position', 'homepage_carousel')
+    ->orderByDesc('priority')
+    ->take(10)
+    ->get();
+
         return view('frontend.home',
  [
         'categories'=>$categories,
