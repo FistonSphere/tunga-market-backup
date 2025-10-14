@@ -171,44 +171,21 @@
                 </div>
 
                 <!-- Moving Advertisement Cards -->
-                <div class="relative h-32 overflow-hidden">
+                <div class="relative overflow-hidden">
                     <div class="advertisement-track flex space-x-6 animate-scroll">
 
                         @foreach ($advertisements as $ad)
-                            <div
-                                class="advertisement-card flex-shrink-0 w-80 h-24 bg-white rounded-xl shadow-card border border-gray-100 flex items-center p-4 hover:shadow-hover transition-all duration-300">
-
-                                {{-- Banner Area --}}
-                                <div class="w-16 h-16 rounded-lg flex items-center justify-center mr-4"
-                                    style="background: linear-gradient(to bottom right, {{ $ad->gradient_from ?? '#ccc' }}, {{ $ad->gradient_to ?? '#999' }})">
-
-                                    @if ($ad->banner_type === 'svg' && $ad->icon_svg)
-                                        {!! $ad->icon_svg !!}
-                                    @elseif ($ad->banner_type === 'image' && $ad->image_url)
-                                        <img src="{{ asset($ad->image_url) }}" alt="{{ $ad->title }}" class="w-12 h-12 object-contain">
-                                    @elseif ($ad->banner_type === 'video' && $ad->video_url)
-                                        <video autoplay loop muted class="w-12 h-12 rounded-lg object-cover">
-                                            <source src="{{ asset($ad->video_url) }}" type="video/mp4">
-                                        </video>
-                                    @else
-                                        <span class="text-white font-semibold text-xs">Ad</span>
-                                    @endif
+                            @if($ad->banner_type === 'image')
+                                <img src="{{ asset($ad->image_url) }}" alt="{{ $ad->title }}" style="width: 450px; object-fit: cover; height: 200px;" class="rounded-xl" />
+                            @else
+                                <div class="rounded-xl p-8 text-white"
+                                    style="background: linear-gradient(to right, {{ $ad->gradient_from }}, {{ $ad->gradient_to }}); width: 450px; height: 200px;">
+                                    {!! $ad->icon_svg !!}
+                                    <h3 class="text-2xl font-semibold mt-4">{{ $ad->title }}</h3>
+                                    <p class="opacity-90">{{ $ad->discount_text }} - {{ $ad->period_text }}</p>
+                                    <a href="{{ $ad->cta_url }}" class="btn-primary mt-4 inline-block">{{ $ad->cta_text }}</a>
                                 </div>
-
-                                {{-- Text Section --}}
-                                <div class="flex-1">
-                                    <h3 class="font-semibold text-primary text-sm">{{ $ad->title }}</h3>
-                                    <p class="text-xs text-secondary-600">{{ $ad->category }}</p>
-                                    <div class="flex items-center mt-1">
-                                        <span class="text-accent font-bold text-sm">{{ $ad->discount_text }}</span>
-                                        <span class="text-xs text-gray-500 ml-2">{{ $ad->period_text }}</span>
-                                    </div>
-                                    @if ($ad->cta_url)
-                                        <a href="{{ $ad->cta_url }}"
-                                            class="text-xs text-blue-600 hover:underline">{{ $ad->cta_text ?? 'Learn More' }}</a>
-                                    @endif
-                                </div>
-                            </div>
+                            @endif
                         @endforeach
 
 
@@ -932,9 +909,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                <div class="font-semibold">${styles[type].title}</div>
-                                                                                <div class="text-sm opacity-90">${message}</div>
-                                                                            `;
+                                                                                    <div class="font-semibold">${styles[type].title}</div>
+                                                                                    <div class="text-sm opacity-90">${message}</div>
+                                                                                `;
 
             // Progress bar
             const progress = document.createElement("div");
