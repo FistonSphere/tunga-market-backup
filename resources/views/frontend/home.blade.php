@@ -46,6 +46,24 @@
         .animate-progress {
             animation: progressAnim 3.5s linear forwards;
         }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .advertisement-track {
+            animation: scroll 30s linear infinite;
+        }
+
+        .advertisement-track:hover {
+            animation-play-state: paused;
+        }
     </style>
     <!-- Hero Section -->
     <section class="relative bg-gradient-to-br from-primary-50 to-accent-50 overflow-hidden">
@@ -163,7 +181,7 @@
                                 {{-- Icon or Image --}}
                                 <div
                                     class="w-16 h-16 rounded-lg flex items-center justify-center mr-4
-                                                @if($ad->gradient_from && $ad->gradient_to) bg-gradient-to-br from-{{ $ad->gradient_from }} to-{{ $ad->gradient_to }} @else bg-gray-200 @endif">
+                                                            @if($ad->gradient_from && $ad->gradient_to) bg-gradient-to-br from-{{ $ad->gradient_from }} to-{{ $ad->gradient_to }} @else bg-gray-200 @endif">
 
                                     @if($ad->banner_type === 'svg' && $ad->icon_svg)
                                         {!! $ad->icon_svg !!}
@@ -915,9 +933,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                        <div class="font-semibold">${styles[type].title}</div>
-                                                                        <div class="text-sm opacity-90">${message}</div>
-                                                                    `;
+                                                                            <div class="font-semibold">${styles[type].title}</div>
+                                                                            <div class="text-sm opacity-90">${message}</div>
+                                                                        `;
 
             // Progress bar
             const progress = document.createElement("div");
