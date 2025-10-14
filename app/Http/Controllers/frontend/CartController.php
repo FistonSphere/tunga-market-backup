@@ -365,48 +365,64 @@ public function removeSelected(Request $request)
 }
 
 public function addToCartDeal(Request $request)
-    {
-        if (!Auth::check()) {
-            return response()->json(['error' => 'unauthenticated'], 401);
-        }
-        $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'deal_id' => 'nullable|exists:flash_deals,id',
-        ]);
-
-        $user = Auth::user();
-        $product = Product::findOrFail($request->product_id);
-
-        // Check if flash deal exists
-        $deal = null;
-        if ($request->deal_id) {
-            $deal = FlashDeal::find($request->deal_id);
-        }
-
-        // Check if already in cart
-        $existing = Cart::where('user_id', $user->id)
-            ->where('product_id', $product->id)
-            ->where('deal_id', $deal ? $deal->id : null)
-            ->first();
-
-        if ($existing) {
-            return response()->json(['message' => 'Item already in your cart.'], 200);
-        }
-
-        Cart::create([
-            'user_id' => $user->id,
-            'product_id' => $product->id,
-            'quantity' => 1,
-            'price' => $deal ? $deal->flash_price : $product->price,
-            'deal_id' => $deal ? $deal->id : null,
-            'currency' => 'RWF',
-        ]);
-
-        return response()->json(['message' => 'Product added to cart successfully.']);
+{
+    if (!Auth::check()) {
+        return response()->json(['error' => 'Unauthenticated'], 401);
     }
 
+    $request->validate([
+        'product_id' => 'required|exists:products,id',
+        'deal_id' => 'nullable|exists:flash_deals,id',
+    ]);
+
+    $user = Auth::user();
+    $product = Product::findOrFail($request->product_id);
+    $deal = $request->deal_id ? FlashDeal::find($request->deal_id) : null;
+
+    // Build base query to find existing cart entry
+    $existingQuery = Cart::where('user_id', $user->id)
+        ->where('product_id', $product->id);
+
+    if ($deal) {
+        $existingQuery->where('deal_id', $deal->id);
+    } else {
+        $existingQuery->whereNull('deal_id');
+    }
+
+    $existing = $existingQuery->first();
+
+    // Flash deal restriction: only 1 allowed
+    if ($existing) {
+        if ($deal) {
+            return response()->json([
+                'message' => 'You are allowed to purchase only 1 quantity of this flash deal product.',
+            ], 200);
+        } else {
+            // Optional: for regular products, you could allow adding more quantity
+            return response()->json([
+                'message' => 'Item already in your cart.',
+            ], 200);
+        }
+    }
+
+    Cart::create([
+        'user_id' => $user->id,
+        'product_id' => $product->id,
+        'quantity' => 1,
+        'price' => $deal ? $deal->flash_price : $product->price,
+        'deal_id' => $deal ? $deal->id : null,
+        'currency' => $product->currency,
+    ]);
+
+    return response()->json(['message' => 'Product added to cart successfully.']);
+}
+
+
     public function AddCartFromHome(Request $request)
-{
+
+
+
+    {
    $request->validate([
         'product_id' => 'required|exists:products,id',
         'quantity' => 'nullable|integer|min:1',
