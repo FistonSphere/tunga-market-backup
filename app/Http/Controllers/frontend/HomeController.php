@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ad;
 use App\Models\Advertisement;
 use App\Models\Category;
 use App\Models\FlashDeal;
@@ -141,19 +142,7 @@ class HomeController extends Controller
             // gracefully ignore missing models / columns on dev
         }
 
-        $ads = Advertisement::where('is_active', true)
-    ->where(function ($query) {
-        $query->whereNull('start_date')
-              ->orWhere('start_date', '<=', now());
-    })
-    ->where(function ($query) {
-        $query->whereNull('end_date')
-              ->orWhere('end_date', '>=', now());
-    })
-    ->where('position', 'homepage_carousel')
-    ->orderByDesc('priority')
-    ->take(10)
-    ->get();
+       $ads = Ad::orderBy('order', 'asc')->where('status', 'active')->get();
 
         return view('frontend.home',
  [
