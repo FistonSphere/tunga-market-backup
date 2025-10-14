@@ -120,8 +120,6 @@ class HomeController extends Controller
 
         // For Trading activity stats - attempt to collect real values if models exist, otherwise fallback
         $ordersToday = 0;
-        $newSuppliers = 0;
-        $activeNegotiations = 0;
         $countriesActive = 0;
         try {
             if (class_exists(\App\Models\Order::class)) {
@@ -234,6 +232,25 @@ $featuredWithMostViewed = $featuredProducts
         ];
     });
     return response()->json(['items' => $items]);
+}
+
+
+public function getDetails($id)
+{
+    $product = Product::findOrFail($id);
+
+    return response()->json([
+        'id' => $product->id,
+        'name' => $product->name,
+        'short_description' => $product->short_description,
+        'price' => $product->price,
+        'discount_price' => $product->discount_price,
+        'currency' => $product->currency,
+        'main_image' => $product->main_image,
+        'gallery' => $product->gallery,
+        'features' => $product->features,
+        'specifications' => $product->specifications,
+    ]);
 }
 
 }
