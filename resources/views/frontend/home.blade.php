@@ -293,17 +293,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Ends + Sales -->
-                                        <div class="flex items-center justify-between mb-4">
-                                            <div class="text-xs text-gray-500">
-                                                ⏰ Ends in:
-                                                <span class="font-semibold text-red-500">{{ $endsIn }}</span>
-                                            </div>
-                                            <div class="text-xs text-gray-500">
-                                                🔥 <span class="font-semibold text-accent">{{ rand(50, 500) }} sold today</span>
-                                            </div>
-                                        </div>
-
                                         <!-- Actions -->
                                         <div class="flex space-x-2">
                                             <button class="flex-1 btn-primary text-sm py-2">Quick Buy</button>
@@ -867,7 +856,6 @@
             </div>
         </div>
     </div>
-
     <div id="toast-container" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
     <script>
         const track = document.getElementById("carousel-track");
@@ -1080,9 +1068,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                                    <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                                    <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                                `;
+                                                                                                                                                            <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                            <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                                        `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1185,6 +1173,323 @@
             // (You can implement a /market-pulse/trending endpoint if you want to live-update trending list)
         });
 
+
+
+
+        function openProductModal(productId) {
+            fetch(`/products/flash-deals/${productId}/details`)
+                .then(res => res.json())
+                .then(data => {
+                    // Parse JSON strings to arrays/objects
+                    const gallery = Array.isArray(data.gallery) ? data.gallery : (data.gallery ? JSON.parse(data.gallery) : []);
+                    const features = Array.isArray(data.features) ? data.features : (data.features ? JSON.parse(data.features) : []);
+                    const specifications = typeof data.specifications === 'object'
+                        ? data.specifications
+                        : (data.specifications ? JSON.parse(data.specifications) : {});
+
+                    // Set main image
+                    document.getElementById('modalMainImage').src = gallery[0] || data.main_image;
+
+                    // Set name and prices
+                    document.getElementById('modalName').textContent = data.name;
+                    document.getElementById('modalPrice').textContent = `RWF ${data.flash_price.toLocaleString()}`;
+                    document.getElementById('modalOldPrice').textContent = `RWF ${data.price.toLocaleString()}`;
+                    document.getElementById('modalDiscount').textContent = `${data.discount_percent}% OFF`;
+
+                    // Description
+                    document.getElementById('modalDescription').textContent = data.description;
+
+                    // Gallery thumbnails
+                    const galleryDiv = document.getElementById('modalGallery');
+                    galleryDiv.innerHTML = '';
+                    if (gallery.length) {
+                        gallery.forEach(img => {
+                            const thumb = document.createElement('img');
+                            thumb.src = img;
+                            thumb.className = 'w-20 h-20 object-cover rounded-lg cursor-pointer';
+                            thumb.onclick = () => document.getElementById('modalMainImage').src = img;
+                            galleryDiv.appendChild(thumb);
+                        });
+                    } else {
+                        galleryDiv.innerHTML = '<p class="text-gray-400 text-sm">No gallery images available.</p>';
+                    }
+
+                    // Specifications (object)
+                    const specsDiv = document.getElementById('modalSpecs');
+                    specsDiv.innerHTML = `<h4 class="font-semibold mb-1">Specifications:</h4>`;
+                    if (Object.keys(specifications).length) {
+                        for (const [key, value] of Object.entries(specifications)) {
+                            const li = document.createElement('p');
+                            li.textContent = `• ${key}: ${value}`;
+                            specsDiv.appendChild(li);
+                        }
+                    } else {
+                        specsDiv.innerHTML += '<p class="text-gray-400 text-sm">No specifications available.</p>';
+                    }
+
+                    // Features
+                    const featuresDiv = document.getElementById('modalFeatures');
+                    featuresDiv.innerHTML = `<h4 class="font-semibold mb-1">Features:</h4>`;
+                    if (features.length) {
+                        features.forEach(f => {
+                            const li = document.createElement('p');
+                            li.textContent = `• ${f}`;
+                            featuresDiv.appendChild(li);
+                        });
+                    } else {
+                        featuresDiv.innerHTML += '<p class="text-gray-400 text-sm">No features available.</p>';
+                    }
+
+                    // Ratings
+                    const ratingDiv = document.getElementById('modalRating');
+                    ratingDiv.innerHTML = '';
+                    for (let i = 1; i <= 5; i++) {
+                        const star = document.createElement('span');
+                        star.textContent = i <= data.average_rating ? '★' : '☆';
+                        ratingDiv.appendChild(star);
+                    }
+
+                    // Show modal
+                    document.getElementById('productModal').classList.remove('hidden');
+
+                    setTimeout(() => {
+                        const addToCartBtn = document.getElementById('addToCartBtn');
+                        if (addToCartBtn) {
+                            addToCartBtn.onclick = () => {
+                                console.log("Add to Cart clicked for product:", data.id); // Debug
+                                addToCart(data.id, data.deal_id || null);
+                            };
+                        } else {
+                            console.error("Add to Cart button not found!");
+                        }
+                    }, 100);
+
+                    setTimeout(() => {
+                        const addToCartBtn = document.getElementById('addToCartBtn');
+                        const buyNowBtn = document.getElementById('buyNowBtn');
+
+                        if (addToCartBtn) {
+                            addToCartBtn.onclick = () => addToCart(data.id, data.deal_id || null);
+                        }
+
+                        if (buyNowBtn) {
+                            buyNowBtn.onclick = () => buyNow(data.id, data.deal_id || null);
+                        }
+                    }, 100);
+
+
+                })
+                .catch(err => console.error(err));
+        }
+
+
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        // Function to add to cart
+        function addToCart(productId, dealId = null) {
+            fetch('{{ route('cart.add.deal') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    deal_id: dealId,
+                }),
+            })
+                .then(async (res) => {
+                    console.log("Fetch response:", res.status);
+
+                    // Detect redirect or unauthorized
+                    if (res.status === 401) {
+                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+                        return;
+                    }
+
+                    // Try parsing JSON safely
+                    let data;
+                    try {
+                        data = await res.json();
+                    } catch (e) {
+                        console.warn("Non-JSON response, likely a redirect to login page.");
+                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+                        return;
+                    }
+
+                    if (res.ok) {
+                        showNotify('success', data.message || 'Added to cart successfully!');
+                    } else {
+                        showNotify('error', data.message || 'Failed to add to cart.');
+                    }
+                })
+                .catch(() => showNotify('error', 'Something went wrong while adding to cart.'));
+
+        }
+
+
+
+        function goToSignIn() {
+            window.location.href = '{{ route('login') }}'; // or your custom sign-in route
+        }
+
+        function continueBrowsing() {
+            document.getElementById('login-warning-modal-wrapper2').classList.add('hidden');
+        }
+        function buyNow(productId, dealId = null) {
+            fetch('{{ route('cart.add.deal') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    deal_id: dealId,
+                }),
+            })
+                .then(async (res) => {
+                    if (res.status === 401) {
+                        // Not logged in
+                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+                        return;
+                    }
+
+                    let data;
+                    try {
+                        data = await res.json();
+                    } catch {
+                        showNotify('error', 'Something went wrong while adding to cart.');
+                        return;
+                    }
+
+                    if (res.ok) {
+                        showNotify('success', 'Redirecting to checkout...');
+                        // ✅ Redirect to checkout after short delay
+                        setTimeout(() => {
+                            window.location.href = '/checkout';
+                        }, 800);
+                    } else {
+                        showNotify('error', data.message || 'Failed to add to cart.');
+                    }
+                })
+                .catch(() => showNotify('error', 'Network error while processing Buy Now.'));
+        }
+
+
+        function showNotify(type, message) {
+            const styles = {
+                success: {
+                    bg: "bg-green-500",
+                    icon: "✔️",
+                    title: "Success"
+                },
+                error: {
+                    bg: "bg-red-500",
+                    icon: "⚠️",
+                    title: "Error"
+                }
+            };
+
+            let container = document.getElementById("toast-container");
+            if (!container) {
+                container = document.createElement("div");
+                container.id = "toast-container";
+                container.className = "fixed top-5 right-5 space-y-3 z-50 flex flex-col";
+                document.body.appendChild(container);
+            }
+
+            // Toast wrapper
+            const notify = document.createElement("div");
+            notify.className =
+                `relative flex items-start space-x-3 ${styles[type].bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
+
+            // Icon
+            const icon = document.createElement("span");
+            icon.className = "text-2xl";
+            icon.innerText = styles[type].icon;
+
+            // Content
+            const content = document.createElement("div");
+            content.className = "flex-1";
+            content.innerHTML = `
+                                                                                        <div class="font-semibold">${styles[type].title}</div>
+                                                                                        <div class="text-sm opacity-90">${message}</div>
+                                                                                    `;
+
+            // Progress bar
+            const progress = document.createElement("div");
+            progress.className =
+                "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
+            progress.style.width = "100%";
+
+            // Append
+            notify.appendChild(icon);
+            notify.appendChild(content);
+            notify.appendChild(progress);
+            container.appendChild(notify);
+
+            // Auto-remove
+            setTimeout(() => {
+                notify.classList.add("animate-fade-out");
+                setTimeout(() => notify.remove(), 500);
+            }, 4000);
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const filters = ["category", "discount", "price", "time", "sort"];
+            const productsGrid = document.getElementById("products-grid");
+            const clearBtn = document.getElementById("clear-filters");
+            const spinner = document.getElementById("loading-spinner");
+
+            filters.forEach(filter => {
+                document.getElementById(`${filter}-filter`)?.addEventListener("change", fetchFlashDeals);
+            });
+
+            clearBtn?.addEventListener("click", () => {
+                filters.forEach(filter => {
+                    document.getElementById(`${filter}-filter`).value = "";
+                });
+                fetchFlashDeals();
+            });
+
+            function fetchFlashDeals() {
+                const params = {
+                    category: document.getElementById("category-filter").value,
+                    discount: document.getElementById("discount-filter").value,
+                    price: document.getElementById("price-filter").value,
+                    time: document.getElementById("time-filter").value,
+                    sort: document.getElementById("sort-filter")?.value,
+                };
+
+                const query = new URLSearchParams(params).toString();
+
+                // Show spinner and clear products grid temporarily
+                spinner.classList.remove("hidden");
+                productsGrid.classList.add("opacity-30");
+
+                fetch(`/flash-deals/filter?${query}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        productsGrid.innerHTML = data.html || "<p class='text-center text-gray-500 py-8'>No deals found.</p>";
+                    })
+                    .catch(err => {
+                        console.error("Error loading filtered deals:", err);
+                        productsGrid.innerHTML = "<p class='text-center text-red-500 py-8'>Failed to load deals. Try again.</p>";
+                    })
+                    .finally(() => {
+                        // Hide spinner and restore opacity after loading completes
+                        setTimeout(() => {
+                            spinner.classList.add("hidden");
+                            productsGrid.classList.remove("opacity-30");
+                        }, 300);
+                    });
+            }
+        });
 
 
     </script>
