@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             FlashDealsTableSeeder::class, // ✅ New
             SuccessStoriesTableSeeder::class, // ✅ New
             TeamMemberSeeder::class, // ✅ New
+            AdvertisementSeeder::class, // ✅ New
 
 
         ]);
