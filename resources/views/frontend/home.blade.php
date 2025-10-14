@@ -64,6 +64,52 @@
         .advertisement-track:hover {
             animation-play-state: paused;
         }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes progressAnim {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.4s ease-out forwards;
+        }
+
+        .animate-fade-out {
+            animation: fadeOut 0.6s ease-in forwards;
+        }
+
+        .animate-progress {
+            animation: progressAnim 3.5s linear forwards;
+        }
     </style>
     <!-- Hero Section -->
     <section class="relative bg-gradient-to-br from-primary-50 to-accent-50 overflow-hidden">
@@ -176,7 +222,99 @@
 
 
             <!-- featured products Container -->
-            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-primary">
+                    </h2>
+                    <div class="flex space-x-2">
+                        <button id="carousel-prev"
+                            class="p-2 bg-white rounded-full shadow-card hover:shadow-hover transition-all duration-200">
+                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button id="carousel-next"
+                            class="p-2 bg-white rounded-full shadow-card hover:shadow-hover transition-all duration-200">
+                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="featured-carousel overflow-hidden relative">
+                    <div id="carousel-track" class="carousel-track flex space-x-4 transition-transform duration-300">
+                        @foreach($flashDeals as $deal)
+                            @php
+                                $timeLeft = now()->diff($deal->end_time);
+                                $endsIn = $timeLeft->d . 'd ' . $timeLeft->h . 'h ' . $timeLeft->i . 'm';
+                            @endphp
+
+                            <div class="carousel-item flex-shrink-0 w-80">
+                                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300 relative overflow-hidden h-full"
+                                    onclick="openProductModal('{{ $deal->product->id }}')">
+
+                                    <!-- Discount Badge -->
+                                    <div
+                                        class="absolute top-3 left-3 bg-accent text-white px-3 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
+                                        FEATURED {{ $deal->discount_percent }}% OFF
+                                    </div>
+
+                                    <!-- Urgency Badge -->
+                                    <div
+                                        class="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+                                        ENDING SOON
+                                    </div>
+
+                                    <!-- Product Image -->
+                                    <div class="relative overflow-hidden rounded-lg mb-4">
+                                        <img src="{{ $deal->product->main_image ?? asset('assets/images/no-image.png') }}"
+                                            alt="{{ $deal->product->name }}"
+                                            class="w-full h-64 object-cover group-hover:scale-105 transition-all duration-300"
+                                            loading="lazy" />
+                                    </div>
+
+                                    <div class="p-4">
+                                        <h3 class="font-bold text-primary mb-2">{{ $deal->product->name }}</h3>
+                                        <p class="text-body-sm text-secondary-600 mb-3">
+                                            {{ Str::limit($deal->product->description, 60) }}
+                                        </p>
+
+                                        <!-- Pricing -->
+                                        <div class="flex items-center justify-between mb-3">
+                                            <div class="flex items-center space-x-2">
+                                                <span class="text-2xl font-bold text-accent">RWF
+                                                    {{ number_format($deal->flash_price) }}</span>
+                                                <span class="text-sm text-gray-500 line-through">RWF
+                                                    {{ number_format($deal->product->price) }}</span>
+                                            </div>
+                                            <div class="flex items-center text-yellow-400">
+                                                ⭐ <span class="text-sm text-gray-600 ml-1">4.7 ({{ rand(200, 1500) }})</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Ends + Sales -->
+                                        <div class="flex items-center justify-between mb-4">
+                                            <div class="text-xs text-gray-500">
+                                                ⏰ Ends in:
+                                                <span class="font-semibold text-red-500">{{ $endsIn }}</span>
+                                            </div>
+                                            <div class="text-xs text-gray-500">
+                                                🔥 <span class="font-semibold text-accent">{{ rand(50, 500) }} sold today</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Actions -->
+                                        <div class="flex space-x-2">
+                                            <button class="flex-1 btn-primary text-sm py-2">Quick Buy</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
             <!-- featured products Container -->
 
         </div>
@@ -911,9 +1049,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                <div class="text-sm opacity-90">${message}</div>
-                                                                                                                            `;
+                                                                                                                                        <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                        <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                    `;
 
             // Progress bar
             const progress = document.createElement("div");
