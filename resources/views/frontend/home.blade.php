@@ -185,7 +185,7 @@
                             <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800&auto=format&fit=crop"
                                 alt="Fashion Store" class="w-full h-full object-cover" />
                             <!-- Black overlay -->
-                            <div class="absolute inset-0 bg-black/50"></div> <!-- 50% black -->
+                            <div class="absolute inset-0 bg-black/50"></div>
                         </div>
 
 
@@ -205,7 +205,7 @@
                             </div>
                             <h3 class="font-bold text-2xl mb-1 text-accent-500">Fashion Week 2025</h3>
                             <p class="text-pink-100 text-sm mb-3">Trending styles from global designers</p>
-                            <div class="flex items-center justify-between bg-secondary" style="border-radius: 8px">
+                            <div class="flex items-center justify-between" style="padding:2px;border-radius: 8px; background-color: #001528">
                                 <div>
                                     <span class="text-lg font-bold">Watch Collection →</span>
                                     <p class="text-xs text-pink-200">👗 1000+ New Items</p>
