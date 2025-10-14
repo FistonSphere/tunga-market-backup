@@ -1122,9 +1122,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                                                        <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                                                        <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                                                    `;
+                                                                                                                                                                            <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                                            <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                                                        `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1346,8 +1346,8 @@
         }
 
         // Function to add to cart
-        function addToCart(productId, dealId = null) {
-            fetch('{{ route('cart.add.deal') }}', {
+        function addToCart(productId) {
+            fetch('{{ route('home.cart.add') }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1355,38 +1355,32 @@
                 },
                 body: JSON.stringify({
                     product_id: productId,
-                    deal_id: dealId,
+                    quantity: 1, // Default quantity
                 }),
             })
                 .then(async (res) => {
-                    console.log("Fetch response:", res.status);
-
-                    // Detect redirect or unauthorized
                     if (res.status === 401) {
                         document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
                         return;
                     }
 
-                    // Try parsing JSON safely
                     let data;
                     try {
                         data = await res.json();
                     } catch (e) {
-                        console.warn("Non-JSON response, likely a redirect to login page.");
+                        console.warn("Non-JSON response");
                         document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
                         return;
                     }
 
                     if (res.ok) {
-                        showNotify('success', data.message || 'Added to cart successfully!');
+                        showNotify('success', data.message || 'Product added to cart!');
                     } else {
-                        showNotify('error', data.message || 'Failed to add to cart.');
+                        showNotify('error', data.message || 'Failed to add product to cart.');
                     }
                 })
                 .catch(() => showNotify('error', 'Something went wrong while adding to cart.'));
-
         }
-
 
 
         function goToSignIn() {
@@ -1473,9 +1467,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                    <div class="font-semibold">${styles[type].title}</div>
-                                                                                                    <div class="text-sm opacity-90">${message}</div>
-                                                                                                `;
+                                                                                                        <div class="font-semibold">${styles[type].title}</div>
+                                                                                                        <div class="text-sm opacity-90">${message}</div>
+                                                                                                    `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1497,6 +1491,6 @@
         }
 
 
-        
+
     </script>
 @endsection

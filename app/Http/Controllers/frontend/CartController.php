@@ -404,4 +404,37 @@ public function addToCartDeal(Request $request)
 
         return response()->json(['message' => 'Product added to cart successfully.']);
     }
+
+    public function AddCartFromHome(Request $request)
+{
+    $request->validate([
+        'product_id' => 'required|exists:products,id',
+        'quantity' => 'nullable|integer|min:1',
+    ]);
+
+    $product = Product::findOrFail($request->product_id);
+    $quantity = $request->input('quantity', 1);
+
+    // Use discount_price if available
+    $price = $product->discount_price ?? $product->price;
+
+    $cart = Cart::updateOrCreate(
+        [
+            'user_id' => auth()->id(),
+            'product_id' => $product->id,
+            'deal_id' => null, // Regular product, no flash deal
+        ],
+        [
+            'quantity' => $quantity,
+            'price' => $price,
+            'currency' => $product->currency,
+        ]
+    );
+
+    return response()->json([
+        'message' => 'Product added to cart successfully!',
+        'cart_id' => $cart->id,
+    ]);
+}
+
 }

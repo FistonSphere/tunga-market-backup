@@ -101,6 +101,7 @@ Route::get('/policies/cookies', function() {
 Route::get('/home/products/{id}/details', [HomeController::class, 'getDetails']);
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::post('/home/cart/add', [CartController::class, 'AddCartFromHome'])->name('home.cart.add');
      Route::get('/user/sessions', [UserSessionController::class, 'index']);
     Route::post('/user/sessions', [UserSessionController::class, 'store']);
     Route::delete('/user/sessions/{id}', [UserSessionController::class, 'destroy']);
