@@ -418,6 +418,7 @@ public function addToCartDeal(Request $request)
 }
 
 
+
     public function AddCartFromHome(Request $request)
 
 
