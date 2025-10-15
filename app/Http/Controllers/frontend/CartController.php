@@ -380,16 +380,20 @@ public function addToCartDeal(Request $request)
     $deal = $request->deal_id ? FlashDeal::find($request->deal_id) : null;
 
     // Build base query to find existing cart entry
-    $existingQuery = Cart::where('user_id', $user->id)
-        ->where('product_id', $product->id);
+    $existing = Cart::where('user_id', $user->id)
+    ->where('product_id', $product->id)
+    ->first();
 
-    if ($deal) {
-        $existingQuery->where('deal_id', $deal->id);
-    } else {
-        $existingQuery->whereNull('deal_id');
-    }
+if ($existing) {
+    return response()->json([
+        'message' => $deal
+            ? 'You are allowed to purchase only 1 quantity of this flash deal product.'
+            : 'Item already in your cart.'
+    ], 200);
+}
 
-    $existing = $existingQuery->first();
+
+    // $existing = $existingQuery->first();
 
     // Flash deal restriction: only 1 allowed
     if ($existing) {

@@ -1046,21 +1046,19 @@
                 }),
             })
                 .then(async (res) => {
-                    console.log("Fetch response:", res.status);
+                    
 
-                    // Detect redirect or unauthorized
+                    // Check for login required
                     if (res.status === 401) {
                         document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
                         return;
                     }
 
-                    // Try parsing JSON safely
                     let data;
                     try {
                         data = await res.json();
                     } catch (e) {
-                        console.warn("Non-JSON response, likely a redirect to login page.");
-                        document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
+                        showNotify('error', 'Unexpected server response.');
                         return;
                     }
 
@@ -1070,7 +1068,11 @@
                         showNotify('error', data.message || 'Failed to add to cart.');
                     }
                 })
-                .catch(() => showNotify('error', 'Something went wrong while adding to cart.'));
+                .catch((err) => {
+                    console.error("Add to cart failed:", err);
+                    showNotify('error', 'A network or server error occurred.');
+                });
+
 
         }
 
@@ -1122,9 +1124,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                                                            <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                                                            <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                                                        `;
+                                                                                                                                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                                                <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1144,6 +1146,10 @@
                 setTimeout(() => notify.remove(), 500);
             }, 4000);
         }
+
+
+
+
 
         document.addEventListener('DOMContentLoaded', function () {
             const swiper = new Swiper('.successSwiper', {
@@ -1460,9 +1466,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                        <div class="font-semibold">${styles[type].title}</div>
-                                                                                                        <div class="text-sm opacity-90">${message}</div>
-                                                                                                    `;
+                                                                                                            <div class="font-semibold">${styles[type].title}</div>
+                                                                                                            <div class="text-sm opacity-90">${message}</div>
+                                                                                                        `;
 
             // Progress bar
             const progress = document.createElement("div");
