@@ -791,41 +791,40 @@
     <div id="toast-container2" aria-live="polite" aria-atomic="true"
         style="position: fixed; top: 1rem; right: 1rem; z-index: 999999;"></div>
 
-    @if(!session('cookies_accepted'))
-        <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
-            <div
-                class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0">
-                <div class="text-sm text-secondary-700">
-                    🍪 We use cookies to enhance your browsing experience, analyze traffic, and personalize content.
-                    By continuing, you agree to our
-                    <a href="{{ route('policies.cookies') }}" class="text-accent font-semibold hover:underline">Cookie
-                        Policy</a>.
-                </div>
-                @if (!session('cookies_accepted'))
-                    <div id="cookie-banner"
-                        class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 shadow p-4 z-50">
-                        <div
-                            class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0">
-                            <div class="text-sm text-gray-700">
-                                We use cookies to personalize your experience. By continuing, you agree to our use of cookies.
-                            </div>
-                            <div class="flex space-x-3">
-                                <button id="acceptCookies"
-                                    class="bg-accent text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-accent-600 transition">
-                                    Accept Cookies
-                                </button>
-                                <button id="declineCookies"
-                                    class="bg-gray-200 text-secondary-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-300 transition">
-                                    Decline
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
 
+    <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50" style="display:none">
+        <div
+            class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0">
+            <div class="text-sm text-secondary-700">
+                🍪 We use cookies to enhance your browsing experience, analyze traffic, and personalize content.
+                By continuing, you agree to our
+                <a href="{{ route('policies.cookies') }}" class="text-accent font-semibold hover:underline">Cookie
+                    Policy</a>.
             </div>
+            <div id="cookie-banner"
+                class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 shadow p-4 z-50">
+                <div
+                    class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0">
+                    <div class="text-sm text-gray-700">
+                        We use cookies to personalize your experience. By continuing, you agree to our use of cookies.
+                    </div>
+                    <div class="flex space-x-3">
+                        <button id="acceptCookies"
+                            class="bg-accent text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-accent-600 transition">
+                            Accept Cookies
+                        </button>
+                        <button id="declineCookies"
+                            class="bg-gray-200 text-secondary-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-300 transition">
+                            Decline
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
-    @endif
+    </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -882,7 +881,9 @@
                         setInterval(logUserActivity, 30000); // every 30s
                     });
             }
-
+            if (localStorage.getItem('cookies_accepted') !== 'yes') {
+                document.getElementById('cookie-banner').style.display = 'block';
+            }
             // Button event bindings
             document.getElementById('acceptCookies')?.addEventListener('click', acceptCookies);
             document.getElementById('declineCookies')?.addEventListener('click', () => {
