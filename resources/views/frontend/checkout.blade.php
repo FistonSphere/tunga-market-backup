@@ -24,13 +24,13 @@
         }
 
         .progress-step.active .step-circle {
-            background-color: #1e40af;
+            background-color: #ff6b35;
             /* accent */
             color: #fff;
         }
 
         .progress-step.active .step-label {
-            color: #1e40af;
+            color: #ff6b35;
             font-weight: 500;
         }
 
@@ -68,35 +68,28 @@
             <div class="flex justify-between items-center h-16">
 
                 <!-- Checkout Progress Indicator -->
-                <div class="flex items-center space-x-4 overflow-x-auto whitespace-nowrap">
+                <div class="flex items-center space-x-4 overflow-x-auto whitespace-nowrap" id="checkoutProgress">
                     <div class="flex items-center space-x-2 progress-step" data-step="1">
-                        <div
-                            class="w-8 h-8 bg-accent text-white rounded-full flex items-center justify-center text-body-sm font-semibold">
-                            1</div>
-                        <span class="text-body-sm font-medium text-accent">Review Order</span>
+                        <div class="step-circle">1</div>
+                        <span class="step-label">Review Order</span>
                     </div>
-                    <div class="w-8 h-0.5 bg-border flex-shrink-0"></div>
+                    <div class="progress-line"></div>
                     <div class="flex items-center space-x-2 progress-step" data-step="2">
-                        <div
-                            class="w-8 h-8 bg-border text-secondary-600 rounded-full flex items-center justify-center text-body-sm font-semibold">
-                            2</div>
-                        <span class="text-body-sm text-secondary-600">Shipping</span>
+                        <div class="step-circle">2</div>
+                        <span class="step-label">Shipping</span>
                     </div>
-                    <div class="w-8 h-0.5 bg-border flex-shrink-0"></div>
+                    <div class="progress-line"></div>
                     <div class="flex items-center space-x-2 progress-step" data-step="3">
-                        <div
-                            class="w-8 h-8 bg-border text-secondary-600 rounded-full flex items-center justify-center text-body-sm font-semibold">
-                            3</div>
-                        <span class="text-body-sm text-secondary-600">Payment</span>
+                        <div class="step-circle">3</div>
+                        <span class="step-label">Payment</span>
                     </div>
-                    <div class="w-8 h-0.5 bg-border flex-shrink-0"></div>
+                    <div class="progress-line"></div>
                     <div class="flex items-center space-x-2 progress-step" data-step="4">
-                        <div
-                            class="w-8 h-8 bg-border text-secondary-600 rounded-full flex items-center justify-center text-body-sm font-semibold">
-                            4</div>
-                        <span class="text-body-sm text-secondary-600">Confirmation</span>
+                        <div class="step-circle">4</div>
+                        <span class="step-label">Confirmation</span>
                     </div>
                 </div>
+
 
                 <!-- Security Badge -->
                 <div class="hidden md:flex items-center space-x-2 text-success ml-4 flex-shrink-0">
@@ -1118,11 +1111,11 @@
     <!-- Edit Address Modal -->
     <div id="editAddressModal"
         style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));" class="fixed inset-0 hidden items-center justify-center
-                                        backdrop-blur-sm transition-opacity duration-300 ease-out">
+                                            backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
         <div id="editAddressCard" class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
-                                           transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                                               transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1666,12 +1659,12 @@
 
             if (paymentMethod === "irembo-pay") {
                 button.innerHTML = `
-                                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                            </svg>
-                                            Processing Mobile Payment...
-                                        `;
+                                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Processing Mobile Payment...
+                                            `;
 
                 // Simulate IREMBO Pay processing
                 setTimeout(() => {
@@ -1703,12 +1696,12 @@
                 }, 2000);
             } else {
                 button.innerHTML = `
-                                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                            </svg>
-                                            Processing Order...
-                                        `;
+                                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Processing Order...
+                                            `;
 
                 // Standard payment processing
                 setTimeout(() => {
