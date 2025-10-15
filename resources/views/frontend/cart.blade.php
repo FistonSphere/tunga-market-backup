@@ -78,9 +78,9 @@
                         <span class="text-secondary-600"><span class="font-semibold text-primary"
                                 id="cart-item-count">{{ $cartCount }}</span> items in cart</span>
                         {{-- @if ($discountPromo > 0)
-                            <span class="text-success">💰 You're saving <span class="font-semibold">{{ $discountPromo }}
-                                    Rwf</span> with Promo
-                                discounts!</span>
+                        <span class="text-success">💰 You're saving <span class="font-semibold">{{ $discountPromo }}
+                                Rwf</span> with Promo
+                            discounts!</span>
                         @endif --}}
                     </div>
                 </div>
@@ -202,40 +202,42 @@
                                                 <div class="flex flex-col items-end space-y-3 mt-4 lg:mt-0">
                                                     <!-- Price -->
                                                     @php
-                                                      // effective unit price (uses flash deal price when present)
-                                                      $effectivePrice = ($item->deal_id && $item->flashDeal && isset($item->flashDeal->flash_price))
-                                                          ? (float) $item->flashDeal->flash_price
-                                                          : (float) $item->price;
+                                                        // effective unit price (uses flash deal price when present)
+                                                        $effectivePrice = ($item->deal_id && $item->flashDeal && isset($item->flashDeal->flash_price))
+                                                            ? (float) $item->flashDeal->flash_price
+                                                            : (float) $item->price;
 
-                                                      // original product price for strike-through (if available)
-                                                      $originalPrice = (float) ($item->product->price ?? 0);
+                                                        // original product price for strike-through (if available)
+                                                        $originalPrice = (float) ($item->product->price ?? 0);
                                                     @endphp
 
                                                     <!-- Price -->
                                                     <div class="text-right">
-                                                          <!-- Effective price (flash or cart price) -->
-                                                          <div class="text-xl font-bold {{ $item->deal_id ? 'text-accent' : 'text-primary' }}">
-                                                              {{ $item->product->currency }}{{ number_format($effectivePrice, 2) }}
-                                                          </div>
+                                                        <!-- Effective price (flash or cart price) -->
+                                                        <div
+                                                            class="text-xl font-bold {{ $item->deal_id ? 'text-accent' : 'text-primary' }}">
+                                                            {{ $item->product->currency }}{{ number_format($effectivePrice, 2) }}
+                                                        </div>
 
-                                                          <!-- Strike-through original price if we are showing a discount -->
-                                                          @if ($item->deal_id && $originalPrice > $effectivePrice)
-                                                              <div class="text-body-sm text-secondary-500 line-through">
-                                                                  {{ $item->product->currency }}{{ number_format($originalPrice, 2) }}
-                                                              </div>
-                                                          @elseif ($item->product->discount_price && $item->product->discount_price < $item->product->price && !$item->deal_id)
-                                                              <!-- if product has a discount but not from flash deal -->
-                                                              <div class="text-body-sm text-secondary-500 line-through">
-                                                                  {{ $item->product->currency }}{{ number_format($item->product->price, 2) }}
-                                                              </div>
-                                                          @endif
+                                                        <!-- Strike-through original price if we are showing a discount -->
+                                                        @if ($item->deal_id && $originalPrice > $effectivePrice)
+                                                            <div class="text-body-sm text-secondary-500 line-through">
+                                                                {{ $item->product->currency }}{{ number_format($originalPrice, 2) }}
+                                                            </div>
+                                                        @elseif ($item->product->discount_price && $item->product->discount_price < $item->product->price && !$item->deal_id)
+                                                            <!-- if product has a discount but not from flash deal -->
+                                                            <div class="text-body-sm text-secondary-500 line-through">
+                                                                {{ $item->product->currency }}{{ number_format($item->product->price, 2) }}
+                                                            </div>
+                                                        @endif
 
-                                                          <!-- Flash badge -->
-                                                          @if ($item->deal_id && $item->flashDeal)
-                                                              <span class="inline-block mt-1 text-xs bg-red-500 text-white px-2 py-0.5 rounded-full font-medium">
-                                                                  🔥 Flash Deal
-                                                              </span>
-                                                          @endif
+                                                        <!-- Flash badge -->
+                                                        @if ($item->deal_id && $item->flashDeal)
+                                                            <span
+                                                                class="inline-block mt-1 text-xs bg-red-500 text-white px-2 py-0.5 rounded-full font-medium">
+                                                                🔥 Flash Deal
+                                                            </span>
+                                                        @endif
                                                     </div>
 
 
@@ -245,44 +247,43 @@
 
                                                         @if($item->deal_id && $item->flashDeal)
                                                             <!-- 🔒 Flash Deal: Lock quantity to 1 -->
-                                                            <div class="flex items-center border border-border rounded-lg bg-gray-100 cursor-not-allowed opacity-70">
-                                                                <input type="number"
-                                                                       value="1"
-                                                                       readonly
-                                                                       class="w-16 text-center border-0 py-2 bg-gray-100 focus:ring-0 focus:outline-none cursor-not-allowed" />
+                                                            <div
+                                                                class="flex items-center border border-border rounded-lg bg-gray-100 cursor-not-allowed opacity-70">
+                                                                <input type="number" value="1" readonly
+                                                                    class="w-16 text-center border-0 py-2 bg-gray-100 focus:ring-0 focus:outline-none cursor-not-allowed" />
                                                             </div>
                                                         @else
                                                             <!-- Normal product: Quantity selectable -->
-                                                           <div class="flex items-center border border-border rounded-lg">
-                                                            <button class="p-2 hover:bg-surface transition-fast"
-                                                                onclick="updateQuantity({{ $item->id }}, -1)">
-                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                                    viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2" d="M20 12H4" />
-                                                                </svg>
-                                                            </button>
-                                                            <input type="number" id="qty-{{ $item->id }}"
-                                                                value="{{ $item->quantity }}" min="1"
-                                                                max="99"
-                                                                class="w-16 text-center border-0 py-2 focus:ring-0 focus:outline-none"
-                                                                onchange="manualQuantityChange({{ $item->id }})" />
-                                                            <button class="p-2 hover:bg-surface transition-fast"
-                                                                onclick="updateQuantity({{ $item->id }}, 1)">
-                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                                    viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                                </svg>
-                                                            </button>
-                                                        </div>
+                                                            <div class="flex items-center border border-border rounded-lg">
+                                                                <button class="p-2 hover:bg-surface transition-fast"
+                                                                    onclick="updateQuantity({{ $item->id }}, -1)">
+                                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                                            stroke-width="2" d="M20 12H4" />
+                                                                    </svg>
+                                                                </button>
+                                                                <input type="number" id="qty-{{ $item->id }}"
+                                                                    value="{{ $item->quantity }}" min="1" max="99"
+                                                                    class="w-16 text-center border-0 py-2 focus:ring-0 focus:outline-none"
+                                                                    onchange="manualQuantityChange({{ $item->id }})" />
+                                                                <button class="p-2 hover:bg-surface transition-fast"
+                                                                    onclick="updateQuantity({{ $item->id }}, 1)">
+                                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                                            stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
                                                         @endif
                                                     </div>
 
                                                     <!-- Item Total -->
                                                     <div class="text-right">
-                                                        <div class="text-lg font-bold text-primary item-total" id="item-total-{{ $item->id }}">
-                                                           {{ $item->product->currency }}{{ number_format($effectivePrice * $item->quantity, 2) }}
+                                                        <div class="text-lg font-bold text-primary item-total"
+                                                            id="item-total-{{ $item->id }}">
+                                                            {{ $item->product->currency }}{{ number_format($effectivePrice * $item->quantity, 2) }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -295,8 +296,7 @@
                                                     onclick="removeCartItem({{ $item->id }}, this)">
                                                     <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                     </svg>
                                                     Remove
@@ -339,8 +339,7 @@
 
                             <div class="grid md:grid-cols-2 gap-4">
                                 @foreach ($wishlistProducts as $product)
-                                    <div
-                                        class="wishlist-item border border-border rounded-lg p-4 hover:bg-surface transition-fast">
+                                    <div class="wishlist-item border border-border rounded-lg p-4 hover:bg-surface transition-fast">
                                         <div class="flex items-center space-x-3">
                                             <img src="{{ asset($product->main_image ?? 'images/no-image.png') }}"
                                                 alt="{{ $product->name }}" class="w-16 h-16 rounded-lg object-cover"
@@ -374,14 +373,7 @@
                     <div class="sticky top-24 space-y-6">
                         <!-- Order Summary -->
                         <div id="order-summary">
-                            @include('partials.order-summary', [
-                                'totalItems' => $totalItems,
-                                'subtotal' => $subtotal,
-                                'bulkDiscount' => $bulkDiscount,
-                                // 'shipping' => $shipping,
-                                'tax' => $tax,
-                                'total' => $total,
-                            ])
+                            @include('partials.order-summary', ['totalItems' => $totalItems, 'subtotal' => $subtotal, 'bulkDiscount' => $bulkDiscount, 'tax' => $tax, 'total' => $total,])
                         </div>
 
                     </div>
@@ -407,8 +399,7 @@
                             </a>
                             <button onclick="addToWishlist('{{ $featureProduct->id }}')"
                                 class="add-to-wishlist-btn absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                                <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                 </svg>
@@ -446,8 +437,7 @@
                             </div>
                             <button onclick="quickAddToCart(this)" class="btn-primary text-body-sm px-3 py-1"
                                 title="Quick Add to Cart" data-product-id="{{ $featureProduct->id }}"
-                                data-name="{{ e($featureProduct->name) }}"
-                                data-currency="{{ $featureProduct->currency }}"
+                                data-name="{{ e($featureProduct->name) }}" data-currency="{{ $featureProduct->currency }}"
                                 data-price="{{ $featureProduct->discount_price ?: $featureProduct->price }}"
                                 data-min-qty="{{ $featureProduct->min_order_quantity ?? 1 }} ">Add to
                                 Cart</button>
@@ -593,62 +583,62 @@
             saveQuantity(itemId, newQty);
         }
 
-       function saveQuantity(itemId, qty) {
-    fetch(`/cart/update-item/${itemId}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({ quantity: qty })
-    })
-    .then(res => res.json())
-    .then(data => {
-        // ✅ Update this item's total (flash deal or normal price handled by backend)
-        const itemTotalEl = document.getElementById(`item-total-${itemId}`);
-        if (itemTotalEl) {
-            itemTotalEl.textContent = `${data.itemTotal} Rwf`;
+        function saveQuantity(itemId, qty) {
+            fetch(`/cart/update-item/${itemId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ quantity: qty })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // ✅ Update this item's total (flash deal or normal price handled by backend)
+                    const itemTotalEl = document.getElementById(`item-total-${itemId}`);
+                    if (itemTotalEl) {
+                        itemTotalEl.textContent = `${data.itemTotal} Rwf`;
+                    }
+
+                    // ✅ Update order summary fields
+                    const totalItemsEl = document.getElementById("summary-total-items");
+                    const subtotalEl = document.getElementById("summary-subtotal");
+                    const discountEl = document.getElementById("summary-discount");
+                    const shippingEl = document.getElementById("summary-shipping");
+                    const taxEl = document.getElementById("summary-tax");
+                    const totalEl = document.getElementById("summary-total");
+                    const saveMsgEl = document.getElementById("summary-save-message");
+
+                    if (totalItemsEl) totalItemsEl.textContent = data.totalItems;
+                    if (subtotalEl) subtotalEl.textContent = `${data.subtotal} Rwf`;
+                    if (shippingEl) shippingEl.textContent = `${data.shipping ?? 0} Rwf`;
+                    if (taxEl) taxEl.textContent = `${data.tax} Rwf`;
+                    if (totalEl) totalEl.textContent = `${data.total} Rwf`;
+
+                    // ✅ Handle bulk discount styling
+                    if (discountEl) {
+                        discountEl.textContent = `-${data.bulkDiscount} Rwf`;
+                        const bulkNum = parseFloat(data.bulkDiscount.replace(/,/g, '')) || 0;
+                        discountEl.classList.toggle('text-success', bulkNum > 0);
+                        discountEl.classList.toggle('text-secondary-500', bulkNum <= 0);
+                    }
+
+                    // ✅ Show "You save" message when discount applied
+                    if (saveMsgEl) {
+                        const bulkNum = parseFloat(data.bulkDiscount.replace(/,/g, '')) || 0;
+                        if (bulkNum > 0) {
+                            saveMsgEl.classList.remove('hidden');
+                            saveMsgEl.textContent = `You save ${data.bulkDiscount} Rwf with bulk pricing!`;
+                        } else {
+                            saveMsgEl.classList.add('hidden');
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Failed to update quantity. Please try again.');
+                });
         }
-
-        // ✅ Update order summary fields
-        const totalItemsEl = document.getElementById("summary-total-items");
-        const subtotalEl = document.getElementById("summary-subtotal");
-        const discountEl = document.getElementById("summary-discount");
-        const shippingEl = document.getElementById("summary-shipping");
-        const taxEl = document.getElementById("summary-tax");
-        const totalEl = document.getElementById("summary-total");
-        const saveMsgEl = document.getElementById("summary-save-message");
-
-        if (totalItemsEl) totalItemsEl.textContent = data.totalItems;
-        if (subtotalEl) subtotalEl.textContent = `${data.subtotal} Rwf`;
-        if (shippingEl) shippingEl.textContent = `${data.shipping ?? 0} Rwf`;
-        if (taxEl) taxEl.textContent = `${data.tax} Rwf`;
-        if (totalEl) totalEl.textContent = `${data.total} Rwf`;
-
-        // ✅ Handle bulk discount styling
-        if (discountEl) {
-            discountEl.textContent = `-${data.bulkDiscount} Rwf`;
-            const bulkNum = parseFloat(data.bulkDiscount.replace(/,/g, '')) || 0;
-            discountEl.classList.toggle('text-success', bulkNum > 0);
-            discountEl.classList.toggle('text-secondary-500', bulkNum <= 0);
-        }
-
-        // ✅ Show "You save" message when discount applied
-        if (saveMsgEl) {
-            const bulkNum = parseFloat(data.bulkDiscount.replace(/,/g, '')) || 0;
-            if (bulkNum > 0) {
-                saveMsgEl.classList.remove('hidden');
-                saveMsgEl.textContent = `You save ${data.bulkDiscount} Rwf with bulk pricing!`;
-            } else {
-                saveMsgEl.classList.add('hidden');
-            }
-        }
-    })
-    .catch(err => {
-        console.error(err);
-        alert('Failed to update quantity. Please try again.');
-    });
-}
 
 
 
@@ -698,17 +688,17 @@
             const uiPrice = btn.dataset.price;
 
             fetch(`{{ route('cart.quickAdd') }}`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        product_id: productId,
-                        qty: qty
-                    })
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    qty: qty
                 })
+            })
                 .then(async res => {
                     if (res.status === 401) {
                         // Unauthenticated
@@ -774,15 +764,15 @@
             if (cartItems === 0) {
                 // Show empty cart message
                 document.querySelector('.lg\\:col-span-2').innerHTML = `
-                <div class="card text-center py-12">
-                    <svg class="w-24 h-24 text-secondary-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 10H6L5 9z"/>
-                    </svg>
-                    <h2 class="text-2xl font-bold text-primary mb-2">Your cart is empty</h2>
-                    <p class="text-secondary-600 mb-6">Looks like you haven't added any items to your cart yet.</p>
-                    <a href="product_discovery_hub.html" class="btn-primary">Continue Shopping</a>
-                </div>
-            `;
+                    <div class="card text-center py-12">
+                        <svg class="w-24 h-24 text-secondary-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 10H6L5 9z"/>
+                        </svg>
+                        <h2 class="text-2xl font-bold text-primary mb-2">Your cart is empty</h2>
+                        <p class="text-secondary-600 mb-6">Looks like you haven't added any items to your cart yet.</p>
+                        <a href="product_discovery_hub.html" class="btn-primary">Continue Shopping</a>
+                    </div>
+                `;
             }
         }
 
@@ -843,7 +833,7 @@
         window.addEventListener('resize', handleMobileView);
 
         // Listen for storage changes to sync across tabs
-        window.addEventListener('storage', function(e) {
+        window.addEventListener('storage', function (e) {
             if (e.key === 'cartCount' || e.key === 'wishlistCount') {
                 cartWishlistManager.cartCount = cartWishlistManager.getStoredCount('cartCount', 7);
                 cartWishlistManager.wishlistCount = cartWishlistManager.getStoredCount('wishlistCount', 12);
@@ -905,59 +895,84 @@
         }
 
         //remove to cart
-       function removeCartItem(itemId, button) {
-    const cartItem = button.closest('.cart-item');
-    const innerWrapper = cartItem.querySelector('.cart-item-inner');
-
-    fetch(`/cart/remove/${itemId}`, {
-        method: "DELETE",
-        headers: {
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-            "Accept": "application/json"
-        }
-    })
-    .then(async res => {
-        let data = await res.json().catch(() => null);
-        if (!res.ok || !data) throw new Error(data?.message || "Server error");
-        return data;
-    })
-    .then(data => {
-        if (data.status === 200) {
-            // Animate item removal
-            innerWrapper.style.transform = 'translateX(-100%)';
-            innerWrapper.style.opacity = '0';
-
-            setTimeout(() => {
-                cartItem.remove();
-                showNotify('success', `Item removed from cart successfully`);
-
-                // 🔄 Refresh the cart items from server
-                refreshCartItems();
-            }, 300);
-        } else {
-            showNotify('error', data.message || "Failed to remove item");
-        }
-    })
-    .catch(err => {
-        console.error(err);
-        showNotify('error', err.message || "Something went wrong!");
-    });
-}
-
-// Fetch updated cart list without full reload
-function refreshCartItems() {
-    fetch('/cart/items/refresh')
-        .then(res => res.json())
-        .then(data => {
-            if (data.html) {
-                document.getElementById('cart-items-container').outerHTML = data.html;
+        function removeCartItem(itemId, button) {
+            console.log("removeCartItem called for item:", itemId);
+            const cartItem = button.closest('.cart-item');
+            if (!cartItem) {
+                console.error("Could not find .cart-item parent for button", button);
             }
-        })
-        .catch(err => {
-            console.error("Failed to refresh cart:", err);
-            showNotify('error', 'Could not refresh cart items. Please reload manually.');
-        });
-}
+            const innerWrapper = cartItem ? cartItem.querySelector('.cart-item-inner') : null;
+
+            fetch(`/cart/remove/${itemId}`, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    "Accept": "application/json"
+                }
+            })
+                .then(async res => {
+                    console.log("removeCartItem fetch response status:", res.status);
+                    let data = null;
+                    try {
+                        data = await res.json();
+                    } catch (e) {
+                        console.warn("Failed to parse JSON response in removeCartItem:", e);
+                    }
+                    if (!res.ok || !data) {
+                        const msg = data && data.message ? data.message : "Server error (no data).";
+                        throw new Error(msg);
+                    }
+                    return data;
+                })
+                .then(data => {
+                    console.log("removeCartItem response data:", data);
+                    if (data.status === 'success' || data.status === 200) {
+                        if (innerWrapper) {
+                            innerWrapper.style.transform = 'translateX(-100%)';
+                            innerWrapper.style.opacity = '0';
+                        }
+                        setTimeout(() => {
+                            if (cartItem) cartItem.remove();
+                            showNotify('success', data.message || `Item removed from cart successfully`);
+
+                            // 🔄 Try to refresh cart items
+                            refreshCartItems();
+                        }, 300);
+                    } else {
+                        showNotify('error', data.message || "Failed to remove item");
+                    }
+                })
+                .catch(err => {
+                    console.error("Error in removeCartItem:", err);
+                    showNotify('error', err.message || "Something went wrong!");
+                });
+        }
+
+        function refreshCartItems() {
+            console.log("refreshCartItems called");
+            fetch('/cart/items/refresh')
+                .then(res => {
+                    console.log("refreshCartItems fetch response status:", res.status);
+                    return res.json();
+                })
+                .then(data => {
+                    console.log("refreshCartItems response data:", data);
+                    if (data.html) {
+                        const container = document.getElementById('cart-items-container');
+                        if (container) {
+                            container.outerHTML = data.html;
+                        } else {
+                            console.error("#cart-items-container not found in DOM");
+                        }
+                    } else {
+                        console.warn("No html property in response data", data);
+                    }
+                })
+                .catch(err => {
+                    console.error("Failed to refresh cart:", err);
+                    showNotify('error', 'Could not refresh cart items. Please reload manually.');
+                });
+        }
 
         // Toast Notification
         function showNotify(type, message) {
@@ -1004,9 +1019,9 @@ function refreshCartItems() {
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-        <div class="font-semibold">${styles[type].title}</div>
-        <div class="text-sm opacity-90">${message}</div>
-    `;
+            <div class="font-semibold">${styles[type].title}</div>
+            <div class="text-sm opacity-90">${message}</div>
+        `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1034,7 +1049,7 @@ function refreshCartItems() {
         // function showToast(title, message = '', type = "success") {
         //     const toast = document.createElement("div");
         //     toast.className = `fixed top-5 right-5 px-4 py-2 rounded shadow text-white z-50
-    // ${type === "success" ? "bg-green-500" : "bg-red-500"}`;
+        // ${type === "success" ? "bg-green-500" : "bg-red-500"}`;
         //     toast.innerHTML = `<strong>${title}</strong> ${message}`;
         //     document.body.appendChild(toast);
         //     setTimeout(() => toast.remove(), 3000);
@@ -1054,12 +1069,12 @@ function refreshCartItems() {
             const price = priceEl ? priceEl.textContent.trim() : '';
 
             fetch(`/wishlist/add-to-cart/${productId}`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json'
-                    }
-                })
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                }
+            })
                 .then(async res => {
                     let data = await res.json().catch(() => null);
                     if (!res.ok || !data) throw new Error(data?.message || 'Server error');
@@ -1107,12 +1122,12 @@ function refreshCartItems() {
 
             const toast = document.createElement('div');
             toast.className = `
-        flex items-center px-4 py-3 rounded-lg shadow-lg text-white
-        ${type === 'success' ? 'bg-green-500' :
-          type === 'error' ? 'bg-red-500' :
-          type === 'info' ? 'bg-blue-500' : 'bg-gray-700'}
-        animate-slide-in
-    `;
+            flex items-center px-4 py-3 rounded-lg shadow-lg text-white
+            ${type === 'success' ? 'bg-green-500' :
+                    type === 'error' ? 'bg-red-500' :
+                        type === 'info' ? 'bg-blue-500' : 'bg-gray-700'}
+            animate-slide-in
+        `;
             toast.innerText = message;
             container.appendChild(toast);
 
@@ -1193,12 +1208,12 @@ function refreshCartItems() {
 
             const el = document.createElement("div");
             el.className = `
-        flex items-center px-4 py-3 rounded-lg shadow-lg text-white
-        ${type === "success" ? "bg-green-500" :
-           type === "error"   ? "bg-red-500"   :
-           type === "info"    ? "bg-blue-500"  : "bg-gray-700"}
-        animate-slide-in
-    `;
+            flex items-center px-4 py-3 rounded-lg shadow-lg text-white
+            ${type === "success" ? "bg-green-500" :
+                    type === "error" ? "bg-red-500" :
+                        type === "info" ? "bg-blue-500" : "bg-gray-700"}
+            animate-slide-in
+        `;
             el.textContent = message;
             container.appendChild(el);
 
@@ -1219,7 +1234,7 @@ function refreshCartItems() {
                 if (!res.ok) throw 0;
                 const data = await res.json();
                 if (data?.status === "success" && data?.user?.first_name) return data.user.first_name;
-            } catch (_) {}
+            } catch (_) { }
             return "Customer";
         }
 
@@ -1281,7 +1296,7 @@ function refreshCartItems() {
                 let data = null;
                 try {
                     data = await res.json();
-                } catch (_) {}
+                } catch (_) { }
 
                 if (res.ok && data?.status === "success") {
                     // Show success toast from server message (or fallback), then reload for a clean, synced UI
