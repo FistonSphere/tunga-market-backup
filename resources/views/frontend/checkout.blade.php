@@ -1118,11 +1118,11 @@
     <!-- Edit Address Modal -->
     <div id="editAddressModal"
         style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));" class="fixed inset-0 hidden items-center justify-center
-                                    backdrop-blur-sm transition-opacity duration-300 ease-out">
+                                        backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
         <div id="editAddressCard" class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
-                                       transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                                           transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1282,10 +1282,16 @@
 
         // Progress indicator (optional, if you have step UI)
         function updateProgress(step) {
-            document.querySelectorAll(".progress-step").forEach((el, idx) => {
-                el.classList.toggle("active", idx + 1 <= step);
+            document.querySelectorAll(".progress-step").forEach((el) => {
+                const stepNum = parseInt(el.getAttribute("data-step"));
+                if (stepNum <= step) {
+                    el.classList.add("active");
+                } else {
+                    el.classList.remove("active");
+                }
             });
         }
+
 
         // init
         document.addEventListener("DOMContentLoaded", () => {
@@ -1660,12 +1666,12 @@
 
             if (paymentMethod === "irembo-pay") {
                 button.innerHTML = `
-                                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                        Processing Mobile Payment...
-                                    `;
+                                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>
+                                            Processing Mobile Payment...
+                                        `;
 
                 // Simulate IREMBO Pay processing
                 setTimeout(() => {
@@ -1697,12 +1703,12 @@
                 }, 2000);
             } else {
                 button.innerHTML = `
-                                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                        Processing Order...
-                                    `;
+                                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>
+                                            Processing Order...
+                                        `;
 
                 // Standard payment processing
                 setTimeout(() => {
