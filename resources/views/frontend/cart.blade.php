@@ -110,14 +110,6 @@
                         </svg>
                         Compare Products
                     </a>
-                    <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
-                        onclick="clearEntireCart()">
-                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                        Clear All
-                    </button>
                 </div>
             </div>
         </div>
@@ -1295,68 +1287,6 @@
 
 
 
-        async function clearEntireCart() {
-            isClearAllMode = true;
-
-            const username = await getAuthUser(); // your helper that returns user name or fallback
-
-            const msgEl = document.getElementById("remove-all-message");
-            if (msgEl) {
-                msgEl.textContent = `Dear ${username}, are you sure you want to clear your entire cart? This action will delete all items and cannot be undone.`;
-            }
-
-            document.getElementById("remove-all-modal-wrapper")?.classList.remove("hidden");
-        }
-
-        async function confirmRemoveAll() {
-            try {
-                let itemIds = [];
-                let allChecked = false;
-
-                if (!isClearAllMode) {
-                    const selectedCheckboxes = Array.from(document.querySelectorAll(".item-checkbox:checked"));
-                    const selectedRows = selectedCheckboxes.map(cb => cb.closest(".cart-item"));
-                    itemIds = selectedRows.map(row => row?.dataset?.itemId).filter(Boolean);
-
-                    allChecked = document.getElementById("select-all")?.checked === true ||
-                        itemIds.length === document.querySelectorAll(".item-checkbox").length;
-                }
-
-                const res = await fetch("/cart/remove-all", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                    body: JSON.stringify({
-                        items: itemIds,
-                        all: isClearAllMode || allChecked
-                    })
-                });
-
-                const data = await res.json();
-
-                if (res.status === 401) {
-                    closeRemoveAllModal();
-                    showToast("Please sign in to manage your cart.", "error");
-                    return;
-                }
-
-                if (res.ok && data?.status === "success") {
-                    showToast(data.message || "Items removed successfully.", "success");
-                    setTimeout(() => window.location.reload(), 1000);
-                } else {
-                    showToast(data?.message || "Failed to remove items.", "error");
-                }
-            } catch (err) {
-                console.error(err);
-                showToast("Failed to remove items. Please try again.", "error");
-            } finally {
-                closeRemoveAllModal();
-                isClearAllMode = false; // Reset for safety
-            }
-        }
 
     </script>
 
