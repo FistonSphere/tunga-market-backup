@@ -905,63 +905,67 @@
         }
 
         //remove to cart
-        function removeCartItem(itemId, button) {
-            const cartItem = button.closest('.cart-item');
-            const innerWrapper = cartItem.querySelector('.cart-item-inner');
+       function removeCartItem(itemId, button) {
+    const cartItem = button.closest('.cart-item');
+    const innerWrapper = cartItem.querySelector('.cart-item-inner');
 
-            fetch(`/cart/remove/${itemId}`, {
-                    method: "DELETE",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                        "Accept": "application/json"
-                    }
-                })
-                .then(async res => {
-                    let data = await res.json().catch(() => null);
-                    if (!res.ok || !data) throw new Error(data?.message || "Server error");
-                    return data;
-                })
-                .then(data => {
-                    if (data.status === 200) {
-                        // Animate swipe left
-                        innerWrapper.style.transform = 'translateX(-100%)';
-                        innerWrapper.style.opacity = '0';
-                        if (data.item && document.querySelector(`#item-total-${data.item.id}`)) {
-                            document.querySelector(`#item-total-${data.item.id}`).innerText =
-                                `${data.item.currency}${data.item.total_price}`;
-                        }
-                        setTimeout(() => {
-                            cartItem.remove();
-
-                            // Update summary
-                            const c = data.cart;
-                            document.querySelector("#summary-total-items").innerText = data.cart.totalItems;
-                            document.querySelector("#summary-subtotal").innerText = `$${data.cart.subtotal}`;
-                            document.querySelector("#summary-discount").innerText =
-                                `-$${data.cart.bulkDiscount}`;
-                            document.querySelector("#summary-shipping").innerText = `$${data.cart.shipping}`;
-                            document.querySelector("#summary-tax").innerText = `$${data.cart.tax}`;
-                            document.querySelector("#summary-total").innerText = `$${data.cart.total}`;
-                            document.querySelector("#summary-total-items").innerText = c.totalItems;
-
-                            const saveMsg = document.querySelector("#summary-save-message");
-                            if (parseFloat(data.cart.bulkDiscount) > 0) {
-                                saveMsg.classList.remove("hidden");
-                                saveMsg.innerText = `You save $${data.cart.bulkDiscount} with bulk pricing!`;
-                            } else {
-                                saveMsg.classList.add("hidden");
-                            }
-
-                            // Corrected the type to 'success'
-                            showNotify('success', `Item removed from cart successfully`);
-                        }, 300);
-                    } else {
-                        showNotify('error', data.message || "Failed to remove item");
-                    }
-                })
-
-                .catch(err => showNotify(err.message || "Something went wrong!", "error"));
+    fetch(`/cart/remove/${itemId}`, {
+        method: "DELETE",
+        headers: {
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+            "Accept": "application/json"
         }
+    })
+        .then(async res => {
+            let data = await res.json().catch(() => null);
+            if (!res.ok || !data) throw new Error(data?.message || "Server error");
+            return data;
+        })
+        .then(data => {
+            if (data.status === 200) {
+                // Animate swipe left
+                innerWrapper.style.transform = 'translateX(-100%)';
+                innerWrapper.style.opacity = '0';
+
+                setTimeout(() => {
+                    cartItem.remove();
+
+                    // Update summary
+                    const c = data.cart;
+                    document.querySelector("#summary-total-items").innerText = c.totalItems;
+                    document.querySelector("#summary-subtotal").innerText = `$${c.subtotal}`;
+                    document.querySelector("#summary-discount").innerText = `-$${c.bulkDiscount}`;
+                    document.querySelector("#summary-shipping").innerText = `$${c.shipping}`;
+                    document.querySelector("#summary-tax").innerText = `$${c.tax}`;
+                    document.querySelector("#summary-total").innerText = `$${c.total}`;
+
+                    const saveMsg = document.querySelector("#summary-save-message");
+                    if (parseFloat(c.bulkDiscount) > 0) {
+                        saveMsg.classList.remove("hidden");
+                        saveMsg.innerText = `You save $${c.bulkDiscount} with bulk pricing!`;
+                    } else {
+                        saveMsg.classList.add("hidden");
+                    }
+
+                    // ✅ Show success toast
+                    showNotify('success', `Item removed from cart successfully`);
+
+                    // ✅ After short delay, reload the page
+                    setTimeout(() => {
+                        window.location.reload(); // Full reload to sync all data
+                    }, 1500); // Wait for the toast to show before reload
+
+                }, 300);
+            } else {
+                showNotify('error', data.message || "Failed to remove item");
+            }
+        })
+        .catch(err => {
+            console.error("Cart remove failed:", err);
+            showNotify('error', err.message || "Something went wrong!");
+        });
+}
+
 
         // Toast Notification
         function showNotify(type, message) {
