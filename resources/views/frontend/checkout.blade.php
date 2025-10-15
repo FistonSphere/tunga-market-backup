@@ -11,9 +11,7 @@
             font-weight: 600;
             font-size: 0.875rem;
             background-color: #e5e7eb;
-            /* default border color */
             color: #6b7280;
-            /* default text-secondary-600 */
             transition: background-color 0.3s, color 0.3s;
         }
 
@@ -25,7 +23,6 @@
 
         .progress-step.active .step-circle {
             background-color: #ff6b35;
-            /* accent */
             color: #fff;
         }
 
