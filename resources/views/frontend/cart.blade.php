@@ -163,156 +163,155 @@
                     </div>
 
                     <!-- Item listing -->
-                    {{-- @section('cart-items-html') --}}
-                        <div class="card" id="cart-items-container">
-                            @forelse($cartItems as $item)
-                                <div class="cart-item border-b border-border pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0"
-                                    data-item-id="{{ $item->id }}">
-                                    <div class="cart-item-inner transition-transform duration-300 ease-out">
-                                        <div class="flex items-start space-x-4">
-                                            <input type="checkbox"
-                                                class="item-checkbox w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-4" />
+                    <div class="card" id="cart-items-container">
+                        @forelse($cartItems as $item)
+                            <div class="cart-item border-b border-border pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0"
+                                data-item-id="{{ $item->id }}">
+                                <div class="cart-item-inner transition-transform duration-300 ease-out">
+                                    <div class="flex items-start space-x-4">
+                                        <input type="checkbox"
+                                            class="item-checkbox w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-4" />
 
-                                            <img src="{{ asset($item->product->main_image ?? 'assets/images/no-image.png') }}"
-                                                alt="{{ $item->product->name }}"
-                                                class="w-24 h-24 rounded-lg object-cover flex-shrink-0" loading="lazy" />
+                                        <img src="{{ asset($item->product->main_image ?? 'assets/images/no-image.png') }}"
+                                            alt="{{ $item->product->name }}"
+                                            class="w-24 h-24 rounded-lg object-cover flex-shrink-0" loading="lazy" />
 
-                                            <div class="flex-1 min-w-0">
-                                                <div class="flex flex-col lg:flex-row lg:items-start justify-between">
-                                                    <div class="flex-1">
-                                                        <h4 class="font-semibold text-primary mb-2">
-                                                            <a href="" class="hover:text-accent transition-fast">
-                                                                {{ $item->product->name }}
-                                                            </a>
-                                                        </h4>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex flex-col lg:flex-row lg:items-start justify-between">
+                                                <div class="flex-1">
+                                                    <h4 class="font-semibold text-primary mb-2">
+                                                        <a href="" class="hover:text-accent transition-fast">
+                                                            {{ $item->product->name }}
+                                                        </a>
+                                                    </h4>
 
-                                                        <div class="space-y-2 text-body-sm text-secondary-600">
-                                                            <div>SKU: <span
-                                                                    class="font-medium text-primary">{{ $item->product->sku }}</span>
-                                                            </div>
-                                                            <div>Stock:
-                                                                @if ($item->product->stock_quantity > 0)
-                                                                    <span class="text-success">✓ In Stock</span>
-                                                                @else
-                                                                    <span class="text-error">Out of Stock</span>
-                                                                @endif
-                                                            </div>
+                                                    <div class="space-y-2 text-body-sm text-secondary-600">
+                                                        <div>SKU: <span
+                                                                class="font-medium text-primary">{{ $item->product->sku }}</span>
                                                         </div>
-                                                    </div>
-
-                                                    <div class="flex flex-col items-end space-y-3 mt-4 lg:mt-0">
-                                                        <!-- Price -->
-                                                        @php
-                                                            // effective unit price (uses flash deal price when present)
-                                                            $effectivePrice = ($item->deal_id && $item->flashDeal && isset($item->flashDeal->flash_price))
-                                                                ? (float) $item->flashDeal->flash_price
-                                                                : (float) $item->price;
-
-                                                            // original product price for strike-through (if available)
-                                                            $originalPrice = (float) ($item->product->price ?? 0);
-                                                        @endphp
-
-                                                        <!-- Price -->
-                                                        <div class="text-right">
-                                                            <!-- Effective price (flash or cart price) -->
-                                                            <div
-                                                                class="text-xl font-bold {{ $item->deal_id ? 'text-accent' : 'text-primary' }}">
-                                                                {{ $item->product->currency }}{{ number_format($effectivePrice, 2) }}
-                                                            </div>
-
-                                                            <!-- Strike-through original price if we are showing a discount -->
-                                                            @if ($item->deal_id && $originalPrice > $effectivePrice)
-                                                                <div class="text-body-sm text-secondary-500 line-through">
-                                                                    {{ $item->product->currency }}{{ number_format($originalPrice, 2) }}
-                                                                </div>
-                                                            @elseif ($item->product->discount_price && $item->product->discount_price < $item->product->price && !$item->deal_id)
-                                                                <!-- if product has a discount but not from flash deal -->
-                                                                <div class="text-body-sm text-secondary-500 line-through">
-                                                                    {{ $item->product->currency }}{{ number_format($item->product->price, 2) }}
-                                                                </div>
-                                                            @endif
-
-                                                            <!-- Flash badge -->
-                                                            @if ($item->deal_id && $item->flashDeal)
-                                                                <span
-                                                                    class="inline-block mt-1 text-xs bg-red-500 text-white px-2 py-0.5 rounded-full font-medium">
-                                                                    🔥 Flash Deal
-                                                                </span>
-                                                            @endif
-                                                        </div>
-
-
-                                                        <!-- Quantity Controls -->
-                                                        <div class="flex items-center space-x-3">
-                                                            <label class="text-body-sm text-secondary-600">Qty:</label>
-
-                                                            @if($item->deal_id && $item->flashDeal)
-                                                                <!-- 🔒 Flash Deal: Lock quantity to 1 -->
-                                                                <div
-                                                                    class="flex items-center border border-border rounded-lg bg-gray-100 cursor-not-allowed opacity-70">
-                                                                    <input type="number" value="1" readonly
-                                                                        class="w-16 text-center border-0 py-2 bg-gray-100 focus:ring-0 focus:outline-none cursor-not-allowed" />
-                                                                </div>
+                                                        <div>Stock:
+                                                            @if ($item->product->stock_quantity > 0)
+                                                                <span class="text-success">✓ In Stock</span>
                                                             @else
-                                                                <!-- Normal product: Quantity selectable -->
-                                                                <div class="flex items-center border border-border rounded-lg">
-                                                                    <button class="p-2 hover:bg-surface transition-fast"
-                                                                        onclick="updateQuantity({{ $item->id }}, -1)">
-                                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                                            viewBox="0 0 24 24">
-                                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                                stroke-width="2" d="M20 12H4" />
-                                                                        </svg>
-                                                                    </button>
-                                                                    <input type="number" id="qty-{{ $item->id }}"
-                                                                        value="{{ $item->quantity }}" min="1" max="99"
-                                                                        class="w-16 text-center border-0 py-2 focus:ring-0 focus:outline-none"
-                                                                        onchange="manualQuantityChange({{ $item->id }})" />
-                                                                    <button class="p-2 hover:bg-surface transition-fast"
-                                                                        onclick="updateQuantity({{ $item->id }}, 1)">
-                                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                                            viewBox="0 0 24 24">
-                                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                                stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                                        </svg>
-                                                                    </button>
-                                                                </div>
+                                                                <span class="text-error">Out of Stock</span>
                                                             @endif
-                                                        </div>
-
-                                                        <!-- Item Total -->
-                                                        <div class="text-right">
-                                                            <div class="text-lg font-bold text-primary item-total"
-                                                                id="item-total-{{ $item->id }}">
-                                                                {{ $item->product->currency }}{{ number_format($effectivePrice * $item->quantity, 2) }}
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <!-- Item Actions -->
-                                                <div class="flex items-center space-x-4 mt-4 pt-4 border-t border-border">
-                                                    <button type="button"
-                                                        class="text-error hover:text-error-600 transition-fast text-body-sm"
-                                                        onclick="removeCartItem({{ $item->id }}, this)">
-                                                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
-                                                            viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                        </svg>
-                                                        Remove
-                                                    </button>
+                                                <div class="flex flex-col items-end space-y-3 mt-4 lg:mt-0">
+                                                    <!-- Price -->
+                                                    @php
+                                                        // effective unit price (uses flash deal price when present)
+                                                        $effectivePrice = ($item->deal_id && $item->flashDeal && isset($item->flashDeal->flash_price))
+                                                            ? (float) $item->flashDeal->flash_price
+                                                            : (float) $item->price;
 
+                                                        // original product price for strike-through (if available)
+                                                        $originalPrice = (float) ($item->product->price ?? 0);
+                                                    @endphp
+
+                                                    <!-- Price -->
+                                                    <div class="text-right">
+                                                        <!-- Effective price (flash or cart price) -->
+                                                        <div
+                                                            class="text-xl font-bold {{ $item->deal_id ? 'text-accent' : 'text-primary' }}">
+                                                            {{ $item->product->currency }}{{ number_format($effectivePrice, 2) }}
+                                                        </div>
+
+                                                        <!-- Strike-through original price if we are showing a discount -->
+                                                        @if ($item->deal_id && $originalPrice > $effectivePrice)
+                                                            <div class="text-body-sm text-secondary-500 line-through">
+                                                                {{ $item->product->currency }}{{ number_format($originalPrice, 2) }}
+                                                            </div>
+                                                        @elseif ($item->product->discount_price && $item->product->discount_price < $item->product->price && !$item->deal_id)
+                                                            <!-- if product has a discount but not from flash deal -->
+                                                            <div class="text-body-sm text-secondary-500 line-through">
+                                                                {{ $item->product->currency }}{{ number_format($item->product->price, 2) }}
+                                                            </div>
+                                                        @endif
+
+                                                        <!-- Flash badge -->
+                                                        @if ($item->deal_id && $item->flashDeal)
+                                                            <span
+                                                                class="inline-block mt-1 text-xs bg-red-500 text-white px-2 py-0.5 rounded-full font-medium">
+                                                                🔥 Flash Deal
+                                                            </span>
+                                                        @endif
+                                                    </div>
+
+
+                                                    <!-- Quantity Controls -->
+                                                    <div class="flex items-center space-x-3">
+                                                        <label class="text-body-sm text-secondary-600">Qty:</label>
+
+                                                        @if($item->deal_id && $item->flashDeal)
+                                                            <!-- 🔒 Flash Deal: Lock quantity to 1 -->
+                                                            <div
+                                                                class="flex items-center border border-border rounded-lg bg-gray-100 cursor-not-allowed opacity-70">
+                                                                <input type="number" value="1" readonly
+                                                                    class="w-16 text-center border-0 py-2 bg-gray-100 focus:ring-0 focus:outline-none cursor-not-allowed" />
+                                                            </div>
+                                                        @else
+                                                            <!-- Normal product: Quantity selectable -->
+                                                            <div class="flex items-center border border-border rounded-lg">
+                                                                <button class="p-2 hover:bg-surface transition-fast"
+                                                                    onclick="updateQuantity({{ $item->id }}, -1)">
+                                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                                            stroke-width="2" d="M20 12H4" />
+                                                                    </svg>
+                                                                </button>
+                                                                <input type="number" id="qty-{{ $item->id }}"
+                                                                    value="{{ $item->quantity }}" min="1" max="99"
+                                                                    class="w-16 text-center border-0 py-2 focus:ring-0 focus:outline-none"
+                                                                    onchange="manualQuantityChange({{ $item->id }})" />
+                                                                <button class="p-2 hover:bg-surface transition-fast"
+                                                                    onclick="updateQuantity({{ $item->id }}, 1)">
+                                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                                            stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+
+                                                    <!-- Item Total -->
+                                                    <div class="text-right">
+                                                        <div class="text-lg font-bold text-primary item-total"
+                                                            id="item-total-{{ $item->id }}">
+                                                            {{ $item->product->currency }}{{ number_format($effectivePrice * $item->quantity, 2) }}
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                            </div>
+
+                                            <!-- Item Actions -->
+                                            <div class="flex items-center space-x-4 mt-4 pt-4 border-t border-border">
+                                                <button type="button"
+                                                    class="text-error hover:text-error-600 transition-fast text-body-sm"
+                                                    onclick="removeCartItem({{ $item->id }}, this)">
+                                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                    Remove
+                                                </button>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            @empty
-                                <p class="text-center text-secondary-600">Your cart is empty.</p>
-                            @endforelse
-                        </div>
-                    {{-- @endsection --}}
+                            </div>
+                        @empty
+                            <p class="text-center text-secondary-600">Your cart is empty.</p>
+                        @endforelse
+                    </div>
+
 
                     <!-- Wishlist Integration Panel -->
                     @php
@@ -765,15 +764,15 @@
             if (cartItems === 0) {
                 // Show empty cart message
                 document.querySelector('.lg\\:col-span-2').innerHTML = `
-                            <div class="card text-center py-12">
-                                <svg class="w-24 h-24 text-secondary-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 10H6L5 9z"/>
-                                </svg>
-                                <h2 class="text-2xl font-bold text-primary mb-2">Your cart is empty</h2>
-                                <p class="text-secondary-600 mb-6">Looks like you haven't added any items to your cart yet.</p>
-                                <a href="product_discovery_hub.html" class="btn-primary">Continue Shopping</a>
-                            </div>
-                        `;
+                                    <div class="card text-center py-12">
+                                        <svg class="w-24 h-24 text-secondary-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 10H6L5 9z"/>
+                                        </svg>
+                                        <h2 class="text-2xl font-bold text-primary mb-2">Your cart is empty</h2>
+                                        <p class="text-secondary-600 mb-6">Looks like you haven't added any items to your cart yet.</p>
+                                        <a href="product_discovery_hub.html" class="btn-primary">Continue Shopping</a>
+                                    </div>
+                                `;
             }
         }
 
@@ -897,10 +896,8 @@
 
         //remove to cart
         function removeCartItem(itemId, button) {
-            console.log("removeCartItem called for item:", itemId);
             const cartItem = button.closest('.cart-item');
             if (!cartItem) {
-                console.error("Could not find .cart-item parent for button", button);
             }
             const innerWrapper = cartItem ? cartItem.querySelector('.cart-item-inner') : null;
 
@@ -912,12 +909,10 @@
                 }
             })
                 .then(async res => {
-                    console.log("removeCartItem fetch response status:", res.status);
                     let data = null;
                     try {
                         data = await res.json();
                     } catch (e) {
-                        console.warn("Failed to parse JSON response in removeCartItem:", e);
                     }
                     if (!res.ok || !data) {
                         const msg = data && data.message ? data.message : "Server error (no data).";
@@ -926,7 +921,6 @@
                     return data;
                 })
                 .then(data => {
-                    console.log("removeCartItem response data:", data);
                     if (data.status === 'success' || data.status === 200) {
                         if (innerWrapper) {
                             innerWrapper.style.transform = 'translateX(-100%)';
@@ -935,9 +929,6 @@
                         setTimeout(() => {
                             if (cartItem) cartItem.remove();
                             showNotify('success', data.message || `Item removed from cart successfully`);
-
-                            // 🔄 Try to refresh cart items
-                            refreshCartItems();
                         }, 300);
                     } else {
                         showNotify('error', data.message || "Failed to remove item");
@@ -976,16 +967,25 @@
         }
 
         // Toast Notification
-
         function showNotify(type, message) {
             const styles = {
-                success: { bg: "bg-green-500", icon: "✔️", title: "Success" },
-                error: { bg: "bg-red-500", icon: "⚠️", title: "Error" }
+                success: {
+                    bg: "bg-red-500",
+                    icon: "⚠️",
+                    title: "Error"
+                },
+                error: {
+                    bg: "bg-green-500",
+                    icon: "✔️",
+                    title: "Success"
+                },
             };
+
             if (!styles[type]) {
-                console.error("Invalid showNotify type:", type);
+                console.error(`Invalid notification type: "${type}". Expected 'success' or 'error'.`);
                 return;
             }
+
             let container = document.getElementById("toast-container3");
             if (!container) {
                 container = document.createElement("div");
@@ -993,18 +993,20 @@
                 container.className = "fixed top-5 right-5 space-y-3 z-50 flex flex-col";
                 document.body.appendChild(container);
             }
-            const style = styles[type];
+
             const notify = document.createElement("div");
-            notify.className = `relative flex items-start space-x-3 ${style.bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
+            notify.className = `relative flex items-start space-x-3 ${styles[type].bg} text-white px-4 py-3 rounded-lg shadow-lg w-80 animate-slide-in hover:scale-105 transition transform duration-200`;
 
             const icon = document.createElement("span");
             icon.className = "text-2xl";
-            icon.innerText = style.icon;
+            icon.innerText = styles[type].icon;
 
             const content = document.createElement("div");
             content.className = "flex-1";
-            content.innerHTML = `<div class="font-semibold">${style.title}</div>
-                                 <div class="text-sm opacity-90">${message}</div>`;
+            content.innerHTML = `
+                    <div class="font-semibold">${styles[type].title}</div>
+                    <div class="text-sm opacity-90">${message}</div>
+                `;
 
             const progress = document.createElement("div");
             progress.className = "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
@@ -1015,13 +1017,19 @@
             notify.appendChild(progress);
             container.appendChild(notify);
 
+            // Auto-remove the toast after 4 seconds
             setTimeout(() => {
                 notify.classList.add("animate-fade-out");
-                setTimeout(() => notify.remove(), 500);
+                setTimeout(() => {
+                    notify.remove();
+
+                    // ✅ Reload the page after success notification
+                    if (type === 'error') {
+                        window.location.reload();  // or location.href = location.href;
+                    }
+                }, 500);
             }, 4000);
         }
-
-
 
 
         //remove to cart
@@ -1090,12 +1098,12 @@
 
             const toast = document.createElement('div');
             toast.className = `
-                    flex items-center px-4 py-3 rounded-lg shadow-lg text-white
-                    ${type === 'success' ? 'bg-green-500' :
+                            flex items-center px-4 py-3 rounded-lg shadow-lg text-white
+                            ${type === 'success' ? 'bg-green-500' :
                     type === 'error' ? 'bg-red-500' :
                         type === 'info' ? 'bg-blue-500' : 'bg-gray-700'}
-                    animate-slide-in
-                `;
+                            animate-slide-in
+                        `;
             toast.innerText = message;
             container.appendChild(toast);
 
@@ -1176,12 +1184,12 @@
 
             const el = document.createElement("div");
             el.className = `
-                    flex items-center px-4 py-3 rounded-lg shadow-lg text-white
-                    ${type === "success" ? "bg-green-500" :
+                            flex items-center px-4 py-3 rounded-lg shadow-lg text-white
+                            ${type === "success" ? "bg-green-500" :
                     type === "error" ? "bg-red-500" :
                         type === "info" ? "bg-blue-500" : "bg-gray-700"}
-                    animate-slide-in
-                `;
+                            animate-slide-in
+                        `;
             el.textContent = message;
             container.appendChild(el);
 
