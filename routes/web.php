@@ -179,6 +179,7 @@ Route::prefix('orders')->group(function () {
 Route::get('/receipt/verify/{order}', action: [OrderDocumentController::class, 'verifyReceipt'])->name('receipt.verify');
 Route::get('/orders/{id}/get-order-no', [OrderTrackingController::class, 'getOrderNo']);
 Route::post('/flash-deals/cart/add', [CartController::class, 'addToCartDeal'])->name('cart.add.deal');
+ Route::get('/cart/items/refresh', [CartController::class, 'refreshCartItems'])->name('cart.items.refresh');
 Route::get('/terms-and-conditions', function() {
     return view('frontend.policies.terms-condition');
 })->name('terms.and.conditions');

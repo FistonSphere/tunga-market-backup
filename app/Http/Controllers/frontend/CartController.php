@@ -10,6 +10,7 @@ use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 class CartController extends Controller
 {
@@ -299,9 +300,11 @@ public function refreshCartItems()
 {
     $cartItems = Cart::where('user_id', auth()->id())->with('product')->get();
 
-    // Return only the rendered cart items container
+    // Return only the cart items container HTML (from same blade file)
+    $html = View::make('frontend.cart', compact('cartItems'))->renderSections()['content'];
+
     return response()->json([
-        'html' => view('frontend.cart', compact('cartItems'))->render()
+        'html' => $html
     ]);
 }
 
