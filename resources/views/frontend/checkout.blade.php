@@ -100,7 +100,7 @@
                                         @foreach ($cartItems as $item)
                                             @php
                                                 $hasFlash = $item->deal_id && $item->flashDeal;
-                                                $effectivePrice = $hasFlash ? $item->flashDeal->flash_price : $item->price;
+                                                $effectivePrice = $hasFlash ? $item->flashDeal->flash_price : $item->product->discount_price ?? $item->product->price;
                                                 $originalPrice = $item->product->price ?? $item->price;
                                             @endphp
 
@@ -128,29 +128,14 @@
                                                 <div class="text-right">
                                                     <!-- Effective Price -->
                                                     <div class="font-semibold text-primary">
-                                                        {{ number_format($effectivePrice * $item->quantity, 2) }}
+                                                        {{ number_format($effectivePrice * $item->quantity) }}
                                                         {{ $item->currency }}
                                                     </div>
-
-                                                    <!-- Show Save amount -->
-                                                    {{-- @if ($hasFlash && $originalPrice > $effectivePrice)
-                                                        <div class="text-body-sm text-success">
-                                                            Save
-                                                            {{ number_format(($originalPrice - $effectivePrice) * $item->quantity, 2) }}
-                                                            {{ $item->currency }}
-                                                        </div>
-                                                    @elseif(!$hasFlash && $item->product->discount_price)
-                                                        <div class="text-body-sm text-success">
-                                                            Save
-                                                            {{ number_format(($item->product->price - $item->product->discount_price) * $item->quantity, 2) }}
-                                                            {{ $item->currency }}
-                                                        </div>
-                                                    @endif --}}
 
                                                     <!-- Strike-through original price -->
                                                     @if ($hasFlash && $originalPrice > $effectivePrice)
                                                         <div class="text-xs text-secondary-500 line-through">
-                                                            {{ number_format($originalPrice * $item->quantity, 2) }}
+                                                            {{ number_format($originalPrice * $item->quantity) }}
                                                             {{ $item->currency }}
                                                         </div>
                                                     @endif
@@ -164,7 +149,7 @@
                                         <div class="flex justify-between text-body-sm">
                                             <span class="text-secondary-600">Subtotal:</span>
                                             <span class="font-medium text-primary">
-                                                {{ number_format($subtotal, 2) }} Rwf
+                                                {{ number_format($subtotal) }} Rwf
                                             </span>
                                         </div>
                                     </div>
@@ -939,7 +924,7 @@
                                 @foreach ($cartItems as $item)
                                     @php
                                         $hasFlash = $item->deal_id && $item->flashDeal;
-                                        $effectivePrice = $hasFlash ? $item->flashDeal->flash_price : $item->price;
+                                        $effectivePrice = $hasFlash ? $item->flashDeal->flash_price : $item->product->discount_price ?? $item->product->price;
                                         $originalPrice = $item->product->price ?? $item->price;
                                     @endphp
 
@@ -956,13 +941,13 @@
                                             <div class="text-body-sm text-secondary-600">
                                                 Qty: {{ $item->quantity }} •
                                                 <span class="{{ $hasFlash ? 'text-accent font-semibold' : '' }}">
-                                                    {{ number_format($effectivePrice, 2) }} {{ $item->product->currency }}
+                                                    {{ number_format($effectivePrice) }} {{ $item->product->currency }}
                                                 </span> each
                                             </div>
 
                                             @if($hasFlash && $originalPrice > $effectivePrice)
                                                 <div class="text-xs text-secondary-500 line-through">
-                                                    {{ number_format($originalPrice, 2) }} {{ $item->product->currency }}
+                                                    {{ number_format($originalPrice) }} {{ $item->product->currency }}
                                                 </div>
                                                 <span
                                                     class="inline-block mt-1 text-xs bg-red-500 text-white px-2 py-0.5 rounded-full font-medium">
@@ -973,7 +958,7 @@
 
                                         <div class="text-right">
                                             <div class="font-medium text-primary">
-                                                {{ number_format($effectivePrice * $item->quantity, 2) }}
+                                                {{ number_format($effectivePrice * $item->quantity) }}
                                                 {{ $item->product->currency }}
                                             </div>
                                         </div>
@@ -988,7 +973,7 @@
                                         Subtotal ({{ $cartItems->sum('quantity') }} items):
                                     </span>
                                     <span class="font-medium text-primary">
-                                        {{ number_format($subtotal, 2) }} {{ $item->product->currency }}
+                                        {{ number_format($subtotal) }} {{ $item->product->currency }}
                                     </span>
                                 </div>
 
@@ -999,14 +984,14 @@
 
                                 <div class="flex justify-between">
                                     <span class="text-secondary-600">Tax (estimated):</span>
-                                    <span class="font-medium text-primary">{{ number_format($tax, 2) }}
+                                    <span class="font-medium text-primary">{{ number_format($tax) }}
                                         {{ $item->product->currency }}</span>
                                 </div>
 
                                 <div class="border-t border-border pt-3">
                                     <div class="flex justify-between">
                                         <span class="font-semibold text-primary">Total:</span>
-                                        <span class="text-xl font-bold text-primary">{{ number_format($total, 2) }}
+                                        <span class="text-xl font-bold text-primary">{{ number_format($total) }}
                                             {{ $item->product->currency }}</span>
                                     </div>
                                 </div>
@@ -1787,7 +1772,7 @@
                 expiryInput.addEventListener("input", function (e) {
                     let value = e.target.value.replace(/\D/g, "");
                     if (value.length >= 2) {
-                        value = value.substring(0, 2) + "/" + value.substring(2, 4);
+                        value = value.substring(0) + "/" + value.substring(2, 4);
                     }
                     e.target.value = value;
                 });

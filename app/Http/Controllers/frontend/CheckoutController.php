@@ -46,7 +46,7 @@ class CheckoutController extends Controller
         } else {
             // No flash deal → fallback to product price
             if ($item->product) {
-                $item->price = $item->product->price;
+                $item->price =  $item->product->discount_price ?? $item->product->price;
                 $item->save();
             }
         }
