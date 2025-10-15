@@ -854,7 +854,6 @@
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data.message);
                         cookieBanner?.remove();
 
                         // Start tracking after accepting cookies
