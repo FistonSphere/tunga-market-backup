@@ -1,5 +1,44 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+        .step-circle {
+            width: 2rem;
+            height: 2rem;
+            background-color: #e5e7eb;
+            /* bg-border */
+            color: #374151;
+            /* text-secondary-600 */
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* Active/completed step */
+        .step-active {
+            background-color: #1e40af;
+            /* bg-accent */
+            color: white;
+        }
+
+        /* Active label */
+        .label-active {
+            color: #1e40af;
+            /* text-accent */
+            font-weight: 500;
+        }
+
+        /* Line between steps */
+        .progress-line {
+            width: 2rem;
+            height: 2px;
+            background-color: #e5e7eb;
+            flex-shrink: 0;
+        }
+    </style>
+
     <!-- Navigation Header -->
 
     <!-- Breadcrumb Navigation -->
@@ -27,28 +66,28 @@
 
                 <!-- Checkout Progress Indicator -->
                 <div class="flex items-center space-x-4 overflow-x-auto whitespace-nowrap">
-                    <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-2" id="step-indicator-1">
                         <div
                             class="w-8 h-8 bg-accent text-white rounded-full flex items-center justify-center text-body-sm font-semibold">
                             1</div>
                         <span class="text-body-sm font-medium text-accent">Review Order</span>
                     </div>
                     <div class="w-8 h-0.5 bg-border flex-shrink-0"></div>
-                    <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-2" id="step-indicator-2">
                         <div
                             class="w-8 h-8 bg-border text-secondary-600 rounded-full flex items-center justify-center text-body-sm font-semibold">
                             2</div>
                         <span class="text-body-sm text-secondary-600">Shipping</span>
                     </div>
                     <div class="w-8 h-0.5 bg-border flex-shrink-0"></div>
-                    <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-2" id="step-indicator-3">
                         <div
                             class="w-8 h-8 bg-border text-secondary-600 rounded-full flex items-center justify-center text-body-sm font-semibold">
                             3</div>
                         <span class="text-body-sm text-secondary-600">Payment</span>
                     </div>
                     <div class="w-8 h-0.5 bg-border flex-shrink-0"></div>
-                    <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-2" id="step-indicator-4">
                         <div
                             class="w-8 h-8 bg-border text-secondary-600 rounded-full flex items-center justify-center text-body-sm font-semibold">
                             4</div>
@@ -831,8 +870,10 @@
                                             <input type="checkbox" id="terms-conditions"
                                                 class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-0.5"
                                                 required />
-                                            <span class="text-body-sm text-secondary-700">I agree to the <a href="{{ route('terms.and.conditions') }}"
-                                                    class="text-accent hover:underline" target="_blank">Terms of Service</a> and <a href="{{ route('privacy.policy') }}"
+                                            <span class="text-body-sm text-secondary-700">I agree to the <a
+                                                    href="{{ route('terms.and.conditions') }}"
+                                                    class="text-accent hover:underline" target="_blank">Terms of Service</a>
+                                                and <a href="{{ route('privacy.policy') }}"
                                                     class="text-accent hover:underline" target="_blank">Privacy
                                                     Policy</a></span>
                                         </label>
@@ -1074,11 +1115,11 @@
     <!-- Edit Address Modal -->
     <div id="editAddressModal"
         style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));" class="fixed inset-0 hidden items-center justify-center
-                    backdrop-blur-sm transition-opacity duration-300 ease-out">
+                            backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
         <div id="editAddressCard" class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
-                       transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                               transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1616,12 +1657,12 @@
 
             if (paymentMethod === "irembo-pay") {
                 button.innerHTML = `
-                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Processing Mobile Payment...
-                    `;
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Processing Mobile Payment...
+                            `;
 
                 // Simulate IREMBO Pay processing
                 setTimeout(() => {
@@ -1653,12 +1694,12 @@
                 }, 2000);
             } else {
                 button.innerHTML = `
-                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Processing Order...
-                    `;
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Processing Order...
+                            `;
 
                 // Standard payment processing
                 setTimeout(() => {

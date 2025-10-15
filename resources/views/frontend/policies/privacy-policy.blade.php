@@ -1250,7 +1250,7 @@
                                 <strong>Response Time:</strong> Within 48 hours
                             </p>
                             <p class="text-body-sm">
-                                <strong>Office Hours:</strong> Monday – Friday, 8:00 AM – 5:00 PM (UTC)
+                                <strong>Office Hours:</strong> Monday – Friday, 8:00 AM – 5:00 PM Kigali (GMT+2)
                             </p>
                         </div>
                     </div>
