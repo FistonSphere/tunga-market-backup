@@ -818,7 +818,7 @@
                                     <div class="space-y-2 text-body-sm">
                                         <div class="flex justify-between">
                                             <span class="text-secondary-600">Tunga Market:</span>
-                                            <span class="text-primary">30min - 24 hours (Free shipping)</span>
+                                            <span class="text-primary">30 min - 24 hours (Free shipping)</span>
                                         </div>
                                     </div>
                                 </div>
