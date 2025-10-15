@@ -814,17 +814,11 @@
                                 <div class="border border-border rounded-lg p-4">
                                     <div class="flex items-center justify-between mb-3">
                                         <h3 class="font-semibold text-primary">Delivery Information</h3>
-                                        <button class="text-accent hover:text-accent-600 transition-fast text-body-sm"
-                                            onclick="editStep(2)">Edit</button>
                                     </div>
                                     <div class="space-y-2 text-body-sm">
                                         <div class="flex justify-between">
-                                            <span class="text-secondary-600">TechSound Manufacturing:</span>
-                                            <span class="text-primary">5-7 days (Free shipping)</span>
-                                        </div>
-                                        <div class="flex justify-between">
-                                            <span class="text-secondary-600">GlobalTech Solutions:</span>
-                                            <span class="text-primary">7-10 days ($12.99 shipping)</span>
+                                            <span class="text-secondary-600">Tunga Market:</span>
+                                            <span class="text-primary">30min - 24 hours (Free shipping)</span>
                                         </div>
                                     </div>
                                 </div>
