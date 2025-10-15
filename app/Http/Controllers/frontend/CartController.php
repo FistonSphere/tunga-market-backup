@@ -294,6 +294,18 @@ public function removeSelected(Request $request)
         ]);
     }
 
+
+public function refreshCartItems()
+{
+    $cartItems = Cart::where('user_id', auth()->id())->with('product')->get();
+
+    // Return only the rendered cart items container
+    return response()->json([
+        'html' => view('frontend.cart', compact('cartItems'))->render()
+    ]);
+}
+
+
  public function storeItem(Request $request)
 {
     $request->validate([
