@@ -53,7 +53,7 @@ class CheckoutController extends Controller
     }
 
     // Recalculate totals
-    $subtotal    = $cartItems->sum(fn($item) => $item->price * $item->quantity);
+    $subtotal    = $cartItems->sum(fn($item) => ($item->product->discount_price ?? $item->product->price) * $item->quantity);
     $totalItems  = $cartItems->sum('quantity');
 
     $tax      = $subtotal * 0.1;
