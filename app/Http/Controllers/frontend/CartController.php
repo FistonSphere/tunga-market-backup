@@ -266,11 +266,9 @@ public function removeSelected(Request $request)
         $cartItems   = Cart::where('user_id', $userId)->get();
         $subtotal    = $cartItems->sum(fn ($i) => $i->price * $i->quantity);
         $totalItems  = $cartItems->sum('quantity');
-        $bulkDiscount = $subtotal > 200 ? $subtotal * 0.10 : 0;
-        $shipping    = 0;           // adjust if you have shipping rules
         $tax         = $subtotal * 0.1;
 
-        $total       = $subtotal - $bulkDiscount + $shipping + $tax;
+        $total       = $subtotal + $tax;
 
         // (Optional) also return a rendered summary partial if you want to replace the HTML
         $summaryHtml = view('partials.order-summary', compact(
@@ -296,17 +294,23 @@ public function removeSelected(Request $request)
     }
 
 
-public function refreshCartItems()
-{
-    $cartItems = Cart::where('user_id', auth()->id())->with('product')->get();
+ public function refreshCartItems()
+    {
+        $cartItems = Cart::where('user_id', auth()->id())->with('product')->get();
 
-    // Return only the cart items container HTML (from same blade file)
-    $html = View::make('frontend.cart', compact('cartItems'))->renderSections()['content'];
+        // Assume your cart view is `frontend.cart` and within it you have a section or id you can target
+        $view = View::make('frontend.cart', compact('cartItems'));
 
-    return response()->json([
-        'html' => $html
-    ]);
-}
+        // Use renderSections if you used @section for cart items
+        $sections = $view->renderSections();
+
+        // Determine which section you used for cart items, e.g. 'cart-items-html' or maybe 'content'
+        $html = $sections['cart-items-html'] ?? $sections['content'] ?? '';
+
+        return response()->json([
+            'html' => $html
+        ]);
+    }
 
 
  public function storeItem(Request $request)
