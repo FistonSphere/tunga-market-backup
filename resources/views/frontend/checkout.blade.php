@@ -831,9 +831,9 @@
                                             <input type="checkbox" id="terms-conditions"
                                                 class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded mt-0.5"
                                                 required />
-                                            <span class="text-body-sm text-secondary-700">I agree to the <a href="#"
-                                                    class="text-accent hover:underline">Terms of Service</a> and <a href="#"
-                                                    class="text-accent hover:underline">Privacy
+                                            <span class="text-body-sm text-secondary-700">I agree to the <a href="{{ route('terms.and.conditions') }}"
+                                                    class="text-accent hover:underline" target="_blank">Terms of Service</a> and <a href="{{ route('privacy.policy') }}"
+                                                    class="text-accent hover:underline" target="_blank">Privacy
                                                     Policy</a></span>
                                         </label>
 
