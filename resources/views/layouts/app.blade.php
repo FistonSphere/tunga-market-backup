@@ -801,16 +801,28 @@
                     <a href="{{ route('policies.cookies') }}" class="text-accent font-semibold hover:underline">Cookie
                         Policy</a>.
                 </div>
-                <div class="flex space-x-3">
-                    <button id="acceptCookies"
-                        class="bg-accent text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-accent-600 transition">
-                        Accept Cookies
-                    </button>
-                    <button id="declineCookies"
-                        class="bg-gray-200 text-secondary-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-300 transition">
-                        Decline
-                    </button>
-                </div>
+                @if (!session('cookies_accepted'))
+                    <div id="cookie-banner"
+                        class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 shadow p-4 z-50">
+                        <div
+                            class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0">
+                            <div class="text-sm text-gray-700">
+                                We use cookies to personalize your experience. By continuing, you agree to our use of cookies.
+                            </div>
+                            <div class="flex space-x-3">
+                                <button id="acceptCookies"
+                                    class="bg-accent text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-accent-600 transition">
+                                    Accept Cookies
+                                </button>
+                                <button id="declineCookies"
+                                    class="bg-gray-200 text-secondary-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-300 transition">
+                                    Decline
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
             </div>
         </div>
     @endif
@@ -829,10 +841,13 @@
                     body: JSON.stringify({
                         page: window.location.pathname
                     })
-                }).then(res => res.json())
+                }).then(res => res.json());
             };
 
             const acceptCookies = () => {
+                // Save locally to persist consent
+                localStorage.setItem('cookiesAccepted', 'true');
+
                 fetch('{{ route("cookies.accept") }}', {
                     method: 'POST',
                     headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
@@ -841,21 +856,25 @@
                     .then(data => {
                         console.log(data.message);
                         cookieBanner?.remove();
+
                         // Start tracking after accepting cookies
                         logUserActivity();
-                        setInterval(logUserActivity, 30000); // logs every 30s
+                        setInterval(logUserActivity, 30000);
                     });
             };
 
+            // Attach button events
             document.getElementById('acceptCookies')?.addEventListener('click', acceptCookies);
             document.getElementById('declineCookies')?.addEventListener('click', () => cookieBanner?.remove());
 
-            // Auto log activity on each page load if cookies already accepted
-            @if(session('cookies_accepted'))
+            // 🚫 Check localStorage instead of relying only on session
+            if (localStorage.getItem('cookiesAccepted') === 'true') {
+                cookieBanner?.remove();
                 logUserActivity();
                 setInterval(logUserActivity, 30000);
-            @endif
-});
+            }
+        });
+
     </script>
 
 

@@ -272,7 +272,7 @@ public function removeSelected(Request $request)
 
         // (Optional) also return a rendered summary partial if you want to replace the HTML
         $summaryHtml = view('partials.order-summary', compact(
-            'subtotal', 'totalItems', 'bulkDiscount', 'shipping', 'tax', 'total'
+            'subtotal', 'totalItems', 'tax', 'total'
         ))->render();
 
         return response()->json([

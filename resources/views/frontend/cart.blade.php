@@ -110,7 +110,8 @@
                         </svg>
                         Compare Products
                     </a>
-                    <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm">
+                    <button class="text-secondary-600 hover:text-primary transition-fast text-body-sm"
+                        onclick="clearEntireCart()">
                         <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -764,15 +765,15 @@
             if (cartItems === 0) {
                 // Show empty cart message
                 document.querySelector('.lg\\:col-span-2').innerHTML = `
-                                    <div class="card text-center py-12">
-                                        <svg class="w-24 h-24 text-secondary-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 10H6L5 9z"/>
-                                        </svg>
-                                        <h2 class="text-2xl font-bold text-primary mb-2">Your cart is empty</h2>
-                                        <p class="text-secondary-600 mb-6">Looks like you haven't added any items to your cart yet.</p>
-                                        <a href="product_discovery_hub.html" class="btn-primary">Continue Shopping</a>
-                                    </div>
-                                `;
+                                        <div class="card text-center py-12">
+                                            <svg class="w-24 h-24 text-secondary-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 10H6L5 9z"/>
+                                            </svg>
+                                            <h2 class="text-2xl font-bold text-primary mb-2">Your cart is empty</h2>
+                                            <p class="text-secondary-600 mb-6">Looks like you haven't added any items to your cart yet.</p>
+                                            <a href="product_discovery_hub.html" class="btn-primary">Continue Shopping</a>
+                                        </div>
+                                    `;
             }
         }
 
@@ -1004,9 +1005,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                    <div class="font-semibold">${styles[type].title}</div>
-                    <div class="text-sm opacity-90">${message}</div>
-                `;
+                        <div class="font-semibold">${styles[type].title}</div>
+                        <div class="text-sm opacity-90">${message}</div>
+                    `;
 
             const progress = document.createElement("div");
             progress.className = "absolute bottom-0 left-0 h-1 bg-white opacity-70 rounded-bl-lg rounded-br-lg animate-progress";
@@ -1098,12 +1099,12 @@
 
             const toast = document.createElement('div');
             toast.className = `
-                            flex items-center px-4 py-3 rounded-lg shadow-lg text-white
-                            ${type === 'success' ? 'bg-green-500' :
+                                flex items-center px-4 py-3 rounded-lg shadow-lg text-white
+                                ${type === 'success' ? 'bg-green-500' :
                     type === 'error' ? 'bg-red-500' :
                         type === 'info' ? 'bg-blue-500' : 'bg-gray-700'}
-                            animate-slide-in
-                        `;
+                                animate-slide-in
+                            `;
             toast.innerText = message;
             container.appendChild(toast);
 
@@ -1184,12 +1185,12 @@
 
             const el = document.createElement("div");
             el.className = `
-                            flex items-center px-4 py-3 rounded-lg shadow-lg text-white
-                            ${type === "success" ? "bg-green-500" :
+                                flex items-center px-4 py-3 rounded-lg shadow-lg text-white
+                                ${type === "success" ? "bg-green-500" :
                     type === "error" ? "bg-red-500" :
                         type === "info" ? "bg-blue-500" : "bg-gray-700"}
-                            animate-slide-in
-                        `;
+                                animate-slide-in
+                            `;
             el.textContent = message;
             container.appendChild(el);
 
@@ -1290,6 +1291,42 @@
                 closeRemoveAllModal();
             }
         }
+
+
+        async function clearEntireCart() {
+            if (!confirm("Are you sure you want to remove all items from your cart?")) return;
+
+            try {
+                const res = await fetch("/cart/remove-all", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: JSON.stringify({ all: true })
+                });
+
+                const data = await res.json();
+
+                if (res.status === 401) {
+                    showToast("Please sign in to clear your cart.", "error");
+                    return;
+                }
+
+                if (res.ok && data?.status === "success") {
+                    showToast(data.message || "Cart cleared.", "success");
+                    setTimeout(() => window.location.reload(), 1000);
+                } else {
+                    showToast(data?.message || "Failed to clear cart.", "error");
+                }
+            } catch (err) {
+                console.error(err);
+                showToast("Unexpected error. Try again.", "error");
+            }
+        }
+
+
     </script>
 
 
