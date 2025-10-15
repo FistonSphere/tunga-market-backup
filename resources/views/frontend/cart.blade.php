@@ -163,7 +163,7 @@
                     </div>
 
                     <!-- Item listing -->
-                    <div class="card">
+                    <div class="card" id="cart-items-container">
                         @forelse($cartItems as $item)
                             <div class="cart-item border-b border-border pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0"
                                 data-item-id="{{ $item->id }}">
