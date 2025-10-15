@@ -8,13 +8,14 @@ use Jenssegers\Agent\Agent;
 
 class UserActivityController extends Controller
 {
-    public function acceptCookies(Request $request)
+  public function acceptCookies(Request $request)
 {
     session(['cookies_accepted' => true]);
 
     return response()->json(['success' => true, 'message' => 'Cookies accepted'])
-                     ->cookie('cookies_accepted', true, 60 * 24 * 365); // 1 year
+                     ->cookie('cookies_accepted', true, 60 * 24 * 365); // Optional: persistent browser cookie
 }
+
 
 
     public function logActivity(Request $request)

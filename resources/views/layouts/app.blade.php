@@ -845,36 +845,53 @@
             };
 
             const acceptCookies = () => {
-                // Save locally to persist consent
-                localStorage.setItem('cookiesAccepted', 'true');
+                // Save locally to persist consent across sessions
+                localStorage.setItem('cookies_accepted', 'yes');
 
                 fetch('{{ route("cookies.accept") }}', {
                     method: 'POST',
-                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
                 })
                     .then(res => res.json())
                     .then(data => {
-                        cookieBanner?.remove();
-
-                        // Start tracking after accepting cookies
-                        logUserActivity();
-                        setInterval(logUserActivity, 30000);
-                    });
+                        if (data.success) {
+                            cookieBanner?.remove();
+                            logUserActivity();
+                            setInterval(logUserActivity, 30000); // Every 30s
+                        } else {
+                            console.error("Could not save cookie consent:", data.message);
+                        }
+                    })
+                    .catch(err => console.error("Cookie consent error:", err));
             };
 
-            // Attach button events
-            document.getElementById('acceptCookies')?.addEventListener('click', acceptCookies);
-            document.getElementById('declineCookies')?.addEventListener('click', () => cookieBanner?.remove());
-
-            // 🚫 Check localStorage instead of relying only on session
-            if (localStorage.getItem('cookiesAccepted') === 'true') {
-                cookieBanner?.remove();
-                logUserActivity();
-                setInterval(logUserActivity, 30000);
+            // Check if user already accepted cookies before
+            if (localStorage.getItem('cookies_accepted') === 'yes') {
+                // Restore session cookie value in case it's lost
+                fetch('{{ route("cookies.accept") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                    .then(() => {
+                        cookieBanner?.remove(); // Hide banner if previously accepted
+                        logUserActivity();
+                        setInterval(logUserActivity, 30000); // every 30s
+                    });
             }
-        });
 
+            // Button event bindings
+            document.getElementById('acceptCookies')?.addEventListener('click', acceptCookies);
+            document.getElementById('declineCookies')?.addEventListener('click', () => {
+                localStorage.removeItem('cookies_accepted');
+                cookieBanner?.remove();
+            });
+        });
     </script>
+
 
 
     <script>
