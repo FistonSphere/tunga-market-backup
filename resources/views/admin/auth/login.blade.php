@@ -36,7 +36,7 @@
                         </div>
                         <div class="login-userheading">
                             <h3>Sign In</h3>
-                            <h4>Please login to your account</h4>
+                            <h4>Please login to your admin account</h4>
                         </div>
                         <div class="form-login">
                             <label>Email</label>
