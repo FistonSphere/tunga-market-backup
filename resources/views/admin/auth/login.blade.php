@@ -58,8 +58,8 @@
                                 </h4>
                             </div>
                         </div>
-                        <div class="form-login">
-                            <a class="btn btn-login" href="index.html">Sign In</a>
+                        <div class="form-login" style="width:100%">
+                            <a class="btn btn-login" href="index.html" >Sign In</a>
                         </div>
                         <div class="signinform text-center">
                             <h4>
