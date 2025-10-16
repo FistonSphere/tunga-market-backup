@@ -38,30 +38,34 @@
                             <h3>Create an Account</h3>
                             <h4>Continue where you left off</h4>
                         </div>
-                        <div class="form-login">
-                            <label>Full Name</label>
-                            <div class="form-addons">
-                                <input type="text" placeholder="Enter your full name" />
-                                <img src="{{ asset('admin/assets/img/icons/users1.svg') }}" alt="img" />
+                        <form class="space-y-4" id="registerForm" method="POST">
+                            @csrf
+                            <div class="form-login">
+                                <label>Full Name</label>
+                                <div class="form-addons">
+                                    <input type="text" placeholder="Enter your full name" />
+                                    <img src="{{ asset('admin/assets/img/icons/users1.svg') }}" alt="img" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-login">
-                            <label>Email</label>
-                            <div class="form-addons">
-                                <input type="text" placeholder="Enter your email address" />
-                                <img src="{{ asset('admin/assets/img/icons/mail.svg') }}" alt="img" />
+                            <div class="form-login">
+                                <label>Email</label>
+                                <div class="form-addons">
+                                    <input type="text" placeholder="Enter your email address" />
+                                    <img src="{{ asset('admin/assets/img/icons/mail.svg') }}" alt="img" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-login">
-                            <label>Password</label>
-                            <div class="pass-group">
-                                <input type="password" class="pass-input" placeholder="Enter your password" />
-                                <span class="fas toggle-password fa-eye-slash"></span>
+                            <div class="form-login">
+                                <label>Password</label>
+                                <div class="pass-group">
+                                    <input type="password" class="pass-input" placeholder="Enter your password" />
+                                    <span class="fas toggle-password fa-eye-slash"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-login">
-                            <a class="btn btn-login">Sign Up</a>
-                        </div>
+                            <div class="form-login">
+                                <a class="btn btn-login">Sign Up</a>
+                            </div>
+
+                        </form>
                         <div class="signinform text-center">
                             <h4>
                                 Already a user?
@@ -92,7 +96,7 @@
                     </div>
                 </div>
                 <div class="login-img">
-                   <img src="{{ asset('admin/assets/img/login.jpg') }}" alt="img" />
+                    <img src="{{ asset('admin/assets/img/login.jpg') }}" alt="img" />
                 </div>
             </div>
         </div>
