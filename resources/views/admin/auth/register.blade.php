@@ -41,16 +41,33 @@
                         <form class="space-y-4" id="registerForm" method="POST">
                             @csrf
                             <div class="form-login">
-                                <label>Full Name</label>
+                                <label>First Name</label>
                                 <div class="form-addons">
-                                    <input type="text" placeholder="Enter your full name" />
+                                    <input type="text" class="input-field" placeholder="First Name" name="first_name"
+                                        required />
+                                    <img src="{{ asset('admin/assets/img/icons/users1.svg') }}" alt="img" />
+                                </div>
+                            </div>
+                            <div class="form-login">
+                                <label>Last Name</label>
+                                <div class="form-addons">
+                                    <input type="text" class="input-field" placeholder="Last Name" name="last_name"
+                                        required />
                                     <img src="{{ asset('admin/assets/img/icons/users1.svg') }}" alt="img" />
                                 </div>
                             </div>
                             <div class="form-login">
                                 <label>Email</label>
                                 <div class="form-addons">
-                                    <input type="text" placeholder="Enter your email address" />
+                                    <input type="email" class="input-field" placeholder="Email" name="email" required />
+                                    <img src="{{ asset('admin/assets/img/icons/mail.svg') }}" alt="img" />
+                                </div>
+                            </div>
+                            <div class="form-login">
+                                <label>Phone</label>
+                                <div class="form-addons">
+                                    <input type="text" class="input-field" placeholder="(e.g., +25078XXXXXXX)"
+                                        name="phone" required />
                                     <img src="{{ asset('admin/assets/img/icons/mail.svg') }}" alt="img" />
                                 </div>
                             </div>
@@ -61,6 +78,15 @@
                                     <span class="fas toggle-password fa-eye-slash"></span>
                                 </div>
                             </div>
+                            <div class="form-login">
+                                <label>Confirm Password</label>
+                                <div class="pass-group">
+                                    <input type="password" class="pass-input" placeholder="Enter your password" />
+                                    <span class="fas toggle-password fa-eye-slash"></span>
+                                </div>
+                            </div>
+                            <p id="passwordMatchMessage" class="text-xs mt-2 text-red-500 ">Passwords do not
+                                match.</p>
                             <div class="form-login">
                                 <a class="btn btn-login">Sign Up</a>
                             </div>
