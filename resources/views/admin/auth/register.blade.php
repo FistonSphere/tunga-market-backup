@@ -4,21 +4,24 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
-    <meta name="description" content="POS - Bootstrap Admin Template" />
+    <meta name="description"
+        content="Manage your marketplace smarter with Tunga Market Admin — intuitive analytics, real-time insights, and full control over your digital ecosystem." />
+
     <meta name="keywords"
-        content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects" />
-    <meta name="author" content="Dreamguys - Bootstrap Admin Template" />
+        content="Tunga Market, admin panel, commerce automation, digital trading, backend management, data insights, online market control, platform administration, ecommerce intelligence" />
+
+    <meta name="author" content="Tunga Market - Admin Dashboard" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>Login - Pos admin template</title>
+    <title>Sign Up - Tunga Market Admin Dashboard</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.jpg" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo.png') }}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap.min.css') }}" />
 
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ asset('admin/assets/plugins/fontawesome/css/fontawesome.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('admin/assets/plugins/fontawesome/css/all.min.css') }}" />
 
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css" />
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css" />
-
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="{{asset('admin/assets/css/style.css')}}" />
 </head>
 
 <body class="account-page">
@@ -28,7 +31,8 @@
                 <div class="login-content">
                     <div class="login-userset">
                         <div class="login-logo">
-                            <img src="assets/img/logo.png" alt="img" />
+                            <img src="{{ asset('assets/images/logo.png') }}"
+                                style="border-radius: 50%; height: 100px;width:100px;object-fit:cover;" alt="img" />
                         </div>
                         <div class="login-userheading">
                             <h3>Create an Account</h3>
