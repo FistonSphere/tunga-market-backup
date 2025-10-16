@@ -154,6 +154,12 @@ Route::post('/products/{product}/reviews', [ReviewController::class, 'OrderRevie
     ->name('products.reviews.store');
 Route::post('/flash-deals/cart/add', [FlashDealCartController::class, 'add'])
     ->name('flash-deals.cart.add');
+
+    // admin dashboard routes
+    Route::get('/admin/dashboard', [AuthController::class, 'adminDashboard'])->name('admin.dashboard');
+
+
+    //end admin dashboard routes
 });
 Route::get('/flash-deals/filter', [FlashDealCartController::class, 'filter'])->name('flash-deals.filter');
 
@@ -187,3 +193,10 @@ Route::get('/terms-and-conditions', function() {
 Route::get('/privacy-policy', function() {
     return view('frontend.policies.privacy-policy');
 })->name('privacy.policy');
+
+
+
+
+// admin with no authentication middleware routes
+
+// admin with no authentication middleware routes
