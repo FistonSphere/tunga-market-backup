@@ -201,4 +201,7 @@ Route::get('/privacy-policy', function() {
 Route::get('/account/admin/login', function() {
     return view('admin.auth.login');
 })->name('admin.login');
+Route::get('/account/admin/register', function() {
+    return view('admin.auth.register');
+})->name('admin.register');
 // admin with no authentication middleware routes
