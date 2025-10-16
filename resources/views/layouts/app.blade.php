@@ -20,7 +20,8 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description"
-        content="Next-generation B2B/B2C hybrid marketplace that transcends traditional e-commerce limitations through trading ecosystem and immersive visual storytelling." />
+        content="Discover Tunga Market — where innovation meets commerce. Explore trusted brands, great deals, and a seamless shopping experience built for everyone." />
+
 
 </head>
 
@@ -792,7 +793,8 @@
         style="position: fixed; top: 1rem; right: 1rem; z-index: 999999;"></div>
 
 
-    <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50" style="display:none">
+    <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50"
+        style="display:none">
         <div
             class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0">
             <div class="text-sm text-secondary-700">
