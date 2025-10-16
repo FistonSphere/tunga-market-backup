@@ -20,7 +20,7 @@
 
     <link rel="stylesheet" href="{{ asset('admin/assets/img/icons/mail.svg') }}" />
     <link rel="stylesheet" href="{{ asset('admin/assets/img/icons/mail.svg') }}" />
-
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/assets/img/icons/mail.svg') }}" />
 </head>
 
@@ -31,7 +31,7 @@
                 <div class="login-content">
                     <div class="login-userset">
                         <div class="login-logo">
-                            <img src="{{ asset('assets/images/logo.png') }}" alt="img" />
+                            <img src="{{ asset('assets/images/logo.png') }}" style="border-radius: 50%; height: 100px;width:100px;object-fit:cover;" alt="img" />
                         </div>
                         <div class="login-userheading">
                             <h3>Sign In</h3>
@@ -81,7 +81,7 @@
                                 </li>
                                 <li>
                                     <a href="javascript:void(0);">
-                                        <img src="{{ asset('admin/assets/img/icons/google.png') }}" class="me-2"
+                                        <img src="{{ asset('admin/assets/img/icons/facebook.png') }}" class="me-2"
                                             alt="google" />
                                         Sign Up using Facebook
                                     </a>
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="login-img">
-                    <img src="{{ asset('admin/assets/img/icons/google.png') }}" alt="img" />
+                    <img src="{{ asset('admin/assets/img/login.jpg') }}" alt="img" />
                 </div>
             </div>
         </div>
