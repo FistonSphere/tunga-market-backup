@@ -65,7 +65,7 @@
                         <div class="signinform" style="text-align: center">
                             <h4>
                                 Don’t have an account?
-                                <a href="signup.html" class="hover-a">Sign Up</a>
+                                <a href="{{ route('admin.register') }}" class="hover-a">Sign Up</a>
                             </h4>
                         </div>
                         <div class="form-setlogin">
