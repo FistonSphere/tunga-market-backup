@@ -42,14 +42,14 @@
                             <label>Full Name</label>
                             <div class="form-addons">
                                 <input type="text" placeholder="Enter your full name" />
-                                <img src="assets/img/icons/users1.svg" alt="img" />
+                                <img src="{{ asset('admin/assets/img/icons/users1.svg') }}" alt="img" />
                             </div>
                         </div>
                         <div class="form-login">
                             <label>Email</label>
                             <div class="form-addons">
                                 <input type="text" placeholder="Enter your email address" />
-                                <img src="assets/img/icons/mail.svg" alt="img" />
+                                <img src="{{ asset('admin/assets/img/icons/mail.svg') }}" alt="img" />
                             </div>
                         </div>
                         <div class="form-login">
@@ -75,13 +75,15 @@
                             <ul>
                                 <li>
                                     <a href="javascript:void(0);">
-                                        <img src="assets/img/icons/google.png" class="me-2" alt="google" />
+                                        <img src="{{ asset('admin/assets/img/icons/google.png') }}" class="me-2"
+                                            alt="google" />
                                         Sign Up using Google
                                     </a>
                                 </li>
                                 <li>
                                     <a href="javascript:void(0);">
-                                        <img src="assets/img/icons/facebook.png" class="me-2" alt="google" />
+                                        <img src="{{ asset('admin/assets/img/icons/facebook.png') }}" class="me-2"
+                                            alt="google" />
                                         Sign Up using Facebook
                                     </a>
                                 </li>
@@ -90,19 +92,19 @@
                     </div>
                 </div>
                 <div class="login-img">
-                    <img src="assets/img/login.jpg" alt="img" />
+                   <img src="{{ asset('admin/assets/img/login.jpg') }}" alt="img" />
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('admin/assets/js/jquery-3.6.0.min.js') }}"></script>
 
-    <script src="assets/js/feather.min.js"></script>
+    <script src="{{ asset('admin/assets/js/feather.min.js') }}"></script>
 
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('admin/assets/js/bootstrap.bundle.min.js') }}"></script>
 
-    <script src="assets/js/script.js"></script>
+    <script src="{{ asset('admin/assets/js/script.js') }}"></script>
 </body>
 
 </html>
