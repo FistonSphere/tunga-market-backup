@@ -68,7 +68,7 @@
                                 <div class="form-addons">
                                     <input type="text" class="input-field" placeholder="(e.g., +25078XXXXXXX)"
                                         name="phone" required />
-                                    <img src="{{ asset('admin/assets/img/icons/mail.svg') }}" alt="img" />
+                                    <img src="{{ asset('admin/assets/img/icons/phone.svg') }}" style="width:13px; height: 13px; color:#6d7d8b" alt="img" />
                                 </div>
                             </div>
                             <div class="form-login">
@@ -85,7 +85,7 @@
                                     <span class="fas toggle-password fa-eye-slash"></span>
                                 </div>
                             </div>
-                            <p id="passwordMatchMessage" class="text-xs mt-2 text-red-500 ">Passwords do not
+                            <p id="passwordMatchMessage" class="text-xs mt-2 hidden" style="color:rgb(189, 6, 6)">Passwords do not
                                 match.</p>
                             <div class="form-login">
                                 <a class="btn btn-login">Sign Up</a>
