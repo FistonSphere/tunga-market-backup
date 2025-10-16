@@ -85,7 +85,7 @@
                                     <span class="fas toggle-password fa-eye-slash"></span>
                                 </div>
                             </div>
-                            <p id="passwordMatchMessage" class="text-xs mt-2 hidden" style="color:rgb(189, 6, 6)">Passwords do not
+                            <p id="passwordMatchMessage" class="text-xs mt-2" style="color:rgb(189, 6, 6); display: none;">Passwords do not
                                 match.</p>
                             <div class="form-login">
                                 <a class="btn btn-login">Sign Up</a>
