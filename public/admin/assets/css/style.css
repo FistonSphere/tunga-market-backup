@@ -1,4 +1,8 @@
-@import "../../../../css2";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap");
+
+
 .css-equal-content,
 .css-equal-heights {
   display: flex;
@@ -587,7 +591,7 @@ h6 {
   }
 }
 body {
-  font-family: nunito, sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 14px;
   color: #212b36;
   line-height: 1.5;

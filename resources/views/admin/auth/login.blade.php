@@ -61,7 +61,7 @@
                         <div class="form-login">
                             <button class="btn btn-login" href="index.html" style="border: none;">Sign In</button>
                         </div>
-                        <div class="signinform text-center">
+                        <div class="signinform" style="text-align: center">
                             <h4>
                                 Don’t have an account?
                                 <a href="signup.html" class="hover-a">Sign Up</a>
