@@ -5894,6 +5894,7 @@ span.select2-container.select2-container--default.select2-container--open {
   transition: all 0.5s ease;
   margin-top: 15px;
   color: #fff;
+  cursor: pointer;
 }
 .login-wrapper .login-content .form-login .btn-login:hover {
   box-shadow: 0 50px #fff inset !important;
