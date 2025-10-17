@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\backend\AdminUserController;
 use App\Http\Controllers\ComparisonController;
 use App\Http\Controllers\FlashDealCartController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\frontend\CareerController;
 use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\frontend\CategoryController;
@@ -95,13 +96,16 @@ Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-o
 Route::post('/normal/login', [AuthController::class, 'login'])->name('normal-login-user');
 Route::post('/password/forgot', [AuthController::class, 'forgotPassword'])->name('password.forgot');
 Route::post('/password/reset', [AuthController::class, 'resetPassword'])->name('password.reset');
-Route::get('/forgot-password', function() {
-    return view('frontend.auth.forgot');
-})->name('forgot.password');
+// Route::get('/reset-password', function() {
+//     return view('frontend.auth.reset');
+// })->name('forgot.password');
+
 Route::get('/forgot-password', function() {
     return view('frontend.auth.reset');
 })->name('forgot.password.form');
-
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
+Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('forgot.password');
+Route::post('/reset-password', [ForgotPasswordController::class, 'reset'])->name('password.update');
 
 Route::post('/cookies/accept', [UserActivityController::class, 'acceptCookies'])->name('cookies.accept');
 Route::post('/activity/log', [UserActivityController::class, 'logActivity'])->name('activity.log');
