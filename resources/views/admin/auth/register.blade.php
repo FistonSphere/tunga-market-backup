@@ -38,13 +38,23 @@
                             <h3>Create an Account</h3>
                             <h4>Continue where you left off</h4>
                         </div>
-                        <form class="space-y-4" id="registerForm" method="POST">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form class="space-y-4" id="registerForm" method="POST"
+                            action="{{ route('admin.register.store') }}">
                             @csrf
                             <div class="form-login">
                                 <label>First Name</label>
                                 <div class="form-addons">
                                     <input type="text" class="input-field" placeholder="First Name" name="first_name"
-                                        required />
+                                        value="{{ old('first_name') }}" required />
                                     <img src="{{ asset('admin/assets/img/icons/users1.svg') }}" alt="img" />
                                 </div>
                             </div>
@@ -52,14 +62,15 @@
                                 <label>Last Name</label>
                                 <div class="form-addons">
                                     <input type="text" class="input-field" placeholder="Last Name" name="last_name"
-                                        required />
+                                        value="{{ old('last_name') }}" required />
                                     <img src="{{ asset('admin/assets/img/icons/users1.svg') }}" alt="img" />
                                 </div>
                             </div>
                             <div class="form-login">
                                 <label>Email</label>
                                 <div class="form-addons">
-                                    <input type="email" class="input-field" placeholder="Email" name="email" required />
+                                    <input type="email" class="input-field" placeholder="Email" name="email"
+                                        value="{{ old('email') }}" required />
                                     <img src="{{ asset('admin/assets/img/icons/mail.svg') }}" alt="img" />
                                 </div>
                             </div>
@@ -67,32 +78,32 @@
                                 <label>Phone</label>
                                 <div class="form-addons">
                                     <input type="text" class="input-field" placeholder="(e.g., +25078XXXXXXX)"
-                                        name="phone" required />
+                                        name="phone" value="{{ old('phone') }}" required />
                                     <img src="{{ asset('admin/assets/img/icons/phone.svg') }}"
-                                        style="width:13px; height: 13px; color:#6d7d8b" alt="img" />
+                                        style="width:13px; height:13px;" alt="img" />
                                 </div>
                             </div>
                             <div class="form-login">
                                 <label>Password</label>
                                 <div class="pass-group">
-                                    <input type="password" class="pass-input" placeholder="Enter your password" />
+                                    <input type="password" id="password" name="password" class="pass-input"
+                                        placeholder="Enter your password" required />
                                     <span class="fas toggle-password fa-eye-slash"></span>
                                 </div>
                             </div>
                             <div class="form-login">
                                 <label>Confirm Password</label>
                                 <div class="pass-group">
-                                    <input type="password" class="pass-input" placeholder="Enter your password" />
+                                    <input type="password" id="password_confirmation" name="password_confirmation"
+                                        class="pass-input" placeholder="Confirm your password" required />
                                     <span class="fas toggle-password fa-eye-slash"></span>
                                 </div>
                             </div>
                             <p id="passwordMatchMessage" class="text-xs mt-2"
-                                style="color:rgb(189, 6, 6); display: none;">Passwords do not
-                                match.</p>
-                            <div class="form-login">
-                                <a class="btn btn-login">Sign Up</a>
+                                style="color:rgb(189, 6, 6); display: none;">Passwords do not match.</p>
+                            <div class="form-login text-center mt-4">
+                                <button type="submit" class="btn btn-login">Sign Up</button>
                             </div>
-
                         </form>
                         <div class="signinform text-center">
                             <h4>
@@ -140,6 +151,20 @@
 </body>
 
 <script>
+
+    const password = document.getElementById('password');
+    const confirm = document.getElementById('password_confirmation');
+    const message = document.getElementById('passwordMatchMessage');
+
+    confirm.addEventListener('input', () => {
+        if (password.value !== confirm.value) {
+            message.style.display = 'block';
+        } else {
+            message.style.display = 'none';
+        }
+    });
+
+
     document.getElementById("adminRegisterForm").addEventListener("submit", function (e) {
         e.preventDefault();
         const formData = new FormData(this);
