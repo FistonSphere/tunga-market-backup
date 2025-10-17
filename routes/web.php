@@ -214,10 +214,10 @@ Route::get('/account/admin/register', function() {
 })->name('admin.register');
 Route::post('/admin/register', [AdminUserController::class, 'store'])->name('admin.register.store');
 
-Route::middleware(['middleware'=>'auth'])->group(function () {
-Route::post('/login', [AdminUserController::class, 'login'])->name('admin.login.submit');
+Route::post('account/admin/login', [AdminUserController::class, 'login'])->name('admin.login.submit');
+Route::middleware(['middleware'=>'auth'])->prefix('admin')->group(function () {
 Route::post('/logout', [AdminUserController::class, 'logout'])->name('admin.logout');
-Route::get('/admin/dashboard', function () {
+Route::get('/dashboard', function () {
     return "
     <h2 style='text-align:center;margin-top:80px;'>Welcome to Admin Dashboard</h2>
     <form action='" . route('admin.logout') . "' method='POST'>
