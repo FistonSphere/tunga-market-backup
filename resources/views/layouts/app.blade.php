@@ -309,7 +309,7 @@
                                     </span>
                                 </a>
 
-                                <form method="POST" action="{{ route('logout') }}">
+                                <form method="POST" action="{{ route('normal.logout') }}">
                                     @csrf
                                     <button type="submit" class="btn-primary">
                                         Logout
