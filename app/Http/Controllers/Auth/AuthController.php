@@ -135,11 +135,7 @@ class AuthController extends Controller
     }
 
     return response()->json(['message' => 'OTP sent via Email and SMS.'], 200);
-}
-
-
-
-    public function verifyOtp(Request $request)
+}    public function verifyOtp(Request $request)
     {
         $request->validate([
             'otp' => 'required|digits:4', // ensure this is 4 digits
