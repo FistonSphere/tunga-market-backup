@@ -38,26 +38,54 @@
                             <h3>Sign In</h3>
                             <h4>Please login to your admin account</h4>
                         </div>
-                        {{-- Display Error Messages --}}
+                        {{-- Inline-styled Error Messages --}}
                         @if ($errors->any())
-                            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 border border-red-200"
-                                role="alert">
-                                <strong class="font-semibold">Whoops! Something went wrong:</strong>
-                                <ul class="mt-2 list-disc list-inside text-red-700">
+                            <div id="alert-errors" role="alert"
+                                style="background:#fff6f6;border:1px solid #f5c2c7;color:#842029;padding:14px;border-radius:8px;margin-bottom:16px;">
+                                <strong style="display:block;font-weight:700;margin-bottom:6px;">Whoops! Something went
+                                    wrong:</strong>
+                                <ul style="margin:0;padding-left:18px;">
                                     @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
+                                        <li style="margin-bottom:4px;">{{ $error }}</li>
                                     @endforeach
                                 </ul>
                             </div>
                         @endif
 
-                        {{-- Display Success Message --}}
+                        {{-- Inline-styled Success Message (auto-hide) --}}
                         @if (session('success'))
-                            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 border border-green-200"
-                                role="alert">
-                                <strong class="font-semibold">Success!</strong> {{ session('success') }}
+                            <div id="alert-success" role="status"
+                                style="background:#ecfdf5;border:1px solid #bbf7d0;color:#065f46;padding:14px;border-radius:8px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;">
+                                <div style="flex:1;">
+                                    <strong style="display:block;font-weight:700;margin-bottom:6px;">Success</strong>
+                                    <span>{{ session('success') }}</span>
+                                </div>
+
+                                <!-- Close button (optional) -->
+                                <button type="button"
+                                    onclick="document.getElementById('alert-success').style.display='none';"
+                                    aria-label="Close"
+                                    style="margin-left:12px;background:transparent;border:0;color:#065f46;font-weight:700;cursor:pointer;">
+                                    ×
+                                </button>
                             </div>
+
+                            <script>
+                                // Auto-hide success message after 4 seconds
+                                (function () {
+                                    var el = document.getElementById('alert-success');
+                                    if (!el) return;
+                                    setTimeout(function () {
+                                        // smooth fade out
+                                        el.style.transition = 'opacity 400ms ease, transform 400ms ease';
+                                        el.style.opacity = '0';
+                                        el.style.transform = 'translateY(-6px)';
+                                        setTimeout(function () { el.style.display = 'none'; }, 450);
+                                    }, 4000);
+                                })();
+                            </script>
                         @endif
+
                         <div class="form-login">
                             <label>Email</label>
                             <div class="form-addons">
