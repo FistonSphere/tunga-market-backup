@@ -65,9 +65,9 @@ class AdminUserController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Welcome back, ' . $user->first_name . '!');
     }
 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        return redirect()->route('admin.login')->with('success', 'You have been logged out.');
-    }
+    // public function logout(Request $request)
+    // {
+    //     Auth::logout();
+    //     return redirect()->route('admin.login')->with('success', 'You have been logged out.');
+    // }
 }

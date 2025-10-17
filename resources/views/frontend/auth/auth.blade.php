@@ -151,7 +151,7 @@
                     </div>
 
                     <!-- Email/Password Form -->
-                    <form class="space-y-4" id="loginForm" method="POST" action="{{ route('login-user') }}">
+                    <form class="space-y-4" id="loginForm" method="POST" action="{{ route('normal-login-user') }}">
 
                         @csrf
                         <div>

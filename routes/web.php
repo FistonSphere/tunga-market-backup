@@ -92,7 +92,7 @@ Route::get('/flash-deals', [FlashDealCartController::class, 'index'])
 // Start Authentication routes
 Route::post('/register', [AuthController::class, 'register'])->name('register-user');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
-Route::post('/login', [AuthController::class, 'login'])->name('login-user');
+Route::post('/normal/login', [AuthController::class, 'login'])->name('normal-login-user');
 Route::post('/password/forgot', [AuthController::class, 'forgotPassword'])->name('password.forgot');
 Route::post('/password/reset', [AuthController::class, 'resetPassword'])->name('password.reset');
 Route::get('/forgot-password', function() {
@@ -174,7 +174,7 @@ Route::get('/flash-deals/filter', [FlashDealCartController::class, 'filter'])->n
 
 Route::get('/flash-deal/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::get('/api/product-id/{slug}', [ComparisonController::class, 'getIdBySlug']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/normal/logout', [AuthController::class, 'logout'])->name('normal.logout');
 Route::get('/popular-comparisons', [ComparisonController::class, 'getPopular'])->name('popular.comparisons');
 
 
