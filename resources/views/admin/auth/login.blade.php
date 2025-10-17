@@ -85,32 +85,71 @@
                                 })();
                             </script>
                         @endif
-                        <form action="{{ route('admin.login') }}">
-                            <div class="form-login">
-                                <label>Email</label>
-                                <div class="form-addons">
-                                    <input type="text" placeholder="Enter your email address" name="email" />
-                                    <img src="{{ asset('admin/assets/img/icons/mail.svg') }}" alt="img" />
+                        <form method="POST" action="{{ route('admin.login.submit') }}"
+                            style="max-width:400px;margin:auto;">
+                            @csrf
+
+                            {{-- Error & Success Messages --}}
+                            @if ($errors->any())
+                                <div
+                                    style="background:#fff6f6;border:1px solid #f5c2c7;color:#842029;padding:14px;border-radius:8px;margin-bottom:16px;">
+                                    <strong style="display:block;font-weight:700;margin-bottom:6px;">Whoops!</strong>
+                                    <ul style="margin:0;padding-left:18px;">
+                                        @foreach ($errors->all() as $error)
+                                            <li style="margin-bottom:4px;">{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            @if (session('success'))
+                                <div id="alert-success"
+                                    style="background:#ecfdf5;border:1px solid #bbf7d0;color:#065f46;padding:14px;border-radius:8px;margin-bottom:16px;">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            {{-- Email Field --}}
+                            <div style="margin-bottom:16px;">
+                                <label style="display:block;margin-bottom:6px;font-weight:600;">Email</label>
+                                <div style="position:relative;">
+                                    <input type="email" name="email" placeholder="Enter your email address" required
+                                        style="width:100%;padding:10px 38px 10px 12px;border:1px solid #ccc;border-radius:6px;font-size:14px;" />
+                                    <img src="{{ asset('admin/assets/img/icons/mail.svg') }}" alt="mail"
+                                        style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:18px;height:18px;opacity:0.6;" />
                                 </div>
                             </div>
-                            <div class="form-login">
-                                <label>Password</label>
-                                <div class="pass-group">
-                                    <input type="password" name="password" class="pass-input" placeholder="Enter your password" />
-                                    <span class="fas toggle-password fa-eye-slash"></span>
+
+                            {{-- Password Field --}}
+                            <div style="margin-bottom:12px;">
+                                <label style="display:block;margin-bottom:6px;font-weight:600;">Password</label>
+                                <div style="position:relative;">
+                                    <input type="password" name="password" placeholder="Enter your password" required
+                                        style="width:100%;padding:10px 38px 10px 12px;border:1px solid #ccc;border-radius:6px;font-size:14px;" />
+                                    <img src="{{ asset('admin/assets/img/icons/lock.svg') }}" alt="lock"
+                                        style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:18px;height:18px;opacity:0.6;" />
                                 </div>
                             </div>
-                            <div class="form-login">
-                                <div class="alreadyuser">
-                                    <h4>
-                                        <a href="#" class="hover-a">Forgot Password?</a>
-                                    </h4>
-                                </div>
+
+                            <div style="margin-bottom:16px;text-align:right;">
+                                <a href="#" style="font-size:13px;color:#2563eb;text-decoration:none;">Forgot
+                                    Password?</a>
                             </div>
-                            <div class="form-login">
-                                <button class="btn btn-login" style="border: none;">Sign In</button>
-                            </div>
+
+                            {{-- Submit Button --}}
+                            <button type="submit"
+                                style="width:100%;background:#0d6efd;color:#fff;padding:10px;border:none;border-radius:6px;font-weight:600;cursor:pointer;transition:background 0.3s;">
+                                Sign In
+                            </button>
+
+                            <script>
+                                const alertBox = document.getElementById('alert-success');
+                                if (alertBox) {
+                                    setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
+                                }
+                            </script>
                         </form>
+
 
                         <div class="signinform" style="text-align: center">
                             <h4>
