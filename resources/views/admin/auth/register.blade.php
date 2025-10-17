@@ -68,7 +68,8 @@
                                 <div class="form-addons">
                                     <input type="text" class="input-field" placeholder="(e.g., +25078XXXXXXX)"
                                         name="phone" required />
-                                    <img src="{{ asset('admin/assets/img/icons/phone.svg') }}" style="width:13px; height: 13px; color:#6d7d8b" alt="img" />
+                                    <img src="{{ asset('admin/assets/img/icons/phone.svg') }}"
+                                        style="width:13px; height: 13px; color:#6d7d8b" alt="img" />
                                 </div>
                             </div>
                             <div class="form-login">
@@ -85,7 +86,8 @@
                                     <span class="fas toggle-password fa-eye-slash"></span>
                                 </div>
                             </div>
-                            <p id="passwordMatchMessage" class="text-xs mt-2" style="color:rgb(189, 6, 6); display: none;">Passwords do not
+                            <p id="passwordMatchMessage" class="text-xs mt-2"
+                                style="color:rgb(189, 6, 6); display: none;">Passwords do not
                                 match.</p>
                             <div class="form-login">
                                 <a class="btn btn-login">Sign Up</a>
@@ -136,5 +138,69 @@
 
     <script src="{{ asset('admin/assets/js/script.js') }}"></script>
 </body>
+
+<script>
+    document.getElementById("adminRegisterForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const submitBtn = this.querySelector("button");
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "Creating...";
+
+        fetch("{{ route('admin.register.submit') }}", {
+            method: "POST",
+            headers: { "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value },
+            body: formData
+        }).then(res => res.json())
+            .then(data => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = "Create Admin Account";
+
+                if (data.message) {
+                    document.getElementById("adminOtpModal").classList.remove("hidden");
+                } else alert(data.error || "Something went wrong.");
+            }).catch(err => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = "Create Admin Account";
+                console.error(err);
+                alert("Something went wrong.");
+            });
+    });
+
+    function verifyAdminOtp() {
+        const otp = document.getElementById("adminOtpInput").value;
+        const verifyBtn = document.querySelector("#adminOtpModal button");
+        verifyBtn.disabled = true;
+        verifyBtn.innerHTML = "Verifying...";
+
+        fetch("{{ route('admin.verify-otp') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+            },
+            body: JSON.stringify({ otp })
+        }).then(res => res.json())
+            .then(data => {
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = "Verify";
+
+                if (data.message) {
+                    document.getElementById("adminOtpModal").classList.add("hidden");
+                    window.location.href = data.redirect;
+                } else alert(data.error || "Verification failed");
+            }).catch(err => {
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = "Verify";
+                alert("Something went wrong.");
+            });
+    }
+
+    function togglePassword(id) {
+        const input = document.getElementById(id);
+        input.type = input.type === "password" ? "text" : "password";
+    }
+
+</script>
 
 </html>

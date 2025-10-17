@@ -204,4 +204,9 @@ Route::get('/account/admin/login', function() {
 Route::get('/account/admin/register', function() {
     return view('admin.auth.register');
 })->name('admin.register');
+
+// Route::middleware(['auth', 'is_admin'])->group(function () {
+//     Route::get('/admin/register', [AdminUserController::class, 'create'])->name('admin.register');
+//     Route::post('/admin/register', [AdminUserController::class, 'store'])->name('admin.register.store');
+// });
 // admin with no authentication middleware routes
