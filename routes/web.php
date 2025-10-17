@@ -93,6 +93,13 @@ Route::get('/flash-deals', [FlashDealCartController::class, 'index'])
 Route::post('/register', [AuthController::class, 'register'])->name('register-user');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
 Route::post('/login', [AuthController::class, 'login'])->name('login-user');
+Route::post('/password/forgot', [AuthController::class, 'forgotPassword'])->name('password.forgot');
+Route::post('/password/reset', [AuthController::class, 'resetPassword'])->name('password.reset');
+Route::get('/forgot-password', function() {
+    return view('frontend.auth.forgot');
+})->name('forgot.password');
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('reset.password.form');
+
 
 Route::post('/cookies/accept', [UserActivityController::class, 'acceptCookies'])->name('cookies.accept');
 Route::post('/activity/log', [UserActivityController::class, 'logActivity'])->name('activity.log');

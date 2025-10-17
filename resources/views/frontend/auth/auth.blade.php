@@ -183,8 +183,7 @@
                                     class="rounded border-secondary-300 text-primary focus:ring-primary" />
                                 <span class="ml-2 text-sm text-secondary-600">Remember me</span>
                             </label>
-                            <a href="#" class="text-sm text-accent hover:text-accent-600 font-medium"
-                                onclick="showForgotPassword()">Forgot password?</a>
+                            <a href="{{ route('forgot.password') }}" class="text-sm text-accent hover:text-accent-600 font-medium">Forgot password?</a>
                         </div>
 
                         <button type="submit" class="w-full btn-primary">
