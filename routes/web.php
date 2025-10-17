@@ -207,7 +207,8 @@ Route::get('/account/admin/register', function() {
 })->name('admin.register');
 Route::post('/admin/register', [AdminUserController::class, 'store'])->name('admin.register.store');
 
-Route::middleware(['auth', 'is_admin'])->group(function () {
-
+Route::middleware(['middleware'=>'auth'])->group(function () {
+Route::post('/login', [AdminUserController::class, 'login'])->name('admin.login.submit');
+Route::post('/logout', [AdminUserController::class, 'logout'])->name('admin.logout');
 });
 // admin with no authentication middleware routes
