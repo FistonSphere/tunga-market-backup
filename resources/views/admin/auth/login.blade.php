@@ -85,31 +85,33 @@
                                 })();
                             </script>
                         @endif
+                        <form action="{{ route('admin.login') }}">
+                            <div class="form-login">
+                                <label>Email</label>
+                                <div class="form-addons">
+                                    <input type="text" placeholder="Enter your email address" name="email" />
+                                    <img src="{{ asset('admin/assets/img/icons/mail.svg') }}" alt="img" />
+                                </div>
+                            </div>
+                            <div class="form-login">
+                                <label>Password</label>
+                                <div class="pass-group">
+                                    <input type="password" name="password" class="pass-input" placeholder="Enter your password" />
+                                    <span class="fas toggle-password fa-eye-slash"></span>
+                                </div>
+                            </div>
+                            <div class="form-login">
+                                <div class="alreadyuser">
+                                    <h4>
+                                        <a href="#" class="hover-a">Forgot Password?</a>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="form-login">
+                                <button class="btn btn-login" style="border: none;">Sign In</button>
+                            </div>
+                        </form>
 
-                        <div class="form-login">
-                            <label>Email</label>
-                            <div class="form-addons">
-                                <input type="text" placeholder="Enter your email address" />
-                                <img src="{{ asset('admin/assets/img/icons/mail.svg') }}" alt="img" />
-                            </div>
-                        </div>
-                        <div class="form-login">
-                            <label>Password</label>
-                            <div class="pass-group">
-                                <input type="password" class="pass-input" placeholder="Enter your password" />
-                                <span class="fas toggle-password fa-eye-slash"></span>
-                            </div>
-                        </div>
-                        <div class="form-login">
-                            <div class="alreadyuser">
-                                <h4>
-                                    <a href="forgetpassword.html" class="hover-a">Forgot Password?</a>
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="form-login">
-                            <button class="btn btn-login" style="border: none;">Sign In</button>
-                        </div>
                         <div class="signinform" style="text-align: center">
                             <h4>
                                 Don’t have an account?
