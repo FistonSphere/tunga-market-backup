@@ -38,17 +38,28 @@
                             <h3>Create an Account</h3>
                             <h4>Continue where you left off</h4>
                         </div>
+                        {{-- Display Error Messages --}}
                         @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul class="mb-0">
+                            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 border border-red-200"
+                                role="alert">
+                                <strong class="font-semibold">Whoops! Something went wrong:</strong>
+                                <ul class="mt-2 list-disc list-inside text-red-700">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
                                     @endforeach
                                 </ul>
                             </div>
                         @endif
-                        <form class="space-y-4" method="POST"
-                            action="{{ route('admin.register.store') }}">
+
+                        {{-- Display Success Message --}}
+                        @if (session('success'))
+                            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 border border-green-200"
+                                role="alert">
+                                <strong class="font-semibold">Success!</strong> {{ session('success') }}
+                            </div>
+                        @endif
+
+                        <form class="space-y-4" method="POST" action="{{ route('admin.register.store') }}">
                             @csrf
                             <div class="form-login">
                                 <label>First Name</label>
@@ -165,7 +176,7 @@
     });
 
 
-    
+
 </script>
 
 </html>
