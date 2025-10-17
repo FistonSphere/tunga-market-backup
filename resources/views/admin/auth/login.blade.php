@@ -114,6 +114,11 @@
                                         <a href="#" class="hover-a">Forgot Password?</a>
                                     </h4>
                                 </div>
+                                <div class="" style="color: ">
+                                    <h4>
+                                        <a href="{{ route('home') }}" class="hover-a">Back To Main Page?</a>
+                                    </h4>
+                                </div>
                             </div>
                             <div class="form-login">
                                 <button type="submit" class="btn btn-login" style="border: none;">Sign In</button>
