@@ -210,5 +210,8 @@ Route::post('/admin/register', [AdminUserController::class, 'store'])->name('adm
 Route::middleware(['middleware'=>'auth'])->group(function () {
 Route::post('/login', [AdminUserController::class, 'login'])->name('admin.login.submit');
 Route::post('/logout', [AdminUserController::class, 'logout'])->name('admin.logout');
+Route::get('/admin/dashboard', function () {
+    return "<h2 style='text-align:center;margin-top:80px;'>Welcome to Admin Dashboard</h2>";
+})->name('admin.dashboard');
 });
 // admin with no authentication middleware routes
