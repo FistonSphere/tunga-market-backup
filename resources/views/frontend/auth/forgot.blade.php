@@ -43,7 +43,25 @@
                     </div>
 
                     <!-- Recovery Form -->
-                    <form id="forgot-password-form" class="space-y-6">
+                    <form id="forgot-password-form" class="space-y-6" method="POST" action="{{ route('password.email') }}">
+                        @csrf
+
+                        {{-- Success Message --}}
+                        @if (session('success'))
+                            <div class="bg-green-100 text-green-800 p-3 rounded-md mb-3 text-sm">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        {{-- Error Message --}}
+                        @if ($errors->any())
+                            <div class="bg-red-100 text-red-800 p-3 rounded-md mb-3 text-sm">
+                                @foreach ($errors->all() as $error)
+                                    <p>{{ $error }}</p>
+                                @endforeach
+                            </div>
+                        @endif
+
                         <!-- Email Input -->
                         <div>
                             <label for="email" class="block text-sm font-medium text-secondary-700 mb-2">Email
@@ -56,57 +74,24 @@
                                 </svg>
                                 <input type="email" id="email" name="email" placeholder="Enter your email address"
                                     class="input-field pl-12" required autocomplete="email" />
-                                <div id="email-validation"
-                                    class="hidden absolute right-3 top-1/2 transform -translate-y-1/2">
-                                    <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div id="email-suggestions" class="mt-2 space-y-1 hidden">
-                                <p class="text-xs text-secondary-500">Did you mean:</p>
                             </div>
                         </div>
 
-                        <!-- CAPTCHA -->
+                        <!-- CAPTCHA (optional placeholder) -->
                         <div class="bg-surface p-4 rounded-lg border border-border">
                             <div class="flex items-center space-x-3">
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-secondary-700 mb-2">Security Verification</p>
-                                    <div class="flex items-center space-x-2">
-                                        <input type="checkbox" id="captcha"
-                                            class="w-4 h-4 text-accent border-2 border-gray-300 rounded focus:ring-accent focus:ring-2">
-                                        <label for="captcha" class="text-sm text-secondary-600">I'm not a robot</label>
-                                    </div>
-                                </div>
-                                <div
-                                    class="w-16 h-16 bg-gradient-to-br from-primary-100 to-accent-100 rounded-lg flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
+                                <input type="checkbox" id="captcha" required class="w-4 h-4 border-2 rounded">
+                                <label for="captcha" class="text-sm">I’m not a robot</label>
                             </div>
                         </div>
 
                         <!-- Submit Button -->
                         <button type="submit" id="submit-btn"
                             class="w-full btn-primary py-4 text-lg font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
-                            <span id="submit-text">Send Recovery Email</span>
-                            <span id="loading-spinner" class="hidden">
-                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none"
-                                    viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor"
-                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                    </path>
-                                </svg>
-                                Sending...
-                            </span>
+                            Send Recovery Email
                         </button>
                     </form>
+
 
                     <!-- Recovery Options -->
                     <div class="mt-8 pt-6 border-t border-gray-200">
