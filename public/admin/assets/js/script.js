@@ -577,3 +577,22 @@ $(document).ready(function () {
         }
     });
 });
+
+
+
+
+
+// Auto-hide success message after 4 seconds
+(function () {
+    var el = document.getElementById('alert-success');
+    if (!el) return;
+    setTimeout(function () {
+        // smooth fade out
+        el.style.transition = 'opacity 400ms ease, transform 400ms ease';
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(-6px)';
+        setTimeout(function () {
+            el.style.display = 'none';
+        }, 450);
+    }, 4000);
+})();
