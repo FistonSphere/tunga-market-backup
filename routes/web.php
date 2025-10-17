@@ -98,7 +98,9 @@ Route::post('/password/reset', [AuthController::class, 'resetPassword'])->name('
 Route::get('/forgot-password', function() {
     return view('frontend.auth.forgot');
 })->name('forgot.password');
-Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('reset.password.form');
+Route::get('/reset-password', function() {
+    return view('frontend.auth.reset');
+})->name('reset.password.form');
 
 
 Route::post('/cookies/accept', [UserActivityController::class, 'acceptCookies'])->name('cookies.accept');
