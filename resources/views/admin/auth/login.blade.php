@@ -74,13 +74,19 @@
                                 // Auto-hide success message after 4 seconds
                                 (function () {
                                     var el = document.getElementById('alert-success');
+                                    var el2 = document.getElementById('alert-errors');
                                     if (!el) return;
+                                    if (!el2) return;
                                     setTimeout(function () {
                                         // smooth fade out
                                         el.style.transition = 'opacity 400ms ease, transform 400ms ease';
                                         el.style.opacity = '0';
                                         el.style.transform = 'translateY(-6px)';
+                                        el2.style.transition = 'opacity 400ms ease, transform 400ms ease';
+                                        el2.style.opacity = '0';
+                                        el2.style.transform = 'translateY(-6px)';
                                         setTimeout(function () { el.style.display = 'none'; }, 450);
+                                        setTimeout(function () { el2.style.display = 'none'; }, 450);
                                     }, 4000);
                                 })();
                             </script>
@@ -158,12 +164,7 @@
 
     <script src="{{ asset('admin/assets/js/script.js') }}"></script>
 
-    <script>
-        const alertBox = document.getElementById('alert-success');
-        if (alertBox) {
-            setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
-        }
-    </script>
+
 </body>
 
 </html>
