@@ -47,7 +47,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <form class="space-y-4" id="registerForm" method="POST"
+                        <form class="space-y-4" method="POST"
                             action="{{ route('admin.register.store') }}">
                             @csrf
                             <div class="form-login">
@@ -165,67 +165,7 @@
     });
 
 
-    document.getElementById("adminRegisterForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        const submitBtn = this.querySelector("button");
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = "Creating...";
-
-        fetch("{{ route('admin.register.submit') }}", {
-            method: "POST",
-            headers: { "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value },
-            body: formData
-        }).then(res => res.json())
-            .then(data => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = "Create Admin Account";
-
-                if (data.message) {
-                    document.getElementById("adminOtpModal").classList.remove("hidden");
-                } else alert(data.error || "Something went wrong.");
-            }).catch(err => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = "Create Admin Account";
-                console.error(err);
-                alert("Something went wrong.");
-            });
-    });
-
-    function verifyAdminOtp() {
-        const otp = document.getElementById("adminOtpInput").value;
-        const verifyBtn = document.querySelector("#adminOtpModal button");
-        verifyBtn.disabled = true;
-        verifyBtn.innerHTML = "Verifying...";
-
-        fetch("{{ route('admin.verify-otp') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
-            },
-            body: JSON.stringify({ otp })
-        }).then(res => res.json())
-            .then(data => {
-                verifyBtn.disabled = false;
-                verifyBtn.innerHTML = "Verify";
-
-                if (data.message) {
-                    document.getElementById("adminOtpModal").classList.add("hidden");
-                    window.location.href = data.redirect;
-                } else alert(data.error || "Verification failed");
-            }).catch(err => {
-                verifyBtn.disabled = false;
-                verifyBtn.innerHTML = "Verify";
-                alert("Something went wrong.");
-            });
-    }
-
-    function togglePassword(id) {
-        const input = document.getElementById(id);
-        input.type = input.type === "password" ? "text" : "password";
-    }
-
+    
 </script>
 
 </html>

@@ -30,10 +30,10 @@ class AdminUserController extends Controller
             'email'      => $request->email,
             'phone'      => $request->phone,
             'password'   => Hash::make($request->password),
-            'is_admin'   => 'yes',
-            'role'       => 1,
+            'is_admin'   => 'no',
+            'role'       => 0,
         ]);
 
-        return redirect()->route('admin.dashboard')->with('success', 'Admin account created successfully!');
+        return redirect()->route('admin.login')->with('success', 'Admin account created successfully!');
     }
 }
