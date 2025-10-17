@@ -67,7 +67,7 @@ class ForgotPasswordController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            return redirect()->route('login')->with('success', 'Your password has been reset successfully!');
+            return redirect()->route('admin.login')->with('success', 'Your password has been reset successfully!');
         }
 
         return back()->withErrors(['email' => 'Invalid token or email address.']);
