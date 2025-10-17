@@ -3,8 +3,8 @@
 @section('content')
     <!-- Main Content -->
     <main class="flex-1">
-        <!-- Verification Success Header -->
-        <section class="relative bg-gradient-to-br from-success-50 to-primary-50 py-12 overflow-hidden">
+        <!-- Hero Section with Logo -->
+        <section class="relative bg-gradient-to-br from-primary-50 to-accent-50 py-12 overflow-hidden">
             <div class="absolute inset-0 opacity-10">
                 <svg class="w-full h-full" viewBox="0 0 1200 600" fill="none">
                     <path d="M100 300Q300 100 500 300T900 300Q1000 200 1100 300" stroke="currentColor" stroke-width="2"
@@ -18,195 +18,83 @@
             </div>
 
             <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-                <div class="w-20 h-20 bg-success rounded-full flex items-center justify-center mx-auto mb-6 shadow-card">
+                <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6 shadow-card">
                     <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
                 </div>
-                <h1 class="text-hero font-bold text-primary mb-4">Email Verified Successfully!</h1>
+                <h1 class="text-hero font-bold text-primary mb-4">Recover Your Account Access</h1>
                 <p class="text-body-lg text-secondary-600 max-w-xl mx-auto">
-                    Your email has been verified. Now create a strong, secure password for your AliMax Commerce account.
+                    Don't worry! We'll help you regain access to your Tunga Market account quickly and securely.
                 </p>
             </div>
         </section>
 
-        <!-- Password Reset Form -->
+        <!-- Password Recovery Form -->
         <section class="py-16">
             <div class="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="card">
                     <!-- Form Header -->
                     <div class="text-center mb-8">
-                        <h2 class="text-heading font-semibold text-primary mb-2">Create New Password</h2>
-                        <p class="text-body text-secondary-600">Choose a strong password to secure your account</p>
+                        <h2 class="text-heading font-semibold text-primary mb-2">Find Your Account</h2>
+                        <p class="text-body text-secondary-600">Enter your email address to receive recovery instructions
+                        </p>
                     </div>
 
-                    <!-- Account Info -->
-                    <div class="bg-primary-50 p-4 rounded-lg border border-primary-200 mb-6">
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            <div>
-                                <p class="font-semibold text-primary">john.doe@example.com</p>
-                                <p class="text-sm text-primary-600">Last login: 2 hours ago from New York, NY</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Password Reset Form -->
-                    <form id="password-reset-form" class="space-y-6">
-                        <!-- New Password -->
+                    <!-- Recovery Form -->
+                    <form id="forgot-password-form" class="space-y-6">
+                        <!-- Email Input -->
                         <div>
-                            <label for="new-password" class="block text-sm font-medium text-secondary-700 mb-2">New
-                                Password</label>
+                            <label for="email" class="block text-sm font-medium text-secondary-700 mb-2">Email
+                                Address</label>
                             <div class="relative">
                                 <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                 </svg>
-                                <input type="password" id="new-password" name="new-password"
-                                    placeholder="Enter your new password" class="input-field pl-12 pr-12" required
-                                    minlength="8" />
-                                <button type="button" onclick="togglePasswordVisibility('new-password')"
-                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600 transition-fast">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Confirm Password -->
-                        <div>
-                            <label for="confirm-password" class="block text-sm font-medium text-secondary-700 mb-2">Confirm
-                                New Password</label>
-                            <div class="relative">
-                                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
-                                <input type="password" id="confirm-password" name="confirm-password"
-                                    placeholder="Confirm your new password" class="input-field pl-12 pr-12" required />
-                                <button type="button" onclick="togglePasswordVisibility('confirm-password')"
-                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600 transition-fast">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </button>
-                                <div id="password-match-indicator"
-                                    class="hidden absolute right-12 top-1/2 transform -translate-y-1/2">
+                                <input type="email" id="email" name="email" placeholder="Enter your email address"
+                                    class="input-field pl-12" required autocomplete="email" />
+                                <div id="email-validation"
+                                    class="hidden absolute right-3 top-1/2 transform -translate-y-1/2">
                                     <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M5 13l4 4L19 7" />
                                     </svg>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Password Strength Indicator -->
-                        <div class="bg-surface p-4 rounded-lg border border-gray-200">
-                            <h4 class="font-medium text-secondary-700 mb-3">Password Strength</h4>
-                            <div class="space-y-2">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-sm text-secondary-600">Strength:</span>
-                                    <div class="flex space-x-1">
-                                        <div id="strength-1" class="w-6 h-2 bg-gray-300 rounded-full transition-fast"></div>
-                                        <div id="strength-2" class="w-6 h-2 bg-gray-300 rounded-full transition-fast"></div>
-                                        <div id="strength-3" class="w-6 h-2 bg-gray-300 rounded-full transition-fast"></div>
-                                        <div id="strength-4" class="w-6 h-2 bg-gray-300 rounded-full transition-fast"></div>
-                                    </div>
-                                    <span id="strength-text" class="text-sm font-medium text-secondary-500">Weak</span>
-                                </div>
-                                <div class="text-xs text-secondary-500 space-y-1">
-                                    <div class="flex items-center space-x-2">
-                                        <div id="req-length"
-                                            class="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center">
-                                            <svg class="w-2 h-2 text-white hidden" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <span>At least 8 characters</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <div id="req-uppercase"
-                                            class="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center">
-                                            <svg class="w-2 h-2 text-white hidden" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <span>One uppercase letter</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <div id="req-lowercase"
-                                            class="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center">
-                                            <svg class="w-2 h-2 text-white hidden" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <span>One lowercase letter</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <div id="req-number"
-                                            class="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center">
-                                            <svg class="w-2 h-2 text-white hidden" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <span>One number</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <div id="req-special"
-                                            class="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center">
-                                            <svg class="w-2 h-2 text-white hidden" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <span>One special character (!@#$%^&*)</span>
-                                    </div>
-                                </div>
+                            <div id="email-suggestions" class="mt-2 space-y-1 hidden">
+                                <p class="text-xs text-secondary-500">Did you mean:</p>
                             </div>
                         </div>
 
-                        <!-- Breach Detection Warning -->
-                        <div id="breach-warning" class="hidden bg-error-50 p-4 rounded-lg border border-error-200">
-                            <div class="flex items-start space-x-3">
-                                <svg class="w-5 h-5 text-error flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
-                                <div>
-                                    <h4 class="font-semibold text-error mb-1">Password Compromised</h4>
-                                    <p class="text-sm text-error-700">This password has appeared in data breaches. Please
-                                        choose a different password for your security.</p>
+                        <!-- CAPTCHA -->
+                        <div class="bg-surface p-4 rounded-lg border border-border">
+                            <div class="flex items-center space-x-3">
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-secondary-700 mb-2">Security Verification</p>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="captcha"
+                                            class="w-4 h-4 text-accent border-2 border-gray-300 rounded focus:ring-accent focus:ring-2">
+                                        <label for="captcha" class="text-sm text-secondary-600">I'm not a robot</label>
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-16 h-16 bg-gradient-to-br from-primary-100 to-accent-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit" id="reset-btn"
+                        <button type="submit" id="submit-btn"
                             class="w-full btn-primary py-4 text-lg font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
-                            <span id="reset-text">Reset Password</span>
-                            <span id="reset-loading" class="hidden">
+                            <span id="submit-text">Send Recovery Email</span>
+                            <span id="loading-spinner" class="hidden">
                                 <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none"
                                     viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
@@ -215,120 +103,68 @@
                                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                     </path>
                                 </svg>
-                                Resetting Password...
+                                Sending...
                             </span>
                         </button>
                     </form>
 
-                    <!-- Two-Factor Authentication Setup -->
+                    <!-- Recovery Options -->
                     <div class="mt-8 pt-6 border-t border-gray-200">
-                        <h3 class="font-semibold text-primary mb-4 flex items-center">
-                            <svg class="w-5 h-5 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                            </svg>
-                            Enhance Your Security (Optional)
-                        </h3>
-                        <div class="bg-accent-50 p-4 rounded-lg border border-accent-200">
-                            <div class="flex items-start space-x-3 mb-4">
-                                <svg class="w-6 h-6 text-accent flex-shrink-0 mt-1" fill="none" stroke="currentColor"
+                        <h3 class="font-semibold text-primary mb-4">Alternative Recovery Methods</h3>
+                        <div class="space-y-3">
+                            <button onclick="showSMSRecovery()"
+                                class="w-full flex items-center justify-between p-3 text-left border border-gray-200 rounded-lg hover:bg-gray-50 transition-fast">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-success-100 rounded-lg flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-secondary-700">SMS Recovery</p>
+                                        <p class="text-sm text-secondary-500">Receive code via text message</p>
+                                    </div>
+                                </div>
+                                <svg class="w-5 h-5 text-secondary-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                        d="M9 5l7 7-7 7" />
                                 </svg>
-                                <div>
-                                    <h4 class="font-semibold text-accent-700 mb-2">Two-Factor Authentication (2FA)</h4>
-                                    <p class="text-sm text-accent-600 mb-3">Add an extra layer of security to your account
-                                        with 2FA using your mobile device.</p>
-                                    <div class="flex items-center space-x-3">
-                                        <input type="checkbox" id="enable-2fa"
-                                            class="w-4 h-4 text-accent border-2 border-gray-300 rounded focus:ring-accent focus:ring-2">
-                                        <label for="enable-2fa" class="text-sm font-medium text-accent-700">Enable 2FA after
-                                            password reset</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="qr-code-section" class="hidden mt-4 pt-4 border-t border-accent-300">
-                                <p class="text-sm text-accent-600 mb-3">Scan this QR code with your authenticator app:</p>
-                                <div
-                                    class="w-32 h-32 bg-white p-2 rounded-lg border border-accent-300 mx-auto flex items-center justify-center">
-                                    <div class="w-full h-full bg-gray-200 rounded grid grid-cols-8 gap-px">
-                                        <div class="bg-black"></div>
-                                        <div class="bg-white"></div>
-                                        <div class="bg-black"></div>
-                                        <div class="bg-white"></div>
-                                        <div class="bg-white"></div>
-                                        <div class="bg-black"></div>
-                                        <div class="bg-white"></div>
-                                        <div class="bg-black"></div>
-                                        <div class="bg-black"></div>
-                                        <div class="bg-black"></div>
-                                        <div class="bg-white"></div>
-                                        <div class="bg-white"></div>
-                                        <div class="bg-white"></div>
-                                        <div class="bg-white"></div>
-                                        <div class="bg-black"></div>
-                                        <div class="bg-black"></div>
-                                    </div>
-                                </div>
-                                <p class="text-xs text-accent-600 text-center mt-2">Or enter this code manually:
-                                    ABCD-EFGH-IJKL-MNOP</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Help Information -->
+                    <div class="mt-8 p-4 bg-primary-50 rounded-lg border border-primary-200">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div>
+                                <h4 class="font-semibold text-primary mb-2">Recovery Timeline</h4>
+                                <ul class="text-sm text-primary-700 space-y-1">
+                                    <li>• Email delivery: Usually within 2-5 minutes</li>
+                                    <li>• Check spam/junk folder if not received</li>
+                                    <li>• Recovery link expires in 1 hour for security</li>
+                                    <li>• Rate limit: 3 attempts per hour</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Session Management -->
-                    <div class="mt-8 pt-6 border-t border-gray-200">
-                        <h3 class="font-semibold text-primary mb-4">Active Sessions</h3>
-                        <div class="space-y-3">
-                            <div
-                                class="flex items-center justify-between p-3 bg-success-50 border border-success-200 rounded-lg">
-                                <div class="flex items-center space-x-3">
-                                    <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
-                                    <div>
-                                        <p class="font-medium text-success-700">Current Session - New York, NY</p>
-                                        <p class="text-sm text-success-600">Chrome on Windows • Now</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg">
-                                <div class="flex items-center space-x-3">
-                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                    </svg>
-                                    <div>
-                                        <p class="font-medium text-secondary-700">iPhone Safari - Los Angeles, CA</p>
-                                        <p class="text-sm text-secondary-600">2 days ago</p>
-                                    </div>
-                                </div>
-                                <button
-                                    class="text-error hover:text-error-600 text-sm font-medium transition-fast">Revoke</button>
-                            </div>
-
-                            <div class="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg">
-                                <div class="flex items-center space-x-3">
-                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                    </svg>
-                                    <div>
-                                        <p class="font-medium text-secondary-700">Android Chrome - Unknown Location</p>
-                                        <p class="text-sm text-secondary-600">1 week ago</p>
-                                    </div>
-                                </div>
-                                <button
-                                    class="text-error hover:text-error-600 text-sm font-medium transition-fast">Revoke</button>
-                            </div>
-                        </div>
-                        <button class="mt-3 text-sm text-accent hover:text-accent-600 font-medium transition-fast">Revoke
-                            All Other Sessions</button>
+                    <!-- Back to Sign In -->
+                    <div class="mt-6 text-center">
+                        <p class="text-sm text-secondary-600">
+                            Remember your password?
+                            <a href="../pages/authentication_portal.html"
+                                class="text-accent hover:text-accent-600 font-semibold transition-fast">
+                                Sign In Here
+                            </a>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -345,30 +181,67 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-primary mb-3">Password Reset Successful!</h3>
+                    <h3 class="text-xl font-semibold text-primary mb-3">Recovery Email Sent!</h3>
                     <p class="text-secondary-600 mb-6">
-                        Your password has been updated successfully. You can now sign in with your new password.
+                        We've sent password recovery instructions to <span id="sent-email"
+                            class="font-semibold text-primary"></span>.
+                        Please check your email and follow the link to reset your password.
                     </p>
                     <div class="bg-surface p-4 rounded-lg mb-6">
-                        <h4 class="font-semibold text-primary mb-2">🎉 Security Recommendations</h4>
-                        <ul class="text-sm text-secondary-600 text-left space-y-1">
-                            <li>• Enable two-factor authentication</li>
-                            <li>• Review active sessions regularly</li>
-                            <li>• Use a unique password for each account</li>
-                            <li>• Consider using a password manager</li>
-                        </ul>
+                        <p class="text-sm text-secondary-600">
+                            <strong>Next Steps:</strong><br>
+                            1. Check your email inbox<br>
+                            2. Click the recovery link<br>
+                            3. Create a new secure password
+                        </p>
                     </div>
                     <div class="flex space-x-3">
-                        <button onclick="continueToAccount()" class="flex-1 btn-primary py-3 px-6">
-                            Continue to Account
-                        </button>
-                        <button onclick="goToSignIn()"
+                        <button onclick="closeSuccessModal()"
                             class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 px-6 rounded-lg font-semibold transition-all duration-200">
-                            Sign In
+                            Close
+                        </button>
+                        <button onclick="resendEmail()" class="flex-1 btn-primary py-3 px-6">
+                            Resend Email
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <!-- Support Contact -->
+    <section class="py-16 bg-secondary-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-heading font-bold text-primary mb-6">Need Additional Help?</h2>
+            <p class="text-body-lg text-secondary-600 mb-8 max-w-2xl mx-auto">
+                Can't access your email or still having trouble? Our support team is here to help you recover your account
+                safely.
+            </p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card text-center">
+                    <div class="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-primary mb-2">Live Chat Support</h3>
+                    <p class="text-body-sm text-secondary-600 mb-4">Get instant help from our support team</p>
+                    <button class="btn-primary">Start Chat</button>
+                </div>
+
+                <div class="card text-center">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-primary mb-2">Email Support</h3>
+                    <p class="text-body-sm text-secondary-600 mb-4">Send us a detailed message about your issue</p>
+                    <button class="btn-secondary">Contact Us</button>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection
