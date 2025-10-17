@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\backend\AdminUserController;
 use App\Http\Controllers\ComparisonController;
 use App\Http\Controllers\FlashDealCartController;
 use App\Http\Controllers\frontend\CareerController;
@@ -204,9 +205,8 @@ Route::get('/account/admin/login', function() {
 Route::get('/account/admin/register', function() {
     return view('admin.auth.register');
 })->name('admin.register');
+Route::post('/admin/register', [AdminUserController::class, 'store'])->name('admin.register.store');
 
-// Route::middleware(['auth', 'is_admin'])->group(function () {
-//     Route::get('/admin/register', [AdminUserController::class, 'create'])->name('admin.register');
-//     Route::post('/admin/register', [AdminUserController::class, 'store'])->name('admin.register.store');
-// });
+Route::middleware(['auth', 'is_admin'])->group(function () {
+});
 // admin with no authentication middleware routes
