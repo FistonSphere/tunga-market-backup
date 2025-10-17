@@ -218,9 +218,14 @@ Route::middleware(['middleware'=>'auth'])->group(function () {
 Route::post('/login', [AdminUserController::class, 'login'])->name('admin.login.submit');
 Route::post('/logout', [AdminUserController::class, 'logout'])->name('admin.logout');
 Route::get('/admin/dashboard', function () {
-    return "<h2 style='text-align:center;margin-top:80px;'>Welcome to Admin Dashboard</h2>
-    <a href='" . route('admin.logout') . "'>Logout</a>";
+    return "
+    <h2 style='text-align:center;margin-top:80px;'>Welcome to Admin Dashboard</h2>
+    <form action='" . route('admin.logout') . "' method='POST'>
+        " . csrf_field() . "
+        <button type='submit' style='display:block;margin-top:20px;'>Logout</button>
+    </form>";
 })->name('admin.dashboard');
+
 
 });
 // admin with no authentication middleware routes
