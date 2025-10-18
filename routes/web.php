@@ -96,9 +96,9 @@ Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-o
 Route::post('/normal/login', [AuthController::class, 'login'])->name('normal-login-user');
 Route::post('/password/forgot', [AuthController::class, 'forgotPassword'])->name('password.forgot');
 Route::post('/password/reset', [AuthController::class, 'resetPassword'])->name('password.reset');
-// Route::get('/reset-password', function() {
-//     return view('frontend.auth.reset');
-// })->name('forgot.password');
+Route::get('/reset-password', function() {
+    return view('frontend.auth.reset');
+})->name('forgot.password');
 
 Route::get('/forgot-password', function() {
     return view('frontend.auth.reset');

@@ -9,12 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ForgotPasswordController extends Controller
 {
-    public function sendResetLinkFrom(Request $request)
-    {
-        // Logic to send password reset link to the user's email
-
-        return view('frontend.auth.reset');
-    }
+    
 
 
      // Handle the form submission
@@ -41,10 +36,10 @@ class ForgotPasswordController extends Controller
     }
 
 
-     public function showResetForm($token)
-    {
-        return view('auth.reset-password', ['token' => $token]);
-    }
+    //  public function showResetForm($token)
+    // {
+    //     return view('auth.reset-password', ['token' => $token]);
+    // }
 
     // Handle reset password submission
     public function reset(Request $request)
