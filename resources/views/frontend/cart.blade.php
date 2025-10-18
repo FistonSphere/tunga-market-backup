@@ -541,12 +541,7 @@
     <div id="toast-container3" class="fixed top-4 right-4 space-y-2 z-50" style="z-index:9999999"></div>
 
     <script>
-        // Cart and Wishlist Management System
-
-        // Initialize cart and wishlist manager
-
-
-        // Global functions for button clicks
+        
         function toggleCart() {
             // Already on cart page, could scroll to top or show message
             window.scrollTo({
