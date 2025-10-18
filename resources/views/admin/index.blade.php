@@ -182,7 +182,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table ">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -199,12 +199,20 @@
                                             {{ $recentOrder->user->last_name }} {{ $recentOrder->user->first_name }}
                                         </td>
                                         <td>Rwf{{ number_format($recentOrder->total) }}</td>
-                                        <td>{{$recentOrder->status}}</td>
+                                        <td>
+                                            @php
+                                                $status = $recentOrder->status;
+                                                $badgeClass = match ($status) {
+                                                    'Delivered' => 'badge bg-success',
+                                                    'Processing' => 'badge bg-warning text-dark',
+                                                    'Cancelled' => 'badge bg-danger',
+                                                    default => 'badge bg-secondary',
+                                                };
+                                            @endphp
+                                            <span class="{{ $badgeClass }}">{{ $status }}</span>
+                                        </td>
                                     </tr>
                                 @endforeach
-
-
-
                             </tbody>
                         </table>
                     </div>
