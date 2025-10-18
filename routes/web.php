@@ -18,6 +18,7 @@ use App\Http\Controllers\frontend\OrderTrackingController;
 use App\Http\Controllers\frontend\ProductListingController;
 use App\Http\Controllers\OrderDocumentController;
 use App\Http\Controllers\ProductDiscoveryHubController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SmsController;
@@ -100,7 +101,8 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetOTP'
 Route::get('/verify-otp', [ForgotPasswordController::class, 'showOtpForm'])->name('password.otp');
 Route::post('/verify-otp', [ForgotPasswordController::class, 'verifyOtp'])->name('password.verify.otp');
 
-
+Route::get('/reset-password', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 
 Route::post('/cookies/accept', [UserActivityController::class, 'acceptCookies'])->name('cookies.accept');
