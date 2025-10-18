@@ -38,6 +38,12 @@
                             <h3>Sign In</h3>
                             <h4>Please login to your admin account</h4>
                         </div>
+                        <div>
+                            <h6 style="text-align:center; font-size: 15px;">
+                                <a href="{{ route('home') }}" class="hover-a" style="color: #212e43;">Back To Main
+                                    Page?</a>
+                            </h6>
+                        </div>
                         {{-- Inline-styled Error Messages --}}
                         @if ($errors->any())
                             <div id="alert-errors" role="alert"
@@ -114,11 +120,7 @@
                                         <a href="#" class="hover-a">Forgot Password?</a>
                                     </h4>
                                 </div>
-                                <div class="" style="color: ">
-                                    <h4>
-                                        <a href="{{ route('home') }}" class="hover-a">Back To Main Page?</a>
-                                    </h4>
-                                </div>
+
                             </div>
                             <div class="form-login">
                                 <button type="submit" class="btn btn-login" style="border: none;">Sign In</button>
