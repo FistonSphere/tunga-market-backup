@@ -40,7 +40,7 @@ class HomeController extends Controller
     $salesDates = $dateRange->keys()->map(fn($d) => Carbon::parse($d)->format('M d'))->toArray();
     $salesTotals = $dateRange->values()->toArray();
 
-    
+    $recentOrders = Order::with('user')->latest()->take(5)->get();
       return view('admin.index', [
         'totalUsers'         => User::count(),
         'totalProducts'      => Product::count(),
@@ -54,6 +54,7 @@ class HomeController extends Controller
         'recentProducts'     => $recentProducts,
         'salesDates'         => $salesDates,
         'salesTotals'        => $salesTotals,
+        'recentOrders'       => $recentOrders,
     ]);
     }
 }
