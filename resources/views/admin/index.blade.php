@@ -49,7 +49,7 @@
                 </div>
                 <div class="dash-widgetcontent">
                     <h5>Rwf<span class="counters"
-                            data-count="{{ $totalRevenue }}">{{ number_format($totalRevenue) }}</span></h5>
+                            data-count="{{ $totalRevenue }}">{{ $totalRevenue }}</span></h5>
                     <h6>Total Revenue</h6>
                 </div>
             </div>
