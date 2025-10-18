@@ -116,7 +116,7 @@
                     <h5 class="card-title mb-0">Sales Overview (Last 7 Days)</h5>
                 </div>
                 <div class="card-body">
-                      <div id="sales-overview-chart" style="min-height: 350px;"></div>
+                    <div id="sales-overview-chart" style="min-height: 350px;"></div>
                 </div>
             </div>
         </div>
@@ -251,38 +251,72 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const ctx = document.getElementById('salesChart').getContext('2d');
-
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: {!! json_encode($salesDates) !!},
-                    datasets: [{
-                        label: 'Revenue (Rwf)',
-                        data: {!! json_encode($salesTotals) !!},
-                        borderColor: '#28a745',
-                        backgroundColor: 'rgba(40, 167, 69, 0.2)',
-                        borderWidth: 2,
-                        tension: 0.4,
-                        fill: true
-                    }]
+            const options = {
+                chart: {
+                    type: 'area',
+                    height: 350,
+                    toolbar: { show: false },
+                    zoom: { enabled: false },
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            ticks: {
-                                callback: function (value) {
-                                    if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
-                                    if (value >= 1000) return (value / 1000).toFixed(1) + 'K';
-                                    return value;
-                                }
-                            }
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2
+                },
+                series: [{
+                    name: 'Revenue (Rwf)',
+                    data: {!! json_encode($salesTotals) !!}
+                }],
+                xaxis: {
+                    categories: {!! json_encode($salesDates) !!},
+                    labels: {
+                        style: {
+                            colors: '#6c757d',
+                            fontSize: '13px',
                         }
                     }
-                }
-            });
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function (value) {
+                            if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
+                            if (value >= 1000) return (value / 1000).toFixed(1) + 'K';
+                            return value;
+                        },
+                        style: {
+                            colors: '#6c757d',
+                            fontSize: '13px',
+                        }
+                    }
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (value) {
+                            return 'Rwf ' + new Intl.NumberFormat().format(value);
+                        }
+                    }
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shade: 'light',
+                        type: 'vertical',
+                        shadeIntensity: 0.5,
+                        gradientToColors: ['#28a745'],
+                        inverseColors: true,
+                        opacityFrom: 0.6,
+                        opacityTo: 0.1,
+                        stops: [0, 90, 100]
+                    }
+                },
+                colors: ['#28a745']
+            };
+
+            const chart = new ApexCharts(document.querySelector("#sales-overview-chart"), options);
+            chart.render();
         });
     </script>
+
 @endsection
