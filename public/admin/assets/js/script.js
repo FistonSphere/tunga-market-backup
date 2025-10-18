@@ -109,12 +109,12 @@ $(document).ready(function () {
             "bFilter": false
         });
     }
-    setTimeout(function () {
-        $('#global-loader');
-        setTimeout(function () {
-            $("#global-loader").fadeOut("slow");
-        }, 100);
-    }, 500);
+    // setTimeout(function () {
+    //     $('#global-loader');
+    //     setTimeout(function () {
+    //         $("#global-loader").fadeOut("slow");
+    //     }, 100);
+    // }, 500);
     if ($('.datetimepicker').length > 0) {
         $('.datetimepicker').datetimepicker({
             format: 'DD-MM-YYYY',
