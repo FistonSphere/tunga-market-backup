@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Validator;
 
 class ForgotPasswordController extends Controller
 {
-    public function sendResetLink(Request $request)
+    public function sendResetLinkFrom(Request $request)
     {
         // Logic to send password reset link to the user's email
 
