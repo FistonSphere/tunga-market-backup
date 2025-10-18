@@ -66,168 +66,61 @@
                     </div>
 
                     <!-- Password Reset Form -->
-                    <form id="password-reset-form" action="{{ route('password.update') }}" method="POST" class="space-y-6">
+                    <form id="password-reset-form" action="{{ route('password.update') }}" method="POST">
+                        @csrf
+
                         <!-- New Password -->
-                        <div>
-                            <label for="new-password" class="block text-sm font-medium text-secondary-700 mb-2">New
-                                Password</label>
-                            <div class="relative">
-                                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
+                        <div style="margin-bottom: 20px;">
+                            <label style="font-weight: 600; color: #374151;">New Password</label>
+                            <div style="position: relative; margin-top: 8px;">
                                 <input type="password" id="new-password" name="new_password"
-                                    placeholder="Enter your new password" class="input-field pl-12 pr-12" required
-                                    minlength="8" />
-                                <button type="button" onclick="togglePasswordVisibility('new-password')"
-                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600 transition-fast">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </button>
+                                    placeholder="Enter new password" required minlength="8"
+                                    style="width: 100%; border: 1px solid #d1d5db; border-radius: 10px; padding: 12px 40px 12px 12px; font-size: 16px;">
+                                <span onclick="togglePassword('new-password')"
+                                    style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #6b7280;">
+                                    👁
+                                </span>
                             </div>
                         </div>
 
                         <!-- Confirm Password -->
-                        <div>
-                            <label for="confirm-password" class="block text-sm font-medium text-secondary-700 mb-2">Confirm
-                                New Password</label>
-                            <div class="relative">
-                                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
+                        <div style="margin-bottom: 25px;">
+                            <label style="font-weight: 600; color: #374151;">Confirm Password</label>
+                            <div style="position: relative; margin-top: 8px;">
                                 <input type="password" id="confirm-password" name="new_password_confirmation"
-                                    placeholder="Confirm your new password" class="input-field pl-12 pr-12" required />
-                                <button type="button" onclick="togglePasswordVisibility('confirm-password')"
-                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600 transition-fast">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </button>
-                                <div id="password-match-indicator"
-                                    class="hidden absolute right-12 top-1/2 transform -translate-y-1/2">
-                                    <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
+                                    placeholder="Confirm password" required
+                                    style="width: 100%; border: 1px solid #d1d5db; border-radius: 10px; padding: 12px 40px 12px 12px; font-size: 16px;">
+                                <span onclick="togglePassword('confirm-password')"
+                                    style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #6b7280;">
+                                    👁
+                                </span>
+                                <div id="match-icon"
+                                    style="display:none; position:absolute; right:40px; top:50%; transform:translateY(-50%); color:#22c55e;">
+                                    ✔</div>
                             </div>
                         </div>
 
-                        <!-- Password Strength Indicator -->
-                        <div class="bg-surface p-4 rounded-lg border border-gray-200">
-                            <h4 class="font-medium text-secondary-700 mb-3">Password Strength</h4>
-                            <div class="space-y-2">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-sm text-secondary-600">Strength:</span>
-                                    <div class="flex space-x-1">
-                                        <div id="strength-1" class="w-6 h-2 bg-gray-300 rounded-full transition-fast"></div>
-                                        <div id="strength-2" class="w-6 h-2 bg-gray-300 rounded-full transition-fast"></div>
-                                        <div id="strength-3" class="w-6 h-2 bg-gray-300 rounded-full transition-fast"></div>
-                                        <div id="strength-4" class="w-6 h-2 bg-gray-300 rounded-full transition-fast"></div>
-                                    </div>
-                                    <span id="strength-text" class="text-sm font-medium text-secondary-500">Weak</span>
-                                </div>
-                                <div class="text-xs text-secondary-500 space-y-1">
-                                    <div class="flex items-center space-x-2">
-                                        <div id="req-length"
-                                            class="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center">
-                                            <svg class="w-2 h-2 text-white hidden" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <span>At least 8 characters</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <div id="req-uppercase"
-                                            class="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center">
-                                            <svg class="w-2 h-2 text-white hidden" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <span>One uppercase letter</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <div id="req-lowercase"
-                                            class="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center">
-                                            <svg class="w-2 h-2 text-white hidden" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <span>One lowercase letter</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <div id="req-number"
-                                            class="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center">
-                                            <svg class="w-2 h-2 text-white hidden" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <span>One number</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <div id="req-special"
-                                            class="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center">
-                                            <svg class="w-2 h-2 text-white hidden" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <span>One special character (!@#$%^&*)</span>
-                                    </div>
-                                </div>
+                        <!-- Password Strength Bar -->
+                        <div style="margin-bottom: 25px;">
+                            <div style="height: 8px; border-radius: 8px; background: #e5e7eb; overflow: hidden;">
+                                <div id="strength-bar" style="width: 0; height: 100%; transition: width 0.3s;"></div>
                             </div>
+                            <p id="strength-text" style="font-size: 14px; margin-top: 6px; color: #6b7280;">Strength: Weak
+                            </p>
                         </div>
 
-                        <!-- Breach Detection Warning -->
-                        <div id="breach-warning" class="hidden bg-error-50 p-4 rounded-lg border border-error-200">
-                            <div class="flex items-start space-x-3">
-                                <svg class="w-5 h-5 text-error flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
-                                <div>
-                                    <h4 class="font-semibold text-error mb-1">Password Compromised</h4>
-                                    <p class="text-sm text-error-700">This password has appeared in data breaches. Please
-                                        choose a different password for your security.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <button type="submit" id="reset-btn"
-                            class="w-full btn-primary py-4 text-lg font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
-                            <span id="reset-text">Reset Password</span>
-                            <span id="reset-loading" class="hidden">
-                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none"
-                                    viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor"
-                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                    </path>
-                                </svg>
-                                Resetting Password...
-                            </span>
+                        <button type="submit" id="reset-btn" style="
+                            width: 100%;
+                            background: #0c2d57;
+                            color: white;
+                            border: none;
+                            padding: 14px;
+                            border-radius: 10px;
+                            font-size: 17px;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: background 0.3s ease;">
+                            Reset Password
                         </button>
                     </form>
 
@@ -384,14 +277,14 @@
 
     <!-- Success Modal -->
     <div id="success-modal" style="
-                        display:none;
-                        position:fixed;
-                        inset:0;
-                        background:rgba(0,0,0,0.5);
-                        backdrop-filter:blur(5px);
-                        align-items:center;
-                        justify-content:center;
-                        z-index:9999;">
+                                display:none;
+                                position:fixed;
+                                inset:0;
+                                background:rgba(0,0,0,0.5);
+                                backdrop-filter:blur(5px);
+                                align-items:center;
+                                justify-content:center;
+                                z-index:9999;">
         <div style="background:white; padding:40px; border-radius:20px; text-align:center;">
             <svg style="width:70px; height:70px; color:#22c55e; margin:0 auto;" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
