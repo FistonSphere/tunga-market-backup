@@ -3,22 +3,101 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Password Reset Verification</title>
+    <title>Your OTP Code</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333333;
+        }
+
+        .container {
+            background-color: #ffffff;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            background-color: #FF6B00;
+            /* Tunga orange */
+            padding: 20px;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .otp-box {
+            background-color: #0C2D57;
+            /* Tunga dark blue */
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+            letter-spacing: 4px;
+        }
+
+        .footer {
+            font-size: 13px;
+            text-align: center;
+            color: #888;
+            margin-top: 40px;
+        }
+
+        a {
+            color: #FF6B00;
+            text-decoration: none;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #FF6B00;
+            color: #ffffff !important;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+
+        .content {
+            line-height: 1.7;
+            color: #444;
+        }
+    </style>
 </head>
 
-<body style="font-family:Arial, sans-serif; background:#f9fafb; padding:20px;">
-    <div
-        style="max-width:480px;margin:auto;background:#fff;border-radius:10px;padding:20px;box-shadow:0 2px 6px rgba(0,0,0,0.1);">
-        <h2 style="text-align:center;color:#2563eb;">Password Reset Request</h2>
-        <p>Hello {{ $user->first_name }},</p>
-        <p>We received a request to reset your password. Use the OTP code below to verify your identity:</p>
-        <div
-            style="text-align:center;font-size:28px;font-weight:bold;color:#111;background:#f1f5f9;padding:10px;border-radius:8px;margin:20px 0;">
-            {{ $otp }}
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Tunga Market</h1>
+            <p>Secure Your Account</p>
         </div>
-        <p>This code will expire in <strong>10 minutes</strong>.</p>
-        <p>If you didn’t request a password reset, please ignore this email.</p>
-        <p style="color:#64748b;font-size:12px;text-align:center;margin-top:20px;">© {{ date('Y') }} Tunga Market</p>
+
+        <div class="content">
+            <h2 style="text-align:center;color:#2563eb;">Password Reset Request</h2>
+            <p>Hello <strong>{{ $user->first_name }}</strong>,</p>
+
+            <p>We received a request to reset your password. Use the OTP code below to verify your identity:</p>
+
+            <div class="otp-box">{{ $otp }}</div>
+
+            <p>This code will expire in <strong>10 minutes</strong>.</p>
+            <p>If you didn’t request a password reset, please ignore this email.</p>
+        </div>
+
+        <div class="footer">
+            &copy; {{ date('Y') }} Tunga Market. All rights reserved.
+            <br>
+            Need help? <a href="#">Contact Support</a>
+        </div>
     </div>
 </body>
 
