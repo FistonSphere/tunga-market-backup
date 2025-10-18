@@ -10,26 +10,30 @@ use App\Models\User;
 class ResetPasswordController extends Controller
 {
     public function showResetForm()
-    {
-        return view('frontend.auth.reset');
-    }
+{
+    $email = session('reset_email');
+    if (!$email) return redirect()->route('password.email')->withErrors(['email' => 'Session expired.']);
+    return view('frontend.auth.reset', compact('email'));
+}
 
-    public function reset(Request $request)
-    {
-        $request->validate([
-            'password' => 'required|min:8|confirmed',
-        ]);
+public function resetPassword(Request $request)
+{
+    $request->validate([
+        'new_password' => 'required|min:8|confirmed',
+    ]);
 
-        $email = session('verified_user_email');
-        if (!$email) {
-            return redirect()->route('password.request')->withErrors(['email' => 'Session expired.']);
-        }
+    $email = session('reset_email');
+    $user = User::where('email', $email)->first();
+    if (!$user) return back()->withErrors(['email' => 'User not found.']);
 
-        $user = User::where('email', $email)->firstOrFail();
-        $user->password = Hash::make($request->password);
-        $user->save();
+    $user->password = Hash::make($request->new_password);
+    $user->two_factor_code = null;
+    $user->two_factor_expires_at = null;
+    $user->save();
 
-        session()->forget(['reset_email', 'verified_user_email']);
-        return redirect()->route('login')->with('success', 'Password reset successfully! Please sign in.');
-    }
+    session()->forget('reset_email');
+
+    return redirect()->route('login')->with('success', 'Your password has been reset successfully.');
+}
+
 }

@@ -25,7 +25,7 @@
                 </div>
                 <h1 class="text-hero font-bold text-primary mb-4">Email Verified Successfully!</h1>
                 <p class="text-body-lg text-secondary-600 max-w-xl mx-auto">
-                    Your email has been verified. Now create a strong, secure password for your AliMax Commerce account.
+                    Your email has been verified. Now create a strong, secure password for your Tunga Market account.
                 </p>
             </div>
         </section>
