@@ -19,8 +19,9 @@ class HomeController extends Controller
         'totalUsers'         => User::count(),
         'totalProducts'      => Product::count(),
         'totalOrders'        => Order::count(),
-        'totalRevenue' => abbreviateNumber(Order::sum('total')),
-        'pendingCarts'       => Cart::count(), // or add filter if needed
+        'totalRevenue'       => Order::sum('total'),
+        'pendingCarts'       => Cart::count(),
+        'abbreviatedRevenue' =>abbreviateNumber(Order::sum('total')),// or add filter if needed
         'contactRequests'    => ContactRequest::count(),
         'activityLogs'       => UserActivityLog::count(),
         'productViewsToday'  => ProductViewSnapshot::whereDate('created_at', now())->count(),

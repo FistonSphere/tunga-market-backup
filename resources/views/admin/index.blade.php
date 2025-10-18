@@ -48,8 +48,7 @@
                     <span><img src="{{ asset('admin/assets/img/icons/dollar-square.svg') }}" alt="Revenue"></span>
                 </div>
                 <div class="dash-widgetcontent">
-                    <h5>Rwf<span class="counters"
-                            data-count="{{ $totalRevenue }}">{{ $totalRevenue }}</span></h5>
+                    <h5>Rwf<span class="counters">{{ $abbreviatedRevenue }}</span></h5>
                     <h6>Total Revenue</h6>
                 </div>
             </div>
