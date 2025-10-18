@@ -11,12 +11,34 @@ use App\Models\Cart;
 use App\Models\ContactRequest;
 use App\Models\UserActivityLog;
 use App\Models\ProductViewSnapshot;
+use Illuminate\Support\Carbon;
+
 class HomeController extends Controller
 {
     public function dashboard()
     {
 
         $recentProducts = Product::latest()->take(5)->get();
+          $sales = Order::selectRaw('DATE(created_at) as date, SUM(total) as total')
+        ->where('status', 'Delivered')  // Only include delivered orders
+        ->whereBetween('created_at', [now()->subDays(6)->startOfDay(), now()->endOfDay()])
+        ->groupBy('date')
+        ->orderBy('date')
+        ->get();
+
+    // Generate a full 7-day range to fill in missing days with 0
+    $dateRange = collect();
+    for ($i = 6; $i >= 0; $i--) {
+        $date = Carbon::today()->subDays($i);
+        $dateRange->put($date->toDateString(), 0);
+    }
+
+    foreach ($sales as $sale) {
+        $dateRange[$sale->date] = $sale->total;
+    }
+
+    $salesDates = $dateRange->keys()->map(fn($d) => Carbon::parse($d)->format('M d'))->toArray();
+    $salesTotals = $dateRange->values()->toArray();
       return view('admin.index', [
         'totalUsers'         => User::count(),
         'totalProducts'      => Product::count(),

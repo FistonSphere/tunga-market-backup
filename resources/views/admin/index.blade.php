@@ -32,7 +32,8 @@
         <div class="col-lg-3 col-sm-6 col-12">
             <div class="dash-widget dash2">
                 <div class="dash-widgetimg">
-                    <span><img src="{{ asset('admin/assets/img/icons/shopping-cart.svg') }}" alt="Orders" style="width:14px;height:21px"></span>
+                    <span><img src="{{ asset('admin/assets/img/icons/shopping-cart.svg') }}" alt="Orders"
+                            style="width:14px;height:21px"></span>
                 </div>
                 <div class="dash-widgetcontent">
                     <h5><span class="counters" data-count="{{ $totalOrders }}">{{ $totalOrders }}</span></h5>
@@ -112,37 +113,10 @@
         <div class="col-lg-7 col-sm-12 col-12 d-flex">
             <div class="card flex-fill">
                 <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Purchase & Sales</h5>
-                    <div class="graph-sets">
-                        <ul>
-                            <li>
-                                <span>Sales</span>
-                            </li>
-                            <li>
-                                <span>Purchase</span>
-                            </li>
-                        </ul>
-                        <div class="dropdown">
-                            <button class="btn btn-white btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                2022 <img src="assets/img/icons/dropdown.svg" alt="img" class="ms-2">
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li>
-                                    <a href="javascript:void(0);" class="dropdown-item">2022</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);" class="dropdown-item">2021</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);" class="dropdown-item">2020</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <h5 class="card-title mb-0">Sales Overview</h5>
                 </div>
                 <div class="card-body">
-                    <div id="sales_charts"></div>
+                    <div id="salesChart" style="height: 350px;"></div>
                 </div>
             </div>
         </div>
@@ -181,17 +155,18 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td class="productimgname">
                                             <a href="productlist.html" class="product-img">
-                                                <img src="{{ $recentProduct->main_image }}" style="border-radius: 8px" alt="{{ $recentProduct->name }}">
+                                                <img src="{{ $recentProduct->main_image }}" style="border-radius: 8px"
+                                                    alt="{{ $recentProduct->name }}">
                                             </a>
                                             <a href="productlist.html">{{ $recentProduct->name }}</a>
-                                       </td>
+                                        </td>
                                         <td>{{ $recentProduct->category->name }}</td>
                                         <td>Rwf{{ number_format($recentProduct->price) }}</td>
                                     </tr>
                                 @endforeach
 
-                                
-                                
+
+
                             </tbody>
                         </table>
                     </div>
@@ -272,4 +247,44 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+
+            const salesChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: {!! json_encode($salesDates) !!}, // e.g., ['Oct 1', 'Oct 2', ...]
+                    datasets: [{
+                        label: 'Sales (Rwf)',
+                        data: {!! json_encode($salesTotals) !!}, // e.g., [50000, 62000, ...]
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: function (value) {
+                                    // Format large numbers (like 1.2M)
+                                    if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
+                                    if (value >= 1000) return (value / 1000).toFixed(1) + 'K';
+                                    return value;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
 @endsection
