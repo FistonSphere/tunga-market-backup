@@ -122,6 +122,9 @@
 
     <!-- INLINE STYLES -->
     <style>
+        *{
+            font-family: Inter, sans-serif;
+        }
         .otp-input {
             width: 45px;
             height: 50px;
