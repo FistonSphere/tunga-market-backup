@@ -4,10 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <meta name="description" content="POS - Bootstrap Admin Template">
+    <meta name="description"
+        content="Manage your marketplace smarter with Tunga Market Admin — intuitive analytics, real-time insights, and full control over your digital ecosystem." />
+
     <meta name="keywords"
-        content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern,  html5, responsive">
-    <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+        content="Tunga Market, admin panel, commerce automation, digital trading, backend management, data insights, online market control, platform administration, ecommerce intelligence" />
+
+    <meta name="author" content="Tunga Market - Admin Dashboard" />
     <meta name="robots" content="noindex, nofollow">
     <title>Home - Tunga Market Admin Dashboard</title>
 
@@ -72,10 +75,6 @@
                         </form>
                     </div>
                 </li>
-
-
-
-
                 <li class="nav-item dropdown">
                     <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                         <img src="{{ asset('admin/assets/img/icons/notification-bing.svg') }}" alt="img"> <span
