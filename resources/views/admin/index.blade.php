@@ -230,8 +230,8 @@
                 
             </div>
             <div class="card-body">
-                <div class="table-responsive dataview">
-                    <table class="table datatable ">
+                <div class="table-responsive">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -244,11 +244,11 @@
                             @foreach ($recentUsers as $recentUser)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td class="productimgname">
+                                    <td>
                                      {{ $recentUser->last_name }} {{ $recentUser->first_name }}   
                                     </td>
                                     <td>{{ $recentUser->email }}</td>
-                                    <td>{{ $recentUser->created_at->format('d, M y') }}</td>
+                                    <td>{{ $recentUser->created_at->format('d M y') }}</td>
                                 </tr>
                             @endforeach
 
