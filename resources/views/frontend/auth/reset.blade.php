@@ -381,4 +381,74 @@
             </div>
         </div>
     </main>
+
+    <!-- Success Modal -->
+    <div id="success-modal" style="
+                        display:none;
+                        position:fixed;
+                        inset:0;
+                        background:rgba(0,0,0,0.5);
+                        backdrop-filter:blur(5px);
+                        align-items:center;
+                        justify-content:center;
+                        z-index:9999;">
+        <div style="background:white; padding:40px; border-radius:20px; text-align:center;">
+            <svg style="width:70px; height:70px; color:#22c55e; margin:0 auto;" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke-width="2" stroke="#22c55e"></circle>
+                <path d="M8 12l3 3 5-5" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                </path>
+            </svg>
+            <h3 style="font-size:22px; font-weight:700; color:#16a34a; margin-top:15px;">Password Reset Successful!</h3>
+            <p style="color:#6b7280;">Redirecting to login page...</p>
+        </div>
+    </div>
+
+
+    <script>
+        const newPass = document.getElementById('new-password');
+        const confirmPass = document.getElementById('confirm-password');
+        const bar = document.getElementById('strength-bar');
+        const text = document.getElementById('strength-text');
+        const matchIcon = document.getElementById('match-icon');
+        const modal = document.getElementById('success-modal');
+        const form = document.getElementById('password-reset-form');
+
+        function togglePassword(id) {
+            const field = document.getElementById(id);
+            field.type = field.type === 'password' ? 'text' : 'password';
+        }
+
+        // Password Strength Logic
+        newPass.addEventListener('input', () => {
+            const val = newPass.value;
+            let strength = 0;
+            if (val.match(/[a-z]/)) strength++;
+            if (val.match(/[A-Z]/)) strength++;
+            if (val.match(/[0-9]/)) strength++;
+            if (val.match(/[^a-zA-Z0-9]/)) strength++;
+            if (val.length >= 8) strength++;
+
+            const colors = ['#ef4444', '#f97316', '#eab308', '#10b981', '#0c2d57'];
+            bar.style.width = `${(strength / 5) * 100}%`;
+            bar.style.background = colors[strength - 1] || '#ef4444';
+            text.textContent = ['Weak', 'Fair', 'Good', 'Strong', 'Excellent'][strength - 1] || 'Weak';
+        });
+
+        // Confirm Password Match
+        confirmPass.addEventListener('input', () => {
+            if (confirmPass.value === newPass.value && confirmPass.value.length >= 8) {
+                matchIcon.style.display = 'block';
+            } else {
+                matchIcon.style.display = 'none';
+            }
+        });
+
+        // Submit Form with Modal
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            modal.style.display = 'flex';
+            setTimeout(() => form.submit(), 1800);
+        });
+    </script>
 @endsection
