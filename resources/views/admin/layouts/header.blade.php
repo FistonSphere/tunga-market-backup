@@ -61,7 +61,7 @@
                             <div class="searchinputs">
                                 <input type="text" placeholder="Search Here ...">
                                 <div class="search-addon">
-                                    <span><img src="assets/img/icons/closes.svg" alt="img"></span>
+                                    <span><img src="{{ asset('admin/assets/img/icons/closes.svg') }}" alt="img"></span>
                                 </div>
                             </div>
                             <a class="btn" id="searchdiv"><img src="assets/img/icons/search.svg" alt="img"></a>
