@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -37,12 +37,12 @@ class ForgotPasswordController extends Controller
         });
 
         session(['reset_email' => $user->email]);
-        return redirect()->route('frontend.auth.password.otp')->with('success', 'We sent a verification code to your email.');
+        return redirect()->route('password.otp')->with('success', 'We sent a verification code to your email.');
     }
 
     public function showOtpForm()
     {
-        return view('frontend.auth.verify-otp');
+        return view('auth.verify-otp');
     }
 
     public function verifyOtp(Request $request)
@@ -51,7 +51,7 @@ class ForgotPasswordController extends Controller
 
         $user = User::where('email', session('reset_email'))->first();
         if (!$user) {
-            return redirect()->route('frontend.auth.password.request')->withErrors(['email' => 'Session expired. Try again.']);
+            return redirect()->route('password.request')->withErrors(['email' => 'Session expired. Try again.']);
         }
 
         if ($user->two_factor_code != $request->otp || Carbon::now()->gt($user->two_factor_expires_at)) {
