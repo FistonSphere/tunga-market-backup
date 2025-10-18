@@ -39,7 +39,18 @@
                         <h2 class="text-heading font-semibold text-primary mb-2">Create New Password</h2>
                         <p class="text-body text-secondary-600">Choose a strong password to secure your account</p>
                     </div>
-
+                    @if ($errors->any())
+                        <div
+                            style="background: #fee2e2; color: #b91c1c; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                            {{ $errors->first() }}
+                        </div>
+                    @endif
+                    @if (session('success'))
+                        <div
+                            style="background: #dcfce7; color: #15803d; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                     <!-- Account Info -->
                     <div class="bg-primary-50 p-4 rounded-lg border border-primary-200 mb-6">
                         <div class="flex items-center space-x-3">
@@ -91,7 +102,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
-                                <input type="password" id="confirm-password" name="confirm-password"
+                                <input type="password" id="confirm-password" name="new_password_confirmation"
                                     placeholder="Confirm your new password" class="input-field pl-12 pr-12" required />
                                 <button type="button" onclick="togglePasswordVisibility('confirm-password')"
                                     class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600 transition-fast">
@@ -309,32 +320,39 @@
                                 </div>
                                 <button
                                     class="text-error hover:text-error-600 text-sm font-medium transition-fast">Revoke</button>
-                            </div><div class="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg">
                                 <div class="flex items-center space-x-3">
-                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                     </svg>
                                     <div>
                                         <p class="font-medium text-secondary-700">Android Chrome - Unknown Location</p>
                                         <p class="text-sm text-secondary-600">1 week ago</p>
                                     </div>
                                 </div>
-                                <button class="text-error hover:text-error-600 text-sm font-medium transition-fast">Revoke</button>
+                                <button
+                                    class="text-error hover:text-error-600 text-sm font-medium transition-fast">Revoke</button>
                             </div>
                         </div>
-                        <button class="mt-3 text-sm text-accent hover:text-accent-600 font-medium transition-fast">Revoke All Other Sessions</button>
+                        <button class="mt-3 text-sm text-accent hover:text-accent-600 font-medium transition-fast">Revoke
+                            All Other Sessions</button>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Success Modal -->
-        <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 opacity-0 invisible transition-all duration-300 flex items-center justify-center p-4">
-            <div class="bg-white rounded-2xl shadow-modal max-w-md w-full mx-auto transform scale-95 transition-all duration-300" id="success-modal-content">
+        <div id="success-modal"
+            class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 opacity-0 invisible transition-all duration-300 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-modal max-w-md w-full mx-auto transform scale-95 transition-all duration-300"
+                id="success-modal-content">
                 <div class="p-6 text-center">
                     <div class="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
                     <h3 class="text-xl font-semibold text-primary mb-3">Password Reset Successful!</h3>
@@ -354,7 +372,8 @@
                         <button onclick="continueToAccount()" class="flex-1 btn-primary py-3 px-6">
                             Continue to Account
                         </button>
-                        <button onclick="goToSignIn()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 px-6 rounded-lg font-semibold transition-all duration-200">
+                        <button onclick="goToSignIn()"
+                            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 px-6 rounded-lg font-semibold transition-all duration-200">
                             Sign In
                         </button>
                     </div>
