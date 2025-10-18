@@ -6,7 +6,7 @@
         <div class="col-lg-3 col-sm-6 col-12">
             <div class="dash-widget">
                 <div class="dash-widgetimg">
-                    <span><img src="{{ asset('assets/img/icons/user.svg') }}" alt="Users"></span>
+                    <span><img src="{{ asset('admin/assets/img/icons/users1.svg') }}" alt="Users"></span>
                 </div>
                 <div class="dash-widgetcontent">
                     <h5><span class="counters" data-count="{{ $totalUsers }}">{{ $totalUsers }}</span></h5>
@@ -19,7 +19,7 @@
         <div class="col-lg-3 col-sm-6 col-12">
             <div class="dash-widget dash1">
                 <div class="dash-widgetimg">
-                    <span><img src="{{ asset('assets/img/icons/box.svg') }}" alt="Products"></span>
+                    <span><img src="{{ asset('admin/assets/img/icons/product.svg') }}" alt="Products"></span>
                 </div>
                 <div class="dash-widgetcontent">
                     <h5><span class="counters" data-count="{{ $totalProducts }}">{{ $totalProducts }}</span></h5>
@@ -32,7 +32,7 @@
         <div class="col-lg-3 col-sm-6 col-12">
             <div class="dash-widget dash2">
                 <div class="dash-widgetimg">
-                    <span><img src="{{ asset('assets/img/icons/shopping-cart.svg') }}" alt="Orders"></span>
+                    <span><img src="{{ asset('admin/assets/img/icons/shopping-cart.svg') }}" alt="Orders"></span>
                 </div>
                 <div class="dash-widgetcontent">
                     <h5><span class="counters" data-count="{{ $totalOrders }}">{{ $totalOrders }}</span></h5>
@@ -45,7 +45,7 @@
         <div class="col-lg-3 col-sm-6 col-12">
             <div class="dash-widget dash3">
                 <div class="dash-widgetimg">
-                    <span><img src="{{ asset('assets/img/icons/dollar-sign.svg') }}" alt="Revenue"></span>
+                    <span><img src="{{ asset('admin/assets/img/icons/dollar.svg') }}" alt="Revenue"></span>
                 </div>
                 <div class="dash-widgetcontent">
                     <h5>$<span class="counters"
