@@ -253,18 +253,18 @@
         document.addEventListener("DOMContentLoaded", function () {
             const ctx = document.getElementById('salesChart').getContext('2d');
 
-            const salesChart = new Chart(ctx, {
+            new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: {!! json_encode($salesDates) !!}, // e.g., ['Oct 1', 'Oct 2', ...]
+                    labels: {!! json_encode($salesDates) !!},
                     datasets: [{
-                        label: 'Sales (Rwf)',
-                        data: {!! json_encode($salesTotals) !!}, // e.g., [50000, 62000, ...]
-                        borderColor: '#007bff',
-                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        label: 'Revenue (Rwf)',
+                        data: {!! json_encode($salesTotals) !!},
+                        borderColor: '#28a745',
+                        backgroundColor: 'rgba(40, 167, 69, 0.2)',
                         borderWidth: 2,
                         tension: 0.4,
-                        fill: true,
+                        fill: true
                     }]
                 },
                 options: {
@@ -274,7 +274,6 @@
                         y: {
                             ticks: {
                                 callback: function (value) {
-                                    // Format large numbers (like 1.2M)
                                     if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
                                     if (value >= 1000) return (value / 1000).toFixed(1) + 'K';
                                     return value;
@@ -286,5 +285,4 @@
             });
         });
     </script>
-
 @endsection

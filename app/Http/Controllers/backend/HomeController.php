@@ -50,6 +50,8 @@ class HomeController extends Controller
         'activityLogs'       => UserActivityLog::count(),
         'productViewsToday'  => ProductViewSnapshot::whereDate('created_at', now())->count(),
         'recentProducts'     => $recentProducts,
+        'salesDates'         => $salesDates,
+        'salesTotals'        => $salesTotals,
     ]);
     }
 }
