@@ -14,7 +14,7 @@
     <meta name="robots" content="noindex, nofollow" />
     <title>Login - Tunga Market Admin Dashboard</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo.png') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo-circle.png') }}" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap.min.css') }}" />
 

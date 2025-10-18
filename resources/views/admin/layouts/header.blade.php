@@ -11,18 +11,18 @@
     <meta name="robots" content="noindex, nofollow">
     <title>Dreams Pos admin template</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.jpg">
+   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo-circle.png') }}" />
 
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap.min.css') }}">
 
-    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/animate.css') }}">
 
-    <link rel="stylesheet" href="assets/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/dataTables.bootstrap4.min.css') }}">
 
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('admin/assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/plugins/fontawesome/css/all.min.css') }}">
 
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
 </head>
 
 <body>
@@ -36,13 +36,10 @@
 
             <div class="header-left active">
                 <a href="index.html" class="logo">
-                    <img src="assets/img/logo.png" alt="">
+                    <img src="{{ asset('assets/images/logo-header.png') }}" style="border-radius:6px" alt="">
                 </a>
-                <a href="index.html" class="logo-small">
-                    <img src="assets/img/logo-small.png" alt="">
-                </a>
-                <a id="toggle_btn" href="javascript:void(0);">
-                </a>
+                {{-- <a id="toggle_btn" href="javascript:void(0);">
+                </a> --}}
             </div>
 
             <a id="mobile_btn" class="mobile_btn" href="#sidebar">
