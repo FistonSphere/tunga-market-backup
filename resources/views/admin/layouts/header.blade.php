@@ -11,7 +11,7 @@
     <meta name="robots" content="noindex, nofollow">
     <title>Dreams Pos admin template</title>
 
-   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo-circle.png') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo-circle.png') }}" />
 
     <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap.min.css') }}">
 
@@ -191,8 +191,12 @@
                             <a class="dropdown-item" href="generalsettings.html"><i class="me-2"
                                     data-feather="settings"></i>Settings</a>
                             <hr class="m-0">
-                            <a class="dropdown-item logout pb-0" href="signin.html"><img
-                                    src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
+                            <form action="{{ route('admin.logout') }}" method="post">
+                                @csrf
+                                <button type="submit" class="dropdown-item logout pb-0"><img
+                                        src="{{ asset('admin/assets/img/icons/log-out.svg') }}" class="me-2"
+                                        alt="img">Logout</button>
+                            </form>
                         </div>
                     </div>
                 </li>

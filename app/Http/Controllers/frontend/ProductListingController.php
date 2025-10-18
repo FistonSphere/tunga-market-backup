@@ -47,6 +47,10 @@ class ProductListingController extends Controller
 
     // Increment product views
     $product->increment('views_count');
+    $productSnapshot =  new \App\Models\ProductViewSnapshot();
+    $productSnapshot->product_id = $product->id;
+    $productSnapshot->increment('views_count');
+    $productSnapshot->save();
 
     // Fetch related products (same category, exclude current product)
     $relatedProducts = Product::where('category_id', $product->category_id)
