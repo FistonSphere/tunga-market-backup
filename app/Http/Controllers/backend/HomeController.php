@@ -15,6 +15,8 @@ class HomeController extends Controller
 {
     public function dashboard()
     {
+
+        $recentProducts = Product::latest()->take(5)->get();
       return view('admin.index', [
         'totalUsers'         => User::count(),
         'totalProducts'      => Product::count(),
@@ -25,6 +27,7 @@ class HomeController extends Controller
         'contactRequests'    => ContactRequest::count(),
         'activityLogs'       => UserActivityLog::count(),
         'productViewsToday'  => ProductViewSnapshot::whereDate('created_at', now())->count(),
+        'recentProducts'     => $recentProducts,
     ]);
     }
 }

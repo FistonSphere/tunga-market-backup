@@ -169,52 +169,29 @@
                         <table class="table datatable ">
                             <thead>
                                 <tr>
-                                    <th>Sno</th>
+                                    <th>#</th>
                                     <th>Products</th>
+                                    <th>Category</th>
                                     <th>Price</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td class="productimgname">
-                                        <a href="productlist.html" class="product-img">
-                                            <img src="assets/img/product/product22.jpg" alt="product">
-                                        </a>
-                                        <a href="productlist.html">Apple Earpods</a>
-                                    </td>
-                                    <td>$891.2</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td class="productimgname">
-                                        <a href="productlist.html" class="product-img">
-                                            <img src="assets/img/product/product23.jpg" alt="product">
-                                        </a>
-                                        <a href="productlist.html">iPhone 11</a>
-                                    </td>
-                                    <td>$668.51</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td class="productimgname">
-                                        <a href="productlist.html" class="product-img">
-                                            <img src="assets/img/product/product24.jpg" alt="product">
-                                        </a>
-                                        <a href="productlist.html">samsung</a>
-                                    </td>
-                                    <td>$522.29</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td class="productimgname">
-                                        <a href="productlist.html" class="product-img">
-                                            <img src="assets/img/product/product6.jpg" alt="product">
-                                        </a>
-                                        <a href="productlist.html">Macbook Pro</a>
-                                    </td>
-                                    <td>$291.01</td>
-                                </tr>
+                                @foreach ($recentProducts as $recentProduct)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td class="productimgname">
+                                            <a href="productlist.html" class="product-img">
+                                                <img src="{{ $recentProduct->main_image }}" style="border-radius: 8px" alt="{{ $recentProduct->name }}">
+                                            </a>
+                                            <a href="productlist.html">{{ $recentProduct->name }}</a>
+                                       </td>
+                                        <td>{{ $recentProduct->category->name }}</td>
+                                        <td>Rwf{{ number_format($recentProduct->price) }}</td>
+                                    </tr>
+                                @endforeach
+
+                                
+                                
                             </tbody>
                         </table>
                     </div>
