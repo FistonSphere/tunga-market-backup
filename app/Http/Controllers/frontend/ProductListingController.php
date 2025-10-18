@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\ProductViewSnapshot;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
