@@ -1,71 +1,70 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Models\User;
+use Carbon\Carbon;
 
 class ForgotPasswordController extends Controller
 {
-    
-
-
-     // Handle the form submission
-    public function sendResetLink(Request $request)
+    public function showForgotForm()
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-        ]);
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        // Send reset link
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-
-        if ($status === Password::RESET_LINK_SENT) {
-            return back()->with('success', 'We’ve sent you a password reset link. Check your inbox!');
-        }
-
-        return back()->withErrors(['email' => 'User not found. Please check your email address.']);
+        return view('frontend.auth.forgot');
     }
 
-
-    //  public function showResetForm($token)
-    // {
-    //     return view('auth.reset-password', ['token' => $token]);
-    // }
-
-    // Handle reset password submission
-    public function reset(Request $request)
+    public function sendResetOTP(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:6|confirmed',
-        ]);
+        $request->validate(['email' => 'required|email']);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return back()->withErrors(['email' => 'No account found with that email address.']);
         }
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->password = Hash::make($password);
-                $user->save();
-            }
-        );
+        // Generate 6-digit OTP
+        $otp = rand(100000, 999999);
+        $user->two_factor_code = $otp;
+        $user->two_factor_expires_at = Carbon::now()->addMinutes(10);
+        $user->save();
 
-        if ($status === Password::PASSWORD_RESET) {
-            return redirect()->route('admin.login')->with('success', 'Your password has been reset successfully!');
+        // Send OTP email
+        Mail::send('emails.reset-otp', ['user' => $user, 'otp' => $otp], function ($message) use ($user) {
+            $message->to($user->email);
+            $message->subject('Password Reset Verification Code');
+        });
+
+        session(['reset_email' => $user->email]);
+        return redirect()->route('frontend.auth.password.otp')->with('success', 'We sent a verification code to your email.');
+    }
+
+    public function showOtpForm()
+    {
+        return view('frontend.auth.verify-otp');
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        $request->validate(['otp' => 'required|numeric']);
+
+        $user = User::where('email', session('reset_email'))->first();
+        if (!$user) {
+            return redirect()->route('frontend.auth.password.request')->withErrors(['email' => 'Session expired. Try again.']);
         }
 
-        return back()->withErrors(['email' => 'Invalid token or email address.']);
+        if ($user->two_factor_code != $request->otp || Carbon::now()->gt($user->two_factor_expires_at)) {
+            return back()->withErrors(['otp' => 'Invalid or expired code.']);
+        }
+
+        // Clear OTP
+        $user->two_factor_code = null;
+        $user->two_factor_expires_at = null;
+        $user->save();
+
+        session(['verified_user_email' => $user->email]);
+
+        return redirect()->route('password.reset')->with('success', 'Code verified! You can now reset your password.');
     }
 }
