@@ -247,8 +247,8 @@
                                     <td class="productimgname">
                                      {{ $recentUser->last_name }} {{ $recentUser->first_name }}   
                                     </td>
-                                    <td>{{ $recentUser->category->name }}</td>
-                                    <td>Rwf{{ number_format($recentUser->price) }}</td>
+                                    <td>{{ $recentUser->email }}</td>
+                                    <td>{{ $recentUser->created_at->format('d, M y') }}</td>
                                 </tr>
                             @endforeach
 
