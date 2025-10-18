@@ -181,8 +181,8 @@
                     <h5 class="card-title mb-0">Recent 5 Orders</h5>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive dataview">
-                        <table class="table datatable ">
+                    <div class="table-responsive">
+                        <table class="table ">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -196,10 +196,10 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td class="productimgname">
-                                           {{ $recentOrder->user->last_name }} {{ $recentOrder->user->first_name }}
+                                            {{ $recentOrder->user->last_name }} {{ $recentOrder->user->first_name }}
                                         </td>
-                                        <td>{{ $recentProduct->category->name }}</td>
-                                        <td>Rwf{{ number_format($recentProduct->price) }}</td>
+                                        <td>Rwf{{ number_format($recentOrder->total) }}</td>
+                                        <td>{{$recentOrder->status}}</td>
                                     </tr>
                                 @endforeach
 
