@@ -110,16 +110,16 @@
                         </div>
 
                         <button type="submit" id="reset-btn" style="
-                            width: 100%;
-                            background: #0c2d57;
-                            color: white;
-                            border: none;
-                            padding: 14px;
-                            border-radius: 10px;
-                            font-size: 17px;
-                            font-weight: 600;
-                            cursor: pointer;
-                            transition: background 0.3s ease;">
+                                    width: 100%;
+                                    background: #0c2d57;
+                                    color: white;
+                                    border: none;
+                                    padding: 14px;
+                                    border-radius: 10px;
+                                    font-size: 17px;
+                                    font-weight: 600;
+                                    cursor: pointer;
+                                    transition: background 0.3s ease;">
                             Reset Password
                         </button>
                     </form>
@@ -238,64 +238,29 @@
         </section>
 
         <!-- Success Modal -->
-        <div id="success-modal"
-            class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 opacity-0 invisible transition-all duration-300 flex items-center justify-center p-4">
-            <div class="bg-white rounded-2xl shadow-modal max-w-md w-full mx-auto transform scale-95 transition-all duration-300"
-                id="success-modal-content">
-                <div class="p-6 text-center">
-                    <div class="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-primary mb-3">Password Reset Successful!</h3>
-                    <p class="text-secondary-600 mb-6">
-                        Your password has been updated successfully. You can now sign in with your new password.
-                    </p>
-                    <div class="bg-surface p-4 rounded-lg mb-6">
-                        <h4 class="font-semibold text-primary mb-2">🎉 Security Recommendations</h4>
-                        <ul class="text-sm text-secondary-600 text-left space-y-1">
-                            <li>• Enable two-factor authentication</li>
-                            <li>• Review active sessions regularly</li>
-                            <li>• Use a unique password for each account</li>
-                            <li>• Consider using a password manager</li>
-                        </ul>
-                    </div>
-                    <div class="flex space-x-3">
-                        <button onclick="continueToAccount()" class="flex-1 btn-primary py-3 px-6">
-                            Continue to Account
-                        </button>
-                        <button onclick="goToSignIn()"
-                            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 px-6 rounded-lg font-semibold transition-all duration-200">
-                            Sign In
-                        </button>
-                    </div>
-                </div>
+        <div id="success-modal" style="
+                display:none;
+                position:fixed;
+                inset:0;
+                background:rgba(0,0,0,0.5);
+                backdrop-filter:blur(5px);
+                align-items:center;
+                justify-content:center;
+                z-index:9999;">
+            <div style="background:white; padding:40px; border-radius:20px; text-align:center;">
+                <svg style="width:70px; height:70px; color:#22c55e; margin:0 auto;" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke-width="2" stroke="#22c55e"></circle>
+                    <path d="M8 12l3 3 5-5" stroke="#22c55e" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                </svg>
+                <h3 style="font-size:22px; font-weight:700; color:#16a34a; margin-top:15px;">Password Reset Successful!</h3>
+                <p style="color:#6b7280;">Redirecting to login page...</p>
             </div>
         </div>
     </main>
 
-    <!-- Success Modal -->
-    <div id="success-modal" style="
-                                display:none;
-                                position:fixed;
-                                inset:0;
-                                background:rgba(0,0,0,0.5);
-                                backdrop-filter:blur(5px);
-                                align-items:center;
-                                justify-content:center;
-                                z-index:9999;">
-        <div style="background:white; padding:40px; border-radius:20px; text-align:center;">
-            <svg style="width:70px; height:70px; color:#22c55e; margin:0 auto;" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke-width="2" stroke="#22c55e"></circle>
-                <path d="M8 12l3 3 5-5" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                </path>
-            </svg>
-            <h3 style="font-size:22px; font-weight:700; color:#16a34a; margin-top:15px;">Password Reset Successful!</h3>
-            <p style="color:#6b7280;">Redirecting to login page...</p>
-        </div>
-    </div>
+
 
 
     <script>

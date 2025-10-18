@@ -93,7 +93,7 @@ Route::get('/flash-deals', [FlashDealCartController::class, 'index'])
     Route::get('/flash-deals/load', [FlashDealCartController::class, 'loadMore'])->name('flash-deals.load');
 // Start Authentication routes
 Route::post('/register', [AuthController::class, 'register'])->name('register-user');
-Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
+Route::post('/normal/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp-user');
 Route::post('/normal/login', [AuthController::class, 'login'])->name('normal-login-user');
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotForm'])->name('password.request');
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetOTP'])->name('password.email');
@@ -102,7 +102,7 @@ Route::get('/verify-otp', [ForgotPasswordController::class, 'showOtpForm'])->nam
 Route::post('/verify-otp', [ForgotPasswordController::class, 'verifyOtp'])->name('password.verify.otp');
 
 Route::get('/reset-password', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('password.update');
 
 
 Route::post('/cookies/accept', [UserActivityController::class, 'acceptCookies'])->name('cookies.accept');

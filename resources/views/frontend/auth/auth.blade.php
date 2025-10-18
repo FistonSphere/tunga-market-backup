@@ -183,7 +183,7 @@
                                     class="rounded border-secondary-300 text-primary focus:ring-primary" />
                                 <span class="ml-2 text-sm text-secondary-600">Remember me</span>
                             </label>
-                            <a href="{{ route('forgot.password.form') }}" class="text-sm text-accent hover:text-accent-600 font-medium">Forgot password?</a>
+                            <a href="{{ route('password.request') }}" class="text-sm text-accent hover:text-accent-600 font-medium">Forgot password?</a>
                         </div>
 
                         <button type="submit" class="w-full btn-primary">
@@ -750,7 +750,7 @@
                         </svg>
                     `;
 
-            fetch("{{ route('verify-otp') }}", {
+            fetch("{{ route('verify-otp-user') }}", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
