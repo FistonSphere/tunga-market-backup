@@ -28,7 +28,7 @@
     transform: scale(0.95);
     animation: popupIn 0.4s ease-out forwards;
   ">
-            <h2 style="font-size: 26px; font-weight: 700; color: #2563eb; margin-bottom: 10px;">
+            <h2 style="font-size: 26px; font-weight: 700; color: #ff6b00; margin-bottom: 10px;">
                 Verify One-Time Password
             </h2>
             <p style="color: #6b7280; font-size: 15px; margin-bottom: 25px;">
@@ -64,7 +64,7 @@
 
                 <button type="submit" id="verify-btn" style="
         width: 100%;
-        background: #2563eb;
+        background: #0c2d57;
         color: white;
         border: none;
         padding: 12px;
@@ -73,8 +73,8 @@
         border-radius: 10px;
         cursor: pointer;
         transition: background 0.3s ease, transform 0.2s ease;
-      " onmouseover="this.style.background='#1e40af'; this.style.transform='scale(1.02)';"
-                    onmouseout="this.style.background='#2563eb'; this.style.transform='scale(1)';">
+      " onmouseover="this.style.background='#ff6b00'; this.style.transform='scale(1.02)';"
+                    onmouseout="this.style.background='#0c2d57'; this.style.transform='scale(1)';">
                     Verify Code
                 </button>
 
@@ -83,7 +83,7 @@
                     <button type="button" id="resend-btn" style="
           background: none;
           border: none;
-          color: #2563eb;
+          color: #ff6b00;
           font-weight: 600;
           cursor: pointer;
           text-decoration: underline;
@@ -133,12 +133,12 @@
             text-align: center;
             font-size: 20px;
             font-weight: 600;
-            color: #2563eb;
+            color: #0c2d57;
             transition: all 0.2s ease;
         }
 
         .otp-input:focus {
-            border-color: #2563eb;
+            border-color: #0c2d57;
             outline: none;
             box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
         }
