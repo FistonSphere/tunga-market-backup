@@ -35,7 +35,7 @@
         <div class="header">
 
             <div class="header-left active">
-                <a href="index.html" class="logo">
+                <a href="{{ route('admin.dashboard') }}" class="logo">
                     <img src="{{ asset('assets/images/logo-header.png') }}" style="border-radius:6px" alt="">
                 </a>
                 {{-- <a id="toggle_btn" href="javascript:void(0);">
