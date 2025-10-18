@@ -4,28 +4,25 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <meta name="description"
-        content="Manage your marketplace smarter with Tunga Market Admin — intuitive analytics, real-time insights, and full control over your digital ecosystem." />
-
+    <meta name="description" content="POS - Bootstrap Admin Template">
     <meta name="keywords"
-        content="Tunga Market, admin panel, commerce automation, digital trading, backend management, data insights, online market control, platform administration, ecommerce intelligence" />
-
-    <meta name="author" content="Tunga Market - Admin Dashboard" />
+        content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern,  html5, responsive">
+    <meta name="author" content="Dreamguys - Bootstrap Admin Template">
     <meta name="robots" content="noindex, nofollow">
-    <title>Home - Tunga Market Admin Dashboard</title>
+    <title>Dreams Pos admin template</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('admin/assets/img/favicon.jpg') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.jpg">
 
-    <link rel="stylesheet" href="{{ asset('admin/assets/img/favicon.jpg') }}">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
-    <link rel="stylesheet" href="{{ asset('admin/assets/img/favicon.jpg') }}">
+    <link rel="stylesheet" href="assets/css/animate.css">
 
-    <link rel="stylesheet" href="{{ asset('admin/assets/img/favicon.jpg') }}">
+    <link rel="stylesheet" href="assets/css/dataTables.bootstrap4.min.css">
 
-    <link rel="stylesheet" href="{{ asset('admin/assets/img/favicon.jpg') }}">
-    <link rel="stylesheet" href="{{ asset('admin/assets/img/favicon.jpg') }}">
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
 
-    <link rel="stylesheet" href="{{ asset('admin/assets/img/favicon.jpg') }}">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
@@ -67,17 +64,17 @@
                             <div class="searchinputs">
                                 <input type="text" placeholder="Search Here ...">
                                 <div class="search-addon">
-                                    <span><img src="{{ asset('admin/assets/img/icons/closes.svg') }}" alt="img"></span>
+                                    <span><img src="assets/img/icons/closes.svg" alt="img"></span>
                                 </div>
                             </div>
-                            <a class="btn" id="searchdiv"><img src="{{ asset('admin/assets/img/icons/closes.svg') }}"
-                                    alt="img"></a>
+                            <a class="btn" id="searchdiv"><img src="assets/img/icons/search.svg" alt="img"></a>
                         </form>
                     </div>
                 </li>
+
                 <li class="nav-item dropdown">
                     <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                        <img src="{{ asset('admin/assets/img/icons/notification-bing.svg') }}" alt="img"> <span
+                        <img src="assets/img/icons/notification-bing.svg" alt="img"> <span
                             class="badge rounded-pill">4</span>
                     </a>
                     <div class="dropdown-menu notifications">
@@ -91,8 +88,7 @@
                                     <a href="activities.html">
                                         <div class="media d-flex">
                                             <span class="avatar flex-shrink-0">
-                                                <img alt=""
-                                                    src="{{ asset('admin/assets/img/icons/notification-bing.svg') }}">
+                                                <img alt="" src="assets/img/profiles/avatar-02.jpg">
                                             </span>
                                             <div class="media-body flex-grow-1">
                                                 <p class="noti-details"><span class="noti-title">John Doe</span> added
@@ -108,8 +104,7 @@
                                     <a href="activities.html">
                                         <div class="media d-flex">
                                             <span class="avatar flex-shrink-0">
-                                                <img alt=""
-                                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}">
+                                                <img alt="" src="assets/img/profiles/avatar-03.jpg">
                                             </span>
                                             <div class="media-body flex-grow-1">
                                                 <p class="noti-details"><span class="noti-title">Tarah Shropshire</span>
@@ -125,8 +120,7 @@
                                     <a href="activities.html">
                                         <div class="media d-flex">
                                             <span class="avatar flex-shrink-0">
-                                                <img alt=""
-                                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}">
+                                                <img alt="" src="assets/img/profiles/avatar-06.jpg">
                                             </span>
                                             <div class="media-body flex-grow-1">
                                                 <p class="noti-details"><span class="noti-title">Misty Tison</span>
@@ -143,8 +137,7 @@
                                     <a href="activities.html">
                                         <div class="media d-flex">
                                             <span class="avatar flex-shrink-0">
-                                                <img alt=""
-                                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}">
+                                                <img alt="" src="assets/img/profiles/avatar-17.jpg">
                                             </span>
                                             <div class="media-body flex-grow-1">
                                                 <p class="noti-details"><span class="noti-title">Rolland Webber</span>
@@ -160,8 +153,7 @@
                                     <a href="activities.html">
                                         <div class="media d-flex">
                                             <span class="avatar flex-shrink-0">
-                                                <img alt=""
-                                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}">
+                                                <img alt="" src="assets/img/profiles/avatar-13.jpg">
                                             </span>
                                             <div class="media-body flex-grow-1">
                                                 <p class="noti-details"><span class="noti-title">Bernardo Galaviz</span>
@@ -183,14 +175,13 @@
 
                 <li class="nav-item dropdown has-arrow main-drop">
                     <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-                        <span class="user-img"><img src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="">
+                        <span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
                             <span class="status online"></span></span>
                     </a>
                     <div class="dropdown-menu menu-drop-user">
                         <div class="profilename">
                             <div class="profileset">
-                                <span class="user-img"><img src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}"
-                                        alt="">
+                                <span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
                                     <span class="status online"></span></span>
                                 <div class="profilesets">
                                     <h6>John Doe</h6>
@@ -204,8 +195,7 @@
                                     data-feather="settings"></i>Settings</a>
                             <hr class="m-0">
                             <a class="dropdown-item logout pb-0" href="signin.html"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" class="me-2"
-                                    alt="img">Logout</a>
+                                    src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
                         </div>
                     </div>
                 </li>
@@ -230,12 +220,11 @@
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
                         <li class="active">
-                            <a href="index.html"><img src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}"
-                                    alt="img"><span> Dashboard</span> </a>
+                            <a href="index.html"><img src="assets/img/icons/dashboard.svg" alt="img"><span>
+                                    Dashboard</span> </a>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span>
                                     Product</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="productlist.html">Product List</a></li>
@@ -251,8 +240,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="assets/img/icons/sales1.svg" alt="img"><span>
                                     Sales</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="saleslist.html">Sales List</a></li>
@@ -263,8 +251,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="assets/img/icons/purchase1.svg" alt="img"><span>
                                     Purchase</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="purchaselist.html">Purchase List</a></li>
@@ -273,8 +260,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="assets/img/icons/expense1.svg" alt="img"><span>
                                     Expense</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="expenselist.html">Expense List</a></li>
@@ -283,8 +269,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="assets/img/icons/quotation1.svg" alt="img"><span>
                                     Quotation</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="quotationList.html">Quotation List</a></li>
@@ -292,8 +277,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="assets/img/icons/transfer1.svg" alt="img"><span>
                                     Transfer</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="transferlist.html">Transfer List</a></li>
@@ -302,8 +286,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="assets/img/icons/return1.svg" alt="img"><span>
                                     Return</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="salesreturnlist.html">Sales Return List</a></li>
@@ -313,8 +296,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="assets/img/icons/users1.svg" alt="img"><span>
                                     People</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="customerlist.html">Customer List</a></li>
@@ -328,8 +310,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="assets/img/icons/places.svg" alt="img"><span>
                                     Places</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="newcountry.html">New Country</a></li>
@@ -426,8 +407,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span>
                                     Application</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="chat.html">Chat</a></li>
@@ -436,8 +416,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="assets/img/icons/time.svg" alt="img"><span>
                                     Report</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="purchaseorderreport.html">Purchase order report</a></li>
@@ -450,8 +429,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="assets/img/icons/users1.svg" alt="img"><span>
                                     Users</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="newuser.html">New User </a></li>
@@ -459,8 +437,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img
-                                    src="{{ asset('admin/assets/img/profiles/avatar-03.jpg') }}" alt="img"><span>
+                            <a href="javascript:void(0);"><img src="assets/img/icons/settings.svg" alt="img"><span>
                                     Settings</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="generalsettings.html">General Settings</a></li>
@@ -486,21 +463,21 @@
     </div>
 
 
-    <script src="{{ asset('admin/assets/js/jquery-3.6.0.min.js') }}"></script>
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
 
-    <script src="{{ asset('admin/assets/js/feather.min.js') }}"></script>
+    <script src="assets/js/feather.min.js"></script>
 
-    <script src="{{ asset('admin/assets/js/jquery.slimscroll.min.js') }}"></script>
+    <script src="assets/js/jquery.slimscroll.min.js"></script>
 
-    <script src="{{ asset('admin/assets/js/jquery.slimscroll.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/js/jquery.slimscroll.min.js') }}"></script>
+    <script src="assets/js/jquery.dataTables.min.js"></script>
+    <script src="assets/js/dataTables.bootstrap4.min.js"></script>
 
-    <script src="{{ asset('admin/assets/js/jquery.slimscroll.min.js') }}"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
 
-    <script src="{{ asset('admin/assets/js/jquery.slimscroll.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/js/jquery.slimscroll.min.js') }}"></script>
+    <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+    <script src="assets/plugins/apexchart/chart-data.js"></script>
 
-    <script src="{{ asset('admin/assets/js/jquery.slimscroll.min.js') }}"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 
 </html>
