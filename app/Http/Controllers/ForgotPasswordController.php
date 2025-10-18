@@ -42,7 +42,7 @@ class ForgotPasswordController extends Controller
 
     public function showOtpForm()
     {
-        return view('auth.verify-otp');
+        return view('frontend.auth.verify-otp');
     }
 
     public function verifyOtp(Request $request)
