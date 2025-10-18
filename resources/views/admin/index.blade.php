@@ -32,7 +32,7 @@
         <div class="col-lg-3 col-sm-6 col-12">
             <div class="dash-widget dash2">
                 <div class="dash-widgetimg">
-                    <span><img src="{{ asset('admin/assets/img/icons/shopping-cart.svg') }}" alt="Orders"></span>
+                    <span><img src="{{ asset('admin/assets/img/icons/shopping-cart.svg') }}" alt="Orders" style="width:14px;height:21px"></span>
                 </div>
                 <div class="dash-widgetcontent">
                     <h5><span class="counters" data-count="{{ $totalOrders }}">{{ $totalOrders }}</span></h5>
@@ -45,11 +45,11 @@
         <div class="col-lg-3 col-sm-6 col-12">
             <div class="dash-widget dash3">
                 <div class="dash-widgetimg">
-                    <span><img src="{{ asset('admin/assets/img/icons/dollar.svg') }}" alt="Revenue"></span>
+                    <span><img src="{{ asset('admin/assets/img/icons/dollar-square.svg') }}" alt="Revenue"></span>
                 </div>
                 <div class="dash-widgetcontent">
-                    <h5>$<span class="counters"
-                            data-count="{{ $totalRevenue }}">{{ number_format($totalRevenue, 2) }}</span></h5>
+                    <h5>Rwf<span class="counters"
+                            data-count="{{ $totalRevenue }}">{{ number_format($totalRevenue) }}</span></h5>
                     <h6>Total Revenue</h6>
                 </div>
             </div>
