@@ -80,7 +80,7 @@
 
                 <p style="margin-top: 20px; font-size: 14px; color: #6b7280;">
                     Didn’t receive the code?
-                    <button type="button" id="resend-btn" style="
+                    <button type="button" onclick="resendOTP()" id="resend-btn" style="
           background: none;
           border: none;
           color: #ff6b00;
@@ -122,9 +122,10 @@
 
     <!-- INLINE STYLES -->
     <style>
-        *{
+        * {
             font-family: Inter, sans-serif;
         }
+
         .otp-input {
             width: 45px;
             height: 50px;
@@ -241,6 +242,38 @@
                 window.location.href = "{{ route('password.reset') }}";
             }, 2500);
         });
+
+        // Resend OTP logic
+        function resendOTP() {
+            const resendLink = document.getElementById('resendLink');
+            const timer = document.getElementById('timer');
+            resendLink.classList.add('disabled');
+            timer.style.display = 'inline';
+            let seconds = 30;
+            timer.textContent = `(${seconds}s)`;
+
+            // Send AJAX request
+            fetch("{{ route('password.email') }}", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email: "{{ session('reset_email') }}" })
+            })
+                .then(res => res.json())
+                .catch(() => alert('Error resending OTP, please try again later.'));
+
+            const countdown = setInterval(() => {
+                seconds--;
+                timer.textContent = `(${seconds}s)`;
+                if (seconds <= 0) {
+                    clearInterval(countdown);
+                    resendLink.classList.remove('disabled');
+                    timer.style.display = 'none';
+                }
+            }, 1000);
+        }
     </script>
 
 </body>
