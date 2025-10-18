@@ -145,7 +145,7 @@
                     <div class="mt-6 text-center">
                         <p class="text-sm text-secondary-600">
                             Remember your password?
-                            <a href="../pages/authentication_portal.html"
+                            <a href="{{ route('login') }}"
                                 class="text-accent hover:text-accent-600 font-semibold transition-fast">
                                 Sign In Here
                             </a>
