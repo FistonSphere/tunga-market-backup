@@ -54,12 +54,9 @@
             <form id="otp-form" action="{{ route('password.verify.otp') }}" method="POST" style="margin-top: 10px;">
                 @csrf
                 <div style="display: flex; justify-content: space-between; margin-bottom: 25px;">
-                    <input type="text" maxlength="1" name="otp[]" class="otp-input" required />
-                    <input type="text" maxlength="1" name="otp[]" class="otp-input" required />
-                    <input type="text" maxlength="1" name="otp[]" class="otp-input" required />
-                    <input type="text" maxlength="1" name="otp[]" class="otp-input" required />
-                    <input type="text" maxlength="1" name="otp[]" class="otp-input" required />
-                    <input type="text" maxlength="1" name="otp[]" class="otp-input" required />
+                    @for ($i = 0; $i < 6; $i++)
+                        <input type="text" maxlength="1" name="otp[]" class="otp-input" required />
+                    @endfor
                 </div>
 
                 <button type="submit" id="verify-btn" style="
@@ -80,7 +77,7 @@
 
                 <p style="margin-top: 20px; font-size: 14px; color: #6b7280;">
                     Didn’t receive the code?
-                    <button type="button" onclick="resendOTP()" id="resend-btn" style="
+                    <button type="button" id="resend-btn" style="
           background: none;
           border: none;
           color: #ff6b00;
@@ -120,7 +117,6 @@
         </div>
     </div>
 
-    <!-- INLINE STYLES -->
     <style>
         * {
             font-family: Inter, sans-serif;
@@ -167,7 +163,6 @@
         }
     </style>
 
-    <!-- JAVASCRIPT -->
     <script>
         const inputs = document.querySelectorAll(".otp-input");
         const form = document.getElementById("otp-form");
@@ -176,7 +171,7 @@
         const resendBtn = document.getElementById("resend-btn");
         const timerElement = document.getElementById("timer");
 
-        // Auto-focus and backspace handling
+        // Auto move and backspace navigation
         inputs.forEach((input, i) => {
             input.addEventListener("input", e => {
                 if (input.value.length === 1 && i < inputs.length - 1) inputs[i + 1].focus();
@@ -186,7 +181,7 @@
             });
         });
 
-        // Allow pasting OTP directly
+        // Paste handling
         form.addEventListener("paste", e => {
             e.preventDefault();
             const pasteData = e.clipboardData.getData("text").trim();
@@ -198,7 +193,7 @@
             }
         });
 
-        // Simulated resend OTP timer
+        // Countdown for resend button
         let timeLeft = 30;
         const countdown = setInterval(() => {
             timeLeft--;
@@ -210,72 +205,56 @@
             }
         }, 1000);
 
-        resendBtn.addEventListener("click", () => {
+        // Resend OTP using Laravel route
+        resendBtn.addEventListener("click", async () => {
             resendBtn.disabled = true;
             resendBtn.textContent = "Sending...";
-            setTimeout(() => {
-                alert("A new OTP has been sent to your email.");
+
+            try {
+                const response = await fetch("{{ route('password.email') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        email: "{{ session('reset_email') }}"
+                    })
+                });
+
+                const data = await response.text();
+
                 resendBtn.textContent = "Resend in 30s";
-                timeLeft = 30;
-                resendBtn.disabled = true;
+                let t = 30;
                 const newTimer = setInterval(() => {
-                    timeLeft--;
-                    if (timeLeft <= 0) {
+                    t--;
+                    if (t <= 0) {
                         clearInterval(newTimer);
                         resendBtn.disabled = false;
                         resendBtn.textContent = "Resend OTP";
                     } else {
-                        resendBtn.textContent = `Resend in ${timeLeft}s`;
+                        resendBtn.textContent = `Resend in ${t}s`;
                     }
                 }, 1000);
-            }, 1500);
+            } catch (error) {
+                alert("Error resending OTP. Try again later.");
+                resendBtn.disabled = false;
+                resendBtn.textContent = "Resend OTP";
+            }
         });
 
-        // Simulated success modal on form submit
+        // Success modal before redirect
         form.addEventListener("submit", e => {
             e.preventDefault();
             otpModal.style.display = "none";
             successModal.style.display = "block";
 
-            // Redirect after animation
             setTimeout(() => {
                 window.location.href = "{{ route('password.reset') }}";
             }, 2500);
         });
-
-        // Resend OTP logic
-        function resendOTP() {
-            const resendLink = document.getElementById('resendLink');
-            const timer = document.getElementById('timer');
-            resendLink.classList.add('disabled');
-            timer.style.display = 'inline';
-            let seconds = 30;
-            timer.textContent = `(${seconds}s)`;
-
-            // Send AJAX request
-            fetch("{{ route('password.email') }}", {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email: "{{ session('reset_email') }}" })
-            })
-                .then(res => res.json())
-                .catch(() => alert('Error resending OTP, please try again later.'));
-
-            const countdown = setInterval(() => {
-                seconds--;
-                timer.textContent = `(${seconds}s)`;
-                if (seconds <= 0) {
-                    clearInterval(countdown);
-                    resendLink.classList.remove('disabled');
-                    timer.style.display = 'none';
-                }
-            }, 1000);
-        }
     </script>
-
 </body>
+
 
 </html>
