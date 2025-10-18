@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductViewSnapshot;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,10 +48,24 @@ class ProductListingController extends Controller
 
     // Increment product views
     $product->increment('views_count');
-    $productSnapshot =  new \App\Models\ProductViewSnapshot();
-    $productSnapshot->product_id = $product->id;
+    $today = Carbon::today();
+
+// Try to get today's snapshot for this product
+$productSnapshot = ProductViewSnapshot::where('product_id', $product->id)
+    ->whereDate('recorded_at', $today)
+    ->first();
+
+if ($productSnapshot) {
+    // Update existing record
     $productSnapshot->increment('views_count');
-    $productSnapshot->save();
+} else {
+    // Create new record for today
+    ProductViewSnapshot::create([
+        'product_id'   => $product->id,
+        'views_count'  => 1,
+        'recorded_at'  => $today,
+    ]);
+}
 
     // Fetch related products (same category, exclude current product)
     $relatedProducts = Product::where('category_id', $product->category_id)
