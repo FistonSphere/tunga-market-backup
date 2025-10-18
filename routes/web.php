@@ -221,14 +221,7 @@ Route::post('/admin/register', [AdminUserController::class, 'store'])->name('adm
 Route::post('account/admin/login', [AdminUserController::class, 'login'])->name('admin.login.submit');
 Route::middleware(['middleware'=>'auth'])->prefix('admin')->group(function () {
 Route::post('/logout', [AdminUserController::class, 'logout'])->name('admin.logout');
-Route::get('/dashboard', function () {
-    return "
-    <h2 style='text-align:center;margin-top:80px;'>Welcome to Admin Dashboard</h2>
-    <form action='" . route('admin.logout') . "' method='POST'>
-        " . csrf_field() . "
-        <button type='submit' style='display:block;margin-top:20px;'>Logout</button>
-    </form>";
-})->name('admin.dashboard');
+Route::get('/dashboard', [\App\Http\Controllers\backend\HomeController::class, 'dashboard'])->name('admin.dashboard');
 
 
 });
