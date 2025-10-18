@@ -113,10 +113,10 @@
         <div class="col-lg-7 col-sm-12 col-12 d-flex">
             <div class="card flex-fill">
                 <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Sales Overview</h5>
+                    <h5 class="card-title mb-0">Sales Overview (Last 7 Days)</h5>
                 </div>
                 <div class="card-body">
-                    <div id="salesChart" style="height: 350px;"></div>
+                      <div id="sales-overview-chart" style="min-height: 350px;"></div>
                 </div>
             </div>
         </div>
@@ -248,7 +248,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const ctx = document.getElementById('salesChart').getContext('2d');
