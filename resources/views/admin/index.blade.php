@@ -264,31 +264,47 @@
 
 
     <div class="row">
-        @foreach ($activeFlashDeals as $deal)
-            <div class="col-md-4">
-                <div class="card border-left-danger shadow">
-                    <div class="card-header bg-danger text-white">
-                        <h6 class="mb-0">🔥 Flash Deal</h6>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $deal->product->name }}</h5>
-                        <p>
-                            <strong>Now:</strong> Rwf{{ number_format($deal->flash_price) }}<br>
-                            @if($deal->discount_percent)
-                                <strong>Discount:</strong> {{ $deal->discount_percent }}% Off<br>
-                            @endif
+        @forelse ($activeFlashDeals as $deal)
+            <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
+                <div class="card shadow-sm border-0 h-100 flash-deal-card">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge bg-danger text-uppercase">Flash Deal</span>
+                                <small class="text-muted">Ends {{ $deal->end_time->format('M d, H:i') }}</small>
+                            </div>
+
+                            <h5 class="card-title fw-semibold mb-1">{{ Str::limit($deal->product->name, 40) }}</h5>
+
+                            <p class="mb-2 text-muted small">
+                                @if($deal->discount_percent)
+                                    <span class="text-success fw-semibold">{{ $deal->discount_percent }}% OFF</span>
+                                @endif
+                                <br>
+                                <span class="text-dark fw-bold">Now: Rwf{{ number_format($deal->flash_price) }}</span>
+                            </p>
+
                             @if($deal->stock_limit)
-                                <strong>Stock Left:</strong> {{ $deal->stock_limit }}<br>
+                                <div class="progress mb-2" style="height: 6px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%"></div>
+                                </div>
+                                <p class="small text-muted mb-2">Stock remaining: {{ $deal->stock_limit }}</p>
                             @endif
-                        </p>
-                        <div id="countdown-{{ $deal->id }}" class="flipdown my-2"></div>
-                        <p class="text-muted small mb-0">
-                            Ends at: {{ $deal->end_time->format('M d, Y H:i') }}
-                        </p>
+                        </div>
+
+                        <div class="mt-auto">
+                            <div id="countdown-{{ $deal->id }}" class="flipdown"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    No active flash deals at the moment.
+                </div>
+            </div>
+        @endforelse
     </div>
 
 
@@ -363,15 +379,6 @@
             const chart = new ApexCharts(document.querySelector("#sales-overview-chart"), options);
             chart.render();
         });
-
-             document.addEventListener("DOMContentLoaded", function () {
-            @foreach ($activeFlashDeals as $deal)
-                new FlipDown(
-                    Math.floor(new Date("{{ $deal->end_time->toIso8601String() }}").getTime() / 1000),
-                    'countdown-{{ $deal->id }}'
-                ).start();
-            @endforeach
-        });
-        </script>
+    </script>
 
 @endsection
