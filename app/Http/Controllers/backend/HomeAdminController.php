@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AbandonedCartReminderMail;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Product;
@@ -14,8 +15,9 @@ use App\Models\UserActivityLog;
 use App\Models\ProductViewSnapshot;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
-class HomeController extends Controller
+class HomeAdminController extends Controller
 {
     public function dashboard()
     {
@@ -79,6 +81,23 @@ class HomeController extends Controller
         'userLocations'      => $userLocations,
         'abandonedCarts'     => $abandonedCarts
     ]);
+    }
+
+
+
+     public function sendReminder(User $user)
+    {
+        $items = Cart::with('product')->where('user_id', $user->id)->get();
+
+        if ($items->isEmpty()) {
+            return back()->with('error', 'No items in cart to remind.');
+        }
+
+        $total = $items->sum(fn($item) => $item->product->price * $item->quantity);
+
+        Mail::to($user->email)->send(new AbandonedCartReminderMail($user, $items, $total));
+
+        return back()->with('success', 'Reminder email sent to ' . $user->email);
     }
 }
 function abbreviateNumber($number, $precision = 1)

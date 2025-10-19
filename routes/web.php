@@ -3,6 +3,7 @@
 use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\backend\AdminUserController;
+use App\Http\Controllers\backend\HomeAdminController;
 use App\Http\Controllers\ComparisonController;
 use App\Http\Controllers\FlashDealCartController;
 use App\Http\Controllers\ForgotPasswordController;
@@ -221,7 +222,8 @@ Route::post('/admin/register', [AdminUserController::class, 'store'])->name('adm
 Route::post('account/admin/login', [AdminUserController::class, 'login'])->name('admin.login.submit');
 Route::middleware(['middleware'=>'auth'])->prefix('admin')->group(function () {
 Route::post('/logout', [AdminUserController::class, 'logout'])->name('admin.logout');
-Route::get('/dashboard', [\App\Http\Controllers\backend\HomeController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/dashboard', [HomeAdminController::class, 'dashboard'])->name('admin.dashboard');
+Route::post('/admin/send-reminder/{user}', [HomeAdminController::class, 'sendReminder'])->name('admin.sendReminder');
 
 
 });
