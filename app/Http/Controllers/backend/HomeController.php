@@ -46,7 +46,8 @@ class HomeController extends Controller
     $activeFlashDeals = FlashDeal::with('product')
         ->active()
         ->orderBy('end_time', 'asc')
-        ->take(3) // Show top 3 current deals
+        ->inRandomOrder(3)
+        ->limit(3)
         ->get();
 
         
