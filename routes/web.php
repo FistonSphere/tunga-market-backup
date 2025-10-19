@@ -4,6 +4,7 @@ use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\backend\AdminUserController;
 use App\Http\Controllers\backend\HomeAdminController;
+use App\Http\Controllers\backend\ProductManagementController;
 use App\Http\Controllers\ComparisonController;
 use App\Http\Controllers\FlashDealCartController;
 use App\Http\Controllers\ForgotPasswordController;
@@ -223,8 +224,10 @@ Route::post('account/admin/login', [AdminUserController::class, 'login'])->name(
 Route::middleware(['middleware'=>'auth'])->prefix('admin')->group(function () {
 Route::post('/logout', [AdminUserController::class, 'logout'])->name('admin.logout');
 Route::get('/dashboard', [HomeAdminController::class, 'dashboard'])->name('admin.dashboard');
-Route::post('/admin/send-reminder/{user}', [HomeAdminController::class, 'sendReminder'])->name('admin.sendReminder');
-
+Route::post('/send-reminder/{user}', [HomeAdminController::class, 'sendReminder'])->name('admin.sendReminder');
+Route::prefix('products')->group(function(){
+Route::get('/listing',[ProductManagementController::class,'index'])->name('admin.product.listing');
+});
 
 });
 // admin with no authentication middleware routes
