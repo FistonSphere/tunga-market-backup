@@ -400,7 +400,7 @@
 
 
 
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -479,7 +479,35 @@
                     'countdown-{{ $deal->id }}'
                 ).start();
             @endforeach
-                                                                    });
+                                                                            });
+
+        google.charts.load('current', {
+            'packages': ['geochart'],
+            // Optional: restrict to regions
+            'mapsApiKey': '' // Optional if you want advanced features
+        });
+
+        google.charts.setOnLoadCallback(drawRegionsMap);
+
+        function drawRegionsMap() {
+            const data = google.visualization.arrayToDataTable([
+                ['Country', 'Users'],
+                @foreach ($userLocations as $location)
+                    ['{{ $location->country }}', {{ $location->total }}],
+                @endforeach
+                ]);
+
+            const options = {
+                colorAxis: { colors: ['#c6e48b', '#239a3b'] }, // green scale
+                backgroundColor: '#ffffff',
+                datalessRegionColor: '#f5f5f5',
+                defaultColor: '#f5f5f5',
+                legend: { textStyle: { color: '#666' } }
+            };
+
+            const chart = new google.visualization.GeoChart(document.getElementById('geo_chart'));
+            chart.draw(data, options);
+        }
     </script>
 
 @endsection
