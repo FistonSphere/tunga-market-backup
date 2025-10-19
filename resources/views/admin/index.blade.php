@@ -57,6 +57,44 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
         }
+
+        .avatar-group .avatar-wrapper {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #fff;
+            margin-left: -10px;
+            position: relative;
+            z-index: 1;
+            background-color: #f1f1f1;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .avatar-group .avatar-wrapper:first-child {
+            margin-left: 0;
+        }
+
+        .avatar-group .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-group .more-count {
+            background-color: #e0e0e0;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .avatar-group .avatar-wrapper:hover {
+            transform: scale(1.05);
+            z-index: 2;
+        }
     </style>
     <div class="row">
         <!-- Total Users -->
@@ -414,10 +452,10 @@
                             $lastUpdated = $items->first()->updated_at->diffForHumans();
                         @endphp
 
-                        <div class="card mb-3 border-0 shadow-sm">
+                        <div class="card mb-4 border-0 shadow-sm">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
+                                <div class="d-flex justify-content-between align-items-start flex-wrap">
+                                    <div class="mb-3 mb-md-0">
                                         <h6 class="mb-1">
                                             <i class="bi bi-person-circle text-primary me-1"></i>
                                             {{ $user->last_name }} {{ $user->first_name }}
@@ -431,12 +469,34 @@
                                             Potential Loss: Rwf{{ number_format($total) }}
                                         </p>
                                     </div>
-                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse"
-                                        data-bs-target="#userCart-{{ $userId }}">
-                                        View Cart <i class="bi bi-chevron-down ms-1"></i>
-                                    </button>
+
+                                    {{-- Overlapping product images --}}
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-group d-flex me-3">
+                                            @foreach ($items->take(5) as $item)
+                                                <div class="avatar-wrapper" data-bs-toggle="tooltip"
+                                                    title="{{ $item->product->name }}">
+                                                    <img src="{{ asset($item->product->main_image) }}"
+                                                        alt="{{ $item->product->name }}" class="avatar-img">
+                                                </div>
+                                            @endforeach
+
+                                            @if ($items->count() > 5)
+                                                <div class="avatar-wrapper more-count">
+                                                    +{{ $items->count() - 5 }}
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- Toggle button --}}
+                                        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse"
+                                            data-bs-target="#userCart-{{ $userId }}">
+                                            View Cart <i class="bi bi-chevron-down ms-1"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
+                                {{-- Cart Items --}}
                                 <div class="collapse mt-3" id="userCart-{{ $userId }}">
                                     <ul class="list-group list-group-flush small">
                                         @foreach ($items as $item)
@@ -444,8 +504,9 @@
                                                 <div>
                                                     <strong>{{ $item->product->name }}</strong> × {{ $item->quantity }}
                                                 </div>
-                                                <span
-                                                    class="text-muted">Rwf{{ number_format($item->product->price * $item->quantity) }}</span>
+                                                <span class="text-muted">
+                                                    Rwf{{ number_format($item->product->price * $item->quantity) }}
+                                                </span>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -458,6 +519,7 @@
                         </div>
                     @endforelse
                 </div>
+
             </div>
 
         </div>
@@ -544,7 +606,7 @@
                     'countdown-{{ $deal->id }}'
                 ).start();
             @endforeach
-                                                                            });
+                                                                                    });
 
         google.charts.load('current', {
             'packages': ['geochart'],
@@ -560,7 +622,7 @@
                 @foreach ($userLocations as $location)
                     ['{{ $location->country }}', {{ $location->total }}],
                 @endforeach
-                ]);
+                        ]);
 
             const options = {
                 colorAxis: { colors: ['#c6e48b', '#239a3b'] }, // green scale
