@@ -73,7 +73,7 @@
 
         <li class="nav-item dropdown">
             <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                <img src="assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
+                <img src="{{asset('admin/assets/img/icons/notification-bing.svg')}}" alt="img"> <span class="badge rounded-pill">4</span>
             </a>
             <div class="dropdown-menu notifications">
                 <div class="topnav-dropdown-header">
@@ -86,7 +86,7 @@
                             <a href="activities.html">
                                 <div class="media d-flex">
                                     <span class="avatar flex-shrink-0">
-                                        <img alt="" src="assets/img/profiles/avatar-02.jpg">
+                                        <img alt="" src="{{asset('admin/assets/img/profiles/avatar-02.jpg')}}">
                                     </span>
                                     <div class="media-body flex-grow-1">
                                         <p class="noti-details"><span class="noti-title">John Doe</span> added
@@ -102,7 +102,7 @@
                             <a href="activities.html">
                                 <div class="media d-flex">
                                     <span class="avatar flex-shrink-0">
-                                        <img alt="" src="assets/img/profiles/avatar-03.jpg">
+                                        <img alt="" src="{{asset('admin/assets/img/profiles/avatar-03.jpg')}}">
                                     </span>
                                     <div class="media-body flex-grow-1">
                                         <p class="noti-details"><span class="noti-title">Tarah Shropshire</span>
@@ -118,7 +118,7 @@
                             <a href="activities.html">
                                 <div class="media d-flex">
                                     <span class="avatar flex-shrink-0">
-                                        <img alt="" src="assets/img/profiles/avatar-06.jpg">
+                                        <img alt="" src="{{asset('admin/assets/img/profiles/avatar-06.jpg')}}">
                                     </span>
                                     <div class="media-body flex-grow-1">
                                         <p class="noti-details"><span class="noti-title">Misty Tison</span>
@@ -135,7 +135,7 @@
                             <a href="activities.html">
                                 <div class="media d-flex">
                                     <span class="avatar flex-shrink-0">
-                                        <img alt="" src="assets/img/profiles/avatar-17.jpg">
+                                        <img alt="" src="{{asset('admin/assets/img/profiles/avatar-17.jpg')}}">
                                     </span>
                                     <div class="media-body flex-grow-1">
                                         <p class="noti-details"><span class="noti-title">Rolland Webber</span>
@@ -151,7 +151,7 @@
                             <a href="activities.html">
                                 <div class="media d-flex">
                                     <span class="avatar flex-shrink-0">
-                                        <img alt="" src="assets/img/profiles/avatar-13.jpg">
+                                        <img alt="" src="{{asset('admin/assets/img/profiles/avatar-13.jpg')}}">
                                     </span>
                                     <div class="media-body flex-grow-1">
                                         <p class="noti-details"><span class="noti-title">Bernardo Galaviz</span>
@@ -173,13 +173,13 @@
 
         <li class="nav-item dropdown has-arrow main-drop">
             <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-                <span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
+                <span class="user-img"><img src="{{asset('admin/assets/img/profiles/avator1.jpg')}}" alt="">
                     <span class="status online"></span></span>
             </a>
             <div class="dropdown-menu menu-drop-user">
                 <div class="profilename">
                     <div class="profileset">
-                        <span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
+                        <span class="user-img"><img src="{{asset('admin/assets/img/profiles/avator1.jpg')}}" alt="">
                             <span class="status online"></span></span>
                         <div class="profilesets">
                             <h6>John Doe</h6>
@@ -222,7 +222,7 @@
             <div id="sidebar-menu" class="sidebar-menu">
                 <ul>
                     <li class="active">
-                        <a href="{{ route('admin.dashboard') }}"><img src="assets/img/icons/dashboard.svg" alt="img"><span>
+                        <a href="{{ route('admin.dashboard') }}"><img src="{{asset('admin/assets/img/icons/dashboard.svg')}}" alt="img"><span>
                                 Dashboard</span> </a>
                     </li>
                     <li class="submenu">
@@ -242,7 +242,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/sales1.svg" alt="img"><span>
+                        <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/sales1.svg')}}" alt="img"><span>
                                 Sales</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="saleslist.html">Sales List</a></li>
@@ -253,7 +253,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/purchase1.svg" alt="img"><span>
+                        <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/purchase1.svg')}}" alt="img"><span>
                                 Purchase</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="purchaselist.html">Purchase List</a></li>
@@ -262,7 +262,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/expense1.svg" alt="img"><span>
+                        <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/expense1.svg')}}" alt="img"><span>
                                 Expense</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="expenselist.html">Expense List</a></li>
@@ -271,7 +271,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/quotation1.svg" alt="img"><span>
+                        <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/quotation1.svg')}}" alt="img"><span>
                                 Quotation</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="quotationList.html">Quotation List</a></li>
@@ -279,7 +279,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/transfer1.svg" alt="img"><span>
+                        <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/transfer1.svg')}}" alt="img"><span>
                                 Transfer</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="transferlist.html">Transfer List</a></li>
@@ -288,7 +288,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/return1.svg" alt="img"><span>
+                        <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/return1.svg')}}" alt="img"><span>
                                 Return</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="salesreturnlist.html">Sales Return List</a></li>
@@ -298,7 +298,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/users1.svg" alt="img"><span>
+                        <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/users1.svg')}}" alt="img"><span>
                                 People</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="customerlist.html">Customer List</a></li>
@@ -312,7 +312,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/places.svg" alt="img"><span>
+                        <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/places.svg')}}" alt="img"><span>
                                 Places</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="newcountry.html">New Country</a></li>
@@ -409,7 +409,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span>
+                        <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/product.svg')}}" alt="img"><span>
                                 Application</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="chat.html">Chat</a></li>
@@ -418,7 +418,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/time.svg" alt="img"><span>
+                        <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/time.svg')}}" alt="img"><span>
                                 Report</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="purchaseorderreport.html">Purchase order report</a></li>
@@ -431,7 +431,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/users1.svg" alt="img"><span>
+                        <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/users1.svg')}}" alt="img"><span>
                                 Users</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="newuser.html">New User </a></li>
@@ -439,7 +439,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/settings.svg" alt="img"><span>
+                        <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/settings.svg')}}" alt="img"><span>
                                 Settings</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="generalsettings.html">General Settings</a></li>
