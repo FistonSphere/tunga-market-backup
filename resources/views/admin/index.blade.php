@@ -436,9 +436,12 @@
         </div>
         <div class="col-md-6">
             <div class="card border-0 shadow mb-4">
-                <div class="card-header bg-warning text-dark d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0">
-                        🛒 Abandoned Carts
+                <div class="card-header text-dark d-flex align-items-center justify-content-between"
+                    style="background: #001428">
+                    <img src="{{ asset('admin/assets/img/icons/shopping-cart.svg') }}" style="width: 30px;height:30px"
+                        alt="">
+                    <h5 class="mb-0 text-white">
+                        Abandoned Carts
                     </h5>
                     <span class="badge bg-dark-subtle text-dark fw-normal">
                         {{ $abandonedCarts->count() }} users
@@ -606,7 +609,7 @@
                     'countdown-{{ $deal->id }}'
                 ).start();
             @endforeach
-                 });
+                     });
 
         google.charts.load('current', {
             'packages': ['geochart'],
@@ -622,7 +625,7 @@
                 @foreach ($userLocations as $location)
                     ['{{ $location->country }}', {{ $location->total }}],
                 @endforeach
-                            ]);
+                                ]);
 
             const options = {
                 colorAxis: { colors: ['#c6e48b', '#239a3b'] }, // green scale
