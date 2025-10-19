@@ -222,7 +222,7 @@
             <div id="sidebar-menu" class="sidebar-menu">
                 <ul>
                     <li class="active">
-                        <a href="index.html"><img src="assets/img/icons/dashboard.svg" alt="img"><span>
+                        <a href="{{ route('admin.dashboard') }}"><img src="assets/img/icons/dashboard.svg" alt="img"><span>
                                 Dashboard</span> </a>
                     </li>
                     <li class="submenu">
