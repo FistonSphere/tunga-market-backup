@@ -606,7 +606,7 @@
                     'countdown-{{ $deal->id }}'
                 ).start();
             @endforeach
-             });
+                 });
 
         google.charts.load('current', {
             'packages': ['geochart'],
@@ -622,7 +622,7 @@
                 @foreach ($userLocations as $location)
                     ['{{ $location->country }}', {{ $location->total }}],
                 @endforeach
-                        ]);
+                            ]);
 
             const options = {
                 colorAxis: { colors: ['#c6e48b', '#239a3b'] }, // green scale
