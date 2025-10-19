@@ -118,7 +118,7 @@
             text-align: center;
             font-size: 13px;
             color: #aaa;
-            padding: 20px;
+            padding: 40px;
             background: #f2f2f2;
         }
 
@@ -142,6 +142,10 @@
                 text-align: center;
             }
         }
+        h1{
+            color: white;
+            text-align:center;
+        }
     </style>
 </head>
 
@@ -149,13 +153,13 @@
     <div class="email-wrapper">
         <div class="email-header">
             <h1>Tunga Market</h1>
-            <p>Your cart is waiting for you 🛒</p>
+            <p style="text-align: center">Your cart is waiting for you </p>
         </div>
 
         <div class="email-content">
             <h2>Hello {{ $user->first_name }},</h2>
 
-            <p>We noticed you left the following items in your cart. Don’t worry — they’re still waiting for you!</p>
+            <p>We noticed you left the following items in your cart. Don’t worry! they’re still waiting for you!</p>
 
             <div class="product-list">
                 @foreach ($items as $item)
