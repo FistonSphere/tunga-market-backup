@@ -470,7 +470,12 @@
                                             <i class="bi bi-clock-history me-1"></i> Last seen: {{ $lastUpdated }}
                                         </p>
                                         <div class="badge bg-gradient bg-danger-subtle text-danger fw-bold px-3 py-2">
-                                            <i class="bi bi-cash-stack me-1"></i> Rwf{{ number_format($total) }} Potential Loss
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                class="bi bi-cash" viewBox="0 0 16 16">
+                                                <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                                                <path
+                                                    d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2z" />
+                                            </svg> Rwf{{ number_format($total) }} Potential Loss
                                         </div>
                                     </div>
 
@@ -618,7 +623,7 @@
                     'countdown-{{ $deal->id }}'
                 ).start();
             @endforeach
-                                 });
+                                     });
 
         google.charts.load('current', {
             'packages': ['geochart'],
@@ -634,7 +639,7 @@
                 @foreach ($userLocations as $location)
                     ['{{ $location->country }}', {{ $location->total }}],
                 @endforeach
-                                            ]);
+                                                ]);
 
             const options = {
                 colorAxis: { colors: ['#c6e48b', '#239a3b'] }, // green scale
