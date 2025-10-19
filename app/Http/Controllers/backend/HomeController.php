@@ -55,7 +55,11 @@ class HomeController extends Controller
         ->groupBy('country')
         ->get();
 
-        
+        $abandonedCarts = Cart::with('product', 'user')
+        ->where('updated_at', '<=', Carbon::now()->subDay())
+        ->whereNotNull('user_id')
+        ->get()
+        ->groupBy('user_id');
       return view('admin.index', [
         'totalUsers'         => User::count(),
         'totalProducts'      => Product::count(),
@@ -73,6 +77,7 @@ class HomeController extends Controller
         'recentUsers'        => $recentUsers,
         'activeFlashDeals'   => $activeFlashDeals,
         'userLocations'      => $userLocations,
+        'abandonedCarts'     => $abandonedCarts
     ]);
     }
 }
