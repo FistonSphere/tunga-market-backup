@@ -267,7 +267,7 @@
         <div class="col-lg-6 col-sm-6 col-6 d-flex">
             <div class="card mb-0">
                 <div class="card-body">
-                    <h4 class="card-title">Expired Products</h4>
+                    <h4 class="card-title">Flash Deals Calendar & Time </h4>
                     <div class="table-responsive dataview">
                         <table class="table datatable ">
                             <thead>
@@ -340,6 +340,9 @@
             </div>
         </div>
     </div>
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
