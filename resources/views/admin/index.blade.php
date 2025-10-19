@@ -264,82 +264,33 @@
 
 
     <div class="row">
-        <div class="col-lg-6 col-sm-6 col-6 d-flex">
-            <div class="card mb-0">
-                <div class="card-body">
-                    <h4 class="card-title">Flash Deals Calendar & Time </h4>
-                    <div class="table-responsive dataview">
-                        <table class="table datatable ">
-                            <thead>
-                                <tr>
-                                    <th>SNo</th>
-                                    <th>Product Code</th>
-                                    <th>Product Name</th>
-                                    <th>Brand Name</th>
-                                    <th>Category Name</th>
-                                    <th>Expiry Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td><a href="javascript:void(0);">IT0001</a></td>
-                                    <td class="productimgname">
-                                        <a class="product-img" href="productlist.html">
-                                            <img src="assets/img/product/product2.jpg" alt="product">
-                                        </a>
-                                        <a href="productlist.html">Orange</a>
-                                    </td>
-                                    <td>N/D</td>
-                                    <td>Fruits</td>
-                                    <td>12-12-2022</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td><a href="javascript:void(0);">IT0002</a></td>
-                                    <td class="productimgname">
-                                        <a class="product-img" href="productlist.html">
-                                            <img src="assets/img/product/product3.jpg" alt="product">
-                                        </a>
-                                        <a href="productlist.html">Pineapple</a>
-                                    </td>
-                                    <td>N/D</td>
-                                    <td>Fruits</td>
-                                    <td>25-11-2022</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td><a href="javascript:void(0);">IT0003</a></td>
-                                    <td class="productimgname">
-                                        <a class="product-img" href="productlist.html">
-                                            <img src="assets/img/product/product4.jpg" alt="product">
-                                        </a>
-                                        <a href="productlist.html">Stawberry</a>
-                                    </td>
-                                    <td>N/D</td>
-                                    <td>Fruits</td>
-                                    <td>19-11-2022</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td><a href="javascript:void(0);">IT0004</a></td>
-                                    <td class="productimgname">
-                                        <a class="product-img" href="productlist.html">
-                                            <img src="assets/img/product/product5.jpg" alt="product">
-                                        </a>
-                                        <a href="productlist.html">Avocat</a>
-                                    </td>
-                                    <td>N/D</td>
-                                    <td>Fruits</td>
-                                    <td>20-11-2022</td>
-                                </tr>
-                            </tbody>
-                        </table>
+        @foreach ($activeFlashDeals as $deal)
+            <div class="col-md-4">
+                <div class="card border-left-danger shadow">
+                    <div class="card-header bg-danger text-white">
+                        <h6 class="mb-0">🔥 Flash Deal</h6>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $deal->product->name }}</h5>
+                        <p>
+                            <strong>Now:</strong> Rwf{{ number_format($deal->flash_price) }}<br>
+                            @if($deal->discount_percent)
+                                <strong>Discount:</strong> {{ $deal->discount_percent }}% Off<br>
+                            @endif
+                            @if($deal->stock_limit)
+                                <strong>Stock Left:</strong> {{ $deal->stock_limit }}<br>
+                            @endif
+                        </p>
+                        <div id="countdown-{{ $deal->id }}" class="flipdown my-2"></div>
+                        <p class="text-muted small mb-0">
+                            Ends at: {{ $deal->end_time->format('M d, Y H:i') }}
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
+        @endforeach
     </div>
+
 
 
 
@@ -412,6 +363,15 @@
             const chart = new ApexCharts(document.querySelector("#sales-overview-chart"), options);
             chart.render();
         });
-    </script>
+
+             document.addEventListener("DOMContentLoaded", function () {
+            @foreach ($activeFlashDeals as $deal)
+                new FlipDown(
+                    Math.floor(new Date("{{ $deal->end_time->toIso8601String() }}").getTime() / 1000),
+                    'countdown-{{ $deal->id }}'
+                ).start();
+            @endforeach
+        });
+        </script>
 
 @endsection
