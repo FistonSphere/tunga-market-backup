@@ -379,6 +379,16 @@
             const chart = new ApexCharts(document.querySelector("#sales-overview-chart"), options);
             chart.render();
         });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            @foreach ($activeFlashDeals as $deal)
+                new FlipDown(
+                    Math.floor(new Date("{{ $deal->end_time->toIso8601String() }}").getTime() / 1000),
+                    'countdown-{{ $deal->id }}'
+                ).start();
+            @endforeach
+        });
     </script>
 
 @endsection
