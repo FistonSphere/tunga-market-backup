@@ -16,6 +16,7 @@
         .flipdown {
             margin-top: 10px;
             text-align: center;
+            width:300px;
         }
 
         .flipdown .rotor-group {
