@@ -33,20 +33,30 @@
             font-size: 1.25rem;
         }
 
+        .flipdown.flipdown__theme-dark .rotor,
+        .flipdown.flipdown__theme-dark .rotor-top,
+        .flipdown.flipdown__theme-dark .rotor-leaf-front {
+            background-color: #FF5722;
+        }
+
+        .flipdown.flipdown__theme-dark .rotor-bottom,
+        .flipdown.flipdown__theme-dark .rotor-leaf-rear {
+            background-color: #001428;
+        }
+
         .flipdown .rotor-group-heading {
             color: #6c757d;
             font-size: 0.75rem;
         }
 
         .flash-deal-card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
 
-.flash-deal-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-}
-
+        .flash-deal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
     </style>
     <div class="row">
         <!-- Total Users -->
@@ -310,67 +320,70 @@
     </div>
 
 
-   <div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-                <h4 class="card-title mb-0">Top 3 Flash Deals</h4>
-            </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                    <h4 class="card-title mb-0">Top 3 Flash Deals</h4>
+                </div>
 
-            <div class="card-body">
-                <div class="row">
-                    @forelse ($activeFlashDeals as $deal)
-                        <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
-                            <div class="card shadow-sm border-0 h-100 flash-deal-card">
-                                <div class="card-body d-flex flex-column justify-content-between">
-                                    <div>
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <span class="badge bg-danger text-uppercase">Flash Deal</span>
-                                            <small class="text-muted">
-                                                Ends {{ $deal->end_time->format('M d, H:i') }}
-                                            </small>
+                <div class="card-body">
+                    <div class="row">
+                        @forelse ($activeFlashDeals as $deal)
+                            <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
+                                <div class="card shadow-sm border-0 h-100 flash-deal-card">
+                                    <div class="card-body d-flex flex-column justify-content-between">
+                                        <div>
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <span class="badge bg-danger text-uppercase">Flash Deal</span>
+                                                <small class="text-muted">
+                                                    Ends {{ $deal->end_time->format('M d, H:i') }}
+                                                </small>
+                                            </div>
+
+                                            <h5 class="card-title fw-semibold mb-1">
+                                                {{ Str::limit($deal->product->name, 40) }}
+                                            </h5>
+
+                                            <p class="mb-2 text-muted small">
+                                                @if($deal->discount_percent)
+                                                    <span class="text-success fw-semibold">{{ $deal->discount_percent }}%
+                                                        OFF</span><br>
+                                                @endif
+                                                <span class="text-dark fw-bold">Now:
+                                                    Rwf{{ number_format($deal->flash_price) }}</span>
+                                            </p>
+
+                                            @if($deal->stock_limit)
+                                                <div class="progress mb-2" style="height: 6px;">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%">
+                                                    </div>
+                                                </div>
+                                                <p class="small text-muted mb-2">
+                                                    Stock remaining: {{ $deal->stock_limit }}
+                                                </p>
+                                            @endif
                                         </div>
 
-                                        <h5 class="card-title fw-semibold mb-1">
-                                            {{ Str::limit($deal->product->name, 40) }}
-                                        </h5>
-
-                                        <p class="mb-2 text-muted small">
-                                            @if($deal->discount_percent)
-                                                <span class="text-success fw-semibold">{{ $deal->discount_percent }}% OFF</span><br>
-                                            @endif
-                                            <span class="text-dark fw-bold">Now: Rwf{{ number_format($deal->flash_price) }}</span>
-                                        </p>
-
-                                        @if($deal->stock_limit)
-                                            <div class="progress mb-2" style="height: 6px;">
-                                                <div class="progress-bar bg-success" role="progressbar" style="width: 60%"></div>
-                                            </div>
-                                            <p class="small text-muted mb-2">
-                                                Stock remaining: {{ $deal->stock_limit }}
-                                            </p>
-                                        @endif
-                                    </div>
-
-                                    {{-- Countdown --}}
-                                    <div class="mt-auto">
-                                        <div id="countdown-{{ $deal->id }}" class="flipdown"></div>
+                                        {{-- Countdown --}}
+                                        <div class="mt-auto">
+                                            <div id="countdown-{{ $deal->id }}" class="flipdown"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @empty
-                        <div class="col-12">
-                            <div class="alert alert-info text-center mb-0">
-                                No active flash deals at the moment.
+                        @empty
+                            <div class="col-12">
+                                <div class="alert alert-info text-center mb-0">
+                                    No active flash deals at the moment.
+                                </div>
                             </div>
-                        </div>
-                    @endforelse
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
@@ -453,7 +466,7 @@
                     'countdown-{{ $deal->id }}'
                 ).start();
             @endforeach
-                                                    });
+                                                            });
     </script>
 
 @endsection
