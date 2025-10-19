@@ -37,6 +37,16 @@
             color: #6c757d;
             font-size: 0.75rem;
         }
+
+        .flash-deal-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.flash-deal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
     </style>
     <div class="row">
         <!-- Total Users -->
