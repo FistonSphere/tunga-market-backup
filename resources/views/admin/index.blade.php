@@ -396,6 +396,39 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="card-title mb-0">🛒 Abandoned Carts</h5>
+                </div>
+                <div class="card-body">
+                    @forelse($abandonedCarts as $userId => $items)
+                        @php
+                            $user = $items->first()->user;
+                            $total = $items->sum(fn($item) => $item->product->price * $item->quantity);
+                        @endphp
+
+                        <div class="mb-3 border-bottom pb-2">
+                            <strong>{{ $user->name }}</strong> ({{ count($items) }} items)
+                            <span class="text-muted small d-block">Last updated:
+                                {{ $items->first()->updated_at->diffForHumans() }}</span>
+                            <span class="text-danger fw-bold">Potential Lost: Rwf{{ number_format($total) }}</span>
+                            <ul class="mt-2 list-unstyled small">
+                                @foreach ($items as $item)
+                                    <li>
+                                        • {{ $item->product->name }} × {{ $item->quantity }}
+                                        (Rwf{{ number_format($item->product->price * $item->quantity) }})
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @empty
+                        <div class="text-muted">No abandoned carts found.</div>
+                    @endforelse
+                </div>
+            </div>
+
+        </div>
     </div>
 
 
@@ -479,7 +512,7 @@
                     'countdown-{{ $deal->id }}'
                 ).start();
             @endforeach
-                                                                        });
+                                                                                });
 
         google.charts.load('current', {
             'packages': ['geochart'],
@@ -495,7 +528,7 @@
                 @foreach ($userLocations as $location)
                     ['{{ $location->country }}', {{ $location->total }}],
                 @endforeach
-            ]);
+                    ]);
 
             const options = {
                 colorAxis: { colors: ['#c6e48b', '#239a3b'] }, // green scale
