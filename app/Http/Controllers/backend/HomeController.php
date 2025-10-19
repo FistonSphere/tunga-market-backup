@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Order;
 use App\Models\Cart;
 use App\Models\ContactRequest;
+use App\Models\FlashDeal;
 use App\Models\UserActivityLog;
 use App\Models\ProductViewSnapshot;
 use Illuminate\Support\Carbon;
@@ -42,6 +43,13 @@ class HomeController extends Controller
 
     $recentOrders = Order::with('user')->latest()->take(10)->get();
     $recentUsers = User::latest()->take(10)->get();
+    $activeFlashDeals = FlashDeal::with('product')
+        ->active()
+        ->orderBy('end_time', 'asc')
+        ->take(3) // Show top 3 current deals
+        ->get();
+
+        
       return view('admin.index', [
         'totalUsers'         => User::count(),
         'totalProducts'      => Product::count(),
@@ -57,6 +65,7 @@ class HomeController extends Controller
         'salesTotals'        => $salesTotals,
         'recentOrders'       => $recentOrders,
         'recentUsers'        => $recentUsers,
+        'activeFlashDeals'   => $activeFlashDeals,
     ]);
     }
 }
