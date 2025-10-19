@@ -385,9 +385,22 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="card-title">🌍 User Distribution by Country</h5>
+                </div>
+                <div class="card-body">
+                    <div id="geo_chart" style="width: 100%; height: 500px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -466,7 +479,7 @@
                     'countdown-{{ $deal->id }}'
                 ).start();
             @endforeach
-                                                            });
+                                                                    });
     </script>
 
 @endsection
