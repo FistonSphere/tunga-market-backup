@@ -606,7 +606,7 @@
                     'countdown-{{ $deal->id }}'
                 ).start();
             @endforeach
-                                                                                    });
+             });
 
         google.charts.load('current', {
             'packages': ['geochart'],
