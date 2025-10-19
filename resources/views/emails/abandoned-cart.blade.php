@@ -116,10 +116,11 @@
 
         .footer {
             text-align: center;
+            border-radius: 6px;
             font-size: 13px;
-            color: #aaa;
-            padding: 40px;
-            background: #f2f2f2;
+            color: #fff;
+            padding: 100px;
+            background: #0C2D57;
         }
 
         @media screen and (max-width: 480px) {
@@ -142,9 +143,10 @@
                 text-align: center;
             }
         }
-        h1{
+
+        h1 {
             color: white;
-            text-align:center;
+            text-align: center;
         }
     </style>
 </head>
