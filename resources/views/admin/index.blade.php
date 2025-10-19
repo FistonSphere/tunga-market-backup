@@ -435,18 +435,20 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card border-0 shadow mb-4">
-                <div class="card-header text-dark d-flex align-items-center justify-content-between"
-                    style="background: #001428">
-                    <img src="{{ asset('admin/assets/img/icons/shopping-cart.svg') }}" style="width: 30px;height:30px"
-                        alt="">
-                    <h5 class="mb-0 text-white">
-                        Abandoned Carts
-                    </h5>
-                    <span class="badge bg-dark-subtle text-dark fw-normal">
+            <div class="card border-0 shadow mb-4"
+                style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);">
+                <div class="card-header d-flex align-items-center justify-content-between text-white"
+                    style="background: linear-gradient(135deg, #001428, #2e2e47);">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('admin/assets/img/icons/shopping-cart.svg') }}" alt="Cart"
+                            style="width: 30px; height: 30px;" class="me-2">
+                        <h5 class="mb-0">Abandoned Carts</h5>
+                    </div>
+                    <span class="badge bg-light text-dark">
                         {{ $abandonedCarts->count() }} users
                     </span>
                 </div>
+
                 <div class="card-body">
                     @forelse($abandonedCarts as $userId => $items)
                         @php
@@ -455,61 +457,63 @@
                             $lastUpdated = $items->first()->updated_at->diffForHumans();
                         @endphp
 
-                        <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card mb-4 border-0 shadow-sm rounded-4">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start flex-wrap">
-                                    <div class="mb-3 mb-md-0">
-                                        <h6 class="mb-1">
+                                    <div>
+                                        <h6 class="mb-1 fw-semibold text-dark">
                                             <i class="bi bi-person-circle text-primary me-1"></i>
                                             {{ $user->last_name }} {{ $user->first_name }}
-                                            <span class="badge bg-secondary ms-1">{{ count($items) }} items</span>
+                                            <span class="badge bg-secondary ms-2">{{ count($items) }} items</span>
                                         </h6>
                                         <p class="mb-1 text-muted small">
-                                            <i class="bi bi-clock-history me-1"></i> Last activity: {{ $lastUpdated }}
+                                            <i class="bi bi-clock-history me-1"></i> Last seen: {{ $lastUpdated }}
                                         </p>
-                                        <p class="mb-0 text-danger fw-semibold">
-                                            <i class="bi bi-exclamation-circle me-1"></i>
-                                            Potential Loss: Rwf{{ number_format($total) }}
-                                        </p>
+                                        <div class="badge bg-gradient bg-danger-subtle text-danger fw-bold px-3 py-2">
+                                            <i class="bi bi-cash-stack me-1"></i> Rwf{{ number_format($total) }} Potential Loss
+                                        </div>
                                     </div>
 
-                                    {{-- Overlapping product images --}}
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar-group d-flex me-3">
+                                    <div class="d-flex align-items-center flex-wrap gap-2 mt-3 mt-md-0">
+                                        <div class="d-flex align-items-center avatar-group me-3">
                                             @foreach ($items->take(5) as $item)
-                                                <div class="avatar-wrapper" data-bs-toggle="tooltip"
+                                                <div class="position-relative me-n2" data-bs-toggle="tooltip"
                                                     title="{{ $item->product->name }}">
                                                     <img src="{{ asset($item->product->main_image) }}"
-                                                        alt="{{ $item->product->name }}" class="avatar-img">
+                                                        alt="{{ $item->product->name }}"
+                                                        class="rounded-circle border border-white shadow-sm"
+                                                        style="width: 40px; height: 40px; object-fit: cover;">
                                                 </div>
                                             @endforeach
 
                                             @if ($items->count() > 5)
-                                                <div class="avatar-wrapper more-count">
+                                                <div class="rounded-circle bg-light text-dark border border-secondary d-flex align-items-center justify-content-center"
+                                                    style="width: 40px; height: 40px; font-size: 14px;">
                                                     +{{ $items->count() - 5 }}
                                                 </div>
                                             @endif
                                         </div>
 
-                                        {{-- Toggle button --}}
-                                        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse"
+                                        <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="collapse"
                                             data-bs-target="#userCart-{{ $userId }}">
-                                            View Cart <i class="bi bi-chevron-down ms-1"></i>
+                                            <i class="bi bi-eye me-1"></i> View Cart
                                         </button>
+
                                         <form action="{{ route('admin.sendReminder', $user->id) }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="btn btn-sm btn-outline-primary">
+                                            <button type="submit" class="btn btn-outline-primary btn-sm"
+                                                data-bs-toggle="tooltip" title="Send reminder email">
                                                 <i class="bi bi-envelope-fill me-1"></i> Send Reminder
                                             </button>
                                         </form>
                                     </div>
                                 </div>
 
-                                {{-- Cart Items --}}
+                                {{-- Cart Items Collapsible --}}
                                 <div class="collapse mt-3" id="userCart-{{ $userId }}">
                                     <ul class="list-group list-group-flush small">
                                         @foreach ($items as $item)
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                                 <div>
                                                     <strong>{{ $item->product->name }}</strong> × {{ $item->quantity }}
                                                 </div>
@@ -528,10 +532,9 @@
                         </div>
                     @endforelse
                 </div>
-
             </div>
-
         </div>
+
     </div>
 
 
@@ -615,7 +618,7 @@
                     'countdown-{{ $deal->id }}'
                 ).start();
             @endforeach
-                         });
+                                 });
 
         google.charts.load('current', {
             'packages': ['geochart'],
@@ -631,7 +634,7 @@
                 @foreach ($userLocations as $location)
                     ['{{ $location->country }}', {{ $location->total }}],
                 @endforeach
-                                    ]);
+                                            ]);
 
             const options = {
                 colorAxis: { colors: ['#c6e48b', '#239a3b'] }, // green scale
