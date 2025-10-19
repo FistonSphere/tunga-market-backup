@@ -397,33 +397,65 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="card-title mb-0">🛒 Abandoned Carts</h5>
+            <div class="card border-0 shadow mb-4">
+                <div class="card-header bg-warning text-dark d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">
+                        🛒 Abandoned Carts
+                    </h5>
+                    <span class="badge bg-dark-subtle text-dark fw-normal">
+                        {{ $abandonedCarts->count() }} users
+                    </span>
                 </div>
                 <div class="card-body">
                     @forelse($abandonedCarts as $userId => $items)
                         @php
                             $user = $items->first()->user;
                             $total = $items->sum(fn($item) => $item->product->price * $item->quantity);
+                            $lastUpdated = $items->first()->updated_at->diffForHumans();
                         @endphp
 
-                        <div class="mb-3 border-bottom pb-2">
-                            <strong>{{ $user->name }}</strong> ({{ count($items) }} items)
-                            <span class="text-muted small d-block">Last updated:
-                                {{ $items->first()->updated_at->diffForHumans() }}</span>
-                            <span class="text-danger fw-bold">Potential Lost: Rwf{{ number_format($total) }}</span>
-                            <ul class="mt-2 list-unstyled small">
-                                @foreach ($items as $item)
-                                    <li>
-                                        • {{ $item->product->name }} × {{ $item->quantity }}
-                                        (Rwf{{ number_format($item->product->price * $item->quantity) }})
-                                    </li>
-                                @endforeach
-                            </ul>
+                        <div class="card mb-3 border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">
+                                            <i class="bi bi-person-circle text-primary me-1"></i>
+                                            {{ $user->last_name }} {{ $user->first_name }}
+                                            <span class="badge bg-secondary ms-1">{{ count($items) }} items</span>
+                                        </h6>
+                                        <p class="mb-1 text-muted small">
+                                            <i class="bi bi-clock-history me-1"></i> Last activity: {{ $lastUpdated }}
+                                        </p>
+                                        <p class="mb-0 text-danger fw-semibold">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            Potential Loss: Rwf{{ number_format($total) }}
+                                        </p>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse"
+                                        data-bs-target="#userCart-{{ $userId }}">
+                                        View Cart <i class="bi bi-chevron-down ms-1"></i>
+                                    </button>
+                                </div>
+
+                                <div class="collapse mt-3" id="userCart-{{ $userId }}">
+                                    <ul class="list-group list-group-flush small">
+                                        @foreach ($items as $item)
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>{{ $item->product->name }}</strong> × {{ $item->quantity }}
+                                                </div>
+                                                <span
+                                                    class="text-muted">Rwf{{ number_format($item->product->price * $item->quantity) }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     @empty
-                        <div class="text-muted">No abandoned carts found.</div>
+                        <div class="alert alert-light text-center mb-0">
+                            <i class="bi bi-info-circle me-1"></i> No abandoned carts found.
+                        </div>
                     @endforelse
                 </div>
             </div>
@@ -512,7 +544,7 @@
                     'countdown-{{ $deal->id }}'
                 ).start();
             @endforeach
-                                                                                });
+                                                                            });
 
         google.charts.load('current', {
             'packages': ['geochart'],
@@ -528,7 +560,7 @@
                 @foreach ($userLocations as $location)
                     ['{{ $location->country }}', {{ $location->total }}],
                 @endforeach
-                    ]);
+                ]);
 
             const options = {
                 colorAxis: { colors: ['#c6e48b', '#239a3b'] }, // green scale
