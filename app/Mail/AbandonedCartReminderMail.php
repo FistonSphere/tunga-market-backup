@@ -11,14 +11,17 @@ use Illuminate\Queue\SerializesModels;
 
 class AbandonedCartReminderMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    
+use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct()
+    public $user;
+    public $items;
+    public $total;
+    public function __construct($user, $items, $total)
     {
-        //
+        $this->user = $user;
+        $this->items = $items;
+        $this->total = $total;
     }
 
     /**
@@ -34,13 +37,17 @@ class AbandonedCartReminderMail extends Mailable
     /**
      * Get the message content definition.
      */
-    public function content(): Content
+    // public function content(): Content
+    // {
+    //     return new Content(
+    //         view: 'view.name',
+    //     );
+    // }
+    public function build()
     {
-        return new Content(
-            view: 'view.name',
-        );
+        return $this->subject('You left items in your cart!')
+                    ->markdown('emails.abandoned-cart');
     }
-
     /**
      * Get the attachments for the message.
      *
