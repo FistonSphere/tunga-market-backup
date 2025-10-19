@@ -13,6 +13,7 @@ use App\Models\FlashDeal;
 use App\Models\UserActivityLog;
 use App\Models\ProductViewSnapshot;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -49,6 +50,10 @@ class HomeController extends Controller
         ->inRandomOrder(3)
         ->limit(3)
         ->get();
+    $userLocations = User::select('country', DB::raw('count(*) as total'))
+        ->whereNotNull('country')
+        ->groupBy('country')
+        ->get();
 
         
       return view('admin.index', [
@@ -57,7 +62,7 @@ class HomeController extends Controller
         'totalOrders'        => Order::count(),
         'totalRevenue'       => Order::sum('total'),
         'pendingCarts'       => Cart::count(),
-        'abbreviatedRevenue' =>abbreviateNumber(Order::sum('total')),// or add filter if needed
+        'abbreviatedRevenue' =>abbreviateNumber(Order::sum('total')),
         'contactRequests'    => ContactRequest::count(),
         'activityLogs'       => UserActivityLog::count(),
         'productViewsToday'  => ProductViewSnapshot::whereDate('created_at', now())->count(),
@@ -67,6 +72,7 @@ class HomeController extends Controller
         'recentOrders'       => $recentOrders,
         'recentUsers'        => $recentUsers,
         'activeFlashDeals'   => $activeFlashDeals,
+        'userLocations'      => $userLocations,
     ]);
     }
 }
