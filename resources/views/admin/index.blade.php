@@ -1,6 +1,42 @@
 @extends('admin.layouts.header')
 
 @section('content')
+    <style>
+        /* Card improvements */
+        .flash-deal-card {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .flash-deal-card:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+            transform: translateY(-3px);
+        }
+
+        /* FlipDown customizations */
+        .flipdown {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .flipdown .rotor-group {
+            margin: 0 5px;
+        }
+
+        .flipdown .rotor,
+        .flipdown .rotor-top,
+        .flipdown .rotor-leaf-front,
+        .flipdown .rotor-leaf-rear {
+            background: #343a40;
+            /* Dark UI for contrast */
+            color: #fff;
+            font-size: 1.25rem;
+        }
+
+        .flipdown .rotor-group-heading {
+            color: #6c757d;
+            font-size: 0.75rem;
+        }
+    </style>
     <div class="row">
         <!-- Total Users -->
         <div class="col-lg-3 col-sm-6 col-12">
@@ -388,7 +424,7 @@
                     'countdown-{{ $deal->id }}'
                 ).start();
             @endforeach
-        });
+            });
     </script>
 
 @endsection
