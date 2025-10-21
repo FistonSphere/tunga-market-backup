@@ -137,12 +137,12 @@
                                 </td>
                                 <td class="productimgname">
                                     <a href="javascript:void(0);" class="product-img">
-                                        <img src="{{$product->main_image }}" alt="product" />
+                                        <img src="{{$product->main_image }}" alt="{{ $product->name }}" />
                                     </a>
-                                    <a href="javascript:void(0);">Macbook pro</a>
+                                    <a href="javascript:void(0);">{{ $product->name }}</a>
                                 </td>
-                                <td>PT001</td>
-                                <td>Computers</td>
+                                <td>{{ $product->sku }}</td>
+                                <td>{{  }}</td>
                                 <td>N/D</td>
                                 <td>1500.00</td>
                                 <td>pc</td>
