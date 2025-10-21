@@ -142,7 +142,7 @@
                                     <a href="javascript:void(0);">{{ $product->name }}</a>
                                 </td>
                                 <td>{{ $product->sku }}</td>
-                                <td>{{  }}</td>
+                                <td>{{ $product->category->name }}</td>
                                 <td>N/D</td>
                                 <td>1500.00</td>
                                 <td>pc</td>
