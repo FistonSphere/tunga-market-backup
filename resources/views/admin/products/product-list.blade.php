@@ -95,7 +95,8 @@
                                 <div class="col-lg-1 col-sm-6 col-12">
                                     <div class="form-group">
                                         <a class="btn btn-filters ms-auto"><img
-                                                src="{{ asset('admin/assets/img/icons/search-whites.svg') }}" alt="img" /></a>
+                                                src="{{ asset('admin/assets/img/icons/search-whites.svg') }}"
+                                                alt="img" /></a>
                                     </div>
                                 </div>
                             </div>
@@ -126,40 +127,43 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <label class="checkboxs">
-                                    <input type="checkbox" />
-                                    <span class="checkmarks"></span>
-                                </label>
-                            </td>
-                            <td class="productimgname">
-                                <a href="javascript:void(0);" class="product-img">
-                                    <img src="{{ asset('admin/assets/img/product/product1.jpg') }}" alt="product" />
-                                </a>
-                                <a href="javascript:void(0);">Macbook pro</a>
-                            </td>
-                            <td>PT001</td>
-                            <td>Computers</td>
-                            <td>N/D</td>
-                            <td>1500.00</td>
-                            <td>pc</td>
-                            <td>100.00</td>
-                            <td>Admin</td>
-                            <td>
-                                <a class="me-3" href="product-details.html">
-                                    <img src="{{asset('admin/assets/img/icons/eye.svg')}}" alt="img" />
-                                </a>
-                                <a class="me-3" href="editproduct.html">
-                                    <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
-                                </a>
-                                <a class="confirm-text" href="javascript:void(0);">
-                                    <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
-                                </a>
-                            </td>
-                        </tr>
-                       
-                           
+                        @foreach ($products as $product)
+                            <tr>
+                                <td>
+                                    <label class="checkboxs">
+                                        <input type="checkbox" />
+                                        <span class="checkmarks"></span>
+                                    </label>
+                                </td>
+                                <td class="productimgname">
+                                    <a href="javascript:void(0);" class="product-img">
+                                        <img src="{{$product->main_image }}" alt="product" />
+                                    </a>
+                                    <a href="javascript:void(0);">Macbook pro</a>
+                                </td>
+                                <td>PT001</td>
+                                <td>Computers</td>
+                                <td>N/D</td>
+                                <td>1500.00</td>
+                                <td>pc</td>
+                                <td>100.00</td>
+                                <td>Admin</td>
+                                <td>
+                                    <a class="me-3" href="product-details.html">
+                                        <img src="{{asset('admin/assets/img/icons/eye.svg')}}" alt="img" />
+                                    </a>
+                                    <a class="me-3" href="editproduct.html">
+                                        <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
+                                    </a>
+                                    <a class="confirm-text" href="javascript:void(0);">
+                                        <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+
+
+
                     </tbody>
                 </table>
             </div>
