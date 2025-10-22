@@ -1,72 +1,6 @@
 @extends('admin.layouts.header')
 
 @section('content')
-    <style>
-        .pagination-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 25px;
-            padding: 15px 0;
-        }
-
-        .pagination-list {
-            list-style: none;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            padding: 0;
-            margin: 0;
-        }
-
-        .pagination-list li {
-            padding: 10px 18px;
-            border-radius: 10px;
-            background: #f5f5f5;
-            font-weight: 500;
-            color: #333;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-        }
-
-        .pagination-list li:hover {
-            background: #ff7f27;
-            color: #fff;
-            transform: scale(1.05);
-        }
-
-        .pagination-list li.active {
-            background: #ff7f27;
-            color: #fff;
-            font-weight: bold;
-            box-shadow: 0 3px 8px rgba(255, 127, 39, 0.4);
-        }
-
-        .pagination-list li.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .page-link {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .product-table tbody tr {
-            transition: background 0.2s ease, transform 0.2s ease;
-            cursor: pointer;
-        }
-
-        .product-table tbody tr:hover {
-            background: #fef3e0;
-            transform: scale(1.01);
-        }
-
-        .product-table tbody tr.selected {
-            background: #ffedd5;
-        }
-    </style>
-
     <div class="page-header">
         <div class="page-title">
             <h4>Product List</h4>
@@ -171,7 +105,7 @@
                 </div>
             </div> --}}
 
-            <!-- Products Table -->
+            <!-- Table -->
             <div class="table-responsive">
                 <table class="table product-table">
                     <thead>
@@ -204,7 +138,7 @@
                                 </td>
                                 <td class="productimgname">
                                     <a href="javascript:void(0);" class="product-img">
-                                        <img src="{{ $product->main_image }}" alt="{{ $product->name }}" />
+                                        <img src="{{$product->main_image}}" alt="{{ $product->name }}" />
                                     </a>
                                     <a href="javascript:void(0);">{{ $product->name }}</a>
                                 </td>
@@ -216,14 +150,14 @@
                                 <td>{{ $product->stock_quantity }}</td>
                                 <td>Admin</td>
                                 <td>
-                                    <a class="me-3" href="#">
-                                        <img src="{{ asset('admin/assets/img/icons/eye.svg') }}" alt="View" />
+                                    <a class="me-3" href="product-details.html">
+                                        <img src="{{asset('admin/assets/img/icons/eye.svg')}}" alt="img" />
                                     </a>
-                                    <a class="me-3" href="#">
-                                        <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="Edit" />
+                                    <a class="me-3" href="editproduct.html">
+                                        <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
                                     </a>
                                     <a class="confirm-text" href="javascript:void(0);">
-                                        <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="Delete" />
+                                        <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
                                     </a>
                                 </td>
                             </tr>
@@ -232,45 +166,122 @@
                 </table>
             </div>
 
-            <!-- Custom Interactive Pagination -->
+            <!-- Custom Pagination -->
             @if ($products->hasPages())
-                <div class="pagination-container">
-                    <ul class="pagination-list">
-                        {{-- Previous Page Link --}}
-                        @if ($products->onFirstPage())
-                            <li class="disabled">&laquo; Prev</li>
-                        @else
-                            <li><a href="{{ $products->previousPageUrl() }}" class="page-link">&laquo; Prev</a></li>
-                        @endif
+                <div class="custom-pagination flex justify-center items-center space-x-2 mt-6">
+                    {{-- Previous Page Link --}}
+                    @if ($products->onFirstPage())
+                        <span class="pagination-btn disabled">Prev</span>
+                    @else
+                        <a href="{{ $products->previousPageUrl() }}" class="pagination-btn">Prev</a>
+                    @endif
 
-                        {{-- Pagination Elements --}}
-                        @foreach ($products->links()->elements[0] ?? [] as $page => $url)
-                            @if ($page == $products->currentPage())
-                                <li class="active">{{ $page }}</li>
-                            @else
-                                <li><a href="{{ $url }}" class="page-link">{{ $page }}</a></li>
-                            @endif
-                        @endforeach
+                    {{-- Pagination Elements --}}
+                    @php
+                        $total = $products->lastPage();
+                        $current = $products->currentPage();
+                        $start = max($current - 2, 1);
+                        $end = min($current + 2, $total);
+                    @endphp
 
-                        {{-- Next Page Link --}}
-                        @if ($products->hasMorePages())
-                            <li><a href="{{ $products->nextPageUrl() }}" class="page-link">Next &raquo;</a></li>
-                        @else
-                            <li class="disabled">Next &raquo;</li>
+                    {{-- First page & leading ellipsis --}}
+                    @if($start > 1)
+                        <a href="{{ $products->url(1) }}" class="pagination-btn">1</a>
+                        @if($start > 2)
+                            <span class="pagination-btn ellipsis">...</span>
                         @endif
-                    </ul>
+                    @endif
+
+                    {{-- Pages around current page --}}
+                    @for ($i = $start; $i <= $end; $i++)
+                        @if ($i == $current)
+                            <span class="pagination-btn active">{{ $i }}</span>
+                        @else
+                            <a href="{{ $products->url($i) }}" class="pagination-btn">{{ $i }}</a>
+                        @endif
+                    @endfor
+
+                    {{-- Trailing ellipsis & last page --}}
+                    @if($end < $total)
+                        @if($end < $total - 1)
+                            <span class="pagination-btn ellipsis">...</span>
+                        @endif
+                        <a href="{{ $products->url($total) }}" class="pagination-btn">{{ $total }}</a>
+                    @endif
+
+                    {{-- Next Page Link --}}
+                    @if ($products->hasMorePages())
+                        <a href="{{ $products->nextPageUrl() }}" class="pagination-btn">Next</a>
+                    @else
+                        <span class="pagination-btn disabled">Next</span>
+                    @endif
                 </div>
             @endif
 
+            <!-- Styles -->
+            <style>
+                .product-table {
+                    width: 100%;
+                    border-collapse: separate;
+                    border-spacing: 0 8px;
+                }
+
+                .product-table th,
+                .product-table td {
+                    padding: 12px 15px;
+                    text-align: left;
+                }
+
+                .product-table tbody tr {
+                    background: #ffffff;
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                    border-radius: 12px;
+                }
+
+                .product-table tbody tr:hover {
+                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                }
+
+                .product-table tbody td {
+                    vertical-align: middle;
+                }
+
+                .custom-pagination {
+                    font-family: 'Inter', sans-serif;
+                }
+
+                .pagination-btn {
+                    display: inline-block;
+                    padding: 8px 14px;
+                    background: #f3f4f6;
+                    color: #374151;
+                    font-weight: 500;
+                    border-radius: 10px;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                    text-decoration: none;
+                }
+
+                .pagination-btn:hover {
+                    background: #ff6b00;
+                    color: white;
+                    transform: translateY(-2px);
+                }
+
+                .pagination-btn.active {
+                    background: #0c2d57;
+                    color: white;
+                    font-weight: 600;
+                }
+
+                .pagination-btn.disabled {
+                    background: #e5e7eb;
+                    color: #9ca3af;
+                    cursor: not-allowed;
+                    transform: none;
+                }
+            </style>
+
         </div>
     </div>
-
-    <script>
-        document.querySelectorAll('.pagination-list a').forEach(link => {
-            link.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        });
-    </script>
-
 @endsection
