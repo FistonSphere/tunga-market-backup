@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ProductManagementController extends Controller
 {
    public function index(){
-   $products= Product::with('category')->paginate('12');
+   $products= Product::with('category','brand')->paginate('12');
  
     return view('admin.products.product-list', compact('products'));
    }

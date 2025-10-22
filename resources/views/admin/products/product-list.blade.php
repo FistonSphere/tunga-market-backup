@@ -143,8 +143,8 @@
                                 </td>
                                 <td>{{ $product->sku }}</td>
                                 <td>{{ $product->category->name }}</td>
-                                <td>{{ $product->brand }}</td>
-                                <td>1500.00</td>
+                                <td>{{ $product->brand->name ?? '-' }}</td>
+                                <td>{{ number_format($product->price) }} Rwf</td>
                                 <td>pc</td>
                                 <td>100.00</td>
                                 <td>Admin</td>
