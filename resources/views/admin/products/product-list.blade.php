@@ -105,6 +105,7 @@
                 </div>
             </div> --}}
 
+            <!-- Products Table -->
             <div class="table-responsive">
                 <table class="table datanew">
                     <thead>
@@ -119,7 +120,7 @@
                             <th>SKU</th>
                             <th>Category</th>
                             <th>Brand</th>
-                            <th>price</th>
+                            <th>Price</th>
                             <th>Unit</th>
                             <th>Qty</th>
                             <th>Created By</th>
@@ -137,7 +138,7 @@
                                 </td>
                                 <td class="productimgname">
                                     <a href="javascript:void(0);" class="product-img">
-                                        <img src="{{$product->main_image }}" alt="{{ $product->name }}" />
+                                        <img src="{{ $product->main_image }}" alt="{{ $product->name }}" />
                                     </a>
                                     <a href="javascript:void(0);">{{ $product->name }}</a>
                                 </td>
@@ -149,24 +150,52 @@
                                 <td>{{ $product->stock_quantity }}</td>
                                 <td>Admin</td>
                                 <td>
-                                    <a class="me-3" href="product-details.html">
-                                        <img src="{{asset('admin/assets/img/icons/eye.svg')}}" alt="img" />
+                                    <a class="me-3" href="#">
+                                        <img src="{{ asset('admin/assets/img/icons/eye.svg') }}" alt="View" />
                                     </a>
-                                    <a class="me-3" href="editproduct.html">
-                                        <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
+                                    <a class="me-3" href="#">
+                                        <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="Edit" />
                                     </a>
                                     <a class="confirm-text" href="javascript:void(0);">
-                                        <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
+                                        <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="Delete" />
                                     </a>
                                 </td>
                             </tr>
                         @endforeach
-
-
-
                     </tbody>
                 </table>
             </div>
+
+            <!-- Custom Interactive Pagination -->
+            @if ($products->hasPages())
+                <div class="pagination-container">
+                    <ul class="pagination-list">
+                        {{-- Previous Page Link --}}
+                        @if ($products->onFirstPage())
+                            <li class="disabled">&laquo; Prev</li>
+                        @else
+                            <li><a href="{{ $products->previousPageUrl() }}" class="page-link">&laquo; Prev</a></li>
+                        @endif
+
+                        {{-- Pagination Elements --}}
+                        @foreach ($products->links()->elements[0] ?? [] as $page => $url)
+                            @if ($page == $products->currentPage())
+                                <li class="active">{{ $page }}</li>
+                            @else
+                                <li><a href="{{ $url }}" class="page-link">{{ $page }}</a></li>
+                            @endif
+                        @endforeach
+
+                        {{-- Next Page Link --}}
+                        @if ($products->hasMorePages())
+                            <li><a href="{{ $products->nextPageUrl() }}" class="page-link">Next &raquo;</a></li>
+                        @else
+                            <li class="disabled">Next &raquo;</li>
+                        @endif
+                    </ul>
+                </div>
+            @endif
+
         </div>
     </div>
 @endsection
