@@ -1,83 +1,219 @@
 @extends('admin.layouts.header')
 
 @section('content')
-<!-- Styles -->
-            <style>
-                .product-table {
-                    width: 100%;
-                    border-collapse: separate;
-                    border-spacing: 0 8px;
-                }
+    <!-- Styles -->
+    <style>
+        .product-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
 
-                .product-table th,
-                .product-table td {
-                    padding: 12px 15px;
-                    text-align: left;
-                }
+        .product-table th,
+        .product-table td {
+            padding: 12px 15px;
+            text-align: left;
+        }
 
-                .product-table tbody tr {
-                    background: #ffffff;
-                    transition: transform 0.2s ease, box-shadow 0.2s ease;
-                    border-radius: 12px;
-                }
+        .product-table tbody tr {
+            background: #ffffff;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-radius: 12px;
+        }
 
-                .product-table tbody tr:hover {
-                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-                }
+        .product-table tbody tr:hover {
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
 
-                .product-table tbody td {
-                    vertical-align: middle;
-                }
+        .product-table tbody td {
+            vertical-align: middle;
+        }
 
-                .custom-pagination {
-                    font-family: 'Inter', sans-serif;
-                    margin-top:2em;
-                }
+        .custom-pagination {
+            font-family: 'Inter', sans-serif;
+            margin-top: 2em;
+        }
 
-                .pagination-btn {
-                    display: inline-block;
-                    padding: 8px 14px;
-                    background: #f3f4f6;
-                    color: #374151;
-                    font-weight: 500;
-                    border-radius: 10px;
-                    transition: all 0.3s ease;
-                    cursor: pointer;
-                    text-decoration: none;
-                }
+        .pagination-btn {
+            display: inline-block;
+            padding: 8px 14px;
+            background: #f3f4f6;
+            color: #374151;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
 
-                .pagination-btn:hover:not(.active):not(.disabled) {
-                    background: #ff6b00;
-                    color: white;
-                    transform: translateY(-2px);
-                }
+        .pagination-btn:hover:not(.active):not(.disabled) {
+            background: #ff6b00;
+            color: white;
+            transform: translateY(-2px);
+        }
 
-                .pagination-btn.active {
-                    background: #0c2d57;
-                    color: white;
-                    font-weight: 600;
-                }
+        .pagination-btn.active {
+            background: #0c2d57;
+            color: white;
+            font-weight: 600;
+        }
 
-                .pagination-btn.disabled {
-                    background: #e5e7eb;
-                    color: #9ca3af;
-                    cursor: not-allowed;
-                    transform: none;
-                }
+        .pagination-btn.disabled {
+            background: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
 
-                .pagination-btn.ellipsis {
-                    cursor: default;
-                    background: transparent;
-                    color: #9ca3af;
-                    transform: none;
-                }
+        .pagination-btn.ellipsis {
+            cursor: default;
+            background: transparent;
+            color: #9ca3af;
+            transform: none;
+        }
 
-                button{
-                    border:none;
-                    outline:none;
-                    background:none;
-                }
-            </style>
+        button {
+            border: none;
+            outline: none;
+            background: none;
+        }
+
+        .product-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-modal-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .product-modal {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 85%;
+            max-width: 1000px;
+            animation: scaleIn 0.4s ease forwards;
+            position: relative;
+        }
+
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            background: none;
+            border: none;
+            color: #444;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+            color: #ff6b00;
+        }
+
+        .modal-content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .modal-content .left {
+            flex: 1 1 40%;
+        }
+
+        .modal-content .right {
+            flex: 1 1 55%;
+        }
+
+        .main-image {
+            width: 100%;
+            border-radius: 15px;
+            object-fit: cover;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .gallery img {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+        }
+
+        .right h2 {
+            font-size: 24px;
+            color: #0c2d57;
+            margin-bottom: 8px;
+        }
+
+        .sku {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 22px;
+            color: #ff6b00;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .features-list {
+            list-style: disc;
+            padding-left: 20px;
+            color: #333;
+        }
+
+        .description {
+            color: #555;
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                flex-direction: column;
+            }
+        }
+    </style>
     <div class="page-header">
         <div class="page-title">
             <h4>Product List</h4>
@@ -225,9 +361,10 @@
                                 <td>{{ $product->units->name ?? '-' }}</td>
                                 <td>{{ $product->stock_quantity }}</td>
                                 <td>
-                                    <button class="me-3">
-                                        <img src="{{asset('admin/assets/img/icons/eye.svg')}}" alt="img" />
+                                    <button class="view-product-btn me-3" data-product='@json($product)'>
+                                        <img src="{{ asset('admin/assets/img/icons/eye.svg') }}" alt="View" />
                                     </button>
+
                                     <button class="me-3">
                                         <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
                                     </button>
@@ -293,8 +430,36 @@
                 </div>
             @endif
 
-            
+
 
         </div>
     </div>
+
+    <!-- Product Details Modal -->
+    <div id="productModal" class="product-modal-overlay hidden">
+        <div class="product-modal">
+            <button id="closeModal" class="close-btn">&times;</button>
+            <div class="modal-content">
+                <div class="left">
+                    <img id="modalMainImage" src="" alt="Product Image" class="main-image" />
+                    <div id="modalGallery" class="gallery"></div>
+                </div>
+                <div class="right">
+                    <h2 id="modalProductName"></h2>
+                    <p class="sku" id="modalSKU"></p>
+                    <p class="price" id="modalPrice"></p>
+                    <p class="stock"><strong>Stock:</strong> <span id="modalStock"></span></p>
+                    <p class="category"><strong>Category:</strong> <span id="modalCategory"></span></p>
+                    <p class="brand"><strong>Brand:</strong> <span id="modalBrand"></span></p>
+
+                    <h4>Features</h4>
+                    <ul id="modalFeatures" class="features-list"></ul>
+
+                    <h4>Description</h4>
+                    <p id="modalDescription" class="description"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
