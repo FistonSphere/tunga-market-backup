@@ -146,7 +146,7 @@
                                 <td>{{ $product->brand->name ?? '-' }}</td>
                                 <td>{{ number_format($product->price) }} Rwf</td>
                                 <td>pc</td>
-                                <td>100.00</td>
+                                <td>{{ $product->stock_quantity }}</td>
                                 <td>Admin</td>
                                 <td>
                                     <a class="me-3" href="product-details.html">
