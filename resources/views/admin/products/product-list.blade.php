@@ -262,7 +262,7 @@
                     text-decoration: none;
                 }
 
-                .pagination-btn:hover {
+                .pagination-btn:hover:not(.active):not(.disabled) {
                     background: #ff6b00;
                     color: white;
                     transform: translateY(-2px);
@@ -278,6 +278,13 @@
                     background: #e5e7eb;
                     color: #9ca3af;
                     cursor: not-allowed;
+                    transform: none;
+                }
+
+                .pagination-btn.ellipsis {
+                    cursor: default;
+                    background: transparent;
+                    color: #9ca3af;
                     transform: none;
                 }
             </style>
