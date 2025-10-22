@@ -145,7 +145,7 @@
                                 <td>{{ $product->category->name }}</td>
                                 <td>{{ $product->brand->name ?? '-' }}</td>
                                 <td>{{ number_format($product->price) }} Rwf</td>
-                                <td>{{ $product->units->name }}</td>
+                                <td>{{ $product->units->name ?? '-' }}</td>
                                 <td>{{ $product->stock_quantity }}</td>
                                 <td>Admin</td>
                                 <td>
