@@ -225,8 +225,10 @@ Route::middleware(['middleware'=>'auth'])->prefix('admin')->group(function () {
 Route::post('/logout', [AdminUserController::class, 'logout'])->name('admin.logout');
 Route::get('/dashboard', [HomeAdminController::class, 'dashboard'])->name('admin.dashboard');
 Route::post('/send-reminder/{user}', [HomeAdminController::class, 'sendReminder'])->name('admin.sendReminder');
-Route::prefix('products')->group(function(){
-Route::get('/listing',[ProductManagementController::class,'index'])->name('admin.product.listing');
+Route::prefix('products')->controller(ProductManagementController::class)->group(function(){
+Route::get('/listing','index')->name('admin.product.listing');
+
+
 });
 
 });
