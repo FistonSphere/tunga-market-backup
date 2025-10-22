@@ -248,6 +248,7 @@
 
                 .custom-pagination {
                     font-family: 'Inter', sans-serif;
+                    margin-top:2em;
                 }
 
                 .pagination-btn {
