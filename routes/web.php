@@ -228,6 +228,7 @@ Route::post('/send-reminder/{user}', [HomeAdminController::class, 'sendReminder'
 Route::prefix('products')->controller(ProductManagementController::class)->group(function(){
 Route::get('/listing','index')->name('admin.product.listing');
 Route::get('/products/{id}', 'show')->name('admin.products.show');
+Route::get('/products/edit/{id}', 'edit')->name('admin.products.edit');
 
 
 });
