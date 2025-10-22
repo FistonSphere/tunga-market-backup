@@ -283,7 +283,7 @@
                     <strong>Unit:</strong> {{ $product->units->name ?? '-' }}<br>
                     <strong>Stock:</strong> {{ $product->stock_quantity }}<br>
                 </div>
-                <div class="price-tag">{{ number_format($product->price, 2) }} {{ $product->currency }}</div>
+                <div class="price-tag">{{ number_format($product->price) }} Rwf</div>
             </div>
         </div>
 
