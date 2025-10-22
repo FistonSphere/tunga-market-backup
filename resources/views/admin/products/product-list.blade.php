@@ -435,32 +435,48 @@
         </div>
     </div>
 
-    <!-- Product Details Modal -->
-    <div id="productModal" class="product-modal-overlay hidden">
-        <div class="product-modal">
-            <button id="closeModal" class="close-btn">&times;</button>
-            <div class="modal-content">
-                <div class="left">
-                    <img id="modalMainImage" src="" alt="Product Image" class="main-image" />
-                    <div id="modalGallery" class="gallery"></div>
-                </div>
-                <div class="right">
-                    <h2 id="modalProductName"></h2>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="modern-modal hidden">
+        <div class="modal-card">
+            <button id="closeModal" class="close-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="modal-header">
+                <img id="modalMainImage" src="" alt="Product" class="modal-main-img" />
+                <div class="modal-basic">
+                    <h3 id="modalProductName"></h3>
                     <p class="sku" id="modalSKU"></p>
-                    <p class="price" id="modalPrice"></p>
-                    <p class="stock"><strong>Stock:</strong> <span id="modalStock"></span></p>
-                    <p class="category"><strong>Category:</strong> <span id="modalCategory"></span></p>
-                    <p class="brand"><strong>Brand:</strong> <span id="modalBrand"></span></p>
-
-                    <h4>Features</h4>
-                    <ul id="modalFeatures" class="features-list"></ul>
-
-                    <h4>Description</h4>
-                    <p id="modalDescription" class="description"></p>
                 </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="meta">
+                    <p><strong>Price:</strong> <span id="modalPrice"></span></p>
+                    <p><strong>Stock:</strong> <span id="modalStock"></span></p>
+                    <p><strong>Category:</strong> <span id="modalCategory"></span></p>
+                    <p><strong>Brand:</strong> <span id="modalBrand"></span></p>
+                </div>
+
+                <div class="features">
+                    <h4>Key Features</h4>
+                    <ul id="modalFeatures"></ul>
+                </div>
+
+                <div class="description">
+                    <h4>Description</h4>
+                    <p id="modalDescription"></p>
+                </div>
+
+                <div id="modalGallery" class="thumbs"></div>
             </div>
         </div>
     </div>
+
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
