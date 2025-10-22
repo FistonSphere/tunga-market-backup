@@ -3,173 +3,150 @@
 @section('content')
     <style>
         :root {
-            --primary-color: #fb5d0d;
-            --dark-bg: #001428;
-            --light-bg: #fff;
-            --text-dark: #1a1a1a;
+            --primary: #fb5d0d;
+            --dark: #001428;
+            --light: #fff;
             --muted: #6c757d;
-            --border: #e6e6e6;
+            --border: #e5e7eb;
+            --bg: #f9fafb;
         }
 
         body {
-            background: #f5f7fa;
-            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            font-family: "Inter", sans-serif;
         }
 
-        .product-page {
+        /* --- Layout Wrapper --- */
+        .product-view {
             max-width: 1200px;
-            margin: 50px auto;
-            background: var(--light-bg);
-            border-radius: 18px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-            padding: 32px;
+            margin: 40px auto;
+            background: var(--light);
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
             overflow: hidden;
-            transition: 0.4s ease-in-out;
         }
 
-        .product-page:hover {
-            transform: scale(1.005);
-        }
-
-        .header-row {
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .header-row h1 {
-            font-size: 1.8rem;
+        .header h2 {
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--dark-bg);
+            color: var(--dark);
         }
 
-        .header-actions button {
-            background: var(--primary-color);
+        .header .actions button {
+            background: var(--primary);
             color: #fff;
             border: none;
-            padding: 9px 16px;
-            border-radius: 10px;
-            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 8px;
             margin-left: 10px;
+            font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
         }
 
-        .header-actions button:hover {
-            opacity: 0.85;
-            transform: translateY(-2px);
+        .header .actions button:hover {
+            opacity: 0.9;
         }
 
+        /* --- Product Info Section --- */
         .product-body {
             display: grid;
-            grid-template-columns: 360px 1fr;
+            grid-template-columns: 350px 1fr;
             gap: 30px;
-            align-items: start;
+            padding: 30px;
         }
 
-        .product-image {
-            position: relative;
-        }
-
-        .product-image img {
+        .product-body img {
             width: 100%;
-            border-radius: 14px;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            transition: 0.3s ease-in-out;
+            transition: 0.3s;
         }
 
-        .product-image img:hover {
-            transform: scale(1.03);
+        .product-body img:hover {
+            transform: scale(1.02);
         }
 
-        .badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: var(--primary-color);
-            color: #fff;
-            padding: 5px 10px;
-            font-size: 13px;
+        .product-info h3 {
+            font-size: 1.4rem;
             font-weight: 600;
-            border-radius: 8px;
+            color: var(--dark);
+            margin-bottom: 8px;
         }
 
-        .product-details {
-            color: var(--text-dark);
-        }
-
-        .product-details h2 {
+        .product-info .price {
+            color: var(--primary);
             font-size: 1.4rem;
             font-weight: 700;
             margin-bottom: 10px;
         }
 
-        .product-meta {
-            font-size: 15px;
+        .product-info .meta {
+            font-size: 14px;
             color: var(--muted);
             line-height: 1.8;
         }
 
-        .product-meta strong {
-            color: var(--text-dark);
+        .product-info .meta strong {
+            color: var(--dark);
         }
 
-        .price-tag {
-            color: var(--primary-color);
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-top: 14px;
-        }
-
+        /* --- Tabs --- */
         .tabs {
             display: flex;
             gap: 15px;
-            margin-top: 40px;
-            border-bottom: 2px solid #f1f1f1;
+            border-bottom: 1px solid var(--border);
+            margin: 0 30px;
         }
 
         .tabs button {
             background: none;
             border: none;
-            padding: 10px 16px;
+            padding: 12px 18px;
             font-weight: 600;
             color: var(--muted);
             cursor: pointer;
-            border-radius: 10px 10px 0 0;
             transition: 0.3s;
         }
 
         .tabs button.active {
-            background: var(--dark-bg);
-            color: #fff;
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
         }
 
         .tab-content {
             display: none;
-            padding: 20px 10px;
-            animation: fadeIn 0.3s ease;
+            padding: 25px 30px;
         }
 
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.3s ease;
         }
 
+        /* --- Gallery --- */
         .gallery {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 10px;
         }
 
         .gallery img {
-            width: 130px;
-            height: 130px;
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
             object-fit: cover;
-            border-radius: 10px;
             cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
             transition: 0.3s;
         }
 
@@ -177,31 +154,62 @@
             transform: scale(1.05);
         }
 
+        /* --- Modal --- */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 999;
+            z-index: 1000;
         }
 
         .modal img {
-            width: 60%;
-            max-height: 80%;
-            border-radius: 12px;
-            box-shadow: 0 5px 40px rgba(0, 0, 0, 0.4);
+            max-width: 85%;
+            max-height: 85%;
+            border-radius: 10px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.4);
             animation: zoomIn 0.3s ease;
+        }
+
+        .modal .close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            background: #fff;
+            color: var(--dark);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 900px) {
+            .product-body {
+                grid-template-columns: 1fr;
+            }
+
+            .product-body img {
+                max-height: 300px;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(15px);
+                transform: translateY(10px);
             }
 
             to {
@@ -213,7 +221,7 @@
         @keyframes zoomIn {
             from {
                 opacity: 0;
-                transform: scale(0.7);
+                transform: scale(0.8);
             }
 
             to {
@@ -221,48 +229,12 @@
                 transform: scale(1);
             }
         }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            background: #fff;
-            color: #333;
-            border: none;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            font-size: 18px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            transition: 0.3s;
-        }
-
-        .close-modal:hover {
-            background: var(--primary-color);
-            color: #fff;
-        }
-
-        .back-link {
-            display: inline-block;
-            color: var(--primary-color);
-            text-decoration: none;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
     </style>
 
-    <a href="{{ route('admin.product.listing') }}" class="back-link">← Back to Products</a>
-
-    <div class="product-page">
-        <div class="header-row">
-            <h1>{{ $product->name }}</h1>
-            <div class="header-actions">
+    <div class="product-view">
+        <div class="header">
+            <h2>{{ $product->name }}</h2>
+            <div class="actions">
                 <button onclick="window.location.href='{{ route('admin.products.edit', $product->id) }}'">Edit</button>
                 <button style="background:#dc3545;">Delete</button>
             </div>
@@ -270,20 +242,22 @@
 
         <div class="product-body">
             <div class="product-image">
-                <span class="badge">{{ ucfirst($product->status) }}</span>
                 <img id="mainImage" src="{{ $product->main_image }}" alt="{{ $product->name }}">
             </div>
 
-            <div class="product-details">
-                <h2>{{ $product->name }}</h2>
-                <div class="product-meta">
+            <div class="product-info">
+                <h3>{{ $product->name }}</h3>
+                <p class="price">{{ number_format($product->price, 2) }} {{ $product->currency }}</p>
+                <p class="meta">
+                    <strong>Slug:</strong> {{ $product->slug }}<br>
                     <strong>SKU:</strong> {{ $product->sku }}<br>
                     <strong>Category:</strong> {{ $product->category->name ?? '-' }}<br>
                     <strong>Brand:</strong> {{ $product->brand->name ?? '-' }}<br>
-                    <strong>Unit:</strong> {{ $product->units->name ?? '-' }}<br>
                     <strong>Stock:</strong> {{ $product->stock_quantity }}<br>
-                </div>
-                <div class="price-tag">{{ number_format($product->price) }} Rwf</div>
+                    <strong>Unit:</strong> {{ $product->units->name ?? '-' }}<br>
+                    <strong>Status:</strong> <span
+                        style="color:{{ $product->status === 'active' ? '#0d9488' : '#dc2626' }}">{{ ucfirst($product->status) }}</span>
+                </p>
             </div>
         </div>
 
@@ -318,7 +292,7 @@
         <div id="gallery" class="tab-content">
             <div class="gallery">
                 @forelse (json_decode($product->gallery) ?? [] as $img)
-                    <img src="{{ $img }}" alt="Gallery image" onclick="openModal('{{ $img }}')">
+                    <img src="{{ $img }}" alt="Gallery" onclick="openModal('{{ $img }}')">
                 @empty
                     <p>No gallery images available.</p>
                 @endforelse
@@ -331,48 +305,35 @@
         </div>
     </div>
 
-    <!-- Modal for Gallery Preview -->
-    <div class="modal" id="imageModal">
-        <button class="close-modal" onclick="closeModal()">×</button>
-        <img id="modalImage" src="">
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <button class="close" onclick="closeModal()">×</button>
+        <img id="modalImg" src="">
     </div>
 
     <script>
-        const tabs = document.querySelectorAll('.tabs button');
-        const contents = document.querySelectorAll('.tab-content');
-        const mainImage = document.getElementById('mainImage');
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
+        const tabs = document.querySelectorAll(".tabs button");
+        const contents = document.querySelectorAll(".tab-content");
 
         tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
-                contents.forEach(c => c.classList.remove('active'));
-                tab.classList.add('active');
-                document.getElementById(tab.dataset.tab).classList.add('active');
+            tab.addEventListener("click", () => {
+                tabs.forEach(t => t.classList.remove("active"));
+                contents.forEach(c => c.classList.remove("active"));
+                tab.classList.add("active");
+                document.getElementById(tab.dataset.tab).classList.add("active");
             });
         });
 
-        // Open modal from gallery
+        // Gallery modal
         function openModal(src) {
-            modalImg.src = src;
-            modal.style.display = 'flex';
+            document.getElementById("modalImg").src = src;
+            document.getElementById("modal").style.display = "flex";
         }
-
         function closeModal() {
-            modal.style.display = 'none';
+            document.getElementById("modal").style.display = "none";
         }
-
-        // When user clicks gallery, update main image smoothly
-        document.querySelectorAll('.gallery img').forEach(img => {
-            img.addEventListener('click', () => {
-                mainImage.src = img.src;
-                openModal(img.src);
-            });
-        });
-
-        modal.addEventListener('click', e => {
-            if (e.target === modal) closeModal();
+        document.getElementById("modal").addEventListener("click", e => {
+            if (e.target === e.currentTarget) closeModal();
         });
     </script>
 @endsection
