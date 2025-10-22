@@ -1,6 +1,83 @@
 @extends('admin.layouts.header')
 
 @section('content')
+<!-- Styles -->
+            <style>
+                .product-table {
+                    width: 100%;
+                    border-collapse: separate;
+                    border-spacing: 0 8px;
+                }
+
+                .product-table th,
+                .product-table td {
+                    padding: 12px 15px;
+                    text-align: left;
+                }
+
+                .product-table tbody tr {
+                    background: #ffffff;
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                    border-radius: 12px;
+                }
+
+                .product-table tbody tr:hover {
+                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                }
+
+                .product-table tbody td {
+                    vertical-align: middle;
+                }
+
+                .custom-pagination {
+                    font-family: 'Inter', sans-serif;
+                    margin-top:2em;
+                }
+
+                .pagination-btn {
+                    display: inline-block;
+                    padding: 8px 14px;
+                    background: #f3f4f6;
+                    color: #374151;
+                    font-weight: 500;
+                    border-radius: 10px;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                    text-decoration: none;
+                }
+
+                .pagination-btn:hover:not(.active):not(.disabled) {
+                    background: #ff6b00;
+                    color: white;
+                    transform: translateY(-2px);
+                }
+
+                .pagination-btn.active {
+                    background: #0c2d57;
+                    color: white;
+                    font-weight: 600;
+                }
+
+                .pagination-btn.disabled {
+                    background: #e5e7eb;
+                    color: #9ca3af;
+                    cursor: not-allowed;
+                    transform: none;
+                }
+
+                .pagination-btn.ellipsis {
+                    cursor: default;
+                    background: transparent;
+                    color: #9ca3af;
+                    transform: none;
+                }
+
+                button{
+                    border:none;
+                    outline:none;
+                    background:none;
+                }
+            </style>
     <div class="page-header">
         <div class="page-title">
             <h4>Product List</h4>
@@ -123,7 +200,7 @@
                             <th>Price</th>
                             <th>Unit</th>
                             <th>Qty</th>
-                            <th>Action</th>
+                            <th style="text-align: center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
