@@ -1,6 +1,72 @@
 @extends('admin.layouts.header')
 
 @section('content')
+    <style>
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+            padding: 15px 0;
+        }
+
+        .pagination-list {
+            list-style: none;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        .pagination-list li {
+            padding: 10px 18px;
+            border-radius: 10px;
+            background: #f5f5f5;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .pagination-list li:hover {
+            background: #ff7f27;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .pagination-list li.active {
+            background: #ff7f27;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 3px 8px rgba(255, 127, 39, 0.4);
+        }
+
+        .pagination-list li.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .product-table tbody tr {
+            transition: background 0.2s ease, transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .product-table tbody tr:hover {
+            background: #fef3e0;
+            transform: scale(1.01);
+        }
+
+        .product-table tbody tr.selected {
+            background: #ffedd5;
+        }
+    </style>
+
     <div class="page-header">
         <div class="page-title">
             <h4>Product List</h4>
@@ -107,7 +173,7 @@
 
             <!-- Products Table -->
             <div class="table-responsive">
-                <table class="table datanew">
+                <table class="table product-table">
                     <thead>
                         <tr>
                             <th>
@@ -198,4 +264,13 @@
 
         </div>
     </div>
+
+    <script>
+        document.querySelectorAll('.pagination-list a').forEach(link => {
+            link.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+
 @endsection
