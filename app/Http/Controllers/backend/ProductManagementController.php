@@ -13,4 +13,11 @@ class ProductManagementController extends Controller
  
     return view('admin.products.product-list', compact('products'));
    }
+
+   public function show($id)
+{
+    $product = Product::with(['category', 'brand', 'units'])->findOrFail($id);
+    return view('admin.products.show', compact('product'));
+}
+
 }
