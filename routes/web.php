@@ -227,6 +227,7 @@ Route::get('/dashboard', [HomeAdminController::class, 'dashboard'])->name('admin
 Route::post('/send-reminder/{user}', [HomeAdminController::class, 'sendReminder'])->name('admin.sendReminder');
 Route::prefix('products')->controller(ProductManagementController::class)->group(function(){
 Route::get('/listing','index')->name('admin.product.listing');
+Route::get('/products/{id}', 'show')->name('admin.products.show');
 
 
 });
