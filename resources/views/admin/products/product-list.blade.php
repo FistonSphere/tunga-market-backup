@@ -462,4 +462,58 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const modal = document.getElementById("productModal");
+            const closeModal = document.getElementById("closeModal");
+            const viewButtons = document.querySelectorAll(".view-product-btn");
+
+            viewButtons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const product = JSON.parse(btn.dataset.product);
+
+                    document.getElementById("modalMainImage").src = product.main_image || '';
+                    document.getElementById("modalProductName").innerText = product.name;
+                    document.getElementById("modalSKU").innerText = "SKU: " + product.sku;
+                    document.getElementById("modalPrice").innerText = new Intl.NumberFormat().format(product.price) + " Rwf";
+                    document.getElementById("modalStock").innerText = product.stock_quantity;
+                    document.getElementById("modalCategory").innerText = product.category?.name ?? '-';
+                    document.getElementById("modalBrand").innerText = product.brand?.name ?? '-';
+                    document.getElementById("modalDescription").innerText = product.long_description || "No description available.";
+
+                    const featuresList = document.getElementById("modalFeatures");
+                    featuresList.innerHTML = "";
+                    if (Array.isArray(product.features) && product.features.length > 0) {
+                        product.features.forEach(f => {
+                            const li = document.createElement("li");
+                            li.innerText = f;
+                            featuresList.appendChild(li);
+                        });
+                    } else {
+                        featuresList.innerHTML = "<li>No features available.</li>";
+                    }
+
+                    const gallery = document.getElementById("modalGallery");
+                    gallery.innerHTML = "";
+                    if (Array.isArray(product.gallery)) {
+                        product.gallery.forEach(img => {
+                            const thumb = document.createElement("img");
+                            thumb.src = img;
+                            thumb.addEventListener("click", () => {
+                                document.getElementById("modalMainImage").src = img;
+                            });
+                            gallery.appendChild(thumb);
+                        });
+                    }
+
+                    modal.classList.remove("hidden");
+                });
+            });
+
+            closeModal.addEventListener("click", () => modal.classList.add("hidden"));
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) modal.classList.add("hidden");
+            });
+        });
+    </script>
 @endsection
