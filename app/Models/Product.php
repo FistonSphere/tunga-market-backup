@@ -74,6 +74,9 @@ class Product extends Model
     {
         return $this->hasMany(Cart::class);
     }
+    public function units(){
+        return $this->hasMany(Unit::class);
+    }
 
     // Computed attributes
 
