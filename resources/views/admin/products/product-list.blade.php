@@ -228,9 +228,9 @@
                                     <a class="me-3" href="{{ route('admin.products.show', $product->id) }}">
                                         <img src="{{asset('admin/assets/img/icons/eye.svg')}}" alt="img" />
                                     </a>
-                                    <a class="me-3" href="{{ route('admin.products.edit', $product->id) }}">
+                                    {{-- <a class="me-3" href="{{ route('admin.products.edit', $product->id) }}">
                                         <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
-                                    </a>
+                                    </a> --}}
                                     <a class="confirm-text" href="javascript:void(0)">
                                         <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
                                     </a>
