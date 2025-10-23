@@ -7,6 +7,9 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\ProductType;
+use App\Models\TaxClass;
+use App\Models\Unit;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -31,8 +34,10 @@ public function edit($id)
         $product = Product::findOrFail($id);
         $categories = Category::all();
         $brands = Brand::all();
-
-        return view('admin.products.edit', compact('product', 'categories', 'brands'));
+        $taxClasses = TaxClass::all();
+        $units = Unit::all();
+        $productTypes = ProductType::all();
+        return view('admin.products.edit', compact('product', 'categories', 'brands','taxClasses','units','productTypes'));
     }
 
     /**

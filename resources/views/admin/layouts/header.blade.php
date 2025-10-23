@@ -12,7 +12,7 @@
     <title>Admin Dashboard - Tunga Market</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo-circle.png') }}" />
-    
+
     <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('admin/assets/css/animate.css') }}">
@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/flipdown@0.3.2/dist/flipdown.css">
     <script src="https://unpkg.com/flipdown@0.3.2/dist/flipdown.min.js"></script>
+    <!-- Add Choices.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
 </head>
 
