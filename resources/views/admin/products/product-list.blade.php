@@ -198,7 +198,6 @@
                             <th>Category</th>
                             <th>Brand</th>
                             <th>Price</th>
-                            <th>Unit</th>
                             <th>Qty</th>
                             <th style="text-align: center">Action</th>
                         </tr>
@@ -213,16 +212,15 @@
                                     </label>
                                 </td>
                                 <td class="productimgname">
-                                    <a href="javascript:void(0);" class="product-img">
+                                    <a href="{{ route('admin.products.show', $product->id) }}" class="product-img">
                                         <img src="{{$product->main_image}}" alt="{{ $product->name }}" />
                                     </a>
-                                    <a href="javascript:void(0);">{{ $product->name }}</a>
+                                    <a href="{{ route('admin.products.show', $product->id) }}">{{ $product->name }}</a>
                                 </td>
                                 <td>{{ $product->sku }}</td>
                                 <td>{{ $product->category->name }}</td>
                                 <td>{{ $product->brand->name ?? '-' }}</td>
                                 <td>{{ number_format($product->price) }} Rwf</td>
-                                <td>{{ $product->units->name ?? '-' }}</td>
                                 <td>{{ $product->stock_quantity }}</td>
                                 <td>
                                     <a class="me-3" href="{{ route('admin.products.show', $product->id) }}">

@@ -26,35 +26,7 @@
             overflow: hidden;
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .header h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .header .actions button {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 8px;
-            margin-left: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .header .actions button:hover {
-            opacity: 0.9;
-        }
+      
 
         /* --- Product Info Section --- */
         .product-body {
@@ -230,38 +202,13 @@
             }
         }
 
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column !important;
-                align-items: flex-start !important;
-            }
-
-            .header h2 {
-                font-size: 18px !important;
-                margin-bottom: 10px;
-            }
-
-            .header .actions {
-                width: 100%;
-                justify-content: flex-start !important;
-            }
-
-            .header .actions button {
-                flex: 1 1 auto;
-            }
-
-            .header div:last-child {
-                width: 100%;
-                text-align: left !important;
-                margin-top: 10px;
-            }
-        }
+        
     </style>
 
     <div class="product-view">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; 
                     gap: 10px; background-color: #fff; padding: 15px 20px; border-radius: 10px; 
-                    box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px;">
+                    box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; margin-top: 2em; margin-left: 2em; margin-right: 2em;">
 
             <!-- Product Title -->
             <h2 style="font-size: 20px; color: #001428; margin: 0; flex: 1 1 auto;">
