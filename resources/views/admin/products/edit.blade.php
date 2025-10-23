@@ -2,153 +2,7 @@
 
 
 @section('content')
-    <div class="edit-product-container">
-        <div class="header-bar">
-            <h2>Edit Product</h2>
-            <a href="{{ route('admin.product.listing') }}" class="back-link">← Back to Products</a>
-        </div>
-
-        <form id="editProductForm" action="{{ route('admin.products.update', $product->id) }}" method="POST"
-            enctype="multipart/form-data" class="edit-form">
-            @csrf
-            @method('PUT')
-
-            <!-- Product Basic Information -->
-            <div class="form-section">
-                <h3>Basic Information</h3>
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label>Product Name</label>
-                        <input type="text" name="name" value="{{ $product->name }}" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>SKU</label>
-                        <input type="text" name="sku" value="{{ $product->sku }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Category</label>
-                        <select name="category_id">
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ $category->id == $product->category_id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Brand</label>
-                        <select name="brand_id">
-                            <option value="">-- None --</option>
-                            @foreach($brands as $brand)
-                                <option value="{{ $brand->id }}" {{ $brand->id == $product->brand_id ? 'selected' : '' }}>
-                                    {{ $brand->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pricing & Inventory -->
-            <div class="form-section">
-                <h3>Pricing & Inventory</h3>
-                <div class="grid-3">
-                    <div class="form-group">
-                        <label>Price ({{ $product->currency }})</label>
-                        <input type="number" name="price" step="0.01" value="{{ $product->price }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Discount Price</label>
-                        <input type="number" name="discount_price" step="0.01" value="{{ $product->discount_price }}">
-                    </div>
-                    <div class="form-group">
-                        <label>Stock Quantity</label>
-                        <input type="number" name="stock_quantity" value="{{ $product->stock_quantity }}">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Descriptions -->
-            <div class="form-section">
-                <h3>Descriptions</h3>
-                <div class="form-group">
-                    <label>Short Description</label>
-                    <textarea name="short_description" rows="3">{{ $product->short_description }}</textarea>
-                </div>
-                <div class="form-group">
-                    <label>Long Description</label>
-                    <textarea name="long_description" rows="5">{{ $product->long_description }}</textarea>
-                </div>
-            </div>
-
-            <!-- Media -->
-            <div class="form-section">
-                <h3>Product Media</h3>
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label>Main Product Image</label>
-                        @if($product->main_image)
-                            <img src="{{ $product->main_image }}" alt="Main Image" class="preview-img">
-                        @endif
-                        <input type="file" name="main_image" accept="image/*">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Video URL</label>
-                        <input type="text" name="video_url" value="{{ $product->video_url }}"
-                            placeholder="https://youtube.com/embed/...">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product Flags -->
-            <div class="form-section">
-                <h3>Product Highlights</h3>
-                <div class="checkbox-grid">
-                    @foreach(['is_featured' => 'Featured', 'is_new' => 'New Arrival', 'is_best_seller' => 'Best Seller', 'has_3d_model' => '3D Model'] as $field => $label)
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="{{ $field }}" value="1" {{ $product->$field ? 'checked' : '' }}>
-                            <span>{{ $label }}</span>
-                        </label>
-                    @endforeach
-                </div>
-            </div>
-
-            <!-- Tags -->
-            <div class="form-section">
-                <h3>Tags</h3>
-                <div class="form-group">
-                    <label>Tags (comma separated)</label>
-                    <input type="text" name="tags"
-                        value="{{ is_array($product->tags) ? implode(',', $product->tags) : '' }}">
-                </div>
-            </div>
-
-            <!-- Buttons -->
-            <div class="form-actions">
-                <button type="button" id="saveBtn" class="btn-primary">Save Changes</button>
-                <a href="{{ route('admin.product.listing') }}" class="btn-secondary">Cancel</a>
-            </div>
-        </form>
-    </div>
-
-    <!-- Confirmation Modal -->
-    <div id="confirmModal" class="modal-overlay">
-        <div class="modal-content">
-            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828490.png" alt="Warning" class="modal-icon">
-            <h3>Save Changes?</h3>
-            <p>Are you sure you want to update this product’s details?</p>
-            <div class="modal-actions">
-                <button id="confirmSave" class="btn-primary">Yes, Save</button>
-                <button id="cancelModal" class="btn-secondary">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- CSS -->
+<!-- CSS -->
     <style>
         /* Layout */
         .edit-product-container {
@@ -366,6 +220,153 @@
             }
         }
     </style>
+    <div class="edit-product-container">
+        <div class="header-bar">
+            <h2>Edit Product</h2>
+            <a href="{{ route('admin.product.listing') }}" class="back-link">← Back to Products</a>
+        </div>
+
+        <form id="editProductForm" action="{{ route('admin.products.update', $product->id) }}" method="POST"
+            enctype="multipart/form-data" class="edit-form">
+            @csrf
+            @method('PUT')
+
+            <!-- Product Basic Information -->
+            <div class="form-section">
+                <h3>Basic Information</h3>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" name="name" value="{{ $product->name }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>SKU</label>
+                        <input type="text" name="sku" value="{{ $product->sku }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select name="category_id">
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}" {{ $category->id == $product->category_id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <select name="brand_id">
+                            <option value="">-- None --</option>
+                            @foreach($brands as $brand)
+                                <option value="{{ $brand->id }}" {{ $brand->id == $product->brand_id ? 'selected' : '' }}>
+                                    {{ $brand->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing & Inventory -->
+            <div class="form-section">
+                <h3>Pricing & Inventory</h3>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>Price ({{ $product->currency }})</label>
+                        <input type="number" name="price" step="0.01" value="{{ $product->price }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Discount Price</label>
+                        <input type="number" name="discount_price" step="0.01" value="{{ $product->discount_price }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock Quantity</label>
+                        <input type="number" name="stock_quantity" value="{{ $product->stock_quantity }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Descriptions -->
+            <div class="form-section">
+                <h3>Descriptions</h3>
+                <div class="form-group">
+                    <label>Short Description</label>
+                    <textarea name="short_description" rows="3">{{ $product->short_description }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Long Description</label>
+                    <textarea name="long_description" rows="5">{{ $product->long_description }}</textarea>
+                </div>
+            </div>
+
+            <!-- Media -->
+            <div class="form-section">
+                <h3>Product Media</h3>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Main Product Image</label>
+                        @if($product->main_image)
+                            <img src="{{ $product->main_image }}" alt="Main Image" class="preview-img">
+                        @endif
+                        <input type="file" name="main_image" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Video URL</label>
+                        <input type="text" name="video_url" value="{{ $product->video_url }}"
+                            placeholder="https://youtube.com/embed/...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Flags -->
+            <div class="form-section">
+                <h3>Product Highlights</h3>
+                <div class="checkbox-grid">
+                    @foreach(['is_featured' => 'Featured', 'is_new' => 'New Arrival', 'is_best_seller' => 'Best Seller', 'has_3d_model' => '3D Model'] as $field => $label)
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="{{ $field }}" value="1" {{ $product->$field ? 'checked' : '' }}>
+                            <span>{{ $label }}</span>
+                        </label>
+                    @endforeach
+                </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="form-section">
+                <h3>Tags</h3>
+                <div class="form-group">
+                    <label>Tags (comma separated)</label>
+                    <input type="text" name="tags"
+                        value="{{ is_array($product->tags) ? implode(',', $product->tags) : '' }}">
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="form-actions">
+                <button type="button" id="saveBtn" class="btn-primary">Save Changes</button>
+                <a href="{{ route('admin.product.listing') }}" class="btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal-overlay">
+        <div class="modal-content">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828490.png" alt="Warning" class="modal-icon">
+            <h3>Save Changes?</h3>
+            <p>Are you sure you want to update this product’s details?</p>
+            <div class="modal-actions">
+                <button id="confirmSave" class="btn-primary">Yes, Save</button>
+                <button id="cancelModal" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+
 
     <script>
         document.getElementById('saveBtn').addEventListener('click', () => {
