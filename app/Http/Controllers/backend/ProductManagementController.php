@@ -38,7 +38,7 @@ public function edit($id)
     /**
      * Update the product details.
      */
- public function update(Request $request, $id)
+public function update(Request $request, $id)
 {
     Log::info('🔵 Product update started', ['product_id' => $id]);
 
@@ -51,20 +51,12 @@ public function edit($id)
         'long_description'  => 'nullable|string',
         'price'             => 'required|numeric',
         'discount_price'    => 'nullable|numeric',
-        'currency'          => 'required|string|max:10',
+        'currency'          => 'nullable|string|max:10',
         'sku'               => 'nullable|string|max:100',
         'stock_quantity'    => 'nullable|integer',
         'main_image'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         'gallery'           => 'nullable',
         'gallery.*'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        'features'          => 'nullable|array',
-        'specifications'    => 'nullable|array',
-        'tags'              => 'nullable|array',
-        'status'            => 'nullable|string',
-        'brand_id'          => 'nullable|integer',
-        'product_type_id'   => 'nullable|integer',
-        'unit_id'           => 'nullable|integer',
-        'tax_class_id'      => 'nullable|integer',
     ]);
 
     // ✅ Handle main image upload
@@ -87,51 +79,63 @@ public function edit($id)
         Log::info('✅ New main image uploaded', ['url' => $validated['main_image']]);
     }
 
-    // ✅ Handle gallery images (Multiple)
+    // ✅ Handle existing gallery
+    $existingGallery = json_decode($product->gallery, true) ?? [];
+    if (!is_array($existingGallery)) $existingGallery = [];
+
+    $newGalleryUrls = [];
+
+    // ✅ Handle new gallery uploads
     if ($request->hasFile('gallery')) {
-        Log::info('🖼 Uploading gallery images...');
-        $galleryUrls = [];
-
+        Log::info('🖼 New gallery images uploaded');
         foreach ($request->file('gallery') as $file) {
-            $filename = 'product_gallery_' . $product->id . '_' . time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('products/gallery', $filename, 'public');
-            $galleryUrls[] = asset('storage/' . $path);
-        }
-
-        // Delete old gallery images (if exist)
-        if (!empty($product->gallery)) {
-            $oldGallery = is_string($product->gallery)
-                ? json_decode($product->gallery, true)
-                : $product->gallery;
-
-            if (is_array($oldGallery)) {
-                foreach ($oldGallery as $oldImage) {
-                    $oldPath = str_replace('/storage/', '', parse_url($oldImage, PHP_URL_PATH));
-                    if (Storage::disk('public')->exists($oldPath)) {
-                        Storage::disk('public')->delete($oldPath);
-                        Log::info('🗑 Deleted old gallery image', ['path' => $oldPath]);
-                    }
-                }
+            if ($file && $file->isValid()) {
+                $filename = 'product_gallery_' . $product->id . '_' . time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+                $path = $file->storeAs('products/gallery', $filename, 'public');
+                $newGalleryUrls[] = asset('storage/' . $path);
             }
         }
-
-        // ✅ Save gallery as JSON
-        $validated['gallery'] = json_encode($galleryUrls);
-        Log::info('✅ Gallery saved as JSON', ['count' => count($galleryUrls)]);
-    } else {
-        Log::warning('⚠️ No gallery images found in request.');
     }
+
+    // ✅ Handle submitted gallery input (existing images)
+    if ($request->filled('gallery')) {
+        $submittedGallery = $request->gallery;
+
+        if (is_string($submittedGallery)) {
+            $decoded = json_decode($submittedGallery, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $existingGallery = $decoded;
+            }
+        } elseif (is_array($submittedGallery)) {
+            $existingGallery = $submittedGallery;
+        }
+
+        Log::info('🧩 Updated existing gallery from gallery input', ['gallery' => $existingGallery]);
+    }
+
+    // ✅ Merge existing + new uploads
+    $finalGallery = array_merge($existingGallery, $newGalleryUrls);
+
+    // ✅ Clean and keep only valid URL strings
+    $finalGallery = array_filter($finalGallery, function ($item) {
+        return is_string($item) && preg_match('/^https?:\/\//', $item);
+    });
+
+    // ✅ Reindex for clean JSON
+    $validated['gallery'] = json_encode(array_values($finalGallery));
 
     // ✅ Update slug
     $validated['slug'] = Str::slug($validated['name']);
-    Log::info('🔤 Generated slug', ['slug' => $validated['slug']]);
 
     // ✅ Update product
     $product->update($validated);
-    Log::info('✅ Product updated successfully', ['id' => $product->id]);
+
+    Log::info('✅ Product updated successfully', ['id' => $product->id, 'gallery_count' => count($finalGallery)]);
 
     return redirect()
         ->route('admin.product.listing')
         ->with('success', '✅ Product updated successfully and gallery images saved.');
 }
+
+
 }
