@@ -125,11 +125,11 @@
 
             <div class="form-group">
                 <label>Upload New Gallery Images</label>
-                <input type="file" name="gallery_images[]" id="galleryInput" multiple accept="image/*">
+                <input type="file" name="gallery[]" id="galleryInput" multiple accept="image/*">
             </div>
 
             <!-- Hidden input to hold JSON -->
-            <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
+            {{-- <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'> --}}
         </div>
 
         <!-- Buttons -->
