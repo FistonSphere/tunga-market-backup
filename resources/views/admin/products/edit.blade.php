@@ -407,6 +407,76 @@
                         value="{{ is_array($product->tags) ? implode(',', $product->tags) : '' }}">
                 </div>
             </div>
+<!-- Specifications, Features, Shipping Info -->
+<div class="form-section">
+    <h3>Additional Details</h3>
+    <div class="form-group">
+        <label>Specifications (JSON format)</label>
+        <textarea name="specifications" rows="3">{{ $product->specifications ? json_encode($product->specifications, JSON_PRETTY_PRINT) : '' }}</textarea>
+    </div>
+    <div class="form-group">
+        <label>Features (JSON format)</label>
+        <textarea name="features" rows="3">{{ $product->features ? json_encode($product->features, JSON_PRETTY_PRINT) : '' }}</textarea>
+    </div>
+    <div class="form-group">
+        <label>Shipping Info (JSON format)</label>
+        <textarea name="shipping_info" rows="3">{{ $product->shipping_info ? json_encode($product->shipping_info, JSON_PRETTY_PRINT) : '' }}</textarea>
+    </div>
+</div>
+
+<!-- Units, Tax Class, Product Type -->
+<div class="form-section">
+    <h3>Associations</h3>
+    <div class="grid-3">
+        <div class="form-group">
+            <label>Tax Class</label>
+            <select name="tax_class_id">
+                <option value="">-- None --</option>
+                @foreach($taxClasses as $tax)
+                    <option value="{{ $tax->id }}" {{ $tax->id == $product->tax_class_id ? 'selected' : '' }}>
+                        {{ $tax->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Unit</label>
+            <select name="unit_id">
+                <option value="">-- None --</option>
+                @foreach($units as $unit)
+                    <option value="{{ $unit->id }}" {{ $unit->id == $product->unit_id ? 'selected' : '' }}>
+                        {{ $unit->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Product Type</label>
+            <select name="product_type_id">
+                <option value="">-- None --</option>
+                @foreach($productTypes as $type)
+                    <option value="{{ $type->id }}" {{ $type->id == $product->product_type_id ? 'selected' : '' }}>
+                        {{ $type->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
+
+<!-- Status -->
+<div class="form-section">
+    <h3>Product Status</h3>
+    <div class="form-group">
+        <select name="status">
+            <option value="active" {{ $product->status == 'active' ? 'selected' : '' }}>Active</option>
+            <option value="inactive" {{ $product->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+            <option value="draft" {{ $product->status == 'draft' ? 'selected' : '' }}>Draft</option>
+        </select>
+    </div>
+</div>
 
             <!-- Buttons -->
             <div class="form-actions">
