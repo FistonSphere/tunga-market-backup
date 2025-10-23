@@ -229,25 +229,79 @@
                 transform: scale(1);
             }
         }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+            }
+
+            .header h2 {
+                font-size: 18px !important;
+                margin-bottom: 10px;
+            }
+
+            .header .actions {
+                width: 100%;
+                justify-content: flex-start !important;
+            }
+
+            .header .actions button {
+                flex: 1 1 auto;
+            }
+
+            .header div:last-child {
+                width: 100%;
+                text-align: left !important;
+                margin-top: 10px;
+            }
+        }
     </style>
 
     <div class="product-view">
-        <div class="header">
-            <h2>{{ $product->name }}</h2>
-            <div class="actions">
-                <button onclick="window.location.href='{{ route('admin.products.edit', $product->id) }}'">Edit</button>
-                <button style="background:#dc3545;">Delete</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; 
+                    gap: 10px; background-color: #fff; padding: 15px 20px; border-radius: 10px; 
+                    box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px;">
+
+            <!-- Product Title -->
+            <h2 style="font-size: 20px; color: #001428; margin: 0; flex: 1 1 auto;">
+                {{ $product->name }}
+            </h2>
+
+            <!-- Actions Buttons -->
+            <div class="actions" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end;">
+                <button onclick="window.location.href='{{ route('admin.products.edit', $product->id) }}'" style="background-color: #fb5d0d; color: #fff; border: none; border-radius: 6px;
+                           padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
+                           transition: 0.3s ease;">
+                    Edit
+                </button>
+                <button style="background-color: #dc3545; color: #fff; border: none; border-radius: 6px;
+                           padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
+                           transition: 0.3s ease;">
+                    Delete
+                </button>
+            </div>
+
+            <!-- Back Button -->
+            <div style="text-align: right;">
+                <a href="{{ route('admin.product.listing') }}" style="display: inline-block; background-color: #001428; color: #fff;
+                          padding: 8px 18px; border-radius: 6px; text-decoration: none;
+                          font-weight: 500; transition: 0.3s; font-size: 14px;">
+                    ← Back to Product Listing
+                </a>
             </div>
         </div>
 
+
         <div class="product-body">
+
             <div class="product-image">
                 <img id="mainImage" src="{{ $product->main_image }}" alt="{{ $product->name }}">
             </div>
 
             <div class="product-info">
                 <h3>{{ $product->name }}</h3>
-                <p class="price">{{ number_format($product->price, 2) }} {{ $product->currency }}</p>
+                <p class="price">{{ number_format($product->price) }} {{ $product->currency }}</p>
                 <p class="meta">
                     <strong>Slug:</strong> {{ $product->slug }}<br>
                     <strong>SKU:</strong> {{ $product->sku }}<br>
