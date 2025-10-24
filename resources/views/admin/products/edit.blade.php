@@ -2,7 +2,7 @@
 
 
 @section('content')
-<!-- CSS -->
+    <!-- CSS -->
     <style>
         /* Layout */
         .edit-product-container {
@@ -101,47 +101,50 @@
 
         /* Images */
         .preview-img {
-    display: block;
-    margin-top: 10px;
-    width: 130px;
-    height: auto;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-}
+            display: block;
+            margin-top: 10px;
+            width: 130px;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
 
-/* Gallery */
-.gallery-preview {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-.gallery-thumb {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-.gallery-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.remove-gallery-btn {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    background: rgba(255,0,0,0.8);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    font-size: 16px;
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-}
+        /* Gallery */
+        .gallery-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .gallery-thumb {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-gallery-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(255, 0, 0, 0.8);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 16px;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+        }
 
         /* Checkboxes */
         .checkbox-grid {
@@ -336,53 +339,54 @@
                 </div>
             </div>
 
-             <!-- Product Media -->
-        <div class="form-section">
-            <h3>Product Media</h3>
-            <div class="grid-2">
-                <!-- Main Image -->
-                <div class="form-group">
-                    <label>Main Product Image</label>
-                    @if($product->main_image)
-                        <img src="{{ $product->main_image }}" alt="Main Image" class="preview-img">
-                    @endif
-                    <input type="file" name="main_image" accept="image/*">
-                </div>
-
-                <!-- Video URL -->
-                <div class="form-group">
-                    <label>Video URL</label>
-                    <input type="text" name="video_url" value="{{ $product->video_url }}" placeholder="https://youtube.com/embed/...">
-                </div>
-            </div>
-        </div>
-
-        <!-- Product Gallery -->
-        <div class="form-section">
-            <h3>Image Gallery</h3>
-            <p class="sub-info">Upload multiple product images. They will be stored as a JSON array.</p>
-
-            <!-- Existing Images -->
-            <div id="galleryPreview" class="gallery-preview">
-                @php
-                    $galleryImages = json_decode($product->gallery, true) ?? [];
-                @endphp
-                @foreach($galleryImages as $url)
-                    <div class="gallery-thumb">
-                        <img src="{{ $url }}" alt="Gallery Image">
-                        <button type="button" class="remove-gallery-btn" data-url="{{ $url }}">×</button>
+            <!-- Product Media -->
+            <div class="form-section">
+                <h3>Product Media</h3>
+                <div class="grid-2">
+                    <!-- Main Image -->
+                    <div class="form-group">
+                        <label>Main Product Image</label>
+                        @if($product->main_image)
+                            <img src="{{ $product->main_image }}" alt="Main Image" class="preview-img">
+                        @endif
+                        <input type="file" name="main_image" accept="image/*">
                     </div>
-                @endforeach
+
+                    <!-- Video URL -->
+                    <div class="form-group">
+                        <label>Video URL</label>
+                        <input type="text" name="video_url" value="{{ $product->video_url }}"
+                            placeholder="https://youtube.com/embed/...">
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Upload New Gallery Images</label>
-                <input type="file" name="gallery[]" id="galleryInput" multiple accept="image/*">
-            </div>
+            <!-- Product Gallery -->
+            <div class="form-section">
+                <h3>Image Gallery</h3>
+                <p class="sub-info">Upload multiple product images. They will be stored as a JSON array.</p>
 
-            <!-- Hidden input to hold JSON -->
-            <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
-        </div>
+                <!-- Existing Images -->
+                <div id="galleryPreview" class="gallery-preview">
+                    @php
+                        $galleryImages = json_decode($product->gallery, true) ?? [];
+                    @endphp
+                    @foreach($galleryImages as $url)
+                        <div class="gallery-thumb">
+                            <img src="{{ $url }}" alt="Gallery Image">
+                            <button type="button" class="remove-gallery-btn" data-url="{{ $url }}">×</button>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="form-group">
+                    <label>Upload New Gallery Images</label>
+                    <input type="file" name="gallery[]" id="galleryInput" multiple accept="image/*">
+                </div>
+
+                <!-- Hidden input to hold JSON -->
+                <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
+            </div>
 
 
             <!-- Product Flags -->
@@ -407,83 +411,87 @@
                         value="{{ is_array($product->tags) ? implode(',', $product->tags) : '' }}">
                 </div>
             </div>
-<!-- Specifications, Features, Shipping Info -->
-<div class="form-section">
+            <!-- Specifications, Features, Shipping Info -->
+            <div class="form-section">
     <h3>Additional Details</h3>
+
     <div class="form-group">
-        <label>Specifications (JSON format)</label>
-        <textarea name="specifications" rows="3">{{ $product->specifications ? json_encode($product->specifications, JSON_PRETTY_PRINT) : '' }}</textarea>
+        <label>Specifications</label>
+        <input type="text" id="specifications" name="specifications" class="form-control" />
     </div>
+
     <div class="form-group">
-        <label>Features (JSON format)</label>
-        <textarea name="features" rows="3">{{ $product->features ? json_encode($product->features, JSON_PRETTY_PRINT) : '' }}</textarea>
+        <label>Features</label>
+        <input type="text" id="features" name="features" class="form-control" />
     </div>
+
     <div class="form-group">
-        <label>Shipping Info (JSON format)</label>
-        <textarea name="shipping_info" rows="3">{{ $product->shipping_info ? json_encode($product->shipping_info, JSON_PRETTY_PRINT) : '' }}</textarea>
+        <label>Shipping Info</label>
+        <input type="text" id="shipping_info" name="shipping_info" class="form-control"
+            value="{{ $product->shipping_info }}">
     </div>
 </div>
 
-<!-- Units, Tax Class, Product Type -->
-<div class="form-section">
-    <h3>Associations</h3>
-    <div class="grid-3">
-        <div class="form-group">
-            <label>Tax Class</label>
-            <select name="tax_class_id">
-                <option value="">-- None --</option>
-                @foreach($taxClasses as $tax)
-                    <option value="{{ $tax->id }}" {{ $tax->id == $product->tax_class_id ? 'selected' : '' }}>
-                        {{ $tax->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+            <!-- Units, Tax Class, Product Type -->
+            <div class="form-section">
+                <h3>Associations</h3>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>Tax Class</label>
+                        <select name="tax_class_id">
+                            <option value="">-- None --</option>
+                            @foreach($taxClasses as $tax)
+                                <option value="{{ $tax->id }}" {{ $tax->id == $product->tax_class_id ? 'selected' : '' }}>
+                                    {{ $tax->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-        <div class="form-group">
-            <label>Unit</label>
-            <select name="unit_id">
-                <option value="">-- None --</option>
-                @foreach($units as $unit)
-                    <option value="{{ $unit->id }}" {{ $unit->id == $product->unit_id ? 'selected' : '' }}>
-                        {{ $unit->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+                    <div class="form-group">
+                        <label>Unit</label>
+                        <select name="unit_id">
+                            <option value="">-- None --</option>
+                            @foreach($units as $unit)
+                                <option value="{{ $unit->id }}" {{ $unit->id == $product->unit_id ? 'selected' : '' }}>
+                                    {{ $unit->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-        <div class="form-group">
-            <label>Product Type</label>
-            <select name="product_type_id">
-                <option value="">-- None --</option>
-                @foreach($productTypes as $type)
-                    <option value="{{ $type->id }}" {{ $type->id == $product->product_type_id ? 'selected' : '' }}>
-                        {{ $type->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-</div>
+                    <div class="form-group">
+                        <label>Product Type</label>
+                        <select name="product_type_id">
+                            <option value="">-- None --</option>
+                            @foreach($productTypes as $type)
+                                <option value="{{ $type->id }}" {{ $type->id == $product->product_type_id ? 'selected' : '' }}>
+                                    {{ $type->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-<!-- Status -->
-<div class="form-section">
-    <h3>Product Status</h3>
-    <div class="form-group">
-        <select name="status">
-            <option value="active" {{ $product->status == 'active' ? 'selected' : '' }}>Active</option>
-            <option value="inactive" {{ $product->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
-            <option value="draft" {{ $product->status == 'draft' ? 'selected' : '' }}>Draft</option>
-        </select>
-    </div>
-</div>
+            <!-- Status -->
+            <div class="form-section">
+                <h3>Product Status</h3>
+                <div class="form-group">
+                    <select name="status">
+                        <option value="active" {{ $product->status == 'active' ? 'selected' : '' }}>Active</option>
+                        <option value="inactive" {{ $product->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                        <option value="draft" {{ $product->status == 'draft' ? 'selected' : '' }}>Draft</option>
+                    </select>
+                </div>
+            </div>
 
             <!-- Buttons -->
             <div class="form-actions">
                 <button type="button" id="saveBtn" class="btn-primary">Save Changes</button>
                 <a href="{{ route('admin.product.listing') }}" class="btn-secondary">Cancel</a>
             </div>
-         </form>
+        </form>
     </div>
 
     <!-- Confirmation Modal -->
@@ -513,46 +521,84 @@
         });
 
         // Gallery management
-const galleryPreview = document.getElementById('galleryPreview');
-const hiddenGalleryInput = document.getElementById('galleryInputHidden');
+        const galleryPreview = document.getElementById('galleryPreview');
+        const hiddenGalleryInput = document.getElementById('galleryInputHidden');
 
-// Remove existing gallery image
-galleryPreview.addEventListener('click', function (e) {
-    if (e.target.classList.contains('remove-gallery-btn')) {
-        e.target.parentElement.remove();
-        updateGalleryJSON();
-    }
-});
+        // Remove existing gallery image
+        galleryPreview.addEventListener('click', function (e) {
+            if (e.target.classList.contains('remove-gallery-btn')) {
+                e.target.parentElement.remove();
+                updateGalleryJSON();
+            }
+        });
 
-// File upload preview
-const galleryInput = document.getElementById('galleryInput');
-galleryInput.addEventListener('change', function (event) {
-    for (const file of event.target.files) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const div = document.createElement('div');
-            div.classList.add('gallery-thumb');
-            div.innerHTML = `
-                <img src="${e.target.result}" alt="Gallery Image">
-                <button type="button" class="remove-gallery-btn">×</button>
-            `;
-            galleryPreview.appendChild(div);
+        // File upload preview
+        const galleryInput = document.getElementById('galleryInput');
+        galleryInput.addEventListener('change', function (event) {
+            for (const file of event.target.files) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const div = document.createElement('div');
+                    div.classList.add('gallery-thumb');
+                    div.innerHTML = `
+                    <img src="${e.target.result}" alt="Gallery Image">
+                    <button type="button" class="remove-gallery-btn">×</button>
+                `;
+                    galleryPreview.appendChild(div);
+                    updateGalleryJSON();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Update hidden input as JSON
+        function updateGalleryJSON() {
+            const urls = Array.from(galleryPreview.querySelectorAll('img')).map(img => img.src);
+            hiddenGalleryInput.value = JSON.stringify(urls);
+        }
+
+        // Save confirmation
+        document.getElementById('confirmSave').addEventListener('click', function () {
             updateGalleryJSON();
-        };
-        reader.readAsDataURL(file);
-    }
-});
+            document.getElementById('editProductForm').submit();
+        });
 
-// Update hidden input as JSON
-function updateGalleryJSON() {
-    const urls = Array.from(galleryPreview.querySelectorAll('img')).map(img => img.src);
-    hiddenGalleryInput.value = JSON.stringify(urls);
-}
+        document.addEventListener('DOMContentLoaded', function () {
+            // ----- Specifications -----
+            const specsInput = document.getElementById('specifications');
+            const specs = new Choices(specsInput, {
+                delimiter: ',',
+                editItems: true,
+                removeItemButton: true,
+                placeholderValue: 'Type and press Enter to add',
+                duplicateItemsAllowed: false
+            });
 
-// Save confirmation
-document.getElementById('confirmSave').addEventListener('click', function () {
-    updateGalleryJSON();
-    document.getElementById('editProductForm').submit();
-});
+            // Preload existing specifications (converted from JSON object to key-value pairs)
+            @if($product->specifications)
+                const specData = {!! $product->specifications !!};
+                const specArray = [];
+                Object.keys(specData).forEach(key => {
+                    specArray.push(`${key}:${specData[key]}`);
+                });
+                specs.setValue(specArray);
+            @endif
+
+        // ----- Features -----
+        const featInput = document.getElementById('features');
+            const features = new Choices(featInput, {
+                delimiter: ',',
+                editItems: true,
+                removeItemButton: true,
+                placeholderValue: 'Type and press Enter to add',
+                duplicateItemsAllowed: false
+            });
+
+            // Preload existing features
+            @if($product->features)
+                const featArray = {!! $product->features !!};
+                features.setValue(featArray);
+            @endif
+    });
     </script>
 @endsection

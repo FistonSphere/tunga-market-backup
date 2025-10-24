@@ -86,6 +86,30 @@ public function update(Request $request, $id)
         $validated[$flag] = $request->has($flag) ? 1 : 0;
     }
 
+    // --- Handle specifications ---
+    // Specifications
+$specifications = [];
+if ($request->filled('specifications')) {
+    $pairs = explode(',', $request->specifications);
+    foreach ($pairs as $pair) {
+        if (strpos($pair, ':') !== false) {
+            [$key, $value] = explode(':', $pair, 2);
+            $specifications[trim($key)] = trim($value);
+        }
+    }
+}
+$validated['specifications'] = json_encode($specifications, JSON_UNESCAPED_SLASHES);
+
+// Features
+$features = [];
+if ($request->filled('features')) {
+    $features = array_map('trim', explode(',', $request->features));
+}
+$validated['features'] = json_encode($features, JSON_UNESCAPED_SLASHES);
+
+// Shipping Info
+$validated['shipping_info'] = $request->input('shipping_info', null);
+
     // ✅ Handle main image upload
     if ($request->hasFile('main_image')) {
         $file = $request->file('main_image');
