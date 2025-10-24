@@ -163,7 +163,7 @@ public function filterByPrice(Request $request)
     $minPrice = $request->get('min_price');
     $maxPrice = $request->get('max_price');
 
-    $query = Product::with('brand', 'category');
+    $query = Product::with('brand', 'category')->where('status', 'active');
 
     if ($currency && in_array($currency, ['$', 'RWF'])) {
         $query->where('currency', $currency);
@@ -185,7 +185,7 @@ public function sortProducts(Request $request)
 {
     $sort = $request->get('sort', 'best');
 
-    $query = Product::with('brand', 'category');
+    $query = Product::with('brand', 'category')->where('status', 'active');
 
     switch ($sort) {
         case 'price_asc':
@@ -225,7 +225,7 @@ public function brandList()
 
 public function brandFilter(Request $request)
 {
-    $query = Product::query();
+    $query = Product::query()->where('status', 'active');
 
     // Brand filter
     if ($request->filled('brand_ids')) {
@@ -263,6 +263,7 @@ public function getTrendingSuggestions()
     $trendingProducts = Product::select('id', 'name','sku')
         ->orderByDesc('views_count')
         ->limit(10)
+        ->where('status', 'active')
         ->get();
 
     return response()->json($trendingProducts);
@@ -271,7 +272,7 @@ public function getTrendingSuggestions()
 
 public function filter(Request $request)
 {
-    $query = Product::query();
+    $query = Product::query()->where('status', 'active');
 
     if ($request->filled('category_id')) {
         $query->where('category_id', $request->category_id);
