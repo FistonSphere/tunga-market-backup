@@ -108,43 +108,7 @@
             border-radius: 8px;
             border: 1px solid #ddd;
         }
-    .image-upload-wrapper {
-        position: relative;
-        border: 2px dashed #ccc;
-        border-radius: 10px;
-        padding: 1.5rem;
-        text-align: center;
-        transition: border-color 0.3s ease;
-        cursor: pointer;
-        background-color: #fafafa;
-    }
 
-    .image-upload-wrapper:hover {
-        border-color: #007bff;
-        background-color: #f0f8ff;
-    }
-
-    .image-upload-wrapper input[type="file"] {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        cursor: pointer;
-    }
-
-
-    .upload-icon {
-        font-size: 40px;
-        color: #999;
-        margin-bottom: 0.5rem;
-    }
-
-    .upload-text {
-        color: #666;
-        font-size: 0.95rem;
-    }
         /* Gallery */
         .gallery-preview {
             display: flex;
@@ -270,80 +234,6 @@
             margin-top: 20px;
         }
 
-/* ====== Gallery Grid ====== */
-    .gallery-preview {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 1rem;
-    }
-
-    .gallery-thumb {
-        position: relative;
-        width: 120px;
-        height: 120px;
-        border-radius: 10px;
-        overflow: hidden;
-        background: #f7f7f7;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .gallery-thumb:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    }
-
-    .gallery-thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: inherit;
-    }
-
-    .remove-gallery-btn {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background: rgba(0,0,0,0.6);
-        color: #fff;
-        border: none;
-        border-radius: 50%;
-        width: 22px;
-        height: 22px;
-        line-height: 20px;
-        text-align: center;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background 0.2s ease;
-    }
-
-    .remove-gallery-btn:hover {
-        background: #ff4d4d;
-    }
-
-    /* ====== Upload Box ====== */
-    .upload-area {
-        border: 2px dashed #ccc;
-        border-radius: 10px;
-        padding: 1.5rem;
-        text-align: center;
-        color: #666;
-        cursor: pointer;
-        transition: border-color 0.3s ease, background-color 0.3s ease;
-        background-color: #fafafa;
-    }
-
-    .upload-area:hover {
-        border-color: #007bff;
-        background-color: #f0f8ff;
-    }
-
-    .upload-area input[type="file"] {
-        display: none;
-    }
-
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -453,18 +343,12 @@
                 <div class="grid-2">
                     <!-- Main Image -->
                     <div class="form-group">
-                      <label>Main Product Image</label>
-
-                      <div class="image-upload-wrapper" onclick="document.getElementById('mainImageInput').click()">
-                          @if($product->main_image)
-                              <img src="{{ $product->main_image }}" alt="Main Image" class="preview-img" id="imagePreview">
-                          @else
-                              <div class="upload-icon">📷</div>
-                              <div class="upload-text">Click or drag an image to upload</div>
-                          @endif
-                          <input type="file" id="mainImageInput" name="main_image" accept="image/*" onchange="previewImage(event)">
-                      </div>
-                  </div>
+                        <label>Main Product Image</label>
+                        @if($product->main_image)
+                            <img src="{{ $product->main_image }}" alt="Main Image" class="preview-img">
+                        @endif
+                        <input type="file" name="main_image" accept="image/*">
+                    </div>
 
                     <!-- Video URL -->
                     <div class="form-group">
@@ -477,32 +361,30 @@
 
             <!-- Product Gallery -->
             <div class="form-section">
-    <h3>Image Gallery</h3>
-    <p class="sub-info">Upload multiple product images. They will be stored as a JSON array.</p>
+                <h3>Image Gallery</h3>
+                <p class="sub-info">Upload multiple product images. They will be stored as a JSON array.</p>
 
-    <!-- Existing Images -->
-    <div id="galleryPreview" class="gallery-preview">
-        @php
-            $galleryImages = json_decode($product->gallery, true) ?? [];
-        @endphp
-        @foreach($galleryImages as $url)
-            <div class="gallery-thumb">
-                <img src="{{ $url }}" alt="Gallery Image">
-                <button type="button" class="remove-gallery-btn" data-url="{{ $url }}">×</button>
+                <!-- Existing Images -->
+                <div id="galleryPreview" class="gallery-preview">
+                    @php
+                        $galleryImages = json_decode($product->gallery, true) ?? [];
+                    @endphp
+                    @foreach($galleryImages as $url)
+                        <div class="gallery-thumb">
+                            <img src="{{ $url }}" alt="Gallery Image">
+                            <button type="button" class="remove-gallery-btn" data-url="{{ $url }}">×</button>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="form-group">
+                    <label>Upload New Gallery Images</label>
+                    <input type="file" name="gallery[]" id="galleryInput" multiple accept="image/*">
+                </div>
+
+                <!-- Hidden input to hold JSON -->
+                <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
             </div>
-        @endforeach
-    </div>
-
-    <!-- Upload Box -->
-    <div class="upload-area" onclick="document.getElementById('galleryInput').click()">
-        <div class="upload-icon">📸</div>
-        <div class="upload-text">Click or drag images here to upload</div>
-        <input type="file" name="gallery[]" id="galleryInput" multiple accept="image/*" onchange="previewGallery(event)">
-    </div>
-
-    <!-- Hidden JSON input -->
-    <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
-</div>
 
 
             <!-- Product Flags -->
@@ -716,140 +598,5 @@
                 features.setValue(featArray);
             @endif
     });
-
-  // ===============================
-// MAIN IMAGE PREVIEW
-// ===============================
-function previewImage(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function () {
-        const wrapper = event.target.closest('.image-upload-wrapper');
-        let preview = document.getElementById('imagePreview');
-
-        if (preview) {
-            preview.src = reader.result;
-        } else {
-            const img = document.createElement('img');
-            img.src = reader.result;
-            img.id = 'imagePreview';
-            img.className = 'preview-img';
-
-            wrapper.innerHTML = '';
-            wrapper.appendChild(img);
-        }
-    };
-
-    reader.readAsDataURL(file);
-}
-
-// ===============================
-// GALLERY IMAGE UPLOAD & PREVIEW
-// ===============================
-const galleryPreviewEl = document.getElementById('galleryPreview');
-const hiddenInputEl = document.getElementById('galleryInputHidden');
-const galleryInputEl = document.getElementById('galleryInput');
-let galleryData = [];
-
-// Load existing images from hidden input
-try {
-    galleryData = JSON.parse(hiddenInputEl?.value || '[]');
-} catch (err) {
-    console.error('Invalid JSON in hidden input:', err);
-    galleryData = [];
-}
-
-// Render existing images on page load
-renderGallery();
-
-// -------------------------------
-// Preview newly uploaded images
-// -------------------------------
-function previewGallery(event) {
-    const files = event.target.files;
-    if (!files.length) return;
-
-    Array.from(files).forEach(file => {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            const url = e.target.result;
-
-            // Avoid duplicates
-            if (!galleryData.includes(url)) {
-                galleryData.push(url);
-            }
-
-            renderGallery();
-        };
-
-        reader.readAsDataURL(file);
-    });
-
-    // Clear input to allow re-upload of same file
-    event.target.value = '';
-}
-
-// -------------------------------
-// Render all gallery thumbnails
-// -------------------------------
-function renderGallery() {
-    if (!galleryPreviewEl) return;
-
-    galleryPreviewEl.innerHTML = '';
-
-    galleryData.forEach(url => {
-        const thumb = document.createElement('div');
-        thumb.className = 'gallery-thumb';
-        thumb.innerHTML = `
-            <img src="${url}" alt="Gallery Image">
-            <button type="button" class="remove-gallery-btn" data-url="${url}">×</button>
-        `;
-        galleryPreviewEl.appendChild(thumb);
-    });
-
-    attachRemoveListeners();
-    updateHiddenInput();
-}
-
-// -------------------------------
-// Remove image buttons
-// -------------------------------
-function attachRemoveListeners() {
-    const removeButtons = document.querySelectorAll('.remove-gallery-btn');
-
-    removeButtons.forEach(btn => {
-        btn.onclick = function () {
-            const url = this.getAttribute('data-url');
-            galleryData = galleryData.filter(item => item !== url);
-            renderGallery();
-        };
-    });
-}
-
-// -------------------------------
-// Update hidden JSON field
-// -------------------------------
-function updateHiddenInput() {
-    if (hiddenInputEl) {
-        hiddenInputEl.value = JSON.stringify(galleryData);
-    }
-}
-
-// -------------------------------
-// Attach event listeners to inputs
-// -------------------------------
-if (galleryInputEl) {
-    galleryInputEl.addEventListener('change', previewGallery);
-}
-
-const mainImageInputEl = document.getElementById('mainImageInput');
-if (mainImageInputEl) {
-    mainImageInputEl.addEventListener('change', previewImage);
-}
-
     </script>
 @endsection
