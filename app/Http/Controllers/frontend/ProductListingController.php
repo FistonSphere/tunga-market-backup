@@ -143,7 +143,7 @@ if ($productSnapshot) {
 
     public function filterProducts(Request $request)
 {
-    $query = Product::with('brand');
+    $query = Product::with('brand')->where('status', 'active');
 
     if ($request->has('categories') && is_array($request->categories)) {
         $query->whereIn('category_id', $request->categories);
