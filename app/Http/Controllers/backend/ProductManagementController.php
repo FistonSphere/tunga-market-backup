@@ -174,5 +174,27 @@ $validated['shipping_info'] = $request->input('shipping_info', null);
 }
 
 
+public function destroy($id)
+{
+    $product = Product::findOrFail($id);
 
+    // Optionally delete image files if you store them locally
+    if ($product->main_image && file_exists(public_path('storage/' . $product->main_image))) {
+        unlink(public_path('storage/' . $product->main_image));
+    }
+
+    if ($product->gallery) {
+        $gallery = json_decode($product->gallery, true);
+        foreach ($gallery as $image) {
+            $path = str_replace(url('/storage') . '/', '', $image);
+            if (file_exists(public_path('storage/' . $path))) {
+                unlink(public_path('storage/' . $path));
+            }
+        }
+    }
+
+    $product->delete();
+
+    return redirect()->route('admin.product.listing')->with('success', 'Product deleted successfully!');
+}
 }
