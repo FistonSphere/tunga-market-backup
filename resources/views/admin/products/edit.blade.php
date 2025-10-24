@@ -108,7 +108,43 @@
             border-radius: 8px;
             border: 1px solid #ddd;
         }
+    .image-upload-wrapper {
+        position: relative;
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: border-color 0.3s ease;
+        cursor: pointer;
+        background-color: #fafafa;
+    }
 
+    .image-upload-wrapper:hover {
+        border-color: #007bff;
+        background-color: #f0f8ff;
+    }
+
+    .image-upload-wrapper input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+
+    .upload-icon {
+        font-size: 40px;
+        color: #999;
+        margin-bottom: 0.5rem;
+    }
+
+    .upload-text {
+        color: #666;
+        font-size: 0.95rem;
+    }
         /* Gallery */
         .gallery-preview {
             display: flex;
@@ -604,5 +640,24 @@
                 features.setValue(featArray);
             @endif
     });
+
+      function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function(){
+            const preview = document.getElementById('imagePreview');
+            if (preview) {
+                preview.src = reader.result;
+            } else {
+                const img = document.createElement('img');
+                img.src = reader.result;
+                img.id = 'imagePreview';
+                img.className = 'preview-img';
+                const wrapper = event.target.closest('.image-upload-wrapper');
+                wrapper.innerHTML = '';
+                wrapper.appendChild(img);
+            }
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
     </script>
 @endsection
