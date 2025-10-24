@@ -717,7 +717,7 @@
             @endif
     });
 
-    // ===============================
+  // ===============================
 // MAIN IMAGE PREVIEW
 // ===============================
 function previewImage(event) {
@@ -738,7 +738,6 @@ function previewImage(event) {
             img.id = 'imagePreview';
             img.className = 'preview-img';
 
-            // Clear placeholder content before adding the new image
             wrapper.innerHTML = '';
             wrapper.appendChild(img);
         }
@@ -747,21 +746,24 @@ function previewImage(event) {
     reader.readAsDataURL(file);
 }
 
-
-
 // ===============================
 // GALLERY IMAGE UPLOAD & PREVIEW
 // ===============================
-const galleryPreview = document.getElementById('galleryPreview');
-const hiddenInput = document.getElementById('galleryInputHidden');
+const galleryPreviewEl = document.getElementById('galleryPreview');
+const hiddenInputEl = document.getElementById('galleryInputHidden');
+const galleryInputEl = document.getElementById('galleryInput');
 let galleryData = [];
 
+// Load existing images from hidden input
 try {
-    galleryData = JSON.parse(hiddenInput?.value || '[]');
+    galleryData = JSON.parse(hiddenInputEl?.value || '[]');
 } catch (err) {
     console.error('Invalid JSON in hidden input:', err);
     galleryData = [];
 }
+
+// Render existing images on page load
+renderGallery();
 
 // -------------------------------
 // Preview newly uploaded images
@@ -775,21 +777,29 @@ function previewGallery(event) {
 
         reader.onload = function (e) {
             const url = e.target.result;
-            galleryData.push(url);
+
+            // Avoid duplicates
+            if (!galleryData.includes(url)) {
+                galleryData.push(url);
+            }
+
             renderGallery();
         };
 
         reader.readAsDataURL(file);
     });
+
+    // Clear input to allow re-upload of same file
+    event.target.value = '';
 }
 
 // -------------------------------
 // Render all gallery thumbnails
 // -------------------------------
 function renderGallery() {
-    if (!galleryPreview) return;
+    if (!galleryPreviewEl) return;
 
-    galleryPreview.innerHTML = '';
+    galleryPreviewEl.innerHTML = '';
 
     galleryData.forEach(url => {
         const thumb = document.createElement('div');
@@ -798,7 +808,7 @@ function renderGallery() {
             <img src="${url}" alt="Gallery Image">
             <button type="button" class="remove-gallery-btn" data-url="${url}">×</button>
         `;
-        galleryPreview.appendChild(thumb);
+        galleryPreviewEl.appendChild(thumb);
     });
 
     attachRemoveListeners();
@@ -812,11 +822,11 @@ function attachRemoveListeners() {
     const removeButtons = document.querySelectorAll('.remove-gallery-btn');
 
     removeButtons.forEach(btn => {
-        btn.addEventListener('click', function () {
+        btn.onclick = function () {
             const url = this.getAttribute('data-url');
             galleryData = galleryData.filter(item => item !== url);
             renderGallery();
-        });
+        };
     });
 }
 
@@ -824,13 +834,22 @@ function attachRemoveListeners() {
 // Update hidden JSON field
 // -------------------------------
 function updateHiddenInput() {
-    if (hiddenInput) {
-        hiddenInput.value = JSON.stringify(galleryData);
+    if (hiddenInputEl) {
+        hiddenInputEl.value = JSON.stringify(galleryData);
     }
 }
 
-// Initialize remove buttons on page load (for existing images)
-attachRemoveListeners();
+// -------------------------------
+// Attach event listeners to inputs
+// -------------------------------
+if (galleryInputEl) {
+    galleryInputEl.addEventListener('change', previewGallery);
+}
+
+const mainImageInputEl = document.getElementById('mainImageInput');
+if (mainImageInputEl) {
+    mainImageInputEl.addEventListener('change', previewImage);
+}
 
     </script>
 @endsection
