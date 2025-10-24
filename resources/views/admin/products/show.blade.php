@@ -442,5 +442,8 @@
                 }
             });
         });
-    </script>
+
+
+
+   </script>
 @endsection

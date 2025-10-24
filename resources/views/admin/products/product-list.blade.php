@@ -1,83 +1,176 @@
 @extends('admin.layouts.header')
 
 @section('content')
-<!-- Styles -->
-            <style>
-                .product-table {
-                    width: 100%;
-                    border-collapse: separate;
-                    border-spacing: 0 8px;
-                }
+    <!-- Styles -->
+    <style>
+        .product-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
 
-                .product-table th,
-                .product-table td {
-                    padding: 12px 15px;
-                    text-align: left;
-                }
+        .product-table th,
+        .product-table td {
+            padding: 12px 15px;
+            text-align: left;
+        }
 
-                .product-table tbody tr {
-                    background: #ffffff;
-                    transition: transform 0.2s ease, box-shadow 0.2s ease;
-                    border-radius: 12px;
-                }
+        .product-table tbody tr {
+            background: #ffffff;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-radius: 12px;
+        }
 
-                .product-table tbody tr:hover {
-                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-                }
+        .product-table tbody tr:hover {
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
 
-                .product-table tbody td {
-                    vertical-align: middle;
-                }
+        .product-table tbody td {
+            vertical-align: middle;
+        }
 
-                .custom-pagination {
-                    font-family: 'Inter', sans-serif;
-                    margin-top:2em;
-                }
+        .custom-pagination {
+            font-family: 'Inter', sans-serif;
+            margin-top: 2em;
+        }
 
-                .pagination-btn {
-                    display: inline-block;
-                    padding: 8px 14px;
-                    background: #f3f4f6;
-                    color: #374151;
-                    font-weight: 500;
-                    border-radius: 10px;
-                    transition: all 0.3s ease;
-                    cursor: pointer;
-                    text-decoration: none;
-                }
+        .pagination-btn {
+            display: inline-block;
+            padding: 8px 14px;
+            background: #f3f4f6;
+            color: #374151;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
 
-                .pagination-btn:hover:not(.active):not(.disabled) {
-                    background: #ff6b00;
-                    color: white;
-                    transform: translateY(-2px);
-                }
+        .pagination-btn:hover:not(.active):not(.disabled) {
+            background: #ff6b00;
+            color: white;
+            transform: translateY(-2px);
+        }
 
-                .pagination-btn.active {
-                    background: #0c2d57;
-                    color: white;
-                    font-weight: 600;
-                }
+        .pagination-btn.active {
+            background: #0c2d57;
+            color: white;
+            font-weight: 600;
+        }
 
-                .pagination-btn.disabled {
-                    background: #e5e7eb;
-                    color: #9ca3af;
-                    cursor: not-allowed;
-                    transform: none;
-                }
+        .pagination-btn.disabled {
+            background: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
 
-                .pagination-btn.ellipsis {
-                    cursor: default;
-                    background: transparent;
-                    color: #9ca3af;
-                    transform: none;
-                }
+        .pagination-btn.ellipsis {
+            cursor: default;
+            background: transparent;
+            color: #9ca3af;
+            transform: none;
+        }
 
-                button{
-                    border:none;
-                    outline:none;
-                    background:none;
-                }
-            </style>
+        button {
+            border: none;
+            outline: none;
+            background: none;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 10px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s ease-in-out;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 20px;
+        }
+
+        .modal-content p {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        .btn-cancel {
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            background-color: #5a6268;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
     <div class="page-header">
         <div class="page-title">
             <h4>Product List</h4>
@@ -295,4 +388,46 @@
 
         </div>
     </div>
+
+    <!-- delete Modal -->
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Are you sure?</h2>
+            <p>This action cannot be undone. Do you really want to delete this product?</p>
+
+            <div class="modal-actions">
+                <form id="deleteForm" method="POST" action="{{ route('products.destroy', $product->id) }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-delete">Yes, Delete</button>
+                </form>
+                <button id="cancelDelete" class="btn-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteBtn = document.getElementById('deleteBtn');
+            const deleteModal = document.getElementById('deleteModal');
+            const cancelDelete = document.getElementById('cancelDelete');
+
+            deleteBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                deleteModal.style.display = 'flex';
+            });
+
+            cancelDelete.addEventListener('click', function () {
+                deleteModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function (e) {
+                if (e.target === deleteModal) {
+                    deleteModal.style.display = 'none';
+                }
+            });
+        });
+
+
+    </script>
 @endsection
