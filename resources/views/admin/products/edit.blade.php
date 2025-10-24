@@ -338,53 +338,59 @@
             </div>
 
             <!-- Product Media -->
-            <div class="form-section">
-                <h3>Product Media</h3>
-                <div class="grid-2">
-                    <!-- Main Image -->
-                    <div class="form-group">
-                        <label>Main Product Image</label>
-                        @if($product->main_image)
-                            <img src="{{ $product->main_image }}" alt="Main Image" class="preview-img">
-                        @endif
-                        <input type="file" name="main_image" accept="image/*">
-                    </div>
+<div class="form-section">
+  <h3>Product Media</h3>
+  <div class="grid-2">
+    <!-- Main Image -->
+    <div class="form-group">
+      <label>Main Product Image</label>
 
-                    <!-- Video URL -->
-                    <div class="form-group">
-                        <label>Video URL</label>
-                        <input type="text" name="video_url" value="{{ $product->video_url }}"
-                            placeholder="https://youtube.com/embed/...">
-                    </div>
-                </div>
-            </div>
+      <div class="custom-file-upload" id="mainImageDropArea">
+        <div class="upload-placeholder" id="mainImagePlaceholder">
+          <i class="fa fa-cloud-upload"></i>
+          <p>Drag & Drop or Click to Upload</p>
+        </div>
+        <input type="file" name="main_image" id="mainImageInput" accept="image/*" hidden>
+        <img
+          id="mainImagePreview"
+          src="{{ $product->main_image }}"
+          alt="Main Image"
+          class="preview-img {{ $product->main_image ? '' : 'hidden' }}"
+        >
+      </div>
+    </div>
+  </div>
+</div>
 
-            <!-- Product Gallery -->
-            <div class="form-section">
-                <h3>Image Gallery</h3>
-                <p class="sub-info">Upload multiple product images. They will be stored as a JSON array.</p>
+<!-- Product Gallery -->
+<div class="form-section">
+  <h3>Image Gallery</h3>
+  <p class="sub-info">Upload multiple product images. They will be stored as a JSON array.</p>
 
-                <!-- Existing Images -->
-                <div id="galleryPreview" class="gallery-preview">
-                    @php
-                        $galleryImages = json_decode($product->gallery, true) ?? [];
-                    @endphp
-                    @foreach($galleryImages as $url)
-                        <div class="gallery-thumb">
-                            <img src="{{ $url }}" alt="Gallery Image">
-                            <button type="button" class="remove-gallery-btn" data-url="{{ $url }}">×</button>
-                        </div>
-                    @endforeach
-                </div>
+  <!-- Existing Images -->
+  <div id="galleryPreview" class="gallery-preview">
+    @php
+        $galleryImages = json_decode($product->gallery, true) ?? [];
+    @endphp
+    @foreach($galleryImages as $url)
+        <div class="gallery-thumb">
+            <img src="{{ $url }}" alt="Gallery Image">
+            <button type="button" class="remove-gallery-btn" data-url="{{ $url }}">×</button>
+        </div>
+    @endforeach
+  </div>
 
-                <div class="form-group">
-                    <label>Upload New Gallery Images</label>
-                    <input type="file" name="gallery[]" id="galleryInput" multiple accept="image/*">
-                </div>
+  <div class="custom-file-upload" id="galleryDropArea">
+    <div class="upload-placeholder" id="galleryPlaceholder">
+      <i class="fa fa-images"></i>
+      <p>Drag & Drop or Click to Upload Gallery Images</p>
+    </div>
+    <input type="file" name="gallery[]" id="galleryInput" multiple accept="image/*" hidden>
+  </div>
 
-                <!-- Hidden input to hold JSON -->
-                <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
-            </div>
+  <!-- Hidden input to hold JSON -->
+  <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
+</div>
 
 
             <!-- Product Flags -->
