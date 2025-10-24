@@ -215,4 +215,15 @@ public function destroy($id)
 
     return redirect()->route('admin.product.listing')->with('success', 'Product deleted successfully!');
 }
+
+public function create()
+{
+    $categories = Category::all();
+    $brands = Brand::all();
+    $taxClasses = TaxClass::all();
+    $units = Unit::all();
+    $productTypes = ProductType::all();
+
+    return view('products.create', compact('categories', 'brands', 'taxClasses', 'units', 'productTypes'));
+}
 }
