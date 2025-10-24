@@ -306,7 +306,7 @@
                                 </td>
                                 <td class="productimgname">
                                     <a href="{{ route('admin.products.show', $product->id) }}" class="product-img">
-                                        <img src="{{$product->main_image}}" alt="{{ $product->name }}" />
+                                        <img src="{{$product->main_image}}" style="border-radius: 8px" alt="{{ $product->name }}" />
                                     </a>
                                     <a href="{{ route('admin.products.show', $product->id) }}">{{ $product->name }}</a>
                                 </td>
