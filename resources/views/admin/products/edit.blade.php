@@ -261,49 +261,23 @@
   margin-bottom: 10px;
 }
 
-.preview-img {
-  width: 160px;
-  height: 160px;
-  border-radius: 8px;
-  margin-top: 10px;
-  object-fit: cover;
-  display: block;
-}
 
 .hidden {
   display: none;
 }
 
-/* Gallery preview */
-.gallery-preview {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 15px;
-}
 
-.gallery-thumb {
-  position: relative;
-}
-
-.gallery-thumb img {
-  width: 100px;
-  height: 100px;
-  border-radius: 6px;
-  object-fit: cover;
-  border: 1px solid #ccc;
-}
 
 .remove-gallery-btn {
   position: absolute;
-  top: -6px;
-  right: -6px;
+  top: 0;
+  right: 0;
   background: #dc3545;
   border: none;
   color: white;
   border-radius: 50%;
-  width: 22px;
-  height: 22px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   font-weight: bold;
   transition: 0.2s;
