@@ -655,7 +655,7 @@
                 const featArray = {!! $product->features !!};
                 features.setValue(featArray);
             @endif
-    });
+        });
 
 
     document.addEventListener("DOMContentLoaded", function () {

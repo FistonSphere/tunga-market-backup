@@ -601,5 +601,29 @@
             new Choices('#shipping_info', { delimiter: ',', removeItemButton: true, editItems: true });
             new Choices('#specifications', { delimiter: ',', removeItemButton: true, editItems: true });
         });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // ----- Specifications -----
+            const specsInput = document.getElementById('specifications');
+            const specs = new Choices(specsInput, {
+                delimiter: ',',
+                editItems: true,
+                removeItemButton: true,
+                placeholderValue: 'Type and press Enter to add',
+                duplicateItemsAllowed: false
+            });
+
+
+            // ----- Features -----
+            const featInput = document.getElementById('features');
+            const features = new Choices(featInput, {
+                delimiter: ',',
+                editItems: true,
+                removeItemButton: true,
+                placeholderValue: 'Type and press Enter to add',
+                duplicateItemsAllowed: false
+            });
+
+            });
     </script>
 @endsection
