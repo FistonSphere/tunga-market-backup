@@ -229,9 +229,9 @@
                                     <a class="me-3" href="{{ route('admin.products.edit', $product->id) }}">
                                         <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
                                     </a>
-                                    <a class="confirm-text" href="javascript:void(0)">
+                                    <button id="deleteBtn" class="confirm-text">
                                         <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -291,7 +291,7 @@
                 </div>
             @endif
 
-            
+
 
         </div>
     </div>
