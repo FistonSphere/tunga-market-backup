@@ -40,6 +40,10 @@ class Product extends Model
         'specifications'  => 'array',
         'shipping_info'   => 'array',
         'tags'            => 'array',
+        'is_featured' => 'boolean',
+        'is_new' => 'boolean',
+        'is_best_seller' => 'boolean',
+        'has_3d_model' => 'boolean',
     ];
 
     // Append computed attributes for Blade access

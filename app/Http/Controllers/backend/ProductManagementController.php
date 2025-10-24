@@ -224,6 +224,64 @@ public function create()
     $units = Unit::all();
     $productTypes = ProductType::all();
 
-    return view('products.create', compact('categories', 'brands', 'taxClasses', 'units', 'productTypes'));
+    return view('admin.products.create', compact('categories', 'brands', 'taxClasses', 'units', 'productTypes'));
+}
+
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'name'              => 'required|string|max:255',
+        'category_id'       => 'nullable|integer',
+        'brand_id'          => 'nullable|integer',
+        'tax_class_id'      => 'nullable|integer',
+        'unit_id'           => 'nullable|integer',
+        'product_type_id'   => 'nullable|integer',
+        'short_description' => 'nullable|string',
+        'long_description'  => 'nullable|string',
+        'price'             => 'required|numeric',
+        'discount_price'    => 'nullable|numeric',
+        'currency'          => 'nullable|string|max:10',
+        'sku'               => 'nullable|string|max:100|unique:products,sku',
+        'stock_quantity'    => 'nullable|integer',
+        'main_image'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'gallery'           => 'nullable',
+        'gallery.*'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'video_url'         => 'nullable|string|max:255',
+        'status'            => 'required|string|in:active,inactive,draft',
+        'specifications'    => 'nullable|string',
+        'features'          => 'nullable|string',
+        'shipping_info'     => 'nullable|string',
+        'tags'              => 'nullable|string',
+        'is_featured'       => 'nullable|boolean',
+        'is_new'            => 'nullable|boolean',
+        'is_best_seller'    => 'nullable|boolean',
+        'has_3d_model'      => 'nullable|boolean',
+    ]);
+
+    // Boolean flags
+    foreach (['is_featured', 'is_new', 'is_best_seller', 'has_3d_model'] as $flag) {
+        $validated[$flag] = $request->has($flag) ? 1 : 0;
+    }
+
+    // Handle main image
+    if ($request->hasFile('main_image')) {
+        $validated['main_image'] = $request->file('main_image')->store('products/main', 'public');
+    }
+
+    // Handle gallery images
+    if ($request->hasFile('gallery')) {
+        $galleryPaths = [];
+        foreach ($request->file('gallery') as $image) {
+            $galleryPaths[] = $image->store('products/gallery', 'public');
+        }
+        $validated['gallery'] = json_encode($galleryPaths);
+    }
+
+    // Generate slug
+    $validated['slug'] = Str::slug($validated['name']) . '-' . time();
+
+    Product::create($validated);
+
+    return redirect()->route('admin.product.listing')->with('success', 'Product created successfully!');
 }
 }
