@@ -45,6 +45,7 @@ public function edit($id)
      */
 public function update(Request $request, $id)
 {
+    // dd($request->all());
     Log::info('🔵 Product update started', ['product_id' => $id]);
     $product = Product::findOrFail($id);
 
