@@ -31,6 +31,7 @@ class Product extends Model
         'product_type_id',
         'unit_id',
         'tax_class_id',
+        'is_featured', 'is_new', 'is_best_seller', 'has_3d_model'
     ];
 
     protected $casts = [

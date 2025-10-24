@@ -85,8 +85,9 @@ public function update(Request $request, $id)
 
     // ✅ Handle checkboxes
     foreach (['is_featured', 'is_new', 'is_best_seller', 'has_3d_model'] as $flag) {
-        $validated[$flag] = $request->has($flag) ? 1 : 0;
-    }
+    $validated[$flag] = $request->has($flag) ? 1 : 0;
+}
+
 
     // ✅ Specifications and features conversion
     $specifications = [];

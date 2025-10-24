@@ -659,101 +659,146 @@
 
 
     document.addEventListener("DOMContentLoaded", function () {
-  // === Main image logic ===
-  const mainDropArea = document.getElementById("mainImageDropArea");
-  const mainInput = document.getElementById("mainImageInput");
-  const mainPreview = document.getElementById("mainImagePreview");
-  const mainPlaceholder = document.getElementById("mainImagePlaceholder");
+    // === Main Image Logic ===
+    const mainDropArea = document.getElementById("mainImageDropArea");
+    const mainInput = document.getElementById("mainImageInput");
+    const mainPreview = document.getElementById("mainImagePreview");
+    const mainPlaceholder = document.getElementById("mainImagePlaceholder");
 
-  mainDropArea.addEventListener("click", () => mainInput.click());
-  mainInput.addEventListener("change", () => previewMain(mainInput.files[0]));
+    mainDropArea.addEventListener("click", () => mainInput.click());
+    mainInput.addEventListener("change", () => previewMain(mainInput.files[0]));
 
-  mainDropArea.addEventListener("dragover", e => {
-    e.preventDefault();
-    mainDropArea.style.borderColor = "#007bff";
-  });
-
-  mainDropArea.addEventListener("dragleave", () => {
-    mainDropArea.style.borderColor = "#ccc";
-  });
-
-  mainDropArea.addEventListener("drop", e => {
-    e.preventDefault();
-    mainInput.files = e.dataTransfer.files;
-    previewMain(e.dataTransfer.files[0]);
-  });
-
-  function previewMain(file) {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      mainPreview.src = e.target.result;
-      mainPreview.classList.remove("hidden");
-      mainPlaceholder.style.display = "none";
-    };
-    reader.readAsDataURL(file);
-  }
-
-  // === Gallery logic ===
-  const galleryDrop = document.getElementById("galleryDropArea");
-  const galleryInput = document.getElementById("galleryInput");
-  const galleryPreview = document.getElementById("galleryPreview");
-  const hiddenInput = document.getElementById("galleryInputHidden");
-
-  galleryDrop.addEventListener("click", () => galleryInput.click());
-
-  galleryInput.addEventListener("change", () => {
-    Array.from(galleryInput.files).forEach(file => previewGallery(file));
-  });
-
-  galleryDrop.addEventListener("dragover", e => {
-    e.preventDefault();
-    galleryDrop.style.borderColor = "#007bff";
-  });
-
-  galleryDrop.addEventListener("dragleave", () => {
-    galleryDrop.style.borderColor = "#ccc";
-  });
-
-  galleryDrop.addEventListener("drop", e => {
-    e.preventDefault();
-    Array.from(e.dataTransfer.files).forEach(file => previewGallery(file));
-  });
-
-  function previewGallery(file) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      const div = document.createElement("div");
-      div.classList.add("gallery-thumb");
-      div.innerHTML = `
-        <img src="${e.target.result}" alt="Gallery">
-        <button type="button" class="remove-gallery-btn">×</button>
-      `;
-      galleryPreview.appendChild(div);
-
-      updateHiddenInput();
-
-      div.querySelector(".remove-gallery-btn").addEventListener("click", () => {
-        div.remove();
-        updateHiddenInput();
-      });
-    };
-    reader.readAsDataURL(file);
-  }
-
-  // === Update hidden gallery input (for JSON) ===
-  function updateHiddenInput() {
-    const urls = Array.from(galleryPreview.querySelectorAll("img")).map(img => img.src);
-    hiddenInput.value = JSON.stringify(urls);
-  }
-
-  // Existing remove buttons (for old images)
-  galleryPreview.querySelectorAll(".remove-gallery-btn").forEach(btn => {
-    btn.addEventListener("click", function () {
-      this.parentElement.remove();
-      updateHiddenInput();
+    mainDropArea.addEventListener("dragover", e => {
+        e.preventDefault();
+        mainDropArea.style.borderColor = "#007bff";
     });
-  });
+
+    mainDropArea.addEventListener("dragleave", () => {
+        mainDropArea.style.borderColor = "#ccc";
+    });
+
+    mainDropArea.addEventListener("drop", e => {
+        e.preventDefault();
+        mainInput.files = e.dataTransfer.files;
+        previewMain(e.dataTransfer.files[0]);
+    });
+
+    function previewMain(file) {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+            mainPreview.src = e.target.result;
+            mainPreview.classList.remove("hidden");
+            mainPlaceholder.style.display = "none";
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // === Gallery Logic ===
+    const galleryDrop = document.getElementById("galleryDropArea");
+    const galleryInput = document.getElementById("galleryInput");
+    const galleryPreview = document.getElementById("galleryPreview");
+    const hiddenInput = document.getElementById("galleryInputHidden");
+
+    galleryDrop.addEventListener("click", () => galleryInput.click());
+
+    // ✅ Prevent duplicate preview on upload
+    galleryInput.addEventListener("change", e => {
+        const files = Array.from(e.target.files);
+        files.forEach(file => previewGallery(file));
+        galleryInput.value = ""; // Reset input to avoid same file triggering again
+    });
+
+    galleryDrop.addEventListener("dragover", e => {
+        e.preventDefault();
+        galleryDrop.style.borderColor = "#007bff";
+    });
+
+    galleryDrop.addEventListener("dragleave", () => {
+        galleryDrop.style.borderColor = "#ccc";
+    });
+
+    galleryDrop.addEventListener("drop", e => {
+        e.preventDefault();
+        const files = Array.from(e.dataTransfer.files);
+        files.forEach(file => previewGallery(file));
+    });
+
+    // ✅ Render gallery preview for new files only once
+    function previewGallery(file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const div = document.createElement("div");
+            div.classList.add("gallery-thumb");
+            div.innerHTML = `
+                <img src="${e.target.result}" alt="Gallery Image">
+                <button type="button" class="remove-gallery-btn">×</button>
+            `;
+            galleryPreview.appendChild(div);
+            div.querySelector(".remove-gallery-btn").addEventListener("click", () => {
+                div.remove();
+                updateHiddenInput();
+            });
+            updateHiddenInput();
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // ✅ Update hidden input JSON for backend sync
+    function updateHiddenInput() {
+        const urls = Array.from(galleryPreview.querySelectorAll("img")).map(img => img.src);
+        hiddenInput.value = JSON.stringify(urls);
+    }
+
+    // ✅ Handle removal of existing images (already loaded from DB)
+    galleryPreview.querySelectorAll(".remove-gallery-btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+            this.parentElement.remove();
+            updateHiddenInput();
+        });
+    });
+
+    // === Specification & Features ===
+    const specsInput = document.getElementById('specifications');
+    const specs = new Choices(specsInput, {
+        delimiter: ',',
+        editItems: true,
+        removeItemButton: true,
+        placeholderValue: 'Type and press Enter to add specification (e.g. Size:42)',
+        duplicateItemsAllowed: false
+    });
+
+    @if($product->specifications)
+        const specData = {!! $product->specifications !!};
+        const specArray = [];
+        Object.keys(specData).forEach(key => {
+            specArray.push(`${key}:${specData[key]}`);
+        });
+        specs.setValue(specArray);
+    @endif
+
+    const featInput = document.getElementById('features');
+    const features = new Choices(featInput, {
+        delimiter: ',',
+        editItems: true,
+        removeItemButton: true,
+        placeholderValue: 'Type and press Enter to add feature',
+        duplicateItemsAllowed: false
+    });
+
+    @if($product->features)
+        const featArray = {!! $product->features !!};
+        features.setValue(featArray);
+    @endif
+
+    // === Save Button (ensures JSON sync) ===
+    const saveBtn = document.getElementById("confirmSave");
+    if (saveBtn) {
+        saveBtn.addEventListener("click", function () {
+            updateHiddenInput();
+            document.getElementById("editProductForm").submit();
+        });
+    }
 });
     </script>
 @endsection
