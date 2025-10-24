@@ -189,7 +189,7 @@
                     <div class="search-path">
                         <a class="btn btn-filter" id="filter_search">
                             <img src="{{ asset('admin/assets/img/icons/filter.svg') }}" alt="img" />
-                            <span><img src="admin/assets/img/icons/closes.svg" alt="img" /></span>
+                            <span><img src="{{ asset('admin/assets/img/icons/closes.svg') }}" alt="img" /></span>
                         </a>
                     </div>
                     <div class="search-input">
