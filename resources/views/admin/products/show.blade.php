@@ -26,7 +26,7 @@
             overflow: hidden;
         }
 
-      
+
 
         /* --- Product Info Section --- */
         .product-body {
@@ -201,14 +201,13 @@
                 transform: scale(1);
             }
         }
-
-        
     </style>
 
     <div class="product-view">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; 
-                    gap: 10px; background-color: #fff; padding: 15px 20px; border-radius: 10px; 
-                    box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; margin-top: 2em; margin-left: 2em; margin-right: 2em;">
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+                                gap: 10px; background-color: #fff; padding: 15px 20px; border-radius: 10px;
+                                box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; margin-top: 2em; margin-left: 2em; margin-right: 2em;">
 
             <!-- Product Title -->
             <h2 style="font-size: 20px; color: #001428; margin: 0; flex: 1 1 auto;">
@@ -218,13 +217,13 @@
             <!-- Actions Buttons -->
             <div class="actions" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end;">
                 <button onclick="window.location.href='{{ route('admin.products.edit', $product->id) }}'" style="background-color: #fb5d0d; color: #fff; border: none; border-radius: 6px;
-                           padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
-                           transition: 0.3s ease;">
+                                       padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
+                                       transition: 0.3s ease;">
                     Edit
                 </button>
-                <button style="background-color: #dc3545; color: #fff; border: none; border-radius: 6px;
-                           padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
-                           transition: 0.3s ease;">
+                <button id="deleteBtn" style="background-color: #dc3545; color: #fff; border: none; border-radius: 6px;
+                       padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
+                       transition: 0.3s ease;">
                     Delete
                 </button>
             </div>
@@ -232,8 +231,8 @@
             <!-- Back Button -->
             <div style="text-align: right;">
                 <a href="{{ route('admin.product.listing') }}" style="display: inline-block; background-color: #001428; color: #fff;
-                          padding: 8px 18px; border-radius: 6px; text-decoration: none;
-                          font-weight: 500; transition: 0.3s; font-size: 14px;">
+                                      padding: 8px 18px; border-radius: 6px; text-decoration: none;
+                                      font-weight: 500; transition: 0.3s; font-size: 14px;">
                     ← Back to Product Listing
                 </a>
             </div>
@@ -311,7 +310,22 @@
         <button class="close" onclick="closeModal()">×</button>
         <img id="modalImg" src="">
     </div>
+    <!-- delete Modal -->
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Are you sure?</h2>
+            <p>This action cannot be undone. Do you really want to delete this product?</p>
 
+            <div class="modal-actions">
+                <form id="deleteForm" method="POST" action="{{ route('products.destroy', $product->id) }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-delete">Yes, Delete</button>
+                </form>
+                <button id="cancelDelete" class="btn-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
     <script>
         const tabs = document.querySelectorAll(".tabs button");
         const contents = document.querySelectorAll(".tab-content");
