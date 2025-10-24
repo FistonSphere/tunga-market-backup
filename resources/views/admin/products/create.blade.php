@@ -344,6 +344,10 @@
         .prd-status-select:hover {
             box-shadow: 0 0 8px rgba(255, 107, 53, 0.6);
         }
+
+        input.choices__input.choices__input--cloned {
+            width: 100px;
+        }
     </style>
 
     <div class="prd-create-wrap">
