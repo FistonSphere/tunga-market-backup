@@ -376,6 +376,11 @@
                 </div>
 
                 <div class="prd-create-group">
+                    <label>SKU</label>
+                    <input type="text" name="sku" placeholder="auto-generated" readonly>
+                </div>
+
+                <div class="prd-create-group">
                     <label>Category</label>
                     <select name="category_id" required>
                         <option value="">Select category</option>
@@ -449,12 +454,6 @@
                     <input type="number" name="min_order_quantity" value="1">
                 </div>
 
-                <!-- INVENTORY -->
-                <div class="prd-create-section-title">Inventory & Stock</div>
-                <div class="prd-create-group">
-                    <label>SKU</label>
-                    <input type="text" name="sku">
-                </div>
 
                 <div class="prd-create-group">
                     <label>Stock Quantity</label>
@@ -624,6 +623,37 @@
                 duplicateItemsAllowed: false
             });
 
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const nameInput = document.querySelector('input[name="name"]');
+            const slugInput = document.querySelector('input[name="slug"]');
+            const skuInput = document.querySelector('input[name="sku"]');
+
+            nameInput.addEventListener('input', () => {
+                const baseName = nameInput.value.trim().toLowerCase();
+                if (!baseName) {
+                    slugInput.value = '';
+                    skuInput.value = '';
+                    return;
+                }
+
+                // Slug: convert spaces and symbols → hyphens
+                const slug = baseName
+                    .replace(/[^\w\s-]/g, '')       // remove special characters
+                    .replace(/\s+/g, '-')           // replace spaces with hyphen
+                    .replace(/--+/g, '-')           // avoid double hyphens
+                    .replace(/^-+|-+$/g, '');       // trim hyphens from start/end
+
+                // Generate unique suffix for SKU (short + random digits)
+                const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+                const cleanName = baseName.replace(/\s+/g, '').slice(0, 6).toUpperCase();
+                const sku = `${cleanName}-${randomSuffix}`;
+
+                // Update fields
+                slugInput.value = slug;
+                skuInput.value = sku;
             });
+        });
     </script>
 @endsection
