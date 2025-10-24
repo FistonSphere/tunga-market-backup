@@ -630,6 +630,26 @@
     });
 
 
-    
+    //delete
+    document.addEventListener('DOMContentLoaded', function() {
+    const deleteBtn = document.getElementById('deleteBtn');
+    const deleteModal = document.getElementById('deleteModal');
+    const cancelDelete = document.getElementById('cancelDelete');
+
+    deleteBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        deleteModal.style.display = 'flex';
+    });
+
+    cancelDelete.addEventListener('click', function() {
+        deleteModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(e) {
+        if (e.target === deleteModal) {
+            deleteModal.style.display = 'none';
+        }
+    });
+});
     </script>
 @endsection
