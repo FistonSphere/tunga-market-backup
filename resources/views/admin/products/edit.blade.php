@@ -270,6 +270,80 @@
             margin-top: 20px;
         }
 
+/* ====== Gallery Grid ====== */
+    .gallery-preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 1rem;
+    }
+
+    .gallery-thumb {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #f7f7f7;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .gallery-thumb:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    .gallery-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: inherit;
+    }
+
+    .remove-gallery-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(0,0,0,0.6);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        line-height: 20px;
+        text-align: center;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    .remove-gallery-btn:hover {
+        background: #ff4d4d;
+    }
+
+    /* ====== Upload Box ====== */
+    .upload-area {
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        color: #666;
+        cursor: pointer;
+        transition: border-color 0.3s ease, background-color 0.3s ease;
+        background-color: #fafafa;
+    }
+
+    .upload-area:hover {
+        border-color: #007bff;
+        background-color: #f0f8ff;
+    }
+
+    .upload-area input[type="file"] {
+        display: none;
+    }
+
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -403,30 +477,32 @@
 
             <!-- Product Gallery -->
             <div class="form-section">
-                <h3>Image Gallery</h3>
-                <p class="sub-info">Upload multiple product images. They will be stored as a JSON array.</p>
+    <h3>Image Gallery</h3>
+    <p class="sub-info">Upload multiple product images. They will be stored as a JSON array.</p>
 
-                <!-- Existing Images -->
-                <div id="galleryPreview" class="gallery-preview">
-                    @php
-                        $galleryImages = json_decode($product->gallery, true) ?? [];
-                    @endphp
-                    @foreach($galleryImages as $url)
-                        <div class="gallery-thumb">
-                            <img src="{{ $url }}" alt="Gallery Image">
-                            <button type="button" class="remove-gallery-btn" data-url="{{ $url }}">×</button>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div class="form-group">
-                    <label>Upload New Gallery Images</label>
-                    <input type="file" name="gallery[]" id="galleryInput" multiple accept="image/*">
-                </div>
-
-                <!-- Hidden input to hold JSON -->
-                <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
+    <!-- Existing Images -->
+    <div id="galleryPreview" class="gallery-preview">
+        @php
+            $galleryImages = json_decode($product->gallery, true) ?? [];
+        @endphp
+        @foreach($galleryImages as $url)
+            <div class="gallery-thumb">
+                <img src="{{ $url }}" alt="Gallery Image">
+                <button type="button" class="remove-gallery-btn" data-url="{{ $url }}">×</button>
             </div>
+        @endforeach
+    </div>
+
+    <!-- Upload Box -->
+    <div class="upload-area" onclick="document.getElementById('galleryInput').click()">
+        <div class="upload-icon">📸</div>
+        <div class="upload-text">Click or drag images here to upload</div>
+        <input type="file" name="gallery[]" id="galleryInput" multiple accept="image/*" onchange="previewGallery(event)">
+    </div>
+
+    <!-- Hidden JSON input -->
+    <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
+</div>
 
 
             <!-- Product Flags -->
@@ -641,23 +717,120 @@
             @endif
     });
 
-      function previewImage(event) {
+    // ===============================
+// MAIN IMAGE PREVIEW
+// ===============================
+function previewImage(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function () {
+        const wrapper = event.target.closest('.image-upload-wrapper');
+        let preview = document.getElementById('imagePreview');
+
+        if (preview) {
+            preview.src = reader.result;
+        } else {
+            const img = document.createElement('img');
+            img.src = reader.result;
+            img.id = 'imagePreview';
+            img.className = 'preview-img';
+
+            // Clear placeholder content before adding the new image
+            wrapper.innerHTML = '';
+            wrapper.appendChild(img);
+        }
+    };
+
+    reader.readAsDataURL(file);
+}
+
+
+
+// ===============================
+// GALLERY IMAGE UPLOAD & PREVIEW
+// ===============================
+const galleryPreview = document.getElementById('galleryPreview');
+const hiddenInput = document.getElementById('galleryInputHidden');
+let galleryData = [];
+
+try {
+    galleryData = JSON.parse(hiddenInput?.value || '[]');
+} catch (err) {
+    console.error('Invalid JSON in hidden input:', err);
+    galleryData = [];
+}
+
+// -------------------------------
+// Preview newly uploaded images
+// -------------------------------
+function previewGallery(event) {
+    const files = event.target.files;
+    if (!files.length) return;
+
+    Array.from(files).forEach(file => {
         const reader = new FileReader();
-        reader.onload = function(){
-            const preview = document.getElementById('imagePreview');
-            if (preview) {
-                preview.src = reader.result;
-            } else {
-                const img = document.createElement('img');
-                img.src = reader.result;
-                img.id = 'imagePreview';
-                img.className = 'preview-img';
-                const wrapper = event.target.closest('.image-upload-wrapper');
-                wrapper.innerHTML = '';
-                wrapper.appendChild(img);
-            }
+
+        reader.onload = function (e) {
+            const url = e.target.result;
+            galleryData.push(url);
+            renderGallery();
         };
-        reader.readAsDataURL(event.target.files[0]);
+
+        reader.readAsDataURL(file);
+    });
+}
+
+// -------------------------------
+// Render all gallery thumbnails
+// -------------------------------
+function renderGallery() {
+    if (!galleryPreview) return;
+
+    galleryPreview.innerHTML = '';
+
+    galleryData.forEach(url => {
+        const thumb = document.createElement('div');
+        thumb.className = 'gallery-thumb';
+        thumb.innerHTML = `
+            <img src="${url}" alt="Gallery Image">
+            <button type="button" class="remove-gallery-btn" data-url="${url}">×</button>
+        `;
+        galleryPreview.appendChild(thumb);
+    });
+
+    attachRemoveListeners();
+    updateHiddenInput();
+}
+
+// -------------------------------
+// Remove image buttons
+// -------------------------------
+function attachRemoveListeners() {
+    const removeButtons = document.querySelectorAll('.remove-gallery-btn');
+
+    removeButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const url = this.getAttribute('data-url');
+            galleryData = galleryData.filter(item => item !== url);
+            renderGallery();
+        });
+    });
+}
+
+// -------------------------------
+// Update hidden JSON field
+// -------------------------------
+function updateHiddenInput() {
+    if (hiddenInput) {
+        hiddenInput.value = JSON.stringify(galleryData);
     }
+}
+
+// Initialize remove buttons on page load (for existing images)
+attachRemoveListeners();
+
     </script>
 @endsection
