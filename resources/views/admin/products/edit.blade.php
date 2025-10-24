@@ -233,7 +233,85 @@
             gap: 10px;
             margin-top: 20px;
         }
+/* ===== Custom Upload Styling ===== */
+.custom-file-upload {
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  text-align: center;
+  padding: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  background: #fafafa;
+}
 
+.custom-file-upload:hover {
+  border-color: #007bff;
+  background-color: #f0f8ff;
+}
+
+.upload-placeholder {
+  color: #777;
+  font-size: 14px;
+}
+
+.upload-placeholder i {
+  font-size: 30px;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.preview-img {
+  width: 160px;
+  height: 160px;
+  border-radius: 8px;
+  margin-top: 10px;
+  object-fit: cover;
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Gallery preview */
+.gallery-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.gallery-thumb {
+  position: relative;
+}
+
+.gallery-thumb img {
+  width: 100px;
+  height: 100px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+
+.remove-gallery-btn {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #dc3545;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.remove-gallery-btn:hover {
+  background: #b02a37;
+}
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -604,5 +682,104 @@
                 features.setValue(featArray);
             @endif
     });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+  // === Main image logic ===
+  const mainDropArea = document.getElementById("mainImageDropArea");
+  const mainInput = document.getElementById("mainImageInput");
+  const mainPreview = document.getElementById("mainImagePreview");
+  const mainPlaceholder = document.getElementById("mainImagePlaceholder");
+
+  mainDropArea.addEventListener("click", () => mainInput.click());
+  mainInput.addEventListener("change", () => previewMain(mainInput.files[0]));
+
+  mainDropArea.addEventListener("dragover", e => {
+    e.preventDefault();
+    mainDropArea.style.borderColor = "#007bff";
+  });
+
+  mainDropArea.addEventListener("dragleave", () => {
+    mainDropArea.style.borderColor = "#ccc";
+  });
+
+  mainDropArea.addEventListener("drop", e => {
+    e.preventDefault();
+    mainInput.files = e.dataTransfer.files;
+    previewMain(e.dataTransfer.files[0]);
+  });
+
+  function previewMain(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      mainPreview.src = e.target.result;
+      mainPreview.classList.remove("hidden");
+      mainPlaceholder.style.display = "none";
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // === Gallery logic ===
+  const galleryDrop = document.getElementById("galleryDropArea");
+  const galleryInput = document.getElementById("galleryInput");
+  const galleryPreview = document.getElementById("galleryPreview");
+  const hiddenInput = document.getElementById("galleryInputHidden");
+
+  galleryDrop.addEventListener("click", () => galleryInput.click());
+
+  galleryInput.addEventListener("change", () => {
+    Array.from(galleryInput.files).forEach(file => previewGallery(file));
+  });
+
+  galleryDrop.addEventListener("dragover", e => {
+    e.preventDefault();
+    galleryDrop.style.borderColor = "#007bff";
+  });
+
+  galleryDrop.addEventListener("dragleave", () => {
+    galleryDrop.style.borderColor = "#ccc";
+  });
+
+  galleryDrop.addEventListener("drop", e => {
+    e.preventDefault();
+    Array.from(e.dataTransfer.files).forEach(file => previewGallery(file));
+  });
+
+  function previewGallery(file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const div = document.createElement("div");
+      div.classList.add("gallery-thumb");
+      div.innerHTML = `
+        <img src="${e.target.result}" alt="Gallery">
+        <button type="button" class="remove-gallery-btn">×</button>
+      `;
+      galleryPreview.appendChild(div);
+
+      updateHiddenInput();
+
+      div.querySelector(".remove-gallery-btn").addEventListener("click", () => {
+        div.remove();
+        updateHiddenInput();
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // === Update hidden gallery input (for JSON) ===
+  function updateHiddenInput() {
+    const urls = Array.from(galleryPreview.querySelectorAll("img")).map(img => img.src);
+    hiddenInput.value = JSON.stringify(urls);
+  }
+
+  // Existing remove buttons (for old images)
+  galleryPreview.querySelectorAll(".remove-gallery-btn").forEach(btn => {
+    btn.addEventListener("click", function () {
+      this.parentElement.remove();
+      updateHiddenInput();
+    });
+  });
+});
     </script>
 @endsection
