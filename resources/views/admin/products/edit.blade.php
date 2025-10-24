@@ -343,12 +343,18 @@
                 <div class="grid-2">
                     <!-- Main Image -->
                     <div class="form-group">
-                        <label>Main Product Image</label>
-                        @if($product->main_image)
-                            <img src="{{ $product->main_image }}" alt="Main Image" class="preview-img">
-                        @endif
-                        <input type="file" name="main_image" accept="image/*">
-                    </div>
+                      <label>Main Product Image</label>
+
+                      <div class="image-upload-wrapper" onclick="document.getElementById('mainImageInput').click()">
+                          @if($product->main_image)
+                              <img src="{{ $product->main_image }}" alt="Main Image" class="preview-img" id="imagePreview">
+                          @else
+                              <div class="upload-icon">📷</div>
+                              <div class="upload-text">Click or drag an image to upload</div>
+                          @endif
+                          <input type="file" id="mainImageInput" name="main_image" accept="image/*" onchange="previewImage(event)">
+                      </div>
+                  </div>
 
                     <!-- Video URL -->
                     <div class="form-group">
