@@ -45,7 +45,6 @@ public function edit($id)
      */
 public function update(Request $request, $id)
 {
-    // dd($request->all());
     Log::info('🔵 Product update started', ['product_id' => $id]);
     $product = Product::findOrFail($id);
 
@@ -74,11 +73,13 @@ public function update(Request $request, $id)
         'tags'              => 'nullable|string',
     ]);
 
-    // ✅ Parse JSON-like fields
+    // ✅ Parse JSON-like fields (features/specifications)
     foreach (['specifications', 'features', 'shipping_info', 'tags'] as $jsonField) {
         if (!empty($validated[$jsonField])) {
             $decoded = json_decode($validated[$jsonField], true);
-            $validated[$jsonField] = json_last_error() === JSON_ERROR_NONE ? json_encode($decoded) : json_encode(array_map('trim', explode(',', $validated[$jsonField])));
+            $validated[$jsonField] = json_last_error() === JSON_ERROR_NONE
+                ? json_encode($decoded)
+                : json_encode(array_map('trim', explode(',', $validated[$jsonField])));
         }
     }
 
@@ -87,36 +88,34 @@ public function update(Request $request, $id)
         $validated[$flag] = $request->has($flag) ? 1 : 0;
     }
 
-    // --- Handle specifications ---
-    // Specifications
-$specifications = [];
-if ($request->filled('specifications')) {
-    $pairs = explode(',', $request->specifications);
-    foreach ($pairs as $pair) {
-        if (strpos($pair, ':') !== false) {
-            [$key, $value] = explode(':', $pair, 2);
-            $specifications[trim($key)] = trim($value);
+    // ✅ Specifications and features conversion
+    $specifications = [];
+    if ($request->filled('specifications')) {
+        $pairs = explode(',', $request->specifications);
+        foreach ($pairs as $pair) {
+            if (strpos($pair, ':') !== false) {
+                [$key, $value] = explode(':', $pair, 2);
+                $specifications[trim($key)] = trim($value);
+            }
         }
     }
-}
-$validated['specifications'] = json_encode($specifications, JSON_UNESCAPED_SLASHES);
+    $validated['specifications'] = json_encode($specifications, JSON_UNESCAPED_SLASHES);
 
-// Features
-$features = [];
-if ($request->filled('features')) {
-    $features = array_map('trim', explode(',', $request->features));
-}
-$validated['features'] = json_encode($features, JSON_UNESCAPED_SLASHES);
+    $features = [];
+    if ($request->filled('features')) {
+        $features = array_map('trim', explode(',', $request->features));
+    }
+    $validated['features'] = json_encode($features, JSON_UNESCAPED_SLASHES);
 
-// Shipping Info
-$validated['shipping_info'] = $request->input('shipping_info', null);
+    $validated['shipping_info'] = $request->input('shipping_info', null);
 
-    // ✅ Handle main image upload
+    // ✅ Handle main image
     if ($request->hasFile('main_image')) {
         $file = $request->file('main_image');
         $filename = 'product_main_' . $product->id . '_' . time() . '.' . $file->getClientOriginalExtension();
         $path = $file->storeAs('products', $filename, 'public');
 
+        // delete old main image if exists
         if ($product->main_image) {
             $oldPath = str_replace('/storage/', '', parse_url($product->main_image, PHP_URL_PATH));
             if (Storage::disk('public')->exists($oldPath)) {
@@ -127,10 +126,36 @@ $validated['shipping_info'] = $request->input('shipping_info', null);
         $validated['main_image'] = asset('storage/' . $path);
     }
 
-    // ✅ Handle gallery
+    // ✅ Handle gallery intelligently
     $existingGallery = json_decode($product->gallery, true) ?? [];
     if (!is_array($existingGallery)) $existingGallery = [];
 
+    // 1️⃣ Get current visible gallery from hidden field (after user removed some)
+    $submittedGallery = $request->input('gallery');
+    $frontendGallery = [];
+
+    if ($submittedGallery) {
+        if (is_string($submittedGallery)) {
+            $decoded = json_decode($submittedGallery, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $frontendGallery = $decoded;
+            }
+        } elseif (is_array($submittedGallery)) {
+            $frontendGallery = $submittedGallery;
+        }
+    }
+
+    // 2️⃣ Determine which images user removed
+    $removedImages = array_diff($existingGallery, $frontendGallery);
+    foreach ($removedImages as $oldImage) {
+        $oldPath = str_replace('/storage/', '', parse_url($oldImage, PHP_URL_PATH));
+        if (Storage::disk('public')->exists($oldPath)) {
+            Storage::disk('public')->delete($oldPath);
+            Log::info('🗑 Removed old gallery image', ['path' => $oldPath]);
+        }
+    }
+
+    // 3️⃣ Handle new uploads
     $newGalleryUrls = [];
     if ($request->hasFile('gallery')) {
         foreach ($request->file('gallery') as $file) {
@@ -142,37 +167,28 @@ $validated['shipping_info'] = $request->input('shipping_info', null);
         }
     }
 
-    if ($request->filled('gallery')) {
-        $submittedGallery = $request->gallery;
-        if (is_string($submittedGallery)) {
-            $decoded = json_decode($submittedGallery, true);
-            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                $existingGallery = $decoded;
-            }
-        } elseif (is_array($submittedGallery)) {
-            $existingGallery = $submittedGallery;
-        }
-    }
-
-    $finalGallery = array_merge($existingGallery, $newGalleryUrls);
-    $finalGallery = array_filter($finalGallery, fn($item) => is_string($item) && preg_match('/^https?:\/\//', $item));
+    // 4️⃣ Combine: keep remaining + add new uploads
+    $finalGallery = array_merge($frontendGallery, $newGalleryUrls);
+    $finalGallery = array_filter($finalGallery, fn($url) => is_string($url) && preg_match('/^https?:\/\//', $url));
     $validated['gallery'] = json_encode(array_values($finalGallery));
 
-    // ✅ Slug
+    // ✅ Update slug
     $validated['slug'] = Str::slug($validated['name']);
 
     $product->update($validated);
 
     Log::info('✅ Product updated successfully', [
         'id' => $product->id,
-        'gallery_count' => count($finalGallery),
-        'updated_fields' => array_keys($validated),
+        'final_gallery_count' => count($finalGallery),
+        'removed_images' => $removedImages,
+        'added_images' => $newGalleryUrls,
     ]);
 
     return redirect()
         ->route('admin.product.listing')
-        ->with('success', '✅ Product updated successfully.');
+        ->with('success', '✅ Product updated successfully with updated gallery.');
 }
+
 
 
 public function destroy($id)
