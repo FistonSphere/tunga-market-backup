@@ -372,7 +372,7 @@
 
                 <div class="prd-create-group">
                     <label>Slug</label>
-                    <input type="text" name="slug" placeholder="auto-generated if empty">
+                    <input type="text" name="slug" placeholder="auto-generated" readonly>
                 </div>
 
                 <div class="prd-create-group">
@@ -457,7 +457,7 @@
 
                 <div class="prd-create-group">
                     <label>Stock Quantity</label>
-                    <input type="number" name="stock_quantity" value="0">
+                    <input type="number" name="stock_quantity" value="1" min="1">
                 </div>
 
                 <!-- MEDIA -->
@@ -503,7 +503,7 @@
                 </div>
 
                 <div class="prd-actions">
-                    <button type="reset" class="prd-btn prd-btn-outline">Reset</button>
+                    <a href="{{ route('admin.product.listing') }}" class="prd-btn prd-btn-outline">Cancel</a>
                     <button type="submit" class="prd-btn prd-btn-primary">Save Product</button>
                 </div>
             </form>
