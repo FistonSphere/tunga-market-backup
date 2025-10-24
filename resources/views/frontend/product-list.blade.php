@@ -118,7 +118,8 @@
                         <div class="space-y-3">
                             <div class="flex gap-2">
                                 <input type="number" id="min-price" placeholder="Min" min="10" class="input-field flex-1" />
-                                <input type="number" id="max-price" placeholder="Max" min="100" class="input-field flex-1" />
+                                <input type="number" id="max-price" placeholder="Max" min="100"
+                                    class="input-field flex-1" />
                             </div>
 
                             <div class="bg-secondary-100 h-2 rounded-full relative">
@@ -296,34 +297,34 @@
 
             products.forEach(p => {
                 thead += `
-            <th class="text-center py-4 px-6 relative">
-                <div class="space-y-2">
-                    <img src="${p.main_image}" alt="${p.name}"
-                        class="w-16 h-16 object-cover rounded-lg mx-auto" />
-                    <div class="font-medium text-primary">${p.name}</div>
-                </div>
-                <button
-                    onclick="removeFromComparison(${p.id})"
-                    class="remove-product absolute top-0 right-0 text-red-600 hover:text-red-800"
-                    title="Remove product"
-                    style="position:absolute; top:4px; right:4px; background:none; border:none; cursor:pointer; font-size: 20px; line-height: 1;">
-                    &times;
-                </button>
-            </th>`;
+                <th class="text-center py-4 px-6 relative">
+                    <div class="space-y-2">
+                        <img src="${p.main_image}" alt="${p.name}"
+                            class="w-16 h-16 object-cover rounded-lg mx-auto" />
+                        <div class="font-medium text-primary">${p.name}</div>
+                    </div>
+                    <button
+                        onclick="removeFromComparison(${p.id})"
+                        class="remove-product absolute top-0 right-0 text-red-600 hover:text-red-800"
+                        title="Remove product"
+                        style="position:absolute; top:4px; right:4px; background:none; border:none; cursor:pointer; font-size: 20px; line-height: 1;">
+                        &times;
+                    </button>
+                </th>`;
             });
 
             for (let i = products.length; i < maxComparison; i++) {
                 thead += `<th class="text-center py-4 px-6 text-secondary-400 opacity-50">
-            <div class="space-y-2">
-                <div class="w-16 h-16 bg-secondary-200 rounded-lg mx-auto flex items-center justify-center">
-                    <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
+                <div class="space-y-2">
+                    <div class="w-16 h-16 bg-secondary-200 rounded-lg mx-auto flex items-center justify-center">
+                        <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                    </div>
+                    <div class="font-medium text-secondary-400">Add Product</div>
                 </div>
-                <div class="font-medium text-secondary-400">Add Product</div>
-            </div>
-        </th>`;
+            </th>`;
             }
 
             thead += `</tr></thead>`;
@@ -331,16 +332,16 @@
 
             features.forEach(feature => {
                 tbody += `<tr class="border-b border-gray-100">
-            <td class="py-4 px-6 font-medium text-secondary-700">${feature}</td>`;
+                <td class="py-4 px-6 font-medium text-secondary-700">${feature}</td>`;
 
                 products.forEach(p => {
                     switch (feature) {
                         case 'Price':
                             const price = p.discount_price ?? p.price;
                             tbody += `<td class="py-4 px-6 text-center">
-                        <span class="text-subheading font-bold text-primary">$${price}</span>
-                        <div class="text-body-sm text-secondary-600">per piece</div>
-                    </td>`;
+                            <span class="text-subheading font-bold text-primary">$${price}</span>
+                            <div class="text-body-sm text-secondary-600">per piece</div>
+                        </td>`;
                             break;
 
                         case 'MOQ':
@@ -412,18 +413,18 @@
             else if (type === 'warning') bgColor = '#b91c1c'; // dark red for remove product
 
             toast.style = `
-        background: ${bgColor};
-        color: white;
-        padding: 12px 18px;
-        margin-top: 8px;
-        border-radius: 6px;
-        box-shadow: 0 2px 10px rgb(0 0 0 / 0.2);
-        opacity: 0;
-        transform: translateX(100%);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        font-weight: 600;
-        max-width: 300px;
-    `;
+            background: ${bgColor};
+            color: white;
+            padding: 12px 18px;
+            margin-top: 8px;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgb(0 0 0 / 0.2);
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            font-weight: 600;
+            max-width: 300px;
+        `;
             toast.innerText = message;
             container.appendChild(toast);
 
@@ -500,7 +501,7 @@
                 const basePrice = product.price;
                 const priceHtml = discountPrice ?
                     `<span class="line-through text-secondary-500 text-sm mr-2">$${basePrice.toFixed(2)}</span>
-                   <span class="text-subheading font-bold text-primary">$${discountPrice.toFixed(2)}</span>` :
+                       <span class="text-subheading font-bold text-primary">$${discountPrice.toFixed(2)}</span>` :
                     `<span class="text-subheading font-bold text-primary">$${basePrice.toFixed(2)}</span>`;
 
                 let badgeHtml = '';
@@ -525,53 +526,53 @@
                 }
 
                 const ecoHtml = product.features?.includes('eco_friendly') ? `
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-1">
-                        <div class="w-2 h-2 bg-success rounded-full"></div>
-                        <span class="text-caption text-success">Eco-Friendly</span>
-                    </div>
-                    <span class="text-caption text-secondary-500">Ships in 3-5 days</span>
-                </div>` : '';
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-1">
+                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                            <span class="text-caption text-success">Eco-Friendly</span>
+                        </div>
+                        <span class="text-caption text-secondary-500">Ships in 3-5 days</span>
+                    </div>` : '';
 
                 const cardHtml = `
-                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300 relative">
-                    ${badgeHtml}
-                    <div class="relative overflow-hidden rounded-lg mb-4">
-                        <img src="${product.main_image}" alt="${product.name}" class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300" loading="lazy" />
-                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-2">
-                            <a href="/product/${product.sku}" class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50" title="View Product">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                </svg>
-                            </a>
-                            <button onclick="addToComparison(${product.id})" class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50" title="Add to Compare">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                </svg>
-                            </button>
+                    <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300 relative">
+                        ${badgeHtml}
+                        <div class="relative overflow-hidden rounded-lg mb-4">
+                            <img src="${product.main_image}" alt="${product.name}" class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300" loading="lazy" />
+                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-2">
+                                <a href="/product/${product.sku}" class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50" title="View Product">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </a>
+                                <button onclick="addToComparison(${product.id})" class="bg-white text-primary p-2 rounded-full hover:bg-secondary-50" title="Add to Compare">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    <a href="/product/${product.sku}" class="space-y-3 block">
-                        <h3 class="font-semibold text-primary group-hover:text-accent transition-fast">${product.name}</h3>
-                        <div class="space-y-1">
-                            <div>${priceHtml}<span class="text-body-sm text-secondary-600 ml-1">/ piece</span></div>
-                            <div><span class="text-body-sm text-secondary-600">MOQ: ${product.min_order_quantity} pcs</span></div>
-                        </div>
-                        ${ecoHtml}
-                    </a>
-                </div>`;
+                        <a href="/product/${product.sku}" class="space-y-3 block">
+                            <h3 class="font-semibold text-primary group-hover:text-accent transition-fast">${product.name}</h3>
+                            <div class="space-y-1">
+                                <div>${priceHtml}<span class="text-body-sm text-secondary-600 ml-1">/ piece</span></div>
+                                <div><span class="text-body-sm text-secondary-600">MOQ: ${product.min_order_quantity} pcs</span></div>
+                            </div>
+                            ${ecoHtml}
+                        </a>
+                    </div>`;
 
                 productGrid.innerHTML += cardHtml;
             });
         }
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             fetch('/categories-with-count')
                 .then(res => res.json())
                 .then(categories => {
@@ -579,21 +580,20 @@
                     container.innerHTML = '';
                     categories.forEach(cat => {
                         container.innerHTML += `
-        <label class="flex items-center">
-            <input type="checkbox"
-                   class="rounded border-gray-300 text-accent focus:ring-accent category-checkbox"
-                   value="${cat.id}" />
-            <span class="ml-2 text-body-sm">${cat.name} (${cat.products_count})</span>
-        </label>
-    `;
+            <label class="flex items-center">
+                <input type="checkbox"
+                       class="rounded border-gray-300 text-accent focus:ring-accent category-checkbox"
+                       value="${cat.id}" />
+                <span class="ml-2 text-body-sm">${cat.name} (${cat.products_count})</span>
+            </label>
+        `;
                     });
-
                 })
                 .catch(err => console.error('Error fetching categories:', err));
-
         });
 
-        document.addEventListener('change', function(e) {
+
+        document.addEventListener('change', function (e) {
             if (e.target.classList.contains('category-checkbox')) {
                 const selected = Array.from(document.querySelectorAll('.category-checkbox:checked'))
                     .map(cb => cb.value);
@@ -610,7 +610,7 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const currencySelect = document.getElementById('currency-select');
             const minPriceInput = document.getElementById('min-price');
             const maxPriceInput = document.getElementById('max-price');
@@ -633,20 +633,20 @@
                         .filter(c => c.products_count > 0)
                         .forEach(c => {
                             categoriesContainer.innerHTML += `
-                        <label class="flex items-center">
-                            <input type="checkbox"
-                                   class="category-checkbox rounded border-gray-300 text-accent focus:ring-accent"
-                                   value="${c.id}" />
-                            <span class="ml-2 text-body-sm">${c.name} (${c.products_count})</span>
-                        </label>
-                    `;
+                            <label class="flex items-center">
+                                <input type="checkbox"
+                                       class="category-checkbox rounded border-gray-300 text-accent focus:ring-accent"
+                                       value="${c.id}" />
+                                <span class="ml-2 text-body-sm">${c.name} (${c.products_count})</span>
+                            </label>
+                        `;
                         });
 
                     // Event listener for category selection
                     document.querySelectorAll('.category-checkbox').forEach(cb => {
                         cb.addEventListener('change', () => {
                             selectedCategories = Array.from(document.querySelectorAll(
-                                    '.category-checkbox:checked'))
+                                '.category-checkbox:checked'))
                                 .map(el => el.value);
                             fetchFilteredProducts();
                         });
@@ -704,7 +704,7 @@
 
 
         //price range filtering functionality
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const currencySelect = document.getElementById('currency-select');
             const minPriceInput = document.getElementById('min-price');
             const maxPriceInput = document.getElementById('max-price');
@@ -786,11 +786,11 @@
             const loaderEl = document.createElement('div');
             loaderEl.className = 'flex justify-center items-center py-8';
             loaderEl.innerHTML = `
-    <svg class="animate-spin h-8 w-8 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-    </svg>
-  `;
+        <svg class="animate-spin h-8 w-8 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>
+      `;
 
             // Helper: safely inject HTML into container and execute scripts inside returned HTML
             function injectHtmlAndRun(container, html) {
@@ -873,10 +873,10 @@
                 if (page) params.append('page', page);
 
                 fetch(`/products/sort?${params.toString()}`, {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
                     .then(res => {
                         if (!res.ok) throw new Error('Network response not OK');
                         return res.json();
@@ -947,7 +947,7 @@
 
 
         //brand filtering functionality
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const brandList = document.getElementById('Brand-list');
             const inStockCheckbox = document.getElementById('in-stock');
             const productContainer = document.getElementById('product-grid');
@@ -960,11 +960,11 @@
                     brands.forEach(brand => {
                         const div = document.createElement('div');
                         div.innerHTML = `
-                    <label class="flex items-center space-x-2">
-                        <input type="checkbox" class="brand-checkbox form-checkbox text-primary" value="${brand.id}">
-                        <span>${brand.name}</span>
-                    </label>
-                `;
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" class="brand-checkbox form-checkbox text-primary" value="${brand.id}">
+                            <span>${brand.name}</span>
+                        </label>
+                    `;
                         brandList.appendChild(div);
                     });
 
@@ -1012,7 +1012,7 @@
         //brand filtering functionality
 
         //trending Suggestions
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             fetch("/trending-suggestions")
                 .then(res => res.json())
                 .then(data => {
@@ -1033,7 +1033,7 @@
         //trending Suggestions
 
         //advanced searching
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const searchInput = document.getElementById("mainSearch");
             const suggestionsContainer = document.getElementById("searchSuggestions");
             const productContainer = document.getElementById("product-grid");
@@ -1041,7 +1041,7 @@
 
             let debounceTimeout;
 
-            searchInput.addEventListener("input", function() {
+            searchInput.addEventListener("input", function () {
                 const query = this.value.trim();
 
                 clearTimeout(debounceTimeout);
@@ -1160,13 +1160,13 @@
 
 
         //category filtering functionality
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const categorySelect = document.getElementById('categorySelect');
             const searchBtn = document.getElementById('searchBtn');
             const productContainer = document.getElementById('product-grid');
             const loader = document.getElementById('loader');
 
-            searchBtn.addEventListener('click', function() {
+            searchBtn.addEventListener('click', function () {
                 const selectedCategoryId = categorySelect.value;
 
                 // Show loader and dim product container
