@@ -206,8 +206,8 @@
     <div class="product-view">
         <div
             style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
-                                gap: 10px; background-color: #fff; padding: 15px 20px; border-radius: 10px;
-                                box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; margin-top: 2em; margin-left: 2em; margin-right: 2em;">
+                                    gap: 10px; background-color: #fff; padding: 15px 20px; border-radius: 10px;
+                                    box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; margin-top: 2em; margin-left: 2em; margin-right: 2em;">
 
             <!-- Product Title -->
             <h2 style="font-size: 20px; color: #001428; margin: 0; flex: 1 1 auto;">
@@ -217,13 +217,13 @@
             <!-- Actions Buttons -->
             <div class="actions" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end;">
                 <button onclick="window.location.href='{{ route('admin.products.edit', $product->id) }}'" style="background-color: #fb5d0d; color: #fff; border: none; border-radius: 6px;
-                                       padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
-                                       transition: 0.3s ease;">
+                                           padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
+                                           transition: 0.3s ease;">
                     Edit
                 </button>
                 <button id="deleteBtn" style="background-color: #dc3545; color: #fff; border: none; border-radius: 6px;
-                       padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
-                       transition: 0.3s ease;">
+                           padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
+                           transition: 0.3s ease;">
                     Delete
                 </button>
             </div>
@@ -231,8 +231,8 @@
             <!-- Back Button -->
             <div style="text-align: right;">
                 <a href="{{ route('admin.product.listing') }}" style="display: inline-block; background-color: #001428; color: #fff;
-                                      padding: 8px 18px; border-radius: 6px; text-decoration: none;
-                                      font-weight: 500; transition: 0.3s; font-size: 14px;">
+                                          padding: 8px 18px; border-radius: 6px; text-decoration: none;
+                                          font-weight: 500; transition: 0.3s; font-size: 14px;">
                     ← Back to Product Listing
                 </a>
             </div>
@@ -349,6 +349,27 @@
         }
         document.getElementById("modal").addEventListener("click", e => {
             if (e.target === e.currentTarget) closeModal();
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteBtn = document.getElementById('deleteBtn');
+            const deleteModal = document.getElementById('deleteModal');
+            const cancelDelete = document.getElementById('cancelDelete');
+
+            deleteBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                deleteModal.style.display = 'flex';
+            });
+
+            cancelDelete.addEventListener('click', function () {
+                deleteModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function (e) {
+                if (e.target === deleteModal) {
+                    deleteModal.style.display = 'none';
+                }
+            });
         });
     </script>
 @endsection

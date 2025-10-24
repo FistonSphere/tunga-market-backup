@@ -233,37 +233,7 @@
             gap: 10px;
             margin-top: 20px;
         }
-.btn-delete {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: 0.3s ease;
-}
 
-.btn-delete:hover {
-    background-color: #c82333;
-}
-
-.btn-cancel {
-    background-color: #6c757d;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: 0.3s ease;
-}
-
-.btn-cancel:hover {
-    background-color: #5a6268;
-}
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -628,28 +598,5 @@
                 features.setValue(featArray);
             @endif
     });
-
-
-    //delete
-    document.addEventListener('DOMContentLoaded', function() {
-    const deleteBtn = document.getElementById('deleteBtn');
-    const deleteModal = document.getElementById('deleteModal');
-    const cancelDelete = document.getElementById('cancelDelete');
-
-    deleteBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        deleteModal.style.display = 'flex';
-    });
-
-    cancelDelete.addEventListener('click', function() {
-        deleteModal.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(e) {
-        if (e.target === deleteModal) {
-            deleteModal.style.display = 'none';
-        }
-    });
-});
     </script>
 @endsection
