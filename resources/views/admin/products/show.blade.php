@@ -178,6 +178,77 @@
             }
         }
 
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 10px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s ease-in-out;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 20px;
+        }
+
+        .modal-content p {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        .btn-cancel {
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            background-color: #5a6268;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -206,8 +277,8 @@
     <div class="product-view">
         <div
             style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
-                                    gap: 10px; background-color: #fff; padding: 15px 20px; border-radius: 10px;
-                                    box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; margin-top: 2em; margin-left: 2em; margin-right: 2em;">
+                                            gap: 10px; background-color: #fff; padding: 15px 20px; border-radius: 10px;
+                                            box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; margin-top: 2em; margin-left: 2em; margin-right: 2em;">
 
             <!-- Product Title -->
             <h2 style="font-size: 20px; color: #001428; margin: 0; flex: 1 1 auto;">
@@ -217,13 +288,13 @@
             <!-- Actions Buttons -->
             <div class="actions" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end;">
                 <button onclick="window.location.href='{{ route('admin.products.edit', $product->id) }}'" style="background-color: #fb5d0d; color: #fff; border: none; border-radius: 6px;
-                                           padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
-                                           transition: 0.3s ease;">
+                                                   padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
+                                                   transition: 0.3s ease;">
                     Edit
                 </button>
                 <button id="deleteBtn" style="background-color: #dc3545; color: #fff; border: none; border-radius: 6px;
-                           padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
-                           transition: 0.3s ease;">
+                                   padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
+                                   transition: 0.3s ease;">
                     Delete
                 </button>
             </div>
@@ -231,8 +302,8 @@
             <!-- Back Button -->
             <div style="text-align: right;">
                 <a href="{{ route('admin.product.listing') }}" style="display: inline-block; background-color: #001428; color: #fff;
-                                          padding: 8px 18px; border-radius: 6px; text-decoration: none;
-                                          font-weight: 500; transition: 0.3s; font-size: 14px;">
+                                                  padding: 8px 18px; border-radius: 6px; text-decoration: none;
+                                                  font-weight: 500; transition: 0.3s; font-size: 14px;">
                     ← Back to Product Listing
                 </a>
             </div>
