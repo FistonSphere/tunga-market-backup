@@ -177,7 +177,7 @@
             <h6>Manage your products</h6>
         </div>
         <div class="page-btn">
-            <a href="{{ route('products.create') }}" class="btn btn-added"><img src="{{ asset('admin/assets/img/icons/plus.svg') }}"
+            <a href="{{ route('products.admin.create') }}" class="btn btn-added"><img src="{{ asset('admin/assets/img/icons/plus.svg') }}"
                     alt="img" class="me-1" />Add New Product</a>
         </div>
     </div>
