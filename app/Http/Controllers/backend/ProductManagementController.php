@@ -133,6 +133,7 @@ public function update(Request $request, $id)
 
     // 1️⃣ Get current visible gallery from hidden field (after user removed some)
     $submittedGallery = $request->input('gallery');
+
     $frontendGallery = [];
 
     if ($submittedGallery) {
@@ -171,8 +172,8 @@ public function update(Request $request, $id)
     // 4️⃣ Combine: keep remaining + add new uploads
     $finalGallery = array_merge($frontendGallery, $newGalleryUrls);
     $finalGallery = array_filter($finalGallery, fn($url) => is_string($url) && preg_match('/^https?:\/\//', $url));
-    $validated['gallery'] = json_encode(array_values($finalGallery));
-dd($finalGallery);
+    dd($validated['gallery'] = json_encode(array_values($finalGallery)));
+
     // ✅ Update slug
     $validated['slug'] = Str::slug($validated['name']);
 
