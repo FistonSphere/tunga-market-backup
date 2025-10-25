@@ -172,7 +172,7 @@ public function update(Request $request, $id)
     // 4️⃣ Combine: keep remaining + add new uploads
     $finalGallery = array_merge($frontendGallery, $newGalleryUrls);
     $finalGallery = array_filter($finalGallery, fn($url) => is_string($url) && preg_match('/^https?:\/\//', $url));
-    dd($validated['gallery'] = json_encode(array_values($finalGallery)));
+    $validated['gallery'] = json_encode(array_values($finalGallery));
 
     // ✅ Update slug
     $validated['slug'] = Str::slug($validated['name']);
