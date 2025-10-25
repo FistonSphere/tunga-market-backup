@@ -132,47 +132,55 @@ public function update(Request $request, $id)
     if (!is_array($existingGallery)) $existingGallery = [];
 
     // 1️⃣ Get current visible gallery from hidden field (after user removed some)
-    $submittedGallery = $request->input('gallery');
+   $submittedGallery = $request->input('gallery');
+$frontendGallery = [];
 
-    $frontendGallery = [];
+// 1️⃣ Decode frontend JSON (existing gallery URLs)
+if ($submittedGallery) {
+    if (is_string($submittedGallery)) {
+        $decoded = json_decode($submittedGallery, true);
+        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+            $frontendGallery = $decoded;
+        }
+    } elseif (is_array($submittedGallery)) {
+        $frontendGallery = $submittedGallery;
+    }
+}
 
-    if ($submittedGallery) {
-        if (is_string($submittedGallery)) {
-            $decoded = json_decode($submittedGallery, true);
-            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                $frontendGallery = $decoded;
-            }
-        } elseif (is_array($submittedGallery)) {
-            $frontendGallery = $submittedGallery;
+// Ensure all existing gallery values are strings
+$frontendGallery = array_filter($frontendGallery, fn($url) => is_string($url) && !empty($url));
+
+// 2️⃣ Determine removed images (delete from storage)
+$existingGallery = json_decode($product->gallery ?? '[]', true);
+$removedImages = array_diff($existingGallery, $frontendGallery);
+foreach ($removedImages as $oldImage) {
+    $oldPath = str_replace('/storage/', '', parse_url($oldImage, PHP_URL_PATH));
+    if (Storage::disk('public')->exists($oldPath)) {
+        Storage::disk('public')->delete($oldPath);
+        Log::info('🗑 Removed old gallery image', ['path' => $oldPath]);
+    }
+}
+
+// 3️⃣ Handle new uploads (add to gallery)
+$newGalleryUrls = [];
+if ($request->hasFile('gallery')) {
+    foreach ($request->file('gallery') as $file) {
+        if ($file && $file->isValid()) {
+            $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $path = $file->storeAs('products/gallery', $filename, 'public');
+            $newGalleryUrls[] = asset('storage/' . $path);
         }
     }
+}
 
-    // 2️⃣ Determine which images user removed
-    $removedImages = array_diff($existingGallery, $frontendGallery);
-    foreach ($removedImages as $oldImage) {
-        $oldPath = str_replace('/storage/', '', parse_url($oldImage, PHP_URL_PATH));
-        if (Storage::disk('public')->exists($oldPath)) {
-            Storage::disk('public')->delete($oldPath);
-            Log::info('🗑 Removed old gallery image', ['path' => $oldPath]);
-        }
-    }
+// 4️⃣ Combine: keep remaining (frontend) + new uploads
+$finalGallery = array_merge($frontendGallery, $newGalleryUrls);
 
-    // 3️⃣ Handle new uploads
-    $newGalleryUrls = [];
-    if ($request->hasFile('gallery')) {
-        foreach ($request->file('gallery') as $file) {
-            if ($file && $file->isValid()) {
-                $filename = 'product_gallery_' . $product->id . '_' . time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
-                $path = $file->storeAs('products/gallery', $filename, 'public');
-                $newGalleryUrls[] = asset('storage/' . $path);
-            }
-        }
-    }
+// 5️⃣ Clean duplicates and invalid entries
+$finalGallery = array_values(array_unique(array_filter($finalGallery, fn($url) => is_string($url) && str_starts_with($url, 'http'))));
 
-    // 4️⃣ Combine: keep remaining + add new uploads
-    $finalGallery = array_merge($frontendGallery, $newGalleryUrls);
-    $finalGallery = array_filter($finalGallery, fn($url) => is_string($url) && preg_match('/^https?:\/\//', $url));
-    $validated['gallery'] = json_encode(array_values($finalGallery));
+// 6️⃣ Save back to database
+$validated['gallery'] = json_encode($finalGallery);
 
     // ✅ Update slug
     $validated['slug'] = Str::slug($validated['name']);
