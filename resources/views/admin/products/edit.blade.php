@@ -233,59 +233,61 @@
             gap: 10px;
             margin-top: 20px;
         }
-/* ===== Custom Upload Styling ===== */
-.custom-file-upload {
-  border: 2px dashed #ccc;
-  border-radius: 10px;
-  text-align: center;
-  padding: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  background: #fafafa;
-}
 
-.custom-file-upload:hover {
-  border-color: #007bff;
-  background-color: #f0f8ff;
-}
+        /* ===== Custom Upload Styling ===== */
+        .custom-file-upload {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            text-align: center;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: #fafafa;
+        }
 
-.upload-placeholder {
-  color: #777;
-  font-size: 14px;
-}
+        .custom-file-upload:hover {
+            border-color: #007bff;
+            background-color: #f0f8ff;
+        }
 
-.upload-placeholder i {
-  font-size: 30px;
-  color: #007bff;
-  margin-bottom: 10px;
-}
+        .upload-placeholder {
+            color: #777;
+            font-size: 14px;
+        }
 
-
-.hidden {
-  display: none;
-}
+        .upload-placeholder i {
+            font-size: 30px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
 
 
+        .hidden {
+            display: none;
+        }
 
-.remove-gallery-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: #dc3545;
-  border: none;
-  color: white;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.2s;
-}
 
-.remove-gallery-btn:hover {
-  background: #b02a37;
-}
+
+        .remove-gallery-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #dc3545;
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .remove-gallery-btn:hover {
+            background: #b02a37;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -390,59 +392,55 @@
             </div>
 
             <!-- Product Media -->
-<div class="form-section">
-  <h3>Product Media</h3>
-  <div class="grid-2">
-    <!-- Main Image -->
-    <div class="form-group">
-      <label>Main Product Image</label>
+            <div class="form-section">
+                <h3>Product Media</h3>
+                <div class="grid-2">
+                    <!-- Main Image -->
+                    <div class="form-group">
+                        <label>Main Product Image</label>
 
-      <div class="custom-file-upload" id="mainImageDropArea">
-        <div class="upload-placeholder" id="mainImagePlaceholder">
-          <i class="fa fa-cloud-upload"></i>
-          <p>Drag & Drop or Click to Upload</p>
-        </div>
-        <input type="file" name="main_image" id="mainImageInput" accept="image/*" hidden>
-        <img
-          id="mainImagePreview"
-          src="{{ $product->main_image }}"
-          alt="Main Image"
-          class="preview-img {{ $product->main_image ? '' : 'hidden' }}"
-        >
-      </div>
-    </div>
-  </div>
-</div>
+                        <div class="custom-file-upload" id="mainImageDropArea">
+                            <div class="upload-placeholder" id="mainImagePlaceholder">
+                                <i class="fa fa-cloud-upload"></i>
+                                <p>Drag & Drop or Click to Upload</p>
+                            </div>
+                            <input type="file" name="main_image" id="mainImageInput" accept="image/*" hidden>
+                            <img id="mainImagePreview" src="{{ $product->main_image }}" alt="Main Image"
+                                class="preview-img {{ $product->main_image ? '' : 'hidden' }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<!-- Product Gallery -->
-<div class="form-section">
-  <h3>Image Gallery</h3>
-  <p class="sub-info">Upload multiple product images. They will be stored as a JSON array.</p>
+            <!-- Product Gallery -->
+            <div class="form-section">
+                <h3>Image Gallery</h3>
+                <p class="sub-info">Upload multiple product images. They will be stored as a JSON array.</p>
 
-  <!-- Existing Images -->
-  <div id="galleryPreview" class="gallery-preview">
-    @php
-        $galleryImages = json_decode($product->gallery, true) ?? [];
-    @endphp
-    @foreach($galleryImages as $url)
-        <div class="gallery-thumb">
-            <img src="{{ $url }}" alt="Gallery Image">
-            <button type="button" class="remove-gallery-btn" data-url="{{ $url }}">×</button>
-        </div>
-    @endforeach
-  </div>
+                <!-- Existing Images -->
+                <div id="galleryPreview" class="gallery-preview">
+                    @php
+                        $galleryImages = json_decode($product->gallery, true) ?? [];
+                    @endphp
+                    @foreach($galleryImages as $url)
+                        <div class="gallery-thumb">
+                            <img src="{{ $url }}" alt="Gallery Image">
+                            <button type="button" class="remove-gallery-btn" data-url="{{ $url }}">×</button>
+                        </div>
+                    @endforeach
+                </div>
 
-  <div class="custom-file-upload" id="galleryDropArea">
-    <div class="upload-placeholder" id="galleryPlaceholder">
-      <i class="fa fa-images"></i>
-      <p>Drag & Drop or Click to Upload Gallery Images</p>
-    </div>
-    <input type="file" name="gallery[]" id="galleryInput" multiple accept="image/*" hidden>
-  </div>
+                <div class="custom-file-upload" id="galleryDropArea">
+                    <div class="upload-placeholder" id="galleryPlaceholder">
+                        <i class="fa fa-images"></i>
+                        <p>Drag & Drop or Click to Upload Gallery Images</p>
+                    </div>
+                    <input type="file" name="gallery[]" id="galleryInput" multiple accept="image/*" hidden>
+                </div>
 
-  <!-- Hidden input to hold JSON -->
-  <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
-</div>
+                <!-- Hidden input to hold JSON -->
+                <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
+            </div>
 
 
             <!-- Product Flags -->
@@ -469,24 +467,24 @@
             </div>
             <!-- Specifications, Features, Shipping Info -->
             <div class="form-section">
-    <h3>Additional Details</h3>
+                <h3>Additional Details</h3>
 
-    <div class="form-group">
-        <label>Specifications</label>
-        <input type="text" id="specifications" name="specifications" class="form-control" />
-    </div>
+                <div class="form-group">
+                    <label>Specifications</label>
+                    <input type="text" id="specifications" name="specifications" class="form-control" />
+                </div>
 
-    <div class="form-group">
-        <label>Features</label>
-        <input type="text" id="features" name="features" class="form-control" />
-    </div>
+                <div class="form-group">
+                    <label>Features</label>
+                    <input type="text" id="features" name="features" class="form-control" />
+                </div>
 
-    <div class="form-group">
-        <label>Shipping Info</label>
-        <input type="text" id="shipping_info" name="shipping_info" class="form-control"
-            value="{{ $product->shipping_info }}">
-    </div>
-</div>
+                <div class="form-group">
+                    <label>Shipping Info</label>
+                    <input type="text" id="shipping_info" name="shipping_info" class="form-control"
+                        value="{{ $product->shipping_info }}">
+                </div>
+            </div>
 
             <!-- Units, Tax Class, Product Type -->
             <div class="form-section">
@@ -597,9 +595,9 @@
                     const div = document.createElement('div');
                     div.classList.add('gallery-thumb');
                     div.innerHTML = `
-                    <img src="${e.target.result}" alt="Gallery Image">
-                    <button type="button" class="remove-gallery-btn">×</button>
-                `;
+                        <img src="${e.target.result}" alt="Gallery Image">
+                        <button type="button" class="remove-gallery-btn">×</button>
+                    `;
                     galleryPreview.appendChild(div);
                     updateGalleryJSON();
                 };
@@ -640,8 +638,8 @@
                 specs.setValue(specArray);
             @endif
 
-        // ----- Features -----
-        const featInput = document.getElementById('features');
+            // ----- Features -----
+            const featInput = document.getElementById('features');
             const features = new Choices(featInput, {
                 delimiter: ',',
                 editItems: true,
@@ -655,150 +653,153 @@
                 const featArray = {!! $product->features !!};
                 features.setValue(featArray);
             @endif
-        });
-
-
-    document.addEventListener("DOMContentLoaded", function () {
-    // === Main Image Logic ===
-    const mainDropArea = document.getElementById("mainImageDropArea");
-    const mainInput = document.getElementById("mainImageInput");
-    const mainPreview = document.getElementById("mainImagePreview");
-    const mainPlaceholder = document.getElementById("mainImagePlaceholder");
-
-    mainDropArea.addEventListener("click", () => mainInput.click());
-    mainInput.addEventListener("change", () => previewMain(mainInput.files[0]));
-
-    mainDropArea.addEventListener("dragover", e => {
-        e.preventDefault();
-        mainDropArea.style.borderColor = "#007bff";
-    });
-
-    mainDropArea.addEventListener("dragleave", () => {
-        mainDropArea.style.borderColor = "#ccc";
-    });
-
-    mainDropArea.addEventListener("drop", e => {
-        e.preventDefault();
-        mainInput.files = e.dataTransfer.files;
-        previewMain(e.dataTransfer.files[0]);
-    });
-
-    function previewMain(file) {
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = e => {
-            mainPreview.src = e.target.result;
-            mainPreview.classList.remove("hidden");
-            mainPlaceholder.style.display = "none";
-        };
-        reader.readAsDataURL(file);
-    }
-
-    // === Gallery Logic ===
-    const galleryDrop = document.getElementById("galleryDropArea");
-    const galleryInput = document.getElementById("galleryInput");
-    const galleryPreview = document.getElementById("galleryPreview");
-    const hiddenInput = document.getElementById("galleryInputHidden");
-
-    galleryDrop.addEventListener("click", () => galleryInput.click());
-
-    // ✅ Prevent duplicate preview on upload
-    galleryInput.addEventListener("change", e => {
-        const files = Array.from(e.target.files);
-        files.forEach(file => previewGallery(file));
-        galleryInput.value = ""; // Reset input to avoid same file triggering again
-    });
-
-    galleryDrop.addEventListener("dragover", e => {
-        e.preventDefault();
-        galleryDrop.style.borderColor = "#007bff";
-    });
-
-    galleryDrop.addEventListener("dragleave", () => {
-        galleryDrop.style.borderColor = "#ccc";
-    });
-
-    galleryDrop.addEventListener("drop", e => {
-        e.preventDefault();
-        const files = Array.from(e.dataTransfer.files);
-        files.forEach(file => previewGallery(file));
-    });
-
-    // ✅ Render gallery preview for new files only once
-    function previewGallery(file) {
-        const reader = new FileReader();
-        reader.onload = e => {
-            const div = document.createElement("div");
-            div.classList.add("gallery-thumb");
-            div.innerHTML = `
-                <img src="${e.target.result}" alt="Gallery Image">
-                <button type="button" class="remove-gallery-btn">×</button>
-            `;
-            galleryPreview.appendChild(div);
-            div.querySelector(".remove-gallery-btn").addEventListener("click", () => {
-                div.remove();
-                updateHiddenInput();
             });
-            updateHiddenInput();
-        };
-        reader.readAsDataURL(file);
-    }
 
-    // ✅ Update hidden input JSON for backend sync
-    function updateHiddenInput() {
-        const urls = Array.from(galleryPreview.querySelectorAll("img")).map(img => img.src);
-        hiddenInput.value = JSON.stringify(urls);
-    }
 
-    // ✅ Handle removal of existing images (already loaded from DB)
-    galleryPreview.querySelectorAll(".remove-gallery-btn").forEach(btn => {
-        btn.addEventListener("click", function () {
-            this.parentElement.remove();
-            updateHiddenInput();
+        document.addEventListener("DOMContentLoaded", function () {
+            // === Main Image Logic ===
+            const mainDropArea = document.getElementById("mainImageDropArea");
+            const mainInput = document.getElementById("mainImageInput");
+            const mainPreview = document.getElementById("mainImagePreview");
+            const mainPlaceholder = document.getElementById("mainImagePlaceholder");
+
+            mainDropArea.addEventListener("click", () => mainInput.click());
+            mainInput.addEventListener("change", () => previewMain(mainInput.files[0]));
+
+            mainDropArea.addEventListener("dragover", e => {
+                e.preventDefault();
+                mainDropArea.style.borderColor = "#007bff";
+            });
+
+            mainDropArea.addEventListener("dragleave", () => {
+                mainDropArea.style.borderColor = "#ccc";
+            });
+
+            mainDropArea.addEventListener("drop", e => {
+                e.preventDefault();
+                mainInput.files = e.dataTransfer.files;
+                previewMain(e.dataTransfer.files[0]);
+            });
+
+            function previewMain(file) {
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = e => {
+                    mainPreview.src = e.target.result;
+                    mainPreview.classList.remove("hidden");
+                    mainPlaceholder.style.display = "none";
+                };
+                reader.readAsDataURL(file);
+            }
+
+            // === Gallery Logic ===
+            const galleryDrop = document.getElementById("galleryDropArea");
+            const galleryInput = document.getElementById("galleryInput");
+            const galleryPreview = document.getElementById("galleryPreview");
+            const hiddenInput = document.getElementById("galleryInputHidden");
+
+            galleryDrop.addEventListener("click", () => galleryInput.click());
+
+            // ✅ Prevent duplicate preview on upload
+            galleryInput.addEventListener("change", e => {
+                const files = Array.from(e.target.files);
+                files.forEach(file => previewGallery(file));
+                galleryInput.value = ""; // Reset input to avoid same file triggering again
+            });
+
+            galleryDrop.addEventListener("dragover", e => {
+                e.preventDefault();
+                galleryDrop.style.borderColor = "#007bff";
+            });
+
+            galleryDrop.addEventListener("dragleave", () => {
+                galleryDrop.style.borderColor = "#ccc";
+            });
+
+            galleryDrop.addEventListener("drop", e => {
+                e.preventDefault();
+                const files = Array.from(e.dataTransfer.files);
+                files.forEach(file => previewGallery(file));
+            });
+
+            // ✅ Render gallery preview for new files only once
+            function previewGallery(file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const div = document.createElement("div");
+                    div.classList.add("gallery-thumb");
+                    div.innerHTML = `
+                    <img src="${e.target.result}" alt="Gallery Image">
+                    <button type="button" class="remove-gallery-btn">×</button>
+                `;
+                    galleryPreview.appendChild(div);
+                    div.querySelector(".remove-gallery-btn").addEventListener("click", () => {
+                        div.remove();
+                        updateHiddenInput();
+                    });
+                    updateHiddenInput();
+                };
+                reader.readAsDataURL(file);
+            }
+
+            // ✅ Update hidden input JSON for backend sync
+            function updateHiddenInput() {
+                const urls = Array.from(galleryPreview.querySelectorAll("img"))
+                    .map(img => img.src)
+                    .filter(src => src && (src.startsWith('http') || src.startsWith('/storage/')));
+                hiddenInput.value = JSON.stringify(urls);
+            }
+
+
+            // ✅ Handle removal of existing images (already loaded from DB)
+            galleryPreview.querySelectorAll(".remove-gallery-btn").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    this.parentElement.remove();
+                    updateHiddenInput();
+                });
+            });
+
+            // === Specification & Features ===
+            const specsInput = document.getElementById('specifications');
+            const specs = new Choices(specsInput, {
+                delimiter: ',',
+                editItems: true,
+                removeItemButton: true,
+                placeholderValue: 'Type and press Enter to add specification (e.g. Size:42)',
+                duplicateItemsAllowed: false
+            });
+
+            @if($product->specifications)
+                const specData = {!! $product->specifications !!};
+                const specArray = [];
+                Object.keys(specData).forEach(key => {
+                    specArray.push(`${key}:${specData[key]}`);
+                });
+                specs.setValue(specArray);
+            @endif
+
+        const featInput = document.getElementById('features');
+            const features = new Choices(featInput, {
+                delimiter: ',',
+                editItems: true,
+                removeItemButton: true,
+                placeholderValue: 'Type and press Enter to add feature',
+                duplicateItemsAllowed: false
+            });
+
+            @if($product->features)
+                const featArray = {!! $product->features !!};
+                features.setValue(featArray);
+            @endif
+
+        // === Save Button (ensures JSON sync) ===
+        const saveBtn = document.getElementById("confirmSave");
+            if (saveBtn) {
+                saveBtn.addEventListener("click", function () {
+                    updateHiddenInput();
+                    document.getElementById("editProductForm").submit();
+                });
+            }
         });
-    });
-
-    // === Specification & Features ===
-    const specsInput = document.getElementById('specifications');
-    const specs = new Choices(specsInput, {
-        delimiter: ',',
-        editItems: true,
-        removeItemButton: true,
-        placeholderValue: 'Type and press Enter to add specification (e.g. Size:42)',
-        duplicateItemsAllowed: false
-    });
-
-    @if($product->specifications)
-        const specData = {!! $product->specifications !!};
-        const specArray = [];
-        Object.keys(specData).forEach(key => {
-            specArray.push(`${key}:${specData[key]}`);
-        });
-        specs.setValue(specArray);
-    @endif
-
-    const featInput = document.getElementById('features');
-    const features = new Choices(featInput, {
-        delimiter: ',',
-        editItems: true,
-        removeItemButton: true,
-        placeholderValue: 'Type and press Enter to add feature',
-        duplicateItemsAllowed: false
-    });
-
-    @if($product->features)
-        const featArray = {!! $product->features !!};
-        features.setValue(featArray);
-    @endif
-
-    // === Save Button (ensures JSON sync) ===
-    const saveBtn = document.getElementById("confirmSave");
-    if (saveBtn) {
-        saveBtn.addEventListener("click", function () {
-            updateHiddenInput();
-            document.getElementById("editProductForm").submit();
-        });
-    }
-});
     </script>
 @endsection
