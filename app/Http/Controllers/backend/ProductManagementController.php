@@ -172,7 +172,7 @@ public function update(Request $request, $id)
     $finalGallery = array_merge($frontendGallery, $newGalleryUrls);
     $finalGallery = array_filter($finalGallery, fn($url) => is_string($url) && preg_match('/^https?:\/\//', $url));
     $validated['gallery'] = json_encode(array_values($finalGallery));
-
+dd($finalGallery);
     // ✅ Update slug
     $validated['slug'] = Str::slug($validated['name']);
 
