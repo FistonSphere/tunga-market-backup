@@ -586,6 +586,33 @@
                 }
             });
         });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const filterBtn = document.getElementById("product_filter_toggle");
+            const filterPanel = document.getElementById("product_filter_panel");
+            const filterForm = document.getElementById("product_filter_form");
+
+            // Toggle filter visibility
+            filterBtn.addEventListener("click", () => {
+                filterPanel.classList.toggle("show");
+            });
+
+            // Submit filters via AJAX (optional)
+            filterForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                const queryString = new URLSearchParams(formData).toString();
+
+                fetch(`/admin/products/products/filter?${queryString}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Filtered products:", data);
+                        // Here you can refresh your product list dynamically
+                    })
+                    .catch(err => console.error("❌ Filter error:", err));
+            });
+        });
     </script>
 
 @endsection
