@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Exports\ProductsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class ProductManagementController extends Controller
@@ -518,5 +519,11 @@ public function savePDF()
     $pdf->setPaper('A4', 'landscape');
 
     return $pdf->download('Tunga-Market-Product-Listing.pdf');
+}
+
+public function saveExcel()
+{
+    $fileName = 'Tunga_Market_Product_Listing_' . date('Y_m_d_H_i') . '.xlsx';
+    return Excel::download(new ProductsExport(), $fileName);
 }
 }

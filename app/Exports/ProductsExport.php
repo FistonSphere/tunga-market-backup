@@ -6,6 +6,7 @@ use App\Models\Product;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class ProductsExport implements FromCollection, WithHeadings, WithMapping
 {
@@ -40,6 +41,12 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping
             'Brand',
             'Price (RWF)',
             'Stock Quantity',
+        ];
+    }
+     public function styles(Worksheet $sheet)
+    {
+        return [
+            1 => ['font' => ['bold' => true]] // header row bold
         ];
     }
 }
