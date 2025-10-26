@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\CategoryAdminController;
 use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\backend\AdminUserController;
@@ -239,6 +240,8 @@ Route::get('/save-pdf', 'savePDF')->name('admin.products.savePDF');
 Route::get('/save-excel', 'saveExcel')->name('admin.products.saveExcel');
 
 });
-// Route::prefix('/category')->controller()
+Route::prefix('/category')->controller(CategoryAdminController::class)->group(function(){
+Route::get('/overview', 'index')->name('category.admin.index');
+});
 });
 // admin with no authentication middleware routes
