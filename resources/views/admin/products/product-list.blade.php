@@ -177,8 +177,8 @@
             <h6>Manage your products</h6>
         </div>
         <div class="page-btn">
-            <a href="{{ route('products.admin.create') }}" class="btn btn-added"><img src="{{ asset('admin/assets/img/icons/plus.svg') }}"
-                    alt="img" class="me-1" />Add New Product</a>
+            <a href="{{ route('products.admin.create') }}" class="btn btn-added"><img
+                    src="{{ asset('admin/assets/img/icons/plus.svg') }}" alt="img" class="me-1" />Add New Product</a>
         </div>
     </div>
 
@@ -306,7 +306,8 @@
                                 </td>
                                 <td class="productimgname">
                                     <a href="{{ route('admin.products.show', $product->id) }}" class="product-img">
-                                        <img src="{{$product->main_image}}" style="border-radius: 8px" alt="{{ $product->name }}" />
+                                        <img src="{{ $product->main_image }}" style="border-radius: 8px"
+                                            alt="{{ $product->name }}" />
                                     </a>
                                     <a href="{{ route('admin.products.show', $product->id) }}">{{ $product->name }}</a>
                                 </td>
@@ -315,14 +316,15 @@
                                 <td>{{ $product->brand->name ?? '-' }}</td>
                                 <td>{{ number_format($product->price) }} Rwf</td>
                                 <td>{{ $product->stock_quantity }}</td>
-                                <td>
+                                <td style="text-align: center">
                                     <a class="me-3" href="{{ route('admin.products.show', $product->id) }}">
-                                        <img src="{{asset('admin/assets/img/icons/eye.svg')}}" alt="img" />
+                                        <img src="{{ asset('admin/assets/img/icons/eye.svg') }}" alt="img" />
                                     </a>
                                     <a class="me-3" href="{{ route('admin.products.edit', $product->id) }}">
                                         <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
                                     </a>
-                                    <button id="deleteBtn" class="confirm-text">
+                                    <button type="button" class="deleteBtn confirm-text" data-id="{{ $product->id }}"
+                                        data-name="{{ $product->name }}">
                                         <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
                                     </button>
                                 </td>
@@ -407,6 +409,7 @@
     </div>
 
     <script>
+
         document.addEventListener('DOMContentLoaded', function () {
             const deleteBtn = document.getElementById('deleteBtn');
             const deleteModal = document.getElementById('deleteModal');
