@@ -171,6 +171,7 @@
             }
         }
 
+
         .productfilter-panel {
             background: #001528;
             border-radius: 12px;
@@ -288,19 +289,18 @@
     <div class="card">
         <div class="card-body">
             <div class="table-top">
-                <div class="productsearch-set">
-                    <div class="productsearch-path">
-                        <a class="btn productfilter-btn" id="product_filter_toggle">
+                <div class="search-set">
+                    <div class="search-path">
+                        <a class="btn btn-filter" id="filter_search">
                             <img src="{{ asset('admin/assets/img/icons/filter.svg') }}" alt="img" />
                             <span><img src="{{ asset('admin/assets/img/icons/closes.svg') }}" alt="img" /></span>
                         </a>
                     </div>
-                    <div class="productsearch-input">
+                    <div class="search-input">
                         <a class="btn btn-searchset"><img src="{{ asset('admin/assets/img/icons/search-white.svg') }}"
                                 alt="img" /></a>
                     </div>
                 </div>
-
                 <!-- Filter Section (Hidden by Default) -->
                 <div id="product_filter_panel" class="productfilter-panel hidden">
                     <form id="product_filter_form" class="productfilter-form">
@@ -333,7 +333,6 @@
                         </div>
                     </form>
                 </div>
-
                 <div class="wordset">
                     <ul>
                         <li>
@@ -589,30 +588,113 @@
 
 
         document.addEventListener("DOMContentLoaded", function () {
-            const filterBtn = document.getElementById("product_filter_toggle");
+            const filterToggleBtn = document.getElementById("filter_search");
             const filterPanel = document.getElementById("product_filter_panel");
             const filterForm = document.getElementById("product_filter_form");
+            const productsContainer = document.getElementById("products_container"); // container that holds your product cards
 
-            // Toggle filter visibility
-            filterBtn.addEventListener("click", () => {
+            // 1️⃣ Toggle filter panel visibility
+            filterToggleBtn.addEventListener("click", function (e) {
+                e.preventDefault();
                 filterPanel.classList.toggle("show");
+
+                // Rotate filter icon or toggle close icon visibility
+                const imgSpans = this.querySelectorAll("span, img");
+                imgSpans.forEach(img => img.classList.toggle("active"));
             });
 
-            // Submit filters via AJAX (optional)
+            // 2️⃣ Handle filter form submission
             filterForm.addEventListener("submit", function (e) {
                 e.preventDefault();
                 const formData = new FormData(this);
-                const queryString = new URLSearchParams(formData).toString();
+                const params = new URLSearchParams(formData).toString();
 
-                fetch(`/admin/products/products/filter?${queryString}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log("Filtered products:", data);
-                        // Here you can refresh your product list dynamically
+                console.log("🔍 Sending filter request with params:", params);
+
+                fetch(`/products/filter?${params}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                        return response.json();
                     })
-                    .catch(err => console.error("❌ Filter error:", err));
+                    .then(data => {
+                        console.log("✅ Filtered products received:", data);
+                        updateProductGrid(data);
+                    })
+                    .catch(error => {
+                        console.error("❌ Filter fetch failed:", error);
+                    });
+            });
+
+            // 3️⃣ Reset filters and reload all products
+            filterForm.addEventListener("reset", function () {
+                console.log("♻️ Filters reset. Loading all products...");
+                fetch(`/products/filter`)
+                    .then(res => res.json())
+                    .then(data => updateProductGrid(data))
+                    .catch(err => console.error("❌ Reset filter error:", err));
+            });
+
+            // 4️⃣ Function to update product grid dynamically
+            function updateProductGrid(products) {
+                if (!productsContainer) {
+                    console.warn("⚠️ No #products_container found on page.");
+                    return;
+                }
+
+                // Clear current list
+                productsContainer.innerHTML = "";
+
+                if (products.length === 0) {
+                    productsContainer.innerHTML = `
+                        <div class="text-center p-4 text-gray-400">
+                            <p>No products found matching your filters.</p>
+                        </div>`;
+                    return;
+                }
+
+                // Render updated products (you can adjust structure)
+                products.forEach(product => {
+                    const card = document.createElement("div");
+                    card.className = "product-card-item";
+                    card.style.border = "1px solid #ff6b35";
+                    card.style.borderRadius = "12px";
+                    card.style.padding = "15px";
+                    card.style.background = "#fff";
+                    card.style.color = "#001528";
+                    card.style.transition = "transform 0.3s ease";
+                    card.innerHTML = `
+                        <div class="product-card-image" style="text-align:center;">
+                            <img src="${product.image_url || '/default-product.jpg'}"
+                                alt="${product.name}"
+                                style="max-width: 100%; border-radius: 8px; height: 160px; object-fit: cover;">
+                        </div>
+                        <div class="product-card-body" style="margin-top: 10px;">
+                            <h4 style="color: #001528; font-weight: 600;">${product.name}</h4>
+                            <p style="color: #ff6b35;">$${parseFloat(product.price).toFixed(2)}</p>
+                            <small style="color:#555;">Category: ${product.category?.name || 'N/A'}</small>
+                        </div>
+                    `;
+                    card.addEventListener("mouseenter", () => {
+                        card.style.transform = "translateY(-5px)";
+                    });
+                    card.addEventListener("mouseleave", () => {
+                        card.style.transform = "translateY(0)";
+                    });
+                    productsContainer.appendChild(card);
+                });
+            }
+
+            // 5️⃣ Optional: auto-close panel when clicked outside
+            document.addEventListener("click", function (event) {
+                if (
+                    !filterPanel.contains(event.target) &&
+                    !filterToggleBtn.contains(event.target)
+                ) {
+                    filterPanel.classList.remove("show");
+                }
             });
         });
+
     </script>
 
 @endsection

@@ -19,8 +19,8 @@ class ProductManagementController extends Controller
 {
    public function index(){
    $products= Product::with('category','brand','units')->paginate('15');
-
-    return view('admin.products.product-list', compact('products'));
+   $categories= Category::where('is_active',1)->get();
+    return view('admin.products.product-list', compact('products','categories'));
    }
 
    public function show($id)
