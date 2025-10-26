@@ -80,7 +80,8 @@
 
 <body>
     <header>
-        <img src="{{ public_path('admin/assets/img/logo.png') }}" alt="Tunga Market Logo">
+        <img src="{{ public_path('assets/images/logo-header.png') }}" style="border-radius: 7px"
+            alt="Tunga Market Logo">
         <h1>{{ $title }}</h1>
         <div class="meta">
             <strong>Date:</strong> {{ $date }} |
@@ -122,6 +123,19 @@
         <div>Tunga Market © {{ date('Y') }} — All Rights Reserved</div>
         <div class="page-number"></div>
     </footer>
+
+
+    <script>
+        window.onload = function () {
+            // Trigger print dialog
+            window.print();
+
+            // After print or cancel, close this tab and go back
+            window.onafterprint = function () {
+                window.close();
+            };
+        };
+    </script>
 </body>
 
 </html>
