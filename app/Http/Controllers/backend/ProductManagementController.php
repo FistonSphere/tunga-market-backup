@@ -14,6 +14,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
+
+
 
 class ProductManagementController extends Controller
 {
@@ -486,5 +489,19 @@ public function filter(Request $request)
     return response()->json($products);
 }
 
+public function printPDF()
+{
+    $products = Product::with(['category', 'brand'])->get();
 
+    $pdf = Pdf::loadView('admin.products.pdf', [
+        'products' => $products,
+        'title' => 'Tunga Market Product Listing',
+        'date' => now()->format('F d, Y'),
+    ]);
+
+    // Set paper and orientation
+    $pdf->setPaper('A4', 'landscape');
+
+    return $pdf->stream('Tunga-Market-Product-Listing.pdf');
+}
 }
