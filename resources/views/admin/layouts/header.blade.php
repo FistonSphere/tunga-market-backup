@@ -239,7 +239,7 @@
                                     Product</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{{ route('admin.product.listing') }}">Product List</a></li>
-                                <li><a href="addproduct.html">Add Product</a></li>
+                                <li><a href="{{ route('products.admin.create') }}">Add Product</a></li>
                                 <li><a href="categorylist.html">Category List</a></li>
                                 <li><a href="addcategory.html">Add Category</a></li>
                                 <li><a href="subcategorylist.html">Sub Category List</a></li>
