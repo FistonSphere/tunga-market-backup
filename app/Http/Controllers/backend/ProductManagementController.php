@@ -10,6 +10,7 @@ use App\Models\Brand;
 use App\Models\ProductType;
 use App\Models\TaxClass;
 use App\Models\Unit;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -212,7 +213,7 @@ Log::info('✅ Final gallery ready', ['count' => count($finalGallery)]);
 
     $product->update($validated);
 
-    
+
 
     return redirect()
         ->route('admin.product.listing')
@@ -259,59 +260,203 @@ public function create()
 
 public function store(Request $request)
 {
+    Log::info('🟢 Product creation started');
+
     $validated = $request->validate([
-        'name'              => 'required|string|max:255',
-        'category_id'       => 'nullable|integer',
-        'brand_id'          => 'nullable|integer',
-        'tax_class_id'      => 'nullable|integer',
-        'unit_id'           => 'nullable|integer',
-        'product_type_id'   => 'nullable|integer',
-        'short_description' => 'nullable|string',
-        'long_description'  => 'nullable|string',
-        'price'             => 'required|numeric',
-        'discount_price'    => 'nullable|numeric',
-        'currency'          => 'nullable|string|max:10',
-        'sku'               => 'nullable|string|max:100|unique:products,sku',
-        'stock_quantity'    => 'nullable|integer',
-        'main_image'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        'gallery'           => 'nullable',
-        'gallery.*'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        'video_url'         => 'nullable|string|max:255',
-        'status'            => 'required|string|in:active,inactive,draft',
-        'specifications'    => 'nullable|string',
-        'features'          => 'nullable|string',
-        'shipping_info'     => 'nullable|string',
-        'tags'              => 'nullable|string',
-        'is_featured'       => 'nullable|boolean',
-        'is_new'            => 'nullable|boolean',
-        'is_best_seller'    => 'nullable|boolean',
-        'has_3d_model'      => 'nullable|boolean',
+        'name'               => 'required|string|max:255',
+        'slug'               => 'nullable|string|max:255',
+        'sku'                => 'nullable|string|max:100',
+        'category_id'        => 'nullable|integer',
+        'brand_id'           => 'nullable|integer',
+        'unit_id'            => 'nullable|integer',
+        'tax_class_id'       => 'nullable|integer',
+        'short_description'  => 'nullable|string',
+        'long_description'   => 'nullable|string',
+        'price'              => 'required|numeric',
+        'discount_price'     => 'nullable|numeric',
+        'currency'           => 'nullable|string|max:10',
+        'min_order_quantity' => 'nullable|integer|min:1',
+        'stock_quantity'     => 'nullable|integer|min:0',
+        'main_image'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'gallery'            => 'nullable',               // hidden JSON (base64 + urls)
+        'gallery.*'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // files
+        'video_url'          => 'nullable|string|max:255',
+        'status'             => 'required|string|in:active,inactive,draft',
+        'specifications'     => 'nullable|string',
+        'features'           => 'nullable|string',
+        'shipping_info'      => 'nullable|string',
+        'tags'               => 'nullable|string',
+        // checkboxes handled later
     ]);
 
-    // Boolean flags
+    // ensure checkboxes default to 0/1 (they may not exist in request)
     foreach (['is_featured', 'is_new', 'is_best_seller', 'has_3d_model'] as $flag) {
         $validated[$flag] = $request->has($flag) ? 1 : 0;
     }
 
-    // Handle main image
-    if ($request->hasFile('main_image')) {
-        $validated['main_image'] = $request->file('main_image')->store('products/main', 'public');
+    // Use slug & sku provided by frontend if present
+    if (!empty($validated['slug'])) {
+        $validated['slug'] = Str::slug($validated['slug']);
+    } else {
+        $validated['slug'] = Str::slug($validated['name'] . '-' . uniqid());
     }
 
-    // Handle gallery images
-    if ($request->hasFile('gallery')) {
-        $galleryPaths = [];
-        foreach ($request->file('gallery') as $image) {
-            $galleryPaths[] = $image->store('products/gallery', 'public');
+    if (!empty($validated['sku'])) {
+        $validated['sku'] = strtoupper($validated['sku']);
+    } else {
+        $validated['sku'] = strtoupper(Str::slug(substr($validated['name'], 0, 6))) . '-' . rand(1000, 9999);
+    }
+
+    // Specifications: parse key:value pairs if provided as text (Choice.js might submit comma-separated key:value)
+    $specifications = [];
+    if ($request->filled('specifications')) {
+        // client may send json or "Key:Value,Key2:Value2"
+        $raw = $request->input('specifications');
+        $decoded = json_decode($raw, true);
+        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+            $specifications = $decoded;
+        } else {
+            // parse CSV key:value pairs
+            $pairs = array_filter(array_map('trim', explode(',', $raw)));
+            foreach ($pairs as $pair) {
+                if (strpos($pair, ':') !== false) {
+                    [$k, $v] = explode(':', $pair, 2);
+                    $specifications[trim($k)] = trim($v);
+                }
+            }
         }
-        $validated['gallery'] = json_encode($galleryPaths);
+    }
+    $validated['specifications'] = empty($specifications) ? null : json_encode($specifications, JSON_UNESCAPED_SLASHES);
+
+    // Features: Choice.js will submit as comma list or JSON array
+    $features = [];
+    if ($request->filled('features')) {
+        $raw = $request->input('features');
+        $decoded = json_decode($raw, true);
+        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+            $features = array_map('trim', $decoded);
+        } else {
+            $features = array_map('trim', array_filter(explode(',', $raw)));
+        }
+    }
+    $validated['features'] = empty($features) ? null : json_encode(array_values($features));
+
+    // Shipping info & tags similar handling (allow JSON or CSV)
+    $shipping = $request->filled('shipping_info') ? $request->input('shipping_info') : null;
+    $validated['shipping_info'] = $shipping ? (json_last_error() === JSON_ERROR_NONE ? $shipping : $shipping) : null;
+
+    $tagsArr = [];
+    if ($request->filled('tags')) {
+        $raw = $request->input('tags');
+        $decoded = json_decode($raw, true);
+        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+            $tagsArr = $decoded;
+        } else {
+            $tagsArr = array_map('trim', array_filter(explode(',', $raw)));
+        }
+    }
+    $validated['tags'] = empty($tagsArr) ? null : json_encode(array_values($tagsArr));
+
+    // Create product record *first* so we have an ID for filenames
+    $product = Product::create(array_merge(
+        // only allowed fillable keys - ensure they exist in $validated
+        Arr::only($validated, [
+            'name','slug','sku','category_id','brand_id','unit_id','tax_class_id',
+            'short_description','long_description','price','discount_price','currency',
+            'min_order_quantity','stock_quantity','video_url','status','specifications',
+            'features','shipping_info','tags','is_featured','is_new','is_best_seller','has_3d_model'
+        ])
+    ));
+
+    Log::info('🆕 Product base created', ['id' => $product->id]);
+
+    // Helper to make short for logging
+    $shortPath = function ($path) {
+        if (!$path) return '';
+        $segments = explode('/', parse_url($path, PHP_URL_PATH));
+        return implode('/', array_slice($segments, -3));
+    };
+
+    // --- Handle main_image file upload ---
+    if ($request->hasFile('main_image')) {
+        $file = $request->file('main_image');
+        if ($file->isValid()) {
+            $filename = 'product_main_' . $product->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('products', $filename, 'public'); // stored in storage/app/public/products
+            $product->main_image = asset('storage/' . $path);
+            $product->save();
+            Log::info('📸 main_image uploaded', ['short' => $shortPath($path)]);
+        }
     }
 
-    // Generate slug
-    $validated['slug'] = Str::slug($validated['name']) . '-' . time();
+    // --- Gallery handling: the frontend 'gallery' hidden input contains a JSON array of
+    //     existing URLs and possibly base64 data URLs generated from previews.
+    $finalGallery = [];
 
-    Product::create($validated);
+    // 1) If frontend provided a JSON list (existing urls + base64 previews)
+    $submittedGallery = $request->input('gallery');
+    if ($submittedGallery) {
+        $decoded = is_string($submittedGallery) ? json_decode($submittedGallery, true) : $submittedGallery;
+        if (is_array($decoded)) {
+            foreach ($decoded as $item) {
+                if (!is_string($item) || $item === '') continue;
 
-    return redirect()->route('admin.product.listing')->with('success', 'Product created successfully!');
+                // keep existing remote/http URLs as-is
+                if (Str::startsWith($item, ['http://','https://','/storage/'])) {
+                    $finalGallery[] = $item;
+                    continue;
+                }
+
+                // handle base64 "data:image/..." strings
+                if (Str::startsWith($item, 'data:image')) {
+                    preg_match('/^data:image\/(\w+);base64,/', $item, $type);
+                    $ext = $type[1] ?? 'png';
+                    $data = substr($item, strpos($item, ',') + 1);
+                    $decodedData = base64_decode($data);
+                    if ($decodedData !== false) {
+                        $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $ext;
+                        $storePath = 'products/gallery/' . $filename;
+                        Storage::disk('public')->put($storePath, $decodedData);
+                        $finalGallery[] = asset('storage/' . $storePath);
+                        Log::info('✅ gallery saved from base64', ['short' => $shortPath($storePath)]);
+                    }
+                }
+            }
+        } else {
+            Log::warning('⚠️ gallery input present but not valid JSON/array');
+        }
+    }
+
+    // 2) Also accept uploaded files in gallery[] (classic form submit)
+    if ($request->hasFile('gallery')) {
+        foreach ($request->file('gallery') as $file) {
+            if ($file && $file->isValid()) {
+                $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('products/gallery', $filename, 'public');
+                $finalGallery[] = asset('storage/' . $path);
+                Log::info('📁 gallery file uploaded', ['short' => $shortPath($path)]);
+            }
+        }
+    }
+
+    // 3) Clean, dedupe and keep only URLs we want
+    $finalGallery = array_values(array_unique(array_filter($finalGallery, function ($u) {
+        return is_string($u) && (Str::startsWith($u, ['http://','https://']) || Str::startsWith($u, '/storage/'));
+    })));
+
+    // Save gallery (json array) or null if empty
+    $product->gallery = empty($finalGallery) ? null : json_encode($finalGallery);
+    $product->save();
+
+    Log::info('✅ Product fully created', [
+        'id' => $product->id,
+        'gallery_count' => count($finalGallery),
+        'gallery_short' => array_map($shortPath, $finalGallery)
+    ]);
+
+    return redirect()
+        ->route('admin.product.listing')
+        ->with('success', '✅ Product created successfully.');
 }
+
 }
