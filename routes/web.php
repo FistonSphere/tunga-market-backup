@@ -235,6 +235,7 @@ Route::get('/create',  'create')->name('products.admin.create');
 Route::post('/products', 'store')->name('products.store');
 Route::get('/filter', 'filter')->name('products.filter');
 Route::get('/print-pdf', 'printPDF')->name('admin.products.printPDF');
+Route::get('/save-pdf', 'savePDF')->name('admin.products.savePDF');
 
 });
 
