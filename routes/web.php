@@ -233,6 +233,8 @@ Route::put('/products/{id}', 'update')->name('admin.products.update');
 Route::delete('/products/{id}/delete', 'destroy')->name('products.destroy');
 Route::get('/create',  'create')->name('products.admin.create');
 Route::post('/products', 'store')->name('products.store');
+Route::get('/products/filter', 'filter')->name('products.filter');
+
 });
 
 });
