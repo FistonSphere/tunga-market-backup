@@ -461,26 +461,30 @@ public function store(Request $request)
 
 public function filter(Request $request)
 {
-    $query = Product::query();
+    $query = Product::with(['category', 'brand']);
 
     if ($request->filled('search')) {
-        $query->where('name', 'like', '%' . $request->search . '%');
+        $search = $request->input('search');
+        $query->where('name', 'like', "%{$search}%")
+              ->orWhere('sku', 'like', "%{$search}%");
     }
 
     if ($request->filled('category')) {
-        $query->where('category_id', $request->category);
+        $query->where('category_id', $request->input('category'));
     }
 
-    if ($request->filled('min_price') || $request->filled('max_price')) {
-        $query->whereBetween('price', [
-            $request->min_price ?? 0,
-            $request->max_price ?? PHP_INT_MAX
-        ]);
+    if ($request->filled('min_price')) {
+        $query->where('price', '>=', $request->input('min_price'));
     }
 
-    $products = $query->get();
+    if ($request->filled('max_price')) {
+        $query->where('price', '<=', $request->input('max_price'));
+    }
+
+    $products = $query->orderBy('id', 'desc')->get();
 
     return response()->json($products);
 }
+
 
 }

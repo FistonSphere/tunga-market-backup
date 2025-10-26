@@ -591,110 +591,118 @@
             const filterToggleBtn = document.getElementById("filter_search");
             const filterPanel = document.getElementById("product_filter_panel");
             const filterForm = document.getElementById("product_filter_form");
-            const productsContainer = document.getElementById("products_container"); // container that holds your product cards
+            const tableBody = document.querySelector(".product-table tbody");
 
-            // 1️⃣ Toggle filter panel visibility
+            // 🟢 1. Toggle filter panel visibility
             filterToggleBtn.addEventListener("click", function (e) {
                 e.preventDefault();
                 filterPanel.classList.toggle("show");
-
-                // Rotate filter icon or toggle close icon visibility
-                const imgSpans = this.querySelectorAll("span, img");
-                imgSpans.forEach(img => img.classList.toggle("active"));
             });
 
-            // 2️⃣ Handle filter form submission
+            // 🟢 2. Apply filters via AJAX (fetch)
             filterForm.addEventListener("submit", function (e) {
                 e.preventDefault();
                 const formData = new FormData(this);
                 const params = new URLSearchParams(formData).toString();
 
-                console.log("🔍 Sending filter request with params:", params);
+                tableBody.innerHTML = `
+                <tr>
+                    <td colspan="8" style="text-align:center; color:#999; padding:20px;">
+                        <img src="{{ asset('admin/assets/img/loading.gif') }}" width="24" style="vertical-align:middle; margin-right:8px;">
+                        Filtering products...
+                    </td>
+                </tr>
+            `;
 
-                fetch(`/products/filter?${params}`)
+                fetch(`/admin/products/filter?${params}`)
                     .then(response => {
-                        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                        if (!response.ok) throw new Error(`HTTP ${response.status}`);
                         return response.json();
                     })
-                    .then(data => {
-                        console.log("✅ Filtered products received:", data);
-                        updateProductGrid(data);
+                    .then(products => {
+                        updateTable(products);
                     })
                     .catch(error => {
-                        console.error("❌ Filter fetch failed:", error);
+                        console.error("❌ Filter error:", error);
+                        tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="8" style="text-align:center; color:red;">Error loading filtered products.</td>
+                        </tr>
+                    `;
                     });
             });
 
-            // 3️⃣ Reset filters and reload all products
+            // 🟢 3. Reset filters (reload all)
             filterForm.addEventListener("reset", function () {
-                console.log("♻️ Filters reset. Loading all products...");
-                fetch(`/products/filter`)
+                fetch(`/admin/products/filter`)
                     .then(res => res.json())
-                    .then(data => updateProductGrid(data))
+                    .then(products => updateTable(products))
                     .catch(err => console.error("❌ Reset filter error:", err));
             });
 
-            // 4️⃣ Function to update product grid dynamically
-            function updateProductGrid(products) {
-                if (!productsContainer) {
-                    console.warn("⚠️ No #products_container found on page.");
+            // 🟢 4. Update table rows dynamically
+            function updateTable(products) {
+                tableBody.innerHTML = ""; // Clear table
+
+                if (!products || products.length === 0) {
+                    tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align:center; color:#999; padding:20px;">
+                            No products found matching your filters.
+                        </td>
+                    </tr>
+                `;
                     return;
                 }
 
-                // Clear current list
-                productsContainer.innerHTML = "";
-
-                if (products.length === 0) {
-                    productsContainer.innerHTML = `
-                        <div class="text-center p-4 text-gray-400">
-                            <p>No products found matching your filters.</p>
-                        </div>`;
-                    return;
-                }
-
-                // Render updated products (you can adjust structure)
                 products.forEach(product => {
-                    const card = document.createElement("div");
-                    card.className = "product-card-item";
-                    card.style.border = "1px solid #ff6b35";
-                    card.style.borderRadius = "12px";
-                    card.style.padding = "15px";
-                    card.style.background = "#fff";
-                    card.style.color = "#001528";
-                    card.style.transition = "transform 0.3s ease";
-                    card.innerHTML = `
-                        <div class="product-card-image" style="text-align:center;">
-                            <img src="${product.image_url || '/default-product.jpg'}"
-                                alt="${product.name}"
-                                style="max-width: 100%; border-radius: 8px; height: 160px; object-fit: cover;">
-                        </div>
-                        <div class="product-card-body" style="margin-top: 10px;">
-                            <h4 style="color: #001528; font-weight: 600;">${product.name}</h4>
-                            <p style="color: #ff6b35;">$${parseFloat(product.price).toFixed(2)}</p>
-                            <small style="color:#555;">Category: ${product.category?.name || 'N/A'}</small>
-                        </div>
-                    `;
-                    card.addEventListener("mouseenter", () => {
-                        card.style.transform = "translateY(-5px)";
-                    });
-                    card.addEventListener("mouseleave", () => {
-                        card.style.transform = "translateY(0)";
-                    });
-                    productsContainer.appendChild(card);
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                    <td>
+                        <label class="checkboxs">
+                            <input type="checkbox" />
+                            <span class="checkmarks"></span>
+                        </label>
+                    </td>
+                    <td class="productimgname">
+                        <a href="/admin/products/${product.id}" class="product-img">
+                            <img src="${product.main_image || '/storage/default.jpg'}"
+                                alt="${product.name}" style="border-radius: 8px; width:50px; height:50px; object-fit:cover;">
+                        </a>
+                        <a href="/admin/products/${product.id}">${product.name}</a>
+                    </td>
+                    <td>${product.sku || '-'}</td>
+                    <td>${product.category?.name || '-'}</td>
+                    <td>${product.brand?.name || '-'}</td>
+                    <td>${Number(product.price).toLocaleString()} Rwf</td>
+                    <td>${product.stock_quantity ?? 0}</td>
+                    <td style="text-align:center;">
+                        <a class="me-3" href="/admin/products/${product.id}">
+                            <img src="{{ asset('admin/assets/img/icons/eye.svg') }}" alt="View" />
+                        </a>
+                        <a class="me-3" href="/admin/products/${product.id}/edit">
+                            <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="Edit" />
+                        </a>
+                        <button type="button" class="deleteBtn confirm-text"
+                            data-id="${product.id}" data-name="${product.name}">
+                            <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="Delete" />
+                        </button>
+                    </td>
+                `;
+                    tableBody.appendChild(row);
                 });
             }
 
-            // 5️⃣ Optional: auto-close panel when clicked outside
-            document.addEventListener("click", function (event) {
-                if (
-                    !filterPanel.contains(event.target) &&
-                    !filterToggleBtn.contains(event.target)
-                ) {
-                    filterPanel.classList.remove("show");
-                }
+            // 🟢 5. Optional: live search typing (instant filtering)
+            const searchInput = document.getElementById("product_search");
+            let debounceTimer;
+            searchInput.addEventListener("input", function () {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    filterForm.dispatchEvent(new Event("submit"));
+                }, 500);
             });
         });
-
     </script>
 
 @endsection
