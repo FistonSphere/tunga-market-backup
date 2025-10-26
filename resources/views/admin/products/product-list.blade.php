@@ -409,28 +409,46 @@
     </div>
 
     <script>
-
         document.addEventListener('DOMContentLoaded', function () {
-            const deleteBtn = document.getElementById('deleteBtn');
+            const deleteButtons = document.querySelectorAll('.deleteBtn');
             const deleteModal = document.getElementById('deleteModal');
             const cancelDelete = document.getElementById('cancelDelete');
+            const deleteForm = document.getElementById('deleteForm');
+            const deleteMessage = document.getElementById('deleteMessage');
 
-            deleteBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                deleteModal.style.display = 'flex';
+            console.log("✅ Delete modal script loaded.");
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-id');
+                    const productName = this.getAttribute('data-name');
+
+                    console.log("🟢 Delete clicked for product:", productId, productName);
+
+                    // Update confirmation message
+                    deleteMessage.textContent = `Are you sure you want to delete "${productName}"?`;
+
+                    // Update form action dynamically
+                    deleteForm.action = `/admin/products/${productId}`;
+
+                    // Show modal
+                    deleteModal.style.display = 'flex';
+                });
             });
 
             cancelDelete.addEventListener('click', function () {
+                console.log("🟡 Delete canceled.");
                 deleteModal.style.display = 'none';
             });
 
             window.addEventListener('click', function (e) {
                 if (e.target === deleteModal) {
+                    console.log("🟠 Clicked outside modal, closing.");
                     deleteModal.style.display = 'none';
                 }
             });
         });
-
-
     </script>
+
 @endsection
