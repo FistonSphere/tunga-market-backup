@@ -83,13 +83,12 @@ public function update(Request $request, $id)
         }
     }
 
-    // ✅ Handle checkboxes
+    // ✅ Checkboxes
     foreach (['is_featured', 'is_new', 'is_best_seller', 'has_3d_model'] as $flag) {
-    $validated[$flag] = $request->has($flag) ? 1 : 0;
-}
+        $validated[$flag] = $request->has($flag) ? 1 : 0;
+    }
 
-
-    // ✅ Specifications and features conversion
+    // ✅ Specifications + Features
     $specifications = [];
     if ($request->filled('specifications')) {
         $pairs = explode(',', $request->specifications);
@@ -116,7 +115,6 @@ public function update(Request $request, $id)
         $filename = 'product_main_' . $product->id . '_' . time() . '.' . $file->getClientOriginalExtension();
         $path = $file->storeAs('products', $filename, 'public');
 
-        // delete old main image if exists
         if ($product->main_image) {
             $oldPath = str_replace('/storage/', '', parse_url($product->main_image, PHP_URL_PATH));
             if (Storage::disk('public')->exists($oldPath)) {
@@ -127,117 +125,110 @@ public function update(Request $request, $id)
         $validated['main_image'] = asset('storage/' . $path);
     }
 
+    // ✅ Local helper for short path display
+    $shortPath = function ($path) {
+        if (!$path) return '';
+        $segments = explode('/', parse_url($path, PHP_URL_PATH));
+        return implode('/', array_slice($segments, -2));
+    };
 
-// ✅ Define local helper closure (works within this method)
-$shortPath = function ($path) {
-    if (!$path) return '';
-    $segments = explode('/', parse_url($path, PHP_URL_PATH));
-    return implode('/', array_slice($segments, -2));
-};
+    // ✅ Handle gallery
+    $existingGallery = json_decode($product->gallery, true) ?? [];
+    if (!is_array($existingGallery)) $existingGallery = [];
 
-// ✅ Handle gallery intelligently
-$existingGallery = json_decode($product->gallery, true) ?? [];
-if (!is_array($existingGallery)) $existingGallery = [];
+    $submittedGallery = $request->input('gallery');
+    Log::info('📤 Submitted gallery (raw)', ['short' => substr($submittedGallery ?? '', 0, 200)]);
 
-// 1️⃣ Get submitted gallery from hidden field (after user edits)
-$submittedGallery = $request->input('gallery');
-Log::info('📤 Submitted gallery (raw)', [
-    'short' => is_array($submittedGallery)
-        ? array_map($shortPath, $submittedGallery)
-        : $shortPath($submittedGallery)
-]);
+    $frontendGallery = [];
 
-$frontendGallery = [];
-
-if ($submittedGallery) {
-    if (is_string($submittedGallery)) {
-        $decoded = json_decode($submittedGallery, true);
-        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-            $frontendGallery = $decoded;
-        }
-        Log::info('🧩 Decoded gallery', [
-            'count' => count($frontendGallery),
-            'short' => array_map($shortPath, $frontendGallery)
-        ]);
-    } elseif (is_array($submittedGallery)) {
-        $frontendGallery = $submittedGallery;
-        Log::info('🧩 Submitted gallery (array)', [
-            'count' => count($frontendGallery),
-            'short' => array_map($shortPath, $frontendGallery)
-        ]);
-    }
-}
-
-$frontendGallery = array_filter($frontendGallery, fn($url) => is_string($url) && !empty($url));
-
-// 2️⃣ Load existing gallery from DB
-Log::info('🗂 Existing gallery', [
-    'count' => count($existingGallery),
-    'short' => array_map($shortPath, $existingGallery)
-]);
-
-// 3️⃣ Detect removed images
-$removedImages = array_diff($existingGallery, $frontendGallery);
-Log::info('❌ To remove', ['short' => array_map($shortPath, $removedImages)]);
-
-foreach ($removedImages as $oldImage) {
-    $oldPath = str_replace('/storage/', '', parse_url($oldImage, PHP_URL_PATH));
-    if (Storage::disk('public')->exists($oldPath)) {
-        Storage::disk('public')->delete($oldPath);
-        Log::info('🗑 Deleted old image', ['short' => $shortPath($oldPath)]);
-    }
-}
-
-// 4️⃣ Handle new uploads
-$newGalleryUrls = [];
-if ($request->hasFile('gallery')) {
-    $files = $request->file('gallery');
-    Log::info('📸 New gallery files', ['count' => count($files)]);
-
-    foreach ($files as $file) {
-        if ($file && $file->isValid()) {
-            $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
-            $path = $file->storeAs('products/gallery', $filename, 'public');
-            $url = asset('storage/' . $path);
-            $newGalleryUrls[] = $url;
-
-            Log::info('✅ Uploaded new image', ['short' => $shortPath($url)]);
+    // ✅ Decode JSON once safely
+    if ($submittedGallery) {
+        if (is_string($submittedGallery)) {
+            $decoded = json_decode($submittedGallery, true);
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $frontendGallery = $decoded;
+            } else {
+                Log::warning('⚠️ Invalid gallery JSON', ['error' => json_last_error_msg()]);
+            }
+        } elseif (is_array($submittedGallery)) {
+            $frontendGallery = $submittedGallery;
         }
     }
-} else {
-    Log::info('🛑 No new files uploaded.');
-}
 
-// 5️⃣ Merge existing (kept) + new uploads
-$finalGallery = array_merge($frontendGallery, $newGalleryUrls);
-Log::info('🔗 Combined gallery (before cleanup)', ['short' => array_map($shortPath, $finalGallery)]);
+    $frontendGallery = array_filter($frontendGallery, fn($url) => is_string($url) && !empty($url));
 
-// 6️⃣ Final cleanup & save
-$finalGallery = array_values(array_unique(array_filter($finalGallery, function ($url) {
-    if (!is_string($url) || empty($url)) return false;
-    return preg_match('/^https?:\/\/|^\/storage\//', $url); // keep valid HTTP or storage URLs only
-})));
+    Log::info('🧩 Decoded gallery', ['count' => count($frontendGallery)]);
 
-Log::info('✅ Final gallery saved', ['count' => count($finalGallery), 'short' => array_map($shortPath, $finalGallery)]);
+    // ✅ Detect removed images
+    $removedImages = array_diff($existingGallery, $frontendGallery);
+    Log::info('❌ To remove', ['short' => array_map($shortPath, $removedImages)]);
 
-$validated['gallery'] = json_encode($finalGallery);
+    foreach ($removedImages as $oldImage) {
+        $oldPath = str_replace('/storage/', '', parse_url($oldImage, PHP_URL_PATH));
+        if (Storage::disk('public')->exists($oldPath)) {
+            Storage::disk('public')->delete($oldPath);
+            Log::info('🗑 Deleted old image', ['short' => $shortPath($oldPath)]);
+        }
+    }
 
-// ✅ Update slug
-$validated['slug'] = Str::slug($validated['name']);
-$product->update($validated);
+    // ✅ Process base64 images
+    $newGalleryUrls = [];
+    foreach ($frontendGallery as $img) {
+        if (Str::startsWith($img, 'data:image')) {
+            preg_match('/^data:image\/(\w+);base64,/', $img, $type);
+            $extension = $type[1] ?? 'png';
+            $data = substr($img, strpos($img, ',') + 1);
+            $decodedData = base64_decode($data);
+            if ($decodedData !== false) {
+                $fileName = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $extension;
+                $path = 'products/gallery/' . $fileName;
+                Storage::disk('public')->put($path, $decodedData);
+                $newGalleryUrls[] = asset('storage/' . $path);
+                Log::info('✅ Saved base64 image', ['short' => $shortPath($path)]);
+            }
+        } elseif (Str::startsWith($img, 'http')) {
+            $newGalleryUrls[] = $img; // keep valid URLs
+        }
+    }
 
-Log::info('✅ Product updated successfully', [
-    'id' => $product->id,
-    'final_gallery_count' => count($finalGallery),
-    'removed_images' => array_map($shortPath, $removedImages),
-    'added_images' => array_map($shortPath, $newGalleryUrls),
-]);
+    // ✅ Handle uploaded files
+    if ($request->hasFile('gallery')) {
+        foreach ($request->file('gallery') as $file) {
+            if ($file && $file->isValid()) {
+                $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('products/gallery', $filename, 'public');
+                $newGalleryUrls[] = asset('storage/' . $path);
+                Log::info('📸 Uploaded file', ['short' => $shortPath($path)]);
+            }
+        }
+    }
 
+    // ✅ Merge and clean final gallery
+    $finalGallery = array_values(array_unique(array_filter($newGalleryUrls, function ($url) {
+        return is_string($url) && preg_match('/^https?:\/\/|^\/storage\//', $url);
+    })));
+
+    Log::info('✅ Final gallery saved', ['count' => count($finalGallery), 'short' => array_map($shortPath, $finalGallery)]);
+
+    $validated['gallery'] = json_encode($finalGallery);
+
+    // ✅ Generate unique slug
+    $validated['slug'] = Str::slug($validated['name'] . '-' . uniqid());
+
+    $product->update($validated);
+
+    Log::info('✅ Product updated successfully', [
+        'id' => $product->id,
+        'final_gallery_count' => count($finalGallery),
+        'removed_images' => array_map($shortPath, $removedImages),
+        'added_images' => array_map($shortPath, $newGalleryUrls),
+    ]);
 
     return redirect()
         ->route('admin.product.listing')
         ->with('success', '✅ Product updated successfully with updated gallery.');
 }
+
 
 
 

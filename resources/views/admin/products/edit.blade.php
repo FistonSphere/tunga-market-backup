@@ -607,9 +607,12 @@
 
         // Update hidden input as JSON
         function updateGalleryJSON() {
-            const urls = Array.from(galleryPreview.querySelectorAll('img')).map(img => img.src);
-            hiddenGalleryInput.value = JSON.stringify(urls);
-        }
+    const urls = Array.from(document.querySelectorAll('#galleryPreview img'))
+        .map(img => img.src)
+        .filter(src => src && src.startsWith('data:image')); // Only valid base64 images
+    document.getElementById('galleryInputHidden').value = JSON.stringify(urls);
+}
+
 
         // Save confirmation
         document.getElementById('confirmSave').addEventListener('click', function () {
