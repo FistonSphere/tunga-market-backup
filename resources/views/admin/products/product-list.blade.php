@@ -206,7 +206,7 @@
 
         .productfilter-field label {
             font-weight: 600;
-            color: #ff6b35;
+            color: #ffff;
             display: block;
             margin-bottom: 5px;
         }
@@ -351,65 +351,6 @@
                 </div>
             </div>
 
-            {{-- <div class="card mb-0" id="filter_inputs">
-                <div class="card-body pb-0">
-                    <div class="row">
-                        <div class="col-lg-12 col-sm-12">
-                            <div class="row">
-                                <div class="col-lg col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Product</option>
-                                            <option>Macbook pro</option>
-                                            <option>Orange</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Category</option>
-                                            <option>Computers</option>
-                                            <option>Fruits</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Sub Category</option>
-                                            <option>Computer</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Brand</option>
-                                            <option>N/D</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Price</option>
-                                            <option>150.00</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-1 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <a class="btn btn-filters ms-auto"><img
-                                                src="{{ asset('admin/assets/img/icons/search-whites.svg') }}"
-                                                alt="img" /></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
 
             <!-- Table -->
             <div class="table-responsive">
@@ -608,7 +549,7 @@
                 tableBody.innerHTML = `
                 <tr>
                     <td colspan="8" style="text-align:center; color:#999; padding:20px;">
-                        <img src="{{ asset('admin/assets/img/loading.gif') }}" width="24" style="vertical-align:middle; margin-right:8px;">
+                        <img src="{{ asset('assets/images/loader.gif') }}" width="24" style="vertical-align:middle; margin-right:8px;">
                         Filtering products...
                     </td>
                 </tr>
@@ -665,11 +606,11 @@
                         </label>
                     </td>
                     <td class="productimgname">
-                        <a href="/admin/products/${product.id}" class="product-img">
+                        <a href="/admin/products/products/${product.id}" class="product-img">
                             <img src="${product.main_image || '/storage/default.jpg'}"
                                 alt="${product.name}" style="border-radius: 8px; width:50px; height:50px; object-fit:cover;">
                         </a>
-                        <a href="/admin/products/${product.id}">${product.name}</a>
+                        <a href="/admin/products/products/${product.id}">${product.name}</a>
                     </td>
                     <td>${product.sku || '-'}</td>
                     <td>${product.category?.name || '-'}</td>
