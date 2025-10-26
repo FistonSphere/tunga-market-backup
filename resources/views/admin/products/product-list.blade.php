@@ -391,14 +391,14 @@
         </div>
     </div>
 
-    <!-- delete Modal -->
-    <div id="deleteModal" class="modal-overlay">
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal-overlay" style="display:none;">
         <div class="modal-content">
             <h2>Are you sure?</h2>
-            <p>This action cannot be undone. Do you really want to delete this product?</p>
+            <p id="deleteMessage">This action cannot be undone. Do you really want to delete this product?</p>
 
             <div class="modal-actions">
-                <form id="deleteForm" method="POST" action="{{ route('products.destroy', $product->id) }}">
+                <form id="deleteForm" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn-delete">Yes, Delete</button>
