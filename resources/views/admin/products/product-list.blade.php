@@ -185,18 +185,52 @@
     <div class="card">
         <div class="card-body">
             <div class="table-top">
-                <div class="search-set">
-                    <div class="search-path">
-                        <a class="btn btn-filter" id="filter_search">
+                <div class="productsearch-set">
+                    <div class="productsearch-path">
+                        <a class="btn productfilter-btn" id="product_filter_toggle">
                             <img src="{{ asset('admin/assets/img/icons/filter.svg') }}" alt="img" />
                             <span><img src="{{ asset('admin/assets/img/icons/closes.svg') }}" alt="img" /></span>
                         </a>
                     </div>
-                    <div class="search-input">
+                    <div class="productsearch-input">
                         <a class="btn btn-searchset"><img src="{{ asset('admin/assets/img/icons/search-white.svg') }}"
                                 alt="img" /></a>
                     </div>
                 </div>
+
+                <!-- Filter Section (Hidden by Default) -->
+                <div id="product_filter_panel" class="productfilter-panel hidden">
+                    <form id="product_filter_form" class="productfilter-form">
+                        <div class="productfilter-row">
+                            <div class="productfilter-field">
+                                <label for="product_search">Search Product</label>
+                                <input type="text" id="product_search" name="search" placeholder="Type product name..." />
+                            </div>
+                            <div class="productfilter-field">
+                                <label for="product_category">Category</label>
+                                <select id="product_category" name="category">
+                                    <option value="">All Categories</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="productfilter-field price-range">
+                                <label>Price Range</label>
+                                <div class="range-inputs">
+                                    <input type="number" name="min_price" placeholder="Min Price" min="0" />
+                                    <span>-</span>
+                                    <input type="number" name="max_price" placeholder="Max Price" min="0" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="productfilter-actions">
+                            <button type="submit" class="productfilter-apply">Apply Filters</button>
+                            <button type="reset" class="productfilter-reset">Reset</button>
+                        </div>
+                    </form>
+                </div>
+
                 <div class="wordset">
                     <ul>
                         <li>
