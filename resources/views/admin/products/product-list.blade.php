@@ -170,6 +170,109 @@
                 opacity: 1;
             }
         }
+
+        .productfilter-panel {
+            background: #001528;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            color: #fff;
+            display: none;
+            animation: slideDown 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .productfilter-panel.show {
+            display: block;
+        }
+
+        .productfilter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .productfilter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .productfilter-field {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .productfilter-field label {
+            font-weight: 600;
+            color: #ff6b35;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .productfilter-field input,
+        .productfilter-field select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ff6b35;
+            border-radius: 8px;
+            background: #fff;
+            color: #001528;
+            font-weight: 500;
+        }
+
+        .price-range .range-inputs {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .productfilter-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .productfilter-apply {
+            background-color: #ff6b35;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .productfilter-apply:hover {
+            background-color: #e15e2d;
+        }
+
+        .productfilter-reset {
+            background-color: transparent;
+            color: #ff6b35;
+            border: 1px solid #ff6b35;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .productfilter-reset:hover {
+            background-color: #ff6b35;
+            color: #fff;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
     <div class="page-header">
         <div class="page-title">
