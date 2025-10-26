@@ -504,4 +504,19 @@ public function printPDF()
 
     return $pdf->stream('Tunga-Market-Product-Listing.pdf');
 }
+public function savePDF()
+{
+    $products = Product::with(['category', 'brand'])->get();
+
+    $pdf = Pdf::loadView('admin.products.print', [
+        'products' => $products,
+        'title' => 'Tunga Market Product Listing',
+        'date' => now()->format('F d, Y'),
+    ]);
+
+    // Set paper and orientation
+    $pdf->setPaper('A4', 'landscape');
+
+    return $pdf->download('Tunga-Market-Product-Listing.pdf');
+}
 }
