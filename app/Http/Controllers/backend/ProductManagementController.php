@@ -493,7 +493,7 @@ public function printPDF()
 {
     $products = Product::with(['category', 'brand'])->get();
 
-    $pdf = Pdf::loadView('admin.products.pdf', [
+    $pdf = Pdf::loadView('admin.products.print', [
         'products' => $products,
         'title' => 'Tunga Market Product Listing',
         'date' => now()->format('F d, Y'),
