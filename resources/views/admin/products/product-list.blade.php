@@ -575,7 +575,7 @@
 
             // 🟢 3. Reset filters (reload all)
             filterForm.addEventListener("reset", function () {
-                fetch(`/admin/products/products/filter`)
+                fetch(`/admin/products/filter`)
                     .then(res => res.json())
                     .then(products => updateTable(products))
                     .catch(err => console.error("❌ Reset filter error:", err));
