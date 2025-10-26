@@ -430,7 +430,7 @@
                     deleteMessage.textContent = `Are you sure you want to delete "${productName}"?`;
 
                     // Update form action dynamically
-                    deleteForm.action = `/admin/products/${productId}`;
+                    deleteForm.action = `/admin/products/products/${productId}/delete`;
 
                     // Show modal
                     deleteModal.style.display = 'flex';
