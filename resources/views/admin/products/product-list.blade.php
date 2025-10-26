@@ -336,7 +336,7 @@
                 <div class="wordset">
                     <ul>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
+                            <a href="{{ route('admin.products.savePDF') }}" data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
                                     src="{{ asset('admin/assets/img/icons/pdf.svg') }}" alt="img" /></a>
                         </li>
                         <li>
