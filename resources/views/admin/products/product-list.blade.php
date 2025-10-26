@@ -343,12 +343,6 @@
                             <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img
                                     src="{{asset('admin/assets/img/icons/excel.svg')}}" alt="img" /></a>
                         </li>
-                        {{-- <li>
-                            <a href="{{ route('admin.products.printPDF') }}" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Print PDF">
-                                <img src="{{ asset('admin/assets/img/icons/printer.svg') }}" alt="img" />
-                            </a>
-                        </li> --}}
                         <li>
                             <a href="{{ route('admin.products.printPDF') }}" target="_blank"
                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Print">

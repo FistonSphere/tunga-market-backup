@@ -71,10 +71,6 @@
             padding: 5px 0;
             color: #888;
         }
-
-        .page-number:before {
-            content: "Page " counter(page);
-        }
     </style>
 </head>
 
@@ -121,19 +117,17 @@
 
     <footer>
         <div>Tunga Market © {{ date('Y') }} — All Rights Reserved</div>
-        <div class="page-number"></div>
     </footer>
 
-
     <script>
+        // Automatically trigger print
         window.onload = function () {
-            // Trigger print dialog
             window.print();
+        };
 
-            // After print or cancel, close this tab and go back
-            window.onafterprint = function () {
-                window.close();
-            };
+        // Close tab after print or cancel
+        window.onafterprint = function () {
+            window.close();
         };
     </script>
 </body>
