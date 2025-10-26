@@ -574,44 +574,51 @@
             document.getElementById('editProductForm').submit();
         });
 
-        // Gallery management
-        const galleryPreview = document.getElementById('galleryPreview');
-        const hiddenGalleryInput = document.getElementById('galleryInputHidden');
+       // Gallery management
+const galleryPreview = document.getElementById('galleryPreview');
+const hiddenGalleryInput = document.getElementById('galleryInputHidden');
+const galleryInput = document.getElementById('galleryInput');
 
-        // Remove existing gallery image
-        galleryPreview.addEventListener('click', function (e) {
-            if (e.target.classList.contains('remove-gallery-btn')) {
-                e.target.parentElement.remove();
-                updateGalleryJSON();
-            }
-        });
-
-        // File upload preview
-        const galleryInput = document.getElementById('galleryInput');
-        galleryInput.addEventListener('change', function (event) {
-            for (const file of event.target.files) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const div = document.createElement('div');
-                    div.classList.add('gallery-thumb');
-                    div.innerHTML = `
-                        <img src="${e.target.result}" alt="Gallery Image">
-                        <button type="button" class="remove-gallery-btn">×</button>
-                    `;
-                    galleryPreview.appendChild(div);
-                    updateGalleryJSON();
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Update hidden input as JSON
-        function updateGalleryJSON() {
-    const urls = Array.from(document.querySelectorAll('#galleryPreview img'))
+// ✅ Update hidden JSON for backend
+function updateGalleryJSON() {
+    const urls = Array.from(galleryPreview.querySelectorAll('img'))
         .map(img => img.src)
-        .filter(src => src && src.startsWith('data:image')); // Only valid base64 images
-    document.getElementById('galleryInputHidden').value = JSON.stringify(urls);
+        .filter(src => src && src.length > 10);
+    hiddenGalleryInput.value = JSON.stringify(urls);
 }
+
+// ✅ Remove existing image from preview
+galleryPreview.addEventListener('click', e => {
+    if (e.target.classList.contains('remove-gallery-btn')) {
+        e.target.closest('.gallery-thumb').remove();
+        updateGalleryJSON();
+    }
+});
+
+// ✅ Show file previews without duplication
+galleryInput.addEventListener('change', e => {
+    const files = e.target.files;
+    for (const file of files) {
+        const reader = new FileReader();
+        reader.onload = ev => {
+            // Skip if this image already exists in preview
+            const alreadyExists = Array.from(galleryPreview.querySelectorAll('img'))
+                .some(img => img.src === ev.target.result);
+            if (alreadyExists) return;
+
+            const div = document.createElement('div');
+            div.classList.add('gallery-thumb');
+            div.innerHTML = `
+                <img src="${ev.target.result}" alt="Gallery Image">
+                <button type="button" class="remove-gallery-btn">×</button>
+            `;
+            galleryPreview.appendChild(div);
+            updateGalleryJSON();
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
 
 
         // Save confirmation
