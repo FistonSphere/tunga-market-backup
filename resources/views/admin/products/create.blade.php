@@ -354,7 +354,7 @@
         <div class="prd-create-header">
             <div>
                 <h1>Create New Product</h1>
-                <small>Tunga Market — Smart B2C Commerce Management</small>
+                <small>Tunga Market — Smart Product Management</small>
             </div>
         </div>
 
