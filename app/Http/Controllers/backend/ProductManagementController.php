@@ -212,12 +212,7 @@ Log::info('✅ Final gallery ready', ['count' => count($finalGallery)]);
 
     $product->update($validated);
 
-    Log::info('✅ Product updated successfully', [
-        'id' => $product->id,
-        'final_gallery_count' => count($finalGallery),
-        'removed_images' => array_map($shortPath, $removedImages),
-        'added_images' => array_map($shortPath, $newGalleryUrls),
-    ]);
+    
 
     return redirect()
         ->route('admin.product.listing')
