@@ -459,4 +459,28 @@ public function store(Request $request)
         ->with('success', '✅ Product created successfully.');
 }
 
+public function filter(Request $request)
+{
+    $query = Product::query();
+
+    if ($request->filled('search')) {
+        $query->where('name', 'like', '%' . $request->search . '%');
+    }
+
+    if ($request->filled('category')) {
+        $query->where('category_id', $request->category);
+    }
+
+    if ($request->filled('min_price') || $request->filled('max_price')) {
+        $query->whereBetween('price', [
+            $request->min_price ?? 0,
+            $request->max_price ?? PHP_INT_MAX
+        ]);
+    }
+
+    $products = $query->get();
+
+    return response()->json($products);
+}
+
 }
