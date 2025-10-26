@@ -239,6 +239,6 @@ Route::get('/save-pdf', 'savePDF')->name('admin.products.savePDF');
 Route::get('/save-excel', 'saveExcel')->name('admin.products.saveExcel');
 
 });
-
+// Route::prefix('/category')->controller()
 });
 // admin with no authentication middleware routes
