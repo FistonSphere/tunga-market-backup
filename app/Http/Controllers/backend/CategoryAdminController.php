@@ -22,11 +22,10 @@ class CategoryAdminController extends Controller
     if ($category->thumbnail && file_exists(public_path('storage/' . $category->thumbnail))) {
         unlink(public_path('storage/' . $category->thumbnail));
     }
-
-
-
     $category->delete();
 
     return redirect()->route('category.admin.index')->with('success', 'category deleted successfully!');
 }
+
+
 }
