@@ -242,6 +242,7 @@ Route::get('/save-excel', 'saveExcel')->name('admin.products.saveExcel');
 });
 Route::prefix('/category')->controller(CategoryAdminController::class)->group(function(){
 Route::get('/overview', 'index')->name('category.admin.index');
+Route::delete('/{id}/delete', 'destroy')->name('category.destroy');
 });
 });
 // admin with no authentication middleware routes

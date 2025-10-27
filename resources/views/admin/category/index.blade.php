@@ -147,9 +147,6 @@
                     e.preventDefault();
                     const categoryId = this.getAttribute('data-id');
                     const categoryName = this.getAttribute('data-name');
-
-                    
-
                     // Update confirmation message
                     deleteMessage.textContent = `Are you sure you want to delete "${categoryName}"?`;
 
