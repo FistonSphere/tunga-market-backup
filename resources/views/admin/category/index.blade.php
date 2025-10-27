@@ -78,28 +78,30 @@
                                 </td>
                                 <td class="productimgname">
                                     <a href="javascript:void(0);" class="product-img">
-                                        <img src="{{ $category->thumbnail ?? asset('assets/images/no-image.png') }}" style="border-radius:8px" alt="{{ $category->name }}" />
+                                        <img src="{{ $category->thumbnail ?? asset('assets/images/no-image.png') }}"
+                                            style="border-radius:8px" alt="{{ $category->name }}" />
                                     </a>
                                     <a href="javascript:void(0);">{{ $category->name }}</a>
                                 </td>
                                 <td>{{ $category->slug }}</td>
                                 <td>{{ $category->description ?? '-' }}</td>
                                 <td>
-                                @if ($category->is_active == 1)
-                                Active
+                                    @if ($category->is_active == 1)
+                                        Active
 
-                                @else
-                                In Active
-                                @endif
+                                    @else
+                                        In Active
+                                    @endif
 
                                 </td>
                                 <td>
                                     <a class="me-3" href="editcategory.html">
                                         <img src="{{asset('admin/assets/img/icons/edit.svg')}}" alt="img" />
                                     </a>
-                                    <a class="me-3 confirm-text" href="javascript:void(0);">
-                                        <img src="{{asset('admin/assets/img/icons/delete.svg')}}" alt="img" />
-                                    </a>
+                                    <button type="button" class="deleteBtn confirm-text" data-id="{{ $category->id }}"
+                                        data-name="{{ $category->name }}">
+                                        <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -113,5 +115,65 @@
     </div>
 
 
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <h2>Are you sure?</h2>
+            <p id="deleteMessage">This action cannot be undone. Do you really want to delete this category?</p>
 
+            <div class="modal-actions">
+                <form id="deleteForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-delete">Yes, Delete</button>
+                </form>
+                <button id="cancelDelete" class="btn-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.deleteBtn');
+            const deleteModal = document.getElementById('deleteModal');
+            const cancelDelete = document.getElementById('cancelDelete');
+            const deleteForm = document.getElementById('deleteForm');
+            const deleteMessage = document.getElementById('deleteMessage');
+
+            console.log("✅ Delete modal script loaded.");
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-id');
+                    const productName = this.getAttribute('data-name');
+
+                    console.log("🟢 Delete clicked for product:", productId, productName);
+
+                    // Update confirmation message
+                    deleteMessage.textContent = `Are you sure you want to delete "${productName}"?`;
+
+                    // Update form action dynamically
+                    deleteForm.action = `/admin/products/products/${productId}/delete`;
+
+                    // Show modal
+                    deleteModal.style.display = 'flex';
+                });
+            });
+
+            cancelDelete.addEventListener('click', function () {
+                console.log("🟡 Delete canceled.");
+                deleteModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function (e) {
+                if (e.target === deleteModal) {
+                    console.log("🟠 Clicked outside modal, closing.");
+                    deleteModal.style.display = 'none';
+                }
+            });
+        });
+
+
+    </script>
 @endsection
