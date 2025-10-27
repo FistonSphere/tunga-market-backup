@@ -145,16 +145,16 @@
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function (e) {
                     e.preventDefault();
-                    const productId = this.getAttribute('data-id');
-                    const productName = this.getAttribute('data-name');
+                    const categoryId = this.getAttribute('data-id');
+                    const categoryName = this.getAttribute('data-name');
 
-                    console.log("🟢 Delete clicked for product:", productId, productName);
+                    
 
                     // Update confirmation message
-                    deleteMessage.textContent = `Are you sure you want to delete "${productName}"?`;
+                    deleteMessage.textContent = `Are you sure you want to delete "${categoryName}"?`;
 
                     // Update form action dynamically
-                    deleteForm.action = `/admin/products/products/${productId}/delete`;
+                    deleteForm.action = `/admin/products/products/${categoryId}/delete`;
 
                     // Show modal
                     deleteModal.style.display = 'flex';

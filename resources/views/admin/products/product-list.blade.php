@@ -497,7 +497,7 @@
             const deleteForm = document.getElementById('deleteForm');
             const deleteMessage = document.getElementById('deleteMessage');
 
-            console.log("✅ Delete modal script loaded.");
+
 
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function (e) {
@@ -505,7 +505,7 @@
                     const productId = this.getAttribute('data-id');
                     const productName = this.getAttribute('data-name');
 
-                    console.log("🟢 Delete clicked for product:", productId, productName);
+                    
 
                     // Update confirmation message
                     deleteMessage.textContent = `Are you sure you want to delete "${productName}"?`;
