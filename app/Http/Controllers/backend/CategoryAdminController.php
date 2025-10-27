@@ -16,17 +16,17 @@ class CategoryAdminController extends Controller
 
   public function destroy($id)
 {
-    $product = Category::findOrFail($id);
+    $category = Category::findOrFail($id);
 
     // Optionally delete image files if you store them locally
-    if ($product->main_image && file_exists(public_path('storage/' . $product->main_image))) {
-        unlink(public_path('storage/' . $product->main_image));
+    if ($category->thumbnail && file_exists(public_path('storage/' . $category->thumbnail))) {
+        unlink(public_path('storage/' . $category->thumbnail));
     }
 
-    
 
-    $product->delete();
 
-    return redirect()->route('admin.product.listing')->with('success', 'Product deleted successfully!');
+    $category->delete();
+
+    return redirect()->route('category.admin.index')->with('success', 'category deleted successfully!');
 }
 }
