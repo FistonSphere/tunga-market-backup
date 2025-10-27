@@ -45,9 +45,6 @@ public function edit($id)
         return view('admin.products.edit', compact('product', 'categories', 'brands','taxClasses','units','productTypes'));
     }
 
-    /**
-     * Update the product details.
-     */
 public function update(Request $request, $id)
 {
     Log::info('🔵 Product update started', ['product_id' => $id]);
