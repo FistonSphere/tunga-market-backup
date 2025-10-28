@@ -178,7 +178,7 @@
                                 <td class="productimgname">
                                     <a href="javascript:void(0);" class="product-img">
                                         <img src="{{ $category->thumbnail ?? asset('assets/images/no-image.png') }}"
-                                            style="border-radius:8px" alt="{{ $category->name }}" />
+                                            style="border-radius:8px; object-fit: cover;" alt="{{ $category->name }}" />
                                     </a>
                                     <a href="javascript:void(0);">{{ $category->name }}</a>
                                 </td>
