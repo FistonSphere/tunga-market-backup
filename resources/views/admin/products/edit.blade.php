@@ -330,8 +330,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label>SKU</label>
-                        <input type="text" name="sku" value="{{ $category->sku }}">
+                        <label>Slug</label>
+                        <input type="text" name="slug" value="{{ $category->slug }}">
                     </div>
 
 
