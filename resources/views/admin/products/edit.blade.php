@@ -478,8 +478,8 @@
                 <h3>Product Status</h3>
                 <div class="form-group">
                     <select name="status">
-                        <option value="1" {{ $category->is_active == 1 ? 'selected' : '' }}>Active</option>
-                        <option value="0" {{ $category->is_active == 0 ? 'selected' : '' }}>Inactive</option>
+                        <option value="1" {{ $category->is_active == 1}}>Active</option>
+                        <option value="0" {{ $category->is_active == 0}}>Inactive</option>
                     </select>
                 </div>
             </div>
@@ -518,50 +518,50 @@
             document.getElementById('editProductForm').submit();
         });
 
-       // Gallery management
-const galleryPreview = document.getElementById('galleryPreview');
-const hiddenGalleryInput = document.getElementById('galleryInputHidden');
-const galleryInput = document.getElementById('galleryInput');
+        // Gallery management
+        const galleryPreview = document.getElementById('galleryPreview');
+        const hiddenGalleryInput = document.getElementById('galleryInputHidden');
+        const galleryInput = document.getElementById('galleryInput');
 
-// ✅ Update hidden JSON for backend
-function updateGalleryJSON() {
-    const urls = Array.from(galleryPreview.querySelectorAll('img'))
-        .map(img => img.src)
-        .filter(src => src && src.length > 10);
-    hiddenGalleryInput.value = JSON.stringify(urls);
-}
+        // ✅ Update hidden JSON for backend
+        function updateGalleryJSON() {
+            const urls = Array.from(galleryPreview.querySelectorAll('img'))
+                .map(img => img.src)
+                .filter(src => src && src.length > 10);
+            hiddenGalleryInput.value = JSON.stringify(urls);
+        }
 
-// ✅ Remove existing image from preview
-galleryPreview.addEventListener('click', e => {
-    if (e.target.classList.contains('remove-gallery-btn')) {
-        e.target.closest('.gallery-thumb').remove();
-        updateGalleryJSON();
-    }
-});
+        // ✅ Remove existing image from preview
+        galleryPreview.addEventListener('click', e => {
+            if (e.target.classList.contains('remove-gallery-btn')) {
+                e.target.closest('.gallery-thumb').remove();
+                updateGalleryJSON();
+            }
+        });
 
-// ✅ Show file previews without duplication
-galleryInput.addEventListener('change', e => {
-    const files = e.target.files;
-    for (const file of files) {
-        const reader = new FileReader();
-        reader.onload = ev => {
-            // Skip if this image already exists in preview
-            const alreadyExists = Array.from(galleryPreview.querySelectorAll('img'))
-                .some(img => img.src === ev.target.result);
-            if (alreadyExists) return;
+        // ✅ Show file previews without duplication
+        galleryInput.addEventListener('change', e => {
+            const files = e.target.files;
+            for (const file of files) {
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    // Skip if this image already exists in preview
+                    const alreadyExists = Array.from(galleryPreview.querySelectorAll('img'))
+                        .some(img => img.src === ev.target.result);
+                    if (alreadyExists) return;
 
-            const div = document.createElement('div');
-            div.classList.add('gallery-thumb');
-            div.innerHTML = `
-                <img src="${ev.target.result}" alt="Gallery Image">
-                <button type="button" class="remove-gallery-btn">×</button>
-            `;
-            galleryPreview.appendChild(div);
-            updateGalleryJSON();
-        };
-        reader.readAsDataURL(file);
-    }
-});
+                    const div = document.createElement('div');
+                    div.classList.add('gallery-thumb');
+                    div.innerHTML = `
+                    <img src="${ev.target.result}" alt="Gallery Image">
+                    <button type="button" class="remove-gallery-btn">×</button>
+                `;
+                    galleryPreview.appendChild(div);
+                    updateGalleryJSON();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
 
 
@@ -592,8 +592,8 @@ galleryInput.addEventListener('change', e => {
                 specs.setValue(specArray);
             @endif
 
-            // ----- Features -----
-            const featInput = document.getElementById('features');
+                // ----- Features -----
+                const featInput = document.getElementById('features');
             const features = new Choices(featInput, {
                 delimiter: ',',
                 editItems: true,
@@ -607,7 +607,7 @@ galleryInput.addEventListener('change', e => {
                 const featArray = {!! $category->features !!};
                 features.setValue(featArray);
             @endif
-            });
+                });
 
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -683,9 +683,9 @@ galleryInput.addEventListener('change', e => {
                     const div = document.createElement("div");
                     div.classList.add("gallery-thumb");
                     div.innerHTML = `
-                    <img src="${e.target.result}" alt="Gallery Image">
-                    <button type="button" class="remove-gallery-btn">×</button>
-                `;
+                        <img src="${e.target.result}" alt="Gallery Image">
+                        <button type="button" class="remove-gallery-btn">×</button>
+                    `;
                     galleryPreview.appendChild(div);
                     div.querySelector(".remove-gallery-btn").addEventListener("click", () => {
                         div.remove();
@@ -732,7 +732,7 @@ galleryInput.addEventListener('change', e => {
                 specs.setValue(specArray);
             @endif
 
-        const featInput = document.getElementById('features');
+            const featInput = document.getElementById('features');
             const features = new Choices(featInput, {
                 delimiter: ',',
                 editItems: true,
@@ -746,8 +746,8 @@ galleryInput.addEventListener('change', e => {
                 features.setValue(featArray);
             @endif
 
-        // === Save Button (ensures JSON sync) ===
-        const saveBtn = document.getElementById("confirmSave");
+            // === Save Button (ensures JSON sync) ===
+            const saveBtn = document.getElementById("confirmSave");
             if (saveBtn) {
                 saveBtn.addEventListener("click", function () {
                     updateHiddenInput();
