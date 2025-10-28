@@ -338,45 +338,23 @@
                 </div>
             </div>
 
-            <!-- Pricing & Inventory -->
-            <div class="form-section">
-                <h3>Pricing & Inventory</h3>
-                <div class="grid-3">
-                    <div class="form-group">
-                        <label>Price ({{ $category->currency }})</label>
-                        <input type="number" name="price" step="0.01" value="{{ $category->price }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Discount Price</label>
-                        <input type="number" name="discount_price" step="0.01" value="{{ $category->discount_price }}">
-                    </div>
-                    <div class="form-group">
-                        <label>Stock Quantity</label>
-                        <input type="number" name="stock_quantity" value="{{ $category->stock_quantity }}">
-                    </div>
-                </div>
-            </div>
 
             <!-- Descriptions -->
             <div class="form-section">
                 <h3>Descriptions</h3>
                 <div class="form-group">
-                    <label>Short Description</label>
-                    <textarea name="short_description" rows="3">{{ $category->short_description }}</textarea>
-                </div>
-                <div class="form-group">
-                    <label>Long Description</label>
-                    <textarea name="long_description" rows="5">{{ $category->long_description }}</textarea>
+                    <label>Description</label>
+                    <textarea name="short_description" rows="3">{{ $category->description }}</textarea>
                 </div>
             </div>
 
             <!-- Product Media -->
             <div class="form-section">
-                <h3>Product Media</h3>
+                <h3>Category thumbnail</h3>
                 <div class="grid-2">
-                    <!-- Main Image -->
+                    <!-- thumbnail -->
                     <div class="form-group">
-                        <label>Main Product Image</label>
+                        <label>Category Thumbnail</label>
 
                         <div class="custom-file-upload" id="mainImageDropArea">
                             <div class="upload-placeholder" id="mainImagePlaceholder">
@@ -384,92 +362,10 @@
                                 <p>Drag & Drop or Click to Upload</p>
                             </div>
                             <input type="file" name="main_image" id="mainImageInput" accept="image/*" hidden>
-                            <img id="mainImagePreview" src="{{ $category->main_image }}" alt="Main Image"
-                                class="preview-img {{ $category->main_image ? '' : 'hidden' }}">
+                            <img id="mainImagePreview" src="{{ $category->thumbnail }}" alt="thumbnail"
+                                class="preview-img {{ $category->thumbnail ? '' : 'hidden' }}">
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Product Gallery -->
-            <div class="form-section">
-                <h3>Image Gallery</h3>
-                <p class="sub-info">Upload multiple product images. They will be stored as a JSON array.</p>
-
-                <!-- Existing Images -->
-                <div id="galleryPreview" class="gallery-preview">
-                    @php
-                        $galleryImages = json_decode($category->gallery, true) ?? [];
-                    @endphp
-                    @foreach($galleryImages as $url)
-                        <div class="gallery-thumb">
-                            <img src="{{ $url }}" alt="Gallery Image">
-                            <button type="button" class="remove-gallery-btn" data-url="{{ $url }}">×</button>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div class="custom-file-upload" id="galleryDropArea">
-                    <div class="upload-placeholder" id="galleryPlaceholder">
-                        <i class="fa fa-images"></i>
-                        <p>Drag & Drop or Click to Upload Gallery Images</p>
-                    </div>
-                    <input type="file" name="gallery[]" id="galleryInput" multiple accept="image/*" hidden>
-                </div>
-
-                <!-- Hidden input to hold JSON -->
-                <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
-            </div>
-
-
-            <!-- Product Flags -->
-            <div class="form-section">
-                <h3>Product Highlights</h3>
-                <div class="checkbox-grid">
-                    @foreach(['is_featured' => 'Featured', 'is_new' => 'New Arrival', 'is_best_seller' => 'Best Seller', 'has_3d_model' => '3D Model'] as $field => $label)
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="{{ $field }}" value="1" {{ $category->$field ? 'checked' : '' }}>
-                            <span>{{ $label }}</span>
-                        </label>
-                    @endforeach
-                </div>
-            </div>
-
-            <!-- Tags -->
-            <div class="form-section">
-                <h3>Tags</h3>
-                <div class="form-group">
-                    <label>Tags (comma separated)</label>
-                    <input type="text" name="tags"
-                        value="{{ is_array($category->tags) ? implode(',', $category->tags) : '' }}">
-                </div>
-            </div>
-            <!-- Specifications, Features, Shipping Info -->
-            <div class="form-section">
-                <h3>Additional Details</h3>
-
-                <div class="form-group">
-                    <label>Specifications</label>
-                    <input type="text" id="specifications" name="specifications" class="form-control" />
-                </div>
-
-                <div class="form-group">
-                    <label>Features</label>
-                    <input type="text" id="features" name="features" class="form-control" />
-                </div>
-
-                <div class="form-group">
-                    <label>Shipping Info</label>
-                    <input type="text" id="shipping_info" name="shipping_info" class="form-control"
-                        value="{{ $category->shipping_info }}">
-                </div>
-            </div>
-
-            <!-- Units, Tax Class, Product Type -->
-            <div class="form-section">
-                <h3>Associations</h3>
-                <div class="grid-3">
-
                 </div>
             </div>
 
