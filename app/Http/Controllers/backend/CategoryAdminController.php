@@ -32,13 +32,12 @@ class CategoryAdminController extends Controller
 public function edit($id)
     {
         $category = category::findOrFail($id);
-        $categories = Category::all();
-        return view('admin.products.edit', compact('category', 'categories'));
+        return view('admin.products.edit', compact('category'));
     }
 
 public function update(Request $request, $id)
 {
-    Log::info('🔵 category update started', ['product_id' => $id]);
+    Log::info('🔵 category update started', ['category_id' => $id]);
     $category = Category::findOrFail($id);
 
     $validated = $request->validate([
