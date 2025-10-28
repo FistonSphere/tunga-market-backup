@@ -449,9 +449,9 @@
                     const div = document.createElement('div');
                     div.classList.add('gallery-thumb');
                     div.innerHTML = `
-                    <img src="${ev.target.result}" alt="Gallery Image">
-                    <button type="button" class="remove-gallery-btn">×</button>
-                `;
+                        <img src="${ev.target.result}" alt="Gallery Image">
+                        <button type="button" class="remove-gallery-btn">×</button>
+                    `;
                     galleryPreview.appendChild(div);
                     updateGalleryJSON();
                 };
@@ -467,11 +467,11 @@
             document.getElementById('editProductForm').submit();
         });
 
-        
 
 
 
-                document.addEventListener("DOMContentLoaded", function () {
+
+        document.addEventListener("DOMContentLoaded", function () {
             // === Main Image Logic ===
             const mainDropArea = document.getElementById("mainImageDropArea");
             const mainInput = document.getElementById("mainImageInput");
@@ -544,9 +544,9 @@
                     const div = document.createElement("div");
                     div.classList.add("gallery-thumb");
                     div.innerHTML = `
-                        <img src="${e.target.result}" alt="Gallery Image">
-                        <button type="button" class="remove-gallery-btn">×</button>
-                    `;
+                            <img src="${e.target.result}" alt="Gallery Image">
+                            <button type="button" class="remove-gallery-btn">×</button>
+                        `;
                     galleryPreview.appendChild(div);
                     div.querySelector(".remove-gallery-btn").addEventListener("click", () => {
                         div.remove();
@@ -574,41 +574,9 @@
                 });
             });
 
-            // === Specification & Features ===
-            const specsInput = document.getElementById('specifications');
-            const specs = new Choices(specsInput, {
-                delimiter: ',',
-                editItems: true,
-                removeItemButton: true,
-                placeholderValue: 'Type and press Enter to add specification (e.g. Size:42)',
-                duplicateItemsAllowed: false
-            });
-
-            @if($category->specifications)
-                const specData = {!! $category->specifications !!};
-                const specArray = [];
-                Object.keys(specData).forEach(key => {
-                    specArray.push(`${key}:${specData[key]}`);
-                });
-                specs.setValue(specArray);
-            @endif
-
-            const featInput = document.getElementById('features');
-            const features = new Choices(featInput, {
-                delimiter: ',',
-                editItems: true,
-                removeItemButton: true,
-                placeholderValue: 'Type and press Enter to add feature',
-                duplicateItemsAllowed: false
-            });
-
-            @if($category->features)
-                const featArray = {!! $category->features !!};
-                features.setValue(featArray);
-            @endif
-
-            // === Save Button (ensures JSON sync) ===
-            const saveBtn = document.getElementById("confirmSave");
+           
+                // === Save Button (ensures JSON sync) ===
+                const saveBtn = document.getElementById("confirmSave");
             if (saveBtn) {
                 saveBtn.addEventListener("click", function () {
                     updateHiddenInput();
