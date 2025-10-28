@@ -315,7 +315,7 @@
             <a href="{{ route('admin.product.listing') }}" class="back-link">← Back to Products</a>
         </div>
 
-        <form id="editProductForm" action="{{ route('admin.products.update', $product->id) }}" method="POST"
+        <form id="editProductForm" action="{{ route('admin.category.update', $category->id) }}" method="POST"
             enctype="multipart/form-data" class="edit-form">
             @csrf
             @method('PUT')
@@ -326,36 +326,15 @@
                 <div class="grid-2">
                     <div class="form-group">
                         <label>Product Name</label>
-                        <input type="text" name="name" value="{{ $product->name }}" required>
+                        <input type="text" name="name" value="{{ $category->name }}" required>
                     </div>
 
                     <div class="form-group">
                         <label>SKU</label>
-                        <input type="text" name="sku" value="{{ $product->sku }}">
+                        <input type="text" name="sku" value="{{ $category->sku }}">
                     </div>
 
-                    <div class="form-group">
-                        <label>Category</label>
-                        <select name="category_id">
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ $category->id == $product->category_id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
 
-                    <div class="form-group">
-                        <label>Brand</label>
-                        <select name="brand_id">
-                            <option value="">-- None --</option>
-                            @foreach($brands as $brand)
-                                <option value="{{ $brand->id }}" {{ $brand->id == $product->brand_id ? 'selected' : '' }}>
-                                    {{ $brand->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
                 </div>
             </div>
 
@@ -364,16 +343,16 @@
                 <h3>Pricing & Inventory</h3>
                 <div class="grid-3">
                     <div class="form-group">
-                        <label>Price ({{ $product->currency }})</label>
-                        <input type="number" name="price" step="0.01" value="{{ $product->price }}" required>
+                        <label>Price ({{ $category->currency }})</label>
+                        <input type="number" name="price" step="0.01" value="{{ $category->price }}" required>
                     </div>
                     <div class="form-group">
                         <label>Discount Price</label>
-                        <input type="number" name="discount_price" step="0.01" value="{{ $product->discount_price }}">
+                        <input type="number" name="discount_price" step="0.01" value="{{ $category->discount_price }}">
                     </div>
                     <div class="form-group">
                         <label>Stock Quantity</label>
-                        <input type="number" name="stock_quantity" value="{{ $product->stock_quantity }}">
+                        <input type="number" name="stock_quantity" value="{{ $category->stock_quantity }}">
                     </div>
                 </div>
             </div>
@@ -383,11 +362,11 @@
                 <h3>Descriptions</h3>
                 <div class="form-group">
                     <label>Short Description</label>
-                    <textarea name="short_description" rows="3">{{ $product->short_description }}</textarea>
+                    <textarea name="short_description" rows="3">{{ $category->short_description }}</textarea>
                 </div>
                 <div class="form-group">
                     <label>Long Description</label>
-                    <textarea name="long_description" rows="5">{{ $product->long_description }}</textarea>
+                    <textarea name="long_description" rows="5">{{ $category->long_description }}</textarea>
                 </div>
             </div>
 
@@ -405,8 +384,8 @@
                                 <p>Drag & Drop or Click to Upload</p>
                             </div>
                             <input type="file" name="main_image" id="mainImageInput" accept="image/*" hidden>
-                            <img id="mainImagePreview" src="{{ $product->main_image }}" alt="Main Image"
-                                class="preview-img {{ $product->main_image ? '' : 'hidden' }}">
+                            <img id="mainImagePreview" src="{{ $category->main_image }}" alt="Main Image"
+                                class="preview-img {{ $category->main_image ? '' : 'hidden' }}">
                         </div>
                     </div>
                 </div>
@@ -420,7 +399,7 @@
                 <!-- Existing Images -->
                 <div id="galleryPreview" class="gallery-preview">
                     @php
-                        $galleryImages = json_decode($product->gallery, true) ?? [];
+                        $galleryImages = json_decode($category->gallery, true) ?? [];
                     @endphp
                     @foreach($galleryImages as $url)
                         <div class="gallery-thumb">
@@ -449,7 +428,7 @@
                 <div class="checkbox-grid">
                     @foreach(['is_featured' => 'Featured', 'is_new' => 'New Arrival', 'is_best_seller' => 'Best Seller', 'has_3d_model' => '3D Model'] as $field => $label)
                         <label class="checkbox-item">
-                            <input type="checkbox" name="{{ $field }}" value="1" {{ $product->$field ? 'checked' : '' }}>
+                            <input type="checkbox" name="{{ $field }}" value="1" {{ $category->$field ? 'checked' : '' }}>
                             <span>{{ $label }}</span>
                         </label>
                     @endforeach
@@ -462,7 +441,7 @@
                 <div class="form-group">
                     <label>Tags (comma separated)</label>
                     <input type="text" name="tags"
-                        value="{{ is_array($product->tags) ? implode(',', $product->tags) : '' }}">
+                        value="{{ is_array($category->tags) ? implode(',', $category->tags) : '' }}">
                 </div>
             </div>
             <!-- Specifications, Features, Shipping Info -->
@@ -482,7 +461,7 @@
                 <div class="form-group">
                     <label>Shipping Info</label>
                     <input type="text" id="shipping_info" name="shipping_info" class="form-control"
-                        value="{{ $product->shipping_info }}">
+                        value="{{ $category->shipping_info }}">
                 </div>
             </div>
 
@@ -490,41 +469,7 @@
             <div class="form-section">
                 <h3>Associations</h3>
                 <div class="grid-3">
-                    <div class="form-group">
-                        <label>Tax Class</label>
-                        <select name="tax_class_id">
-                            <option value="">-- None --</option>
-                            @foreach($taxClasses as $tax)
-                                <option value="{{ $tax->id }}" {{ $tax->id == $product->tax_class_id ? 'selected' : '' }}>
-                                    {{ $tax->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
 
-                    <div class="form-group">
-                        <label>Unit</label>
-                        <select name="unit_id">
-                            <option value="">-- None --</option>
-                            @foreach($units as $unit)
-                                <option value="{{ $unit->id }}" {{ $unit->id == $product->unit_id ? 'selected' : '' }}>
-                                    {{ $unit->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Product Type</label>
-                        <select name="product_type_id">
-                            <option value="">-- None --</option>
-                            @foreach($productTypes as $type)
-                                <option value="{{ $type->id }}" {{ $type->id == $product->product_type_id ? 'selected' : '' }}>
-                                    {{ $type->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
                 </div>
             </div>
 
@@ -533,9 +478,8 @@
                 <h3>Product Status</h3>
                 <div class="form-group">
                     <select name="status">
-                        <option value="active" {{ $product->status == 'active' ? 'selected' : '' }}>Active</option>
-                        <option value="inactive" {{ $product->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                        <option value="draft" {{ $product->status == 'draft' ? 'selected' : '' }}>Draft</option>
+                        <option value="1" {{ $category->is_active == 1 ? 'selected' : '' }}>Active</option>
+                        <option value="0" {{ $category->is_active == 0 ? 'selected' : '' }}>Inactive</option>
                     </select>
                 </div>
             </div>
@@ -639,8 +583,8 @@ galleryInput.addEventListener('change', e => {
             });
 
             // Preload existing specifications (converted from JSON object to key-value pairs)
-            @if($product->specifications)
-                const specData = {!! $product->specifications !!};
+            @if($category->specifications)
+                const specData = {!! $category->specifications !!};
                 const specArray = [];
                 Object.keys(specData).forEach(key => {
                     specArray.push(`${key}:${specData[key]}`);
@@ -659,8 +603,8 @@ galleryInput.addEventListener('change', e => {
             });
 
             // Preload existing features
-            @if($product->features)
-                const featArray = {!! $product->features !!};
+            @if($category->features)
+                const featArray = {!! $category->features !!};
                 features.setValue(featArray);
             @endif
             });
@@ -779,8 +723,8 @@ galleryInput.addEventListener('change', e => {
                 duplicateItemsAllowed: false
             });
 
-            @if($product->specifications)
-                const specData = {!! $product->specifications !!};
+            @if($category->specifications)
+                const specData = {!! $category->specifications !!};
                 const specArray = [];
                 Object.keys(specData).forEach(key => {
                     specArray.push(`${key}:${specData[key]}`);
@@ -797,8 +741,8 @@ galleryInput.addEventListener('change', e => {
                 duplicateItemsAllowed: false
             });
 
-            @if($product->features)
-                const featArray = {!! $product->features !!};
+            @if($category->features)
+                const featArray = {!! $category->features !!};
                 features.setValue(featArray);
             @endif
 
