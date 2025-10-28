@@ -371,7 +371,7 @@
 
             <!-- Status -->
             <div class="form-section">
-                <h3>Product Status</h3>
+                <h3>Category Status</h3>
                 <div class="form-group">
                     <select name="status">
                         <option value="1" {{ $category->is_active == 1}}>Active</option>
@@ -393,7 +393,7 @@
         <div class="modal-content">
             <img src="https://cdn-icons-png.flaticon.com/512/1828/1828490.png" alt="Warning" class="modal-icon">
             <h3>Save Changes?</h3>
-            <p>Are you sure you want to update this product’s details?</p>
+            <p>Are you sure you want to update this category’s details?</p>
             <div class="modal-actions">
                 <button id="confirmSave" class="btn-primary">Yes, Save</button>
                 <button id="cancelModal" class="btn-secondary">Cancel</button>
@@ -467,46 +467,11 @@
             document.getElementById('editProductForm').submit();
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // ----- Specifications -----
-            const specsInput = document.getElementById('specifications');
-            const specs = new Choices(specsInput, {
-                delimiter: ',',
-                editItems: true,
-                removeItemButton: true,
-                placeholderValue: 'Type and press Enter to add',
-                duplicateItemsAllowed: false
-            });
-
-            // Preload existing specifications (converted from JSON object to key-value pairs)
-            @if($category->specifications)
-                const specData = {!! $category->specifications !!};
-                const specArray = [];
-                Object.keys(specData).forEach(key => {
-                    specArray.push(`${key}:${specData[key]}`);
-                });
-                specs.setValue(specArray);
-            @endif
-
-                // ----- Features -----
-                const featInput = document.getElementById('features');
-            const features = new Choices(featInput, {
-                delimiter: ',',
-                editItems: true,
-                removeItemButton: true,
-                placeholderValue: 'Type and press Enter to add',
-                duplicateItemsAllowed: false
-            });
-
-            // Preload existing features
-            @if($category->features)
-                const featArray = {!! $category->features !!};
-                features.setValue(featArray);
-            @endif
-                });
+        
 
 
-        document.addEventListener("DOMContentLoaded", function () {
+
+                document.addEventListener("DOMContentLoaded", function () {
             // === Main Image Logic ===
             const mainDropArea = document.getElementById("mainImageDropArea");
             const mainInput = document.getElementById("mainImageInput");
