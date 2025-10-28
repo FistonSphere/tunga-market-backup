@@ -194,7 +194,7 @@
 
                                 </td>
                                 <td>
-                                    <a class="me-3" href="{{ route('admin.products.edit', $product->id) }}">
+                                    <a class="me-3" href="{{ route('admin.products.edit', $category->id) }}">
                                         <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
                                     </a>
                                     <button type="button" class="deleteBtn confirm-text" data-id="{{ $category->id }}"
