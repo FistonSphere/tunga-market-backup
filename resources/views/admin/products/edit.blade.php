@@ -325,7 +325,7 @@
                 <h3>Basic Information</h3>
                 <div class="grid-2">
                     <div class="form-group">
-                        <label>Product Name</label>
+                        <label>Category Name</label>
                         <input type="text" name="name" value="{{ $category->name }}" required>
                     </div>
 
