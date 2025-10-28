@@ -234,60 +234,6 @@
             margin-top: 20px;
         }
 
-        /* ===== Custom Upload Styling ===== */
-        .custom-file-upload {
-            border: 2px dashed #ccc;
-            border-radius: 10px;
-            text-align: center;
-            padding: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            background: #fafafa;
-        }
-
-        .custom-file-upload:hover {
-            border-color: #007bff;
-            background-color: #f0f8ff;
-        }
-
-        .upload-placeholder {
-            color: #777;
-            font-size: 14px;
-        }
-
-        .upload-placeholder i {
-            font-size: 30px;
-            color: #007bff;
-            margin-bottom: 10px;
-        }
-
-
-        .hidden {
-            display: none;
-        }
-
-
-
-        .remove-gallery-btn {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: #dc3545;
-            border: none;
-            color: white;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .remove-gallery-btn:hover {
-            background: #b02a37;
-        }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -302,11 +248,84 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-
+            .header-bar h2 {
+                font-size: 20px;
+            }
 
             .edit-form {
                 padding: 15px;
             }
+        }
+
+        /* Container & labels */
+        .prd-create-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 18px;
+        }
+
+        .prd-create-group label {
+            font-weight: 600;
+            color: #001528;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        /* Choice.js Input Field Styling */
+        .choices__inner {
+            background-color: #fff;
+            border: 1px solid #e6e9ee;
+            border-radius: 10px;
+            min-height: 44px;
+            padding: 6px 12px;
+            box-shadow: 0 6px 20px rgba(0, 20, 40, 0.06);
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+
+        .choices__inner:focus-within {
+            border-color: #ff6b35;
+            box-shadow: 0 4px 18px rgba(255, 107, 53, 0.25);
+        }
+
+        .choices__list--multiple .choices__item {
+            background-color: #ff6b35;
+            color: #fff;
+            border-radius: 999px;
+            padding: 4px 12px;
+            margin: 4px 4px 4px 0;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .choices__list--multiple .choices__button {
+            color: #fff;
+            font-weight: bold;
+            margin-left: 6px;
+        }
+
+        .choices__input {
+            color: #001528;
+            font-size: 0.9rem;
+            min-width: 100px;
+            margin: 4px 0;
+        }
+
+        /* Placeholder text */
+        .choices__placeholder {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        /* Dropdown items */
+        .choices__list--dropdown .choices__item--selectable {
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .choices__list--dropdown .choices__item--selectable:hover {
+            background-color: rgba(255, 107, 53, 0.15);
+            cursor: pointer;
         }
     </style>
     <div class="edit-product-container">
@@ -315,7 +334,7 @@
             <a href="{{ route('admin.product.listing') }}" class="back-link">← Back to Products</a>
         </div>
 
-        <form id="editProductForm" action="{{ route('admin.category.update', $category->id) }}" method="POST"
+        <form id="editProductForm" action="{{ route('admin.products.update', $product->id) }}" method="POST"
             enctype="multipart/form-data" class="edit-form">
             @csrf
             @method('PUT')
@@ -325,60 +344,163 @@
                 <h3>Basic Information</h3>
                 <div class="grid-2">
                     <div class="form-group">
-                        <label>Category Name</label>
-                        <input type="text" name="name" value="{{ $category->name }}" required>
+                        <label>Product Name</label>
+                        <input type="text" name="name" value="{{ $product->name }}" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Slug</label>
-                        <input type="text" name="slug" value="{{ $category->slug }}">
+                        <label>SKU</label>
+                        <input type="text" name="sku" value="{{ $product->sku }}">
                     </div>
 
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select name="category_id">
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}" {{ $category->id == $product->category_id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <select name="brand_id">
+                            <option value="">-- None --</option>
+                            @foreach($brands as $brand)
+                                <option value="{{ $brand->id }}" {{ $brand->id == $product->brand_id ? 'selected' : '' }}>
+                                    {{ $brand->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
             </div>
 
+            <!-- Pricing & Inventory -->
+            <div class="form-section">
+                <h3>Pricing & Inventory</h3>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>Price ({{ $product->currency }})</label>
+                        <input type="number" name="price" step="0.01" value="{{ $product->price }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Discount Price</label>
+                        <input type="number" name="discount_price" step="0.01" value="{{ $product->discount_price }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock Quantity</label>
+                        <input type="number" name="stock_quantity" value="{{ $product->stock_quantity }}">
+                    </div>
+                </div>
+            </div>
 
             <!-- Descriptions -->
             <div class="form-section">
                 <h3>Descriptions</h3>
                 <div class="form-group">
-                    <label>Description</label>
-                    <textarea name="short_description" rows="3">{{ $category->description }}</textarea>
+                    <label>Short Description</label>
+                    <textarea name="short_description" rows="3">{{ $product->short_description }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Long Description</label>
+                    <textarea name="long_description" rows="5">{{ $product->long_description }}</textarea>
                 </div>
             </div>
 
             <!-- Product Media -->
             <div class="form-section">
-                <h3>Category thumbnail</h3>
+                <h3>Product Media</h3>
                 <div class="grid-2">
-                    <!-- thumbnail -->
+                    <!-- Main Image -->
                     <div class="form-group">
-                        <label>Category Thumbnail</label>
+                        <label>Main Product Image</label>
+                        @if($product->main_image)
+                            <img src="{{ $product->main_image }}" alt="Main Image" class="preview-img">
+                        @endif
+                        <input type="file" name="main_image" accept="image/*">
+                    </div>
 
-                        <div class="custom-file-upload" id="mainImageDropArea">
-                            <div class="upload-placeholder" id="mainImagePlaceholder">
-                                <i class="fa fa-cloud-upload"></i>
-                                <p>Drag & Drop or Click to Upload</p>
-                            </div>
-                            <input type="file" name="main_image" id="mainImageInput" accept="image/*" hidden>
-                            <img id="mainImagePreview" src="{{ $category->thumbnail }}" alt="thumbnail"
-                                class="preview-img {{ $category->thumbnail ? '' : 'hidden' }}">
-                        </div>
+                    <!-- Video URL -->
+                    <div class="form-group">
+                        <label>Video URL</label>
+                        <input type="text" name="video_url" value="{{ $product->video_url }}"
+                            placeholder="https://youtube.com/embed/...">
                     </div>
                 </div>
             </div>
 
-            <!-- Status -->
+            <!-- Product Gallery -->
             <div class="form-section">
-                <h3>Category Status</h3>
+                <h3>Image Gallery</h3>
+                <p class="sub-info">Upload multiple product images. They will be stored as a JSON array.</p>
+
+                <!-- Existing Images -->
+                <div id="galleryPreview" class="gallery-preview">
+                    @php
+                        $galleryImages = json_decode($product->gallery, true) ?? [];
+                    @endphp
+                    @foreach($galleryImages as $url)
+                        <div class="gallery-thumb">
+                            <img src="{{ $url }}" alt="Gallery Image">
+                            <button type="button" class="remove-gallery-btn" data-url="{{ $url }}">×</button>
+                        </div>
+                    @endforeach
+                </div>
+
                 <div class="form-group">
-                    <select name="status">
-                        <option value="1" {{ $category->is_active == 1}}>Active</option>
-                        <option value="0" {{ $category->is_active == 0}}>Inactive</option>
-                    </select>
+                    <label>Upload New Gallery Images</label>
+                    <input type="file" name="gallery[]" id="galleryInput" multiple accept="image/*">
+                </div>
+
+                <!-- Hidden input to hold JSON -->
+                <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
+            </div>
+
+
+            <!-- Product Flags -->
+            <div class="form-section">
+                <h3>Product Highlights</h3>
+                <div class="checkbox-grid">
+                    @foreach(['is_featured' => 'Featured', 'is_new' => 'New Arrival', 'is_best_seller' => 'Best Seller', 'has_3d_model' => '3D Model'] as $field => $label)
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="{{ $field }}" value="1" {{ $product->$field ? 'checked' : '' }}>
+                            <span>{{ $label }}</span>
+                        </label>
+                    @endforeach
                 </div>
             </div>
+
+            <!-- JSON INPUTS -->
+            <div class="prd-create-section-title">Specifications & Features</div>
+
+            <div class="prd-create-group">
+                <label for="specifications">Specifications</label>
+                <select id="specifications" name="specifications[]" multiple placeholder="Enter key:value then press enter">
+                    <!-- Choice.js will handle creating items dynamically -->
+                </select>
+            </div>
+
+            <div class="prd-create-group">
+                <label for="features">Features</label>
+                <select id="features" name="features[]" multiple placeholder="Enter features then press enter">
+                </select>
+            </div>
+
+            <div class="prd-create-group">
+                <label for="shipping_info">Shipping Info</label>
+                <select id="shipping_info" name="shipping_info[]" multiple placeholder="Delivery Time: 3-5 days">
+                </select>
+            </div>
+
+            <div class="prd-create-group">
+                <label for="tags">Tags</label>
+                <select id="tags" name="tags[]" multiple placeholder="Add tags then press enter">
+                </select>
+            </div>
+
 
             <!-- Buttons -->
             <div class="form-actions">
@@ -393,7 +515,7 @@
         <div class="modal-content">
             <img src="https://cdn-icons-png.flaticon.com/512/1828/1828490.png" alt="Warning" class="modal-icon">
             <h3>Save Changes?</h3>
-            <p>Are you sure you want to update this category’s details?</p>
+            <p>Are you sure you want to update this product’s details?</p>
             <div class="modal-actions">
                 <button id="confirmSave" class="btn-primary">Yes, Save</button>
                 <button id="cancelModal" class="btn-secondary">Cancel</button>
@@ -417,6 +539,7 @@
         // Gallery management
         const galleryPreview = document.getElementById('galleryPreview');
         const hiddenGalleryInput = document.getElementById('galleryInputHidden');
+
         const galleryInput = document.getElementById('galleryInput');
 
         // ✅ Update hidden JSON for backend
@@ -449,9 +572,9 @@
                     const div = document.createElement('div');
                     div.classList.add('gallery-thumb');
                     div.innerHTML = `
-                        <img src="${ev.target.result}" alt="Gallery Image">
-                        <button type="button" class="remove-gallery-btn">×</button>
-                    `;
+                            <img src="${ev.target.result}" alt="Gallery Image">
+                            <button type="button" class="remove-gallery-btn">×</button>
+                        `;
                     galleryPreview.appendChild(div);
                     updateGalleryJSON();
                 };
@@ -460,129 +583,33 @@
         });
 
 
+        // Update hidden input as JSON
+        function updateGalleryJSON() {
+            const urls = Array.from(galleryPreview.querySelectorAll('img')).map(img => img.src);
+            hiddenGalleryInput.value = JSON.stringify(urls);
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const choiceOptions = {
+                        removeItemButton: true,
+                        addItems: true,
+                        duplicateItemsAllowed: false,
+                        placeholder: true,
+                        placeholderValue: 'Type and press enter',
+                maxItemCount: 50,
+        };
+
+        new Choices('#specifications', choiceOptions);
+        new Choices('#features', choiceOptions);
+        new Choices('#shipping_info', choiceOptions);
+        new Choices('#tags', choiceOptions);
+    });
 
         // Save confirmation
         document.getElementById('confirmSave').addEventListener('click', function () {
             updateGalleryJSON();
             document.getElementById('editProductForm').submit();
-        });
-
-
-
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-            // === Main Image Logic ===
-            const mainDropArea = document.getElementById("mainImageDropArea");
-            const mainInput = document.getElementById("mainImageInput");
-            const mainPreview = document.getElementById("mainImagePreview");
-            const mainPlaceholder = document.getElementById("mainImagePlaceholder");
-
-            mainDropArea.addEventListener("click", () => mainInput.click());
-            mainInput.addEventListener("change", () => previewMain(mainInput.files[0]));
-
-            mainDropArea.addEventListener("dragover", e => {
-                e.preventDefault();
-                mainDropArea.style.borderColor = "#007bff";
-            });
-
-            mainDropArea.addEventListener("dragleave", () => {
-                mainDropArea.style.borderColor = "#ccc";
-            });
-
-            mainDropArea.addEventListener("drop", e => {
-                e.preventDefault();
-                mainInput.files = e.dataTransfer.files;
-                previewMain(e.dataTransfer.files[0]);
-            });
-
-            function previewMain(file) {
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = e => {
-                    mainPreview.src = e.target.result;
-                    mainPreview.classList.remove("hidden");
-                    mainPlaceholder.style.display = "none";
-                };
-                reader.readAsDataURL(file);
-            }
-
-            // === Gallery Logic ===
-            const galleryDrop = document.getElementById("galleryDropArea");
-            const galleryInput = document.getElementById("galleryInput");
-            const galleryPreview = document.getElementById("galleryPreview");
-            const hiddenInput = document.getElementById("galleryInputHidden");
-
-            galleryDrop.addEventListener("click", () => galleryInput.click());
-
-            // ✅ Prevent duplicate preview on upload
-            galleryInput.addEventListener("change", e => {
-                const files = Array.from(e.target.files);
-                files.forEach(file => previewGallery(file));
-                galleryInput.value = ""; // Reset input to avoid same file triggering again
-            });
-
-            galleryDrop.addEventListener("dragover", e => {
-                e.preventDefault();
-                galleryDrop.style.borderColor = "#007bff";
-            });
-
-            galleryDrop.addEventListener("dragleave", () => {
-                galleryDrop.style.borderColor = "#ccc";
-            });
-
-            galleryDrop.addEventListener("drop", e => {
-                e.preventDefault();
-                const files = Array.from(e.dataTransfer.files);
-                files.forEach(file => previewGallery(file));
-            });
-
-            // ✅ Render gallery preview for new files only once
-            function previewGallery(file) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    const div = document.createElement("div");
-                    div.classList.add("gallery-thumb");
-                    div.innerHTML = `
-                            <img src="${e.target.result}" alt="Gallery Image">
-                            <button type="button" class="remove-gallery-btn">×</button>
-                        `;
-                    galleryPreview.appendChild(div);
-                    div.querySelector(".remove-gallery-btn").addEventListener("click", () => {
-                        div.remove();
-                        updateHiddenInput();
-                    });
-                    updateHiddenInput();
-                };
-                reader.readAsDataURL(file);
-            }
-
-            // ✅ Update hidden input JSON for backend sync
-            function updateHiddenInput() {
-                const urls = Array.from(galleryPreview.querySelectorAll("img"))
-                    .map(img => img.src)
-                    .filter(src => src && (src.startsWith('http') || src.startsWith('/storage/')));
-                hiddenInput.value = JSON.stringify(urls);
-            }
-
-
-            // ✅ Handle removal of existing images (already loaded from DB)
-            galleryPreview.querySelectorAll(".remove-gallery-btn").forEach(btn => {
-                btn.addEventListener("click", function () {
-                    this.parentElement.remove();
-                    updateHiddenInput();
-                });
-            });
-
-           
-                // === Save Button (ensures JSON sync) ===
-                const saveBtn = document.getElementById("confirmSave");
-            if (saveBtn) {
-                saveBtn.addEventListener("click", function () {
-                    updateHiddenInput();
-                    document.getElementById("editProductForm").submit();
-                });
-            }
         });
     </script>
 @endsection

@@ -32,7 +32,7 @@ class CategoryAdminController extends Controller
 public function edit($id)
     {
         $category = category::findOrFail($id);
-        return view('admin.products.edit', compact('category'));
+        return view('admin.category.edit', compact('category'));
     }
 
 public function update(Request $request, $id)
