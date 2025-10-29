@@ -2,285 +2,259 @@
 
 
 @section('content')
-<div class="prd-edit-container">
-    <div class="prd-edit-header">
-        <h2>Edit Product</h2>
-        <a href="{{ route('admin.product.listing') }}" class="prd-edit-back">← Back to Products</a>
+    <div class="page-header">
+        <div class="page-title">
+            <h4>Edit Product</h4>
+            <h6>Update product details and save changes</h6>
+        </div>
+        <div class="page-btn">
+            <a href="{{ route('admin.product.listing') }}" class="btn btn-back">
+                <i class="fa fa-arrow-left me-2"></i>Back to Products
+            </a>
+        </div>
     </div>
 
-    <form id="prdEditForm" action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="prd-edit-form">
-        @csrf
-        @method('PUT')
+    <div class="card product-edit-card">
+        <div class="card-body">
+            <form id="editProductForm" method="POST" action="{{ route('admin.products.update', $product->id) }}"
+                enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
 
-        <!-- Basic Info -->
-        <div class="prd-edit-section">
-            <h3>Basic Information</h3>
-            <div class="prd-edit-grid-2">
-                <div class="prd-edit-group">
-                    <label>Product Name</label>
-                    <input type="text" name="name" value="{{ $product->name }}" required>
-                </div>
-
-                <div class="prd-edit-group">
-                    <label>SKU</label>
-                    <input type="text" name="sku" value="{{ $product->sku }}" readonly>
-                </div>
-
-                <div class="prd-edit-group">
-                    <label>Category</label>
-                    <select name="category_id">
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ $category->id == $product->category_id ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="prd-edit-group">
-                    <label>Brand</label>
-                    <select name="brand_id">
-                        <option value="">-- None --</option>
-                        @foreach($brands as $brand)
-                            <option value="{{ $brand->id }}" {{ $brand->id == $product->brand_id ? 'selected' : '' }}>
-                                {{ $brand->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pricing & Inventory -->
-        <div class="prd-edit-section">
-            <h3>Pricing & Inventory</h3>
-            <div class="prd-edit-grid-3">
-                <div class="prd-edit-group">
-                    <label>Price ({{ $product->currency }})</label>
-                    <input type="number" name="price" step="0.01" value="{{ $product->price }}" required>
-                </div>
-                <div class="prd-edit-group">
-                    <label>Discount Price</label>
-                    <input type="number" name="discount_price" step="0.01" value="{{ $product->discount_price }}">
-                </div>
-                <div class="prd-edit-group">
-                    <label>Stock Quantity</label>
-                    <input type="number" name="stock_quantity" value="{{ $product->stock_quantity }}">
-                </div>
-            </div>
-        </div>
-
-        <!-- Descriptions -->
-        <div class="prd-edit-section">
-            <h3>Descriptions</h3>
-            <div class="prd-edit-group">
-                <label>Short Description</label>
-                <textarea name="short_description" rows="3">{{ $product->short_description }}</textarea>
-            </div>
-            <div class="prd-edit-group">
-                <label>Long Description</label>
-                <textarea name="long_description" rows="5">{{ $product->long_description }}</textarea>
-            </div>
-        </div>
-
-        <!-- Product Media -->
-        <div class="prd-edit-section">
-            <h3>Product Media</h3>
-            <div class="prd-edit-grid-2">
-                <div class="prd-edit-group">
-                    <label>Main Product Image</label>
-                    @if($product->main_image)
-                        <img src="{{ $product->main_image }}" alt="Main Image" class="prd-edit-preview">
-                    @endif
-                    <input type="file" name="main_image" accept="image/*">
-                </div>
-
-                <div class="prd-edit-group">
-                    <label>Video URL</label>
-                    <input type="text" name="video_url" value="{{ $product->video_url }}" placeholder="https://youtube.com/embed/...">
-                </div>
-            </div>
-        </div>
-
-        <!-- Gallery -->
-        <div class="prd-edit-section">
-            <h3>Image Gallery</h3>
-            <div id="prdGalleryPreview" class="prd-edit-gallery">
-                @php
-                    $galleryImages = json_decode($product->gallery, true) ?? [];
-                @endphp
-                @foreach($galleryImages as $url)
-                    <div class="prd-edit-thumb">
-                        <img src="{{ $url }}" alt="Gallery Image">
-                        <button type="button" class="prd-edit-remove" data-url="{{ $url }}">×</button>
+                <div class="form-grid">
+                    <!-- Product Name -->
+                    <div class="form-group">
+                        <label>Product Name <span class="text-danger">*</span></label>
+                        <input type="text" name="name" value="{{ old('name', $product->name) }}"
+                            placeholder="Enter product name" required />
                     </div>
-                @endforeach
-            </div>
-            <div class="prd-edit-group">
-                <label>Upload New Gallery Images</label>
-                <input type="file" name="gallery[]" id="prdGalleryInput" multiple accept="image/*">
-            </div>
-            <input type="hidden" name="gallery" id="prdGalleryHidden" value='@json($galleryImages)'>
-        </div>
 
-        <!-- Highlights -->
-        <div class="prd-edit-section">
-            <h3>Product Highlights</h3>
-            <div class="prd-edit-checkboxes">
-                @foreach(['is_featured' => 'Featured', 'is_new' => 'New Arrival', 'is_best_seller' => 'Best Seller', 'has_3d_model' => '3D Model'] as $field => $label)
-                    <label class="prd-edit-check">
-                        <input type="checkbox" name="{{ $field }}" value="1" {{ $product->$field ? 'checked' : '' }}>
-                        <span>{{ $label }}</span>
-                    </label>
-                @endforeach
-            </div>
-        </div>
+                    <!-- SKU -->
+                    <div class="form-group">
+                        <label>SKU</label>
+                        <input type="text" id="sku" name="sku" value="{{ old('sku', $product->sku) }}" readonly />
+                    </div>
 
-        <!-- Choice.js Inputs -->
-        <div class="prd-edit-section">
-            <h3>Specifications & Features</h3>
-            <div class="prd-edit-group">
-                <label>Specifications</label>
-                <select id="specifications" name="specifications[]" multiple></select>
-            </div>
-            <div class="prd-edit-group">
-                <label>Features</label>
-                <select id="features" name="features[]" multiple></select>
-            </div>
-            <div class="prd-edit-group">
-                <label>Shipping Info</label>
-                <select id="shipping_info" name="shipping_info[]" multiple></select>
-            </div>
-            <div class="prd-edit-group">
-                <label>Tags</label>
-                <select id="tags" name="tags[]" multiple></select>
-            </div>
-        </div>
+                    <!-- Slug -->
+                    <div class="form-group">
+                        <label>Slug</label>
+                        <input type="text" id="slug" name="slug" value="{{ old('slug', $product->slug) }}" readonly />
+                    </div>
 
-        <div class="prd-edit-actions">
-            <button type="button" id="prdSaveBtn" class="prd-edit-btn-primary">Save Changes</button>
-            <a href="{{ route('admin.product.listing') }}" class="prd-edit-btn-secondary">Cancel</a>
-        </div>
-    </form>
-</div>
+                    <!-- Category -->
+                    <div class="form-group">
+                        <label>Category <span class="text-danger">*</span></label>
+                        <select name="category_id" id="category_id" required>
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-<!-- Confirmation Modal -->
-<div id="prdConfirmModal" class="prd-edit-modal">
-    <div class="prd-edit-modal-content">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828490.png" alt="Confirm" class="prd-edit-modal-icon">
-        <h3>Save Changes?</h3>
-        <p>Are you sure you want to update this product’s details?</p>
-        <div class="prd-edit-modal-actions">
-            <button id="prdConfirmSave" class="prd-edit-btn-primary">Yes, Save</button>
-            <button id="prdCancelModal" class="prd-edit-btn-secondary">Cancel</button>
+                    <!-- Brand -->
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <select name="brand_id" id="brand_id">
+                            <option value="">Select Brand</option>
+                            @foreach ($brands as $brand)
+                                <option value="{{ $brand->id }}" {{ $product->brand_id == $brand->id ? 'selected' : '' }}>
+                                    {{ $brand->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="form-group">
+                        <label>Price (RWF)</label>
+                        <input type="number" name="price" min="0" value="{{ old('price', $product->price) }}" />
+                    </div>
+
+                    <!-- Stock Quantity -->
+                    <div class="form-group">
+                        <label>Stock Quantity</label>
+                        <input type="number" name="stock_quantity" min="0"
+                            value="{{ old('stock_quantity', $product->stock_quantity) }}" />
+                    </div>
+
+                    <!-- Status -->
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="status" id="status">
+                            <option value="active" {{ $product->status == 'active' ? 'selected' : '' }}>Active</option>
+                            <option value="inactive" {{ $product->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group full-width">
+                    <label>Description</label>
+                    <textarea name="description" rows="5"
+                        placeholder="Write short description about this product...">{{ old('description', $product->description) }}</textarea>
+                </div>
+
+                <!-- Gallery -->
+                <div class="col-span-2">
+                    <label class="form-label fw-semibold text-gray-700">Gallery</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+                        @php
+                            $galleryImages = json_decode($product->gallery, true) ?? [];
+                        @endphp
+
+                        @forelse($galleryImages as $image)
+                            <div class="relative group border rounded-lg overflow-hidden shadow hover:shadow-md transition">
+                                <img src="{{ asset($image) }}" alt="Product Image" class="object-cover" style="width: 100px; height: 100px;">
+                                <button type="button" 
+                                        class="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition" style="background: red;color:white;">
+                                    Remove
+                                </button>
+                            </div>
+                        @empty
+                            <p class="text-gray-500 italic">No gallery images available.</p>
+                        @endforelse
+                    </div>
+
+                    <div class="mt-3">
+                        <input type="file" name="gallery[]" multiple class="form-control rounded-lg border-gray-300 focus:ring-2 focus:ring-primary-500">
+                        <small class="text-gray-500">You can upload multiple images (jpg, png, jpeg)</small>
+                    </div>
+                </div>
+
+                <!-- Main Image -->
+                <div class="col-span-2">
+                    <label class="form-label fw-semibold text-gray-700">Main Image</label>
+                    <div class="flex items-center gap-4 mt-2">
+                        @if($product->main_image)
+                            <img src="{{ asset($product->main_image) }}" alt="Main Image" class="w-28 h-28 object-cover rounded-lg shadow">
+                        @else
+                            <span class="text-gray-400 italic">No main image uploaded.</span>
+                        @endif
+                    </div>
+                    <input type="file" name="main_image" class="form-control mt-3 rounded-lg border-gray-300 focus:ring-2 focus:ring-primary-500">
+                </div>
+            </div>
+
+                <div class="form-actions mt-4">
+                    <button type="submit" class="btn btn-primary-gradient">Save Changes</button>
+                    <a href="{{ route('admin.product.listing') }}" class="btn btn-outline">Cancel</a>
+                </div>
+            </form>
         </div>
     </div>
-</div>
 
-<!-- Scripts -->
-<script>
-    // Confirmation Modal
-    document.getElementById('prdSaveBtn').onclick = () => {
-        document.getElementById('prdConfirmModal').style.display = 'flex';
-    };
-    document.getElementById('prdCancelModal').onclick = () => {
-        document.getElementById('prdConfirmModal').style.display = 'none';
-    };
-    document.getElementById('prdConfirmSave').onclick = () => {
-        document.getElementById('prdEditForm').submit();
-    };
 
-    // Gallery Preview Logic
-    const galleryPreview = document.getElementById('prdGalleryPreview');
-    const hiddenGallery = document.getElementById('prdGalleryHidden');
-    const galleryInput = document.getElementById('prdGalleryInput');
 
-    function updateGalleryJSON() {
-        const urls = Array.from(galleryPreview.querySelectorAll('img')).map(img => img.src);
-        hiddenGallery.value = JSON.stringify(urls);
-    }
-
-    galleryPreview.addEventListener('click', e => {
-        if (e.target.classList.contains('prd-edit-remove')) {
-            e.target.closest('.prd-edit-thumb').remove();
-            updateGalleryJSON();
+    <style>
+        .product-edit-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
-    });
 
-    galleryInput.addEventListener('change', e => {
-        Array.from(e.target.files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = ev => {
-                const div = document.createElement('div');
-                div.classList.add('prd-edit-thumb');
-                div.innerHTML = `<img src="${ev.target.result}" alt=""><button type="button" class="prd-edit-remove">×</button>`;
-                galleryPreview.appendChild(div);
-                updateGalleryJSON();
-            };
-            reader.readAsDataURL(file);
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #ff6b35;
+            box-shadow: 0 0 5px rgba(255, 107, 53, 0.2);
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .image-upload-section {
+            margin-top: 25px;
+        }
+
+        .image-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .image-item img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #eee;
+            transition: transform 0.3s ease;
+        }
+
+        .image-item img:hover {
+            transform: scale(1.05);
+            border-color: #ff6b35;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .btn-primary-gradient {
+            background: linear-gradient(90deg, #ff6b35, #ff914d);
+            color: #fff;
+            border: none;
+            font-weight: bold;
+            padding: 10px 22px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-gradient:hover {
+            background: #e45e2d;
+        }
+
+        .btn-outline {
+            border: 1px solid #ccc;
+            color: #444;
+            padding: 10px 22px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: #ff6b35;
+            color: #ff6b35;
+        }
+    </style>
+
+    <script>
+        // Auto-slug and SKU updates (if product name changes)
+        document.querySelector('input[name="name"]').addEventListener('input', function () {
+            let name = this.value.trim().toLowerCase().replace(/\s+/g, '-');
+            document.getElementById('slug').value = name;
+            document.getElementById('sku').value = 'SKU-' + Math.random().toString(36).substring(2, 8).toUpperCase();
         });
-    });
-
-    // Choice.js initialization
-    document.addEventListener('DOMContentLoaded', () => {
-        const options = {
-            removeItemButton: true,
-            addItems: true,
-            duplicateItemsAllowed: false,
-            placeholderValue: 'Type and press enter'
-        };
-        new Choices('#specifications', options);
-        new Choices('#features', options);
-        new Choices('#shipping_info', options);
-        new Choices('#tags', options);
-    });
-</script>
-
-<!-- Styles -->
-<style>
-/* =============================
-   PRODUCT EDIT PAGE STYLES
-============================= */
-.prd-edit-container { max-width: 1100px; margin: 40px auto; padding: 20px; }
-.prd-edit-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-.prd-edit-header h2 { color: #001528; font-size: 24px; font-weight: 600; }
-.prd-edit-back { color: #ff6b35; text-decoration: none; font-weight: 500; }
-.prd-edit-back:hover { color: #e85b27; }
-
-.prd-edit-form { background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-
-.prd-edit-section h3 { border-left: 4px solid #ff6b35; padding-left: 10px; color: #001528; font-size: 18px; margin-bottom: 15px; }
-.prd-edit-group { margin-bottom: 15px; }
-.prd-edit-group label { font-weight: 600; margin-bottom: 5px; display: block; color: #001528; }
-.prd-edit-grid-2, .prd-edit-grid-3 { display: grid; gap: 20px; }
-.prd-edit-grid-2 { grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); }
-.prd-edit-grid-3 { grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); }
-
-input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; transition: 0.2s; }
-input:focus, textarea:focus, select:focus { border-color: #ff6b35; box-shadow: 0 0 6px rgba(255,107,53,0.3); }
-
-.prd-edit-preview { width: 130px; border-radius: 8px; margin-top: 10px; }
-
-.prd-edit-gallery { display: flex; flex-wrap: wrap; gap: 15px; }
-.prd-edit-thumb { position: relative; width: 120px; height: 120px; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
-.prd-edit-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.prd-edit-remove { position: absolute; top: 6px; right: 6px; background: rgba(255,0,0,0.85); color: #fff; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; }
-
-.prd-edit-checkboxes { display: flex; gap: 15px; flex-wrap: wrap; }
-.prd-edit-check span { color: #001528; font-weight: 500; }
-
-.prd-edit-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px; }
-.prd-edit-btn-primary { background: #ff6b35; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-.prd-edit-btn-primary:hover { background: #e85b27; }
-.prd-edit-btn-secondary { background: #f5f5f5; color: #001528; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
-
-.prd-edit-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999; }
-.prd-edit-modal-content { background: #fff; border-radius: 12px; padding: 25px; max-width: 380px; text-align: center; }
-.prd-edit-modal-icon { width: 60px; margin-bottom: 10px; }
-
-/* Choice.js */
-.choices__inner { border: 1px solid #e6e9ee; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,20,40,0.05); }
-.choices__list--multiple .choices__item { background: #ff6b35; color: #fff; border-radius: 999px; }
-.choices__input { color: #001528; }
-</style>
+    </script>
 @endsection
