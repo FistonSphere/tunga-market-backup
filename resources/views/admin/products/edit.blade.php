@@ -107,9 +107,11 @@
 
                         @forelse($galleryImages as $image)
                             <div class="relative group border rounded-lg overflow-hidden shadow hover:shadow-md transition">
-                                <img src="{{ asset($image) }}" alt="Product Image" class="object-cover" style="width: 100px; height: 100px;">
-                                <button type="button" 
-                                        class="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition" style="background: red;color:white;">
+                                <img src="{{ asset($image) }}" alt="Product Image" class="object-cover"
+                                    style="width: 100px; height: 100px; border-radius: 8px;">
+                                <button type="button"
+                                    class="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition"
+                                    style="background: red;color:white;">
                                     Remove
                                 </button>
                             </div>
@@ -119,7 +121,8 @@
                     </div>
 
                     <div class="mt-3">
-                        <input type="file" name="gallery[]" multiple class="form-control rounded-lg border-gray-300 focus:ring-2 focus:ring-primary-500">
+                        <input type="file" name="gallery[]" multiple
+                            class="form-control rounded-lg border-gray-300 focus:ring-2 focus:ring-primary-500">
                         <small class="text-gray-500">You can upload multiple images (jpg, png, jpeg)</small>
                     </div>
                 </div>
@@ -129,21 +132,23 @@
                     <label class="form-label fw-semibold text-gray-700">Main Image</label>
                     <div class="flex items-center gap-4 mt-2">
                         @if($product->main_image)
-                            <img src="{{ asset($product->main_image) }}" alt="Main Image" class="w-28 h-28 object-cover rounded-lg shadow">
+                            <img src="{{ asset($product->main_image) }}" alt="Main Image" class="object-cover rounded-lg shadow"
+                                style="width:100px; height: 100px;object-fit:cover;border-radius:8px;">
                         @else
                             <span class="text-gray-400 italic">No main image uploaded.</span>
                         @endif
                     </div>
-                    <input type="file" name="main_image" class="form-control mt-3 rounded-lg border-gray-300 focus:ring-2 focus:ring-primary-500">
+                    <input type="file" name="main_image"
+                        class="form-control mt-3 rounded-lg border-gray-300 focus:ring-2 focus:ring-primary-500">
                 </div>
-            </div>
-
-                <div class="form-actions mt-4">
-                    <button type="submit" class="btn btn-primary-gradient">Save Changes</button>
-                    <a href="{{ route('admin.product.listing') }}" class="btn btn-outline">Cancel</a>
-                </div>
-            </form>
         </div>
+
+        <div class="form-actions mt-4">
+            <button type="submit" class="btn btn-primary-gradient">Save Changes</button>
+            <a href="{{ route('admin.product.listing') }}" class="btn btn-outline">Cancel</a>
+        </div>
+        </form>
+    </div>
     </div>
 
 
@@ -246,6 +251,160 @@
         .btn-outline:hover {
             border-color: #ff6b35;
             color: #ff6b35;
+        }
+
+        /* Main Layout */
+        .image-section {
+            margin-top: 30px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Upload Area */
+        .upload-box {
+            position: relative;
+            border: 2px dashed #ccc;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            background-color: #fafafa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-box:hover {
+            background-color: #f0f8ff;
+            border-color: #ff6600;
+        }
+
+        .upload-box i {
+            font-size: 32px;
+            color: #aaa;
+        }
+
+        .upload-box p {
+            color: #666;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .upload-box input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Image Cards */
+        .image-card {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .image-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            border-radius: 14px;
+        }
+
+        /* Hover Overlay */
+        .image-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-card:hover::after {
+            opacity: 1;
+        }
+
+        .image-card button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff4b5c;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-card:hover button {
+            opacity: 1;
+        }
+
+        /* Grid Layout */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-top: 15px;
+        }
+
+        .no-images {
+            color: #777;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        /* Lightbox Modal */
+        #lightboxModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #lightboxModal img {
+            max-height: 80vh;
+            max-width: 90vw;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        #lightboxModal button {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        #lightboxModal button:hover {
+            color: #ccc;
         }
     </style>
 
