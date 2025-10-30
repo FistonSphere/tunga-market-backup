@@ -587,3 +587,16 @@ document.addEventListener("DOMContentLoaded", function () {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const notification = document.getElementById("notification");
+    if (notification) {
+        // Auto hide after 4 seconds
+        setTimeout(() => {
+            notification.style.animation = "fadeOut 0.5s ease forwards";
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }, 4000);
+    }
+});

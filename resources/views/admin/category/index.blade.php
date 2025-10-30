@@ -2,95 +2,7 @@
 
 @section('content')
     <style>
-        .notification {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            min-width: 320px;
-            padding: 16px 24px;
-            border-radius: 12px;
-            color: #fff;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            z-index: 9999;
-            opacity: 0;
-            transform: translateY(-20px);
-            animation: slideIn 0.5s ease forwards;
-        }
-
-        .notification.success {
-            background: linear-gradient(135deg, #00b09b, #96c93d);
-        }
-
-        .notification.error {
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-        }
-
-        /* === Notification Content === */
-        .notification-content {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 15px;
-        }
-
-        .notification i {
-            font-size: 22px;
-        }
-
-        /* === Slide & Fade Animation === */
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* === Auto Dismiss Animation === */
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-        }
-
-        /* === Progress Bar === */
-        .progress-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 4px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.3);
-            overflow: hidden;
-        }
-
-        .progress-bar::after {
-            content: '';
-            display: block;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            animation: progress 4s linear forwards;
-        }
-
-        @keyframes progress {
-            from {
-                width: 100%;
-            }
-
-            to {
-                width: 0%;
-            }
-        }
-
+        
         button {
             border: none;
             outline: none;
@@ -190,15 +102,7 @@
             }
         }
     </style>
-    @if (session('success') || session('error'))
-        <div id="notification" class="notification {{ session('success') ? 'success' : 'error' }}">
-            <div class="notification-content">
-                <i class="bi {{ session('success') ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill' }}"></i>
-                <span>{{ session('success') ?? session('error') }}</span>
-            </div>
-            <div class="progress-bar"></div>
-        </div>
-    @endif
+   
 
 
     <div class="page-header">
@@ -370,17 +274,6 @@
             });
         });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const notification = document.getElementById("notification");
-            if (notification) {
-                // Auto hide after 4 seconds
-                setTimeout(() => {
-                    notification.style.animation = "fadeOut 0.5s ease forwards";
-                    setTimeout(() => {
-                        notification.remove();
-                    }, 500);
-                }, 4000);
-            }
-        });
+
     </script>
 @endsection

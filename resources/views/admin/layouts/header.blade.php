@@ -479,6 +479,16 @@
 
         <div class="page-wrapper">
             <div class="content">
+                @if (session('success') || session('error'))
+                    <div id="notification" class="notification {{ session('success') ? 'success' : 'error' }}">
+                        <div class="notification-content">
+                            <i
+                                class="bi {{ session('success') ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill' }}"></i>
+                            <span>{{ session('success') ?? session('error') }}</span>
+                        </div>
+                        <div class="progress-bar"></div>
+                    </div>
+                @endif
                 @yield('content')
             </div>
         </div>
@@ -502,6 +512,8 @@
     <script src="{{ asset('admin/assets/plugins/apexchart/chart-data.js') }}"></script>
 
     <script src="{{ asset('admin/assets/js/script.js') }}"></script>
+
+
 </body>
 
 </html>
