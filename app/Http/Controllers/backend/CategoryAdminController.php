@@ -74,7 +74,6 @@ public function update(Request $request, $id)
 
 public function store(Request $request)
 {
-    // Validate input
     $request->validate([
         'name' => 'required|string|max:255|unique:categories,name',
         'slug' => 'required|string|max:255|unique:categories,slug',
@@ -84,28 +83,31 @@ public function store(Request $request)
     ]);
 
     $category = new Category();
-
-    // Assign fields
     $category->name = $request->name;
     $category->slug = $request->slug;
     $category->description = $request->description;
-    $category->is_active = $request->has('is_active') ? 1 : 0;
+    $category->is_active = $request->boolean('is_active');
 
-    // Handle thumbnail upload as public URL
+    // ✅ Save thumbnail as public URL
     if ($request->hasFile('thumbnail')) {
         $file = $request->file('thumbnail');
         $filename = time().'_'.$file->getClientOriginalName();
         $destinationPath = public_path('uploads/categories');
-        $file->move($destinationPath, $filename);
 
-        // Save the public URL
+        // Ensure folder exists
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+
+        $file->move($destinationPath, $filename);
         $category->thumbnail = url('uploads/categories/'.$filename);
     }
 
     $category->save();
 
-    return redirect()->route('admin.categories.index')
+    return redirect()->route('category.admin.index')
                      ->with('success', 'Category created successfully!');
 }
+
 
 }
