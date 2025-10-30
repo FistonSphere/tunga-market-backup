@@ -40,7 +40,7 @@
                     <div class="form-card switch-card">
                         <label>Active Status</label>
                         <label class="switch">
-                            <input type="checkbox" name="is_active" value="1" >
+                            <input type="checkbox" name="is_active" value="0" >
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -59,9 +59,7 @@
                             <input type="file" id="thumbnail_input" name="thumbnail" accept="image/*">
                         </div>
                         <div id="thumbnailPreview" class="thumbnail-preview">
-                            {{-- @if($category->thumbnail) --}}
-                                <img src="" alt="Category Thumbnail">
-                            {{-- @endif --}}
+                                <img src="{{ asset('assets/images/no-image.png') }}" alt="Category Thumbnail">
                         </div>
                     </div>
 
