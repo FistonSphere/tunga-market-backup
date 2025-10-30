@@ -86,13 +86,18 @@
                             <option value="inactive" {{ $product->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
                         </select>
                     </div>
+                    <!-- Short Description -->
+                    <div class="form-group">
+                        <label>Short Description</label>
+                        <input type="text" name="short_description" placeholder="Write short description about this product..." value="{{ old('short_description', $product->short_description) }}">
+                    </div>
                 </div>
 
                 <!-- Description -->
                 <div class="form-group full-width">
                     <label>Description</label>
-                    <textarea name="description" rows="5"
-                        placeholder="Write short description about this product...">{{ old('description', $product->description) }}</textarea>
+                    <textarea name="long_description" rows="5"
+                        placeholder="Write long description about this product...">{{ old('long_description', $product->long_description) }}</textarea>
                 </div>
 
                 <!-- Main Image -->
@@ -409,6 +414,8 @@
         #lightboxModal button:hover {
             color: #ccc;
         }
+
+        
     </style>
 
     <script>
