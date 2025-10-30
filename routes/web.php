@@ -244,10 +244,10 @@ Route::get('/save-excel', 'saveExcel')->name('admin.products.saveExcel');
 Route::prefix('/category')->controller(CategoryAdminController::class)->group(function(){
 Route::get('/overview', 'index')->name('category.admin.index');
 Route::delete('/{id}/delete', 'destroy')->name('category.destroy');
-Route::get('/{id}/edit/', 'edit')->name('admin.category.edit');
 Route::get('/create', function(){
-return view('admin.category.create');
+    return view('admin.category.create');
 })->name('admin.category.create');
+Route::get('/{id}/edit/', 'edit')->name('admin.category.edit');
 Route::put('/{id}/update', 'update')->name('admin.category.update');
 Route::post('/store', 'store')->name('admin.category.store');
 
@@ -257,7 +257,14 @@ Route::post('/store', 'store')->name('admin.category.store');
 
 Route::prefix('/brand')->controller(BrandController::class)->group(function(){
 Route::get('/overview', 'index')->name('admin.brand.index');
-Route::delete('/{id}/delete', 'destroy')->name('category.destroy');
+Route::delete('/{id}/delete', 'destroy')->name('admin.brand.destroy');
+Route::get('/create', function(){
+return view('admin.category.create');
+})->name('admin.brand.create');
+Route::get('/{id}/edit/', 'edit')->name('admin.brand.edit');
+Route::put('/{id}/update', 'update')->name('admin.brand.update');
+
 });
+
 });
 // admin with no authentication middleware routes
