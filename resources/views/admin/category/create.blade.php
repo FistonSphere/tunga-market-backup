@@ -4,7 +4,7 @@
     <div class="edit-category-wrapper">
         <h1 class="page-title"><i class="bi bi-pencil-square"></i> New Category</h1>
 
-        <form action="{{ route('admin.category.store', $category->id) }}" method="POST" enctype="multipart/form-data"
+        <form action="{{ route('admin.category.store') }}" method="POST" enctype="multipart/form-data"
             class="category-form">
             @csrf
             @method('PUT')
@@ -18,13 +18,13 @@
                     <!-- Category Name -->
                     <div class="form-card">
                         <label for="name">Category Name</label>
-                        <input type="text" name="name" id="name" value="{{ old('name', $category->name) }}" required>
+                        <input type="text" name="name" id="name" required>
                     </div>
 
                     <!-- Slug -->
                     <div class="form-card">
                         <label for="slug">Slug</label>
-                        <input type="text" name="slug" id="slug" value="{{ old('slug', $category->slug) }}" required
+                        <input type="text" name="slug" id="slug" required
                             readonly>
                     </div>
 
@@ -33,14 +33,14 @@
                     <div class="form-card">
                         <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5"
-                            placeholder="Enter category description...">{{ old('description', $category->description) }}</textarea>
+                            placeholder="Enter category description..."></textarea>
                     </div>
 
                     <!-- Active Switch -->
                     <div class="form-card switch-card">
                         <label>Active Status</label>
                         <label class="switch">
-                            <input type="checkbox" name="is_active" value="1" {{ $category->is_active ? 'checked' : '' }}>
+                            <input type="checkbox" name="is_active" value="1" >
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -59,9 +59,9 @@
                             <input type="file" id="thumbnail_input" name="thumbnail" accept="image/*">
                         </div>
                         <div id="thumbnailPreview" class="thumbnail-preview">
-                            @if($category->thumbnail)
-                                <img src="{{ asset($category->thumbnail) }}" alt="Category Thumbnail">
-                            @endif
+                            {{-- @if($category->thumbnail) --}}
+                                <img src="" alt="Category Thumbnail">
+                            {{-- @endif --}}
                         </div>
                     </div>
 

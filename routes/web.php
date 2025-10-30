@@ -248,7 +248,7 @@ Route::get('/create', function(){
 return view('admin.category.create');
 })->name('admin.category.create');
 Route::put('/{id}/update', 'update')->name('admin.category.update');
-Route::post('/{id}/store', 'store')->name('admin.category.store');
+Route::post('/store', 'store')->name('admin.category.store');
 
 });
 });
