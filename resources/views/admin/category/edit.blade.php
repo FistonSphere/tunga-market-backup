@@ -297,22 +297,16 @@
 
         document.getElementById('name').addEventListener('input', function () {
             let nameValue = this.value.trim();
+
+            // Convert to URL-friendly slug
             let slug = nameValue
                 .toLowerCase()
-                .replace(/[^\w\s-]/g, '')
-                .replace(/\s+/g, '-')
-                .replace(/-+/g, '-');
+                .replace(/[^\w\s-]/g, '')   
+                .replace(/\s+/g, '-')       
+                .replace(/-+/g, '-');       
 
-            fetch(`/admin/category/check-slug?slug=${slug}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.exists) {
-                        slug += '-' + (data.count + 1);
-                    }
-                    document.getElementById('slug').value = slug;
-                });
+            document.getElementById('slug').value = slug;
         });
-
 
     </script>
 @endsection
