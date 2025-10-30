@@ -250,6 +250,12 @@ return view('admin.category.create');
 Route::put('/{id}/update', 'update')->name('admin.category.update');
 Route::post('/store', 'store')->name('admin.category.store');
 
+
 });
+
+/* The above code is defining a route prefix in a PHP Laravel application for URLs starting with
+'/brand'. This means that any routes defined within this prefix will have '/brand' prepended to
+their URLs. */
+// Route::prefix('/brand')
 });
 // admin with no authentication middleware routes
