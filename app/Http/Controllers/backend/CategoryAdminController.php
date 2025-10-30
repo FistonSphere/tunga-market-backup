@@ -74,40 +74,40 @@ public function update(Request $request, $id)
 
 public function store(Request $request)
 {
-    $request->validate([
-        'name' => 'required|string|max:255|unique:categories,name',
-        'slug' => 'required|string|max:255|unique:categories,slug',
-        'description' => 'nullable|string',
-        'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-        'is_active' => 'nullable|boolean',
-    ]);
+    try {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name',
+            'slug' => 'required|string|max:255|unique:categories,slug',
+            'description' => 'nullable|string',
+            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'is_active' => 'nullable|boolean',
+        ]);
 
-    $category = new Category();
-    $category->name = $request->name;
-    $category->slug = $request->slug;
-    $category->description = $request->description;
-    $category->is_active = $request->boolean('is_active');
+        $category = new Category();
+        $category->name = $request->name;
+        $category->slug = $request->slug;
+        $category->description = $request->description;
+        $category->is_active = $request->boolean('is_active');
 
-    // ✅ Save thumbnail as public URL
-    if ($request->hasFile('thumbnail')) {
-        $file = $request->file('thumbnail');
-        $filename = time().'_'.$file->getClientOriginalName();
-        $destinationPath = public_path('uploads/categories');
-
-        // Ensure folder exists
-        if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0755, true);
+        if ($request->hasFile('thumbnail')) {
+            $file = $request->file('thumbnail');
+            $filename = time().'_'.$file->getClientOriginalName();
+            $destinationPath = public_path('uploads/categories');
+            if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
+            $file->move($destinationPath, $filename);
+            $category->thumbnail = url('uploads/categories/'.$filename);
         }
 
-        $file->move($destinationPath, $filename);
-        $category->thumbnail = url('uploads/categories/'.$filename);
+        $category->save();
+
+        return redirect()->route('category.admin.index')
+                         ->with('success', '🎉 Category added successfully!');
+    } catch (\Exception $e) {
+        return redirect()->back()->withInput()
+                         ->with('error', '⚠️ Something went wrong: '.$e->getMessage());
     }
-
-    $category->save();
-
-    return redirect()->route('category.admin.index')
-                     ->with('success', 'Category created successfully!');
 }
+
 
 
 }
