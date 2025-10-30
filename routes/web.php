@@ -31,6 +31,7 @@ use App\Http\Controllers\WishlistController;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -245,6 +246,12 @@ Route::get('/overview', 'index')->name('category.admin.index');
 Route::delete('/{id}/delete', 'destroy')->name('category.destroy');
 Route::get('/{id}/edit/', 'edit')->name('admin.category.edit');
 Route::put('/{id}/update', 'update')->name('admin.category.update');
+Route::get('/check-slug', function(Request $request) {
+    $slug = $request->slug;
+    $count = Category::where('slug', 'LIKE', $slug.'%')->count();
+    return response()->json(['exists' => $count > 0, 'count' => $count]);
+});
+
 });
 });
 // admin with no authentication middleware routes

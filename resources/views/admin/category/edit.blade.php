@@ -303,7 +303,7 @@
                 .replace(/\s+/g, '-')
                 .replace(/-+/g, '-');
 
-            fetch(`/categories/check-slug?slug=${slug}`)
+            fetch(`/admin/category/check-slug?slug=${slug}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.exists) {
