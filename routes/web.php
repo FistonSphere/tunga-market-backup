@@ -259,7 +259,7 @@ Route::prefix('/brand')->controller(BrandController::class)->group(function(){
 Route::get('/overview', 'index')->name('admin.brand.index');
 Route::delete('/{id}/delete', 'destroy')->name('admin.brand.destroy');
 Route::get('/create', function(){
-return view('admin.category.create');
+return view('admin.brand.create');
 })->name('admin.brand.create');
 Route::get('/{id}/edit/', 'edit')->name('admin.brand.edit');
 Route::put('/{id}/update', 'update')->name('admin.brand.update');
