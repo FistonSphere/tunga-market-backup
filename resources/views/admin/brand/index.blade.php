@@ -40,7 +40,7 @@
         .btn-add:hover {
             background: linear-gradient(135deg, #2222a9, #001428);
             transform: translateY(-2px);
-            color:#fff;
+            color: #fff;
         }
 
         /* Search Bar */
@@ -176,6 +176,48 @@
             margin-top: 10px;
             font-size: 16px;
         }
+
+        /* Icon Buttons */
+        .brand-options {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-edit {
+            background: #fef5e7;
+            color: #e67e22;
+        }
+
+        .btn-edit:hover {
+            background: #e67e22;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .btn-delete {
+            background: #fdecea;
+            color: #e74c3c;
+        }
+
+        .btn-delete:hover {
+            background: #e74c3c;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        
     </style>
 
     </style>
@@ -200,27 +242,33 @@
         <div class="brand-grid" id="brandGrid">
             @forelse($brands as $brand)
                 <div class="brand-card" data-name="{{ strtolower($brand->name) }}">
+                    <!-- Logo -->
                     <div class="brand-logo">
                         <img src="{{ $brand->logo ? asset($brand->logo) : asset('assets/images/no-image.png') }}"
-                            alt="{{ $brand->name }}" style="border-radius:8px;">
+                            alt="{{ $brand->name }}">
                     </div>
+
+                    <!-- Info -->
                     <div class="brand-info">
                         <h3 class="brand-name">{{ $brand->name }}</h3>
-                        <p class="brand-description">
-                            {{$brand->description }}
-                        </p>
+                        <p class="brand-description">{{ $brand->description }}</p>
                     </div>
+
+                    <!-- Footer -->
                     <div class="brand-footer">
                         <span class="brand-date">Added: {{ $brand->created_at?->format('d M Y') ?? '-' }}</span>
-
                         <div class="brand-options">
-                            <a href="{{ route('admin.brand.edit', $brand->id) }}" class="btn-edit"><i
-                                    class="bi bi-pencil-square"></i></a>
+                            <a href="{{ route('admin.brand.edit', $brand->id) }}" class="btn-icon btn-edit" title="Edit Brand">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
                             <form action="{{ route('admin.brand.destroy', $brand->id) }}" method="POST"
-                                onsubmit="return confirm('Delete this brand?')" style="display:inline;">
+                                onsubmit="return confirm('Are you sure you want to delete this brand?')"
+                                style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn-delete"><i class="bi bi-trash3-fill"></i></button>
+                                <button type="submit" class="btn-icon btn-delete" title="Delete Brand">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -232,6 +280,7 @@
                 </div>
             @endforelse
         </div>
+
 
     </div>
 
