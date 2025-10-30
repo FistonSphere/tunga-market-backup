@@ -97,49 +97,69 @@
                         placeholder="Write short description about this product...">{{ old('description', $product->description) }}</textarea>
                 </div>
 
-                <!-- Gallery -->
-                <div class="col-span-2">
-                    <label class="form-label fw-semibold text-gray-700">Gallery</label>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
-                        @php
-                            $galleryImages = json_decode($product->gallery, true) ?? [];
-                        @endphp
+                <!-- Main Image -->
+                <div class="image-section">
+                    <label class="form-label"><i class="bi bi-image"></i> Main Image</label>
 
-                        @forelse($galleryImages as $image)
-                            <div class="relative group border rounded-lg overflow-hidden shadow hover:shadow-md transition">
-                                <img src="{{ asset($image) }}" alt="Product Image" class="object-cover"
-                                    style="width: 100px; height: 100px; border-radius: 8px;">
-                                <button type="button"
-                                    class="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition"
-                                    style="background: red;color:white;">
-                                    Remove
-                                </button>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px;">
+                        @if($product->main_image)
+                            <div class="image-card" onclick="openLightbox('{{ asset($product->main_image) }}')">
+                                <img src="{{ asset($product->main_image) }}" alt="Main Image">
                             </div>
-                        @empty
-                            <p class="text-gray-500 italic">No gallery images available.</p>
-                        @endforelse
+                        @else
+                            <div class="upload-box" style="width: 150px; height: 150px;">
+                                No image uploaded
+                            </div>
+                        @endif
                     </div>
 
-                    <div class="mt-3">
-                        <input type="file" name="gallery[]" multiple
-                            class="form-control rounded-lg border-gray-300 focus:ring-2 focus:ring-primary-500">
-                        <small class="text-gray-500">You can upload multiple images (jpg, png, jpeg)</small>
+                    <div style="margin-top: 15px;">
+                        <label style="font-size: 14px; color: #555;">Upload New Main Image</label>
+                        <div class="upload-box">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                            <p>Click or drag to upload</p>
+                            <input type="file" name="main_image">
+                        </div>
                     </div>
                 </div>
 
-                <!-- Main Image -->
-                <div class="col-span-2">
-                    <label class="form-label fw-semibold text-gray-700">Main Image</label>
-                    <div class="flex items-center gap-4 mt-2">
-                        @if($product->main_image)
-                            <img src="{{ asset($product->main_image) }}" alt="Main Image" class="object-cover rounded-lg shadow"
-                                style="width:100px; height: 100px;object-fit:cover;border-radius:8px;">
-                        @else
-                            <span class="text-gray-400 italic">No main image uploaded.</span>
-                        @endif
+
+                <!-- Gallery -->
+                <div class="image-section">
+                    <label class="form-label"><i class="bi bi-images"></i> Product Gallery</label>
+
+                    @php
+                        $galleryImages = json_decode($product->gallery, true) ?? [];
+                    @endphp
+
+                    @if(count($galleryImages) > 0)
+                        <div class="gallery-grid">
+                            @foreach($galleryImages as $image)
+                                <div class="image-card" onclick="openLightbox('{{ asset($image) }}')">
+                                    <img src="{{ asset($image) }}" alt="Gallery Image">
+                                    <button type="button">Remove</button>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <p class="no-images">No gallery images available.</p>
+                    @endif
+
+                    <div style="margin-top: 20px;">
+                        <label style="font-size: 14px; color: #555;">Add More Images</label>
+                        <div class="upload-box">
+                            <i class="bi bi-cloud-plus"></i>
+                            <p>Click or drag to upload multiple images</p>
+                            <input type="file" name="gallery[]" multiple>
+                        </div>
                     </div>
-                    <input type="file" name="main_image"
-                        class="form-control mt-3 rounded-lg border-gray-300 focus:ring-2 focus:ring-primary-500">
+                </div>
+
+
+                <!-- Lightbox Modal -->
+                <div id="lightboxModal">
+                    <button onclick="closeLightbox()">&times;</button>
+                    <img id="lightboxImage" src="" alt="Preview">
                 </div>
         </div>
 
@@ -415,5 +435,13 @@
             document.getElementById('slug').value = name;
             document.getElementById('sku').value = 'SKU-' + Math.random().toString(36).substring(2, 8).toUpperCase();
         });
+
+        function openLightbox(imageUrl) {
+            document.getElementById('lightboxImage').src = imageUrl;
+            document.getElementById('lightboxModal').style.display = 'flex';
+        }
+        function closeLightbox() {
+            document.getElementById('lightboxModal').style.display = 'none';
+        }
     </script>
 @endsection
