@@ -263,7 +263,7 @@ return view('admin.brand.create');
 })->name('admin.brand.create');
 Route::get('/{id}/edit/', 'edit')->name('admin.brand.edit');
 Route::put('/{id}/update', 'update')->name('admin.brand.update');
-
+Route::post('/store', 'store')->name('admin.brand.store');
 });
 
 });

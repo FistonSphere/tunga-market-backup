@@ -200,23 +200,17 @@
             color: #e67e22;
         }
 
-        .btn-edit:hover {
-            background: #e67e22;
-            color: #fff;
-            transform: scale(1.05);
-        }
 
         .btn-delete {
             background: #fdecea;
             color: #e74c3c;
         }
-
-        .btn-delete:hover {
-            background: #e74c3c;
-            color: #fff;
-            transform: scale(1.05);
-        }
-
+.brand-page-container{
+    background:white;
+    border-radius:8px;
+    border: 1px solid #ccc;
+    padding:20px;
+}
         
     </style>
 
@@ -245,7 +239,7 @@
                     <!-- Logo -->
                     <div class="brand-logo">
                         <img src="{{ $brand->logo ? asset($brand->logo) : asset('assets/images/no-image.png') }}"
-                            alt="{{ $brand->name }}">
+                            alt="{{ $brand->name }}" style="border-radius: 8px">
                     </div>
 
                     <!-- Info -->
@@ -259,7 +253,7 @@
                         <span class="brand-date">Added: {{ $brand->created_at?->format('d M Y') ?? '-' }}</span>
                         <div class="brand-options">
                             <a href="{{ route('admin.brand.edit', $brand->id) }}" class="btn-icon btn-edit" title="Edit Brand">
-                                <i class="bi bi-pencil-square"></i>
+                                <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
                             </a>
                             <form action="{{ route('admin.brand.destroy', $brand->id) }}" method="POST"
                                 onsubmit="return confirm('Are you sure you want to delete this brand?')"
@@ -267,7 +261,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-icon btn-delete" title="Delete Brand">
-                                    <i class="bi bi-trash3-fill"></i>
+                                    <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
                                 </button>
                             </form>
                         </div>
