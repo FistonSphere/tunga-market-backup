@@ -126,7 +126,7 @@
                     <label class="form-label"><i class="bi bi-images"></i> Product Gallery</label>
 
                     @php
-                        $galleryImages = json_decode($product->gallery, true) ?? [];
+                         $galleryImages = json_decode($product->gallery ?? '[]', true) ?? [];
                     @endphp
 
                     <div id="galleryGrid" class="gallery-grid">
@@ -283,7 +283,6 @@
             gap: 8px;
         }
 
-        /* Upload Area */
         .upload-box {
             position: relative;
             border: 2px dashed #ccc;
@@ -321,7 +320,6 @@
             cursor: pointer;
         }
 
-        /* Image Cards */
         .image-card {
             position: relative;
             border-radius: 14px;
@@ -344,20 +342,6 @@
             border-radius: 14px;
         }
 
-        /* Hover Overlay */
-        .image-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .image-card:hover::after {
-            opacity: 1;
-        }
-
         .image-card button {
             position: absolute;
             top: 10px;
@@ -376,7 +360,6 @@
             opacity: 1;
         }
 
-        /* Grid Layout */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -390,7 +373,6 @@
             margin-top: 10px;
         }
 
-        /* Lightbox Modal */
         #lightboxModal {
             display: none;
             position: fixed;
@@ -465,9 +447,9 @@
                     const div = document.createElement('div');
                     div.classList.add('image-card');
                     div.innerHTML = `
-                            <img src="${ev.target.result}" alt="Preview Image">
-                            <button type="button" class="remove-image-btn" onclick="this.closest('.image-card').remove()">Remove</button>
-                        `;
+                                <img src="${ev.target.result}" alt="Preview Image">
+                                <button type="button" class="remove-image-btn" onclick="this.closest('.image-card').remove()">Remove</button>
+                            `;
                     galleryGrid.appendChild(div);
                 };
                 reader.readAsDataURL(file);
