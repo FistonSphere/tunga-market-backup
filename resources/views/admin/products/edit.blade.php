@@ -89,7 +89,9 @@
                     <!-- Short Description -->
                     <div class="form-group">
                         <label>Short Description</label>
-                        <input type="text" name="short_description" placeholder="Write short description about this product..." value="{{ old('short_description', $product->short_description) }}">
+                        <input type="text" name="short_description"
+                            placeholder="Write short description about this product..."
+                            value="{{ old('short_description', $product->short_description) }}">
                     </div>
                 </div>
 
@@ -168,6 +170,94 @@
                         <img id="lightboxImage" src="" alt="Preview">
                     </div>
                 </div>
+
+                <!-- ============================= -->
+                <!--   Product Extra Information   -->
+                <!-- ============================= -->
+                <div class="extra-info-section">
+                    <h4 class="section-title"><i class="bi bi-sliders"></i> Additional Product Details</h4>
+
+                    <div class="form-grid">
+                        <!-- Features -->
+                        <div class="form-group">
+                            <label for="features" class="form-label"><i class="bi bi-stars"></i> Features</label>
+                            <select id="features" name="features[]" multiple>
+                                @php
+                                    $selectedFeatures = json_decode($product->features ?? '[]', true);
+                                @endphp
+                                @if(is_array($selectedFeatures))
+                                    @foreach($selectedFeatures as $feature)
+                                        <option value="{{ $feature }}" selected>{{ $feature }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+
+                        <!-- Specifications -->
+                        <div class="form-group">
+                            <label for="specifications" class="form-label"><i class="bi bi-gear"></i> Specifications</label>
+                            <select id="specifications" name="specifications[]" multiple>
+                                @php
+                                    $selectedSpecs = json_decode($product->specifications ?? '[]', true);
+                                @endphp
+                                @if(is_array($selectedSpecs))
+                                    @foreach($selectedSpecs as $spec)
+                                        <option value="{{ $spec }}" selected>{{ $spec }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="form-group">
+                            <label for="tags" class="form-label"><i class="bi bi-tags"></i> Tags</label>
+                            <select id="tags" name="tags[]" multiple>
+                                @php
+                                    $selectedTags = json_decode($product->tags ?? '[]', true);
+                                @endphp
+                                @if(is_array($selectedTags))
+                                    @foreach($selectedTags as $tag)
+                                        <option value="{{ $tag }}" selected>{{ $tag }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+
+                        <!-- Toggle Fields -->
+                        <div class="toggle-group">
+                            <label class="switch-label">Has 3D Model</label>
+                            <label class="switch">
+                                <input type="checkbox" name="has_3d_model" {{ $product->has_3d_model ? 'checked' : '' }}>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-group">
+                            <label class="switch-label">Is Featured</label>
+                            <label class="switch">
+                                <input type="checkbox" name="is_featured" {{ $product->is_featured ? 'checked' : '' }}>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-group">
+                            <label class="switch-label">Is New</label>
+                            <label class="switch">
+                                <input type="checkbox" name="is_new" {{ $product->is_new ? 'checked' : '' }}>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-group">
+                            <label class="switch-label">Is Best Seller</label>
+                            <label class="switch">
+                                <input type="checkbox" name="is_best_seller" {{ $product->is_best_seller ? 'checked' : '' }}>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="form-actions mt-4">
                     <button type="submit" class="btn btn-primary-gradient">Save Changes</button>
@@ -414,8 +504,6 @@
         #lightboxModal button:hover {
             color: #ccc;
         }
-
-        
     </style>
 
     <script>
@@ -486,9 +574,9 @@
                         div.classList.add('image-card');
                         div.setAttribute('data-index', galleryData.length - 1);
                         div.innerHTML = `
-                            <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
-                            <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
-                        `;
+                                <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
+                                <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
+                            `;
                         galleryGrid.appendChild(div);
                     };
                     reader.readAsDataURL(file);
