@@ -1,6 +1,13 @@
 @extends('admin.layouts.header')
 
 @section('content')
+<style>
+    button{
+        border: none;
+        background: none;
+        
+    }
+</style>
     <div class="page-header">
         <div class="page-title">
             <h4>Product Category list</h4>
