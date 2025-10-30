@@ -7,7 +7,6 @@
         <form action="{{ route('admin.category.store') }}" method="POST" enctype="multipart/form-data"
             class="category-form">
             @csrf
-            @method('PUT')
 
             <div class="form-grid">
 
