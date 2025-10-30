@@ -93,6 +93,17 @@
                             placeholder="Write short description about this product..."
                             value="{{ old('short_description', $product->short_description) }}">
                     </div>
+                    <!-- Unit Type -->
+                    <div class="form-group">
+                        <label>Unit Type</label>
+                        <select name="unit_id" id="">
+                            @foreach ($units as $unit)
+                                <option value="{{ $unit->id }}" {{ $unit->id == $product->unit_id ? 'selected' : '' }}>
+                                    {{ $unit->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Description -->
@@ -187,9 +198,11 @@
                             <label for="specifications_input" class="form-label"><i class="bi bi-gear"></i>
                                 Specifications</label>
                             <input type="text" id="specifications_input" name="specifications"
-                                value='{{ $product->specifications ?? "{}" }}'
+                                value='{{ $product->specifications ?? "{}" }}' style="min-width: 30px;"
                                 placeholder="Type 'Battery: 30 Hours' and press Enter" />
                         </div>
+                    </div>
+                    <div class="form-grid">
 
                         <!-- Tags -->
                         <div class="form-group">
@@ -350,10 +363,10 @@
 
 
         /* .form-group label {
-                            font-weight: 600;
-                            color: #333;
-                            margin-bottom: 6px;
-                        } */
+                                    font-weight: 600;
+                                    color: #333;
+                                    margin-bottom: 6px;
+                                } */
 
         .form-group input,
         .form-group select,
@@ -640,9 +653,9 @@
                         div.classList.add('image-card');
                         div.setAttribute('data-index', galleryData.length - 1);
                         div.innerHTML = `
-                                                            <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
-                                                            <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
-                                                        `;
+                                                                    <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
+                                                                    <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
+                                                                `;
                         galleryGrid.appendChild(div);
                     };
                     reader.readAsDataURL(file);
