@@ -664,9 +664,9 @@
                         div.classList.add('image-card');
                         div.setAttribute('data-index', galleryData.length - 1);
                         div.innerHTML = `
-                                        <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
-                                        <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
-                                    `;
+                                            <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
+                                            <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
+                                        `;
                         galleryGrid.appendChild(div);
                     };
                     reader.readAsDataURL(file);
@@ -678,6 +678,16 @@
 
         });
 
+        document.addEventListener("DOMContentLoaded", function () {
+            const choicesOptions = {
+                removeItemButton: true,
+                placeholderValue: 'Type and press Enter...',
+                searchEnabled: true,
+            };
 
+            new Choices("#features", choicesOptions);
+            new Choices("#specifications", choicesOptions);
+            new Choices("#tags", choicesOptions);
+        });
     </script>
 @endsection
