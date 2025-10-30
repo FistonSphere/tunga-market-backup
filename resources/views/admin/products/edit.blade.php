@@ -420,66 +420,79 @@
             document.getElementById('sku').value = 'SKU-' + Math.random().toString(36).substring(2, 8).toUpperCase();
         });
 
-        // ===== Lightbox Functions =====
-        function openLightbox(imageUrl) {
-            document.getElementById('lightboxImage').src = imageUrl;
-            document.getElementById('lightboxModal').style.display = 'flex';
-        }
+        document.addEventListener("DOMContentLoaded", () => {
 
-        function closeLightbox() {
-            document.getElementById('lightboxModal').style.display = 'none';
-        }
+            // ===== Lightbox =====
+            window.openLightbox = (imageUrl) => {
+                document.getElementById('lightboxImage').src = imageUrl;
+                document.getElementById('lightboxModal').style.display = 'flex';
+            }
 
-        // ===== Handle Gallery Removal =====
-        function removeImage(event, index) {
-            event.stopPropagation();
-            let galleryData = JSON.parse(document.getElementById('gallery_json').value || '[]');
-            galleryData.splice(index, 1); // Remove only that specific index
-            document.getElementById('gallery_json').value = JSON.stringify(galleryData);
+            window.closeLightbox = () => {
+                document.getElementById('lightboxModal').style.display = 'none';
+            }
 
-            // Remove from DOM
-            event.target.closest('.image-card').remove();
-        }
-
-        // ===== Preview for New Gallery Images =====
-        document.getElementById('gallery_input').addEventListener('change', function (e) {
-            const files = e.target.files;
+            // ===== Gallery Logic =====
+            const galleryInput = document.getElementById('gallery_input');
             const galleryGrid = document.getElementById('galleryGrid');
+            const galleryJsonInput = document.getElementById('gallery_json');
 
-            for (let file of files) {
-                const reader = new FileReader();
-                reader.onload = function (ev) {
-                    const div = document.createElement('div');
-                    div.classList.add('image-card');
-                    div.innerHTML = `
-                                        <img src="${ev.target.result}" alt="Preview Image">
-                                        <button type="button" class="remove-image-btn" onclick="this.closest('.image-card').remove()">Remove</button>
-                                    `;
-                    galleryGrid.appendChild(div);
-                };
-                reader.readAsDataURL(file);
+            let galleryData = JSON.parse(galleryJsonInput.value || '[]');
+
+            // Remove Image Function
+            window.removeImage = function (event, index) {
+                event.stopPropagation();
+
+                // Remove specific image
+                galleryData.splice(index, 1);
+                galleryJsonInput.value = JSON.stringify(galleryData);
+
+                // Remove from DOM
+                event.target.closest('.image-card').remove();
+
+                // Reindex remaining images
+                updateGalleryIndices();
             }
-        });
 
-        // ===== Preview for Main Image Upload =====
-        document.getElementById('main_image_input').addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            const previewContainer = document.getElementById('mainImagePreview');
-            previewContainer.innerHTML = ''; // Clear existing preview
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (ev) {
-                    const div = document.createElement('div');
-                    div.classList.add('image-card');
-                    div.innerHTML = `<img src="${ev.target.result}" alt="Main Image Preview">`;
-                    previewContainer.appendChild(div);
-                };
-                reader.readAsDataURL(file);
+            function updateGalleryIndices() {
+                document.querySelectorAll('.image-card').forEach((card, newIndex) => {
+                    card.setAttribute('data-index', newIndex);
+                    const btn = card.querySelector('.remove-image-btn');
+                    btn.setAttribute('onclick', `removeImage(event, ${newIndex})`);
+                });
             }
+
+            // Handle File Upload & Preview
+            galleryInput.addEventListener('change', function (e) {
+                const files = Array.from(e.target.files);
+
+                files.forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function (ev) {
+                        const newImage = ev.target.result;
+
+                        // Add new image to galleryData
+                        galleryData.push(newImage);
+                        galleryJsonInput.value = JSON.stringify(galleryData);
+
+                        // Create preview card
+                        const div = document.createElement('div');
+                        div.classList.add('image-card');
+                        div.setAttribute('data-index', galleryData.length - 1);
+                        div.innerHTML = `
+                        <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
+                        <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
+                    `;
+                        galleryGrid.appendChild(div);
+                    };
+                    reader.readAsDataURL(file);
+                });
+
+                // Reset input
+                galleryInput.value = '';
+            });
+
         });
-
-
 
 
     </script>
