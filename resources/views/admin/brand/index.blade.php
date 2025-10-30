@@ -76,30 +76,20 @@
                                 </td>
                                 <td>
                                     <a href="javascript:void(0);" class="product-img">
-                                        <img src="{{ $category->thumbnail ?? asset('assets/images/no-image.png') }}"
-                                            style="border-radius:8px; object-fit: cover;" alt="{{ $category->name }}" />
+                                        <img src="{{ $brand->logo ?? asset('assets/images/no-image.png') }}"
+                                            style="border-radius:8px; object-fit: cover;" alt="{{ $brand->name }}" />
                                     </a>
                                 </td>
                                 <td class="productimgname">
                                     <a href="javascript:void(0);">{{ $brand->name }}</a>
                                 </td>
-                                <td>{{ $category->slug }}</td>
-                                <td>{{ $category->description ?? '-' }}</td>
+                                <td>{{ $brand->description ?? '-' }}</td>
                                 <td>
-                                    @if ($category->is_active == 1)
-                                        Active
-
-                                    @else
-                                        In Active
-                                    @endif
-
-                                </td>
-                                <td>
-                                    <a class="me-3" href="{{ route('admin.category.edit', $category->id) }}">
+                                    <a class="me-3" href="{{ route('admin.category.edit', $brand->id) }}">
                                         <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
                                     </a>
-                                    <button type="button" class="deleteBtn confirm-text" data-id="{{ $category->id }}"
-                                        data-name="{{ $category->name }}">
+                                    <button type="button" class="deleteBtn confirm-text" data-id="{{ $brand->id }}"
+                                        data-name="{{ $brand->name }}">
                                         <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
                                     </button>
                                 </td>
