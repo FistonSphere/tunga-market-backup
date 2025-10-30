@@ -9,11 +9,8 @@
             @csrf
 
             <div class="form-grid">
-
                 <!-- Left Column -->
                 <div class="form-left">
-
-                    <!-- Category Name -->
                     <!-- Category Name -->
                     <div class="form-card">
                         <label for="name">Category Name</label>
@@ -23,10 +20,8 @@
                     <!-- Slug -->
                     <div class="form-card">
                         <label for="slug">Slug</label>
-                        <input type="text" name="slug" id="slug" required
-                            readonly>
+                        <input type="text" name="slug" id="slug" required readonly>
                     </div>
-
 
                     <!-- Description -->
                     <div class="form-card">
@@ -39,40 +34,40 @@
                     <div class="form-card switch-card">
                         <label>Active Status</label>
                         <label class="switch">
-                            <input type="checkbox" name="is_active" value="0" >
+                            <input type="checkbox" name="is_active" value="1">
                             <span class="slider"></span>
                         </label>
                     </div>
-
                 </div>
 
                 <!-- Right Column -->
                 <div class="form-right">
-
                     <!-- Thumbnail Upload -->
                     <div class="form-card upload-card">
                         <label>Category Thumbnail</label>
                         <div class="upload-box" onclick="document.getElementById('thumbnail_input').click()">
                             <i class="bi bi-cloud-arrow-up"></i>
                             <p>Click or drag to upload</p>
-                            <input type="file" id="thumbnail_input" name="thumbnail" accept="image/*">
+                            <input type="file" id="thumbnail_input" name="thumbnail" accept="image/*"
+                                style="display: none;">
                         </div>
                         <div id="thumbnailPreview" class="thumbnail-preview">
-                                <img src="{{ asset('assets/images/no-image.png') }}" alt="Category Thumbnail">
+                            <img src="{{ asset('assets/images/no-image.png') }}" alt="Category Thumbnail"
+                                id="thumbnail_img_preview">
                         </div>
                     </div>
-
                 </div>
-
             </div>
 
             <!-- Actions -->
             <div class="form-actions">
-                <button type="submit" class="btn-save">Update Category</button>
-                <a href="{{ route('category.admin.index') }}" class="btn-cancel">Cancel</a>
+                <button type="submit" class="btn-save">Create Category</button>
+                <a href="{{ route('admin.categories.index') }}" class="btn-cancel">Cancel</a>
             </div>
-
         </form>
+
+
+
     </div>
     <style>
         /* === Layout & Typography === */
@@ -274,33 +269,26 @@
     </style>
 
     <script>
-        document.getElementById('thumbnail_input').addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            const preview = document.getElementById('thumbnailPreview');
-            preview.innerHTML = '';
+        // ✅ Real-time slug generation
+        document.getElementById('name').addEventListener('input', function () {
+            const name = this.value.trim();
+            const slug = name.toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-');
+            document.getElementById('slug').value = slug;
+        });
+
+        // ✅ Thumbnail preview
+        document.getElementById('thumbnail_input').addEventListener('change', function (event) {
+            const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function (ev) {
-                    const img = document.createElement('img');
-                    img.src = ev.target.result;
-                    preview.appendChild(img);
+                reader.onload = function (e) {
+                    document.getElementById('thumbnail_img_preview').src = e.target.result;
                 }
                 reader.readAsDataURL(file);
             }
         });
 
-        document.getElementById('name').addEventListener('input', function () {
-            let nameValue = this.value.trim();
-
-            // Convert to URL-friendly slug
-            let slug = nameValue
-                .toLowerCase()
-                .replace(/[^\w\s-]/g, '')   
-                .replace(/\s+/g, '-')       
-                .replace(/-+/g, '-');       
-
-            document.getElementById('slug').value = slug;
-        });
-
-    </script>
 @endsection
