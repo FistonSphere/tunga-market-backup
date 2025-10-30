@@ -241,7 +241,7 @@
                             <ul>
                                 <li><a href="{{ route('admin.product.listing') }}">Product List</a></li>
                                 <li><a href="{{ route('category.admin.index') }}">Category List</a></li>
-                                <li><a href="brandlist.html">Brand List</a></li>
+                                <li><a href="{{route('admin.brand.index') }}">Brand List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">

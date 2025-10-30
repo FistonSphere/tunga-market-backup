@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\CategoryAdminController;
 use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
@@ -253,9 +254,9 @@ Route::post('/store', 'store')->name('admin.category.store');
 
 });
 
-/* The above code is defining a route prefix in a PHP Laravel application for URLs starting with
-'/brand'. This means that any routes defined within this prefix will have '/brand' prepended to
-their URLs. */
-// Route::prefix('/brand')
+
+Route::prefix('/brand')->controller(BrandController::class)->group(function(){
+Route::get('/overview', 'index')->name('admin.brand.index');
+});
 });
 // admin with no authentication middleware routes
