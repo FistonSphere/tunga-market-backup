@@ -121,7 +121,7 @@
                     </div>
                 </div>
 
-                <!-- Gallery -->
+                <!-- GALLERY SECTION -->
                 <div class="image-section">
                     <label class="form-label"><i class="bi bi-images"></i> Product Gallery</label>
 
@@ -129,10 +129,15 @@
                         $galleryImages = json_decode($product->gallery ?? '[]', true) ?? [];
                     @endphp
 
+                    <!-- Hidden input to store gallery JSON -->
+                    <input type="hidden" name="gallery" id="gallery_json" value='@json($galleryImages)'>
+
+                    <!-- Gallery Grid -->
                     <div id="galleryGrid" class="gallery-grid">
                         @foreach($galleryImages as $index => $image)
-                            <div class="image-card" data-index="{{ $index }}" onclick="openLightbox('{{ asset($image) }}')">
-                                <img src="{{ asset($image) }}" alt="Gallery Image">
+                            <div class="image-card" data-index="{{ $index }}">
+                                <img src="{{ asset($image) }}" alt="Gallery Image"
+                                    onclick="openLightbox('{{ asset($image) }}')">
                                 <button type="button" class="remove-image-btn"
                                     onclick="removeImage(event, {{ $index }})">Remove</button>
                             </div>
@@ -143,24 +148,21 @@
                         <p class="no-images">No gallery images available.</p>
                     @endif
 
-                    <div style="margin-top: 20px;">
-                        <label style="font-size: 14px; color: #555;">Add More Images</label>
+                    <!-- Upload Box -->
+                    <div class="upload-wrapper">
+                        <label class="upload-label">Add More Images</label>
                         <div class="upload-box">
                             <i class="bi bi-cloud-plus"></i>
                             <p>Click or drag to upload multiple images</p>
-                            <input type="file" name="gallery[]" id="gallery_input" multiple>
+                            <input type="file" name="gallery_files[]" id="gallery_input" multiple>
                         </div>
                     </div>
-
 
                     <!-- Lightbox Modal -->
                     <div id="lightboxModal">
                         <button onclick="closeLightbox()">&times;</button>
                         <img id="lightboxImage" src="" alt="Preview">
                     </div>
-
-                    <!-- Hidden input used by backend -->
-                    <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
                 </div>
 
                 <div class="form-actions mt-4">
@@ -450,9 +452,9 @@
                     const div = document.createElement('div');
                     div.classList.add('image-card');
                     div.innerHTML = `
-                                    <img src="${ev.target.result}" alt="Preview Image">
-                                    <button type="button" class="remove-image-btn" onclick="this.closest('.image-card').remove()">Remove</button>
-                                `;
+                                        <img src="${ev.target.result}" alt="Preview Image">
+                                        <button type="button" class="remove-image-btn" onclick="this.closest('.image-card').remove()">Remove</button>
+                                    `;
                     galleryGrid.appendChild(div);
                 };
                 reader.readAsDataURL(file);
@@ -476,5 +478,9 @@
                 reader.readAsDataURL(file);
             }
         });
+
+
+
+
     </script>
 @endsection
