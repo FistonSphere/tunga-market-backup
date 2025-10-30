@@ -5,7 +5,7 @@
     button{
         border: none;
         background: none;
-        
+
     }
 </style>
     <div class="page-header">
@@ -142,13 +142,13 @@
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function (e) {
                     e.preventDefault();
-                    const categoryId = this.getAttribute('data-id');
-                    const categoryName = this.getAttribute('data-name');
+                    const brandId = this.getAttribute('data-id');
+                    const brandName = this.getAttribute('data-name');
                     // Update confirmation message
-                    deleteMessage.textContent = `Are you sure you want to delete "${categoryName}"?`;
+                    deleteMessage.textContent = `Are you sure you want to delete "${brandName}"?`;
 
                     // Update form action dynamically
-                    deleteForm.action = `/admin/category/${categoryId}/delete`;
+                    deleteForm.action = `/admin/brand/${brandId}/delete`;
 
                     // Show modal
                     deleteModal.style.display = 'flex';

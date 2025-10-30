@@ -257,6 +257,7 @@ Route::post('/store', 'store')->name('admin.category.store');
 
 Route::prefix('/brand')->controller(BrandController::class)->group(function(){
 Route::get('/overview', 'index')->name('admin.brand.index');
+Route::delete('/{id}/delete', 'destroy')->name('category.destroy');
 });
 });
 // admin with no authentication middleware routes
