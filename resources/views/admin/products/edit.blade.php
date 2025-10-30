@@ -277,11 +277,101 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
 
+        .extra-info-section {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
         }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        /* Modern toggle switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            background-color: #ccc;
+            border-radius: 24px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transition: 0.3s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        input:checked+.slider {
+            background-color: #ff9800;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(24px);
+        }
+
+        .switch-label {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
 
         .form-group label {
             font-weight: 600;
@@ -574,9 +664,9 @@
                         div.classList.add('image-card');
                         div.setAttribute('data-index', galleryData.length - 1);
                         div.innerHTML = `
-                                <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
-                                <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
-                            `;
+                                        <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
+                                        <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
+                                    `;
                         galleryGrid.appendChild(div);
                     };
                     reader.readAsDataURL(file);
