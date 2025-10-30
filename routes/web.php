@@ -246,7 +246,7 @@ Route::delete('/{id}/delete', 'destroy')->name('category.destroy');
 Route::get('/{id}/edit/', 'edit')->name('admin.category.edit');
 Route::get('/create', function(){
 return view('admin.category.create');
-});
+})->name('admin.category.create');
 Route::put('/{id}/update', 'update')->name('admin.category.update');
 Route::post('/{id}/store', 'store')->name('admin.category.store');
 

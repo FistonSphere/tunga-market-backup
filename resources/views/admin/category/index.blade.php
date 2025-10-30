@@ -107,7 +107,7 @@
             <h6>View/Search product Category</h6>
         </div>
         <div class="page-btn">
-            <a href="addcategory.html" class="btn btn-added">
+            <a href="{{ route('admin.category.create') }}" class="btn btn-added">
                 <img src="{{ asset('admin/assets/img/icons/plus.svg') }}" class="me-1" alt="img" />Add Category
             </a>
         </div>
