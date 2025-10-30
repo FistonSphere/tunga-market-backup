@@ -126,7 +126,7 @@
                     <label class="form-label"><i class="bi bi-images"></i> Product Gallery</label>
 
                     @php
-                         $galleryImages = json_decode($product->gallery ?? '[]', true) ?? [];
+                        $galleryImages = json_decode($product->gallery ?? '[]', true) ?? [];
                     @endphp
 
                     <div id="galleryGrid" class="gallery-grid">
@@ -158,6 +158,9 @@
                         <button onclick="closeLightbox()">&times;</button>
                         <img id="lightboxImage" src="" alt="Preview">
                     </div>
+
+                    <!-- Hidden input used by backend -->
+                    <input type="hidden" name="gallery" id="galleryInputHidden" value='@json($galleryImages)'>
                 </div>
 
                 <div class="form-actions mt-4">
@@ -447,9 +450,9 @@
                     const div = document.createElement('div');
                     div.classList.add('image-card');
                     div.innerHTML = `
-                                <img src="${ev.target.result}" alt="Preview Image">
-                                <button type="button" class="remove-image-btn" onclick="this.closest('.image-card').remove()">Remove</button>
-                            `;
+                                    <img src="${ev.target.result}" alt="Preview Image">
+                                    <button type="button" class="remove-image-btn" onclick="this.closest('.image-card').remove()">Remove</button>
+                                `;
                     galleryGrid.appendChild(div);
                 };
                 reader.readAsDataURL(file);
