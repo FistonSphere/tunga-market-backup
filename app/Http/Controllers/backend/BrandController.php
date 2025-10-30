@@ -13,4 +13,5 @@ class BrandController extends Controller
     $brands=Brand::all();
     return view('admin.brand.index', compact('brands'));
    }
+   
 }
