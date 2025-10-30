@@ -53,4 +53,17 @@ class BrandController extends Controller
         return redirect()->route('admin.brand.index')
             ->with('success', '🎉 Brand "' . $brand->name . '" has been added successfully!');
     }
+
+      public function destroy($id)
+{
+    $brand = Brand::findOrFail($id);
+
+    // Optionally delete image files if you store them locally
+    if ($brand->logo && file_exists(public_path('storage/' . $brand->logo))) {
+        unlink(public_path('storage/' . $brand->logo));
+    }
+    $brand->delete();
+
+    return redirect()->route('brand.admin.index')->with('success', 'brand deleted successfully!');
+}
 }
