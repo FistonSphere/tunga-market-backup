@@ -135,9 +135,8 @@
                     <!-- Gallery Grid -->
                     <div id="galleryGrid" class="gallery-grid">
                         @foreach($galleryImages as $index => $image)
-                            <div class="image-card" data-index="{{ $index }}">
-                                <img src="{{ asset($image) }}" alt="Gallery Image"
-                                    onclick="openLightbox('{{ asset($image) }}')">
+                            <div class="image-card" data-index="{{ $index }}" onclick="openLightbox('{{ asset($image) }}')">
+                                <img src="{{ asset($image) }}" alt="Gallery Image">
                                 <button type="button" class="remove-image-btn"
                                     onclick="removeImage(event, {{ $index }})">Remove</button>
                             </div>
@@ -480,9 +479,9 @@
                         div.classList.add('image-card');
                         div.setAttribute('data-index', galleryData.length - 1);
                         div.innerHTML = `
-                        <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
-                        <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
-                    `;
+                            <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
+                            <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
+                        `;
                         galleryGrid.appendChild(div);
                     };
                     reader.readAsDataURL(file);
