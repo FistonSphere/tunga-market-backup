@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="edit-category-wrapper">
-        <h1 class="page-title"><i class="bi bi-pencil-square"></i> Edit Category</h1>
+        <h1 class="page-title"><i class="bi bi-pencil-square"></i> New Category</h1>
 
-        <form action="{{ route('admin.category.update', $category->id) }}" method="POST" enctype="multipart/form-data"
+        <form action="{{ route('admin.category.store', $category->id) }}" method="POST" enctype="multipart/form-data"
             class="category-form">
             @csrf
             @method('PUT')
