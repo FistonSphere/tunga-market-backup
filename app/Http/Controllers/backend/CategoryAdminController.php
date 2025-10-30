@@ -37,51 +37,39 @@ public function edit($id)
 
 public function update(Request $request, $id)
 {
-    Log::info('🔵 category update started', ['category_id' => $id]);
     $category = Category::findOrFail($id);
 
-    $validated = $request->validate([
-        'name'              => 'required|string|max:255',
-        'thumbnail'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        'slug' =>'required|string',
+    // Validate input
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'slug' => 'required|string|max:255|unique:categories,slug,'.$category->id,
         'description' => 'nullable|string',
-        'is_active'            => 'required|numeric',
+        'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+        'is_active' => 'nullable|boolean',
     ]);
 
-    // ✅ Handle main image
-    if ($request->hasFile('main_image')) {
-        $file = $request->file('main_image');
-        $filename = 'product_main_' . $category->id . '_' . time() . '.' . $file->getClientOriginalExtension();
-        $path = $file->storeAs('products', $filename, 'public');
+    // Update basic fields
+    $category->name = $request->name;
+    $category->slug = $request->slug;
+    $category->description = $request->description;
+    $category->is_active = $request->has('is_active') ? 1 : 0;
 
-        if ($category->main_image) {
-            $oldPath = str_replace('/storage/', '', parse_url($category->main_image, PHP_URL_PATH));
-            if (Storage::disk('public')->exists($oldPath)) {
-                Storage::disk('public')->delete($oldPath);
-            }
-        }
+    // Handle thumbnail upload as public URL
+    if ($request->hasFile('thumbnail')) {
+        $file = $request->file('thumbnail');
+        $filename = time().'_'.$file->getClientOriginalName();
+        $destinationPath = public_path('uploads/categories');
+        $file->move($destinationPath, $filename);
 
-        $validated['main_image'] = asset('storage/' . $path);
+        // Save the public URL
+        $category->thumbnail = url('uploads/categories/'.$filename);
     }
 
-    // ✅ Local helper for short path display
-    $shortPath = function ($path) {
-        if (!$path) return '';
-        $segments = explode('/', parse_url($path, PHP_URL_PATH));
-        return implode('/', array_slice($segments, -2));
-    };
+    $category->save();
 
-
-    // ✅ Generate unique slug
-    $validated['slug'] = Str::slug($validated['name'] . '-' . uniqid());
-
-    $category->update($validated);
-
-
-
-    return redirect()
-        ->route('category.admin.index')
-        ->with('success', '✅ category updated successfully with updated gallery.');
+    return redirect()->route('category.admin.index')
+                     ->with('success', 'Category updated successfully!');
 }
+
 
 }
