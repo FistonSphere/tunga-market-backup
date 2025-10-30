@@ -180,47 +180,24 @@
                     <div class="form-grid">
                         <!-- Features -->
                         <div class="form-group">
-                            <label for="features" class="form-label"><i class="bi bi-stars"></i> Features</label>
-                            <select id="features" name="features[]" multiple>
-                                @php
-                                    $selectedFeatures = json_decode($product->features ?? '[]', true);
-                                @endphp
-                                @if(is_array($selectedFeatures))
-                                    @foreach($selectedFeatures as $feature)
-                                        <option value="{{ $feature }}" selected>{{ $feature }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
+                            <label for="features_input" class="form-label"><i class="bi bi-stars"></i> Features</label>
+                            <input type="text" id="features_input" name="features"
+                                value='{{ json_encode(json_decode($product->features ?? "[]")) }}' />
                         </div>
 
                         <!-- Specifications -->
                         <div class="form-group">
-                            <label for="specifications" class="form-label"><i class="bi bi-gear"></i> Specifications</label>
-                            <select id="specifications" name="specifications[]" multiple>
-                                @php
-                                    $selectedSpecs = json_decode($product->specifications ?? '[]', true);
-                                @endphp
-                                @if(is_array($selectedSpecs))
-                                    @foreach($selectedSpecs as $spec)
-                                        <option value="{{ $spec }}" selected>{{ $spec }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
+                            <label for="specifications_input" class="form-label"><i class="bi bi-gear"></i>
+                                Specifications</label>
+                            <input type="text" id="specifications_input" name="specifications"
+                                value='{{ json_encode(json_decode($product->specifications ?? "[]")) }}' />
                         </div>
 
                         <!-- Tags -->
                         <div class="form-group">
-                            <label for="tags" class="form-label"><i class="bi bi-tags"></i> Tags</label>
-                            <select id="tags" name="tags[]" multiple>
-                                @php
-                                    $selectedTags = json_decode($product->tags ?? '[]', true);
-                                @endphp
-                                @if(is_array($selectedTags))
-                                    @foreach($selectedTags as $tag)
-                                        <option value="{{ $tag }}" selected>{{ $tag }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
+                            <label for="tags_input" class="form-label"><i class="bi bi-tags"></i> Tags</label>
+                            <input type="text" id="tags_input" name="tags"
+                                value='{{ json_encode(json_decode($product->tags ?? "[]")) }}' />
                         </div>
 
                         <!-- Toggle Fields -->
@@ -373,11 +350,11 @@
         }
 
 
-        .form-group label {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 6px;
-        }
+        /* .form-group label {
+                    font-weight: 600;
+                    color: #333;
+                    margin-bottom: 6px;
+                } */
 
         .form-group input,
         .form-group select,
@@ -664,9 +641,9 @@
                         div.classList.add('image-card');
                         div.setAttribute('data-index', galleryData.length - 1);
                         div.innerHTML = `
-                                            <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
-                                            <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
-                                        `;
+                                                    <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
+                                                    <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
+                                                `;
                         galleryGrid.appendChild(div);
                     };
                     reader.readAsDataURL(file);
@@ -679,15 +656,44 @@
         });
 
         document.addEventListener("DOMContentLoaded", function () {
-            const choicesOptions = {
-                removeItemButton: true,
-                placeholderValue: 'Type and press Enter...',
-                searchEnabled: true,
+            const jsonToArray = (jsonStr) => {
+                try {
+                    const arr = JSON.parse(jsonStr);
+                    return Array.isArray(arr) ? arr : [];
+                } catch {
+                    return [];
+                }
             };
 
-            new Choices("#features", choicesOptions);
-            new Choices("#specifications", choicesOptions);
-            new Choices("#tags", choicesOptions);
+            const setupChoicesInput = (id) => {
+                const inputEl = document.getElementById(id);
+                const initialValues = jsonToArray(inputEl.value);
+
+                // Initialize Choices on text input
+                const choices = new Choices(inputEl, {
+                    delimiter: ',',
+                    editItems: true,
+                    removeItemButton: true,
+                    duplicateItemsAllowed: false,
+                    addItems: true,
+                    paste: true,
+                    placeholderValue: 'Type and press Enter...',
+                    position: 'bottom',
+                });
+
+                // Populate with existing values
+                initialValues.forEach(value => choices.setValue([value]));
+
+                // Sync JSON value when form changes
+                inputEl.addEventListener('change', () => {
+                    const values = choices.getValue(true);
+                    inputEl.value = JSON.stringify(values);
+                });
+            };
+
+            setupChoicesInput('features_input');
+            setupChoicesInput('specifications_input');
+            setupChoicesInput('tags_input');
         });
     </script>
 @endsection
