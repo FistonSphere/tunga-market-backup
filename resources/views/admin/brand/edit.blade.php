@@ -1,11 +1,11 @@
 @extends('admin.layouts.header')
 
 @section('content')
-    <div class="edit-category-wrapper">
-        <h1 class="page-title"><i class="bi bi-pencil-square"></i> Edit Category</h1>
+    <div class="edit-brand-wrapper">
+        <h1 class="page-title"><i class="bi bi-pencil-square"></i> Edit Brand</h1>
 
-        <form action="{{ route('admin.category.update', $category->id) }}" method="POST" enctype="multipart/form-data"
-            class="category-form">
+        <form action="{{ route('admin.brand.update', $brand->id) }}" method="POST" enctype="multipart/form-data"
+            class="Brand-form">
             @csrf
             @method('PUT')
 
@@ -13,19 +13,10 @@
 
                 <!-- Left Column -->
                 <div class="form-left">
-
-                    <!-- Category Name -->
-                    <!-- Category Name -->
+                    <!-- Brand Name -->
                     <div class="form-card">
-                        <label for="name">Category Name</label>
-                        <input type="text" name="name" id="name" value="{{ old('name', $category->name) }}" required>
-                    </div>
-
-                    <!-- Slug -->
-                    <div class="form-card">
-                        <label for="slug">Slug</label>
-                        <input type="text" name="slug" id="slug" value="{{ old('slug', $category->slug) }}" required
-                            readonly>
+                        <label for="name">Brand Name</label>
+                        <input type="text" name="name" id="name" value="{{ old('name', $brand->name) }}" required>
                     </div>
 
 
@@ -33,16 +24,7 @@
                     <div class="form-card">
                         <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5"
-                            placeholder="Enter category description...">{{ old('description', $category->description) }}</textarea>
-                    </div>
-
-                    <!-- Active Switch -->
-                    <div class="form-card switch-card">
-                        <label>Active Status</label>
-                        <label class="switch">
-                            <input type="checkbox" name="is_active" value="1" {{ $category->is_active ? 'checked' : '' }}>
-                            <span class="slider"></span>
-                        </label>
+                            placeholder="Enter Brand description...">{{ old('description', $brand->description) }}</textarea>
                     </div>
 
                 </div>
@@ -50,17 +32,17 @@
                 <!-- Right Column -->
                 <div class="form-right">
 
-                    <!-- Thumbnail Upload -->
+                    <!-- logo Upload -->
                     <div class="form-card upload-card">
-                        <label>Category Thumbnail</label>
-                        <div class="upload-box" onclick="document.getElementById('thumbnail_input').click()">
+                        <label>Brand Logo</label>
+                        <div class="upload-box" onclick="document.getElementById('logo').click()">
                             <i class="bi bi-cloud-arrow-up"></i>
                             <p>Click or drag to upload</p>
-                            <input type="file" id="thumbnail_input" name="thumbnail" accept="image/*">
+                            <input type="file" id="logo" name="logo" accept="image/*">
                         </div>
-                        <div id="thumbnailPreview" class="thumbnail-preview">
-                            @if($category->thumbnail)
-                                <img src="{{ asset($category->thumbnail) }}" alt="Category Thumbnail">
+                        <div id="logoPreview" class="logo-preview">
+                            @if($brand->logo)
+                                <img src="{{ asset($brand->logo) }}" alt="Brand logo">
                             @endif
                         </div>
                     </div>
@@ -71,15 +53,15 @@
 
             <!-- Actions -->
             <div class="form-actions">
-                <button type="submit" class="btn-save">Update Category</button>
-                <a href="{{ route('category.admin.index') }}" class="btn-cancel">Cancel</a>
+                <button type="submit" class="btn-save">Update Brand</button>
+                <a href="{{ route('admin.brand.index') }}" class="btn-cancel">Cancel</a>
             </div>
 
         </form>
     </div>
     <style>
         /* === Layout & Typography === */
-        .edit-category-wrapper {
+        .edit-brand-wrapper {
             max-width: 1000px;
             margin: 40px auto;
             padding: 0 20px;
@@ -172,11 +154,11 @@
             margin-top: 5px;
         }
 
-        #thumbnail_input {
+        #logo {
             display: none;
         }
 
-        .thumbnail-preview img {
+        .logo-preview img {
             margin-top: 15px;
             width: 150px;
             height: 150px;
@@ -185,62 +167,7 @@
             border: 2px solid #eee;
         }
 
-        /* === Switch Toggle === */
-        .switch-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
 
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 30px;
-        }
-
-        .switch input {
-            display: none;
-        }
-
-        .slider {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            border-radius: 30px;
-            transition: .4s;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            border-radius: 50%;
-            transition: .4s;
-        }
-
-        input:checked+.slider {
-            background-color: #ff6f00;
-        }
-
-        input:checked+.slider:before {
-            transform: translateX(28px);
-        }
-
-        /* === Buttons === */
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-top: 20px;
-        }
 
         .btn-save {
             background: #ff6f00;
@@ -277,9 +204,9 @@
     </style>
 
     <script>
-        document.getElementById('thumbnail_input').addEventListener('change', function (e) {
+        document.getElementById('logo').addEventListener('change', function (e) {
             const file = e.target.files[0];
-            const preview = document.getElementById('thumbnailPreview');
+            const preview = document.getElementById('logoPreview');
             preview.innerHTML = '';
             if (file) {
                 const reader = new FileReader();

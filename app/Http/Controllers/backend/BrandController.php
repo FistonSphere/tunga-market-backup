@@ -72,4 +72,37 @@ public function edit($id)
         $brand = Brand::findOrFail($id);
         return view('admin.brand.edit', compact('brand'));
     }
+
+    public function update(Request $request, $id)
+{
+    $brand = Brand::findOrFail($id);
+
+    // Validate input
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'logo' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+    ]);
+
+    // Update basic fields
+    $brand->name = $request->name;
+    $brand->description = $request->description;
+    $brand->logo = $request->logo;
+
+    // Handle logo upload as public URL
+    if ($request->hasFile('logo')) {
+        $file = $request->file('logo');
+        $filename = time().'_'.$file->getClientOriginalName();
+        $destinationPath = public_path('uploads/brands');
+        $file->move($destinationPath, $filename);
+
+        // Save the public URL
+        $brand->logo = url('uploads/brands/'.$filename);
+    }
+
+    $brand->save();
+
+    return redirect()->route('admin.brand.index')
+                     ->with('success', 'Brand updated successfully!');
+}
 }
