@@ -80,7 +80,7 @@ public function update(Request $request, $id)
 
 
     return redirect()
-        ->route('admin.category.listing')
+        ->route('category.admin.index')
         ->with('success', '✅ category updated successfully with updated gallery.');
 }
 
