@@ -1,267 +1,71 @@
 @extends('admin.layouts.header')
 
 @section('content')
-  <style>
-        
-        button {
-            border: none;
-            outline: none;
-            background: none;
-        }
+    <div class="brand-page-container">
 
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .modal-content {
-            background: #fff;
-            padding: 25px 30px;
-            border-radius: 10px;
-            width: 400px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            animation: slideUp 0.3s ease-in-out;
-        }
-
-        .modal-content h2 {
-            margin-bottom: 10px;
-            color: #333;
-            font-size: 20px;
-        }
-
-        .modal-content p {
-            font-size: 15px;
-            color: #666;
-            margin-bottom: 25px;
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 16px;
-            font-size: 14px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: 0.3s ease;
-        }
-
-        .btn-delete:hover {
-            background-color: #c82333;
-        }
-
-        .btn-cancel {
-            background-color: #6c757d;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 16px;
-            font-size: 14px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: 0.3s ease;
-        }
-
-        .btn-cancel:hover {
-            background-color: #5a6268;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-    </style>
-    <div class="page-header">
-        <div class="page-title">
-            <h4>Product Category list</h4>
-            <h6>View/Search product Category</h6>
+        <!-- Header -->
+        <div class="brand-header">
+            <h2 class="brand-title">Brands</h2>
+            <div class="brand-actions">
+                <a href="{{ route('admin.brands.create') }}" class="btn-add">
+                    <i class="bi bi-plus-circle"></i> Add Brand
+                </a>
+            </div>
         </div>
-        <div class="page-btn">
-            <a href="{{ route('admin.category.create') }}" class="btn btn-added">
-                <img src="{{ asset('admin/assets/img/icons/plus.svg') }}" class="me-1" alt="img" />Add Category
-            </a>
-        </div>
-    </div>
 
-    <div class="card">
-        <div class="card-body">
-            <div class="table-top">
-                <div class="search-set">
-                    <div class="search-path">
-                        <a class="btn btn-filter" id="filter_search">
-                            <img src="{{asset('admin/assets/img/icons/filter.svg')}}" alt="img" />
-                            <span><img src="{{asset('admin/assets/img/icons/closes.svg')}}" alt="img" /></span>
-                        </a>
+        <!-- Search & Filter -->
+        <div class="brand-filter-bar">
+            <input type="text" id="searchBrand" placeholder="🔍 Search brands by name..." onkeyup="filterBrands()">
+        </div>
+
+        <!-- Brand Listing Grid -->
+        <div class="brand-grid" id="brandGrid">
+            @forelse($brands as $brand)
+                <div class="brand-card" data-name="{{ strtolower($brand->name) }}">
+                    <div class="brand-logo">
+                        <img src="{{ $brand->logo ? asset($brand->logo) : asset('assets/images/no-logo.png') }}"
+                            alt="{{ $brand->name }}">
                     </div>
-                    <div class="search-input">
-                        <a class="btn btn-searchset"><img src="{{ asset('admin/assets/img/icons/search-white.svg') }}"
-                                alt="img" /></a>
+                    <div class="brand-info">
+                        <h3 class="brand-name">{{ $brand->name }}</h3>
+                        <p class="brand-description">
+                            {{ Str::limit($brand->description, 100, '...') }}
+                        </p>
+                    </div>
+                    <div class="brand-footer">
+                        <span class="brand-date">Added: {{ $brand->created_at->format('d M Y') }}</span>
+                        <div class="brand-options">
+                            <a href="{{ route('admin.brands.edit', $brand->id) }}" class="btn-edit"><i
+                                    class="bi bi-pencil-square"></i></a>
+                            <form action="{{ route('admin.brands.destroy', $brand->id) }}" method="POST"
+                                onsubmit="return confirm('Delete this brand?')" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-delete"><i class="bi bi-trash3-fill"></i></button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <div class="wordset">
-                    <ul>
-                        <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
-                                    src="{{asset('admin/assets/img/icons/pdf.svg')}}" alt="img" /></a>
-                        </li>
-                        <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img
-                                    src="{{asset('admin/assets/img/icons/excel.svg')}}" alt="img" /></a>
-                        </li>
-                        <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img
-                                    src="{{asset('admin/assets/img/icons/printer.svg')}}" alt="img" /></a>
-                        </li>
-                    </ul>
+            @empty
+                <div class="no-brands">
+                    <i class="bi bi-exclamation-circle"></i>
+                    <p>No brands available yet.</p>
                 </div>
-            </div>
-
-
-
-            <div class="table-responsive">
-                <table class="table datanew">
-                    <thead>
-                        <tr>
-                            <th>
-                                <label class="checkboxs">
-                                    <input type="checkbox" id="select-all" />
-                                    <span class="checkmarks"></span>
-                                </label>
-                            </th>
-                            <th>Brand Logo</th>
-                            <th>Brand name</th>
-                            <th>Description</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @foreach ($brands as $brand)
-                            <tr>
-                                <td>
-                                    <label class="checkboxs">
-                                        <input type="checkbox" />
-                                        <span class="checkmarks"></span>
-                                    </label>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);" class="product-img">
-                                        <img src="{{ $brand->logo ?? asset('assets/images/no-image.png') }}"
-                                            style="border-radius:8px; object-fit: cover;" alt="{{ $brand->name }}" />
-                                    </a>
-                                </td>
-                                <td class="productimgname">
-                                    <a href="javascript:void(0);">{{ $brand->name }}</a>
-                                </td>
-                                <td>{{ $brand->description ?? '-' }}</td>
-                                <td>
-                                    <a class="me-3" href="{{ route('admin.category.edit', $brand->id) }}">
-                                        <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
-                                    </a>
-                                    <button type="button" class="deleteBtn confirm-text" data-id="{{ $brand->id }}"
-                                        data-name="{{ $brand->name }}">
-                                        <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
-                                    </button>
-                                </td>
-                            </tr>
-                        @endforeach
-
-
-
-                    </tbody>
-                </table>
-            </div>
+            @endforelse
         </div>
+
     </div>
 
-
-    <!-- Delete Modal -->
-    <div id="deleteModal" class="modal-overlay" style="display:none;">
-        <div class="modal-content">
-            <h2>Are you sure?</h2>
-            <p id="deleteMessage">This action cannot be undone. Do you really want to delete this brand?</p>
-
-            <div class="modal-actions">
-                <form id="deleteForm" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn-delete">Yes, Delete</button>
-                </form>
-                <button id="cancelDelete" class="btn-cancel">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-
+    <!-- Custom JS -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const deleteButtons = document.querySelectorAll('.deleteBtn');
-            const deleteModal = document.getElementById('deleteModal');
-            const cancelDelete = document.getElementById('cancelDelete');
-            const deleteForm = document.getElementById('deleteForm');
-            const deleteMessage = document.getElementById('deleteMessage');
-
-
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const brandId = this.getAttribute('data-id');
-                    const brandName = this.getAttribute('data-name');
-                    // Update confirmation message
-                    deleteMessage.textContent = `Are you sure you want to delete "${brandName}"?`;
-
-                    // Update form action dynamically
-                    deleteForm.action = `/admin/brand/${brandId}/delete`;
-
-                    // Show modal
-                    deleteModal.style.display = 'flex';
-                });
+        function filterBrands() {
+            const input = document.getElementById('searchBrand').value.toLowerCase();
+            const cards = document.querySelectorAll('.brand-card');
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                card.style.display = name.includes(input) ? 'block' : 'none';
             });
-
-            cancelDelete.addEventListener('click', function () {
-                console.log("🟡 Delete canceled.");
-                deleteModal.style.display = 'none';
-            });
-
-            window.addEventListener('click', function (e) {
-                if (e.target === deleteModal) {
-                    console.log("🟠 Clicked outside modal, closing.");
-                    deleteModal.style.display = 'none';
-                }
-            });
-        });
-
-
+        }
     </script>
+
 @endsection
