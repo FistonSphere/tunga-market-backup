@@ -47,9 +47,7 @@
                         <select name="category_id" id="category_id" required>
                             <option value="">Select Category</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
+                                <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -98,75 +96,76 @@
                 </div>
 
                 <!-- Main Image -->
-<div class="image-section">
-    <label class="form-label"><i class="bi bi-image"></i> Main Image</label>
+                <div class="image-section">
+                    <label class="form-label"><i class="bi bi-image"></i> Main Image</label>
 
-    <div id="mainImagePreview" style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px;">
-        @if($product->main_image)
-            <div class="image-card" onclick="openLightbox('{{ asset($product->main_image) }}')">
-                <img src="{{ asset($product->main_image) }}" alt="Main Image">
-            </div>
-        @else
-            <div class="upload-box" style="width: 150px; height: 150px;">
-                No image uploaded
-            </div>
-        @endif
-    </div>
+                    <div id="mainImagePreview" style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px;">
+                        @if($product->main_image)
+                            <div class="image-card" onclick="openLightbox('{{ asset($product->main_image) }}')">
+                                <img src="{{ asset($product->main_image) }}" alt="Main Image">
+                            </div>
+                        @else
+                            <div class="upload-box" style="width: 150px; height: 150px;">
+                                No image uploaded
+                            </div>
+                        @endif
+                    </div>
 
-    <div style="margin-top: 15px;">
-        <label style="font-size: 14px; color: #555;">Upload New Main Image</label>
-        <div class="upload-box">
-            <i class="bi bi-cloud-arrow-up"></i>
-            <p>Click or drag to upload</p>
-            <input type="file" name="main_image" id="main_image_input">
-        </div>
-    </div>
-</div>
-
-<!-- Gallery -->
-<div class="image-section">
-    <label class="form-label"><i class="bi bi-images"></i> Product Gallery</label>
-
-    @php
-        $galleryImages = json_decode($product->gallery, true) ?? [];
-    @endphp
-
-    <div id="galleryGrid" class="gallery-grid">
-        @foreach($galleryImages as $index => $image)
-            <div class="image-card" data-index="{{ $index }}" onclick="openLightbox('{{ asset($image) }}')">
-                <img src="{{ asset($image) }}" alt="Gallery Image">
-                <button type="button" class="remove-image-btn" onclick="removeImage(event, {{ $index }})">Remove</button>
-            </div>
-        @endforeach
-    </div>
-
-    @if(count($galleryImages) === 0)
-        <p class="no-images">No gallery images available.</p>
-    @endif
-
-    <div style="margin-top: 20px;">
-        <label style="font-size: 14px; color: #555;">Add More Images</label>
-        <div class="upload-box">
-            <i class="bi bi-cloud-plus"></i>
-            <p>Click or drag to upload multiple images</p>
-            <input type="file" name="gallery[]" id="gallery_input" multiple>
-        </div>
-    </div>
-
-
-                <!-- Lightbox Modal -->
-                <div id="lightboxModal">
-                    <button onclick="closeLightbox()">&times;</button>
-                    <img id="lightboxImage" src="" alt="Preview">
+                    <div style="margin-top: 15px;">
+                        <label style="font-size: 14px; color: #555;">Upload New Main Image</label>
+                        <div class="upload-box">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                            <p>Click or drag to upload</p>
+                            <input type="file" name="main_image" id="main_image_input">
+                        </div>
+                    </div>
                 </div>
-        </div>
 
-        <div class="form-actions mt-4">
-            <button type="submit" class="btn btn-primary-gradient">Save Changes</button>
-            <a href="{{ route('admin.product.listing') }}" class="btn btn-outline">Cancel</a>
+                <!-- Gallery -->
+                <div class="image-section">
+                    <label class="form-label"><i class="bi bi-images"></i> Product Gallery</label>
+
+                    @php
+                        $galleryImages = json_decode($product->gallery, true) ?? [];
+                    @endphp
+
+                    <div id="galleryGrid" class="gallery-grid">
+                        @foreach($galleryImages as $index => $image)
+                            <div class="image-card" data-index="{{ $index }}" onclick="openLightbox('{{ asset($image) }}')">
+                                <img src="{{ asset($image) }}" alt="Gallery Image">
+                                <button type="button" class="remove-image-btn"
+                                    onclick="removeImage(event, {{ $index }})">Remove</button>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    @if(count($galleryImages) === 0)
+                        <p class="no-images">No gallery images available.</p>
+                    @endif
+
+                    <div style="margin-top: 20px;">
+                        <label style="font-size: 14px; color: #555;">Add More Images</label>
+                        <div class="upload-box">
+                            <i class="bi bi-cloud-plus"></i>
+                            <p>Click or drag to upload multiple images</p>
+                            <input type="file" name="gallery[]" id="gallery_input" multiple>
+                        </div>
+                    </div>
+
+
+                    <!-- Lightbox Modal -->
+                    <div id="lightboxModal">
+                        <button onclick="closeLightbox()">&times;</button>
+                        <img id="lightboxImage" src="" alt="Preview">
+                    </div>
+                </div>
+
+                <div class="form-actions mt-4">
+                    <button type="submit" class="btn btn-primary-gradient">Save Changes</button>
+                    <a href="{{ route('admin.product.listing') }}" class="btn btn-outline">Cancel</a>
+                </div>
+            </form>
         </div>
-        </form>
-    </div>
     </div>
 
 
