@@ -433,12 +433,63 @@
             document.getElementById('sku').value = 'SKU-' + Math.random().toString(36).substring(2, 8).toUpperCase();
         });
 
+        // ===== Lightbox Functions =====
         function openLightbox(imageUrl) {
             document.getElementById('lightboxImage').src = imageUrl;
             document.getElementById('lightboxModal').style.display = 'flex';
         }
+
         function closeLightbox() {
             document.getElementById('lightboxModal').style.display = 'none';
         }
+
+        // ===== Handle Gallery Removal =====
+        function removeImage(event, index) {
+            event.stopPropagation();
+            let galleryData = JSON.parse(document.getElementById('gallery_json').value || '[]');
+            galleryData.splice(index, 1); // Remove only that specific index
+            document.getElementById('gallery_json').value = JSON.stringify(galleryData);
+
+            // Remove from DOM
+            event.target.closest('.image-card').remove();
+        }
+
+        // ===== Preview for New Gallery Images =====
+        document.getElementById('gallery_input').addEventListener('change', function (e) {
+            const files = e.target.files;
+            const galleryGrid = document.getElementById('galleryGrid');
+
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = function (ev) {
+                    const div = document.createElement('div');
+                    div.classList.add('image-card');
+                    div.innerHTML = `
+                            <img src="${ev.target.result}" alt="Preview Image">
+                            <button type="button" class="remove-image-btn" onclick="this.closest('.image-card').remove()">Remove</button>
+                        `;
+                    galleryGrid.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // ===== Preview for Main Image Upload =====
+        document.getElementById('main_image_input').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            const previewContainer = document.getElementById('mainImagePreview');
+            previewContainer.innerHTML = ''; // Clear existing preview
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (ev) {
+                    const div = document.createElement('div');
+                    div.classList.add('image-card');
+                    div.innerHTML = `<img src="${ev.target.result}" alt="Main Image Preview">`;
+                    previewContainer.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
     </script>
 @endsection
