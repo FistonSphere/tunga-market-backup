@@ -259,7 +259,7 @@
 
         .btn-cancel {
             text-decoration: none;
-            color: #555;
+            color: #fff;
             border: 1px solid #ccc;
             padding: 10px 22px;
             border-radius: 10px;
@@ -267,9 +267,6 @@
             transition: all 0.3s;
         }
 
-        .btn-cancel:hover {
-            background: #f7f7f7;
-        }
 
         /* === Responsive === */
         @media (max-width: 768px) {
