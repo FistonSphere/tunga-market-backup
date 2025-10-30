@@ -205,13 +205,13 @@
             background: #fdecea;
             color: #e74c3c;
         }
-.brand-page-container{
-    background:white;
-    border-radius:8px;
-    border: 1px solid #ccc;
-    padding:20px;
-}
-        
+
+        .brand-page-container {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
     </style>
 
     </style>
@@ -255,15 +255,11 @@
                             <a href="{{ route('admin.brand.edit', $brand->id) }}" class="btn-icon btn-edit" title="Edit Brand">
                                 <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
                             </a>
-                            <form action="{{ route('admin.brand.destroy', $brand->id) }}" method="POST"
-                                onsubmit="return confirm('Are you sure you want to delete this brand?')"
-                                style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn-icon btn-delete" title="Delete Brand">
-                                    <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
-                                </button>
-                            </form>
+
+                            <button type="submit" class="deleteBtn confirm-text" data-id="{{ $brand->id }}"
+                                data-name="{{ $brand->name }}" title="Delete Brand">
+                                <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -277,7 +273,22 @@
 
 
     </div>
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <h2>Are you sure?</h2>
+            <p id="deleteMessage">This action cannot be undone. Do you really want to delete this category?</p>
 
+            <div class="modal-actions">
+                <form id="deleteForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-delete">Yes, Delete</button>
+                </form>
+                <button id="cancelDelete" class="btn-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
     <!-- Custom JS -->
     <script>
         function filterBrands() {

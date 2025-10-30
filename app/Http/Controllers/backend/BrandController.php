@@ -13,5 +13,44 @@ class BrandController extends Controller
     $brands=Brand::all();
     return view('admin.brand.index', compact('brands'));
    }
-   
+
+ public function store(Request $request)
+    {
+        // ✅ Validate input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:brands,name',
+            'description' => 'nullable|string',
+            'logo' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+        ]);
+
+        // ✅ Create new Brand
+        $brand = new Brand();
+        $brand->name = $validated['name'];
+        $brand->description = $validated['description'] ?? null;
+
+        // ✅ Handle logo upload with public URL
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $destinationPath = public_path('uploads/brands');
+            
+            // Ensure directory exists
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);
+            }
+
+            // Move file
+            $file->move($destinationPath, $filename);
+
+            // Save full public URL
+            $brand->logo = url('uploads/brands/' . $filename);
+        }
+
+        // ✅ Save the brand
+        $brand->save();
+
+        // ✅ Redirect with success notification
+        return redirect()->route('admin.brand.index')
+            ->with('success', '🎉 Brand "' . $brand->name . '" has been added successfully!');
+    }
 }
