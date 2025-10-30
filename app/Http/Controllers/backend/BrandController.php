@@ -64,6 +64,12 @@ class BrandController extends Controller
     }
     $brand->delete();
 
-    return redirect()->route('brand.admin.index')->with('success', 'brand deleted successfully!');
+    return redirect()->route('admin.brand.index')->with('success', 'brand deleted successfully!');
 }
+
+public function edit($id)
+    {
+        $brand = Brand::findOrFail($id);
+        return view('admin.brand.edit', compact('brand'));
+    }
 }
