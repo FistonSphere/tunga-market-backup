@@ -121,4 +121,46 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.deleteBtn');
+            const deleteModal = document.getElementById('deleteModal');
+            const cancelDelete = document.getElementById('cancelDelete');
+            const deleteForm = document.getElementById('deleteForm');
+            const deleteMessage = document.getElementById('deleteMessage');
+
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const categoryId = this.getAttribute('data-id');
+                    const categoryName = this.getAttribute('data-name');
+                    // Update confirmation message
+                    deleteMessage.textContent = `Are you sure you want to delete "${categoryName}"?`;
+
+                    // Update form action dynamically
+                    deleteForm.action = `/admin/category/${categoryId}/delete`;
+
+                    // Show modal
+                    deleteModal.style.display = 'flex';
+                });
+            });
+
+            cancelDelete.addEventListener('click', function () {
+                console.log("🟡 Delete canceled.");
+                deleteModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function (e) {
+                if (e.target === deleteModal) {
+                    console.log("🟠 Clicked outside modal, closing.");
+                    deleteModal.style.display = 'none';
+                }
+            });
+        });
+
+
+    </script>
 @endsection
