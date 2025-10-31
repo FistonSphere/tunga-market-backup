@@ -5,6 +5,7 @@ use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\CategoryAdminController;
 use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\backend\AdminProductIssueController;
 use App\Http\Controllers\backend\AdminUserController;
 use App\Http\Controllers\backend\HomeAdminController;
 use App\Http\Controllers\backend\ProductManagementController;
@@ -287,5 +288,13 @@ Route::put('/{id}/update', 'update')->name('admin.brand.update');
 Route::post('/store', 'store')->name('admin.brand.store');
 });
 //end brand route
+
+//start product issue route
+Route::prefix('/product-issues')->controller(AdminProductIssueController::class)->group(function(){
+Route::get('/overview', 'index')->name('admin.productIssue.index');
+});
+//end product issue route
+
+
 });
 // admin with no authentication middleware routes
