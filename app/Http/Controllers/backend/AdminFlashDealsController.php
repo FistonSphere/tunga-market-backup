@@ -49,4 +49,8 @@ class AdminFlashDealsController extends Controller
         ->with('success', 'Flash Deal updated successfully!');
 }
 
+public function destory($id){
+
+    
+}
 }

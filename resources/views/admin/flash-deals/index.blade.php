@@ -455,8 +455,6 @@
             const deleteForm = document.getElementById('deleteForm');
             const deleteMessage = document.getElementById('deleteMessage');
 
-            console.log("✅ Delete modal script loaded.");
-
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -466,7 +464,7 @@
                     deleteMessage.textContent = `Are you sure you want to delete "${productName}" deal?`;
 
                     // Update form action dynamically
-                    deleteForm.action = `/admin/category/${dealId}/delete`;
+                    deleteForm.action = `/admin/flash-deals/${dealId}/delete`;
 
                     // Show modal
                     deleteModal.style.display = 'flex';

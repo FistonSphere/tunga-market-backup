@@ -243,8 +243,6 @@
             const deleteForm = document.getElementById('deleteForm');
             const deleteMessage = document.getElementById('deleteMessage');
 
-            console.log("✅ Delete modal script loaded.");
-
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function (e) {
                     e.preventDefault();

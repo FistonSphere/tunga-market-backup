@@ -250,6 +250,7 @@ Route::get('/create', function(){
 })->name('admin.flash-deals.create');
 Route::get('/{id}/edit/', 'edit')->name('admin.flash-deals.edit');
 Route::put('/{id}/update', 'update')->name('admin.flash-deals.update');
+Route::delete('/{id}/delete', 'destroy')->name('admin.flash-deals.destroy');
 });
 
 
@@ -262,7 +263,7 @@ Route::get('/create', function(){
 Route::get('/{id}/edit/', 'edit')->name('admin.category.edit');
 Route::put('/{id}/update', 'update')->name('admin.category.update');
 Route::post('/store', 'store')->name('admin.category.store');
-Route::delete('/{id}/delete', 'destroy')->name('admin.flash-deals.destroy');
+Route::delete('/{id}/delete', 'destroy')->name('admin.category.destroy');
 
 
 });
