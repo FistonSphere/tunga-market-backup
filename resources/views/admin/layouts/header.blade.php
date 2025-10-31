@@ -237,7 +237,7 @@
                         </li>
 
                         <li
-                            class="submenu {{ request()->is('admin/products/products*') || request()->is('admin/brands*') ? 'active' : '' }}">
+                            class="submenu {{ request()->is('admin/products/products*') || request()->is('admin/flash-deals*') || request()->is('admin/brands*') ? 'active' : '' }}">
                             <a href="javascript:void(0);">
                                 <img src="{{ asset('admin/assets/img/icons/product.svg') }}" alt="img">
                                 <span>Product</span>
@@ -248,11 +248,14 @@
                                         class="{{ request()->routeIs('admin.product.listing') ? 'active' : '' }}">Product
                                         List</a></li>
                                 <li><a href="{{ route('category.admin.index') }}"
-                                        class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Product Issues</a></li>
+                                        class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Product
+                                        Issues</a></li>
                                 <li><a href="{{ route('category.admin.index') }}"
-                                        class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Flash Deals</a></li>
+                                        class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Flash
+                                        Deals</a></li>
                                 <li><a href="{{ route('category.admin.index') }}"
-                                        class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Add Discount</a></li>
+                                        class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Add
+                                        Discount</a></li>
                                 <li><a href="{{ route('admin.brand.index') }}"
                                         class="{{ request()->routeIs('admin.brand.index') ? 'active' : '' }}">Brand
                                         List</a></li>
