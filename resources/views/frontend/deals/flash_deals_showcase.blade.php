@@ -50,6 +50,23 @@
     </style>
     <!-- Flash Deals Hero Section -->
     <section class="bg-gradient-to-br from-accent via-accent-600 to-primary text-white py-16">
+        @php
+            // --- SALES CALCULATION (same as before) ---
+            $startTime = strtotime('today midnight');
+            $currentTime = time();
+            $hoursPassed = floor(($currentTime - $startTime) / 3600);
+            $intervalsPassed = floor($hoursPassed / 5);
+            $baseSold = 50;
+            $soldCount = $baseSold + ($intervalsPassed * 10);
+
+            // --- REVIEWS CALCULATION ---
+            // Let's assume every 5 sales gives 1 new review
+            $reviewsCount = floor($soldCount / 5);
+
+            // Average rating trends toward 4.8 but slightly varies with review count
+            $rating = 4.5 + (min($reviewsCount, 500) / 1000);
+            $rating = number_format(min($rating, 4.9), 1);
+        @endphp
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-8">
                 <div class="flex items-center justify-center mb-4">
@@ -182,7 +199,8 @@
                                     <option value="{{ $range }}">{{ Number_format(str_replace('+', '', $range)) }} Rwf +</option>
                                 @else
                                     @php [$min, $max] = explode('-', $range); @endphp
-                                    <option value="{{ $range }}">{{ Number_format($min) }} Rwf - {{ Number_format($max) }} Rwf</option>
+                                    <option value="{{ $range }}">{{ Number_format($min) }} Rwf - {{ Number_format($max) }} Rwf
+                                    </option>
                                 @endif
                             @endforeach
                         </select>
@@ -314,7 +332,8 @@
                                                 {{ number_format($deal->product->price) }}</span>
                                         </div>
                                         <div class="flex items-center text-yellow-400">
-                                            ⭐ <span class="text-sm text-gray-600 ml-1">4.7 ({{ rand(200, 1500) }})</span>
+                                            ⭐ <span class="text-sm text-gray-600 ml-1">{{ $rating }}
+                                                ({{ $reviewsCount }})</span>
                                         </div>
                                     </div>
 
@@ -324,9 +343,11 @@
                                             ⏰ Ends in:
                                             <span class="font-semibold text-red-500">{{ $endsIn }}</span>
                                         </div>
+
                                         <div class="text-xs text-gray-500">
-                                            🔥 <span class="font-semibold text-accent">{{ rand(50, 500) }} sold today</span>
+                                            🔥 <span class="font-semibold text-accent">{{ $soldCount }} sold today</span>
                                         </div>
+
                                     </div>
 
                                     <!-- Actions -->
@@ -781,9 +802,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                <div class="font-semibold">${styles[type].title}</div>
-                                                                                <div class="text-sm opacity-90">${message}</div>
-                                                                            `;
+                                                                                            <div class="font-semibold">${styles[type].title}</div>
+                                                                                            <div class="text-sm opacity-90">${message}</div>
+                                                                                        `;
 
             // Progress bar
             const progress = document.createElement("div");
