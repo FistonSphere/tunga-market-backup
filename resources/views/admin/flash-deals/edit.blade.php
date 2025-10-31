@@ -14,18 +14,19 @@
                 <!-- LEFT COLUMN -->
                 <div class="column">
                     <div class="card">
-                    <label for="product_id">Product</label>
-                    <select name="product_id" id="product_id" required onchange="updateActualPrice()">
-                        <option value="">-- Select Product --</option>
-                        @foreach($products as $product)
-                            <option value="{{ $product->id }}" 
-                                data-price="{{ $product->price ?? 0 }}"
-                                {{ $flashDeal->product_id == $product->id ? 'selected' : '' }}>
-                                {{ $product->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+                        <label for="product_id">Product</label>
+                        <select name="product_id" id="product_id" required onchange="updateActualPrice()">
+                            <option value="">-- Select Product --</option>
+                            @foreach($products as $product)
+                                <option value="{{ $product->id }}" data-price="{{ $product->price ?? 0 }}" {{ $flashDeal->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!-- Actual Price (readonly) -->
+                    <div class="card">
+                        <label for="actual_price">Actual Price ($)</label>
+                        <input type="number" id="actual_price" value="{{ $flashDeal->product->price ?? 0 }}" readonly>
+                    </div>
 
                     <div class="card">
                         <label for="flash_price">Flash Deal Price ($)</label>
