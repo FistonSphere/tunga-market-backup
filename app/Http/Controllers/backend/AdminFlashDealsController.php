@@ -24,7 +24,7 @@ class AdminFlashDealsController extends Controller
    public function update(Request $request, $id)
 {
     $flashDeal = FlashDeal::findOrFail($id);
-dd($request->all());
+
     $validated = $request->validate([
         'product_id' => 'required|exists:products,id',
         'flash_price' => 'required|numeric|min:0',
@@ -32,7 +32,7 @@ dd($request->all());
         'stock_limit' => 'nullable|integer|min:0',
         'start_time' => 'required|date',
         'end_time' => 'required|date|after:start_time',
-        'is_active' => 'nullable|string|in:Active,Inactive',
+        'is_active' => 'required|string|in:Active,Inactive',
     ]);
 
     $flashDeal->update([
