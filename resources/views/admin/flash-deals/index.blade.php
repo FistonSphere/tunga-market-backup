@@ -29,11 +29,11 @@
                     <div class="flash-body">
                         <div class="row">
                             <span>Flash Price:</span>
-                            <strong>${{ number_format($deal->flash_price, 2) }}</strong>
+                            <strong>{{ number_format($deal->flash_price) }} Rwf</strong>
                         </div>
                         <div class="row">
                             <span>Discount:</span>
-                            <strong class="text-green">{{ $deal->discount_percent ?? 0 }}%</strong>
+                            <strong class="text-green">{{ $deal->discount_percent}}%</strong>
                         </div>
                         <div class="row">
                             <span>Stock Limit:</span>
