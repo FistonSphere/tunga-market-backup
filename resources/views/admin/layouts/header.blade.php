@@ -229,21 +229,33 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li class="active">
-                            <a href="{{ route('admin.dashboard') }}"><img
-                                    src="{{asset('admin/assets/img/icons/dashboard.svg')}}" alt="img"><span>
-                                    Dashboard</span> </a>
+                        <li class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                            <a href="{{ route('admin.dashboard') }}">
+                                <img src="{{ asset('admin/assets/img/icons/dashboard.svg') }}" alt="img">
+                                <span>Dashboard</span>
+                            </a>
                         </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('admin/assets/img/icons/product.svg') }}"
-                                    alt="img"><span>
-                                    Product</span> <span class="menu-arrow"></span></a>
+
+                        <li
+                            class="submenu {{ request()->is('admin/products/products*') || request()->is('admin/categories*') || request()->is('admin/brands*') ? 'active' : '' }}">
+                            <a href="javascript:void(0);">
+                                <img src="{{ asset('admin/assets/img/icons/product.svg') }}" alt="img">
+                                <span>Product</span>
+                                <span class="menu-arrow"></span>
+                            </a>
                             <ul>
-                                <li><a href="{{ route('admin.product.listing') }}">Product List</a></li>
-                                <li><a href="{{ route('category.admin.index') }}">Category List</a></li>
-                                <li><a href="{{route('admin.brand.index') }}">Brand List</a></li>
+                                <li><a href="{{ route('admin.product.listing') }}"
+                                        class="{{ request()->routeIs('admin.product.listing') ? 'active' : '' }}">Product
+                                        List</a></li>
+                                <li><a href="{{ route('category.admin.index') }}"
+                                        class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Category
+                                        List</a></li>
+                                <li><a href="{{ route('admin.brand.index') }}"
+                                        class="{{ request()->routeIs('admin.brand.index') ? 'active' : '' }}">Brand
+                                        List</a></li>
                             </ul>
                         </li>
+
                         <li class="submenu">
                             <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/sales1.svg')}}"
                                     alt="img"><span>
