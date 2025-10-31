@@ -1,75 +1,162 @@
 @extends('admin.layouts.header')
 
-
 @section('content')
+    <div class="flashdeal-edit-wrapper">
+        <h1 class="page-title"><i class="bi bi-lightning-charge-fill"></i> Edit Flash Deal</h1>
+
+        <form action="{{ route('admin.flash-deals.update', $flashDeal->id) }}" method="POST" enctype="multipart/form-data"
+            class="flashdeal-form">
+            @csrf
+            @method('PUT')
+
+            <div class="grid-container">
+
+                <!-- LEFT COLUMN -->
+                <div class="column">
+                    <div class="card">
+                        <label for="product_id">Product</label>
+                        <select name="product_id" id="product_id" required>
+                            <option value="">-- Select Product --</option>
+                            @foreach($products as $product)
+                                <option value="{{ $product->id }}" {{ $flashDeal->product_id == $product->id ? 'selected' : '' }}>
+                                    {{ $product->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="card">
+                        <label for="flash_price">Flash Deal Price ($)</label>
+                        <input type="number" name="flash_price" id="flash_price" value="{{ $flashDeal->flash_price }}"
+                            step="0.01" required>
+                    </div>
+
+                    <div class="card">
+                        <label for="discount_percent">Discount (%)</label>
+                        <input type="number" name="discount_percent" id="discount_percent"
+                            value="{{ $flashDeal->discount_percent }}" min="0" max="100">
+                    </div>
+
+                    <div class="card">
+                        <label for="stock_limit">Stock Limit</label>
+                        <input type="number" name="stock_limit" id="stock_limit" value="{{ $flashDeal->stock_limit }}">
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="column">
+                    <div class="card">
+                        <label for="start_time">Start Time</label>
+                        <input type="datetime-local" name="start_time" id="start_time"
+                            value="{{ $flashDeal->start_time ? $flashDeal->start_time->format('Y-m-d\TH:i') : '' }}"
+                            required>
+                    </div>
+
+                    <div class="card">
+                        <label for="end_time">End Time</label>
+                        <input type="datetime-local" name="end_time" id="end_time"
+                            value="{{ $flashDeal->end_time ? $flashDeal->end_time->format('Y-m-d\TH:i') : '' }}" required>
+                    </div>
+
+                    <div class="card switch-card">
+                        <label>Status</label>
+                        <label class="switch">
+                            <input type="checkbox" name="is_active" value="Active" {{ $flashDeal->is_active === 'Active' ? 'checked' : '' }}>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-save"><i class="bi bi-save2"></i> Update Deal</button>
+                <a href="{{ route('admin.flashDeals.index') }}" class="btn-cancel"><i class="bi bi-x-circle"></i>
+                    Cancel</a>
+            </div>
+        </form>
+    </div>
+
 
     <style>
-        .flashdeal-edit-container {
+        /* ===== GENERAL ===== */
+        .flashdeal-edit-wrapper {
             background: #fff;
-            border-radius: 14px;
+            border-radius: 12px;
             padding: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            margin-top: 20px;
+            box-shadow: 0 6px 20px rgba(0, 20, 40, 0.08);
+            margin: 20px auto;
+            max-width: 1200px;
+            color: #001428;
         }
 
         .page-title {
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-size: 1.8rem;
+            font-weight: 700;
             margin-bottom: 25px;
-            color: #333;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            color: #001428;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
+        /* ===== GRID ===== */
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
-        .form-card {
-            background: #fafafa;
-            border: 1px solid #e5e5e5;
-            padding: 18px;
-            border-radius: 10px;
-            transition: all .3s;
+        .column {
+            flex: 1;
+            min-width: 280px;
         }
 
-        .form-card:hover {
-            border-color: #c9c9c9;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        /* ===== CARD ===== */
+        .card {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e5e8ec;
+            margin-bottom: 20px;
+            transition: 0.3s ease;
         }
 
-        .form-card label {
-            display: block;
-            margin-bottom: 8px;
+        .card:hover {
+            border-color: #f97316;
+            box-shadow: 0 6px 15px rgba(249, 115, 22, 0.15);
+        }
+
+        .card label {
             font-weight: 600;
-            color: #333;
+            margin-bottom: 8px;
+            display: block;
         }
 
-        .form-card input,
-        .form-card select,
-        .form-card textarea {
+        .card input,
+        .card select,
+        .card textarea {
             width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ccc;
+            padding: 12px 14px;
             border-radius: 8px;
+            border: 1px solid #cfd6df;
             font-size: 14px;
+            color: #001428;
             background: #fff;
+            transition: 0.25s ease;
         }
 
-        .form-card input:focus,
-        .form-card select:focus {
-            border-color: #ff6600;
+        .card input:focus,
+        .card select:focus {
             outline: none;
-            box-shadow: 0 0 5px rgba(255, 102, 0, 0.3);
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
         }
 
+        /* ===== SWITCH ===== */
         .switch-card {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
         }
 
         .switch {
@@ -85,14 +172,13 @@
 
         .slider {
             position: absolute;
-            cursor: pointer;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
+            background: #cfd6df;
             border-radius: 28px;
+            transition: 0.4s;
         }
 
         .slider:before {
@@ -102,146 +188,68 @@
             width: 22px;
             left: 3px;
             bottom: 3px;
-            background-color: white;
-            transition: .4s;
+            background: #fff;
             border-radius: 50%;
+            transition: 0.4s;
         }
 
         .switch input:checked+.slider {
-            background-color: #ff6600;
+            background: #f97316;
         }
 
         .switch input:checked+.slider:before {
             transform: translateX(24px);
         }
 
+        /* ===== ACTION BUTTONS ===== */
         .form-actions {
             display: flex;
             justify-content: flex-end;
-            margin-top: 30px;
             gap: 15px;
+            margin-top: 25px;
         }
 
         .btn-save,
         .btn-cancel {
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 12px 22px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s ease;
+            border: none;
         }
 
         .btn-save {
-            background: #ff6600;
+            background: #f97316;
             color: #fff;
         }
 
         .btn-save:hover {
-            background: #e55b00;
+            background: #001428;
             transform: translateY(-2px);
         }
 
         .btn-cancel {
-            background: #ddd;
-            color: #333;
+            background: #001428;
+            color: #fff;
         }
 
         .btn-cancel:hover {
-            background: #ccc;
+            background: #f97316;
+            transform: translateY(-2px);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width: 900px) {
+            .grid-container {
+                flex-direction: column;
+            }
         }
     </style>
-    <div class="flashdeal-edit-container">
-        <h2 class="page-title"><i class="bi bi-lightning-charge-fill"></i> Edit Flash Deal</h2>
-
-        <form action="{{ route('admin.flash-deals.update', $flashDeal->id) }}" method="POST" enctype="multipart/form-data"
-            class="flashdeal-form">
-            @csrf
-            @method('PUT')
-
-            <div class="form-grid">
-
-                <!-- Left Column -->
-                <div class="form-left">
-
-                    <!-- Product Selection -->
-                    <div class="form-card">
-                        <label for="product_id">Product</label>
-                        <select name="product_id" id="product_id" required>
-                            <option value="">-- Select Product --</option>
-                            @foreach($products as $product)
-                                <option value="{{ $product->id }}" {{ $flashDeal->product_id == $product->id ? 'selected' : '' }}>
-                                    {{ $product->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <!-- Flash Price -->
-                    <div class="form-card">
-                        <label for="flash_price">Flash Deal Price ($)</label>
-                        <input type="number" name="flash_price" id="flash_price" value="{{ $flashDeal->flash_price }}"
-                            step="0.01" required>
-                    </div>
-
-                    <!-- Discount Percent -->
-                    <div class="form-card">
-                        <label for="discount_percent">Discount (%)</label>
-                        <input type="number" name="discount_percent" id="discount_percent"
-                            value="{{ $flashDeal->discount_percent }}" min="0" max="100">
-                    </div>
-
-                    <!-- Stock Limit -->
-                    <div class="form-card">
-                        <label for="stock_limit">Stock Limit</label>
-                        <input type="number" name="stock_limit" id="stock_limit" value="{{ $flashDeal->stock_limit }}">
-                    </div>
-
-                </div>
-
-                <!-- Right Column -->
-                <div class="form-right">
-
-                    <!-- Start Time -->
-                    <div class="form-card">
-                        <label for="start_time">Start Time</label>
-                        <input type="datetime-local" name="start_time" id="start_time"
-                            value="{{ $flashDeal->start_time ? $flashDeal->start_time->format('Y-m-d\TH:i') : '' }}"
-                            required>
-                    </div>
-
-                    <!-- End Time -->
-                    <div class="form-card">
-                        <label for="end_time">End Time</label>
-                        <input type="datetime-local" name="end_time" id="end_time"
-                            value="{{ $flashDeal->end_time ? $flashDeal->end_time->format('Y-m-d\TH:i') : '' }}" required>
-                    </div>
-
-                    <!-- Status -->
-                    <div class="form-card switch-card">
-                        <label>Flash Deal Status</label>
-                        <label class="switch">
-                            <input type="checkbox" name="is_active" value="Active" {{ $flashDeal->is_active === 'Active' ? 'checked' : '' }}>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Actions -->
-            <div class="form-actions">
-                <button type="submit" class="btn-save"><i class="bi bi-save2"></i> Update Flash Deal</button>
-                <a href="{{ route('admin.flash-deals.index') }}" class="btn-cancel"><i class="bi bi-x-circle"></i>
-                    Cancel</a>
-            </div>
-        </form>
-    </div>
-
-
 
 
 @endsection

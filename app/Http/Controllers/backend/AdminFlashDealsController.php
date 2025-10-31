@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\FlashDeal;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class AdminFlashDealsController extends Controller
@@ -15,6 +16,11 @@ class AdminFlashDealsController extends Controller
     
    }
 
+   public function edit($id){
+     $flashDeal = FlashDeal::with('product')->findOrFail($id);
+     $products= Product::where('status', 'active')->get(); 
+        return view('admin.flash-deals.edit', compact('flashDeal','products'));
+   }
    public function update(Request $request, $id)
 {
     $flashDeal = FlashDeal::findOrFail($id);
