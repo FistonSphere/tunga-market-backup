@@ -3,54 +3,83 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class FlashDeal extends Model
 {
     protected $fillable = [
-        'product_id', 'flash_price', 'discount_percent',
-        'start_time', 'end_time', 'stock_limit', 'is_active'
+        'product_id',
+        'flash_price',
+        'discount_percent',
+        'start_time',
+        'end_time',
+        'stock_limit',
+        'is_active', // stores 'Active' or 'Inactive'
     ];
 
     protected $casts = [
         'start_time' => 'datetime',
-        'end_time' => 'datetime',
+        'end_time'   => 'datetime',
     ];
 
-    // Relationship
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
-    // Active deals scope
+    /**
+     * Scope that returns DB rows considered currently active (based on column + time window)
+     */
     public function scopeActive($query)
     {
-        return $query->where('is_active', true)
+        return $query->where('is_active', 'Active')
                      ->where('start_time', '<=', now())
                      ->where('end_time', '>=', now());
     }
 
-    // Automatically check expiry when fetching
-    protected static function booted()
+    /**
+     * Runtime computed status without modifying DB.
+     * Returns 'Active' or 'Inactive' based on current time and start/end times.
+     */
+    public function getCurrentStatusAttribute()
     {
-        static::retrieved(function ($deal) {
-            $deal->checkAndDeactivateIfExpired();
-        });
+        // If there is no end_time/start_time, fallback to DB column
+        if (!$this->start_time || !$this->end_time) {
+            return $this->is_active;
+        }
 
-        static::saving(function ($deal) {
-            $deal->checkAndDeactivateIfExpired();
-        });
+        $now = Carbon::now();
+
+        if ($now->between($this->start_time, $this->end_time)) {
+            return 'Active';
+        }
+
+        return 'Inactive';
     }
 
     /**
-     * Check if the deal has expired and deactivate if necessary
+     * Utility to synchronize DB: mark expired deals as 'Inactive' and mark current period deals as 'Active'.
+     * Call this from an artisan command or scheduler.
      */
-    public function checkAndDeactivateIfExpired()
+    public static function syncStatusesToDatabase(): array
     {
-        if ($this->end_time instanceof Carbon && $this->end_time->isPast() && $this->is_active) {
-            $this->is_active = false;
-            $this->saveQuietly(); // Save silently to prevent infinite loop
-        }
+        $results = ['set_inactive' => 0, 'set_active' => 0];
+
+        // 1) expire old deals
+        $expiredQuery = static::where('end_time', '<', now())->where('is_active', 'Active');
+        $results['set_inactive'] = $expiredQuery->count();
+        $expiredQuery->update(['is_active' => 'Inactive']);
+
+        // 2) activate deals that are within start..end but DB flagged inactive
+        $activateQuery = static::where('start_time', '<=', now())
+                                   ->where('end_time', '>=', now())
+                                   ->where('is_active', 'Inactive');
+        $results['set_active'] = $activateQuery->count();
+        $activateQuery->update(['is_active' => 'Active']);
+
+        Log::info('FlashDeal::syncStatusesToDatabase', $results);
+
+        return $results;
     }
 }

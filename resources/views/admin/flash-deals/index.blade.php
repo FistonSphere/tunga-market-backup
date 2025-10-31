@@ -54,9 +54,11 @@
                             <small>End: {{ optional($deal->end_time)->format('d M Y, H:i') ?? '-' }}</small>
                         </div>
 
-                        <span class="badge {{ $deal->is_active ? 'badge-active' : 'badge-inactive' }}">
-                            {{ $deal->is_active ? 'Active' : 'Inactive' }}
+                        <!-- Use current_status attribute (computed) -->
+                        <span class="badge {{ $deal->current_status === 'Active' ? 'badge-active' : 'badge-inactive' }}">
+                            {{ $deal->current_status }}
                         </span>
+
                     </div>
 
                     <div class="flash-footer">
@@ -95,8 +97,8 @@
 
     <style>
         /* =============================
-               Flash Deals Overview Styling
-            ============================= */
+                           Flash Deals Overview Styling
+                        ============================= */
         .flash-page-container {
             padding: 30px;
             background: #f8f9fc;
