@@ -34,7 +34,8 @@
                     @forelse($issues as $index => $issue)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>#{{ $issue->order->items->order_no ?? 'N/A' }}</td>
+                            <td>#{{ $issue->orderItem->order_no}}
+                            </td>
                             <td>{{ $issue->product->name ?? 'Unknown Product' }}</td>
                             <td>{{ $issue->user->name ?? 'Unknown User' }}</td>
                             <td class="message">{{ Str::limit($issue->message, 60) }}</td>
