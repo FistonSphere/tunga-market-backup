@@ -10,6 +10,7 @@ class AdminProductIssueController extends Controller
 {
    public function index(){
    $issues = ProductIssue::with('order','user','product')->get();
+   
     return view('admin.product-issues.index',compact('issues'));
    }
 }
