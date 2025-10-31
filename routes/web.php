@@ -249,6 +249,7 @@ Route::get('/create', function(){
     return view('admin.category.create');
 })->name('admin.flash-deals.create');
 Route::get('/{id}/edit/', 'edit')->name('admin.flash-deals.edit');
+Route::put('/{id}/update', 'update')->name('admin.flash-deals.update');
 });
 
 
