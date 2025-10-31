@@ -1,85 +1,6 @@
 @extends('admin.layouts.header')
 
 @section('content')
-    <div class="flashdeal-edit-wrapper">
-        <h1 class="page-title"><i class="bi bi-lightning-charge-fill"></i> Edit Flash Deal</h1>
-
-        <form action="{{ route('admin.flash-deals.update', $flashDeal->id) }}" method="POST" enctype="multipart/form-data"
-            class="flashdeal-form">
-            @csrf
-            @method('PUT')
-
-            <div class="grid-container">
-
-                <!-- LEFT COLUMN -->
-                <div class="column">
-                    <div class="card">
-                        <label for="product_id">Product</label>
-                        <select name="product_id" id="product_id" required onchange="updateActualPrice()">
-                            <option value="">-- Select Product --</option>
-                            @foreach($products as $product)
-                                <option value="{{ $product->id }}" data-price="{{ $product->price ?? 0 }}" {{ $flashDeal->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <!-- Actual Price (readonly) -->
-                    <div class="card">
-                        <label for="actual_price">Actual Price ($)</label>
-                        <input type="number" id="actual_price" value="{{ $flashDeal->product->price ?? 0 }}" readonly>
-                    </div>
-
-                    <div class="card">
-                        <label for="flash_price">Flash Deal Price ($)</label>
-                        <input type="number" name="flash_price" id="flash_price" value="{{ $flashDeal->flash_price }}"
-                            step="0.01" required>
-                    </div>
-
-                    <!-- Discount Percent (readonly) -->
-                    <div class="card">
-                        <label for="discount_percent">Discount (%)</label>
-                        <input type="number" id="discount_percent" value="{{ $flashDeal->discount_percent }}" readonly>
-                    </div>
-
-                    <div class="card">
-                        <label for="stock_limit">Stock Limit</label>
-                        <input type="number" name="stock_limit" id="stock_limit" value="{{ $flashDeal->stock_limit }}">
-                    </div>
-                </div>
-
-                <!-- RIGHT COLUMN -->
-                <div class="column">
-                    <div class="card">
-                        <label for="start_time">Start Time</label>
-                        <input type="datetime-local" name="start_time" id="start_time"
-                            value="{{ $flashDeal->start_time ? $flashDeal->start_time->format('Y-m-d\TH:i') : '' }}"
-                            required>
-                    </div>
-
-                    <div class="card">
-                        <label for="end_time">End Time</label>
-                        <input type="datetime-local" name="end_time" id="end_time"
-                            value="{{ $flashDeal->end_time ? $flashDeal->end_time->format('Y-m-d\TH:i') : '' }}" required>
-                    </div>
-
-                    <div class="card switch-card">
-                        <label>Status</label>
-                        <label class="switch">
-                            <input type="checkbox" name="is_active" value="Active" {{ $flashDeal->is_active === 'Active' ? 'checked' : '' }}>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" class="btn-save"><i class="bi bi-save2"></i> Update Deal</button>
-                <a href="{{ route('admin.flashDeals.index') }}" class="btn-cancel"><i class="bi bi-x-circle"></i>
-                    Cancel</a>
-            </div>
-        </form>
-    </div>
-
-
     <style>
         /* ===== GENERAL ===== */
         .flashdeal-edit-wrapper {
@@ -251,6 +172,86 @@
             }
         }
     </style>
+    <div class="flashdeal-edit-wrapper">
+        <h1 class="page-title"><i class="bi bi-lightning-charge-fill"></i> Edit Flash Deal</h1>
+
+        <form action="{{ route('admin.flash-deals.update', $flashDeal->id) }}" method="POST" enctype="multipart/form-data"
+            class="flashdeal-form">
+            @csrf
+            @method('PUT')
+
+            <div class="grid-container">
+
+                <!-- LEFT COLUMN -->
+                <div class="column">
+                    <div class="card">
+                        <label for="product_id">Product</label>
+                        <select name="product_id" id="product_id" required onchange="updateActualPrice()">
+                            <option value="">-- Select Product --</option>
+                            @foreach($products as $product)
+                                <option value="{{ $product->id }}" data-price="{{ $product->price ?? 0 }}" {{ $flashDeal->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!-- Actual Price (readonly) -->
+                    <div class="card">
+                        <label for="actual_price">Actual Price (Rwf)</label>
+                        <input type="number" id="actual_price" value="{{ $flashDeal->product->price ?? 0 }}" readonly>
+                    </div>
+
+                    <div class="card">
+                        <label for="flash_price">Flash Deal Price (Rwf)</label>
+                        <input type="number" name="flash_price" id="flash_price" value="{{ $flashDeal->flash_price }}"
+                            step="0.01" required>
+                    </div>
+
+                    <!-- Discount Percent (readonly) -->
+                    <div class="card">
+                        <label for="discount_percent">Discount (%)</label>
+                        <input type="number" id="discount_percent" value="{{ $flashDeal->discount_percent }}" readonly>
+                    </div>
+
+                    <div class="card">
+                        <label for="stock_limit">Stock Limit</label>
+                        <input type="number" name="stock_limit" id="stock_limit" value="{{ $flashDeal->stock_limit }}">
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="column">
+                    <div class="card">
+                        <label for="start_time">Start Time</label>
+                        <input type="datetime-local" name="start_time" id="start_time"
+                            value="{{ $flashDeal->start_time ? $flashDeal->start_time->format('Y-m-d\TH:i') : '' }}"
+                            required>
+                    </div>
+
+                    <div class="card">
+                        <label for="end_time">End Time</label>
+                        <input type="datetime-local" name="end_time" id="end_time"
+                            value="{{ $flashDeal->end_time ? $flashDeal->end_time->format('Y-m-d\TH:i') : '' }}" required>
+                    </div>
+
+                    <div class="card switch-card">
+                        <label>Status</label>
+                        <label class="switch">
+                            <input type="checkbox" name="is_active" value="Active" {{ $flashDeal->is_active === 'Active' ? 'checked' : '' }}>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-save"><i class="bi bi-save2"></i> Update Deal</button>
+                <a href="{{ route('admin.flashDeals.index') }}" class="btn-cancel"><i class="bi bi-x-circle"></i>
+                    Cancel</a>
+            </div>
+        </form>
+    </div>
+
+
+
     <script>
         function updateActualPrice() {
             const select = document.getElementById('product_id');
@@ -267,17 +268,28 @@
             const discountInput = document.getElementById('discount_percent');
 
             if (actualPrice > 0 && flashPrice > 0 && flashPrice < actualPrice) {
-                let discount = ((actualPrice - flashPrice) / actualPrice) * 100;
-                discountInput.value = Math.floor(discount); // integer only
+                const discount = ((actualPrice - flashPrice) / actualPrice) * 100;
+                discountInput.value = Math.floor(discount); // show integer only
             } else {
                 discountInput.value = 0;
             }
         }
 
-        // Initialize on page load
+        // ✅ Initialize and enable real-time calculation
         document.addEventListener('DOMContentLoaded', function () {
+            const flashPriceInput = document.getElementById('flash_price');
+            const productSelect = document.getElementById('product_id');
+
+            // Trigger initial calculation on page load
             calculateDiscount();
+
+            // Trigger on typing
+            flashPriceInput.addEventListener('input', calculateDiscount);
+
+            // Trigger on product change
+            productSelect.addEventListener('change', updateActualPrice);
         });
     </script>
+
 
 @endsection

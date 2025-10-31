@@ -12,17 +12,6 @@
             </a>
         </div>
 
-        {{-- Notification --}}
-        @if(session('success'))
-            <div class="alert alert-success animate-fade-in">
-                <strong>Success:</strong> {{ session('success') }}
-            </div>
-        @elseif(session('error'))
-            <div class="alert alert-error animate-shake">
-                <strong>Error:</strong> {{ session('error') }}
-            </div>
-        @endif
-
         <div class="flash-grid" id="flashDealsGrid">
             @forelse($flashDeals as $deal)
                 <div class="flash-card">
@@ -148,33 +137,6 @@
             transform: translateY(-2px);
         }
 
-        /* Alerts */
-        .alert {
-            padding: 12px 16px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
-
-        .alert-success {
-            background: #e7f9ed;
-            color: #256d3b;
-            border: 1px solid #a7e0b2;
-        }
-
-        .alert-error {
-            background: #fde8e8;
-            color: #a11;
-            border: 1px solid #f5b5b5;
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease;
-        }
-
-        .animate-shake {
-            animation: shake 0.6s ease;
-        }
 
         @keyframes fadeIn {
             from {
