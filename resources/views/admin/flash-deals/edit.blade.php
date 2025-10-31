@@ -208,7 +208,8 @@
                     <!-- Discount Percent (readonly) -->
                     <div class="card">
                         <label for="discount_percent">Discount (%)</label>
-                        <input type="number" id="discount_percent" value="{{ $flashDeal->discount_percent }}" readonly>
+                        <input type="number" id="discount_percent" name="discount_percent"
+                            value="{{ $flashDeal->discount_percent }}" readonly>
                     </div>
 
                     <div class="card">
@@ -234,11 +235,21 @@
 
                     <div class="card switch-card">
                         <label>Status</label>
-                        <label class="switch">
-                            <input type="checkbox" name="is_active" value="Active" {{ $flashDeal->is_active === 'Active' ? 'checked' : '' }}>
-                            <span class="slider"></span>
-                        </label>
+                        <div class="switch-wrapper">
+                            <!-- Hidden field ensures "Inactive" is always sent when unchecked -->
+                            <input type="hidden" name="is_active" id="is_active_hidden" value="Inactive">
+
+                            <label class="switch">
+                                <input type="checkbox" id="is_active_checkbox" {{ $flashDeal->is_active === 'Active' ? 'checked' : '' }}>
+                                <span class="slider"></span>
+                            </label>
+
+                            <span id="status_label" class="status-text">
+                                {{ $flashDeal->is_active === 'Active' ? 'Active' : 'Inactive' }}
+                            </span>
+                        </div>
                     </div>
+
                 </div>
             </div>
 
