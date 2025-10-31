@@ -3,8 +3,8 @@
 @section('content')
     <style>
         /* =============================
-                                                           Flash Deals Overview Styling
-                                                        ============================= */
+                                                               Flash Deals Overview Styling
+                                                            ============================= */
         .flash-page-container {
             padding: 30px;
             background: #f8f9fc;
@@ -21,12 +21,12 @@
 
         .flash-header h1 {
             font-size: 26px;
-            color: #222;
+            color: #fff;
             margin-bottom: 5px;
         }
 
         .flash-header p {
-            color: #666;
+            color: #fff;
             font-size: 14px;
         }
 
@@ -327,6 +327,14 @@
                 transform: translateY(0);
                 opacity: 1;
             }
+        }
+
+        .flash-page-container {
+            background: #1b2850;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding: 20px;
+
         }
     </style>
     <div class="flash-page-container">

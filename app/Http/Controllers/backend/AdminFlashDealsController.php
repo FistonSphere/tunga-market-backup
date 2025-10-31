@@ -49,8 +49,12 @@ class AdminFlashDealsController extends Controller
         ->with('success', 'Flash Deal updated successfully!');
 }
 
-public function destory($id){
+ public function destroy($id)
+{
+    $FlashDeal = FlashDeal::findOrFail($id);
 
-    
+    $FlashDeal->delete();
+
+    return redirect()->route('admin.flashDeals.index')->with('success', 'flash deal deleted successfully!');
 }
 }
