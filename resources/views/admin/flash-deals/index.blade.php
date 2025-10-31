@@ -1,4 +1,6 @@
-@extends('admin.layouts.header')@section('content')
+@extends('admin.layouts.header')
+
+@section('content')
     <div class="flash-page-container">
         <div class="flash-header">
             <div>
@@ -97,8 +99,8 @@
 
     <style>
         /* =============================
-                           Flash Deals Overview Styling
-                        ============================= */
+                               Flash Deals Overview Styling
+                            ============================= */
         .flash-page-container {
             padding: 30px;
             background: #f8f9fc;
