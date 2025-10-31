@@ -247,7 +247,7 @@
                                 <li><a href="{{ route('admin.product.listing') }}"
                                         class="{{ request()->routeIs('admin.product.listing') ? 'active' : '' }}">Product
                                         List</a></li>
-                                <li><a href="{{ route('category.admin.index') }}"
+                                <li><a href=""
                                         class="">Product
                                         Issues</a></li>
                                 <li><a href="{{ route('admin.flashDeals.index') }}"
