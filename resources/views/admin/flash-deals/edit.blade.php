@@ -300,6 +300,30 @@
             // Trigger on product change
             productSelect.addEventListener('change', updateActualPrice);
         });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkbox = document.getElementById('is_active_checkbox');
+            const hiddenInput = document.getElementById('is_active_hidden');
+            const statusLabel = document.getElementById('status_label');
+
+            function updateStatus() {
+                if (checkbox.checked) {
+                    hiddenInput.value = 'Active';
+                    statusLabel.textContent = 'Active';
+                    statusLabel.style.color = '#f97316';
+                } else {
+                    hiddenInput.value = 'Inactive';
+                    statusLabel.textContent = 'Inactive';
+                    statusLabel.style.color = '#001428';
+                }
+            }
+
+            checkbox.addEventListener('change', updateStatus);
+
+            // Initialize state
+            updateStatus();
+        });
     </script>
 
 
