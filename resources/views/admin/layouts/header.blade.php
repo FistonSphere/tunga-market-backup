@@ -248,12 +248,12 @@
                                         class="{{ request()->routeIs('admin.product.listing') ? 'active' : '' }}">Product
                                         List</a></li>
                                 <li><a href="{{ route('category.admin.index') }}"
-                                        class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Product
+                                        class="">Product
                                         Issues</a></li>
                                 <li><a href="{{ route('admin.flashDeals.index') }}"
                                         class="{{ request()->routeIs('admin.flashDeals.index') ? 'active' : '' }}">Flash
                                         Deals</a></li>
-                                <li><a href="{{ route('category.admin.index') }}"
+                                <li><a href=""
                                         class="">Add
                                         Discount</a></li>
                                 <li><a href="{{ route('admin.brand.index') }}"
