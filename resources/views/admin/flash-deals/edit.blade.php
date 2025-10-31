@@ -251,6 +251,33 @@
             }
         }
     </style>
+    <script>
+        function updateActualPrice() {
+            const select = document.getElementById('product_id');
+            const actualPriceInput = document.getElementById('actual_price');
+            const selectedOption = select.options[select.selectedIndex];
+            const price = parseFloat(selectedOption.dataset.price || 0);
+            actualPriceInput.value = price.toFixed(2);
+            calculateDiscount();
+        }
 
+        function calculateDiscount() {
+            const actualPrice = parseFloat(document.getElementById('actual_price').value || 0);
+            const flashPrice = parseFloat(document.getElementById('flash_price').value || 0);
+            const discountInput = document.getElementById('discount_percent');
+
+            if (actualPrice > 0 && flashPrice > 0 && flashPrice < actualPrice) {
+                let discount = ((actualPrice - flashPrice) / actualPrice) * 100;
+                discountInput.value = Math.floor(discount); // integer only
+            } else {
+                discountInput.value = 0;
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            calculateDiscount();
+        });
+    </script>
 
 @endsection
