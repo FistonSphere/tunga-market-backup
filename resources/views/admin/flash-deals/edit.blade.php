@@ -34,10 +34,10 @@
                             step="0.01" required>
                     </div>
 
+                    <!-- Discount Percent (readonly) -->
                     <div class="card">
                         <label for="discount_percent">Discount (%)</label>
-                        <input type="number" name="discount_percent" id="discount_percent"
-                            value="{{ $flashDeal->discount_percent }}" min="0" max="100">
+                        <input type="number" id="discount_percent" value="{{ $flashDeal->discount_percent }}" readonly>
                     </div>
 
                     <div class="card">
