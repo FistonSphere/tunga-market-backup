@@ -228,6 +228,8 @@ Route::middleware(['middleware'=>'auth'])->prefix('admin')->group(function () {
 Route::post('/logout', [AdminUserController::class, 'logout'])->name('admin.logout');
 Route::get('/dashboard', [HomeAdminController::class, 'dashboard'])->name('admin.dashboard');
 Route::post('/send-reminder/{user}', [HomeAdminController::class, 'sendReminder'])->name('admin.sendReminder');
+
+//start products route
 Route::prefix('products')->controller(ProductManagementController::class)->group(function(){
 Route::get('/listing','index')->name('admin.product.listing');
 Route::get('/products/{id}', 'show')->name('admin.products.show');
@@ -242,7 +244,9 @@ Route::get('/save-pdf', 'savePDF')->name('admin.products.savePDF');
 Route::get('/save-excel', 'saveExcel')->name('admin.products.saveExcel');
 
 });
+//end products route
 
+//start flash deals route
 Route::prefix('/flash-deals')->controller(AdminFlashDealsController::class)->group(function(){
 Route::get('/overview','index')->name('admin.flashDeals.index');
 Route::get('/create', function(){
@@ -253,7 +257,9 @@ Route::put('/{id}/update', 'update')->name('admin.flash-deals.update');
 Route::delete('/{id}/delete', 'destroy')->name('admin.flash-deals.destroy');
 });
 
+//end flash deals route
 
+//start category route
 Route::prefix('/category')->controller(CategoryAdminController::class)->group(function(){
 Route::get('/overview', 'index')->name('category.admin.index');
 Route::delete('/{id}/delete', 'destroy')->name('category.destroy');
@@ -267,8 +273,9 @@ Route::delete('/{id}/delete', 'destroy')->name('admin.category.destroy');
 
 
 });
+//end category route
 
-
+//start brand route
 Route::prefix('/brand')->controller(BrandController::class)->group(function(){
 Route::get('/overview', 'index')->name('admin.brand.index');
 Route::delete('/{id}/delete', 'destroy')->name('admin.brand.destroy');
@@ -279,6 +286,6 @@ Route::get('/{id}/edit/', 'edit')->name('admin.brand.edit');
 Route::put('/{id}/update', 'update')->name('admin.brand.update');
 Route::post('/store', 'store')->name('admin.brand.store');
 });
-
+//end brand route
 });
 // admin with no authentication middleware routes
