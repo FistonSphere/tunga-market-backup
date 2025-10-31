@@ -434,7 +434,7 @@
     <div id="deleteModal" class="modal-overlay" style="display:none;">
         <div class="modal-content">
             <h2>Are you sure?</h2>
-            <p id="deleteMessage">This action cannot be undone. Do you really want to delete this category?</p>
+            <p id="deleteMessage">This action cannot be undone. Do you really want to delete this deal?</p>
 
             <div class="modal-actions">
                 <form id="deleteForm" method="POST">
