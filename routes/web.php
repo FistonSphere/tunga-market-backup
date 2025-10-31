@@ -245,6 +245,9 @@ Route::get('/save-excel', 'saveExcel')->name('admin.products.saveExcel');
 
 Route::prefix('/flash-deals')->controller(AdminFlashDealsController::class)->group(function(){
 Route::get('/overview','index')->name('admin.flashDeals.index');
+Route::get('/create', function(){
+    return view('admin.category.create');
+})->name('admin.flash-deals.create');
 });
 
 
