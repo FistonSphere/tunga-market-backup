@@ -248,6 +248,7 @@ Route::get('/overview','index')->name('admin.flashDeals.index');
 Route::get('/create', function(){
     return view('admin.category.create');
 })->name('admin.flash-deals.create');
+Route::get('/{id}/edit/', 'edit')->name('admin.flash-deals.edit');
 });
 
 
@@ -260,6 +261,7 @@ Route::get('/create', function(){
 Route::get('/{id}/edit/', 'edit')->name('admin.category.edit');
 Route::put('/{id}/update', 'update')->name('admin.category.update');
 Route::post('/store', 'store')->name('admin.category.store');
+Route::delete('/{id}/delete', 'destroy')->name('admin.flash-deals.destroy');
 
 
 });
