@@ -250,8 +250,8 @@
                                 <li><a href="{{ route('category.admin.index') }}"
                                         class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Product
                                         Issues</a></li>
-                                <li><a href="{{ route('category.admin.index') }}"
-                                        class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Flash
+                                <li><a href="{{ route('admin.flashDeals.index') }}"
+                                        class="{{ request()->routeIs('admin.flashDeals.index') ? 'active' : '' }}">Flash
                                         Deals</a></li>
                                 <li><a href="{{ route('category.admin.index') }}"
                                         class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Add
