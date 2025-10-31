@@ -249,6 +249,10 @@
                                         List</a></li>
                                 <li><a href="{{ route('category.admin.index') }}"
                                         class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Product Issues</a></li>
+                                <li><a href="{{ route('category.admin.index') }}"
+                                        class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Flash Deals</a></li>
+                                <li><a href="{{ route('category.admin.index') }}"
+                                        class="{{ request()->routeIs('category.admin.index') ? 'active' : '' }}">Add Discount</a></li>
                                 <li><a href="{{ route('admin.brand.index') }}"
                                         class="{{ request()->routeIs('admin.brand.index') ? 'active' : '' }}">Brand
                                         List</a></li>
