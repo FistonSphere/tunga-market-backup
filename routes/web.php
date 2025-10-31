@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\AdminFlashDealsController;
 use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\CategoryAdminController;
 use App\Http\Controllers\frontend\AboutController;
@@ -241,6 +242,12 @@ Route::get('/save-pdf', 'savePDF')->name('admin.products.savePDF');
 Route::get('/save-excel', 'saveExcel')->name('admin.products.saveExcel');
 
 });
+
+Route::prefix('/flash-deals')->controller(AdminFlashDealsController::class)->group(function(){
+Route::get('/overview','index')->name('admin.flashDeals.index');
+});
+
+
 Route::prefix('/category')->controller(CategoryAdminController::class)->group(function(){
 Route::get('/overview', 'index')->name('category.admin.index');
 Route::delete('/{id}/delete', 'destroy')->name('category.destroy');
