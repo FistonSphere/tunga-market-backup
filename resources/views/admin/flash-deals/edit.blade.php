@@ -14,16 +14,18 @@
                 <!-- LEFT COLUMN -->
                 <div class="column">
                     <div class="card">
-                        <label for="product_id">Product</label>
-                        <select name="product_id" id="product_id" required>
-                            <option value="">-- Select Product --</option>
-                            @foreach($products as $product)
-                                <option value="{{ $product->id }}" {{ $flashDeal->product_id == $product->id ? 'selected' : '' }}>
-                                    {{ $product->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <label for="product_id">Product</label>
+                    <select name="product_id" id="product_id" required onchange="updateActualPrice()">
+                        <option value="">-- Select Product --</option>
+                        @foreach($products as $product)
+                            <option value="{{ $product->id }}" 
+                                data-price="{{ $product->price ?? 0 }}"
+                                {{ $flashDeal->product_id == $product->id ? 'selected' : '' }}>
+                                {{ $product->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
                     <div class="card">
                         <label for="flash_price">Flash Deal Price ($)</label>
@@ -229,7 +231,6 @@
         }
 
         .btn-save:hover {
-            background: #001428;
             transform: translateY(-2px);
         }
 
@@ -239,7 +240,6 @@
         }
 
         .btn-cancel:hover {
-            background: #f97316;
             transform: translateY(-2px);
         }
 
