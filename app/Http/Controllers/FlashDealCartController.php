@@ -104,11 +104,9 @@ public function index()
     $activities = $activities->shuffle()->take(10);
 
     $featuredDeals = FlashDeal::with('product')
-        ->where('is_active', 1)
-        ->where('start_time', '<=', $now)
-        ->where('end_time', '>', $now)
-        ->orderByDesc('discount_percent') // top discounts first
-        ->take(6) // limit for carousel
+        ->active()
+        ->orderBy('start_time', 'desc')
+        ->limit(4)
         ->get();
 
 
@@ -130,8 +128,9 @@ $categories = Category::whereIn('id', $categoryIds)
         ->pluck('price')
         ->toArray();
 
-    $minPrice = floor(min($prices));
-    $maxPrice = ceil(max($prices));
+    $minPrice = !empty($prices) ? floor(min($prices)) : 0;
+    $maxPrice = !empty($prices) ? ceil(max($prices)) : 0;
+
 
     // Create dynamic price range brackets based on real data
     $priceRanges = [];
