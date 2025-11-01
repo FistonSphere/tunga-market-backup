@@ -13,7 +13,8 @@ class ProductIssue extends Model
         'product_id',
         'user_id',
         'message',
-        'status'
+        'status',
+        'reply_message'
     ];
 
     public function order()
