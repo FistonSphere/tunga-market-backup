@@ -180,8 +180,7 @@
             </div>
 
             <p style="margin-top: 10px; text-align:center; font-size: 13px; color:#6b7280;">
-                Product: <strong><img src="{{ $issue->product->main_image }}"
-                        style="height:100px;width:100px; object-fit:cover;">{{ $issue->product->name ?? 'Unknown Product' }}</strong><br>
+                Product: <strong><img src="{{ $issue->product->main_image }}" style="height:100px;width:100px; object-fit:cover;">{{ $issue->product->name ?? 'Unknown Product' }}</strong><br>
                 Order Reference: <strong>#{{ $issue->order->id ?? 'N/A' }}</strong>
             </p>
 
