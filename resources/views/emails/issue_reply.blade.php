@@ -6,7 +6,7 @@
     <title>Tunga Market - Issue Reply</title>
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f3f4f6;
             margin: 0;
             padding: 0;
