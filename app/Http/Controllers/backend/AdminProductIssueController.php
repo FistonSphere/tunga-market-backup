@@ -134,7 +134,7 @@ class AdminProductIssueController extends Controller
 
     return response()->json([
         'product_name' => $issue->product->name ?? 'Unknown',
-        'product_image' => $issue->product->main_image ?? asset('images/no-image.png'),
+        'product_image' => $issue->product->main_image ?? asset('assets/images/no-image.png'),
         'invoice_number' => $issue->order->invoice_number ?? 'N/A',
         'status' => $issue->status,
         'user_message' => $issue->message,
