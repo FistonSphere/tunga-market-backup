@@ -17,7 +17,7 @@ class AdminProductIssueController extends Controller
     return view('admin.product-issues.index',compact('issues'));
    }
 
- public function reply(Request $request)
+public function reply(Request $request)
 {
     $request->validate([
         'issue_id' => 'required|exists:product_issues,id',
@@ -25,13 +25,17 @@ class AdminProductIssueController extends Controller
         'status' => 'required|in:pending,resolved'
     ]);
 
-    $issue = ProductIssue::with('user')->findOrFail($request->issue_id);
+    // Fetch the issue with all related data for a richer email
+    $issue = ProductIssue::with(['user', 'product', 'order'])->findOrFail($request->issue_id);
+
+    // Update issue status
     $issue->update(['status' => $request->status]);
 
-    // Send modern styled HTML email
+    // Prepare data
     $user = $issue->user;
     $subject = "Response to Your Product Issue – Tunga Market";
 
+    // Prepare email body (rendering the Blade view)
     $emailContent = view('emails.issue_reply', [
         'user' => $user,
         'reply' => $request->reply_message,
@@ -39,14 +43,16 @@ class AdminProductIssueController extends Controller
         'issue' => $issue
     ])->render();
 
+    // Send the email (modern method)
     Mail::send([], [], function ($message) use ($user, $subject, $emailContent) {
         $message->to($user->email)
             ->subject($subject)
-            ->html($emailContent); // ✅ use html() instead of setBody()
+            ->html($emailContent); // ✅ Correct way for HTML body
     });
 
     return back()->with('success', 'Reply sent successfully and status updated.');
 }
+
 
 
 
