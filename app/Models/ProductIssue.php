@@ -14,9 +14,12 @@ class ProductIssue extends Model
         'user_id',
         'message',
         'status',
-        'reply_message'
+        'replies'
     ];
 
+    protected $casts=[
+      'replies' =>'array'
+    ];
     public function order()
     {
         return $this->belongsTo(Order::class);
