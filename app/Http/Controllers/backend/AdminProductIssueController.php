@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\OrderItem;
 use App\Models\ProductIssue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -13,7 +14,7 @@ class AdminProductIssueController extends Controller
 {
    
    public function index(){
-   $issues = ProductIssue::with('order','user','product')->get();
+   $issues = ProductIssue::with('order','user','product')->paginate('15');
    
     return view('admin.product-issues.index',compact('issues'));
    }
@@ -26,83 +27,93 @@ public function reply(Request $request)
         'status' => 'required|in:pending,resolved'
     ]);
 
-    $issue = ProductIssue::with(['user', 'product', 'order'])->findOrFail($request->issue_id);
-    $issue->update(['status' => $request->status]);
-
-    $user = $issue->user;
-    $subject = "Response to Your Product Issue – Tunga Market";
-
-    // ✅ Prepare Email Content
-    $emailContent = view('emails.issue_reply', [
-        'user' => $user,
-        'reply' => $request->reply_message,
-        'status' => ucfirst($request->status),
-        'issue' => $issue
-    ])->render();
-
-    // ✅ Send Email
     try {
-        Mail::send([], [], function ($message) use ($user, $subject, $emailContent) {
-            $message->to($user->email)
-                ->subject($subject)
-                ->html($emailContent);
-        });
-        Log::info("✅ Product issue reply email sent to {$user->email}");
-    } catch (\Exception $e) {
-        Log::error("❌ Email sending failed: " . $e->getMessage());
-    }
+        Log::info("🟡 Starting product issue reply process", ['request' => $request->all()]);
 
-    // ✅ Send SMS via Mista API
-    try {
-        $apiToken = config('services.mista.api_token');
-        $senderId = config('services.mista.sender_id');
+        $issue = ProductIssue::with(['user', 'product', 'order'])->findOrFail($request->issue_id);
+        $issue->update(['status' => $request->status]);
 
-        $productName = $issue->product->name ?? 'Your Product';
-        $status = ucfirst($request->status);
-        $reply = $request->reply_message;
+        $user = $issue->user;
+        $subject = "Response to Your Product Issue – Tunga Market";
 
-        // 🧡 Interactive, branded SMS message (multi-line)
-        $smsMessage = 
-"Tunga Market Support 💬
-----------------------------------
-Hello {$user->first_name},
+        // Prepare HTML email
+        $emailContent = view('emails.issue_reply', [
+            'user' => $user,
+            'reply' => $request->reply_message,
+            'status' => ucfirst($request->status),
+            'issue' => $issue
+        ])->render();
 
-We’ve reviewed your issue regarding:
-📦 Product: {$productName}
+        // ✅ EMAIL DEBUGGING BLOCK
+        try {
+            Log::info("🟡 Sending email to user", ['email' => $user->email]);
 
-💬 Our Reply:
-\"{$reply}\"
+            Mail::send([], [], function ($message) use ($user, $subject, $emailContent) {
+                $message->to($user->email)
+                    ->subject($subject)
+                    ->html($emailContent);
+            });
 
-📌 Current Status: {$status}
-
-Need more help? Simply reply or visit your Tunga Market account.
-
-Thank you for shopping with us! 🧡
-----------------------------------
-© " . date('Y') . " Tunga Market | tunga.rw";
-
-        // Send SMS request
-        $response = Http::withHeaders([
-            'accept' => 'application/json',
-            'content-type' => 'application/json',
-            'Authorization' => 'Bearer ' . $apiToken,
-        ])->post('https://api.mista.io/sms', [
-            'recipient' => $user->phone,
-            'sender_id' => $senderId,
-            'message' => $smsMessage,
-            'type' => 'plain',
-        ]);
-
-        if ($response->successful()) {
-            Log::info("✅ Reply SMS successfully sent to {$user->phone}");
-        } else {
-            Log::error("❌ Failed to send reply SMS. Response: " . $response->body());
+            if (count(Mail::failures()) > 0) {
+                Log::error("❌ Email sending failed", ['failures' => Mail::failures()]);
+            } else {
+                Log::info("✅ Email successfully sent to " . $user->email);
+            }
+        } catch (\Throwable $e) {
+            Log::error("❌ Email exception", ['error' => $e->getMessage()]);
         }
-    } catch (\Exception $e) {
-        Log::error("❌ SMS sending error: " . $e->getMessage());
-    }
 
-    return back()->with('success', 'Reply sent successfully via Email and SMS, and status updated.');
+        // ✅ SMS via Mista.io
+        try {
+            $apiToken = config('services.mista.api_token');
+            $senderId = config('services.mista.sender_id');
+
+            if (!$apiToken || !$senderId) {
+                Log::error("❌ Missing Mista API credentials");
+            }
+
+            $productName = $issue->product->name ?? 'Your Product';
+            $Issuemessage = $issue->message;
+            $smsMessage = "Tunga Market Support 💬\nHello {$user->first_name},\nWe reviewed your issue about {$productName}.\nReply: \"{$request->reply_message}\"\nStatus: " . ucfirst($request->status) . "\nThanks for shopping with us! 🧡";
+
+            Log::info("🟡 Sending SMS via Mista.io", [
+                'recipient' => $user->phone,
+                'message' => $smsMessage
+            ]);
+
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $apiToken,
+                'accept' => 'application/json',
+                'content-type' => 'application/json'
+            ])->post('https://api.mista.io/sms', [
+                'to' => $user->phone,
+                'from' => $senderId,
+                'unicode' => 0,
+                'sms' => $smsMessage,
+            ]);
+
+            Log::info("📡 Mista response", [
+                'status' => $response->status(),
+                'body' => $response->json()
+            ]);
+
+            if (!$response->successful()) {
+                Log::error("❌ Mista SMS failed", [
+                    'http_code' => $response->status(),
+                    'body' => $response->body()
+                ]);
+            } else {
+                Log::info("✅ Mista SMS successfully sent to {$user->phone}");
+            }
+        } catch (\Throwable $e) {
+            Log::error("❌ SMS exception", ['error' => $e->getMessage()]);
+        }
+
+        return back()->with('success', 'Reply sent and debugging logs recorded.');
+    } catch (\Throwable $e) {
+        Log::error("❌ Unexpected error in reply()", ['error' => $e->getMessage()]);
+        return back()->with('error', 'An unexpected error occurred. Check logs for details.');
+    }
 }
 
 

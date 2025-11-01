@@ -264,9 +264,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($issues as $index => $issue)
+                    @forelse($issues as $issue)
                         <tr>
-                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>
                                 <a href="javascript:void(0);" class="invoice-link"
                                     onclick="viewOrderItems('{{ $issue->order_id }}', '#{{ $issue->order->invoice_number }}')">
@@ -293,6 +293,8 @@
                 </tbody>
             </table>
         </div>
+        <!-- Custom Pagination -->
+       
     </div>
 
     <!-- 📨 Reply Modal -->
@@ -386,14 +388,14 @@
                     } else {
                         data.forEach((item, i) => {
                             tbody.innerHTML += `
-                                            <tr>
-                                                <td>${i + 1}</td>
-                                                <td>${item.order_no}</td>
-                                                <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:cover"></td>
-                                                <td>${item.product_name}</td>
-                                                <td>${item.quantity}</td>
-                                                <td>${item.price} Rwf</td>
-                                            </tr>`;
+                                                <tr>
+                                                    <td>${i + 1}</td>
+                                                    <td>${item.order_no}</td>
+                                                    <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:cover"></td>
+                                                    <td>${item.product_name}</td>
+                                                    <td>${item.quantity}</td>
+                                                    <td>${item.price} Rwf</td>
+                                                </tr>`;
                         });
                     }
                 });
