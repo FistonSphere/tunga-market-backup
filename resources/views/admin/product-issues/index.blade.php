@@ -332,6 +332,25 @@
             border-radius: 50%;
             background: #999;
         }
+
+        .close-btn {
+            background: #001428;
+            color: #fff;
+            border-radius: 50%;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: flex;
+            position: absolute;
+            height: 50px;
+            width: 50px;
+            top: 5px;
+            right: 5px;
+        }
+
+        .close-btn:hover {
+            background: rgb(204, 49, 49);
+        }
     </style>
 
 
@@ -455,14 +474,14 @@
     <!-- Issue Timeline Modal -->
     <div id="timelineModal" class="timeline-modal">
         <div class="timeline-content">
-            <span class="close-btn" onclick="closeTimelineModal()">&times;</span>
+            <span class="close-btn" onclick="closeTimelineModal()" style="cursor: pointer">&times;</span>
 
             <div class="product-section">
-                <img id="timelineProductImage" src="" alt="Product">
+                <img id="timelineProductImage" src="" style="height: 250px;width:250px;object-fit:contain;" alt="Product">
                 <div class="details">
                     <h2 id="timelineProductName"></h2>
                     <p>Invoice: <strong id="timelineInvoiceNumber"></strong></p>
-                    <p>Status: <span id="timelineStatus" class="status-badge"></span></p>
+                    <p style="margin-bottom: 20px;">Status: <span id="timelineStatus" class="status-badge"></span></p>
                 </div>
             </div>
 
@@ -509,14 +528,14 @@
                     } else {
                         data.forEach((item, i) => {
                             tbody.innerHTML += `
-                                                                                            <tr>
-                                                                                                <td>${i + 1}</td>
-                                                                                                <td>${item.order_no}</td>
-                                                                                                <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:cover"></td>
-                                                                                                <td>${item.product_name}</td>
-                                                                                                <td>${item.quantity}</td>
-                                                                                                <td>${item.price} Rwf</td>
-                                                                                            </tr>`;
+                                                                                                    <tr>
+                                                                                                        <td>${i + 1}</td>
+                                                                                                        <td>${item.order_no}</td>
+                                                                                                        <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:cover"></td>
+                                                                                                        <td>${item.product_name}</td>
+                                                                                                        <td>${item.quantity}</td>
+                                                                                                        <td>${item.price} Rwf</td>
+                                                                                                    </tr>`;
                         });
                     }
                 });
@@ -550,9 +569,9 @@
                             const sender = r.by === 'admin' ? 'Admin Reply' : 'User';
                             const msgClass = r.by === 'admin' ? 'admin' : 'user';
                             timeline.innerHTML += `<div class="message ${msgClass}">
-                                <strong>${sender}:</strong> ${r.message}
-                                <small>${r.timestamp}</small>
-                            </div>`;
+                                        <strong>${sender}:</strong> ${r.message}
+                                        <small>${r.timestamp}</small>
+                                    </div>`;
                         });
                     }
 
