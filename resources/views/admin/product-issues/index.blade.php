@@ -126,8 +126,9 @@
             cursor: pointer;
             transition: 0.25s ease;
         }
-        .btn-timeline{
-           background: #001428;
+
+        .btn-timeline {
+            background: #001428;
             color: #fff;
             padding: 8px 12px;
             border: none;
@@ -135,7 +136,7 @@
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.25s ease; 
+            transition: 0.25s ease;
             margin-top: 1.2em;
         }
 
@@ -508,14 +509,14 @@
                     } else {
                         data.forEach((item, i) => {
                             tbody.innerHTML += `
-                                                                    <tr>
-                                                                        <td>${i + 1}</td>
-                                                                        <td>${item.order_no}</td>
-                                                                        <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:cover"></td>
-                                                                        <td>${item.product_name}</td>
-                                                                        <td>${item.quantity}</td>
-                                                                        <td>${item.price} Rwf</td>
-                                                                    </tr>`;
+                                                                        <tr>
+                                                                            <td>${i + 1}</td>
+                                                                            <td>${item.order_no}</td>
+                                                                            <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:cover"></td>
+                                                                            <td>${item.product_name}</td>
+                                                                            <td>${item.quantity}</td>
+                                                                            <td>${item.price} Rwf</td>
+                                                                        </tr>`;
                         });
                     }
                 });
@@ -523,6 +524,39 @@
 
         function closeOrderItemsModal() {
             document.getElementById('orderItemsModal').style.display = 'none';
+        }
+
+
+        function openTimelineModal(issueId) {
+            fetch(`/admin/product-issues/${issueId}/timeline`)
+                .then(res => res.json())
+                .then(data => {
+                    // Populate modal
+                    document.getElementById('timelineProductImage').src = data.product_image;
+                    document.getElementById('timelineProductName').innerText = data.product_name;
+                    document.getElementById('timelineInvoiceNumber').innerText = "#" + data.invoice_number;
+
+                    const statusBadge = document.getElementById('timelineStatus');
+                    statusBadge.innerText = data.status.charAt(0).toUpperCase() + data.status.slice(1);
+                    statusBadge.className = `status-badge ${data.status}`;
+
+                    // Timeline messages
+                    const timeline = document.getElementById('timelineMessages');
+                    timeline.innerHTML = '';
+                    let userMsg = `<div class="message user"><strong>User:</strong> ${data.user_message}<small>${data.created_at}</small></div>`;
+                    timeline.innerHTML += userMsg;
+                    if (data.reply_message) {
+                        let adminMsg = `<div class="message admin"><strong>Admin Reply:</strong> ${data.reply_message}<small>${data.updated_at}</small></div>`;
+                        timeline.innerHTML += adminMsg;
+                    }
+
+                    document.getElementById('timelineModal').style.display = "block";
+                })
+                .catch(err => console.error("Error loading timeline:", err));
+        }
+
+        function closeTimelineModal() {
+            document.getElementById('timelineModal').style.display = "none";
         }
     </script>
 @endsection
