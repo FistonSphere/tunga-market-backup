@@ -253,9 +253,6 @@
                                 <li><a href="{{ route('admin.flashDeals.index') }}"
                                         class="{{ request()->routeIs('admin.flashDeals.index') ? 'active' : '' }}">Flash
                                         Deals</a></li>
-                                <li><a href=""
-                                        class="">Add
-                                        Discount</a></li>
                                 <li><a href="{{ route('admin.brand.index') }}"
                                         class="{{ request()->routeIs('admin.brand.index') ? 'active' : '' }}">Brand
                                         List</a></li>
