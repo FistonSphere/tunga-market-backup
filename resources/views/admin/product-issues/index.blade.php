@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="product-issues-wrapper">
-        <div class="header">
+        <div class="issue-header">
             <h1><i class="bi bi-exclamation-triangle-fill"></i> Product Issues & Complaints</h1>
             <div class="actions">
                 <input type="text" id="searchInput" placeholder="Search by product, user, or order..."
@@ -34,29 +34,27 @@
                     @forelse($issues as $index => $issue)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>#{{ $issue-> }}
+                            <td>
+                                <a href="javascript:void(0);" class="invoice-link"
+                                    onclick="viewOrderItems('{{ $issue->order_id }}', '#{{ $issue->order->invoice_number }}')">
+                                    #{{ $issue->order->invoice_number }}
+                                </a>
                             </td>
                             <td>{{ $issue->product->name ?? 'Unknown Product' }}</td>
-                            <td>{{ $issue->user->name ?? 'Unknown User' }}</td>
+                            <td>{{ $issue->user->first_name ?? '' }} {{ $issue->user->last_name ?? '' }}</td>
                             <td class="message">{{ Str::limit($issue->message, 60) }}</td>
-                            <td>
-                                <span class="status-badge {{ $issue->status }}">
-                                    {{ ucfirst($issue->status) }}
-                                </span>
-                            </td>
+                            <td><span class="status-badge {{ $issue->status }}">{{ ucfirst($issue->status) }}</span></td>
                             <td>{{ $issue->created_at->format('d M Y, H:i') }}</td>
                             <td>
                                 <button class="btn-reply"
-                                    onclick="openReplyModal('{{ $issue->id }}', '{{ addslashes($issue->message) }}')">
+                                    onclick="openReplyModal('{{ $issue->id }}', '{{ addslashes($issue->message) }}', '{{ $issue->status }}')">
                                     <i class="bi bi-chat-dots-fill"></i> Reply
                                 </button>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="no-issues">
-                                <i class="bi bi-inbox"></i> No issues reported yet.
-                            </td>
+                            <td colspan="8" class="no-issues"><i class="bi bi-inbox"></i> No issues reported yet.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -64,7 +62,7 @@
         </div>
     </div>
 
-    <!-- Reply Modal -->
+    <!-- 📨 Reply Modal -->
     <div id="replyModal" class="modal">
         <div class="modal-content">
             <h3><i class="bi bi-reply-all-fill"></i> Reply to Issue</h3>
@@ -72,12 +70,45 @@
             <form id="replyForm" method="POST" action="{{ route('admin.product-issues.reply') }}">
                 @csrf
                 <input type="hidden" name="issue_id" id="issueId">
+
                 <textarea name="reply_message" placeholder="Type your reply..." required></textarea>
+
+                <label for="status">Status:</label>
+                <select name="status" id="statusSelect" required>
+                    <option value="pending">Pending</option>
+                    <option value="resolved">Resolved</option>
+                </select>
+
                 <div class="modal-actions">
                     <button type="submit" class="btn-submit">Send Reply</button>
                     <button type="button" class="btn-cancel" onclick="closeReplyModal()">Cancel</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- 📦 Order Items Modal -->
+    <div id="orderItemsModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="bi bi-box-seam"></i> Order Items (<span id="orderNumber"></span>)</h3>
+            <table class="order-items-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="orderItemsBody">
+                    <tr>
+                        <td colspan="4" class="loading">Loading...</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeOrderItemsModal()">Close</button>
+            </div>
         </div>
     </div>
 
@@ -93,8 +124,8 @@
             max-width: 1300px;
         }
 
-        /* ====== HEADER ====== */
-        .header {
+        /* ====== issue-header ====== */
+        .issue-header {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
@@ -102,7 +133,7 @@
             margin-bottom: 20px;
         }
 
-        .header h1 {
+        .issue-header h1 {
             font-size: 1.6rem;
             font-weight: 700;
             display: flex;
@@ -111,13 +142,13 @@
             color: #001428;
         }
 
-        .header .actions {
+        .issue-header .actions {
             display: flex;
             gap: 10px;
         }
 
-        .header input,
-        .header select {
+        .issue-header input,
+        .issue-header select {
             padding: 10px 14px;
             border-radius: 8px;
             border: 1px solid #cfd6df;
@@ -127,8 +158,8 @@
             transition: 0.25s ease;
         }
 
-        .header input:focus,
-        .header select:focus {
+        .issue-header input:focus,
+        .issue-header select:focus {
             border-color: #f97316;
             box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
         }

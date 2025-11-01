@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class AdminProductIssueController extends Controller
 {
+   
    public function index(){
    $issues = ProductIssue::with('order','user','product')->get();
    
