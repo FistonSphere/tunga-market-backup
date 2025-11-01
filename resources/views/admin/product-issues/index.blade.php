@@ -164,6 +164,14 @@
             box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
         }
 
+        select {
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
         /* ====== TABLE ====== */
         .issues-table {
             overflow-x: auto;
@@ -235,27 +243,33 @@
         .modal {
             display: none;
             position: fixed;
-            inset: 0;
-            background: rgba(0, 20, 40, 0.6);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
-            z-index: 1000;
         }
 
         .modal-content {
             background: #fff;
-            padding: 25px 30px;
-            border-radius: 12px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-            animation: fadeIn 0.3s ease;
+            padding: 20px;
+            border-radius: 10px;
+            width: 500px;
+            max-width: 95%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         }
 
         .modal-content h3 {
             color: #001428;
-            font-weight: 700;
             margin-bottom: 10px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
         }
 
         .modal-content p {
