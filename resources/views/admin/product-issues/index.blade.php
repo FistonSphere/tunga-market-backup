@@ -328,6 +328,8 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Order No</th>
+                        <th>Product Image</th>
                         <th>Product</th>
                         <th>Qty</th>
                         <th>Price</th>
@@ -386,9 +388,11 @@
                             tbody.innerHTML += `
                                             <tr>
                                                 <td>${i + 1}</td>
+                                                <td>${item.order_no}</td>
+                                                <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:cover"></td>
                                                 <td>${item.product_name}</td>
                                                 <td>${item.quantity}</td>
-                                                <td>${item.price}</td>
+                                                <td>${item.price} Rwf</td>
                                             </tr>`;
                         });
                     }

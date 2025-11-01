@@ -52,16 +52,17 @@ class AdminProductIssueController extends Controller
     public function getOrderItems($orderId)
     {
         $items = OrderItem::where('order_id', $orderId)
-            ->with('product:id,name')
+            ->with('product:id,name,main_image')
             ->get()
             ->map(function ($item) {
                 return [
+                    'order_no'=>$item->order_no ?? '',
+                    'product_image' => $item->product->main_image,
                     'product_name' => $item->product->name ?? 'Unknown',
                     'quantity' => $item->quantity,
-                    'price' => number_format($item->price, 2)
+                    'price' => number_format($item->price)
                 ];
             });
-
         return response()->json($items);
     }
 
