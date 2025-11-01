@@ -26,17 +26,27 @@ class AdminProductIssueController extends Controller
         ]);
 
         $issue = ProductIssue::with('user')->findOrFail($request->issue_id);
-        $issue->status = $request->status;
-        $issue->save();
+        $issue->update(['status' => $request->status]);
 
-        // Send email to user
-        Mail::raw("Dear {$issue->user->first_name},\n\n{$request->reply_message}\n\nStatus: " . ucfirst($issue->status), function($msg) use ($issue) {
-            $msg->to($issue->user->email)
-                ->subject('Response to Your Product Issue Report');
+        // Send cool HTML email
+        $user = $issue->user;
+        $subject = "Response to Your Product Issue – Tunga Market";
+        $emailContent = view('emails.issue_reply', [
+            'user' => $user,
+            'reply' => $request->reply_message,
+            'status' => ucfirst($request->status),
+            'issue' => $issue
+        ])->render();
+
+        Mail::send([], [], function ($message) use ($user, $subject, $emailContent) {
+            $message->to($user->email)
+                ->subject($subject)
+                ->setBody($emailContent, 'text/html');
         });
 
         return back()->with('success', 'Reply sent successfully and status updated.');
     }
+
 
     // Fetch order items for modal
     public function getOrderItems($orderId)
