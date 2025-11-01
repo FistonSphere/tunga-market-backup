@@ -17,35 +17,37 @@ class AdminProductIssueController extends Controller
     return view('admin.product-issues.index',compact('issues'));
    }
 
-   public function reply(Request $request)
-    {
-        $request->validate([
-            'issue_id' => 'required|exists:product_issues,id',
-            'reply_message' => 'required|string',
-            'status' => 'required|in:pending,resolved'
-        ]);
+ public function reply(Request $request)
+{
+    $request->validate([
+        'issue_id' => 'required|exists:product_issues,id',
+        'reply_message' => 'required|string',
+        'status' => 'required|in:pending,resolved'
+    ]);
 
-        $issue = ProductIssue::with('user')->findOrFail($request->issue_id);
-        $issue->update(['status' => $request->status]);
+    $issue = ProductIssue::with('user')->findOrFail($request->issue_id);
+    $issue->update(['status' => $request->status]);
 
-        // Send cool HTML email
-        $user = $issue->user;
-        $subject = "Response to Your Product Issue – Tunga Market";
-        $emailContent = view('emails.issue_reply', [
-            'user' => $user,
-            'reply' => $request->reply_message,
-            'status' => ucfirst($request->status),
-            'issue' => $issue
-        ])->render();
+    // Send modern styled HTML email
+    $user = $issue->user;
+    $subject = "Response to Your Product Issue – Tunga Market";
 
-        Mail::send([], [], function ($message) use ($user, $subject, $emailContent) {
-            $message->to($user->email)
-                ->subject($subject)
-                ->setBody($emailContent, 'text/html');
-        });
+    $emailContent = view('emails.issue_reply', [
+        'user' => $user,
+        'reply' => $request->reply_message,
+        'status' => ucfirst($request->status),
+        'issue' => $issue
+    ])->render();
 
-        return back()->with('success', 'Reply sent successfully and status updated.');
-    }
+    Mail::send([], [], function ($message) use ($user, $subject, $emailContent) {
+        $message->to($user->email)
+            ->subject($subject)
+            ->html($emailContent); // ✅ use html() instead of setBody()
+    });
+
+    return back()->with('success', 'Reply sent successfully and status updated.');
+}
+
 
 
     // Fetch order items for modal
