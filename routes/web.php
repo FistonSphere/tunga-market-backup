@@ -234,15 +234,15 @@ Route::post('/send-reminder/{user}', [HomeAdminController::class, 'sendReminder'
 Route::prefix('products')->controller(ProductManagementController::class)->group(function(){
 Route::get('/listing','index')->name('admin.product.listing');
 Route::get('/{id}', 'show')->name('admin.products.show');
-Route::get('/products/{id}/edit/', 'edit')->name('admin.products.edit');
+Route::get('/{id}/edit/', 'edit')->name('admin.products.edit');
 Route::put('/products/{id}', 'update')->name('admin.products.update');
 Route::delete('/products/{id}/delete', 'destroy')->name('products.destroy');
 Route::get('/create',  'create')->name('products.admin.create');
 Route::post('/products', 'store')->name('products.store');
 Route::get('/filter', 'filter')->name('products.filter');
-Route::get('/print-pdf', 'printPDF')->name('admin.products.printPDF');
-Route::get('/save-pdf', 'savePDF')->name('admin.products.savePDF');
-Route::get('/save-excel', 'saveExcel')->name('admin.products.saveExcel');
+Route::get('/products/print-pdf', 'printPDF')->name('admin.products.printPDF');
+Route::get('/products/save-pdf', 'savePDF')->name('admin.products.savePDF');
+Route::get('/products/save-excel', 'saveExcel')->name('admin.products.saveExcel');
 
 });
 //end products route
