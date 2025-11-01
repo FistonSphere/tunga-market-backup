@@ -141,7 +141,7 @@ class AdminProductIssueController extends Controller
         return response()->json($items);
     }
 
-    public function getTimeline($id)
+  public function getTimeline($id)
 {
     $issue = ProductIssue::with(['product', 'order', 'user'])->findOrFail($id);
 
@@ -151,10 +151,11 @@ class AdminProductIssueController extends Controller
         'invoice_number' => $issue->order->invoice_number ?? 'N/A',
         'status' => $issue->status,
         'user_message' => $issue->message,
-        'reply_message' => $issue->reply_message ?? null,
+        'replies' => $issue->replies ?? [],
         'created_at' => $issue->created_at->format('d M Y, H:i'),
         'updated_at' => $issue->updated_at->format('d M Y, H:i')
     ]);
 }
+
 
 }
