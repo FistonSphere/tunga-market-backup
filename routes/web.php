@@ -294,6 +294,8 @@ Route::prefix('/product-issues')->controller(AdminProductIssueController::class)
     Route::get('/overview', 'index')->name('admin.productIssue.index');
     Route::post('/product-issues/reply', 'reply')->name('admin.product-issues.reply');
     Route::get('/orders/{orderId}/items', 'getOrderItems')->name('admin.orders.items');
+    Route::get('/{id}/timeline', 'getTimeline');
+
 });
 //end product issue route
 
