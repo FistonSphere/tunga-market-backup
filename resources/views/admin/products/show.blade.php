@@ -277,24 +277,28 @@
     <div class="product-view">
         <div
             style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
-                                            gap: 10px; background-color: #fff; padding: 15px 20px; border-radius: 10px;
-                                            box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; margin-top: 2em; margin-left: 2em; margin-right: 2em;">
+                                                    gap: 10px; background-color: #fff; padding: 15px 20px; border-radius: 10px;
+                                                    box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; margin-top: 2em; margin-left: 2em; margin-right: 2em;">
 
             <!-- Product Title -->
-            <h2 style="font-size: 20px; color: #001428; margin: 0; flex: 1 1 auto;">
-                {{ $product->name }}
+            <h2 style="color: #001428; margin: 0; flex: 1 1 auto;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#fb5d0d" class="bi bi-menu-up"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M7.646 15.854a.5.5 0 0 0 .708 0L10.207 14H14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3.793zM1 9V6h14v3zm14 1v2a1 1 0 0 1-1 1h-3.793a1 1 0 0 0-.707.293l-1.5 1.5-1.5-1.5A1 1 0 0 0 5.793 13H2a1 1 0 0 1-1-1v-2zm0-5H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zM2 11.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 0-1h-8a.5.5 0 0 0-.5.5m0-4a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11a.5.5 0 0 0-.5.5m0-4a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 0-1h-6a.5.5 0 0 0-.5.5" />
+                </svg>
             </h2>
 
             <!-- Actions Buttons -->
             <div class="actions" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end;">
                 <button onclick="window.location.href='{{ route('admin.products.edit', $product->id) }}'" style="background-color: #fb5d0d; color: #fff; border: none; border-radius: 6px;
-                                                   padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
-                                                   transition: 0.3s ease;">
+                                                           padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
+                                                           transition: 0.3s ease;">
                     Edit
                 </button>
                 <button id="deleteBtn" style="background-color: #dc3545; color: #fff; border: none; border-radius: 6px;
-                                   padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
-                                   transition: 0.3s ease;">
+                                           padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
+                                           transition: 0.3s ease;">
                     Delete
                 </button>
             </div>
@@ -302,8 +306,8 @@
             <!-- Back Button -->
             <div style="text-align: right;">
                 <a href="{{ route('admin.product.listing') }}" style="display: inline-block; background-color: #001428; color: #fff;
-                                                  padding: 8px 18px; border-radius: 6px; text-decoration: none;
-                                                  font-weight: 500; transition: 0.3s; font-size: 14px;">
+                                                          padding: 8px 18px; border-radius: 6px; text-decoration: none;
+                                                          font-weight: 500; transition: 0.3s; font-size: 14px;">
                     ← Back to Product Listing
                 </a>
             </div>
@@ -320,6 +324,7 @@
                 <h3>{{ $product->name }}</h3>
                 <p class="price">{{ number_format($product->price) }} {{ $product->currency }}</p>
                 <p class="meta">
+                    <strong>Short Description:</strong> {{ $product->short_description }}<br>
                     <strong>Slug:</strong> {{ $product->slug }}<br>
                     <strong>SKU:</strong> {{ $product->sku }}<br>
                     <strong>Category:</strong> {{ $product->category->name ?? '-' }}<br>
@@ -445,5 +450,5 @@
 
 
 
-   </script>
+    </script>
 @endsection
