@@ -531,7 +531,7 @@
                                                                                                     <tr>
                                                                                                         <td>${i + 1}</td>
                                                                                                         <td>${item.order_no}</td>
-                                                                                                        <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:cover"></td>
+                                                                                                        <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:contain"></td>
                                                                                                         <td>${item.product_name}</td>
                                                                                                         <td>${item.quantity}</td>
                                                                                                         <td>${item.price} Rwf</td>
