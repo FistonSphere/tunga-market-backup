@@ -126,6 +126,18 @@
             cursor: pointer;
             transition: 0.25s ease;
         }
+        .btn-timeline{
+           background: #001428;
+            color: #fff;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s ease; 
+            margin-top: 1.2em;
+        }
 
         .btn-reply:hover {
             background: #001428;
@@ -232,6 +244,93 @@
             color: #7c8b9e;
             padding: 30px;
         }
+
+        .timeline-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modal Content Box */
+        .timeline-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 25px;
+            border-radius: 12px;
+            width: 70%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Timeline Messages */
+        .issue-timeline {
+            border-left: 3px solid #ddd;
+            margin-left: 20px;
+            padding-left: 20px;
+        }
+
+        .issue-timeline .message {
+            position: relative;
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px 15px;
+            width: fit-content;
+            max-width: 70%;
+        }
+
+        .issue-timeline .message strong {
+            color: #333;
+        }
+
+        .issue-timeline .message small {
+            display: block;
+            margin-top: 6px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .issue-timeline .message.user {
+            background: #e3f2fd;
+            margin-left: 0;
+        }
+
+        .issue-timeline .message.admin {
+            background: #d1f7d6;
+            margin-left: 40px;
+        }
+
+        .issue-timeline .message::before {
+            content: "";
+            position: absolute;
+            left: -12px;
+            top: 18px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #999;
+        }
     </style>
 
 
@@ -283,6 +382,10 @@
                                     onclick="openReplyModal('{{ $issue->id }}', '{{ addslashes($issue->message) }}', '{{ $issue->status }}')">
                                     <i class="bi bi-chat-dots-fill"></i> Reply
                                 </button>
+                                <button class="btn-timeline" onclick="openTimelineModal({{ $issue->id }})">
+                                    <i class="bi bi-clock-history"></i> Timeline
+                                </button>
+
                             </td>
                         </tr>
                     @empty
@@ -293,8 +396,8 @@
                 </tbody>
             </table>
         </div>
-        
-        
+
+
     </div>
 
     <!-- 📨 Reply Modal -->
@@ -348,6 +451,23 @@
             </div>
         </div>
     </div>
+    <!-- Issue Timeline Modal -->
+    <div id="timelineModal" class="timeline-modal">
+        <div class="timeline-content">
+            <span class="close-btn" onclick="closeTimelineModal()">&times;</span>
+
+            <div class="product-section">
+                <img id="timelineProductImage" src="" alt="Product">
+                <div class="details">
+                    <h2 id="timelineProductName"></h2>
+                    <p>Invoice: <strong id="timelineInvoiceNumber"></strong></p>
+                    <p>Status: <span id="timelineStatus" class="status-badge"></span></p>
+                </div>
+            </div>
+
+            <div id="timelineMessages" class="issue-timeline"></div>
+        </div>
+    </div>
 
 
     <script>
@@ -388,14 +508,14 @@
                     } else {
                         data.forEach((item, i) => {
                             tbody.innerHTML += `
-                                                    <tr>
-                                                        <td>${i + 1}</td>
-                                                        <td>${item.order_no}</td>
-                                                        <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:cover"></td>
-                                                        <td>${item.product_name}</td>
-                                                        <td>${item.quantity}</td>
-                                                        <td>${item.price} Rwf</td>
-                                                    </tr>`;
+                                                                    <tr>
+                                                                        <td>${i + 1}</td>
+                                                                        <td>${item.order_no}</td>
+                                                                        <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:cover"></td>
+                                                                        <td>${item.product_name}</td>
+                                                                        <td>${item.quantity}</td>
+                                                                        <td>${item.price} Rwf</td>
+                                                                    </tr>`;
                         });
                     }
                 });
