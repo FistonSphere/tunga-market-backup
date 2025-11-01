@@ -293,10 +293,9 @@ Route::post('/store', 'store')->name('admin.brand.store');
 Route::prefix('/product-issues')->controller(AdminProductIssueController::class)->group(function(){
     Route::get('/overview', 'index')->name('admin.productIssue.index');
     Route::post('/product-issues/reply', 'reply')->name('admin.product-issues.reply');
-    Route::get('/orders/{orderId}/items', 'getOrderItems');
+    Route::get('/orders/{orderId}/items', 'getOrderItems')->name('admin.orders.items');
 });
 //end product issue route
-
 
 });
 // admin with no authentication middleware routes

@@ -371,7 +371,7 @@
             const tbody = document.getElementById('orderItemsBody');
             tbody.innerHTML = '<tr><td colspan="4" class="loading">Loading...</td></tr>';
 
-            fetch(`/admin/orders/${orderId}/items`)
+            fetch(`/admin/product-issues/orders/${orderId}/items`)
                 .then(res => res.json())
                 .then(data => {
                     tbody.innerHTML = '';
