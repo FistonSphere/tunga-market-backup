@@ -336,11 +336,12 @@
                 <div class="wordset">
                     <ul>
                         <li>
-                            <a href="{{ route('admin.products.savePDF') }}" data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
-                                    src="{{ asset('admin/assets/img/icons/pdf.svg') }}" alt="img" /></a>
+                            <a href="{{ route('admin.products.savePDF') }}" data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="pdf"><img src="{{ asset('admin/assets/img/icons/pdf.svg') }}" alt="img" /></a>
                         </li>
                         <li>
-                            <a href="{{ route('admin.products.saveExcel') }}" data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img
+                            <a href="{{ route('admin.products.saveExcel') }}" data-bs-toggle="tooltip"
+                                data-bs-placement="top" title="excel"><img
                                     src="{{asset('admin/assets/img/icons/excel.svg')}}" alt="img" /></a>
                         </li>
                         <li>
@@ -372,6 +373,7 @@
                             <th>Category</th>
                             <th>Brand</th>
                             <th>Price</th>
+                            <th>Discount Price</th>
                             <th>Qty</th>
                             <th style="text-align: center">Action</th>
                         </tr>
@@ -396,6 +398,7 @@
                                 <td>{{ $product->category->name }}</td>
                                 <td>{{ $product->brand->name ?? '-' }}</td>
                                 <td>{{ number_format($product->price) }} Rwf</td>
+                                <td>{{ number_format($product->discount_price) }} Rwf</td>
                                 <td>{{ $product->stock_quantity }}</td>
                                 <td style="text-align: center">
                                     <a class="me-3" href="{{ route('admin.products.show', $product->id) }}">
@@ -505,7 +508,7 @@
                     const productId = this.getAttribute('data-id');
                     const productName = this.getAttribute('data-name');
 
-                    
+
 
                     // Update confirmation message
                     deleteMessage.textContent = `Are you sure you want to delete "${productName}"?`;
@@ -551,13 +554,13 @@
                 const params = new URLSearchParams(formData).toString();
 
                 tableBody.innerHTML = `
-                            <tr>
-                                <td colspan="8" style="text-align:center; color:#999; padding:20px;">
-                                    <img src="{{ asset('assets/images/loader.gif') }}" width="24" style="vertical-align:middle; margin-right:8px;">
-                                    Filtering products...
-                                </td>
-                            </tr>
-                        `;
+                                <tr>
+                                    <td colspan="8" style="text-align:center; color:#999; padding:20px;">
+                                        <img src="{{ asset('assets/images/loader.gif') }}" width="24" style="vertical-align:middle; margin-right:8px;">
+                                        Filtering products...
+                                    </td>
+                                </tr>
+                            `;
 
                 fetch(`/admin/products/filter?${params}`)
                     .then(response => {
@@ -570,10 +573,10 @@
                     .catch(error => {
                         console.error("❌ Filter error:", error);
                         tableBody.innerHTML = `
-                                    <tr>
-                                        <td colspan="8" style="text-align:center; color:red;">Error loading filtered products.</td>
-                                    </tr>
-                                `;
+                                        <tr>
+                                            <td colspan="8" style="text-align:center; color:red;">Error loading filtered products.</td>
+                                        </tr>
+                                    `;
                     });
             });
 
@@ -591,49 +594,49 @@
 
                 if (!products || products.length === 0) {
                     tableBody.innerHTML = `
-                                <tr>
-                                    <td colspan="8" style="text-align:center; color:#999; padding:20px;">
-                                        No products found matching your filters.
-                                    </td>
-                                </tr>
-                            `;
+                                    <tr>
+                                        <td colspan="8" style="text-align:center; color:#999; padding:20px;">
+                                            No products found matching your filters.
+                                        </td>
+                                    </tr>
+                                `;
                     return;
                 }
 
                 products.forEach(product => {
                     const row = document.createElement("tr");
                     row.innerHTML = `
-                                <td>
-                                    <label class="checkboxs">
-                                        <input type="checkbox" />
-                                        <span class="checkmarks"></span>
-                                    </label>
-                                </td>
-                                <td class="productimgname">
-                                    <a href="/admin/products/products/${product.id}" class="product-img">
-                                        <img src="${product.main_image || '/storage/default.jpg'}"
-                                            alt="${product.name}" style="border-radius: 8px; width:50px; height:50px; object-fit:contain;">
-                                    </a>
-                                    <a href="/admin/products/products/${product.id}">${product.name}</a>
-                                </td>
-                                <td>${product.sku || '-'}</td>
-                                <td>${product.category?.name || '-'}</td>
-                                <td>${product.brand?.name || '-'}</td>
-                                <td>${Number(product.price).toLocaleString()} Rwf</td>
-                                <td>${product.stock_quantity ?? 0}</td>
-                                <td style="text-align:center;">
-                                    <a class="me-3" href="/admin/products/${product.id}">
-                                        <img src="{{ asset('admin/assets/img/icons/eye.svg') }}" alt="View" />
-                                    </a>
-                                    <a class="me-3" href="/admin/products/${product.id}/edit">
-                                        <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="Edit" />
-                                    </a>
-                                    <button type="button" class="deleteBtn confirm-text"
-                                        data-id="${product.id}" data-name="${product.name}">
-                                        <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="Delete" />
-                                    </button>
-                                </td>
-                            `;
+                                    <td>
+                                        <label class="checkboxs">
+                                            <input type="checkbox" />
+                                            <span class="checkmarks"></span>
+                                        </label>
+                                    </td>
+                                    <td class="productimgname">
+                                        <a href="/admin/products/products/${product.id}" class="product-img">
+                                            <img src="${product.main_image || '/storage/default.jpg'}"
+                                                alt="${product.name}" style="border-radius: 8px; width:50px; height:50px; object-fit:contain;">
+                                        </a>
+                                        <a href="/admin/products/products/${product.id}">${product.name}</a>
+                                    </td>
+                                    <td>${product.sku || '-'}</td>
+                                    <td>${product.category?.name || '-'}</td>
+                                    <td>${product.brand?.name || '-'}</td>
+                                    <td>${Number(product.price).toLocaleString()} Rwf</td>
+                                    <td>${product.stock_quantity ?? 0}</td>
+                                    <td style="text-align:center;">
+                                        <a class="me-3" href="/admin/products/${product.id}">
+                                            <img src="{{ asset('admin/assets/img/icons/eye.svg') }}" alt="View" />
+                                        </a>
+                                        <a class="me-3" href="/admin/products/${product.id}/edit">
+                                            <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="Edit" />
+                                        </a>
+                                        <button type="button" class="deleteBtn confirm-text"
+                                            data-id="${product.id}" data-name="${product.name}">
+                                            <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="Delete" />
+                                        </button>
+                                    </td>
+                                `;
                     tableBody.appendChild(row);
                 });
             }
