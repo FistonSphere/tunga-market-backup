@@ -294,57 +294,7 @@
             </table>
         </div>
         
-        <!-- Custom Pagination -->
-        @if ($products->hasPages())
-            <div class="custom-pagination flex justify-center items-center space-x-2 mt-6">
-                {{-- Previous Page Link --}}
-                @if ($products->onFirstPage())
-                    <span class="pagination-btn disabled">Prev</span>
-                @else
-                    <a href="{{ $products->previousPageUrl() }}" class="pagination-btn">Prev</a>
-                @endif
-
-                {{-- Pagination Elements --}}
-                @php
-                    $total = $products->lastPage();
-                    $current = $products->currentPage();
-                    $start = max($current - 2, 1);
-                    $end = min($current + 2, $total);
-                @endphp
-
-                {{-- First page & leading ellipsis --}}
-                @if($start > 1)
-                    <a href="{{ $products->url(1) }}" class="pagination-btn">1</a>
-                    @if($start > 2)
-                        <span class="pagination-btn ellipsis">...</span>
-                    @endif
-                @endif
-
-                {{-- Pages around current page --}}
-                @for ($i = $start; $i <= $end; $i++)
-                    @if ($i == $current)
-                        <span class="pagination-btn active">{{ $i }}</span>
-                    @else
-                        <a href="{{ $products->url($i) }}" class="pagination-btn">{{ $i }}</a>
-                    @endif
-                @endfor
-
-                {{-- Trailing ellipsis & last page --}}
-                @if($end < $total)
-                    @if($end < $total - 1)
-                        <span class="pagination-btn ellipsis">...</span>
-                    @endif
-                    <a href="{{ $products->url($total) }}" class="pagination-btn">{{ $total }}</a>
-                @endif
-
-                {{-- Next Page Link --}}
-                @if ($products->hasMorePages())
-                    <a href="{{ $products->nextPageUrl() }}" class="pagination-btn">Next</a>
-                @else
-                    <span class="pagination-btn disabled">Next</span>
-                @endif
-            </div>
-        @endif
+        
     </div>
 
     <!-- 📨 Reply Modal -->

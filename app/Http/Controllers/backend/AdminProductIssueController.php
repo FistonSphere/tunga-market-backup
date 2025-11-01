@@ -92,16 +92,27 @@ public function reply(Request $request)
             $reply = trim($request->reply_message);
             $status = ucfirst($request->status);
 
-            $smsMessage =
-"📦 *Tunga Market Support Update*\n
-Hello {$user->first_name}, we’ve reviewed your product issue.\n
-🛍️ *Product:* {$productName}\n
-🧾 *Invoice:* #{$invoice}\n
-❓ *Your Message:* {$question}\n
-💬 *Our Reply:* {$reply}\n
-📊 *Status:* {$status}\n
-Thank you for shopping with us 💚\n
-Tunga Market | Support Team";
+$smsMessage =
+"Tunga Market - Support Update
+
+Hello {$user->first_name},
+
+We have reviewed your product issue.
+
+Product: {$productName}
+Invoice: #{$invoice}
+
+Your Message:
+{$question}
+
+Our Reply:
+{$reply}
+
+Current Status: {$status}
+
+Thank you for shopping with Tunga Market.
+Visit tungamarket.com for more assistance.";
+
 
             Log::info("🟡 Sending SMS via Mista.io", [
                 'recipient' => $user->phone,
