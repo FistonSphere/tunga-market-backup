@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('product_issues', function (Blueprint $table) {
-            $table->text('reply_message')->nullable()->after('message');
+         if (Schema::hasColumn('product_issues', 'reply_message')) {
+                $table->dropColumn('reply_message');
+            }
+            $table->json('replies')->nullable()->after('message');
         });
     }
 
@@ -22,7 +25,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('product_issues', function (Blueprint $table) {
-            $table->dropColumn('reply_message');
+              $table->dropColumn('replies');
+            $table->text('reply_message')->nullable();
         });
     }
 };
