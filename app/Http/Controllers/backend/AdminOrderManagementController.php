@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class AdminOrderManagementController extends Controller
 {
-   public function index(){
+   public function Orderlist(){
 
     return view('admin.orders.index');
    }

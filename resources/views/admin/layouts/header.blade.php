@@ -269,14 +269,13 @@
                                         List</a></li>
                             </ul>
                         </li>
-                        <li class="submenu">
+                        <li class="submenu {{ request()->is('admin/orders*') }}">
                             <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/purchase1.svg')}}"
                                     alt="img"><span>
                                     Orders</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="purchaselist.html">Purchase List</a></li>
-                                <li><a href="addpurchase.html">Add Purchase</a></li>
-                                <li><a href="importpurchase.html">Import Purchase</a></li>
+                                <li><a href="{{ route('admin.orders.list') }}" class="{{ request()->routeIs('admin.orders.list') ? 'active' : '' }}">Order List</a></li>
+                                <li><a href="{{ route('admin.orders.items') }}" class="{{ request()->routeIs('admin.orders.items') ? 'active' : '' }}">Order Items</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
