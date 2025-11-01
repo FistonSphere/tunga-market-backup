@@ -165,17 +165,26 @@
 
             <div class="chat-box">
                 <div class="message user">
-                    <p><strong>You:</strong><br>
-                        {{ $issue->description ?? 'Issue details not available.' }}
+                    <p>
+                        <strong>You:</strong><br>
+                        {{ $issue->message }}
                     </p>
                 </div>
 
                 <div class="message admin">
-                    <p><strong>Support (Tunga Market):</strong><br>
+                    <p>
+                        <strong>Support (Tunga Market):</strong><br>
                         {{ $reply }}
                     </p>
                 </div>
             </div>
+
+            <p style="margin-top: 10px; text-align:center; font-size: 13px; color:#6b7280;">
+                Product: <strong><img src="{{ $issue->product->main_image }}"
+                        style="height:100px;width:100px; object-fit:cover;">{{ $issue->product->name ?? 'Unknown Product' }}</strong><br>
+                Order Reference: <strong>#{{ $issue->order->id ?? 'N/A' }}</strong>
+            </p>
+
 
             <div class="status">
                 <p>Your issue status is now:
