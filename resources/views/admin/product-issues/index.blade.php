@@ -509,14 +509,14 @@
                     } else {
                         data.forEach((item, i) => {
                             tbody.innerHTML += `
-                                                                        <tr>
-                                                                            <td>${i + 1}</td>
-                                                                            <td>${item.order_no}</td>
-                                                                            <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:cover"></td>
-                                                                            <td>${item.product_name}</td>
-                                                                            <td>${item.quantity}</td>
-                                                                            <td>${item.price} Rwf</td>
-                                                                        </tr>`;
+                                                                                            <tr>
+                                                                                                <td>${i + 1}</td>
+                                                                                                <td>${item.order_no}</td>
+                                                                                                <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:cover"></td>
+                                                                                                <td>${item.product_name}</td>
+                                                                                                <td>${item.quantity}</td>
+                                                                                                <td>${item.price} Rwf</td>
+                                                                                            </tr>`;
                         });
                     }
                 });
@@ -545,10 +545,17 @@
                     timeline.innerHTML = '';
                     let userMsg = `<div class="message user"><strong>User:</strong> ${data.user_message}<small>${data.created_at}</small></div>`;
                     timeline.innerHTML += userMsg;
-                    if (data.reply_message) {
-                        let adminMsg = `<div class="message admin"><strong>Admin Reply:</strong> ${data.reply_message}<small>${data.updated_at}</small></div>`;
-                        timeline.innerHTML += adminMsg;
+                    if (data.replies && data.replies.length > 0) {
+                        data.replies.forEach(r => {
+                            const sender = r.by === 'admin' ? 'Admin Reply' : 'User';
+                            const msgClass = r.by === 'admin' ? 'admin' : 'user';
+                            timeline.innerHTML += `<div class="message ${msgClass}">
+                                <strong>${sender}:</strong> ${r.message}
+                                <small>${r.timestamp}</small>
+                            </div>`;
+                        });
                     }
+
 
                     document.getElementById('timelineModal').style.display = "block";
                 })
