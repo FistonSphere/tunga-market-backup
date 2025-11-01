@@ -2,115 +2,7 @@
 
 
 @section('content')
-    <div class="product-issues-wrapper">
-        <div class="issue-header">
-            <h1><i class="bi bi-exclamation-triangle-fill"></i> Product Issues & Complaints</h1>
-            <div class="actions">
-                <input type="text" id="searchInput" placeholder="Search by product, user, or order..."
-                    onkeyup="filterIssues()">
-                <select id="statusFilter" onchange="filterIssues()">
-                    <option value="">All Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="resolved">Resolved</option>
-                </select>
-            </div>
-        </div>
 
-        <div class="issues-table">
-            <table id="issuesTable">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Order</th>
-                        <th>Product</th>
-                        <th>User</th>
-                        <th>Message</th>
-                        <th>Status</th>
-                        <th>Date Reported</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($issues as $index => $issue)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>
-                                <a href="javascript:void(0);" class="invoice-link"
-                                    onclick="viewOrderItems('{{ $issue->order_id }}', '#{{ $issue->order->invoice_number }}')">
-                                    #{{ $issue->order->invoice_number }}
-                                </a>
-                            </td>
-                            <td>{{ $issue->product->name ?? 'Unknown Product' }}</td>
-                            <td>{{ $issue->user->first_name ?? '' }} {{ $issue->user->last_name ?? '' }}</td>
-                            <td class="message">{{ Str::limit($issue->message, 60) }}</td>
-                            <td><span class="status-badge {{ $issue->status }}">{{ ucfirst($issue->status) }}</span></td>
-                            <td>{{ $issue->created_at->format('d M Y, H:i') }}</td>
-                            <td>
-                                <button class="btn-reply"
-                                    onclick="openReplyModal('{{ $issue->id }}', '{{ addslashes($issue->message) }}', '{{ $issue->status }}')">
-                                    <i class="bi bi-chat-dots-fill"></i> Reply
-                                </button>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="8" class="no-issues"><i class="bi bi-inbox"></i> No issues reported yet.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- 📨 Reply Modal -->
-    <div id="replyModal" class="modal">
-        <div class="modal-content">
-            <h3><i class="bi bi-reply-all-fill"></i> Reply to Issue</h3>
-            <p id="issueMessage"></p>
-            <form id="replyForm" method="POST" action="{{ route('admin.product-issues.reply') }}">
-                @csrf
-                <input type="hidden" name="issue_id" id="issueId">
-
-                <textarea name="reply_message" placeholder="Type your reply..." required></textarea>
-
-                <label for="status">Status:</label>
-                <select name="status" id="statusSelect" required>
-                    <option value="pending">Pending</option>
-                    <option value="resolved">Resolved</option>
-                </select>
-
-                <div class="modal-actions">
-                    <button type="submit" class="btn-submit">Send Reply</button>
-                    <button type="button" class="btn-cancel" onclick="closeReplyModal()">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- 📦 Order Items Modal -->
-    <div id="orderItemsModal" class="modal">
-        <div class="modal-content">
-            <h3><i class="bi bi-box-seam"></i> Order Items (<span id="orderNumber"></span>)</h3>
-            <table class="order-items-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Product</th>
-                        <th>Qty</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody id="orderItemsBody">
-                    <tr>
-                        <td colspan="4" class="loading">Loading...</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="modal-actions">
-                <button type="button" class="btn-cancel" onclick="closeOrderItemsModal()">Close</button>
-            </div>
-        </div>
-    </div>
 
     <style>
         /* ====== GENERAL ====== */
@@ -342,6 +234,118 @@
         }
     </style>
 
+
+    <div class="product-issues-wrapper">
+        <div class="issue-header">
+            <h1><i class="bi bi-exclamation-triangle-fill"></i> Product Issues & Complaints</h1>
+            <div class="actions">
+                <input type="text" id="searchInput" placeholder="Search by product, user, or order..."
+                    onkeyup="filterIssues()">
+                <select id="statusFilter" onchange="filterIssues()">
+                    <option value="">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="resolved">Resolved</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="issues-table">
+            <table id="issuesTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Order</th>
+                        <th>Product</th>
+                        <th>User</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                        <th>Date Reported</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($issues as $index => $issue)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>
+                                <a href="javascript:void(0);" class="invoice-link"
+                                    onclick="viewOrderItems('{{ $issue->order_id }}', '#{{ $issue->order->invoice_number }}')">
+                                    #{{ $issue->order->invoice_number }}
+                                </a>
+                            </td>
+                            <td>{{ $issue->product->name ?? 'Unknown Product' }}</td>
+                            <td>{{ $issue->user->first_name ?? '' }} {{ $issue->user->last_name ?? '' }}</td>
+                            <td class="message">{{ Str::limit($issue->message, 60) }}</td>
+                            <td><span class="status-badge {{ $issue->status }}">{{ ucfirst($issue->status) }}</span></td>
+                            <td>{{ $issue->created_at->format('d M Y, H:i') }}</td>
+                            <td>
+                                <button class="btn-reply"
+                                    onclick="openReplyModal('{{ $issue->id }}', '{{ addslashes($issue->message) }}', '{{ $issue->status }}')">
+                                    <i class="bi bi-chat-dots-fill"></i> Reply
+                                </button>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="8" class="no-issues"><i class="bi bi-inbox"></i> No issues reported yet.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 📨 Reply Modal -->
+    <div id="replyModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="bi bi-reply-all-fill"></i> Reply to Issue</h3>
+            <p id="issueMessage"></p>
+            <form id="replyForm" method="POST" action="{{ route('admin.product-issues.reply') }}">
+                @csrf
+                <input type="hidden" name="issue_id" id="issueId">
+
+                <textarea name="reply_message" placeholder="Type your reply..." required></textarea>
+
+                <label for="status">Status:</label>
+                <select name="status" id="statusSelect" required>
+                    <option value="pending">Pending</option>
+                    <option value="resolved">Resolved</option>
+                </select>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn-submit">Send Reply</button>
+                    <button type="button" class="btn-cancel" onclick="closeReplyModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 📦 Order Items Modal -->
+    <div id="orderItemsModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="bi bi-box-seam"></i> Order Items (<span id="orderNumber"></span>)</h3>
+            <table class="order-items-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="orderItemsBody">
+                    <tr>
+                        <td colspan="4" class="loading">Loading...</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeOrderItemsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         function filterIssues() {
             const search = document.getElementById('searchInput').value.toLowerCase();
@@ -380,12 +384,12 @@
                     } else {
                         data.forEach((item, i) => {
                             tbody.innerHTML += `
-                                <tr>
-                                    <td>${i + 1}</td>
-                                    <td>${item.product_name}</td>
-                                    <td>${item.quantity}</td>
-                                    <td>${item.price}</td>
-                                </tr>`;
+                                            <tr>
+                                                <td>${i + 1}</td>
+                                                <td>${item.product_name}</td>
+                                                <td>${item.quantity}</td>
+                                                <td>${item.price}</td>
+                                            </tr>`;
                         });
                     }
                 });
