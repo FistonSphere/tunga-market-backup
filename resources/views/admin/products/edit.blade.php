@@ -2,262 +2,6 @@
 
 
 @section('content')
-    <div class="page-header">
-        <div class="page-title">
-            <h4>Edit Product</h4>
-            <h6>Update product details and save changes</h6>
-        </div>
-        <div class="page-btn">
-            <a href="{{ route('admin.product.listing') }}" class="btn btn-back">
-                <i class="fa fa-arrow-left me-2"></i>Back to Products
-            </a>
-        </div>
-    </div>
-
-    <div class="card product-edit-card">
-        <div class="card-body">
-            <form id="editProductForm" method="POST" action="{{ route('admin.products.update', $product->id) }}"
-                enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-
-                <div class="form-grid">
-                    <!-- Product Name -->
-                    <div class="form-group">
-                        <label>Product Name <span class="text-danger">*</span></label>
-                        <input type="text" name="name" value="{{ old('name', $product->name) }}"
-                            placeholder="Enter product name" required />
-                    </div>
-
-                    <!-- SKU -->
-                    <div class="form-group">
-                        <label>SKU</label>
-                        <input type="text" id="sku" name="sku" value="{{ old('sku', $product->sku) }}" readonly />
-                    </div>
-
-                    <!-- Slug -->
-                    <div class="form-group">
-                        <label>Slug</label>
-                        <input type="text" id="slug" name="slug" value="{{ old('slug', $product->slug) }}" readonly />
-                    </div>
-
-                    <!-- Category -->
-                    <div class="form-group">
-                        <label>Category <span class="text-danger">*</span></label>
-                        <select name="category_id" id="category_id" required>
-                            <option value="">Select Category</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <!-- Brand -->
-                    <div class="form-group">
-                        <label>Brand</label>
-                        <select name="brand_id" id="brand_id">
-                            <option value="">Select Brand</option>
-                            @foreach ($brands as $brand)
-                                <option value="{{ $brand->id }}" {{ $product->brand_id == $brand->id ? 'selected' : '' }}>
-                                    {{ $brand->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <!-- Price -->
-                    <div class="form-group">
-                        <label>Price (RWF)</label>
-                        <input type="number" name="price" min="0" value="{{ old('price', $product->price) }}" />
-                    </div>
-
-                    <!-- Stock Quantity -->
-                    <div class="form-group">
-                        <label>Stock Quantity</label>
-                        <input type="number" name="stock_quantity" min="0"
-                            value="{{ old('stock_quantity', $product->stock_quantity) }}" />
-                    </div>
-
-                    <!-- Status -->
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select name="status" id="status">
-                            <option value="active" {{ $product->status == 'active' ? 'selected' : '' }}>Active</option>
-                            <option value="inactive" {{ $product->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                        </select>
-                    </div>
-                    <!-- Short Description -->
-                    <div class="form-group">
-                        <label>Short Description</label>
-                        <input type="text" name="short_description"
-                            placeholder="Write short description about this product..."
-                            value="{{ old('short_description', $product->short_description) }}">
-                    </div>
-                    <!-- Unit Type -->
-                    <div class="form-group">
-                        <label>Unit Type</label>
-                        <select name="unit_id" id="">
-                            @foreach ($units as $unit)
-                                <option value="{{ $unit->id }}" {{ $unit->id == $product->unit_id ? 'selected' : '' }}>
-                                    {{ $unit->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Description -->
-                <div class="form-group full-width">
-                    <label>Description</label>
-                    <textarea name="long_description" rows="5"
-                        placeholder="Write long description about this product...">{{ old('long_description', $product->long_description) }}</textarea>
-                </div>
-
-                <!-- Main Image -->
-                <div class="image-section">
-                    <label class="form-label"><i class="bi bi-image"></i> Main Image</label>
-
-                    <div id="mainImagePreview" style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px;">
-                        @if($product->main_image)
-                            <div class="image-card" onclick="openLightbox('{{ asset($product->main_image) }}')">
-                                <img src="{{ asset($product->main_image) }}" alt="Main Image">
-                            </div>
-                        @else
-                            <div class="upload-box" style="width: 150px; height: 150px;">
-                                No image uploaded
-                            </div>
-                        @endif
-                    </div>
-
-                    <div style="margin-top: 15px;">
-                        <label style="font-size: 14px; color: #555;">Upload New Main Image</label>
-                        <div class="upload-box">
-                            <i class="bi bi-cloud-arrow-up"></i>
-                            <p>Click or drag to upload</p>
-                            <input type="file" name="main_image" id="main_image_input">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- GALLERY SECTION -->
-                <div class="image-section">
-                    <label class="form-label"><i class="bi bi-images"></i> Product Gallery</label>
-
-                    @php
-                        $galleryImages = json_decode($product->gallery ?? '[]', true) ?? [];
-                    @endphp
-
-                    <!-- Hidden input to store gallery JSON -->
-                    <input type="hidden" name="gallery" id="gallery_json" value='@json($galleryImages)'>
-
-                    <!-- Gallery Grid -->
-                    <div id="galleryGrid" class="gallery-grid">
-                        @foreach($galleryImages as $index => $image)
-                            <div class="image-card" data-index="{{ $index }}" onclick="openLightbox('{{ asset($image) }}')">
-                                <img src="{{ asset($image) }}" alt="Gallery Image">
-                                <button type="button" class="remove-image-btn"
-                                    onclick="removeImage(event, {{ $index }})">Remove</button>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    @if(count($galleryImages) === 0)
-                        <p class="no-images">No gallery images available.</p>
-                    @endif
-
-                    <!-- Upload Box -->
-                    <div class="upload-wrapper">
-                        <label class="upload-label">Add More Images</label>
-                        <div class="upload-box">
-                            <i class="bi bi-cloud-plus"></i>
-                            <p>Click or drag to upload multiple images</p>
-                            <input type="file" name="gallery_files[]" id="gallery_input" multiple>
-                        </div>
-                    </div>
-
-                    <!-- Lightbox Modal -->
-                    <div id="lightboxModal">
-                        <button onclick="closeLightbox()">&times;</button>
-                        <img id="lightboxImage" src="" alt="Preview">
-                    </div>
-                </div>
-
-                <div class="extra-info-section">
-                    <h4 class="section-title"><i class="bi bi-sliders"></i> Additional Product Details</h4>
-
-                    <div class="form-grid">
-                        <!-- Features -->
-                        <div class="form-group">
-                            <label for="features_input" class="form-label"><i class="bi bi-stars"></i> Features</label>
-                            <input type="text" id="features_input" name="features" value='{{ $product->features ?? "[]" }}'
-                                placeholder="Type a feature and press Enter" />
-                        </div>
-
-                        <!-- Specifications -->
-                        <div class="form-group">
-                            <label for="specifications_input" class="form-label"><i class="bi bi-gear"></i>
-                                Specifications</label>
-                            <input type="text" id="specifications_input" name="specifications"
-                                value='{{ $product->specifications ?? "{}" }}' style="min-width: 30px;"
-                                placeholder="Type 'Battery: 30 Hours' and press Enter" />
-                        </div>
-                    </div>
-                    <div class="form-grid">
-
-                        <!-- Tags -->
-                        <div class="form-group">
-                            <label for="tags_input" class="form-label"><i class="bi bi-tags"></i> Tags</label>
-                            <input type="text" id="tags_input" name="tags" value='{{ $product->tags ?? "[]" }}'
-                                placeholder="Type tags and press Enter" />
-                        </div>
-
-                        <!-- Toggles -->
-                        <div class="toggle-group">
-                            <label class="switch-label">Has 3D Model</label>
-                            <label class="switch">
-                                <input type="checkbox" name="has_3d_model" {{ $product->has_3d_model ? 'checked' : '' }}>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="toggle-group">
-                            <label class="switch-label">Is Featured</label>
-                            <label class="switch">
-                                <input type="checkbox" name="is_featured" {{ $product->is_featured ? 'checked' : '' }}>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="toggle-group">
-                            <label class="switch-label">Is New</label>
-                            <label class="switch">
-                                <input type="checkbox" name="is_new" {{ $product->is_new ? 'checked' : '' }}>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="toggle-group">
-                            <label class="switch-label">Is Best Seller</label>
-                            <label class="switch">
-                                <input type="checkbox" name="is_best_seller" {{ $product->is_best_seller ? 'checked' : '' }}>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div class="form-actions mt-4">
-                    <button type="submit" class="btn btn-primary-gradient">Save Changes</button>
-                    <a href="{{ route('admin.product.listing') }}" class="btn btn-outline">Cancel</a>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-
     <style>
         .product-edit-card {
             background: #fff;
@@ -363,10 +107,10 @@
 
 
         /* .form-group label {
-                                    font-weight: 600;
-                                    color: #333;
-                                    margin-bottom: 6px;
-                                } */
+                                        font-weight: 600;
+                                        color: #333;
+                                        margin-bottom: 6px;
+                                    } */
 
         .form-group input,
         .form-group select,
@@ -584,6 +328,268 @@
             color: #ccc;
         }
     </style>
+    <div class="page-header">
+        <div class="page-title">
+            <h4>Edit Product</h4>
+            <h6>Update product details and save changes</h6>
+        </div>
+        <div class="page-btn">
+            <a href="{{ route('admin.product.listing') }}" class="btn btn-back">
+                <i class="fa fa-arrow-left me-2"></i>Back to Products
+            </a>
+        </div>
+    </div>
+
+    <div class="card product-edit-card">
+        <div class="card-body">
+            <form id="editProductForm" method="POST" action="{{ route('admin.products.update', $product->id) }}"
+                enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+
+                <div class="form-grid">
+                    <!-- Product Name -->
+                    <div class="form-group">
+                        <label>Product Name <span class="text-danger">*</span></label>
+                        <input type="text" name="name" value="{{ old('name', $product->name) }}"
+                            placeholder="Enter product name" required />
+                    </div>
+
+                    <!-- SKU -->
+                    <div class="form-group">
+                        <label>SKU</label>
+                        <input type="text" id="sku" name="sku" value="{{ old('sku', $product->sku) }}" readonly />
+                    </div>
+
+                    <!-- Slug -->
+                    <div class="form-group">
+                        <label>Slug</label>
+                        <input type="text" id="slug" name="slug" value="{{ old('slug', $product->slug) }}" readonly />
+                    </div>
+
+                    <!-- Category -->
+                    <div class="form-group">
+                        <label>Category <span class="text-danger">*</span></label>
+                        <select name="category_id" id="category_id" required>
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Brand -->
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <select name="brand_id" id="brand_id">
+                            <option value="">Select Brand</option>
+                            @foreach ($brands as $brand)
+                                <option value="{{ $brand->id }}" {{ $product->brand_id == $brand->id ? 'selected' : '' }}>
+                                    {{ $brand->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="form-group">
+                        <label>Price (RWF)</label>
+                        <input type="number" name="price" min="0" value="{{ old('price', $product->price) }}" />
+                    </div>
+                    <!-- Price -->
+                    <div class="form-group">
+                        <label>Discount Price (RWF)</label>
+                        <input type="number" name="discount_price" min="0" value="{{ old('discount_price', $product->discount_price) }}" />
+                    </div>
+
+                    <!-- Stock Quantity -->
+                    <div class="form-group">
+                        <label>Stock Quantity</label>
+                        <input type="number" name="stock_quantity" min="0"
+                            value="{{ old('stock_quantity', $product->stock_quantity) }}" />
+                    </div>
+
+                    <!-- Status -->
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="status" id="status">
+                            <option value="active" {{ $product->status == 'active' ? 'selected' : '' }}>Active</option>
+                            <option value="inactive" {{ $product->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                        </select>
+                    </div>
+                    <!-- Short Description -->
+                    <div class="form-group">
+                        <label>Short Description</label>
+                        <input type="text" name="short_description"
+                            placeholder="Write short description about this product..."
+                            value="{{ old('short_description', $product->short_description) }}">
+                    </div>
+                    <!-- Unit Type -->
+                    <div class="form-group">
+                        <label>Unit Type</label>
+                        <select name="unit_id" id="">
+                            @foreach ($units as $unit)
+                                <option value="{{ $unit->id }}" {{ $unit->id == $product->unit_id ? 'selected' : '' }}>
+                                    {{ $unit->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group full-width">
+                    <label>Description</label>
+                    <textarea name="long_description" rows="5"
+                        placeholder="Write long description about this product...">{{ old('long_description', $product->long_description) }}</textarea>
+                </div>
+
+                <!-- Main Image -->
+                <div class="image-section">
+                    <label class="form-label"><i class="bi bi-image"></i> Main Image</label>
+
+                    <div id="mainImagePreview" style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px;">
+                        @if($product->main_image)
+                            <div class="image-card" onclick="openLightbox('{{ asset($product->main_image) }}')">
+                                <img src="{{ asset($product->main_image) }}" alt="Main Image">
+                            </div>
+                        @else
+                            <div class="upload-box" style="width: 150px; height: 150px;">
+                                No image uploaded
+                            </div>
+                        @endif
+                    </div>
+
+                    <div style="margin-top: 15px;">
+                        <label style="font-size: 14px; color: #555;">Upload New Main Image</label>
+                        <div class="upload-box">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                            <p>Click or drag to upload</p>
+                            <input type="file" name="main_image" id="main_image_input">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GALLERY SECTION -->
+                <div class="image-section">
+                    <label class="form-label"><i class="bi bi-images"></i> Product Gallery</label>
+
+                    @php
+                        $galleryImages = json_decode($product->gallery ?? '[]', true) ?? [];
+                    @endphp
+
+                    <!-- Hidden input to store gallery JSON -->
+                    <input type="hidden" name="gallery" id="gallery_json" value='@json($galleryImages)'>
+
+                    <!-- Gallery Grid -->
+                    <div id="galleryGrid" class="gallery-grid">
+                        @foreach($galleryImages as $index => $image)
+                            <div class="image-card" data-index="{{ $index }}" onclick="openLightbox('{{ asset($image) }}')">
+                                <img src="{{ asset($image) }}" alt="Gallery Image">
+                                <button type="button" class="remove-image-btn"
+                                    onclick="removeImage(event, {{ $index }})">Remove</button>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    @if(count($galleryImages) === 0)
+                        <p class="no-images">No gallery images available.</p>
+                    @endif
+
+                    <!-- Upload Box -->
+                    <div class="upload-wrapper">
+                        <label class="upload-label">Add More Images</label>
+                        <div class="upload-box">
+                            <i class="bi bi-cloud-plus"></i>
+                            <p>Click or drag to upload multiple images</p>
+                            <input type="file" name="gallery_files[]" id="gallery_input" multiple>
+                        </div>
+                    </div>
+
+                    <!-- Lightbox Modal -->
+                    <div id="lightboxModal">
+                        <button onclick="closeLightbox()">&times;</button>
+                        <img id="lightboxImage" src="" alt="Preview">
+                    </div>
+                </div>
+
+                <div class="extra-info-section">
+                    <h4 class="section-title"><i class="bi bi-sliders"></i> Additional Product Details</h4>
+
+                    <div class="form-grid">
+                        <!-- Features -->
+                        <div class="form-group">
+                            <label for="features_input" class="form-label"><i class="bi bi-stars"></i> Features</label>
+                            <input type="text" id="features_input" name="features" value='{{ $product->features ?? "[]" }}'
+                                placeholder="Type a feature and press Enter" />
+                        </div>
+
+                        <!-- Specifications -->
+                        <div class="form-group">
+                            <label for="specifications_input" class="form-label"><i class="bi bi-gear"></i>
+                                Specifications</label>
+                            <input type="text" id="specifications_input" name="specifications"
+                                value='{{ $product->specifications ?? "{}" }}' style="min-width: 30px;"
+                                placeholder="Type 'Battery: 30 Hours' and press Enter" />
+                        </div>
+                    </div>
+                    <div class="form-grid">
+
+                        <!-- Tags -->
+                        <div class="form-group">
+                            <label for="tags_input" class="form-label"><i class="bi bi-tags"></i> Tags</label>
+                            <input type="text" id="tags_input" name="tags" value='{{ $product->tags ?? "[]" }}'
+                                placeholder="Type tags and press Enter" />
+                        </div>
+
+                        <!-- Toggles -->
+                        <div class="toggle-group">
+                            <label class="switch-label">Has 3D Model</label>
+                            <label class="switch">
+                                <input type="checkbox" name="has_3d_model" {{ $product->has_3d_model ? 'checked' : '' }}>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-group">
+                            <label class="switch-label">Is Featured</label>
+                            <label class="switch">
+                                <input type="checkbox" name="is_featured" {{ $product->is_featured ? 'checked' : '' }}>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-group">
+                            <label class="switch-label">Is New</label>
+                            <label class="switch">
+                                <input type="checkbox" name="is_new" {{ $product->is_new ? 'checked' : '' }}>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-group">
+                            <label class="switch-label">Is Best Seller</label>
+                            <label class="switch">
+                                <input type="checkbox" name="is_best_seller" {{ $product->is_best_seller ? 'checked' : '' }}>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-actions mt-4">
+                    <button type="submit" class="btn btn-primary-gradient">Save Changes</button>
+                    <a href="{{ route('admin.product.listing') }}" class="btn btn-outline">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
 
     <script>
         // Auto-slug and SKU updates (if product name changes)
@@ -653,9 +659,9 @@
                         div.classList.add('image-card');
                         div.setAttribute('data-index', galleryData.length - 1);
                         div.innerHTML = `
-                                                                    <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
-                                                                    <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
-                                                                `;
+                                                                        <img src="${newImage}" alt="New Image" onclick="openLightbox('${newImage}')">
+                                                                        <button type="button" class="remove-image-btn" onclick="removeImage(event, ${galleryData.length - 1})">Remove</button>
+                                                                    `;
                         galleryGrid.appendChild(div);
                     };
                     reader.readAsDataURL(file);

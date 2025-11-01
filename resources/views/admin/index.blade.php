@@ -487,7 +487,7 @@
                                                     <img src="{{ asset($item->product->main_image) }}"
                                                         alt="{{ $item->product->name }}"
                                                         class="rounded-circle border border-white shadow-sm"
-                                                        style="width: 40px; height: 40px; object-fit: cover;">
+                                                        style="width: 40px; height: 40px; object-fit: contain;">
                                                 </div>
                                             @endforeach
 

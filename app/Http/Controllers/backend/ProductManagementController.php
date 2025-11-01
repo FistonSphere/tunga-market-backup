@@ -222,8 +222,6 @@ Log::info('✅ Final gallery ready', ['count' => count($finalGallery)]);
 }
 
 
-
-
 public function destroy($id)
 {
     $product = Product::findOrFail($id);
@@ -274,20 +272,19 @@ public function store(Request $request)
         'short_description'  => 'nullable|string',
         'long_description'   => 'nullable|string',
         'price'              => 'required|numeric',
-        'discount_price'     => 'nullable|numeric',
         'currency'           => 'nullable|string|max:10',
         'min_order_quantity' => 'nullable|integer|min:1',
         'stock_quantity'     => 'nullable|integer|min:0',
         'main_image'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        'gallery'            => 'nullable',               // hidden JSON (base64 + urls)
-        'gallery.*'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // files
+        'gallery'            => 'nullable',              
+        'gallery.*'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', 
         'video_url'          => 'nullable|string|max:255',
         'status'             => 'required|string|in:active,inactive,draft',
         'specifications'     => 'nullable|string',
         'features'           => 'nullable|string',
         'shipping_info'      => 'nullable|string',
         'tags'               => 'nullable|string',
-        // checkboxes handled later
+        
     ]);
 
     // ensure checkboxes default to 0/1 (they may not exist in request)
@@ -363,7 +360,7 @@ public function store(Request $request)
         // only allowed fillable keys - ensure they exist in $validated
         Arr::only($validated, [
             'name','slug','sku','category_id','brand_id','unit_id','tax_class_id',
-            'short_description','long_description','price','discount_price','currency',
+            'short_description','long_description','price','currency',
             'min_order_quantity','stock_quantity','video_url','status','specifications',
             'features','shipping_info','tags','is_featured','is_new','is_best_seller','has_3d_model'
         ])

@@ -167,7 +167,7 @@
 
                                         <img src="{{ asset($item->product->main_image ?? 'assets/images/no-image.png') }}"
                                             alt="{{ $item->product->name }}"
-                                            class="w-24 h-24 rounded-lg object-cover flex-shrink-0" loading="lazy" />
+                                            class="w-24 h-24 rounded-lg object-contain flex-shrink-0" loading="lazy" />
 
                                         <div class="flex-1 min-w-0">
                                             <div class="flex flex-col lg:flex-row lg:items-start justify-between">
@@ -335,7 +335,7 @@
                                     <div class="wishlist-item border border-border rounded-lg p-4 hover:bg-surface transition-fast">
                                         <div class="flex items-center space-x-3">
                                             <img src="{{ asset($product->main_image ?? 'images/no-image.png') }}"
-                                                alt="{{ $product->name }}" class="w-16 h-16 rounded-lg object-cover"
+                                                alt="{{ $product->name }}" class="w-16 h-16 rounded-lg object-contain"
                                                 loading="lazy" />
                                             <div class="flex-1">
                                                 <h4 class="font-medium text-primary mb-1">{{ $product->name }}</h4>
@@ -387,7 +387,7 @@
                             <a href="{{ route('product.view', $featureProduct->sku) }}">
                                 <img src="{{ $featureProduct->main_image ? asset($featureProduct->main_image) : asset('assets/images/no-image.png') }}"
                                     alt="{{ $featureProduct->product_name }}"
-                                    class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
+                                    class="w-full h-48 object-contain group-hover:scale-105 transition-all duration-300 rounded-lg"
                                     loading="lazy" />
                             </a>
                             <button onclick="addToWishlist('{{ $featureProduct->id }}')"

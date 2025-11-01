@@ -438,11 +438,6 @@
                 </div>
 
                 <div class="prd-create-group">
-                    <label>Discount Price</label>
-                    <input type="number" step="0.01" name="discount_price">
-                </div>
-
-                <div class="prd-create-group">
                     <label>Currency</label>
                     <select name="currency">
                         <option value="Rwf" selected>Rwf</option>
