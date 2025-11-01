@@ -5,6 +5,7 @@ use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\CategoryAdminController;
 use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\backend\AdminOrderManagementController;
 use App\Http\Controllers\backend\AdminProductIssueController;
 use App\Http\Controllers\backend\AdminUserController;
 use App\Http\Controllers\backend\HomeAdminController;
@@ -298,6 +299,16 @@ Route::prefix('/product-issues')->controller(AdminProductIssueController::class)
 
 });
 //end product issue route
+
+
+//start orders route
+Route::prefix('/orders')->controller(AdminOrderManagementController::class)->group(function(){
+Route::get('/overview', 'index')->name('admin.orders.index');
+});
+//end orders route
+
+
+
 
 });
 // admin with no authentication middleware routes

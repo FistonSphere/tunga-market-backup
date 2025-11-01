@@ -272,7 +272,7 @@
                         <li class="submenu">
                             <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/purchase1.svg')}}"
                                     alt="img"><span>
-                                    Purchase</span> <span class="menu-arrow"></span></a>
+                                    Orders</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="purchaselist.html">Purchase List</a></li>
                                 <li><a href="addpurchase.html">Add Purchase</a></li>
