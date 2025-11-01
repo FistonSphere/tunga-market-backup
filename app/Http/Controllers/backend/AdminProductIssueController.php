@@ -33,7 +33,10 @@ public function reply(Request $request)
         Log::info("🟡 Starting issue reply process", ['request' => $request->all()]);
 
         $issue = ProductIssue::with(['user', 'product', 'order'])->findOrFail($request->issue_id);
-        $issue->update(['status' => $request->status]);
+        $issue->update([
+            'reply_message' => $request->reply_message,
+            'status' => $request->status
+        ]);
 
         $user = $issue->user;
         $product = $issue->product;
