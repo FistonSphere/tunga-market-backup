@@ -292,7 +292,8 @@ Route::post('/store', 'store')->name('admin.brand.store');
 //start product issue route
 Route::prefix('/product-issues')->controller(AdminProductIssueController::class)->group(function(){
     Route::get('/overview', 'index')->name('admin.productIssue.index');
-    Route::post('/reply', 'reply')->name('admin.product-issues.reply');
+    Route::post('/product-issues/reply', 'reply')->name('admin.product-issues.reply');
+    Route::get('/orders/{orderId}/items', 'getOrderItems');
 });
 //end product issue route
 
