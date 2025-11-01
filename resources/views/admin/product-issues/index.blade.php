@@ -355,14 +355,44 @@
             });
         }
 
-        function openReplyModal(id, message) {
+        function openReplyModal(id, message, status) {
             document.getElementById('replyModal').style.display = 'flex';
-            document.getElementById('issueId').value = id;
             document.getElementById('issueMessage').innerText = message;
+            document.getElementById('issueId').value = id;
+            document.getElementById('statusSelect').value = status;
         }
-
         function closeReplyModal() {
             document.getElementById('replyModal').style.display = 'none';
+        }
+
+        function viewOrderItems(orderId, orderNumber) {
+            document.getElementById('orderItemsModal').style.display = 'flex';
+            document.getElementById('orderNumber').innerText = orderNumber;
+            const tbody = document.getElementById('orderItemsBody');
+            tbody.innerHTML = '<tr><td colspan="4" class="loading">Loading...</td></tr>';
+
+            fetch(`/admin/orders/${orderId}/items`)
+                .then(res => res.json())
+                .then(data => {
+                    tbody.innerHTML = '';
+                    if (data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="4" class="loading">No items found.</td></tr>';
+                    } else {
+                        data.forEach((item, i) => {
+                            tbody.innerHTML += `
+                                <tr>
+                                    <td>${i + 1}</td>
+                                    <td>${item.product_name}</td>
+                                    <td>${item.quantity}</td>
+                                    <td>${item.price}</td>
+                                </tr>`;
+                        });
+                    }
+                });
+        }
+
+        function closeOrderItemsModal() {
+            document.getElementById('orderItemsModal').style.display = 'none';
         }
     </script>
 @endsection
