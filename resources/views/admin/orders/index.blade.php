@@ -5,6 +5,187 @@
 
 
     <style>
+        /* ====== Modal Overlay ====== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 20, 40, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ====== Modal Box ====== */
+        .modal-content {
+            background: #fff;
+            width: 850px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 14px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+            padding: 25px 35px;
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ====== Close Button ====== */
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 18px;
+            font-size: 24px;
+            color: #666;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #f97316;
+        }
+
+        /* ====== Header ====== */
+        .order-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f5f5f5;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .order-detail-header h2 {
+            font-size: 20px;
+            color: #001428;
+            font-weight: 700;
+        }
+
+        .order-detail-header small {
+            font-size: 14px;
+            color: #777;
+            margin-left: 6px;
+        }
+
+        .order-status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .order-status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .order-status-badge.processing {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .order-status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .order-status-badge.cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* ====== Sections ====== */
+        .section {
+            background: #fafbfc;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .section:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transform: translateY(-1px);
+        }
+
+        .section h3 {
+            font-size: 15px;
+            color: #f97316;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            font-size: 14px;
+            margin: 3px 0;
+            color: #333;
+        }
+
+        /* ====== Product List ====== */
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .product-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        .product-item .info {
+            flex: 1;
+        }
+
+        .product-item .info h4 {
+            font-size: 14px;
+            color: #001428;
+            margin-bottom: 2px;
+        }
+
+        .product-item .info span {
+            font-size: 13px;
+            color: #666;
+        }
+
         /* ========= GENERAL STYLING ========= */
         .orders-dashboard {
             padding: 20px 40px;
@@ -140,7 +321,7 @@
             width: 50px;
             height: 50px;
             border-radius: 6px;
-            object-fit:fill;
+            object-fit: fill;
             border: 1px solid #ddd;
         }
 
@@ -316,8 +497,59 @@
         </div>
     </div>
 
+    <!-- ORDER DETAILS MODAL -->
+    <div id="orderDetailsModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeOrderModal()">&times;</span>
 
+            <!-- HEADER -->
+            <div class="order-detail-header">
+                <h2>Order Details <small id="orderInvoice"></small></h2>
+                <span id="orderStatus" class="order-status-badge"></span>
+            </div>
 
+            <!-- BODY -->
+            <div class="order-detail-body">
+
+                <!-- CUSTOMER INFORMATION -->
+                <section class="section">
+                    <h3>Customer Information</h3>
+                    <p><strong>Name:</strong> <span id="customerName"></span></p>
+                    <p><strong>Email:</strong> <span id="customerEmail"></span></p>
+                </section>
+
+                <!-- SHIPPING DETAILS -->
+                <section class="section">
+                    <h3>Shipping Address</h3>
+                    <div id="shippingDetails">
+                        <p><strong>Recipient:</strong> <span id="shipName"></span></p>
+                        <p><strong>Company:</strong> <span id="shipCompany"></span></p>
+                        <p><strong>Address:</strong> <span id="shipAddress"></span></p>
+                        <p><strong>City:</strong> <span id="shipCity"></span></p>
+                        <p><strong>State:</strong> <span id="shipState"></span></p>
+                        <p><strong>Postal Code:</strong> <span id="shipPostal"></span></p>
+                        <p><strong>Country:</strong> <span id="shipCountry"></span></p>
+                        <p><strong>Phone:</strong> <span id="shipPhone"></span></p>
+                    </div>
+                </section>
+
+                <!-- ORDERED PRODUCTS -->
+                <section class="section">
+                    <h3>Ordered Products</h3>
+                    <div id="orderProducts" class="product-list"></div>
+                </section>
+
+                <!-- PAYMENT INFO -->
+                <section class="section">
+                    <h3>Payment & Order Summary</h3>
+                    <p><strong>Payment Method:</strong> <span id="paymentMethod"></span></p>
+                    <p><strong>Total:</strong> <span id="orderTotal"></span></p>
+                    <p><strong>Currency:</strong> <span id="orderCurrency"></span></p>
+                    <p><strong>Date:</strong> <span id="orderDate"></span></p>
+                </section>
+            </div>
+        </div>
+    </div>
     <script>
         function filterOrders() {
             const search = document.getElementById('searchOrder').value.toLowerCase();
@@ -330,6 +562,63 @@
                 const matchesStatus = status ? text.includes(status) : true;
                 card.style.display = (matchesSearch && matchesStatus) ? '' : 'none';
             });
+        }
+
+
+        function viewOrderDetails(orderId) {
+            fetch(`/admin/orders/${orderId}/show`)
+                .then(response => response.json())
+                .then(order => {
+                    // Header
+                    document.getElementById('orderInvoice').textContent = `#${order.invoice_number}`;
+                    const badge = document.getElementById('orderStatus');
+                    badge.textContent = order.status;
+                    badge.className = `order-status-badge ${order.status}`;
+
+                    // Customer Info
+                    document.getElementById('customerName').textContent = `${order.user.first_name} ${order.user.last_name}`;
+                    document.getElementById('customerEmail').textContent = order.user.email || 'N/A';
+
+                    // Shipping Info
+                    const s = order.shipping_address;
+                    document.getElementById('shipName').textContent = `${s?.first_name ?? ''} ${s?.last_name ?? ''}`;
+                    document.getElementById('shipCompany').textContent = s?.company || '—';
+                    document.getElementById('shipAddress').textContent = `${s?.address_line1 ?? ''} ${s?.address_line2 ?? ''}`;
+                    document.getElementById('shipCity').textContent = s?.city || '—';
+                    document.getElementById('shipState').textContent = s?.state || '—';
+                    document.getElementById('shipPostal').textContent = s?.postal_code || '—';
+                    document.getElementById('shipCountry').textContent = s?.country || '—';
+                    document.getElementById('shipPhone').textContent = s?.phone || '—';
+
+                    // Payment
+                    document.getElementById('paymentMethod').textContent = order.payment_method ?? 'N/A';
+                    document.getElementById('orderTotal').textContent = `${order.total} ${order.currency}`;
+                    document.getElementById('orderCurrency').textContent = order.currency;
+                    document.getElementById('orderDate').textContent = new Date(order.created_at).toLocaleString();
+
+                    // Products
+                    const productsContainer = document.getElementById('orderProducts');
+                    productsContainer.innerHTML = '';
+                    order.items.forEach(item => {
+                        const div = document.createElement('div');
+                        div.classList.add('product-item');
+                        div.innerHTML = `
+              <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+              <div class="info">
+                <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                <span>Qty: ${item.quantity} × ${item.price}</span>
+              </div>`;
+                        productsContainer.appendChild(div);
+                    });
+
+                    // Show Modal
+                    document.getElementById('orderDetailsModal').style.display = 'flex';
+                })
+                .catch(err => console.error(err));
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderDetailsModal').style.display = 'none';
         }
     </script>
 @endsection

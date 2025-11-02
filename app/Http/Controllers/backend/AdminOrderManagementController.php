@@ -8,12 +8,26 @@ use Illuminate\Http\Request;
 
 class AdminOrderManagementController extends Controller
 {
-   public function Orderlist(){
- $orders = Order::with(['user', 'items.product', 'payment', 'shippingAddress'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+   public function Orderlist(Request $request)
+{
+    $orders = Order::with(['user', 'items.product', 'payment', 'shippingAddress'])
+        ->when($request->search, function ($query, $search) {
+            $query->where('invoice_number', 'like', "%{$search}%")
+                  ->orWhereHas('user', function ($q) use ($search) {
+                      $q->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                  });
+        })
+        ->when($request->status, fn($q, $status) => $q->where('status', $status))
+        ->withCount('items')
+        ->orderByDesc('created_at')
+        ->paginate(10)
+        ->appends($request->only('search', 'status'));
+
     return view('admin.orders.index', compact('orders'));
-   }
+}
+
 
    public function show($id)
 {
