@@ -14,4 +14,10 @@ class AdminOrderManagementController extends Controller
             ->paginate(10);
     return view('admin.orders.index', compact('orders'));
    }
+
+   public function show($id)
+{
+    $order = Order::with(['user', 'items.product', 'shippingAddress', 'payment'])->findOrFail($id);
+    return response()->json($order);
+}
 }
