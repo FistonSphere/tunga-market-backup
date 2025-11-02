@@ -424,64 +424,66 @@
 
         <div class="orders-header">
             <h1><i class="bi bi-cart-check-fill"></i> Orders Management</h1>
-            <div class="order-filters">
-                <input type="text" id="searchOrder" placeholder="Search by invoice or customer..." onkeyup="filterOrders()">
-                <select id="statusFilter" onchange="filterOrders()">
+            <form class="order-filters" method="GET">
+                <input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="Search invoice or customer...">
+                <select name="status" onchange="this.form.submit()">
                     <option value="">All Status</option>
-                    <option value="processing">Processing</option>
-                    <option value="Delivered">Delivered</option>
-                    <option value="cancelled">Cancelled</option>
+                    @foreach(['pending', 'processing', 'delivered', 'cancelled'] as $st)
+                        <option value="{{ $st }}" {{ request('status') == $st ? 'selected' : '' }}>
+                            {{ ucfirst($st) }}
+                        </option>
+                    @endforeach
                 </select>
-            </div>
+                <button type="submit"><i class="bi bi-search"></i></button>
+            </form>
         </div>
+
 
         @forelse($orders as $order)
             <div class="order-card">
                 <div class="order-header">
-                    <div>
+                    <div class="left">
                         <span class="order-label">Invoice:</span>
-                        <span class="order-number">{{ $order->invoice_number }}</span>
+                        <span class="order-number">#{{ $order->invoice_number }}</span>
+                        <span class="item-count badge bg-light text-dark">{{ $order->items_count }} items</span>
                     </div>
-                    <span class="order-status {{ $order->status }}">{{ ucfirst($order->status) }}</span>
+                    <span class="order-status badge bg-{{ match ($order->status) {
+                'pending' => 'warning',
+                'processing' => 'info',
+                'delivered' => 'success',
+                'cancelled' => 'danger',
+                default => 'secondary'
+            } }}">
+                        {{ ucfirst($order->status) }}
+                    </span>
                 </div>
 
-                <div class="order-content">
-                    <div class="order-section">
-                        <h3>Products</h3>
-                        @foreach($order->items as $item)
-                            <div class="product-item">
-                                <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}" alt="Product">
-                                <div>
-                                    <p class="product-name">{{ $item->product->name }}</p>
-                                    <p class="product-info">Qty: {{ $item->quantity }} × {{ number_format($item->price, 2) }}
-                                        {{ $order->currency }}
-                                    </p>
-                                </div>
-                            </div>
+                <div class="order-body">
+                    <div class="product-thumbs">
+                        @foreach($order->items->take(3) as $item)
+                            <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}" alt="">
                         @endforeach
+                        @if($order->items->count() > 3)
+                            <span class="more-items">+{{ $order->items->count() - 3 }} more</span>
+                        @endif
                     </div>
 
-                    <div class="order-section">
-                        <h3>Customer</h3>
-                        <p class="customer-name">{{ $order->user->first_name ?? '' }} {{ $order->user->last_name ?? '' }}</p>
-                        <p class="customer-email">{{ $order->user->email ?? 'No email' }}</p>
-                        <p class="customer-phone">{{ $order->shippingAddress->phone ?? 'No phone' }}</p>
-                    </div>
-
-                    <div class="order-section">
-                        <h3>Payment & Total</h3>
-                        <p class="payment-method">{{ ucfirst($order->payment_method) ?? 'N/A' }}</p>
-                        <p class="total-price">{{ number_format($order->total) }} Rwf</p>
-                        <p class="created-date">{{ $order->created_at->format('d M Y, H:i') }}</p>
+                    <div class="order-info">
+                        <h4>{{ $order->user->first_name ?? '' }} {{ $order->user->last_name ?? '' }}</h4>
+                        <p class="text-muted">{{ $order->user->email ?? '' }}</p>
+                        <p><strong>{{ number_format($order->total) }} {{ $order->currency }}</strong> —
+                            {{ ucfirst($order->payment_method) }}</p>
+                        <small class="text-secondary">{{ $order->created_at->format('d M Y, H:i') }}</small>
                     </div>
                 </div>
 
                 <div class="order-footer">
-                    <button class="btn view" onclick="viewOrderDetails('{{ $order->id }}')">
-                        <i class="bi bi-eye-fill"></i> View Details
+                    <button class="btn btn-outline-primary btn-sm" onclick="viewOrderDetails('{{ $order->id }}')">
+                        <i class="bi bi-eye"></i> View Details
                     </button>
-                    <button class="btn contact">
-                        <i class="bi bi-envelope-fill"></i> Contact Buyer
+                    <button class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-envelope"></i> Contact Buyer
                     </button>
                 </div>
             </div>
@@ -491,6 +493,7 @@
                 <p>No orders found.</p>
             </div>
         @endforelse
+
 
         <div class="pagination">
             {{ $orders->links() }}
@@ -565,60 +568,61 @@
         }
 
 
-        function viewOrderDetails(orderId) {
-            fetch(`/admin/orders/${orderId}/show`)
-                .then(response => response.json())
-                .then(order => {
-                    // Header
-                    document.getElementById('orderInvoice').textContent = `#${order.invoice_number}`;
-                    const badge = document.getElementById('orderStatus');
-                    badge.textContent = order.status;
-                    badge.className = `order-status-badge ${order.status}`;
+      async function viewOrderDetails(orderId) {
+    const modal = document.getElementById('orderDetailsModal');
+    modal.style.display = 'flex';
+    modal.querySelector('.order-detail-body').innerHTML = '<div class="loader">Loading...</div>';
 
-                    // Customer Info
-                    document.getElementById('customerName').textContent = `${order.user.first_name} ${order.user.last_name}`;
-                    document.getElementById('customerEmail').textContent = order.user.email || 'N/A';
+    try {
+        const res = await fetch(`/admin/orders/${orderId}/show`);
+        const data = await res.json();
+        const order = data.data;
 
-                    // Shipping Info
-                    const s = order.shipping_address;
-                    document.getElementById('shipName').textContent = `${s?.first_name ?? ''} ${s?.last_name ?? ''}`;
-                    document.getElementById('shipCompany').textContent = s?.company || '—';
-                    document.getElementById('shipAddress').textContent = `${s?.address_line1 ?? ''} ${s?.address_line2 ?? ''}`;
-                    document.getElementById('shipCity').textContent = s?.city || '—';
-                    document.getElementById('shipState').textContent = s?.state || '—';
-                    document.getElementById('shipPostal').textContent = s?.postal_code || '—';
-                    document.getElementById('shipCountry').textContent = s?.country || '—';
-                    document.getElementById('shipPhone').textContent = s?.phone || '—';
+        // Header
+        document.getElementById('orderInvoice').textContent = `#${order.invoice_number}`;
+        const badge = document.getElementById('orderStatus');
+        badge.textContent = order.status;
+        badge.className = `order-status-badge ${order.status}`;
 
-                    // Payment
-                    document.getElementById('paymentMethod').textContent = order.payment_method ?? 'N/A';
-                    document.getElementById('orderTotal').textContent = `${order.total} ${order.currency}`;
-                    document.getElementById('orderCurrency').textContent = order.currency;
-                    document.getElementById('orderDate').textContent = new Date(order.created_at).toLocaleString();
+        // Build content dynamically
+        const html = `
+            <section class="section">
+                <h3>Customer Information</h3>
+                <p><strong>Name:</strong> ${order.user.first_name} ${order.user.last_name}</p>
+                <p><strong>Email:</strong> ${order.user.email || 'N/A'}</p>
+            </section>
 
-                    // Products
-                    const productsContainer = document.getElementById('orderProducts');
-                    productsContainer.innerHTML = '';
-                    order.items.forEach(item => {
-                        const div = document.createElement('div');
-                        div.classList.add('product-item');
-                        div.innerHTML = `
-              <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-              <div class="info">
-                <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                <span>Qty: ${item.quantity} × ${item.price}</span>
-              </div>`;
-                        productsContainer.appendChild(div);
-                    });
+            <section class="section">
+                <h3>Shipping Address</h3>
+                <p><strong>Address:</strong> ${order.shipping_address?.address_line1 || '—'}, ${order.shipping_address?.city || ''}</p>
+                <p><strong>Phone:</strong> ${order.shipping_address?.phone || '—'}</p>
+            </section>
 
-                    // Show Modal
-                    document.getElementById('orderDetailsModal').style.display = 'flex';
-                })
-                .catch(err => console.error(err));
-        }
+            <section class="section">
+                <h3>Products</h3>
+                ${order.items.map(i => `
+                    <div class="product-item">
+                        <img src="${i.product?.main_image || '/images/no-image.png'}" alt="">
+                        <div><strong>${i.product?.name}</strong><br>Qty: ${i.quantity} × ${i.price}</div>
+                    </div>`).join('')}
+            </section>
 
-        function closeOrderModal() {
-            document.getElementById('orderDetailsModal').style.display = 'none';
-        }
-    </script>
+            <section class="section">
+                <h3>Payment & Order Summary</h3>
+                <p><strong>Method:</strong> ${order.payment_method}</p>
+                <p><strong>Total:</strong> ${Number(order.total).toLocaleString()} ${order.currency}</p>
+                <p><strong>Date:</strong> ${new Date(order.created_at).toLocaleString()}</p>
+            </section>
+        `;
+        modal.querySelector('.order-detail-body').innerHTML = html;
+    } catch (err) {
+        console.error(err);
+        modal.querySelector('.order-detail-body').innerHTML = '<p class="text-danger">Failed to load order details.</p>';
+    }
+}
+
+function closeOrderModal() {
+    document.getElementById('orderDetailsModal').style.display = 'none';
+}
+</script>
 @endsection
