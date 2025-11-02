@@ -305,9 +305,8 @@ Route::prefix('/product-issues')->controller(AdminProductIssueController::class)
 Route::prefix('/orders')->controller(AdminOrderManagementController::class)->group(function(){
 Route::get('/lists', 'Orderlist')->name('admin.orders.list');
 Route::get('/items', 'OrderItems')->name('admin.orders.items');
-// web.php
 Route::get('/{id}/show',  'show')->name('admin.orders.show');
-
+Route::post('/contact-buyer', 'contactBuyer')->name('admin.orders.contact-buyer');
 });
 //end orders route
 
