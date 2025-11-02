@@ -5,7 +5,6 @@
 
 
     <style>
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -460,6 +459,13 @@
             }
         }
 
+        #contactBuyerForm {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 10px;
+        }
+
         .form-group label {
             font-weight: 600;
             display: block;
@@ -469,27 +475,64 @@
 
         .form-group textarea {
             width: 100%;
-            border-radius: 6px;
-            border: 1px solid #ccc;
             padding: 10px;
-            font-size: 14px;
+            font-size: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
             resize: vertical;
+            transition: all 0.2s ease-in-out;
+        }
+
+        textarea:focus {
+            border-color: #ff6b00;
+            box-shadow: 0 0 4px rgba(255, 107, 0, 0.3);
+            outline: none;
         }
 
         .btn-send {
-            background: #f97316;
-            border: none;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #ff6b00;
             color: #fff;
-            font-weight: 600;
+            border: none;
+            padding: 12px 20px;
             border-radius: 6px;
-            padding: 10px 20px;
-            margin-top: 10px;
             cursor: pointer;
-            transition: 0.3s;
+            font-size: 15px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
         }
 
         .btn-send:hover {
-            background: #ff8f3c;
+            background-color: #e25f00;
+        }
+
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 3px solid #fff;
+            border-top: 3px solid transparent;
+            border-radius: 50%;
+            display: none;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading .btn-text {
+            opacity: 0.6;
+        }
+
+        .loading .spinner {
+            display: inline-block;
         }
     </style>
     <div class="orders-dashboard">
@@ -646,7 +689,10 @@
                     <textarea name="message" id="contactMessage" rows="6" required
                         placeholder="Type your message here..."></textarea>
                 </div>
-                <button type="submit" class="btn-send">Send Message</button>
+                <button type="submit" class="btn-send" id="sendBtn">
+                    <span class="btn-text">Send Message</span>
+                    <span class="spinner" id="spinner"></span>
+                </button>
             </form>
         </div>
     </div>
@@ -703,11 +749,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                  <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                  <div class="info">
-                                                    <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                    <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                  </div>`;
+                                                                              <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                              <div class="info">
+                                                                                <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                              </div>`;
                         productsContainer.appendChild(div);
                     });
 
