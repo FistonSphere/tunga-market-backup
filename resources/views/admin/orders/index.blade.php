@@ -104,7 +104,7 @@
             color: #ff5f0f;
         }
 
-        .order-status.completed {
+        .order-status.Delivered {
             background: #d4edda;
             color: #097a24;
         }
@@ -248,7 +248,7 @@
                 <select id="statusFilter" onchange="filterOrders()">
                     <option value="">All Status</option>
                     <option value="processing">Processing</option>
-                    <option value="completed">Completed</option>
+                    <option value="Delivered">Delivered</option>
                     <option value="cancelled">Cancelled</option>
                 </select>
             </div>
@@ -290,7 +290,7 @@
                     <div class="order-section">
                         <h3>Payment & Total</h3>
                         <p class="payment-method">{{ ucfirst($order->payment_method) ?? 'N/A' }}</p>
-                        <p class="total-price">{{ number_format($order->total, 2) }} {{ $order->currency }}</p>
+                        <p class="total-price">{{ number_format($order->total) }} Rwf</p>
                         <p class="created-date">{{ $order->created_at->format('d M Y, H:i') }}</p>
                     </div>
                 </div>
