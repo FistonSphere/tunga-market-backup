@@ -14,7 +14,7 @@ class AdminProductIssueController extends Controller
 {
    
    public function index(){
-   $issues = ProductIssue::with('order','user','product')->paginate('15');
+   $issues = ProductIssue::with('order','user','product')->paginate('10');
    
     return view('admin.product-issues.index',compact('issues'));
    }

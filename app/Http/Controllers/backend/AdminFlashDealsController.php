@@ -11,7 +11,7 @@ class AdminFlashDealsController extends Controller
 {
    public function index(){
 
-    $flashDeals= FlashDeal::all();
+    $flashDeals= FlashDeal::paginate(8);
     return view('admin.flash-deals.index', compact('flashDeals'));
     
    }

@@ -351,6 +351,71 @@
         .close-btn:hover {
             background: rgb(204, 49, 49);
         }
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .pagination-list {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            gap: 8px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 8px 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .pagination-list li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .pagination-list li a {
+            text-decoration: none;
+            color: #444;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            transition: all 0.25s ease;
+        }
+
+        .pagination-list li a:hover {
+            background-color: #ff6b00;
+            color: #fff;
+            box-shadow: 0 3px 6px rgba(255, 107, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .pagination-list li.active {
+            background-color: #ff6b00;
+            color: #fff;
+            box-shadow: 0 3px 6px rgba(255, 107, 0, 0.3);
+            pointer-events: none;
+        }
+
+        .pagination-list li.disabled {
+            color: #ccc;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .pagination-list li.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
     </style>
 
 
@@ -413,11 +478,44 @@
                             <td colspan="8" class="no-issues"><i class="bi bi-inbox"></i> No issues reported yet.</td>
                         </tr>
                     @endforelse
+
                 </tbody>
             </table>
+
         </div>
 
+        @if ($issues->hasPages())
+            <div class="pagination-container">
+                <ul class="pagination-list">
+                    {{-- Previous Page Link --}}
+                    @if ($issues->onFirstPage())
+                        <li class="disabled">&laquo;</li>
+                    @else
+                        <li>
+                            <a href="{{ $issues->previousPageUrl() }}" rel="prev">&laquo;</a>
+                        </li>
+                    @endif
 
+                    {{-- Pagination Elements --}}
+                    @foreach ($issues->links()->elements[0] ?? [] as $page => $url)
+                        @if ($page == $issues->currentPage())
+                            <li class="active">{{ $page }}</li>
+                        @else
+                            <li><a href="{{ $url }}">{{ $page }}</a></li>
+                        @endif
+                    @endforeach
+
+                    {{-- Next Page Link --}}
+                    @if ($issues->hasMorePages())
+                        <li>
+                            <a href="{{ $issues->nextPageUrl() }}" rel="next">&raquo;</a>
+                        </li>
+                    @else
+                        <li class="disabled">&raquo;</li>
+                    @endif
+                </ul>
+            </div>
+        @endif
     </div>
 
     <!-- 📨 Reply Modal -->
@@ -528,14 +626,14 @@
                     } else {
                         data.forEach((item, i) => {
                             tbody.innerHTML += `
-                                                                                                    <tr>
-                                                                                                        <td>${i + 1}</td>
-                                                                                                        <td>${item.order_no}</td>
-                                                                                                        <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:contain"></td>
-                                                                                                        <td>${item.product_name}</td>
-                                                                                                        <td>${item.quantity}</td>
-                                                                                                        <td>${item.price} Rwf</td>
-                                                                                                    </tr>`;
+                                                                                                                                <tr>
+                                                                                                                                    <td>${i + 1}</td>
+                                                                                                                                    <td>${item.order_no}</td>
+                                                                                                                                    <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:contain"></td>
+                                                                                                                                    <td>${item.product_name}</td>
+                                                                                                                                    <td>${item.quantity}</td>
+                                                                                                                                    <td>${item.price} Rwf</td>
+                                                                                                                                </tr>`;
                         });
                     }
                 });
@@ -569,9 +667,9 @@
                             const sender = r.by === 'admin' ? 'Admin Reply' : 'User';
                             const msgClass = r.by === 'admin' ? 'admin' : 'user';
                             timeline.innerHTML += `<div class="message ${msgClass}">
-                                        <strong>${sender}:</strong> ${r.message}
-                                        <small>${r.timestamp}</small>
-                                    </div>`;
+                                                                    <strong>${sender}:</strong> ${r.message}
+                                                                    <small>${r.timestamp}</small>
+                                                                </div>`;
                         });
                     }
 
@@ -584,5 +682,11 @@
         function closeTimelineModal() {
             document.getElementById('timelineModal').style.display = "none";
         }
+
+        document.querySelectorAll('.pagination-list a').forEach(link => {
+            link.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
     </script>
 @endsection

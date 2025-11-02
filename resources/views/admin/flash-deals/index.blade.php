@@ -3,8 +3,8 @@
 @section('content')
     <style>
         /* =============================
-                                                               Flash Deals Overview Styling
-                                                            ============================= */
+                                                                           Flash Deals Overview Styling
+                                                                        ============================= */
         .flash-page-container {
             padding: 30px;
             background: #f8f9fc;
@@ -336,6 +336,71 @@
             padding: 20px;
 
         }
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .pagination-list {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            gap: 8px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 8px 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .pagination-list li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .pagination-list li a {
+            text-decoration: none;
+            color: #444;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            transition: all 0.25s ease;
+        }
+
+        .pagination-list li a:hover {
+            background-color: #ff6b00;
+            color: #fff;
+            box-shadow: 0 3px 6px rgba(255, 107, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .pagination-list li.active {
+            background-color: #ff6b00;
+            color: #fff;
+            box-shadow: 0 3px 6px rgba(255, 107, 0, 0.3);
+            pointer-events: none;
+        }
+
+        .pagination-list li.disabled {
+            color: #ccc;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .pagination-list li.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
     </style>
     <div class="flash-page-container">
         <div class="flash-header">
@@ -417,6 +482,38 @@
             @endforelse
         </div>
     </div>
+    @if ($flashDeals->hasPages())
+        <div class="pagination-container">
+            <ul class="pagination-list">
+                {{-- Previous Page Link --}}
+                @if ($flashDeals->onFirstPage())
+                    <li class="disabled">&laquo;</li>
+                @else
+                    <li>
+                        <a href="{{ $flashDeals->previousPageUrl() }}" rel="prev">&laquo;</a>
+                    </li>
+                @endif
+
+                {{-- Pagination Elements --}}
+                @foreach ($flashDeals->links()->elements[0] ?? [] as $page => $url)
+                    @if ($page == $flashDeals->currentPage())
+                        <li class="active">{{ $page }}</li>
+                    @else
+                        <li><a href="{{ $url }}">{{ $page }}</a></li>
+                    @endif
+                @endforeach
+
+                {{-- Next Page Link --}}
+                @if ($flashDeals->hasMorePages())
+                    <li>
+                        <a href="{{ $flashDeals->nextPageUrl() }}" rel="next">&raquo;</a>
+                    </li>
+                @else
+                    <li class="disabled">&raquo;</li>
+                @endif
+            </ul>
+        </div>
+    @endif
 
 
 
@@ -492,6 +589,10 @@
             });
         });
 
-
+        document.querySelectorAll('.pagination-list a').forEach(link => {
+            link.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
     </script>
 @endsection
