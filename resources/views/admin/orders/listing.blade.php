@@ -1049,7 +1049,7 @@
             </form>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         function filterOrders() {
             const search = document.getElementById('searchOrder').value.toLowerCase();
@@ -1102,11 +1102,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                                                                          <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                                                                          <div class="info">
-                                                                                                                                            <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                                                                            <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                                                                          </div>`;
+                                                                                                                                                  <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                                                                  <div class="info">
+                                                                                                                                                    <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                                                                    <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                                                                  </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -1141,42 +1141,60 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            // ==== Sales Performance (Column Chart) ====
-            var salesOptions = {
+            // Prepare data from controller
+            const revenueTrend = @json($revenueTrend);
+            const paymentStats = @json($paymentStats);
+            const metrics = @json($metrics);
+
+            // === Extract Revenue Data ===
+            const revenueDates = revenueTrend.map(r => r.date);
+            const revenueTotals = revenueTrend.map(r => parseFloat(r.total));
+
+            // === Extract Payment Stats ===
+            const paymentLabels = Object.keys(paymentStats);
+            const paymentCounts = Object.values(paymentStats);
+
+            // === REVENUE TREND CHART ===
+            var revenueChart = new ApexCharts(document.querySelector("#revenueTrendChart"), {
                 chart: {
-                    type: 'bar',
-                    height: 300,
+                    type: 'area',
+                    height: 320,
                     toolbar: { show: false },
                 },
                 series: [{
-                    name: 'Total Sales',
-                    data: [4200, 5100, 3800, 6200, 7000, 8100, 9500]
+                    name: 'Total Revenue',
+                    data: revenueTotals
                 }],
                 colors: ['#f97316'],
-                plotOptions: {
-                    bar: {
-                        borderRadius: 8,
-                        horizontal: false,
-                        columnWidth: '55%',
+                xaxis: {
+                    categories: revenueDates,
+                    labels: { style: { colors: '#001428' } }
+                },
+                yaxis: { labels: { style: { colors: '#001428' } } },
+                stroke: { curve: 'smooth', width: 3 },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.5,
+                        opacityTo: 0.05,
+                        stops: [0, 90, 100]
                     }
                 },
-                dataLabels: { enabled: false },
-                xaxis: {
-                    categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                },
-                grid: { borderColor: '#f1f1f1' }
-            };
-            new ApexCharts(document.querySelector("#salesChart"), salesOptions).render();
+                grid: { borderColor: '#eee' },
+                tooltip: { theme: 'light' }
+            });
+            revenueChart.render();
 
-            // ==== Payment Methods (Donut Chart) ====
-            var paymentOptions = {
+            // === PAYMENT METHODS CHART ===
+            var paymentChart = new ApexCharts(document.querySelector("#paymentChart"), {
                 chart: {
                     type: 'donut',
                     height: 280,
                 },
-                series: [45, 25, 20, 10],
-                labels: ['Mobile Money', 'Card', 'Cash', 'Other'],
-                colors: ['#f97316', '#001428', '#66BB6A', '#90CAF9'],
+                series: paymentCounts,
+                labels: paymentLabels,
+                colors: ['#f97316', '#001428', '#66BB6A', '#90CAF9', '#FFB74D'],
                 legend: {
                     position: 'bottom',
                     labels: { colors: '#001428' }
@@ -1188,43 +1206,41 @@
                         legend: { position: 'bottom' }
                     }
                 }]
-            };
-            new ApexCharts(document.querySelector("#paymentChart"), paymentOptions).render();
+            });
+            paymentChart.render();
 
-            // ==== Orders Trend (Line Chart) ====
-            var trendOptions = {
+            // === ORDERS TREND CHART (Daily count) ===
+            const ordersTrendData = revenueTrend.map(r => ({
+                x: r.date,
+                y: Math.round(r.total / 1000) // example: convert to count estimate if needed
+            }));
+
+            var ordersChart = new ApexCharts(document.querySelector("#ordersTrendChart"), {
                 chart: {
-                    type: 'line',
-                    height: 320,
+                    type: 'bar',
+                    height: 300,
                     toolbar: { show: false },
                 },
                 series: [{
                     name: 'Orders',
-                    data: [35, 42, 47, 50, 61, 75, 82]
+                    data: ordersTrendData.map(o => o.y)
                 }],
-                colors: ['#f97316'],
-                stroke: {
-                    curve: 'smooth',
-                    width: 3
+                xaxis: {
+                    categories: ordersTrendData.map(o => o.x),
+                    labels: { style: { colors: '#001428' } }
                 },
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shadeIntensity: 1,
-                        opacityFrom: 0.4,
-                        opacityTo: 0.05,
-                        stops: [0, 90, 100]
+                colors: ['#f97316'],
+                plotOptions: {
+                    bar: {
+                        borderRadius: 6,
+                        columnWidth: '55%',
                     }
                 },
-                xaxis: {
-                    categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                },
-                grid: { borderColor: '#f1f1f1' },
-                tooltip: {
-                    theme: 'light'
-                }
-            };
-            new ApexCharts(document.querySelector("#ordersTrendChart"), trendOptions).render();
+                dataLabels: { enabled: false },
+                grid: { borderColor: '#eee' }
+            });
+            ordersChart.render();
         });
+
     </script>
 @endsection
