@@ -594,7 +594,7 @@
                     document.getElementById('shipPhone').textContent = s?.phone || '—';
 
                     // Payment
-                    document.getElementById('paymentMethod').textContent = order.payment_method ?? 'N/A';
+                    document.getElementById('paymentMethod').textContent = order.payment.payment_method ?? 'N/A';
                     document.getElementById('orderTotal').textContent = `${order.total} ${order.currency}`;
                     document.getElementById('orderCurrency').textContent = order.currency;
                     document.getElementById('orderDate').textContent = new Date(order.created_at).toLocaleString();
