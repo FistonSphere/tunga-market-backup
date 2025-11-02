@@ -2,19 +2,13 @@
 @extends('admin.layouts.header')
 
 @section('content')
-    <div class="orders-container p-6 bg-gray-50 min-h-screen">
+    <div class="orders-dashboard">
 
-        <!-- HEADER -->
-        <div class="flex flex-wrap justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                <i class="bi bi-bag-check-fill text-blue-600"></i> Orders Management
-            </h1>
-
-            <div class="flex gap-3">
-                <input type="text" id="searchOrder" placeholder="Search by invoice or customer..."
-                    class="px-3 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none w-64">
-                <select id="statusFilter"
-                    class="px-3 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500">
+        <div class="orders-header">
+            <h1><i class="bi bi-cart-check-fill"></i> Orders Management</h1>
+            <div class="order-filters">
+                <input type="text" id="searchOrder" placeholder="Search by invoice or customer..." onkeyup="filterOrders()">
+                <select id="statusFilter" onchange="filterOrders()">
                     <option value="">All Status</option>
                     <option value="pending">Pending</option>
                     <option value="processing">Processing</option>
@@ -24,116 +18,317 @@
             </div>
         </div>
 
-        <!-- ORDERS LIST -->
-        <div class="space-y-6">
-            @forelse($orders as $order)
-                <div
-                    class="order-card bg-white rounded-2xl shadow-sm hover:shadow-md transition-all p-5 border border-gray-100">
-
-                    <!-- Top Section -->
-                    <div class="flex justify-between flex-wrap items-center border-b pb-3">
-                        <div class="flex items-center gap-3">
-                            <span class="text-sm font-semibold text-gray-500">Invoice:</span>
-                            <span class="text-blue-600 font-bold">{{ $order->invoice_number }}</span>
-                        </div>
-
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold
-                            @if($order->status === 'completed') bg-green-100 text-green-700
-                            @elseif($order->status === 'pending') bg-yellow-100 text-yellow-700
-                            @elseif($order->status === 'cancelled') bg-red-100 text-red-700
-                            @else bg-gray-100 text-gray-700 @endif">
-                            {{ ucfirst($order->status) }}
-                        </span>
+        @forelse($orders as $order)
+            <div class="order-card">
+                <div class="order-header">
+                    <div>
+                        <span class="order-label">Invoice:</span>
+                        <span class="order-number">{{ $order->invoice_number }}</span>
                     </div>
+                    <span class="order-status {{ $order->status }}">{{ ucfirst($order->status) }}</span>
+                </div>
 
-                    <!-- Order Details -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-                        <!-- Products -->
-                        <div>
-                            <h3 class="text-sm font-semibold text-gray-600 mb-2">Products</h3>
-                            <div class="space-y-3">
-                                @foreach($order->items as $item)
-                                    <div class="flex items-center gap-3">
-                                        <img src="{{ $item->product->main_image ?? asset('images/no-image.png') }}"
-                                            class="w-14 h-14 rounded-lg object-cover border">
-                                        <div>
-                                            <p class="font-medium text-gray-800">{{ $item->product->name }}</p>
-                                            <p class="text-sm text-gray-500">Qty: {{ $item->quantity }} ×
-                                                {{ number_format($item->price) }} {{ $order->currency }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                @endforeach
+                <div class="order-content">
+                    <div class="order-section">
+                        <h3>Products</h3>
+                        @foreach($order->items as $item)
+                            <div class="product-item">
+                                <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}" alt="Product">
+                                <div>
+                                    <p class="product-name">{{ $item->product->name }}</p>
+                                    <p class="product-info">Qty: {{ $item->quantity }} × {{ number_format($item->price, 2) }}
+                                        {{ $order->currency }}</p>
+                                </div>
                             </div>
-                        </div>
-
-                        <!-- Customer Info -->
-                        <div>
-                            <h3 class="text-sm font-semibold text-gray-600 mb-2">Customer</h3>
-                            <p class="text-gray-800 font-medium">{{ $order->user->first_name ?? '' }}
-                                {{ $order->user->last_name ?? '' }}</p>
-                            <p class="text-sm text-gray-500">{{ $order->user->email ?? 'No email' }}</p>
-                            <p class="text-sm text-gray-500">{{ $order->shippingAddress->phone ?? 'No phone' }}</p>
-                        </div>
-
-                        <!-- Payment & Total -->
-                        <div>
-                            <h3 class="text-sm font-semibold text-gray-600 mb-2">Payment & Total</h3>
-                            <p class="text-gray-800 font-medium">
-                                {{ ucfirst($order->payment_method) ?? 'N/A' }}
-                            </p>
-                            <p class="text-lg font-bold text-green-600 mt-1">
-                                {{ number_format($order->total, 2) }} {{ $order->currency }}
-                            </p>
-                            <p class="text-xs text-gray-400">Created: {{ $order->created_at->format('d M Y, H:i') }}</p>
-                        </div>
+                        @endforeach
                     </div>
 
-                    <!-- Footer Buttons -->
-                    <div class="flex justify-end mt-4 gap-3">
-                        <button onclick="viewOrderDetails('{{ $order->id }}')"
-                            class="px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-all">
-                            View Details
-                        </button>
-                        <button
-                            class="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 text-sm font-semibold hover:bg-gray-200 transition-all">
-                            Contact Buyer
-                        </button>
+                    <div class="order-section">
+                        <h3>Customer</h3>
+                        <p class="customer-name">{{ $order->user->first_name ?? '' }} {{ $order->user->last_name ?? '' }}</p>
+                        <p class="customer-email">{{ $order->user->email ?? 'No email' }}</p>
+                        <p class="customer-phone">{{ $order->shippingAddress->phone ?? 'No phone' }}</p>
                     </div>
 
+                    <div class="order-section">
+                        <h3>Payment & Total</h3>
+                        <p class="payment-method">{{ ucfirst($order->payment_method) ?? 'N/A' }}</p>
+                        <p class="total-price">{{ number_format($order->total, 2) }} {{ $order->currency }}</p>
+                        <p class="created-date">{{ $order->created_at->format('d M Y, H:i') }}</p>
+                    </div>
                 </div>
-            @empty
-                <div class="text-center py-10 text-gray-400">
-                    <i class="bi bi-inbox text-4xl"></i>
-                    <p class="mt-2">No orders found yet.</p>
-                </div>
-            @endforelse
-        </div>
 
-        <!-- PAGINATION -->
-        <div class="mt-8">
+                <div class="order-footer">
+                    <button class="btn view" onclick="viewOrderDetails('{{ $order->id }}')">
+                        <i class="bi bi-eye-fill"></i> View Details
+                    </button>
+                    <button class="btn contact">
+                        <i class="bi bi-envelope-fill"></i> Contact Buyer
+                    </button>
+                </div>
+            </div>
+        @empty
+            <div class="no-orders">
+                <i class="bi bi-inbox"></i>
+                <p>No orders found.</p>
+            </div>
+        @endforelse
+
+        <div class="pagination">
             {{ $orders->links() }}
         </div>
-
     </div>
 
-    <!-- Optional Modal Placeholder -->
-    <div id="orderDetailsModal"></div>
-<script>
-function filterOrders() {
-    const search = document.getElementById('searchOrder').value.toLowerCase();
-    const status = document.getElementById('statusFilter').value.toLowerCase();
-    const rows = document.querySelectorAll('.order-card');
 
-    rows.forEach(card => {
-        const text = card.innerText.toLowerCase();
-        const matchesSearch = text.includes(search);
-        const matchesStatus = status ? text.includes(status) : true;
-        card.style.display = (matchesSearch && matchesStatus) ? '' : 'none';
-    });
-}
-document.getElementById('searchOrder').addEventListener('keyup', filterOrders);
-document.getElementById('statusFilter').addEventListener('change', filterOrders);
-</script>
 
+    <style>
+        /* ========= GENERAL STYLING ========= */
+        .orders-dashboard {
+            padding: 20px 40px;
+            background: #f7f8fa;
+            min-height: 100vh;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        /* ========= HEADER ========= */
+        .orders-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .orders-header h1 {
+            font-size: 22px;
+            color: #333;
+        }
+
+        .orders-header h1 i {
+            color: #007bff;
+            margin-right: 6px;
+        }
+
+        .order-filters {
+            display: flex;
+            gap: 10px;
+        }
+
+        .order-filters input,
+        .order-filters select {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .order-filters input:focus,
+        .order-filters select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
+        }
+
+        /* ========= ORDER CARD ========= */
+        .order-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            padding: 18px 22px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ========= ORDER HEADER ========= */
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .order-label {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .order-number {
+            font-weight: 600;
+            color: #007bff;
+            margin-left: 6px;
+        }
+
+        .order-status {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .order-status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .order-status.processing {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .order-status.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .order-status.cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* ========= ORDER CONTENT ========= */
+        .order-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .order-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .product-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .product-info {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .customer-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .customer-email,
+        .customer-phone,
+        .payment-method,
+        .created-date {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .total-price {
+            font-weight: 700;
+            color: #28a745;
+            font-size: 15px;
+        }
+
+        /* ========= FOOTER BUTTONS ========= */
+        .order-footer {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 7px 15px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn.view {
+            background: #007bff;
+            color: #fff;
+        }
+
+        .btn.view:hover {
+            background: #0056b3;
+        }
+
+        .btn.contact {
+            background: #f0f0f0;
+            color: #444;
+            margin-left: 6px;
+        }
+
+        .btn.contact:hover {
+            background: #e0e0e0;
+        }
+
+        /* ========= EMPTY STATE ========= */
+        .no-orders {
+            text-align: center;
+            color: #aaa;
+            margin-top: 60px;
+        }
+
+        .no-orders i {
+            font-size: 42px;
+            color: #ccc;
+        }
+
+        .no-orders p {
+            margin-top: 10px;
+            font-size: 15px;
+        }
+
+        /* ========= RESPONSIVE ========= */
+        @media (max-width: 768px) {
+            .orders-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .order-filters {
+                width: 100%;
+                flex-direction: column;
+            }
+        }
+    </style>
+    <script>
+        function filterOrders() {
+            const search = document.getElementById('searchOrder').value.toLowerCase();
+            const status = document.getElementById('statusFilter').value.toLowerCase();
+            const cards = document.querySelectorAll('.order-card');
+
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                const matchesSearch = text.includes(search);
+                const matchesStatus = status ? text.includes(status) : true;
+                card.style.display = (matchesSearch && matchesStatus) ? '' : 'none';
+            });
+        }
+    </script>
 @endsection
