@@ -616,25 +616,30 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             transition: all 0.25s ease;
         }
-        .metric-card:nth-child(1){
+
+        .metric-card:nth-child(1) {
             background-color: #001428;
-            color:#fff;
+            color: #fff;
         }
-        .metric-card:nth-child(2){
+
+        .metric-card:nth-child(2) {
             background-color: #05488f;
-            color:#fff;
+            color: #fff;
         }
-        .metric-card:nth-child(3){
+
+        .metric-card:nth-child(3) {
             background-color: #0d882a;
-            color:#fff;
+            color: #fff;
         }
-        .metric-card:nth-child(4){
+
+        .metric-card:nth-child(4) {
             background-color: #b60f1f;
-            color:#fff;
+            color: #fff;
         }
-        .metric-card:nth-child(5){
+
+        .metric-card:nth-child(5) {
             background-color: #ff5f0e;
-            color:#fff;
+            color: #fff;
         }
 
         .metric-card:hover {
@@ -654,7 +659,144 @@
             font-weight: 700;
         }
 
-        
+        /* ====== CHARTS SECTION ====== */
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .chart-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            position: relative;
+            transition: all 0.25s ease-in-out;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .chart-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #001428;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .chart-card canvas {
+            width: 100% !important;
+            height: 260px !important;
+        }
+
+        /* Small accent bar on top of chart cards */
+        .chart-card::before {
+            content: "";
+            display: block;
+            height: 4px;
+            width: 60px;
+            background: #f97316;
+            border-radius: 3px;
+            position: absolute;
+            top: 0;
+            left: 20px;
+        }
+
+        /* ====== TOP BUYERS SECTION ====== */
+        .buyers-section {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            margin-bottom: 40px;
+            transition: all 0.25s ease-in-out;
+        }
+
+        .buyers-section:hover {
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .buyers-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #001428;
+            margin-bottom: 20px;
+        }
+
+        .buyers-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .buyers-list li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f1f1;
+            transition: background 0.2s ease;
+        }
+
+        .buyers-list li:last-child {
+            border-bottom: none;
+        }
+
+        .buyers-list li:hover {
+            background: #f9fafc;
+        }
+
+        .buyers-list li img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #f97316;
+            margin-right: 12px;
+        }
+
+        .buyers-list li span {
+            flex: 1;
+            color: #333;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .buyers-list li small {
+            color: #777;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+
+        /* ====== RESPONSIVE OPTIMIZATION ====== */
+        @media (max-width: 768px) {
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-card canvas {
+                height: 220px !important;
+            }
+
+            .buyers-list li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .buyers-list li small {
+                text-align: left;
+            }
+        }
     </style>
     <div class="orders-dashboard">
         <!-- ===== SUMMARY METRICS ===== -->
@@ -680,7 +822,38 @@
                 <p class="value">{{ number_format($metrics['revenue']) }} Rwf</p>
             </div>
         </div>
+        <!-- ====== CHARTS ====== -->
+        <div class="charts-row">
+            <div class="chart-card">
+                <h3>📈 Sales Performance</h3>
+                <div id="salesChart"></div>
+            </div>
 
+            <div class="chart-card">
+                <h3>💳 Payment Methods</h3>
+                <div id="paymentChart"></div>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <h3>📦 Orders Trend (Last 7 Days)</h3>
+            <div id="ordersTrendChart"></div>
+        </div>
+
+
+        <!-- ====== TOP BUYERS ====== -->
+        <div class="buyers-section">
+            <h3><i class="bi bi-person-lines-fill"></i> Top Buyers</h3>
+            <ul class="buyers-list">
+                @foreach($topBuyers as $buyer)
+                    <li>
+                        <img src="{{ $buyer->profile_picture ?? asset('assets/images/user.png') }}" alt="">
+                        <span>{{ $buyer->first_name }} {{ $buyer->last_name }}</span>
+                        <small>{{ $buyer->orders_count }} orders</small>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
         <div class="orders-header">
             <h1><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-cart-check-fill" viewBox="0 0 16 16">
@@ -876,7 +1049,7 @@
             </form>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         function filterOrders() {
             const search = document.getElementById('searchOrder').value.toLowerCase();
@@ -929,11 +1102,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                                          <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                                          <div class="info">
-                                                                                                            <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                                            <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                                          </div>`;
+                                                                                                                                          <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                                                          <div class="info">
+                                                                                                                                            <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                                                            <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                                                          </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -965,6 +1138,93 @@
             link.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // ==== Sales Performance (Column Chart) ====
+            var salesOptions = {
+                chart: {
+                    type: 'bar',
+                    height: 300,
+                    toolbar: { show: false },
+                },
+                series: [{
+                    name: 'Total Sales',
+                    data: [4200, 5100, 3800, 6200, 7000, 8100, 9500]
+                }],
+                colors: ['#f97316'],
+                plotOptions: {
+                    bar: {
+                        borderRadius: 8,
+                        horizontal: false,
+                        columnWidth: '55%',
+                    }
+                },
+                dataLabels: { enabled: false },
+                xaxis: {
+                    categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                },
+                grid: { borderColor: '#f1f1f1' }
+            };
+            new ApexCharts(document.querySelector("#salesChart"), salesOptions).render();
+
+            // ==== Payment Methods (Donut Chart) ====
+            var paymentOptions = {
+                chart: {
+                    type: 'donut',
+                    height: 280,
+                },
+                series: [45, 25, 20, 10],
+                labels: ['Mobile Money', 'Card', 'Cash', 'Other'],
+                colors: ['#f97316', '#001428', '#66BB6A', '#90CAF9'],
+                legend: {
+                    position: 'bottom',
+                    labels: { colors: '#001428' }
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: { height: 240 },
+                        legend: { position: 'bottom' }
+                    }
+                }]
+            };
+            new ApexCharts(document.querySelector("#paymentChart"), paymentOptions).render();
+
+            // ==== Orders Trend (Line Chart) ====
+            var trendOptions = {
+                chart: {
+                    type: 'line',
+                    height: 320,
+                    toolbar: { show: false },
+                },
+                series: [{
+                    name: 'Orders',
+                    data: [35, 42, 47, 50, 61, 75, 82]
+                }],
+                colors: ['#f97316'],
+                stroke: {
+                    curve: 'smooth',
+                    width: 3
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.4,
+                        opacityTo: 0.05,
+                        stops: [0, 90, 100]
+                    }
+                },
+                xaxis: {
+                    categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                },
+                grid: { borderColor: '#f1f1f1' },
+                tooltip: {
+                    theme: 'light'
+                }
+            };
+            new ApexCharts(document.querySelector("#ordersTrendChart"), trendOptions).render();
         });
     </script>
 @endsection

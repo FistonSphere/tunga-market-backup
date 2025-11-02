@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 class AdminOrderManagementController extends Controller
 {
   
-   public function Orderlist(Request $request){
+   public function index(Request $request){
    $query = Order::with(['user', 'items.product', 'shippingAddress', 'payment']);
 
     // === Optional Filters ===
