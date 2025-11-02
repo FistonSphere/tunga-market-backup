@@ -1102,11 +1102,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                                                                                  <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                                                                                  <div class="info">
-                                                                                                                                                    <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                                                                                    <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                                                                                  </div>`;
+                                                                                                                                                      <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                                                                      <div class="info">
+                                                                                                                                                        <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                                                                        <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                                                                      </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -1215,7 +1215,9 @@
                 y: Math.round(r.total / 1000) // example: convert to count estimate if needed
             }));
 
-            var ordersChart = new ApexCharts(document.querySelector("#ordersTrendChart"), {
+            const orderTrend = @json($orderTrend);
+
+            const ordersChart = new ApexCharts(document.querySelector("#ordersTrendChart"), {
                 chart: {
                     type: 'bar',
                     height: 300,
@@ -1223,10 +1225,10 @@
                 },
                 series: [{
                     name: 'Orders',
-                    data: ordersTrendData.map(o => o.y)
+                    data: orderTrend.map(o => o.count)
                 }],
                 xaxis: {
-                    categories: ordersTrendData.map(o => o.x),
+                    categories: orderTrend.map(o => o.date),
                     labels: { style: { colors: '#001428' } }
                 },
                 colors: ['#f97316'],
@@ -1240,6 +1242,7 @@
                 grid: { borderColor: '#eee' }
             });
             ordersChart.render();
+
         });
 
     </script>

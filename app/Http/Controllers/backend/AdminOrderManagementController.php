@@ -62,7 +62,12 @@ class AdminOrderManagementController extends Controller
         ->groupBy('payment_method')
         ->pluck('count', 'payment_method');
 
-    return view('admin.orders.listing', compact('orders', 'metrics', 'revenueTrend', 'topBuyers', 'paymentStats'));
+        $orderTrend = Order::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+    ->groupBy('date')
+    ->orderBy('date', 'asc')
+    ->take(7)
+    ->get();
+    return view('admin.orders.listing', compact('orders', 'metrics', 'revenueTrend', 'topBuyers', 'paymentStats','orderTrend'));
    }
 
    public function show($id)
