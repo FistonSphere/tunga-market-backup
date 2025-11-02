@@ -29,9 +29,31 @@ class AdminOrderManagementController extends Controller
 }
 
 
-   public function show($id)
+public function show($id)
 {
-    $order = Order::with(['user', 'items.product', 'shippingAddress', 'payment'])->findOrFail($id);
-    return response()->json($order);
+    $order = Order::with([
+        'user',
+        'items.product',
+        'shippingAddress',
+        'payment'
+    ])->findOrFail($id);
+
+    return response()->json([
+        'success' => true,
+        'data' => [
+            'id' => $order->id,
+            'invoice_number' => $order->invoice_number,
+            'status' => $order->status,
+            'payment_method' => $order->payment_method,
+            'total' => $order->total,
+            'currency' => $order->currency,
+            'created_at' => $order->created_at->toDateTimeString(),
+            'user' => $order->user,
+            'shipping_address' => $order->shippingAddress,
+            'payment' => $order->payment,
+            'items' => $order->items,
+        ],
+    ]);
 }
+
 }
