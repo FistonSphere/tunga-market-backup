@@ -15,7 +15,7 @@ class AdminOrderManagementController extends Controller
     $orders = Order::with(['user', 'items.product', 'payment', 'shippingAddress'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-    return view('admin.orders.index', compact('orders'));
+    return view('admin.orders.listing', compact('orders'));
    }
 
    public function show($id)
