@@ -108,7 +108,7 @@
 
                             <!-- Image Display -->
                             <img id="fullscreenImage" src=""
-                                class="max-h-full max-w-full object-contain rounded-lg select-none" />
+                                class="max-h-full max-w-full object-fill rounded-lg select-none" />
                         </div>
 
 
@@ -799,7 +799,7 @@
             <div id="fake3dViewer"
                 class="relative w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden cursor-grab">
 
-                <img id="fake3dImage" src="" class="max-h-full max-w-full object-contain select-none"
+                <img id="fake3dImage" src="" class="max-h-full max-w-full object-fill select-none"
                     draggable="false" />
 
                 <!-- Prev Button -->

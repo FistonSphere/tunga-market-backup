@@ -615,7 +615,7 @@
                                     <td class="productimgname">
                                         <a href="/admin/products/products/${product.id}" class="product-img">
                                             <img src="${product.main_image || '/storage/default.jpg'}"
-                                                alt="${product.name}" style="border-radius: 8px; width:50px; height:50px; object-fit:contain;">
+                                                alt="${product.name}" style="border-radius: 8px; width:50px; height:50px; object-fit:fill;">
                                         </a>
                                         <a href="/admin/products/products/${product.id}">${product.name}</a>
                                     </td>

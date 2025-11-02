@@ -2,83 +2,6 @@
 @extends('admin.layouts.header')
 
 @section('content')
-    <div class="orders-dashboard">
-
-        <div class="orders-header">
-            <h1><i class="bi bi-cart-check-fill"></i> Orders Management</h1>
-            <div class="order-filters">
-                <input type="text" id="searchOrder" placeholder="Search by invoice or customer..." onkeyup="filterOrders()">
-                <select id="statusFilter" onchange="filterOrders()">
-                    <option value="">All Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="processing">Processing</option>
-                    <option value="completed">Completed</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
-            </div>
-        </div>
-
-        @forelse($orders as $order)
-            <div class="order-card">
-                <div class="order-header">
-                    <div>
-                        <span class="order-label">Invoice:</span>
-                        <span class="order-number">{{ $order->invoice_number }}</span>
-                    </div>
-                    <span class="order-status {{ $order->status }}">{{ ucfirst($order->status) }}</span>
-                </div>
-
-                <div class="order-content">
-                    <div class="order-section">
-                        <h3>Products</h3>
-                        @foreach($order->items as $item)
-                            <div class="product-item">
-                                <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}" alt="Product">
-                                <div>
-                                    <p class="product-name">{{ $item->product->name }}</p>
-                                    <p class="product-info">Qty: {{ $item->quantity }} × {{ number_format($item->price, 2) }}
-                                        {{ $order->currency }}</p>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <div class="order-section">
-                        <h3>Customer</h3>
-                        <p class="customer-name">{{ $order->user->first_name ?? '' }} {{ $order->user->last_name ?? '' }}</p>
-                        <p class="customer-email">{{ $order->user->email ?? 'No email' }}</p>
-                        <p class="customer-phone">{{ $order->shippingAddress->phone ?? 'No phone' }}</p>
-                    </div>
-
-                    <div class="order-section">
-                        <h3>Payment & Total</h3>
-                        <p class="payment-method">{{ ucfirst($order->payment_method) ?? 'N/A' }}</p>
-                        <p class="total-price">{{ number_format($order->total, 2) }} {{ $order->currency }}</p>
-                        <p class="created-date">{{ $order->created_at->format('d M Y, H:i') }}</p>
-                    </div>
-                </div>
-
-                <div class="order-footer">
-                    <button class="btn view" onclick="viewOrderDetails('{{ $order->id }}')">
-                        <i class="bi bi-eye-fill"></i> View Details
-                    </button>
-                    <button class="btn contact">
-                        <i class="bi bi-envelope-fill"></i> Contact Buyer
-                    </button>
-                </div>
-            </div>
-        @empty
-            <div class="no-orders">
-                <i class="bi bi-inbox"></i>
-                <p>No orders found.</p>
-            </div>
-        @endforelse
-
-        <div class="pagination">
-            {{ $orders->links() }}
-        </div>
-    </div>
-
 
 
     <style>
@@ -87,7 +10,6 @@
             padding: 20px 40px;
             background: #f7f8fa;
             min-height: 100vh;
-            font-family: "Segoe UI", sans-serif;
         }
 
         /* ========= HEADER ========= */
@@ -104,7 +26,7 @@
         }
 
         .orders-header h1 i {
-            color: #007bff;
+            color: #1b2850;
             margin-right: 6px;
         }
 
@@ -125,7 +47,7 @@
 
         .order-filters input:focus,
         .order-filters select:focus {
-            border-color: #007bff;
+            border-color: #1b2850;
             box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
         }
 
@@ -160,7 +82,7 @@
 
         .order-number {
             font-weight: 600;
-            color: #007bff;
+            color: #1b2850;
             margin-left: 6px;
         }
 
@@ -174,22 +96,22 @@
 
         .order-status.pending {
             background: #fff3cd;
-            color: #856404;
+            color: #ff5f0f;
         }
 
         .order-status.processing {
             background: #cce5ff;
-            color: #004085;
+            color: #ff5f0f;
         }
 
         .order-status.completed {
             background: #d4edda;
-            color: #155724;
+            color: #097a24;
         }
 
         .order-status.cancelled {
             background: #f8d7da;
-            color: #721c24;
+            color: #8d222d;
         }
 
         /* ========= ORDER CONTENT ========= */
@@ -218,7 +140,7 @@
             width: 50px;
             height: 50px;
             border-radius: 6px;
-            object-fit: cover;
+            object-fit:fill;
             border: 1px solid #ddd;
         }
 
@@ -268,12 +190,12 @@
         }
 
         .btn.view {
-            background: #007bff;
+            background: #1b2850;
             color: #fff;
         }
 
         .btn.view:hover {
-            background: #0056b3;
+            background: #ff5f0f;
         }
 
         .btn.contact {
@@ -317,6 +239,85 @@
             }
         }
     </style>
+    <div class="orders-dashboard">
+
+        <div class="orders-header">
+            <h1><i class="bi bi-cart-check-fill"></i> Orders Management</h1>
+            <div class="order-filters">
+                <input type="text" id="searchOrder" placeholder="Search by invoice or customer..." onkeyup="filterOrders()">
+                <select id="statusFilter" onchange="filterOrders()">
+                    <option value="">All Status</option>
+                    <option value="processing">Processing</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+        </div>
+
+        @forelse($orders as $order)
+            <div class="order-card">
+                <div class="order-header">
+                    <div>
+                        <span class="order-label">Invoice:</span>
+                        <span class="order-number">{{ $order->invoice_number }}</span>
+                    </div>
+                    <span class="order-status {{ $order->status }}">{{ ucfirst($order->status) }}</span>
+                </div>
+
+                <div class="order-content">
+                    <div class="order-section">
+                        <h3>Products</h3>
+                        @foreach($order->items as $item)
+                            <div class="product-item">
+                                <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}" alt="Product">
+                                <div>
+                                    <p class="product-name">{{ $item->product->name }}</p>
+                                    <p class="product-info">Qty: {{ $item->quantity }} × {{ number_format($item->price, 2) }}
+                                        {{ $order->currency }}
+                                    </p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="order-section">
+                        <h3>Customer</h3>
+                        <p class="customer-name">{{ $order->user->first_name ?? '' }} {{ $order->user->last_name ?? '' }}</p>
+                        <p class="customer-email">{{ $order->user->email ?? 'No email' }}</p>
+                        <p class="customer-phone">{{ $order->shippingAddress->phone ?? 'No phone' }}</p>
+                    </div>
+
+                    <div class="order-section">
+                        <h3>Payment & Total</h3>
+                        <p class="payment-method">{{ ucfirst($order->payment_method) ?? 'N/A' }}</p>
+                        <p class="total-price">{{ number_format($order->total, 2) }} {{ $order->currency }}</p>
+                        <p class="created-date">{{ $order->created_at->format('d M Y, H:i') }}</p>
+                    </div>
+                </div>
+
+                <div class="order-footer">
+                    <button class="btn view" onclick="viewOrderDetails('{{ $order->id }}')">
+                        <i class="bi bi-eye-fill"></i> View Details
+                    </button>
+                    <button class="btn contact">
+                        <i class="bi bi-envelope-fill"></i> Contact Buyer
+                    </button>
+                </div>
+            </div>
+        @empty
+            <div class="no-orders">
+                <i class="bi bi-inbox"></i>
+                <p>No orders found.</p>
+            </div>
+        @endforelse
+
+        <div class="pagination">
+            {{ $orders->links() }}
+        </div>
+    </div>
+
+
+
     <script>
         function filterOrders() {
             const search = document.getElementById('searchOrder').value.toLowerCase();
