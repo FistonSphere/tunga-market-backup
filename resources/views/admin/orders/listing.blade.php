@@ -826,7 +826,7 @@
         <div class="charts-row">
             <div class="chart-card">
                 <h3>📈 Sales Performance</h3>
-                <div id="salesChart"></div>
+                <div id="revenueTrendChart"></div>
             </div>
 
             <div class="chart-card">
