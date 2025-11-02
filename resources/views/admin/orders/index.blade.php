@@ -544,7 +544,6 @@
                     <h3>Payment & Order Summary</h3>
                     <p><strong>Payment Method:</strong> <span id="paymentMethod"></span></p>
                     <p><strong>Total:</strong> <span id="orderTotal"></span></p>
-                    <p><strong>Currency:</strong> <span id="orderCurrency"></span></p>
                     <p><strong>Date:</strong> <span id="orderDate"></span></p>
                 </section>
             </div>
@@ -594,9 +593,8 @@
                     document.getElementById('shipPhone').textContent = s?.phone || '—';
 
                     // Payment
-                    document.getElementById('paymentMethod').textContent = order.payment.payment_method ?? 'N/A';
-                    document.getElementById('orderTotal').textContent = `${order.total} ${order.currency}`;
-                    document.getElementById('orderCurrency').textContent = order.currency;
+                    document.getElementById('paymentMethod').textContent = order.payment_method ?? 'N/A';
+                    document.getElementById('orderTotal').textContent = `${order.total.toLocaleString()} Rwf`;
                     document.getElementById('orderDate').textContent = new Date(order.created_at).toLocaleString();
 
                     // Products
