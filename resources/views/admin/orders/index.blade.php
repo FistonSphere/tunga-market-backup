@@ -5,6 +5,46 @@
 
 
     <style>
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Modal Box */
+        .modal-box {
+            background: #fff;
+            width: 500px;
+            border-radius: 10px;
+            padding: 25px;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-box h2 {
+            color: #f97316;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 22px;
+            color: #777;
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: #f97316;
+        }
+
         /* ====== Modal Overlay ====== */
         .modal-overlay {
             position: fixed;
@@ -663,11 +703,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                              <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                              <div class="info">
-                                                <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                <span>Qty: ${item.quantity} × ${item.price}</span>
-                                              </div>`;
+                                                  <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                  <div class="info">
+                                                    <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                    <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                  </div>`;
                         productsContainer.appendChild(div);
                     });
 

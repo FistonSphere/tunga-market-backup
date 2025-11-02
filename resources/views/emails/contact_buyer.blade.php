@@ -3,71 +3,108 @@
 
 <head>
     <meta charset="UTF-8">
+    <title>Tunga Market Notification</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
             color: #333;
-            background: #f7f8fa;
-            padding: 30px;
         }
 
-        .email-container {
-            background: #fff;
+        .container {
+            width: 90%;
+            max-width: 680px;
+            background: #ffffff;
+            margin: 30px auto;
             border-radius: 10px;
-            padding: 25px;
-            max-width: 600px;
-            margin: 0 auto;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
         .header {
+            background-color: #ff6b00;
+            padding: 20px 30px;
             text-align: center;
-            border-bottom: 2px solid #f97316;
-            padding-bottom: 10px;
+            color: #fff;
         }
 
         .header h1 {
-            color: #f97316;
-            font-size: 20px;
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 1px;
         }
 
         .content {
-            margin-top: 20px;
+            padding: 30px;
             line-height: 1.6;
+        }
+
+        .content h2 {
+            color: #222;
+            margin-top: 0;
+        }
+
+        .message-box {
+            background-color: #f8f9fb;
+            border-left: 4px solid #ff6b00;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #ff6b00;
+            color: white !important;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: bold;
         }
 
         .footer {
             text-align: center;
-            margin-top: 25px;
             font-size: 13px;
-            color: #666;
+            color: #999;
+            background: #fafafa;
+            padding: 15px;
             border-top: 1px solid #eee;
-            padding-top: 10px;
+        }
+
+        .footer a {
+            color: #ff6b00;
+            text-decoration: none;
         }
     </style>
 </head>
 
 <body>
-    <div class="email-container">
+    <div class="container">
         <div class="header">
             <h1>Tunga Market</h1>
         </div>
-
         <div class="content">
-            <p>Hello {{ $user->first_name ?? 'Customer' }},</p>
-            <p>You’ve received a new message from Tunga Market regarding your order
-                <strong>#{{ $order->invoice_number }}</strong>.
+            <h2>Dear {{ $user->first_name ?? 'Customer' }},</h2>
+            <p>You have a new message from the Tunga Market support team regarding your order
+                <strong>{{ $order->invoice_number }}</strong>.</p>
+
+            <div class="message-box">
+                <p>{{ $messageText }}</p>
+            </div>
+
+            <p>If you have any questions, feel free to reach out by replying to this email or visiting your order
+                dashboard.</p>
+
+            <p style="text-align: center; margin-top: 25px;">
+                <a href="{{ url('/orders/' . $order->id) }}" class="cta-button">View Order</a>
             </p>
-
-            <blockquote style="background:#fafafa;padding:15px;border-left:4px solid #f97316;">
-                {{ $messageText }}
-            </blockquote>
-
-            <p>If you have any questions, feel free to reply to this email.</p>
         </div>
 
         <div class="footer">
             <p>© {{ date('Y') }} Tunga Market. All rights reserved.</p>
+            <p><a href="{{ url('/') }}">Visit Our Website</a></p>
         </div>
     </div>
 </body>

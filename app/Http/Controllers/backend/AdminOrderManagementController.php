@@ -59,7 +59,7 @@ public function contactBuyer(Request $request)
     $apiToken = config('services.mista.api_token');
     $senderId = config('services.mista.sender_id');
     $smsMessage = "Hello {$user->first_name},\n\n"
-        . "Tunga Market Admin has sent you a message regarding your order #{$order->invoice_number}.\n\n"
+        . "Tunga Market Support Team has sent you a message regarding your order #{$order->invoice_number}.\n\n"
         . "Message: {$messageText}\n\n"
         . "Thank you for shopping with Tunga Market.";
 
@@ -69,7 +69,7 @@ public function contactBuyer(Request $request)
             'accept' => 'application/json',
             'content-type' => 'application/json'
         ])->post('https://api.mista.io/sms', [
-            'to' => $order->shippingAddress->phone,
+            'to' => $order->user->phone,
             'from' => $senderId,
             'message' => $smsMessage,
         ]);
