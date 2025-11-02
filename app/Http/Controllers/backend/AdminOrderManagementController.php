@@ -13,10 +13,17 @@ class AdminOrderManagementController extends Controller
 {
   
    public function Orderlist(){
+    $metrics = [
+    'total_orders' => Order::count(),
+    'processing' => Order::where('status', 'processing')->count(),
+    'delivered' => Order::where('status', 'delivered')->count(),
+    'cancelled' => Order::where('status', 'cancelled')->count(),
+    'revenue' => Order::where('status', 'delivered')->sum('total'),
+];
     $orders = Order::with(['user', 'items.product', 'payment', 'shippingAddress'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-    return view('admin.orders.listing', compact('orders'));
+    return view('admin.orders.listing', compact('orders','metrics'));
    }
 
    public function show($id)

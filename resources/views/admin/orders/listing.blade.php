@@ -599,11 +599,95 @@
             transform: none;
             box-shadow: none;
         }
+
+        /* ===== METRICS ===== */
+        .metrics-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            flex: 1;
+            min-width: 180px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 18px 22px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.25s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .metric-card h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .metric-card .value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .metric-card.total .value {
+            color: #001428;
+        }
+
+        .metric-card.processing .value {
+            color: #007bff;
+        }
+
+        .metric-card.delivered .value {
+            color: #28a745;
+        }
+
+        .metric-card.cancelled .value {
+            color: #dc3545;
+        }
+
+        .metric-card.revenue .value {
+            color: #f97316;
+        }
     </style>
     <div class="orders-dashboard">
+        <!-- ===== SUMMARY METRICS ===== -->
+        <div class="metrics-container">
+            <div class="metric-card total">
+                <h3>Total Orders</h3>
+                <p class="value">{{ $metrics['total_orders'] }}</p>
+            </div>
+            <div class="metric-card processing">
+                <h3>Processing</h3>
+                <p class="value">{{ $metrics['processing'] }}</p>
+            </div>
+            <div class="metric-card delivered">
+                <h3>Delivered</h3>
+                <p class="value">{{ $metrics['delivered'] }}</p>
+            </div>
+            <div class="metric-card cancelled">
+                <h3>Cancelled</h3>
+                <p class="value">{{ $metrics['cancelled'] }}</p>
+            </div>
+            <div class="metric-card revenue">
+                <h3>Total Revenue</h3>
+                <p class="value">{{ number_format($metrics['revenue']) }} Rwf</p>
+            </div>
+        </div>
 
         <div class="orders-header">
-            <h1><i class="bi bi-cart-check-fill"></i> Orders Management</h1>
+            <h1><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-cart-check-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708" />
+                </svg> Orders Management</h1>
+
+
             <div class="order-filters">
                 <input type="text" id="searchOrder" placeholder="Search by invoice or customer..." onkeyup="filterOrders()">
                 <select id="statusFilter" onchange="filterOrders()">
@@ -844,11 +928,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                          <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                          <div class="info">
-                                                                                            <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                            <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                          </div>`;
+                                                                                                          <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                          <div class="info">
+                                                                                                            <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                            <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                          </div>`;
                         productsContainer.appendChild(div);
                     });
 
