@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Mail;
 
 class AdminOrderManagementController extends Controller
 {
+    public function index(){
+        
+    }
    public function Orderlist(){
     $orders = Order::with(['user', 'items.product', 'payment', 'shippingAddress'])
             ->orderBy('created_at', 'desc')
