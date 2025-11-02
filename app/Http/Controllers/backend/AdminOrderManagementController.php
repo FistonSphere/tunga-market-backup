@@ -11,18 +11,7 @@ use Illuminate\Support\Facades\Mail;
 
 class AdminOrderManagementController extends Controller
 {
-    public function index(){
-        $metrics = [
-    'total_orders' => Order::count(),
-    'processing' => Order::where('status', 'processing')->count(),
-    'delivered' => Order::where('status', 'delivered')->count(),
-    'cancelled' => Order::where('status', 'cancelled')->count(),
-    'revenue' => Order::where('status', 'delivered')->sum('total'),
-];
-
-return view('admin.orders.index', compact('orders', 'metrics'));
-
-    }
+  
    public function Orderlist(){
     $orders = Order::with(['user', 'items.product', 'payment', 'shippingAddress'])
             ->orderBy('created_at', 'desc')
