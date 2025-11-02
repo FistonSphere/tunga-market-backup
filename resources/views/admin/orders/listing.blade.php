@@ -611,11 +611,30 @@
         .metric-card {
             flex: 1;
             min-width: 180px;
-            background: #fff;
             border-radius: 12px;
             padding: 18px 22px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             transition: all 0.25s ease;
+        }
+        .metric-card:nth-child(1){
+            background-color: #001428;
+            color:#fff;
+        }
+        .metric-card:nth-child(2){
+            background-color: #05488f;
+            color:#fff;
+        }
+        .metric-card:nth-child(3){
+            background-color: #0d882a;
+            color:#fff;
+        }
+        .metric-card:nth-child(4){
+            background-color: #b60f1f;
+            color:#fff;
+        }
+        .metric-card:nth-child(5){
+            background-color: #ff5f0e;
+            color:#fff;
         }
 
         .metric-card:hover {
@@ -626,7 +645,7 @@
         .metric-card h3 {
             font-size: 15px;
             font-weight: 600;
-            color: #555;
+            color: #fff;
             margin-bottom: 10px;
         }
 
@@ -635,25 +654,7 @@
             font-weight: 700;
         }
 
-        .metric-card.total .value {
-            color: #001428;
-        }
-
-        .metric-card.processing .value {
-            color: #007bff;
-        }
-
-        .metric-card.delivered .value {
-            color: #28a745;
-        }
-
-        .metric-card.cancelled .value {
-            color: #dc3545;
-        }
-
-        .metric-card.revenue .value {
-            color: #f97316;
-        }
+        
     </style>
     <div class="orders-dashboard">
         <!-- ===== SUMMARY METRICS ===== -->

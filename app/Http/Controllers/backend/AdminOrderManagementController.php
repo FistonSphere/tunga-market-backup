@@ -4,7 +4,10 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -12,18 +15,54 @@ use Illuminate\Support\Facades\Mail;
 class AdminOrderManagementController extends Controller
 {
   
-   public function Orderlist(){
+   public function Orderlist(Request $request){
+   $query = Order::with(['user', 'items.product', 'shippingAddress', 'payment']);
+
+    // === Optional Filters ===
+    if ($request->status) {
+        $query->where('status', $request->status);
+    }
+
+    if ($request->from && $request->to) {
+        $query->whereBetween('created_at', [$request->from, $request->to]);
+    }
+
+    if ($request->payment_method) {
+        $query->where('payment_method', $request->payment_method);
+    }
+
+    $orders = $query->latest()->paginate(10);
+
+    // === Metrics ===
     $metrics = [
-    'total_orders' => Order::count(),
-    'processing' => Order::where('status', 'processing')->count(),
-    'delivered' => Order::where('status', 'delivered')->count(),
-    'cancelled' => Order::where('status', 'cancelled')->count(),
-    'revenue' => Order::where('status', 'delivered')->sum('total'),
-];
-    $orders = Order::with(['user', 'items.product', 'payment', 'shippingAddress'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-    return view('admin.orders.listing', compact('orders','metrics'));
+        'total_orders'   => Order::count(),
+        'processing'     => Order::where('status', 'processing')->count(),
+        'delivered'      => Order::where('status', 'delivered')->count(),
+        'cancelled'      => Order::where('status', 'cancelled')->count(),
+        'revenue'        => Payment::where('status', 'success')->sum('amount'),
+        'pending_payment'=> Payment::where('status', 'pending')->count(),
+    ];
+
+    // === Revenue trend (last 7 days) ===
+    $revenueTrend = Order::selectRaw('DATE(created_at) as date, SUM(total) as total')
+        ->where('status', 'delivered')
+        ->groupBy('date')
+        ->orderBy('date', 'asc')
+        ->take(7)
+        ->get();
+
+    // === Top Buyers ===
+    $topBuyers = User::withCount('orders')
+        ->orderByDesc('orders_count')
+        ->take(5)
+        ->get();
+
+    // === Payment Stats ===
+    $paymentStats = Payment::select('payment_method', DB::raw('COUNT(*) as count'))
+        ->groupBy('payment_method')
+        ->pluck('count', 'payment_method');
+
+    return view('admin.orders.listing', compact('orders', 'metrics', 'revenueTrend', 'topBuyers', 'paymentStats'));
    }
 
    public function show($id)
