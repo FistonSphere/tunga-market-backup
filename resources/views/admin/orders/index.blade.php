@@ -54,12 +54,12 @@
                             <div class="space-y-3">
                                 @foreach($order->items as $item)
                                     <div class="flex items-center gap-3">
-                                        <img src="{{ $item->product->image ?? asset('images/no-image.png') }}"
+                                        <img src="{{ $item->product->main_image ?? asset('images/no-image.png') }}"
                                             class="w-14 h-14 rounded-lg object-cover border">
                                         <div>
                                             <p class="font-medium text-gray-800">{{ $item->product->name }}</p>
                                             <p class="text-sm text-gray-500">Qty: {{ $item->quantity }} ×
-                                                {{ number_format($item->price, 2) }} {{ $order->currency }}
+                                                {{ number_format($item->price) }} {{ $order->currency }}
                                             </p>
                                         </div>
                                     </div>
@@ -119,5 +119,21 @@
 
     <!-- Optional Modal Placeholder -->
     <div id="orderDetailsModal"></div>
+<script>
+function filterOrders() {
+    const search = document.getElementById('searchOrder').value.toLowerCase();
+    const status = document.getElementById('statusFilter').value.toLowerCase();
+    const rows = document.querySelectorAll('.order-card');
+
+    rows.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        const matchesSearch = text.includes(search);
+        const matchesStatus = status ? text.includes(status) : true;
+        card.style.display = (matchesSearch && matchesStatus) ? '' : 'none';
+    });
+}
+document.getElementById('searchOrder').addEventListener('keyup', filterOrders);
+document.getElementById('statusFilter').addEventListener('change', filterOrders);
+</script>
 
 @endsection

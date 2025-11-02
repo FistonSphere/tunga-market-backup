@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 class AdminOrderManagementController extends Controller
 {
    public function Orderlist(){
- $orders= Order::with('user','items','shippingAddress','payment');
+ $orders = Order::with(['user', 'items.product', 'payment', 'shippingAddress'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
     return view('admin.orders.index', compact('orders'));
    }
 }

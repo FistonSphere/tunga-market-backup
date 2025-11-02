@@ -28,7 +28,7 @@
     <!-- Add Choices.js -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> --}}
 
 </head>
 
@@ -274,8 +274,12 @@
                                     alt="img"><span>
                                     Orders</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{ route('admin.orders.list') }}" class="{{ request()->routeIs('admin.orders.list') ? 'active' : '' }}">Order List</a></li>
-                                <li><a href="{{ route('admin.orders.items') }}" class="{{ request()->routeIs('admin.orders.items') ? 'active' : '' }}">Order Items</a></li>
+                                <li><a href="{{ route('admin.orders.list') }}"
+                                        class="{{ request()->routeIs('admin.orders.list') ? 'active' : '' }}">Order
+                                        List</a></li>
+                                <li><a href="{{ route('admin.orders.items') }}"
+                                        class="{{ request()->routeIs('admin.orders.items') ? 'active' : '' }}">Order
+                                        Items</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
