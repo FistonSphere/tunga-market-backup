@@ -419,6 +419,38 @@
                 flex-direction: column;
             }
         }
+
+        .form-group label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .btn-send {
+            background: #f97316;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 6px;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-send:hover {
+            background: #ff8f3c;
+        }
     </style>
     <div class="orders-dashboard">
 
@@ -478,11 +510,21 @@
 
                 <div class="order-footer">
                     <button class="btn view" onclick="viewOrderDetails('{{ $order->id }}')">
-                        <i class="bi bi-eye-fill"></i> View Details
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-eye-fill" viewBox="0 0 16 16">
+                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                            <path
+                                d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                        </svg> View Details
                     </button>
-                    <button class="btn contact">
-                        <i class="bi bi-envelope-fill"></i> Contact Buyer
+                    <button class="btn contact" onclick="openContactModal('{{ $order->id }}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z" />
+                        </svg> Contact Buyer
                     </button>
+
                 </div>
             </div>
         @empty
@@ -550,7 +592,24 @@
         </div>
     </div>
 
+    <!-- CONTACT BUYER MODAL -->
+    <div id="contactBuyerModal" class="modal-overlay" style="display:none;">
+        <div class="modal-box">
+            <span class="close-modal" onclick="closeContactModal()">&times;</span>
+            <h2>Contact Buyer</h2>
 
+            <form id="contactBuyerForm" method="POST" action="{{ route('admin.orders.contact-buyer') }}">
+                @csrf
+                <input type="hidden" name="order_id" id="contactOrderId">
+                <div class="form-group">
+                    <label for="message">Message to Buyer</label>
+                    <textarea name="message" id="contactMessage" rows="6" required
+                        placeholder="Type your message here..."></textarea>
+                </div>
+                <button type="submit" class="btn-send">Send Message</button>
+            </form>
+        </div>
+    </div>
 
     <script>
         function filterOrders() {
@@ -604,11 +663,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-              <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-              <div class="info">
-                <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                <span>Qty: ${item.quantity} × ${item.price}</span>
-              </div>`;
+                                              <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                              <div class="info">
+                                                <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                <span>Qty: ${item.quantity} × ${item.price}</span>
+                                              </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -620,6 +679,14 @@
 
         function closeOrderModal() {
             document.getElementById('orderDetailsModal').style.display = 'none';
+        }
+
+        function openContactModal(orderId) {
+            document.getElementById('contactOrderId').value = orderId;
+            document.getElementById('contactBuyerModal').style.display = 'flex';
+        }
+        function closeContactModal() {
+            document.getElementById('contactBuyerModal').style.display = 'none';
         }
     </script>
 @endsection
