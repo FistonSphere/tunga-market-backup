@@ -281,8 +281,14 @@
             <h6>Manage your products</h6>
         </div>
         <div class="page-btn">
-            <a href="{{ route('products.admin.create') }}" class="btn btn-added"><img
-                    src="{{ asset('admin/assets/img/icons/plus.svg') }}" alt="img" class="me-1" />Add New Product</a>
+            <a href="{{ route('admin.products.create') }}"
+                class="btn btn-added d-flex align-items-center justify-content-center" id="addProductBtn">
+                <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                <img src="{{ asset('admin/assets/img/icons/plus.svg') }}" alt="img" class="me-1 icon-plus" />
+                <span>Add New Product</span>
+            </a>
+
+
         </div>
     </div>
 
@@ -554,13 +560,13 @@
                 const params = new URLSearchParams(formData).toString();
 
                 tableBody.innerHTML = `
-                                <tr>
-                                    <td colspan="8" style="text-align:center; color:#999; padding:20px;">
-                                        <img src="{{ asset('assets/images/loader.gif') }}" width="24" style="vertical-align:middle; margin-right:8px;">
-                                        Filtering products...
-                                    </td>
-                                </tr>
-                            `;
+                                                    <tr>
+                                                        <td colspan="8" style="text-align:center; color:#999; padding:20px;">
+                                                            <img src="{{ asset('assets/images/loader.gif') }}" width="24" style="vertical-align:middle; margin-right:8px;">
+                                                            Filtering products...
+                                                        </td>
+                                                    </tr>
+                                                `;
 
                 fetch(`/admin/products/filter?${params}`)
                     .then(response => {
@@ -573,10 +579,10 @@
                     .catch(error => {
                         console.error("❌ Filter error:", error);
                         tableBody.innerHTML = `
-                                        <tr>
-                                            <td colspan="8" style="text-align:center; color:red;">Error loading filtered products.</td>
-                                        </tr>
-                                    `;
+                                                            <tr>
+                                                                <td colspan="8" style="text-align:center; color:red;">Error loading filtered products.</td>
+                                                            </tr>
+                                                        `;
                     });
             });
 
@@ -594,49 +600,49 @@
 
                 if (!products || products.length === 0) {
                     tableBody.innerHTML = `
-                                    <tr>
-                                        <td colspan="8" style="text-align:center; color:#999; padding:20px;">
-                                            No products found matching your filters.
-                                        </td>
-                                    </tr>
-                                `;
+                                                        <tr>
+                                                            <td colspan="8" style="text-align:center; color:#999; padding:20px;">
+                                                                No products found matching your filters.
+                                                            </td>
+                                                        </tr>
+                                                    `;
                     return;
                 }
 
                 products.forEach(product => {
                     const row = document.createElement("tr");
                     row.innerHTML = `
-                                    <td>
-                                        <label class="checkboxs">
-                                            <input type="checkbox" />
-                                            <span class="checkmarks"></span>
-                                        </label>
-                                    </td>
-                                    <td class="productimgname">
-                                        <a href="/admin/products/products/${product.id}" class="product-img">
-                                            <img src="${product.main_image || '/storage/default.jpg'}"
-                                                alt="${product.name}" style="border-radius: 8px; width:50px; height:50px; object-fit:fill;">
-                                        </a>
-                                        <a href="/admin/products/products/${product.id}">${product.name}</a>
-                                    </td>
-                                    <td>${product.sku || '-'}</td>
-                                    <td>${product.category?.name || '-'}</td>
-                                    <td>${product.brand?.name || '-'}</td>
-                                    <td>${Number(product.price).toLocaleString()} Rwf</td>
-                                    <td>${product.stock_quantity ?? 0}</td>
-                                    <td style="text-align:center;">
-                                        <a class="me-3" href="/admin/products/${product.id}">
-                                            <img src="{{ asset('admin/assets/img/icons/eye.svg') }}" alt="View" />
-                                        </a>
-                                        <a class="me-3" href="/admin/products/${product.id}/edit">
-                                            <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="Edit" />
-                                        </a>
-                                        <button type="button" class="deleteBtn confirm-text"
-                                            data-id="${product.id}" data-name="${product.name}">
-                                            <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="Delete" />
-                                        </button>
-                                    </td>
-                                `;
+                                                        <td>
+                                                            <label class="checkboxs">
+                                                                <input type="checkbox" />
+                                                                <span class="checkmarks"></span>
+                                                            </label>
+                                                        </td>
+                                                        <td class="productimgname">
+                                                            <a href="/admin/products/products/${product.id}" class="product-img">
+                                                                <img src="${product.main_image || '/storage/default.jpg'}"
+                                                                    alt="${product.name}" style="border-radius: 8px; width:50px; height:50px; object-fit:fill;">
+                                                            </a>
+                                                            <a href="/admin/products/products/${product.id}">${product.name}</a>
+                                                        </td>
+                                                        <td>${product.sku || '-'}</td>
+                                                        <td>${product.category?.name || '-'}</td>
+                                                        <td>${product.brand?.name || '-'}</td>
+                                                        <td>${Number(product.price).toLocaleString()} Rwf</td>
+                                                        <td>${product.stock_quantity ?? 0}</td>
+                                                        <td style="text-align:center;">
+                                                            <a class="me-3" href="/admin/products/${product.id}">
+                                                                <img src="{{ asset('admin/assets/img/icons/eye.svg') }}" alt="View" />
+                                                            </a>
+                                                            <a class="me-3" href="/admin/products/${product.id}/edit">
+                                                                <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="Edit" />
+                                                            </a>
+                                                            <button type="button" class="deleteBtn confirm-text"
+                                                                data-id="${product.id}" data-name="${product.name}">
+                                                                <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="Delete" />
+                                                            </button>
+                                                        </td>
+                                                    `;
                     tableBody.appendChild(row);
                 });
             }
@@ -650,6 +656,20 @@
                     filterForm.dispatchEvent(new Event("submit"));
                 }, 500);
             });
+        });
+
+        document.getElementById('addProductBtn').addEventListener('click', function () {
+            const btn = this;
+            const spinner = btn.querySelector('.spinner-border');
+            const icon = btn.querySelector('.icon-plus');
+            const text = btn.querySelector('span:last-child');
+
+            // Show the spinner and hide the plus icon
+            spinner.classList.remove('d-none');
+            icon.classList.add('d-none');
+            text.textContent = 'Loading...';
+
+            // Allow the normal link navigation to continue
         });
     </script>
 

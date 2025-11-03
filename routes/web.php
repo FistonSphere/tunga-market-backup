@@ -238,7 +238,7 @@ Route::get('/{id}', 'show')->name('admin.products.show');
 Route::get('/{id}/edit/', 'edit')->name('admin.products.edit');
 Route::put('/products/{id}', 'update')->name('admin.products.update');
 Route::delete('/products/{id}/delete', 'destroy')->name('products.destroy');
-Route::get('/create',  'create')->name('products.admin.create');
+Route::get('/new-product',  'create')->name('admin.products.create');
 Route::post('/products', 'store')->name('products.store');
 Route::get('/filter', 'filter')->name('products.filter');
 Route::get('/products/print-pdf', 'printPDF')->name('admin.products.printPDF');
