@@ -85,22 +85,27 @@
                     <img id="mainImage" src="{{ $product->main_image }}" alt="{{ $product->name }}"
                         class="w-full h-full object-contain transition-all duration-300 select-none" loading="lazy"
                         onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
+                    <!-- Magnifier Zoom Container -->
+                    <div id="imageZoomResult"
+                        class="hidden absolute right-[-520px] top-0 w-[500px] h-[500px] border border-gray-300 rounded-lg overflow-hidden bg-white shadow-lg z-30">
+                    </div>
 
                     <!-- Prev Button -->
-                    <button id="prevMainImage"
-                        class="absolute left-3 bg-white/80 rounded-full p-3 shadow-md hover:bg-white transition hidden group-hover:flex items-center justify-center z-20">
-                        <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    <button id="prevMainImage" style="background-color: #001428;color:white;"
+                        class="absolute left-3 top-1/2 -translate-y-1/2 rounded-full p-3 transition opacity-0 group-hover:opacity-100 z-20">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
 
                     <!-- Next Button -->
-                    <button id="nextMainImage"
-                        class="absolute right-3 bg-white/80 rounded-full p-3 shadow-md hover:bg-white transition hidden group-hover:flex items-center justify-center z-20">
-                        <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    <button id="nextMainImage" style="background-color: #001428;color:white;"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 text-black rounded-full p-3 transition opacity-0 group-hover:opacity-100 z-20">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
                     </button>
+
 
                     <!-- Fullscreen Button -->
                     <button id="fullscreenBtn"
@@ -362,17 +367,18 @@
                                     <svg data-value="{{ $i }}" xmlns="http://www.w3.org/2000/svg"
                                         class="star h-10 w-10 text-gray-300 hover:text-yellow-400 transition duration-200 cursor-pointer"
                                         fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.178
-                                                                        3.63a1 1 0 00.95.69h3.813c.969 0
-                                                                        1.371 1.24.588 1.81l-3.087
-                                                                        2.243a1 1 0 00-.364 1.118l1.178
-                                                                        3.63c.3.921-.755 1.688-1.54
-                                                                        1.118l-3.087-2.243a1 1 0
-                                                                        00-1.176 0l-3.087
-                                                                        2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
-                                                                        00-.364-1.118L2.42
-                                                                        9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
-                                                                        00.951-.69l1.178-3.63z" />
+                                        <path
+                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.178
+                                                                                                                3.63a1 1 0 00.95.69h3.813c.969 0
+                                                                                                                1.371 1.24.588 1.81l-3.087
+                                                                                                                2.243a1 1 0 00-.364 1.118l1.178
+                                                                                                                3.63c.3.921-.755 1.688-1.54
+                                                                                                                1.118l-3.087-2.243a1 1 0
+                                                                                                                00-1.176 0l-3.087
+                                                                                                                2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
+                                                                                                                00-.364-1.118L2.42
+                                                                                                                9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
+                                                                                                                00.951-.69l1.178-3.63z" />
                                     </svg>
                                 @endfor
                             </div>
@@ -385,7 +391,7 @@
                             <textarea name="comment" id="comment" rows="4"
                                 placeholder="Share your experience with this product..."
                                 class="w-full border border-gray-200 rounded-xl p-4 text-gray-700 resize-none
-                                               focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
+                                                                   focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
 
                             <!-- Verified Purchase Badge -->
                             <div class="flex items-center space-x-2">
@@ -406,7 +412,7 @@
                         <div class="md:w-1/4 flex md:justify-end">
                             <button type="submit"
                                 class="bg-primary hover:bg-primary/90 text-white font-medium py-2 px-5
-                                   rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
+                                                       rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
                                 Submit Review
                             </button>
                         </div>
@@ -1128,12 +1134,12 @@
                             const reviewList = document.getElementById("reviews-list");
                             if (reviewList) {
                                 reviewList.insertAdjacentHTML("afterbegin", `
-                                            <div class="border p-4 rounded-lg mb-3">
-                                                <p class="font-semibold">⭐ ${data.review.rating}</p>
-                                                <p>${data.review.comment}</p>
-                                                <small class="text-gray-500">Just now</small>
-                                            </div>
-                                        `);
+                                                                <div class="border p-4 rounded-lg mb-3">
+                                                                    <p class="font-semibold">⭐ ${data.review.rating}</p>
+                                                                    <p>${data.review.comment}</p>
+                                                                    <small class="text-gray-500">Just now</small>
+                                                                </div>
+                                                            `);
                             }
 
                             // Success message (custom toast style)
@@ -1157,7 +1163,7 @@
             let toast = document.createElement("div");
             toast.textContent = message;
             toast.className = `fixed top-5 right-5 px-4 py-2 rounded-lg shadow-lg text-white z-50
-                            ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
+                                                ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
             document.body.appendChild(toast);
 
             setTimeout(() => toast.remove(), 3000);
@@ -1214,16 +1220,16 @@
                     mobileCartBtn.className =
                         "fixed bottom-4 left-4 right-4 bg-accent text-white rounded-lg p-4 shadow-modal z-40 md:hidden";
                     mobileCartBtn.innerHTML = `
-                                            <div class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-semibold">$149.99</div>
-                                                    <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
-                                                </div>
-                                                <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
-                                                    Add to Cart
-                                                </button>
-                                            </div>
-                                        `;
+                                                                <div class="flex items-center justify-between">
+                                                                    <div>
+                                                                        <div class="font-semibold">$149.99</div>
+                                                                        <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
+                                                                    </div>
+                                                                    <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
+                                                                        Add to Cart
+                                                                    </button>
+                                                                </div>
+                                                            `;
                     document.body.appendChild(mobileCartBtn);
 
                     // Add click handler
@@ -1705,6 +1711,107 @@
             galleryDown.addEventListener('click', () => scrollGallery(1));
 
             updateArrows();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainImage = document.getElementById('mainImage');
+            const thumbnails = document.querySelectorAll('.thumbnail-btn');
+            const prevBtn = document.getElementById('prevMainImage');
+            const nextBtn = document.getElementById('nextMainImage');
+
+            // Track current active index
+            let currentIndex = 0;
+
+            // Determine current index based on the active border
+            function updateCurrentIndex() {
+                thumbnails.forEach((btn, i) => {
+                    if (btn.classList.contains('border-accent')) {
+                        currentIndex = i;
+                    }
+                });
+            }
+
+            // Move to next image
+            nextBtn.addEventListener('click', () => {
+                updateCurrentIndex();
+                currentIndex = (currentIndex + 1) % thumbnails.length;
+                const nextThumb = thumbnails[currentIndex];
+                const imgSrc = nextThumb.querySelector('img').src;
+                changeMainImage(nextThumb, imgSrc);
+            });
+
+            // Move to previous image
+            prevBtn.addEventListener('click', () => {
+                updateCurrentIndex();
+                currentIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
+                const prevThumb = thumbnails[currentIndex];
+                const imgSrc = prevThumb.querySelector('img').src;
+                changeMainImage(prevThumb, imgSrc);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainImage = document.getElementById('mainImage');
+            const zoomResult = document.getElementById('imageZoomResult');
+
+            let lens;
+            let cx, cy;
+
+            function createLens() {
+                lens = document.createElement("div");
+                lens.setAttribute("id", "zoomLens");
+                lens.style.position = "absolute";
+                lens.style.border = "1px solid #aaa";
+                lens.style.width = "120px";
+                lens.style.height = "120px";
+                lens.style.opacity = "0.4";
+                lens.style.backgroundColor = "#fff";
+                lens.style.cursor = "crosshair";
+                lens.style.display = "none";
+                lens.style.zIndex = "50";
+                lens.style.pointerEvents = "none";
+                mainImage.parentElement.appendChild(lens);
+            }
+
+            createLens();
+
+            function moveLens(e) {
+                e.preventDefault();
+                const rect = mainImage.getBoundingClientRect();
+                const x = e.pageX - rect.left - window.pageXOffset - lens.offsetWidth / 2;
+                const y = e.pageY - rect.top - window.pageYOffset - lens.offsetHeight / 2;
+
+                // Boundaries
+                const maxX = mainImage.width - lens.offsetWidth;
+                const maxY = mainImage.height - lens.offsetHeight;
+                const posX = Math.max(0, Math.min(x, maxX));
+                const posY = Math.max(0, Math.min(y, maxY));
+
+                lens.style.left = posX + "px";
+                lens.style.top = posY + "px";
+
+                zoomResult.style.backgroundPosition = `-${posX * cx}px -${posY * cy}px`;
+            }
+
+            function startZoom() {
+                lens.style.display = "block";
+                zoomResult.classList.remove('hidden');
+                const rect = mainImage.getBoundingClientRect();
+                zoomResult.style.backgroundImage = `url('${mainImage.src}')`;
+                zoomResult.style.backgroundRepeat = "no-repeat";
+                cx = zoomResult.offsetWidth / lens.offsetWidth;
+                cy = zoomResult.offsetHeight / lens.offsetHeight;
+                zoomResult.style.backgroundSize = `${mainImage.width * cx}px ${mainImage.height * cy}px`;
+            }
+
+            function endZoom() {
+                lens.style.display = "none";
+                zoomResult.classList.add('hidden');
+            }
+
+            mainImage.addEventListener("mouseenter", startZoom);
+            mainImage.addEventListener("mousemove", moveLens);
+            mainImage.addEventListener("mouseleave", endZoom);
         });
     </script>
 @endsection
