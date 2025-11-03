@@ -1813,7 +1813,8 @@
             // Updated lens styling
             Object.assign(zoomLens.style, {
                 position: "absolute",
-                border: "2px solid #001428",
+                border: "1px solid #001428",
+                borderRadius: "8px",
                 width: "140px",
                 height: "140px",
                 backgroundColor: "rgba(255, 255, 255, 0.2)", // less transparent
