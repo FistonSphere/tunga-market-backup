@@ -1,5 +1,488 @@
 @extends('layouts.app')
 @section('content')
+<style>
+    /* 
+## Colors
+
+### Primary
+
+- Orange: hsl(26, 100%, 55%)
+- Pale orange: hsl(25, 100%, 94%)
+
+### Neutral
+
+- Very dark blue: hsl(220, 13%, 13%)
+- Dark grayish blue: hsl(219, 9%, 45%)
+- Grayish blue: hsl(220, 14%, 75%)
+- Light grayish blue: hsl(223, 64%, 98%)
+- White: hsl(0, 0%, 100%)
+- Black (with 75% opacity for lightbox background): hsl(0, 0%, 0%)
+
+## Typography
+
+### Body Copy
+
+- Font size (paragraph): 16px
+
+### Font
+
+- Family: [Kumbh Sans](https://fonts.google.com/specimen/Kumbh+Sans)
+- Weights: 400, 700
+
+*/
+
+/*^ start of general styles */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:root {
+  --orange: hsl(26, 100%, 55%);
+  --paleOrange: hsl(25, 100%, 94%);
+  --veryDarkBlue: hsl(220, 13%, 13%);
+  --darkGrayishBlue: hsl(219, 9%, 45%);
+  --grayishBlue: hsl(220, 14%, 75%);
+  --lightGrayishBlue: hsl(223, 64%, 98%);
+  font-family: "Kumbh Sans", sans-serif;
+  color: var(--veryDarkBlue);
+}
+
+a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: var(--veryDarkBlue);
+  text-transform: capitalize;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+}
+/*^ end of general styles */
+
+/*^ start of common styles */
+.header,
+.account,
+.navMenu,
+.mainSec,
+.priceInfo,
+.salePrice,
+.productNumber,
+.imgControls,
+.next,
+.previous,
+.cartInfo {
+  display: flex;
+  align-items: center;
+}
+.header,
+.account,
+.priceInfo,
+.salePrice {
+  column-gap: 1rem;
+}
+
+.cursorPointer {
+  cursor: pointer;
+}
+
+.addToCart,
+.badge {
+  background-color: var(--orange);
+  color: white;
+}
+
+.badge,
+.navLink a,
+.alert {
+  font-weight: 500;
+}
+    /*^ start of main sec */
+main {
+  min-height: 80vh;
+  padding-bottom: 70px;
+}
+
+.mainSec {
+  flex-direction: column;
+  row-gap: 1.5rem;
+}
+
+.productImgs,
+.productImgs img {
+  width: 100%;
+}
+
+.productTitle,
+.productDesc,
+.priceInfo {
+  margin-bottom: 1.2rem;
+}
+
+.productHeadline,
+.sale,
+.plus,
+.minus {
+  color: var(--orange);
+}
+
+.productTitle,
+.currentPrice {
+  font-size: calc(1.5rem + 0.3vw);
+}
+
+.currentPrice,
+.originalPrice,
+.sale,
+.plus,
+.minus,
+.num,
+.addToCart {
+  font-weight: 700;
+}
+
+.productNumber,
+.sale,
+.addToCart {
+  border-radius: 10px;
+}
+
+.productImgs {
+  position: relative;
+}
+
+.imgControls,
+.controls {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.next,
+.previous {
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  background-color: white;
+  border-radius: 50%;
+  justify-content: center;
+}
+
+.imgControls img,
+.controls img {
+  width: 40%;
+}
+
+.productHeadline {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2.1;
+  margin-bottom: 0.7rem;
+}
+
+.productTitle {
+  color: var(--veryDarkBlue);
+}
+
+.productDesc {
+  color: var(--darkGrayishBlue);
+  line-height: 1.5;
+}
+
+.sale {
+  background-color: var(--paleOrange);
+  padding: 0.5rem;
+}
+
+.originalPrice {
+  color: var(--grayishBlue);
+  text-decoration: line-through;
+}
+
+.priceInfo {
+  justify-content: space-between;
+}
+
+.cartInfo {
+  flex-direction: column;
+  row-gap: 1.2rem;
+}
+
+.productNumber {
+  background-color: var(--lightGrayishBlue);
+  padding: 0 1rem;
+  justify-content: space-between;
+}
+
+.plus,
+.minus {
+  font-size: calc(1.7rem + 0.5vw);
+  padding: 3px 0 10px 0;
+}
+.num {
+  font-size: 1.1rem;
+  padding: 5px 0;
+}
+
+.addToCart,
+.productNumber {
+  width: 100%;
+}
+.addToCart {
+  padding: 0.75rem 0.5rem;
+  font-size: 1rem;
+  box-shadow: 0 30px 20px 0px var(--paleOrange);
+}
+
+.addToCart svg {
+  margin-right: 0.7rem;
+}
+
+.otherImgs {
+  display: none;
+}
+
+.alert {
+  color: red;
+  margin-top: 30px;
+  font-size: 1.1rem;
+}
+
+.lightBox {
+  display: none;
+}
+
+.alertBox {
+  text-align: center;
+}
+
+/*^ end of main sec */
+
+/*^ start of media query */
+/* *mob menu */
+@media screen and (min-width: 768px) {
+  header {
+    padding: 1.1rem 0;
+  }
+  .container {
+    max-width: 85%;
+  }
+  .mobMenuIcon {
+    display: none;
+  }
+
+  .navMenu {
+    background-color: transparent;
+    position: static;
+    width: 100%;
+    flex-direction: row;
+    column-gap: 0.5rem;
+    justify-content: space-between;
+  }
+
+  .logo {
+    order: -1;
+  }
+
+  .header {
+    column-gap: 1.5rem;
+  }
+
+  .navLink a {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+}
+@media screen and (min-width: 992px) {
+  header {
+    padding: 0.4rem 0;
+  }
+  .container {
+    max-width: 80%;
+  }
+
+  .navMenu {
+    column-gap: 1rem;
+  }
+
+  .header {
+    column-gap: 3rem;
+  }
+
+  .navLink a {
+    font-size: 1.1rem;
+  }
+  .profilePic {
+    width: 25%;
+  }
+
+  .cart {
+    width: 15%;
+  }
+
+  .account {
+    column-gap: 2.5rem;
+  }
+
+  .mainSec {
+    flex-direction: row;
+    column-gap: 5rem;
+    justify-content: space-between;
+  }
+
+  .currentImg img,
+  .otherImgs img,
+  .otherImgs .layer {
+    border-radius: 10px;
+  }
+
+  main {
+    border-top: 1px solid var(--grayishBlue);
+    max-width: 80%;
+    margin: 10px auto;
+    padding: 90px 0;
+  }
+
+  .secContainer {
+    max-width: 88%;
+    margin: 0 auto;
+  }
+
+  .mobContainer {
+    width: 100%;
+  }
+
+  main .productImgs {
+    width: calc((100% / 3) * 1.3 - 0.5rem);
+  }
+  .productInfo {
+    width: calc((100% / 3) * 1.7 - 0.5rem);
+  }
+
+  .cartInfo {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .productNumber {
+    width: calc(40% - 0.5rem);
+  }
+  .addToCart {
+    width: calc(60% - 0.5rem);
+  }
+
+  .imgControls {
+    display: none;
+  }
+
+  .cartInfo,
+  .otherImgs {
+    column-gap: 1rem;
+  }
+
+  .productTitle {
+    font-size: calc(2rem + 0.5vw);
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  .productDesc {
+    margin-bottom: 1.5rem;
+  }
+
+  .otherImgs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+  }
+
+  .otherImgs .img {
+    position: relative;
+    width: calc(100% / 4);
+  }
+  .otherImgs img {
+    width: 100%;
+    max-height: 80px;
+  }
+
+  .otherImgs .layer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 2px solid var(--orange);
+  }
+
+  .priceInfo {
+    flex-direction: column;
+    align-items: start;
+    row-gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .currentImg img {
+    max-height: 400px;
+  }
+
+  /* ?start of lightBox */
+  .lightBox {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+  }
+
+  .closeIcon svg {
+    width: 15px;
+  }
+
+  .closeIcon {
+    text-align: end;
+    padding: 10px 5px;
+    margin-bottom: 5px;
+  }
+
+  .lightBox .modal {
+    width: 30%;
+  }
+
+  .lightBox .productImgs .currentImg {
+    position: relative;
+  }
+
+  .lightBox,
+  .controls {
+    align-items: center;
+  }
+  .lightBox {
+    justify-content: center;
+  }
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+  }
+
+  .controls .previous {
+    transform: translateX(-50%);
+  }
+
+  .controls .next {
+    transform: translateX(50%);
+  }
+
+  /* ?end of lightBox */
+}
+</style>
     <!-- Breadcrumb Navigation -->
     <section class="bg-surface py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,172 +516,174 @@
 
 
     <!-- Product Detail Section -->
-    <section class="py-10 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap lg:flex-nowrap gap-6">
-
-            @php
-                $gallery = json_decode($product->gallery, true) ?? [];
-                array_unshift($gallery, $product->main_image);
-            @endphp
-
-            <!-- LEFT SIDE: Gallery + Main Image -->
-            <div class="flex gap-4 flex-shrink-0" style="min-width: 320px; max-width: 550px;">
-
-                <!-- Vertical Thumbnail Gallery -->
-                <div class="relative flex flex-col items-center gap-2 select-none group">
-
-                    <!-- Up Scroll Button -->
-                    <button id="galleryUp"
-                        class="absolute -top-8 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition opacity-0 group-hover:opacity-100 duration-300 z-10">
-                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                        </svg>
-                    </button>
-
-                    <!-- Thumbnails Wrapper -->
-                    <div id="thumbnailContainer" class="relative overflow-hidden rounded-lg" style="height: 360px;">
-                        <div id="thumbnailInner" class="flex flex-col gap-3 transition-transform duration-300">
-                            @foreach ($gallery as $index => $image)
-                                <button
-                                    class="thumbnail-btn border-2 rounded-md overflow-hidden w-20 h-20 {{ $index === 0 ? 'border-accent' : 'border-transparent' }} hover:border-accent transition"
-                                    data-index="{{ $index }}" onclick="changeMainImage({{ $index }}, '{{ $image }}')"
-                                    onmouseover="changeMainImage({{ $index }}, '{{ $image }}')">
-                                    <img src="{{ $image }}" alt="Thumbnail {{ $index + 1 }}" class="object-cover w-full h-full"
-                                        onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
-                                </button>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <!-- Down Scroll Button -->
-                    <button id="galleryDown"
-                        class="absolute -bottom-8 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition opacity-0 group-hover:opacity-100 duration-300 z-10">
-                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Main Image Display -->
-                <div class="relative flex-1 bg-gray-50 rounded-xl overflow-hidden flex justify-center items-center shadow-xl transition hover:shadow-2xl group"
-                    style="width:500px; height:500px; min-width:300px;">
-                    <img id="mainImage" src="{{ $product->main_image }}" alt="{{ $product->name }}"
-                        class="w-full h-full object-contain transition-all duration-300 select-none" loading="lazy"
-                        onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
-
-                    <!-- Prev Button -->
-                    <button id="prevMainImage"
-                        class="absolute left-3 bg-white/80 rounded-full p-3 shadow-md hover:bg-white transition hidden group-hover:flex items-center justify-center z-20">
-                        <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-
-                    <!-- Next Button -->
-                    <button id="nextMainImage"
-                        class="absolute right-3 bg-white/80 rounded-full p-3 shadow-md hover:bg-white transition hidden group-hover:flex items-center justify-center z-20">
-                        <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
-
-                    <!-- Fullscreen Button -->
-                    <button id="fullscreenBtn"
-                        class="absolute top-4 right-4 bg-white rounded-full p-3 shadow hover:bg-gray-100 transition z-30"
-                        title="Full Screen View">
-                        <svg class="w-6 h-6 text-secondary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 3H5a2 2 0 00-2 2v3m0 8v3a2 2 0 002 2h3m8-16h3a2 2 0 012 2v3m0 8v3a2 2 0 01-2 2h-3" />
-                        </svg>
-                    </button>
-                </div>
+    <section class="py-8 bg-white">
+      <!-- start of main section -->
+    <main>
+      <div class="secContainer">
+        <section class="mainSec">
+          <div class="productImgs">
+            <div class="currentImg cursorPointer">
+              <img src="https://www.samsungmobilepress.com/file/25F5F842B82F9EBAA623D87523AC82933430B39D53EFFA67E42353F624609CFCDBFD943ED7E1971BAEC8AB8C9590C4CA7238B00366CD61C8B5D6B566926FC357345DAD1093027F101FD0388469A677B75130234CE404C8D767B959E8C3B2FEE98D86AFAF4F3C848743AB1730524E9E5C7CC26EAC0E4DFF6EAB8800660715A64755909ED7F51D018D420342E9597280E5" alt="brown sneakers" />
             </div>
-
-            <!-- RIGHT SIDE: Product Info -->
-            <div class="flex-1 space-y-6">
-                <div>
-                    <h1 class="text-3xl font-bold text-primary">{{ $product->name }}</h1>
-                    <p class="text-gray-600 mt-2">{{ $product->short_description }}</p>
-                </div>
-
-                <div class="border border-gray-200 rounded-lg p-4">
-                    <div class="flex items-baseline space-x-3">
-                        @if ($product->discount_price)
-                            <span class="line-through text-gray-400 text-sm">
-                                {{ $product->currency }}{{ number_format($product->price, 2) }}
-                            </span>
-                            <span class="text-2xl font-bold text-primary">
-                                {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
-                            </span>
-                        @else
-                            <span class="text-2xl font-bold text-primary">
-                                {{ $product->currency }}{{ number_format($product->price, 2) }}
-                            </span>
-                        @endif
-                    </div>
-                    <p class="text-sm text-gray-500 mt-1">MOQ: {{ $product->min_order_quantity }} pcs</p>
-                </div>
-
-                @if ($product->features)
-                    <div>
-                        <h3 class="font-semibold text-primary mb-2">Key Features</h3>
-                        <ul class="space-y-1 text-gray-700">
-                            @foreach (json_decode($product->features) as $feature)
-                                <li class="flex items-center space-x-2">
-                                    <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span>{{ $feature }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                <div>
-                    <h3 class="font-semibold mb-2">Quantity</h3>
-                    <div class="flex items-center space-x-2">
-                        <button type="button"
-                            class="decreaseQty px-3 py-2 rounded bg-gray-200 hover:bg-gray-300 font-bold">−</button>
-                        <input type="number" id="quantityValue" name="quantity" value="{{ $product->min_order_quantity }}"
-                            min="{{ $product->min_order_quantity }}" max="{{ $product->stock_quantity }}"
-                            class="w-20 text-center border rounded-md py-2 px-3 focus:ring-2 focus:ring-accent focus:border-accent"
-                            readonly />
-                        <button type="button"
-                            class="increaseQty px-3 py-2 rounded bg-gray-200 hover:bg-gray-300 font-bold">+</button>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-1">Stock: {{ $product->stock_quantity }}</p>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <button class="btn-primary w-full" onclick="addToCart({{ $product->id }})">Add to Cart</button>
-                    <button class="btn-secondary w-full" onclick="addToWishlist({{ $product->id }})">Add to
-                        Wishlist</button>
-                </div>
+            <div class="otherImgs">
+              <div class="img cursorPointer">
+                <img
+                  src="https://www.samsungmobilepress.com/file/25F5F842B82F9EBAA623D87523AC82933430B39D53EFFA67E42353F624609CFCDBFD943ED7E1971BAEC8AB8C9590C4CA7238B00366CD61C8B5D6B566926FC357345DAD1093027F101FD0388469A677B75130234CE404C8D767B959E8C3B2FEE98D86AFAF4F3C848743AB1730524E9E5C7CC26EAC0E4DFF6EAB8800660715A64755909ED7F51D018D420342E9597280E5"
+                  alt="brown sneakers thumbnail first image"
+                  class="pImg"
+                />
+                <div class="layer"></div>
+              </div>
+              <div class="img cursorPointer">
+                <img
+                  src="https://www.samsungmobilepress.com/file/515828F7CDAC4DF062DBCB152FA6FB017602E0CC9078379C0E27644770D54F4F297E7E805E99F940AE1D73916BD3E426AA063CAB0D863151598728FEB42E60119952CE58DA24B8014D6CC947FCB97BE8CEF0449DC70517B868A96B3736A55737BD548ECEE8441F44715859C31565F4F03418701F96EE9031A0F66642A33FEC640AE44153234E71C7E8952D5D07020ED3"
+                  alt="brown sneakers thumbnail second image"
+                  class="pImg"
+                />
+                <div class="layer"></div>
+              </div>
+              <div class="img cursorPointer">
+                <img
+                  src="https://www.samsungmobilepress.com/file/A7FB9487B074076C06263FA484D21B74535765D48EE1BBFF7896D96C203A619CE56B677DA4F33C42F917EAA281EFDE400E05CDF1B6F853F604C39A009761EBE5969D8C07978635DB0D809AC0C9610E39665C7E2A232F030B098523238D58C19E6FFE28D8CDB7D629A3FAC508E537815E81C1B19D94FC9D7D4748BB4693B855306CD0FA33B91AE9A89C0C99405C47C369"
+                  alt="brown sneakers thumbnail third image"
+                  class="pImg"
+                />
+                <div class="layer"></div>
+              </div>
+              <div class="img cursorPointer">
+                <img
+                  src="https://www.samsungmobilepress.com/file/9A8B0C5E7AE223941FE931B23B810EB4B0889FB378F9B1FA94096036C43DE1D9CBD04954550FBC1C771FCC793F100E9B5F5CA2F530F87B9FD4380D9EADEC2F54798273B45EB93A9033A5AD11EE2772F26A4BAD909A7CC2D855BCEDD00CD694A0D3D74A1A1DFD89AB23A207E29BB7C4FCB75408D09299E0D7A20B2E7C743E5C83BFD92E8F115E7A657CE4E9C368FF4F451E8D9FE7A63E4C776A67EDBF7A360A39"
+                  alt="brown sneakers thumbnail forth image"
+                  class="pImg"
+                />
+                <div class="layer"></div>
+              </div>
             </div>
+            <div class="imgControls">
+              <div class="previous cursorPointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+</svg>
+              </div>
+              <div class="next cursorPointer">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
+</svg>
+              </div>
+            </div>
+          </div>
+          <div class="productInfo">
+            <div class="mobContainer">
+              <p class="productHeadline">Sneaker Company</p>
+              <h1 class="productTitle">Fall Limited Edition Sneakers</h1>
+              <p class="productDesc">
+                These low-profile sneakers are your perfect casual wear
+                companion. Featuring a durable rubber outer sole, theyâll
+                withstand everything the weather can offer.
+              </p>
+              <div class="priceInfo">
+                <div class="salePrice">
+                  <span class="currentPrice">$125.00</span>
+                  <span class="sale">50%</span>
+                </div>
+                <div class="original">
+                  <span class="originalPrice">$250.00</span>
+                </div>
+              </div>
+              <div class="cartInfo">
+                <div class="productNumber">
+                  <span class="minus cursorPointer">-</span>
+                  <span class="num">0</span>
+                  <span class="plus cursorPointer">+</span>
+                </div>
+                <button class="addToCart cursorPointer">
+                  <svg width="22" height="20">
+                    <path
+                      d="M20.925 3.641H3.863L3.61.816A.896.896 0 0 0 2.717 0H.897a.896.896 0 1 0 0 1.792h1l1.031 11.483c.073.828.52 1.726 1.291 2.336C2.83 17.385 4.099 20 6.359 20c1.875 0 3.197-1.87 2.554-3.642h4.905c-.642 1.77.677 3.642 2.555 3.642a2.72 2.72 0 0 0 2.717-2.717 2.72 2.72 0 0 0-2.717-2.717H6.365c-.681 0-1.274-.41-1.53-1.009l14.321-.842a.896.896 0 0 0 .817-.677l1.821-7.283a.897.897 0 0 0-.87-1.114ZM6.358 18.208a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm10.015 0a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm2.021-7.243-13.8.81-.57-6.341h15.753l-1.383 5.53Z"
+                      fill="#fff"
+                      fill-rule="nonzero"
+                    />
+                  </svg>
+                  Add to cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="alertBox">
+          <p class="alert"></p>
         </div>
+      </div>
+    </main>
+    <!-- end of main section -->
 
-        <!-- Fullscreen Modal -->
-        <div id="fullscreenModal" class="fixed inset-0 bg-black/90 hidden justify-center items-center z-[9999]">
-            <button id="closeFullscreen"
-                class="absolute top-6 right-6 bg-white text-black rounded-full p-2 hover:bg-red-500 hover:text-white transition z-50">
-                ✕
-            </button>
-
-            <!-- Fullscreen Prev / Next -->
-            <button id="fsPrev" class="absolute left-6 bg-white/80 rounded-full p-3 hover:bg-white transition">
-                ◀
-            </button>
-            <button id="fsNext" class="absolute right-6 bg-white/80 rounded-full p-3 hover:bg-white transition">
-                ▶
-            </button>
-
-            <img id="fullscreenImage" src="" class="max-h-[90vh] max-w-[90vw] object-contain rounded-lg">
+    <!-- start of lightBox -->
+    <section class="lightBox">
+      <div class="modal">
+        <div class="closeIcon cursorPointer">
+          <svg width="14" height="15" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="m11.596.782 2.122 2.122L9.12 7.499l4.597 4.597-2.122 2.122L7 9.62l-4.595 4.597-2.122-2.122L4.878 7.5.282 2.904 2.404.782l4.595 4.596L11.596.782Z"
+              fill="#fff"
+              fill-rule="evenodd"
+            />
+          </svg>
         </div>
+        <div class="productImgs">
+          <div class="currentImg">
+            <img src="https://www.samsungmobilepress.com/file/25F5F842B82F9EBAA623D87523AC82933430B39D53EFFA67E42353F624609CFCDBFD943ED7E1971BAEC8AB8C9590C4CA7238B00366CD61C8B5D6B566926FC357345DAD1093027F101FD0388469A677B75130234CE404C8D767B959E8C3B2FEE98D86AFAF4F3C848743AB1730524E9E5C7CC26EAC0E4DFF6EAB8800660715A64755909ED7F51D018D420342E9597280E5" alt="brown sneakers" />
+            <div class="controls">
+              <div class="previous cursorPointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+</svg>
+              </div>
+              <div class="next cursorPointer">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
+</svg>
+              </div>
+            </div>
+          </div>
+          <div class="otherImgs">
+            <div class="img cursorPointer">
+              <img
+                src="https://www.samsungmobilepress.com/file/25F5F842B82F9EBAA623D87523AC82933430B39D53EFFA67E42353F624609CFCDBFD943ED7E1971BAEC8AB8C9590C4CA7238B00366CD61C8B5D6B566926FC357345DAD1093027F101FD0388469A677B75130234CE404C8D767B959E8C3B2FEE98D86AFAF4F3C848743AB1730524E9E5C7CC26EAC0E4DFF6EAB8800660715A64755909ED7F51D018D420342E9597280E5"
+                alt="brown sneakers thumbnail first image"
+                class="boxImg"
+              />
+              <div class="layer"></div>
+            </div>
+            <div class="img cursorPointer">
+              <img
+                src="https://www.samsungmobilepress.com/file/515828F7CDAC4DF062DBCB152FA6FB017602E0CC9078379C0E27644770D54F4F297E7E805E99F940AE1D73916BD3E426AA063CAB0D863151598728FEB42E60119952CE58DA24B8014D6CC947FCB97BE8CEF0449DC70517B868A96B3736A55737BD548ECEE8441F44715859C31565F4F03418701F96EE9031A0F66642A33FEC640AE44153234E71C7E8952D5D07020ED3"
+                alt="brown sneakers thumbnail second image"
+                class="boxImg"
+              />
+              <div class="layer"></div>
+            </div>
+            <div class="img cursorPointer">
+              <img
+                src="https://www.samsungmobilepress.com/file/A7FB9487B074076C06263FA484D21B74535765D48EE1BBFF7896D96C203A619CE56B677DA4F33C42F917EAA281EFDE400E05CDF1B6F853F604C39A009761EBE5969D8C07978635DB0D809AC0C9610E39665C7E2A232F030B098523238D58C19E6FFE28D8CDB7D629A3FAC508E537815E81C1B19D94FC9D7D4748BB4693B855306CD0FA33B91AE9A89C0C99405C47C369"
+                alt="brown sneakers thumbnail third image"
+                class="boxImg"
+              />
+              <div class="layer"></div>
+            </div>
+            <div class="img cursorPointer">
+              <img
+                src="https://www.samsungmobilepress.com/file/9A8B0C5E7AE223941FE931B23B810EB4B0889FB378F9B1FA94096036C43DE1D9CBD04954550FBC1C771FCC793F100E9B5F5CA2F530F87B9FD4380D9EADEC2F54798273B45EB93A9033A5AD11EE2772F26A4BAD909A7CC2D855BCEDD00CD694A0D3D74A1A1DFD89AB23A207E29BB7C4FCB75408D09299E0D7A20B2E7C743E5C83BFD92E8F115E7A657CE4E9C368FF4F451E8D9FE7A63E4C776A67EDBF7A360A39"
+                alt="brown sneakers thumbnail forth image"
+                class="boxImg"
+              />
+              <div class="layer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
-
-
-
+    <!-- end of lightBox -->
+    </section>
 
 
     <!-- Product Details Tabs -->
@@ -236,7 +721,8 @@
                             <h3 class="font-semibold text-primary mb-4">{{ ucfirst($section) }}</h3>
                             <div class="space-y-3">
                                 @foreach ($specifications as $label => $value)
-                                    <div class="flex items-center justify-between py-2 border-b border-border last:border-none">
+                                    <div
+                                        class="flex items-center justify-between py-2 border-b border-border last:border-none">
                                         <span class="text-secondary-600">{{ $label }}</span>
                                         <span class="font-medium text-primary">{{ $value }}</span>
                                     </div>
@@ -259,8 +745,7 @@
                         <h3 class="font-semibold text-primary mb-4">Review Summary</h3>
                         <div class="text-center mb-6">
                             <div class="text-4xl font-bold text-primary mb-2">
-                                {{ number_format($product->average_rating, 1) }}
-                            </div>
+                                {{ number_format($product->average_rating, 1) }}</div>
                             <div class="flex justify-center text-warning mb-2">
                                 @for ($i = 1; $i <= 5; $i++)
                                     <svg class="w-5 h-5 {{ ($product->average_rating ?? 0) >= $i ? 'fill-current' : 'text-secondary-300' }}"
@@ -325,14 +810,16 @@
                                 class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 hidden">
                                 <svg class="animate-spin h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg"
                                     fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4"></circle>
+                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                        stroke="currentColor" stroke-width="4"></circle>
                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
                                 </svg>
                             </div>
 
                             <div id="reviews-list">
-                                @include('partials.product-reviews', ['reviews' => $product->reviews])
+                                @include('partials.product-reviews', [
+                                    'reviews' => $product->reviews,
+                                ])
                             </div>
                         </div>
                     </div>
@@ -343,9 +830,7 @@
                 <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
                     <!-- Header -->
                     <div class="flex items-center justify-between mb-6">
-                        <h3
-                            class="active py-4 px-1 border-b-2 font-semibold text-2xl text-gray-900 border-accent font-semibold">
-                            Leave a Review</h3>
+                        <h3 class="active py-4 px-1 border-b-2 font-semibold text-2xl text-gray-900 border-accent font-semibold">Leave a Review</h3>
                         <span class="text-sm text-gray-500">Your feedback helps others!</span>
                     </div>
 
@@ -363,16 +848,16 @@
                                         class="star h-10 w-10 text-gray-300 hover:text-yellow-400 transition duration-200 cursor-pointer"
                                         fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.178
-                                                                        3.63a1 1 0 00.95.69h3.813c.969 0
-                                                                        1.371 1.24.588 1.81l-3.087
-                                                                        2.243a1 1 0 00-.364 1.118l1.178
-                                                                        3.63c.3.921-.755 1.688-1.54
-                                                                        1.118l-3.087-2.243a1 1 0
-                                                                        00-1.176 0l-3.087
-                                                                        2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
-                                                                        00-.364-1.118L2.42
-                                                                        9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
-                                                                        00.951-.69l1.178-3.63z" />
+                                                3.63a1 1 0 00.95.69h3.813c.969 0
+                                                1.371 1.24.588 1.81l-3.087
+                                                2.243a1 1 0 00-.364 1.118l1.178
+                                                3.63c.3.921-.755 1.688-1.54
+                                                1.118l-3.087-2.243a1 1 0
+                                                00-1.176 0l-3.087
+                                                2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
+                                                00-.364-1.118L2.42
+                                                9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
+                                                00.951-.69l1.178-3.63z" />
                                     </svg>
                                 @endfor
                             </div>
@@ -382,10 +867,9 @@
                         <!-- Comment Box -->
                         <div class="flex-1 flex flex-col space-y-4">
                             <label for="comment" class="block text-sm font-medium text-gray-700">Your Comment</label>
-                            <textarea name="comment" id="comment" rows="4"
-                                placeholder="Share your experience with this product..."
+                            <textarea name="comment" id="comment" rows="4" placeholder="Share your experience with this product..."
                                 class="w-full border border-gray-200 rounded-xl p-4 text-gray-700 resize-none
-                                               focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
+                           focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
 
                             <!-- Verified Purchase Badge -->
                             <div class="flex items-center space-x-2">
@@ -406,7 +890,7 @@
                         <div class="md:w-1/4 flex md:justify-end">
                             <button type="submit"
                                 class="bg-primary hover:bg-primary/90 text-white font-medium py-2 px-5
-                                   rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
+               rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
                                 Submit Review
                             </button>
                         </div>
@@ -478,8 +962,8 @@
                         </div>
                         <div>
                             <label class="block text-body-sm font-semibold text-primary mb-2">Target Price</label>
-                            <input type="text" name="target_price" class="input-field" value="{{ old('target_price') }}"
-                                placeholder="$0.00 per unit">
+                            <input type="text" name="target_price" class="input-field"
+                                value="{{ old('target_price') }}" placeholder="$0.00 per unit">
                             <span class="text-red-500 text-sm mt-1 error-message"></span>
                         </div>
                     </div>
@@ -487,8 +971,7 @@
                     <div>
                         <label class="block text-body-sm font-semibold text-primary mb-2">Message *</label>
                         <textarea name="message" class="input-field resize-none" rows="4"
-                            placeholder="Please include any specific requirements, colors, customization needs, or other details..."
-                            required>{{ old('message') }}</textarea>
+                            placeholder="Please include any specific requirements, colors, customization needs, or other details..." required>{{ old('message') }}</textarea>
                         <span class="text-red-500 text-sm mt-1 error-message"></span>
                     </div>
 
@@ -664,7 +1147,8 @@
             <div id="fake3dViewer"
                 class="relative w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden cursor-grab">
 
-                <img id="fake3dImage" src="" class="max-h-full max-w-full object-contain select-none" draggable="false" />
+                <img id="fake3dImage" src="" class="max-h-full max-w-full object-fill select-none"
+                    draggable="false" />
 
                 <!-- Prev Button -->
                 <button id="prevImageBtn"
@@ -779,6 +1263,118 @@
 
 
     <script>
+        // document.addEventListener("DOMContentLoaded", () => {
+        //     const arBtn = document.getElementById("arPreviewBtn");
+        //     const modal = document.getElementById("arModal");
+        //     const imgViewer = document.getElementById("fake3dImage");
+        //     const viewer = document.getElementById("fake3dViewer");
+        //     const closeBtn = document.getElementById("closeArModal");
+        //     const prevBtn = document.getElementById("prevImageBtn");
+        //     const nextBtn = document.getElementById("nextImageBtn");
+
+        //     let galleryImages = [];
+        //     let currentIndex = 0;
+
+        //     arBtn.addEventListener("click", () => {
+        //         const mainImage = arBtn.dataset.main || "";
+        //         let rawGallery = arBtn.dataset.gallery || "[]";
+
+        //         // Decode double-encoded JSON
+        //         if (rawGallery.startsWith('"') && rawGallery.endsWith('"')) {
+        //             rawGallery = rawGallery.slice(1, -1);
+        //         }
+        //         rawGallery = rawGallery.replace(/\\"/g, '"').replace(/\\\//g, '/');
+        //         rawGallery = rawGallery.replace(/\\u([\dA-F]{4})/gi, (match, grp) => {
+        //             return String.fromCharCode(parseInt(grp, 16));
+        //         });
+
+        //         try {
+        //             const gallery = JSON.parse(rawGallery);
+        //             if (Array.isArray(gallery)) galleryImages = [...gallery];
+        //             else galleryImages = [];
+        //         } catch (e) {
+        //             galleryImages = [];
+        //         }
+
+        //         // Insert main image at start
+        //         if (mainImage) galleryImages.unshift(mainImage);
+
+
+        //         if (galleryImages.length === 0) return;
+
+        //         currentIndex = 0;
+        //         imgViewer.src = galleryImages[currentIndex];
+        //         modal.classList.remove("hidden");
+        //         modal.classList.add("flex");
+        //     });
+
+        //     // Close modal
+        //     closeBtn.addEventListener("click", () => {
+        //         modal.classList.add("hidden");
+        //         modal.classList.remove("flex");
+        //     });
+
+        //     // Switch image function for prev/next buttons
+        //     const switchImage = (direction = 1) => {
+        //         if (galleryImages.length === 0) return;
+
+        //         currentIndex = (currentIndex + direction + galleryImages.length) % galleryImages.length;
+
+        //         // Set rotation direction
+        //         const rotationAngle = direction > 0 ? 360 : -360;
+
+        //         // Animate rotation
+        //         imgViewer.style.transition = "transform 0.6s ease-in-out";
+        //         imgViewer.style.transform = `rotateY(${rotationAngle}deg)`;
+
+        //         // After animation, reset transform and change image
+        //         setTimeout(() => {
+        //             imgViewer.style.transition = "none"; // remove transition for next rotation
+        //             imgViewer.style.transform = "rotateY(0deg)";
+        //             imgViewer.src = galleryImages[currentIndex];
+        //         }, 600);
+        //     };
+
+
+        //     prevBtn.addEventListener("click", () => switchImage(-1));
+        //     nextBtn.addEventListener("click", () => switchImage(1));
+
+        //     // Dragging for 360° feel
+        //     let isDragging = false;
+        //     let startX = 0;
+
+        //     viewer.addEventListener("mousedown", e => {
+        //         isDragging = true;
+        //         startX = e.clientX;
+        //         viewer.style.cursor = "grabbing";
+        //     });
+        //     viewer.addEventListener("mouseup", () => {
+        //         isDragging = false;
+        //         viewer.style.cursor = "grab";
+        //     });
+        //     viewer.addEventListener("mouseleave", () => {
+        //         isDragging = false;
+        //         viewer.style.cursor = "grab";
+        //     });
+        //     viewer.addEventListener("mousemove", e => {
+        //         if (!isDragging) return;
+        //         const diff = e.clientX - startX;
+        //         if (Math.abs(diff) > 5) { // smaller threshold for continuous feel
+        //             switchImage(diff > 0 ? -1 : 1);
+        //             startX = e.clientX;
+        //         }
+        //     });
+
+        //     // Touch support
+        //     viewer.addEventListener("touchstart", e => startX = e.touches[0].clientX);
+        //     viewer.addEventListener("touchmove", e => {
+        //         const diff = e.touches[0].clientX - startX;
+        //         if (Math.abs(diff) > 5) {
+        //             switchImage(diff > 0 ? -1 : 1);
+        //             startX = e.touches[0].clientX;
+        //         }
+        //     });
+        // });
 
         //zoom
         document.addEventListener("DOMContentLoaded", () => {
@@ -1077,12 +1673,12 @@
 
 
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             let productId = "{{ $product->id }}";
             let shown = localStorage.getItem("review_shown_" + productId);
 
             if (!shown) {
-                setTimeout(function () {
+                setTimeout(function() {
                     document.getElementById("review-modal-wrapper").classList.remove("hidden");
                     localStorage.setItem("review_shown_" + productId, "true");
                 }, 8000); // 8 seconds delay
@@ -1092,11 +1688,11 @@
         function closeReviewModal() {
             document.getElementById("review-modal-wrapper").classList.add("hidden");
         }
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const form = document.getElementById("review-form");
             if (!form) return;
 
-            form.addEventListener("submit", function (e) {
+            form.addEventListener("submit", function(e) {
                 e.preventDefault();
 
                 // Clear old errors
@@ -1105,13 +1701,13 @@
                 let formData = new FormData(form);
 
                 fetch(form.action, {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
-                    }
-                })
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest",
+                            "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                        }
+                    })
                     .then(res => res.json())
                     .then(data => {
                         if (data.errors) {
@@ -1128,12 +1724,12 @@
                             const reviewList = document.getElementById("reviews-list");
                             if (reviewList) {
                                 reviewList.insertAdjacentHTML("afterbegin", `
-                                            <div class="border p-4 rounded-lg mb-3">
-                                                <p class="font-semibold">⭐ ${data.review.rating}</p>
-                                                <p>${data.review.comment}</p>
-                                                <small class="text-gray-500">Just now</small>
-                                            </div>
-                                        `);
+                        <div class="border p-4 rounded-lg mb-3">
+                            <p class="font-semibold">⭐ ${data.review.rating}</p>
+                            <p>${data.review.comment}</p>
+                            <small class="text-gray-500">Just now</small>
+                        </div>
+                    `);
                             }
 
                             // Success message (custom toast style)
@@ -1157,7 +1753,7 @@
             let toast = document.createElement("div");
             toast.textContent = message;
             toast.className = `fixed top-5 right-5 px-4 py-2 rounded-lg shadow-lg text-white z-50
-                            ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
+        ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
             document.body.appendChild(toast);
 
             setTimeout(() => toast.remove(), 3000);
@@ -1214,22 +1810,22 @@
                     mobileCartBtn.className =
                         "fixed bottom-4 left-4 right-4 bg-accent text-white rounded-lg p-4 shadow-modal z-40 md:hidden";
                     mobileCartBtn.innerHTML = `
-                                            <div class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-semibold">$149.99</div>
-                                                    <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
-                                                </div>
-                                                <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
-                                                    Add to Cart
-                                                </button>
-                                            </div>
-                                        `;
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="font-semibold">$149.99</div>
+                                <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
+                            </div>
+                            <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
+                                Add to Cart
+                            </button>
+                        </div>
+                    `;
                     document.body.appendChild(mobileCartBtn);
 
                     // Add click handler
                     mobileCartBtn
                         .querySelector("button")
-                        .addEventListener("click", function () {
+                        .addEventListener("click", function() {
                             showToast(
                                 "Added to Cart!",
                                 "Premium Wireless Earbuds Pro has been added to your cart.",
@@ -1253,7 +1849,7 @@
 
 
 
-        document.getElementById("enquiryForm").addEventListener("submit", function (e) {
+        document.getElementById("enquiryForm").addEventListener("submit", function(e) {
             e.preventDefault();
 
             let form = this;
@@ -1270,13 +1866,13 @@
             let formData = new FormData(form);
 
             fetch("{{ route('enquiries.store') }}", {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value,
-                    "Accept": "application/json"
-                },
-                body: formData
-            })
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value,
+                        "Accept": "application/json"
+                    },
+                    body: formData
+                })
                 .then(async res => {
                     let data = await res.json();
 
@@ -1341,7 +1937,7 @@
 
 
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const filterSelect = document.querySelector('select[name="filter"]');
             const sortSelect = document.querySelector('select[name="sort"]');
             const reviewsList = document.getElementById('reviews-list');
@@ -1421,24 +2017,24 @@
         });
 
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
             const loginWarningModalWrapper2 = document.getElementById("login-warning-modal-wrapper2");
             const qtyInput = document.getElementById("quantityValue");
 
             // ✅ Add to Wishlist
-            window.addToWishlist = function (productId) {
+            window.addToWishlist = function(productId) {
                 fetch(`/wishlist/add`, {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                        "Content-Type": "application/json",
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                    body: JSON.stringify({
-                        product_id: productId
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest"
+                        },
+                        body: JSON.stringify({
+                            product_id: productId
+                        })
                     })
-                })
                     .then(response => {
                         if (response.status === 401) {
                             loginWarningModalWrapper.classList.remove("hidden");
@@ -1459,21 +2055,21 @@
             };
 
             // ✅ Add to Cart
-            window.addToCart = function (productId) {
+            window.addToCart = function(productId) {
                 const quantity = parseInt(qtyInput.value) || 1;
 
                 fetch(`/product-view/cart/add`, {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                        "Content-Type": "application/json",
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                    body: JSON.stringify({
-                        product_id: productId,
-                        quantity: quantity
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest"
+                        },
+                        body: JSON.stringify({
+                            product_id: productId,
+                            quantity: quantity
+                        })
                     })
-                })
                     .then(response => {
                         if (response.status === 401) {
                             loginWarningModalWrapper2.classList.remove("hidden");
@@ -1527,10 +2123,10 @@
             }
 
             // ✅ Modal helpers
-            window.goToSignIn = function () {
+            window.goToSignIn = function() {
                 window.location.href = "{{ route('login') }}";
             };
-            window.continueBrowsing = function () {
+            window.continueBrowsing = function() {
                 loginWarningModalWrapper.classList.add("hidden");
                 loginWarningModalWrapper2.classList.add("hidden");
             };
@@ -1538,7 +2134,7 @@
 
 
         document.querySelectorAll('#starRating .star').forEach(star => {
-            star.addEventListener('click', function () {
+            star.addEventListener('click', function() {
                 const value = this.getAttribute('data-value');
                 document.getElementById('ratingValue').value = value;
 
@@ -1582,20 +2178,20 @@
                 toast.classList.add("hidden");
             }, 3000);
         }
-        document.getElementById("reviewForm").addEventListener("submit", function (e) {
+        document.getElementById("reviewForm").addEventListener("submit", function(e) {
             e.preventDefault(); // stop normal form submit
 
             const form = e.target;
             const formData = new FormData(form);
 
             fetch(form.action, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                    "X-Requested-With": "XMLHttpRequest"
-                },
-                body: formData
-            })
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: formData
+                })
                 .then(response => {
                     if (response.status === 401) {
                         loginWarningModalWrapper.classList.remove("hidden");
@@ -1621,90 +2217,160 @@
                 })
                 .catch(() => showToastComment("Something went wrong. Try again.", "error"));
         });
-        const mainImage = document.getElementById('mainImage');
-        const thumbnails = document.querySelectorAll('.thumbnail-btn');
-        const zoomLens = document.getElementById('zoomLens');
-        const fullscreenModal = document.getElementById('fullscreenModal');
-        const fullscreenImage = document.getElementById('fullscreenImage');
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        const closeFullscreen = document.getElementById('closeFullscreen');
 
-        // Change main image
-        function changeMainImage(el, src) {
-            mainImage.src = src;
-            thumbnails.forEach(btn => btn.classList.remove('border-accent'));
-            el.classList.add('border-accent');
-        }
+        "use strict";
 
-        // Fullscreen view
-        fullscreenBtn.addEventListener('click', () => {
-            fullscreenImage.src = mainImage.src;
-            fullscreenModal.classList.remove('hidden');
-            fullscreenModal.classList.add('flex');
-        });
-        closeFullscreen.addEventListener('click', () => fullscreenModal.classList.add('hidden'));
+// * step 1
+const cartBadeg = document.querySelector(".cart .badge");
+if (
+  localStorage.getItem("productNum") &&
+  +JSON.parse(localStorage.getItem("productNum")) != 0
+) {
+  cartBadeg.style.display = "inline";
+  cartBadeg.textContent = JSON.parse(localStorage.getItem("productNum"));
+}
 
-        // Zoom on hover
-        mainImage.addEventListener('mousemove', (e) => {
-            zoomLens.classList.remove('hidden');
-            const rect = mainImage.getBoundingClientRect();
-            const x = e.clientX - rect.left - zoomLens.offsetWidth / 2;
-            const y = e.clientY - rect.top - zoomLens.offsetHeight / 2;
-            zoomLens.style.left = `${x}px`;
-            zoomLens.style.top = `${y}px`;
-            zoomLens.style.backgroundImage = `url(${mainImage.src})`;
-            zoomLens.style.backgroundRepeat = 'no-repeat';
-            zoomLens.style.backgroundSize = `${mainImage.width * 2}px ${mainImage.height * 2}px`;
-            zoomLens.style.backgroundPosition = `-${x * 2}px -${y * 2}px`;
-        });
-        mainImage.addEventListener('mouseleave', () => zoomLens.classList.add('hidden'));
+// *step 2
+const productImgs = document.querySelectorAll("main .pImg");
+const currentImg = document.querySelector("main .currentImg img");
+const prevBtn = document.querySelector("main .previous");
+const nextBtn = document.querySelector("main .next");
+let currentIndx = 0;
 
-        // Quantity buttons
-        const decrease = document.querySelector('.decreaseQty');
-        const increase = document.querySelector('.increaseQty');
-        const qtyInput = document.getElementById('quantityValue');
-        decrease.addEventListener('click', () => {
-            const min = parseInt(qtyInput.min);
-            if (qtyInput.value > min) qtyInput.value--;
-        });
-        increase.addEventListener('click', () => {
-            const max = parseInt(qtyInput.max);
-            if (qtyInput.value < max) qtyInput.value++;
-        });
+function getImg(indx, list, img) {
+  if (currentIndx == list.length) {
+    currentIndx = 0;
+  } else if (currentIndx < 0) {
+    currentIndx = list.length - 1;
+  }
+  img.src = list[currentIndx].src;
+}
 
+nextBtn.addEventListener("click", (e) => {
+  getImg(currentIndx++, productImgs, currentImg);
+});
+prevBtn.addEventListener("click", (e) => {
+  getImg(currentIndx--, productImgs, currentImg);
+});
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const thumbnailInner = document.getElementById('thumbnailInner');
-            const galleryUp = document.getElementById('galleryUp');
-            const galleryDown = document.getElementById('galleryDown');
-            const thumbnails = thumbnailInner.querySelectorAll('.thumbnail-btn');
+// *step 3
+if (window.screen.width < 768) {
+  const menuIcon = document.querySelector(".mobMenuIcon");
+  const navMenu = document.querySelector(".navMenu");
+  const header = document.querySelector("header");
+  const mainSec = document.querySelector("main");
 
-            const visibleCount = 6;
-            const thumbHeight = 88; // 80px + margin/gap
-            let scrollIndex = 0;
+  navMenu.style.cssText = `left:-100%; top: ${header.clientHeight}px; min-height: calc(100vh - ${header.clientHeight}px)`;
 
-            function updateArrows() {
-                const total = thumbnails.length;
-                if (total <= visibleCount) {
-                    galleryUp.classList.add('hidden');
-                    galleryDown.classList.add('hidden');
-                    return;
-                }
-                galleryUp.classList.toggle('hidden', scrollIndex === 0);
-                galleryDown.classList.toggle('hidden', scrollIndex >= total - visibleCount);
-            }
+  menuIcon.addEventListener("click", function (e) {
+    if (this.classList.contains("closed")) {
+      navMenu.style.cssText = `left:0%; top: ${header.clientHeight}px; min-height: calc(100vh - ${header.clientHeight}px)`;
+      mainSec.style.display = "none";
+      this.classList.toggle("closed");
+    } else {
+      navMenu.style.cssText = `left:-100%; top: ${header.clientHeight}px; min-height: calc(100vh - ${header.clientHeight}px)`;
+      mainSec.style.display = "block";
+      this.classList.toggle("closed");
+    }
+  });
+} else {
+  let imgIndex = 0;
+  // ! functions declarations
+  function hideLayers(secLayer) {
+    secLayer.forEach((layer) => {
+      layer.style.display = "none";
+    });
+  }
 
-            function scrollGallery(direction) {
-                const total = thumbnails.length;
-                scrollIndex = Math.max(0, Math.min(scrollIndex + direction, total - visibleCount));
-                thumbnailInner.style.transform = `translateY(-${scrollIndex * thumbHeight}px)`;
-                updateArrows();
-            }
+  function displayImg(list, secLayer, current) {
+    list.forEach((img, indx) => {
+      img.addEventListener("click", (e) => {
+        current.src = img.src;
+        imgIndex = indx;
+        hideLayers(secLayer);
+        secLayer[indx].style.display = "block";
+      });
+    });
+  }
 
-            galleryUp.addEventListener('click', () => scrollGallery(-1));
-            galleryDown.addEventListener('click', () => scrollGallery(1));
+  // *step 4
+  const layers = document.querySelectorAll(" main .otherImgs .layer");
 
-            updateArrows();
-        });
+  hideLayers(layers);
+  layers[0].style.display = "block";
+
+  displayImg(productImgs, layers, currentImg);
+
+  // *step 5
+  const lightBox = document.querySelector(".lightBox");
+  const imgSec = document.querySelector(".lightBox .productImgs");
+  const boxCurrentImg = document.querySelector(".lightBox .currentImg img");
+  const boxImgs = document.querySelectorAll(".lightBox .boxImg ");
+  const boxLayers = document.querySelectorAll(".lightBox .otherImgs .layer");
+  const nextLightBtn = document.querySelector(".lightBox .next");
+  const prevLightBtn = document.querySelector(".lightBox .previous");
+
+  // ^ a. show & hide lightBox
+  currentImg.addEventListener("click", (e) => {
+    lightBox.style.display = "flex";
+    boxCurrentImg.src = currentImg.src;
+    currentIndx = imgIndex; //& to be used in displaying the corresponding boxLayer when clicking on next & prev btns
+    hideLayers(boxLayers);
+    boxLayers[imgIndex].style.display = "block";
+    displayImg(boxImgs, boxLayers, boxCurrentImg);
+  });
+
+  lightBox.addEventListener("click", (e) => {
+    lightBox.style.display = "none";
+  });
+
+  imgSec.addEventListener("click", (e) => {
+    // & to not close the lighBox when user clicks on imgSec
+    e.stopPropagation();
+  });
+
+  // ^ b. lightBox functionality
+  nextLightBtn.addEventListener("click", (e) => {
+    getImg(currentIndx++, boxImgs, boxCurrentImg);
+    // & to display a layer on the currently active img only
+    hideLayers(boxLayers);
+    boxLayers[currentIndx].style.display = "block";
+  });
+  prevLightBtn.addEventListener("click", (e) => {
+    getImg(currentIndx--, boxImgs, boxCurrentImg);
+    // & to display a layer on the currently active img only
+    hideLayers(boxLayers);
+    boxLayers[currentIndx].style.display = "block";
+  });
+}
+
+//* step 6
+const addToCartBtn = document.querySelector(".addToCart");
+const productNum = document.querySelector(".cartInfo .num");
+const PlusBtn = document.querySelector(".cartInfo .plus");
+const minusBtn = document.querySelector(".cartInfo .minus");
+const alertPar = document.querySelector(".alert");
+
+PlusBtn.addEventListener("click", (e) => {
+  if (+productNum.textContent < 5) {
+    productNum.textContent = +productNum.textContent + 1;
+  } else {
+    alertPar.textContent = `The maximum number you can add is 5`;
+  }
+});
+
+minusBtn.addEventListener("click", (e) => {
+  productNum.textContent = +productNum.textContent - 1;
+  alertPar.textContent = ``;
+  if (+productNum.textContent <= 0) {
+    productNum.textContent = `0`;
+  }
+});
+
+addToCartBtn.addEventListener("click", (e) => {
+  cartBadeg.style.display = "inline";
+  cartBadeg.textContent = productNum.textContent;
+  localStorage.setItem("productNum", JSON.stringify(productNum.textContent));
+});
     </script>
 @endsection

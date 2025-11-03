@@ -33,172 +33,256 @@
 
 
     <!-- Product Detail Section -->
-    <section class="py-10 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap lg:flex-nowrap gap-6">
+    <section class="py-8 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12">
 
-            @php
-                $gallery = json_decode($product->gallery, true) ?? [];
-                array_unshift($gallery, $product->main_image);
-            @endphp
+                <!-- Image Gallery -->
+                <div class="space-y-4">
+                    <!-- Main Image -->
+                    <div id="imageWrapper" class="relative bg-surface rounded-lg overflow-hidden">
+                        <img id="mainImage" src="{{ $product->main_image }}" alt="{{ $product->name }}"
+                            class="w-full h-96 object-cover select-none" loading="lazy"
+                            onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
 
-            <!-- LEFT SIDE: Gallery + Main Image -->
-            <div class="flex gap-4 flex-shrink-0" style="min-width: 320px; max-width: 550px;">
+                        {{-- @if ($product->ar_model) --}}
+                        {{-- <button id="arPreviewBtn" data-main="{{ $product->main_image }}"
+                            data-gallery='@json($product->gallery ?? [])'
+                            class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-md hover:bg-accent hover:text-white transition"
+                            title="AR Preview">
+                            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button> --}}
 
-                <!-- Vertical Thumbnail Gallery -->
-                <div class="relative flex flex-col items-center gap-2 select-none group">
 
-                    <!-- Up Scroll Button -->
-                    <button id="galleryUp"
-                        class="absolute -top-8 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition opacity-0 group-hover:opacity-100 duration-300 z-10">
-                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                        </svg>
-                    </button>
 
-                    <!-- Thumbnails Wrapper -->
-                    <div id="thumbnailContainer" class="relative overflow-hidden rounded-lg" style="height: 360px;">
-                        <div id="thumbnailInner" class="flex flex-col gap-3 transition-transform duration-300">
+                        {{-- @endif --}}
+
+                        <!-- Zoom Button -->
+                        <div id="zoomLens"
+                            class="absolute hidden rounded-full border-2 border-accent shadow-lg pointer-events-none z-20"
+                            style="width:240px;height:240px;background-repeat:no-repeat;background-color:rgba(255,255,255,.2);backdrop-filter:saturate(1.1) contrast(1.05);">
+                        </div>
+                        <!-- Fullscreen Trigger Button -->
+                        <button id="fullscreenBtn"
+                            class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-fast"
+                            title="Full Screen View">
+                            <svg class="w-6 h-6 text-secondary-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 3H5a2 2 0 00-2 2v3m0 8v3a2 2 0 002 2h3m8-16h3a2 2 0 012 2v3m0 8v3a2 2 0 01-2 2h-3" />
+                            </svg>
+                        </button>
+
+                        <!-- Fullscreen Modal -->
+                        <div id="fullscreenModal"
+                            class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[999999]">
+
+                            <!-- Close Button -->
+                            <button id="closeFullscreen"
+                                class="absolute top-4 right-4 bg-white/90 rounded-full p-3 hover:bg-red-500 hover:text-white transition z-[999999]">
+                                ✕
+                            </button>
+
+                            <!-- Prev Button -->
+                            <button id="prevImage"
+                                class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 rounded-full p-3 hover:bg-white transition z-[999999]">
+                                ◀
+                            </button>
+
+                            <!-- Next Button -->
+                            <button id="nextImage"
+                                class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 rounded-full p-3 hover:bg-white transition z-[999999]">
+                                ▶
+                            </button>
+
+                            <!-- Zoom Lens -->
+                            <div id="zoomLens"
+                                class="hidden absolute w-48 h-48 rounded-full border-4 border-white overflow-hidden z-[999999]"
+                                style="pointer-events:none; box-shadow:0 0 10px rgba(0,0,0,0.5);">
+                            </div>
+
+                            <!-- Image Display -->
+                            <img id="fullscreenImage" src=""
+                                class="max-h-full max-w-full object-fill rounded-lg select-none" />
+                        </div>
+
+
+                        <!-- 360 View Button (if gallery exists) -->
+                        @if ($product->gallery && count(json_decode($product->gallery)) > 1)
+                            {{-- <button
+                                class="absolute bottom-4 right-4 bg-accent text-white rounded-full p-3 hover:bg-accent-600 transition-fast"
+                                title="360° View">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                            </button> --}}
+                        @endif
+                    </div>
+
+                    <!-- Thumbnail Gallery -->
+                    @if ($product->gallery)
+                        <div class="grid grid-cols-4 gap-2">
+                            @php
+                                $gallery = json_decode($product->gallery, true) ?? [];
+                            @endphp
+
                             @foreach ($gallery as $index => $image)
                                 <button
-                                    class="thumbnail-btn border-2 rounded-md overflow-hidden w-20 h-20 {{ $index === 0 ? 'border-accent' : 'border-transparent' }} hover:border-accent transition"
-                                    data-index="{{ $index }}" onclick="changeMainImage({{ $index }}, '{{ $image }}')"
-                                    onmouseover="changeMainImage({{ $index }}, '{{ $image }}')">
-                                    <img src="{{ $image }}" alt="Thumbnail {{ $index + 1 }}" class="object-cover w-full h-full"
+                                    class="thumbnail-btn {{ $index === 0 ? 'active border-accent' : 'border-transparent hover:border-accent' }} rounded-lg overflow-hidden border-2 transition-fast"
+                                    onclick="changeMainImage(this, '{{ $image }}')">
+                                    <img src="{{ $image }}"
+                                        alt="{{ $product->name }} thumbnail {{ $index + 1 }}"
+                                        class="w-full h-20 object-cover" loading="lazy"
                                         onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
                                 </button>
                             @endforeach
+
                         </div>
+                    @endif
+                </div>
+
+                <!-- Product Information -->
+                <div class="space-y-6">
+                    <!-- Product Title -->
+                    <div>
+                        <h1 class="text-3xl font-bold text-primary mb-2">{{ $product->name }}</h1>
+                        <p class="text-secondary-600 text-body">{{ $product->short_description }}</p>
                     </div>
 
-                    <!-- Down Scroll Button -->
-                    <button id="galleryDown"
-                        class="absolute -bottom-8 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition opacity-0 group-hover:opacity-100 duration-300 z-10">
-                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                </div>
+                    <!-- Pricing -->
+                    <div class="border border-border rounded-lg p-4">
+                        <div class="flex items-baseline space-x-3 mb-3">
+                            @if ($product->discount_price)
+                                <span class="line-through text-secondary-500 text-sm mr-2">
+                                    @if ($product->currency === '$')
+                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                    @elseif($product->currency === 'Rwf')
+                                        {{ number_format($product->price) }} {{ $product->currency }}
+                                    @endif
+                                </span>
+                                <span class="text-subheading font-bold text-primary">
+                                    @if ($product->currency === '$')
+                                        {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
+                                    @elseif($product->currency === 'Rwf')
+                                        {{ number_format($product->discount_price) }} {{ $product->currency }}
+                                    @endif
+                                </span>
+                            @else
+                                <span class="text-subheading font-bold text-primary">
+                                    @if ($product->currency === '$')
+                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                    @elseif($product->currency === 'Rwf')
+                                        {{ number_format($product->price) }} {{ $product->currency }}
+                                    @endif
+                                </span>
+                            @endif
+                        </div>
 
-                <!-- Main Image Display -->
-                <div class="relative flex-1 bg-gray-50 rounded-xl overflow-hidden flex justify-center items-center shadow-xl transition hover:shadow-2xl group"
-                    style="width:500px; height:500px; min-width:300px;">
-                    <img id="mainImage" src="{{ $product->main_image }}" alt="{{ $product->name }}"
-                        class="w-full h-full object-contain transition-all duration-300 select-none" loading="lazy"
-                        onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
+                        <!-- MOQ -->
+                        <p class="text-body-sm text-secondary-600">MOQ: {{ $product->min_order_quantity }} pcs</p>
 
-                    <!-- Prev Button -->
-                    <button id="prevMainImage"
-                        class="absolute left-3 bg-white/80 rounded-full p-3 shadow-md hover:bg-white transition hidden group-hover:flex items-center justify-center z-20">
-                        <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-
-                    <!-- Next Button -->
-                    <button id="nextMainImage"
-                        class="absolute right-3 bg-white/80 rounded-full p-3 shadow-md hover:bg-white transition hidden group-hover:flex items-center justify-center z-20">
-                        <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
-
-                    <!-- Fullscreen Button -->
-                    <button id="fullscreenBtn"
-                        class="absolute top-4 right-4 bg-white rounded-full p-3 shadow hover:bg-gray-100 transition z-30"
-                        title="Full Screen View">
-                        <svg class="w-6 h-6 text-secondary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 3H5a2 2 0 00-2 2v3m0 8v3a2 2 0 002 2h3m8-16h3a2 2 0 012 2v3m0 8v3a2 2 0 01-2 2h-3" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- RIGHT SIDE: Product Info -->
-            <div class="flex-1 space-y-6">
-                <div>
-                    <h1 class="text-3xl font-bold text-primary">{{ $product->name }}</h1>
-                    <p class="text-gray-600 mt-2">{{ $product->short_description }}</p>
-                </div>
-
-                <div class="border border-gray-200 rounded-lg p-4">
-                    <div class="flex items-baseline space-x-3">
-                        @if ($product->discount_price)
-                            <span class="line-through text-gray-400 text-sm">
-                                {{ $product->currency }}{{ number_format($product->price, 2) }}
-                            </span>
-                            <span class="text-2xl font-bold text-primary">
-                                {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
-                            </span>
-                        @else
-                            <span class="text-2xl font-bold text-primary">
-                                {{ $product->currency }}{{ number_format($product->price, 2) }}
-                            </span>
+                        <!-- Shipping Info -->
+                        @if ($product->shipping_info)
+                            <div class="mt-4 pt-4 border-t border-border space-y-1">
+                                @foreach (json_decode($product->shipping_info) as $key => $value)
+                                    <div class="flex justify-between items-center text-body-sm">
+                                        <span class="text-secondary-600">{{ ucfirst($key) }}:</span>
+                                        <span class="font-semibold text-primary">{{ $value }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
                         @endif
                     </div>
-                    <p class="text-sm text-gray-500 mt-1">MOQ: {{ $product->min_order_quantity }} pcs</p>
-                </div>
 
-                @if ($product->features)
-                    <div>
-                        <h3 class="font-semibold text-primary mb-2">Key Features</h3>
-                        <ul class="space-y-1 text-gray-700">
-                            @foreach (json_decode($product->features) as $feature)
-                                <li class="flex items-center space-x-2">
-                                    <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span>{{ $feature }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
+                    <!-- Key Features -->
+                    @if ($product->features)
+                        <div>
+                            <h3 class="font-semibold text-primary mb-3">Key Features</h3>
+                            <ul class="space-y-2">
+                                @foreach (json_decode($product->features) as $feature)
+                                    <li class="flex items-center space-x-3">
+                                        <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        <span class="text-body text-secondary-700">{{ $feature }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+
+                    <!-- Quantity -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">Quantity</h3>
+                        <div class="flex items-center space-x-3">
+                            <div class="flex items-center space-x-2">
+                                <button type="button"
+                                    class="decreaseQty px-3 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold">
+                                    −
+                                </button>
+
+                                <input type="number" name="quantity" value="{{ $product->min_order_quantity }}"
+                                    min="{{ $product->min_order_quantity }}" max="{{ $product->stock_quantity }}"
+                                    class="quantityValue w-20 text-center border rounded-md py-2 px-3 focus:ring-2 focus:ring-accent focus:border-accent"
+                                    id="quantityValue" readonly />
+
+                                <button type="button"
+                                    class="increaseQty px-3 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold">
+                                    +
+                                </button>
+                            </div>
+
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">
+                            Available stock: {{ $product->stock_quantity }}
+                        </p>
                     </div>
-                @endif
 
-                <div>
-                    <h3 class="font-semibold mb-2">Quantity</h3>
-                    <div class="flex items-center space-x-2">
-                        <button type="button"
-                            class="decreaseQty px-3 py-2 rounded bg-gray-200 hover:bg-gray-300 font-bold">−</button>
-                        <input type="number" id="quantityValue" name="quantity" value="{{ $product->min_order_quantity }}"
-                            min="{{ $product->min_order_quantity }}" max="{{ $product->stock_quantity }}"
-                            class="w-20 text-center border rounded-md py-2 px-3 focus:ring-2 focus:ring-accent focus:border-accent"
-                            readonly />
-                        <button type="button"
-                            class="increaseQty px-3 py-2 rounded bg-gray-200 hover:bg-gray-300 font-bold">+</button>
+
+                    <!-- Action Buttons -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="btn-primary w-full" onclick="addToCart({{ $product->id }})">Add to Cart</button>
+                        <button class="btn-secondary w-full" onclick="addToWishlist({{ $product->id }})">Add to
+                            Wishlist</button>
                     </div>
-                    <p class="text-xs text-gray-500 mt-1">Stock: {{ $product->stock_quantity }}</p>
-                </div>
 
-                <div class="grid grid-cols-2 gap-3">
-                    <button class="btn-primary w-full" onclick="addToCart({{ $product->id }})">Add to Cart</button>
-                    <button class="btn-secondary w-full" onclick="addToWishlist({{ $product->id }})">Add to
-                        Wishlist</button>
+                    <!-- Trust Badges -->
+                    <div class="flex items-center justify-center space-x-6 pt-4 border-t border-border">
+                        <div class="flex items-center space-x-2 text-body-sm text-secondary-600">
+                            <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>Verified Supplier</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-body-sm text-secondary-600">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            <span>Secure Payment</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-body-sm text-secondary-600">
+                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            <span>30-Day Returns</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- Fullscreen Modal -->
-        <div id="fullscreenModal" class="fixed inset-0 bg-black/90 hidden justify-center items-center z-[9999]">
-            <button id="closeFullscreen"
-                class="absolute top-6 right-6 bg-white text-black rounded-full p-2 hover:bg-red-500 hover:text-white transition z-50">
-                ✕
-            </button>
-
-            <!-- Fullscreen Prev / Next -->
-            <button id="fsPrev" class="absolute left-6 bg-white/80 rounded-full p-3 hover:bg-white transition">
-                ◀
-            </button>
-            <button id="fsNext" class="absolute right-6 bg-white/80 rounded-full p-3 hover:bg-white transition">
-                ▶
-            </button>
-
-            <img id="fullscreenImage" src="" class="max-h-[90vh] max-w-[90vw] object-contain rounded-lg">
-        </div>
     </section>
-
-
-
 
 
     <!-- Product Details Tabs -->
@@ -236,7 +320,8 @@
                             <h3 class="font-semibold text-primary mb-4">{{ ucfirst($section) }}</h3>
                             <div class="space-y-3">
                                 @foreach ($specifications as $label => $value)
-                                    <div class="flex items-center justify-between py-2 border-b border-border last:border-none">
+                                    <div
+                                        class="flex items-center justify-between py-2 border-b border-border last:border-none">
                                         <span class="text-secondary-600">{{ $label }}</span>
                                         <span class="font-medium text-primary">{{ $value }}</span>
                                     </div>
@@ -259,8 +344,7 @@
                         <h3 class="font-semibold text-primary mb-4">Review Summary</h3>
                         <div class="text-center mb-6">
                             <div class="text-4xl font-bold text-primary mb-2">
-                                {{ number_format($product->average_rating, 1) }}
-                            </div>
+                                {{ number_format($product->average_rating, 1) }}</div>
                             <div class="flex justify-center text-warning mb-2">
                                 @for ($i = 1; $i <= 5; $i++)
                                     <svg class="w-5 h-5 {{ ($product->average_rating ?? 0) >= $i ? 'fill-current' : 'text-secondary-300' }}"
@@ -325,14 +409,16 @@
                                 class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 hidden">
                                 <svg class="animate-spin h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg"
                                     fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4"></circle>
+                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                        stroke="currentColor" stroke-width="4"></circle>
                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
                                 </svg>
                             </div>
 
                             <div id="reviews-list">
-                                @include('partials.product-reviews', ['reviews' => $product->reviews])
+                                @include('partials.product-reviews', [
+                                    'reviews' => $product->reviews,
+                                ])
                             </div>
                         </div>
                     </div>
@@ -343,9 +429,7 @@
                 <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
                     <!-- Header -->
                     <div class="flex items-center justify-between mb-6">
-                        <h3
-                            class="active py-4 px-1 border-b-2 font-semibold text-2xl text-gray-900 border-accent font-semibold">
-                            Leave a Review</h3>
+                        <h3 class="active py-4 px-1 border-b-2 font-semibold text-2xl text-gray-900 border-accent font-semibold">Leave a Review</h3>
                         <span class="text-sm text-gray-500">Your feedback helps others!</span>
                     </div>
 
@@ -363,16 +447,16 @@
                                         class="star h-10 w-10 text-gray-300 hover:text-yellow-400 transition duration-200 cursor-pointer"
                                         fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.178
-                                                                        3.63a1 1 0 00.95.69h3.813c.969 0
-                                                                        1.371 1.24.588 1.81l-3.087
-                                                                        2.243a1 1 0 00-.364 1.118l1.178
-                                                                        3.63c.3.921-.755 1.688-1.54
-                                                                        1.118l-3.087-2.243a1 1 0
-                                                                        00-1.176 0l-3.087
-                                                                        2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
-                                                                        00-.364-1.118L2.42
-                                                                        9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
-                                                                        00.951-.69l1.178-3.63z" />
+                                                3.63a1 1 0 00.95.69h3.813c.969 0
+                                                1.371 1.24.588 1.81l-3.087
+                                                2.243a1 1 0 00-.364 1.118l1.178
+                                                3.63c.3.921-.755 1.688-1.54
+                                                1.118l-3.087-2.243a1 1 0
+                                                00-1.176 0l-3.087
+                                                2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
+                                                00-.364-1.118L2.42
+                                                9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
+                                                00.951-.69l1.178-3.63z" />
                                     </svg>
                                 @endfor
                             </div>
@@ -382,10 +466,9 @@
                         <!-- Comment Box -->
                         <div class="flex-1 flex flex-col space-y-4">
                             <label for="comment" class="block text-sm font-medium text-gray-700">Your Comment</label>
-                            <textarea name="comment" id="comment" rows="4"
-                                placeholder="Share your experience with this product..."
+                            <textarea name="comment" id="comment" rows="4" placeholder="Share your experience with this product..."
                                 class="w-full border border-gray-200 rounded-xl p-4 text-gray-700 resize-none
-                                               focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
+                           focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
 
                             <!-- Verified Purchase Badge -->
                             <div class="flex items-center space-x-2">
@@ -406,7 +489,7 @@
                         <div class="md:w-1/4 flex md:justify-end">
                             <button type="submit"
                                 class="bg-primary hover:bg-primary/90 text-white font-medium py-2 px-5
-                                   rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
+               rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
                                 Submit Review
                             </button>
                         </div>
@@ -478,8 +561,8 @@
                         </div>
                         <div>
                             <label class="block text-body-sm font-semibold text-primary mb-2">Target Price</label>
-                            <input type="text" name="target_price" class="input-field" value="{{ old('target_price') }}"
-                                placeholder="$0.00 per unit">
+                            <input type="text" name="target_price" class="input-field"
+                                value="{{ old('target_price') }}" placeholder="$0.00 per unit">
                             <span class="text-red-500 text-sm mt-1 error-message"></span>
                         </div>
                     </div>
@@ -487,8 +570,7 @@
                     <div>
                         <label class="block text-body-sm font-semibold text-primary mb-2">Message *</label>
                         <textarea name="message" class="input-field resize-none" rows="4"
-                            placeholder="Please include any specific requirements, colors, customization needs, or other details..."
-                            required>{{ old('message') }}</textarea>
+                            placeholder="Please include any specific requirements, colors, customization needs, or other details..." required>{{ old('message') }}</textarea>
                         <span class="text-red-500 text-sm mt-1 error-message"></span>
                     </div>
 
@@ -664,7 +746,8 @@
             <div id="fake3dViewer"
                 class="relative w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden cursor-grab">
 
-                <img id="fake3dImage" src="" class="max-h-full max-w-full object-contain select-none" draggable="false" />
+                <img id="fake3dImage" src="" class="max-h-full max-w-full object-fill select-none"
+                    draggable="false" />
 
                 <!-- Prev Button -->
                 <button id="prevImageBtn"
@@ -779,6 +862,118 @@
 
 
     <script>
+        // document.addEventListener("DOMContentLoaded", () => {
+        //     const arBtn = document.getElementById("arPreviewBtn");
+        //     const modal = document.getElementById("arModal");
+        //     const imgViewer = document.getElementById("fake3dImage");
+        //     const viewer = document.getElementById("fake3dViewer");
+        //     const closeBtn = document.getElementById("closeArModal");
+        //     const prevBtn = document.getElementById("prevImageBtn");
+        //     const nextBtn = document.getElementById("nextImageBtn");
+
+        //     let galleryImages = [];
+        //     let currentIndex = 0;
+
+        //     arBtn.addEventListener("click", () => {
+        //         const mainImage = arBtn.dataset.main || "";
+        //         let rawGallery = arBtn.dataset.gallery || "[]";
+
+        //         // Decode double-encoded JSON
+        //         if (rawGallery.startsWith('"') && rawGallery.endsWith('"')) {
+        //             rawGallery = rawGallery.slice(1, -1);
+        //         }
+        //         rawGallery = rawGallery.replace(/\\"/g, '"').replace(/\\\//g, '/');
+        //         rawGallery = rawGallery.replace(/\\u([\dA-F]{4})/gi, (match, grp) => {
+        //             return String.fromCharCode(parseInt(grp, 16));
+        //         });
+
+        //         try {
+        //             const gallery = JSON.parse(rawGallery);
+        //             if (Array.isArray(gallery)) galleryImages = [...gallery];
+        //             else galleryImages = [];
+        //         } catch (e) {
+        //             galleryImages = [];
+        //         }
+
+        //         // Insert main image at start
+        //         if (mainImage) galleryImages.unshift(mainImage);
+
+
+        //         if (galleryImages.length === 0) return;
+
+        //         currentIndex = 0;
+        //         imgViewer.src = galleryImages[currentIndex];
+        //         modal.classList.remove("hidden");
+        //         modal.classList.add("flex");
+        //     });
+
+        //     // Close modal
+        //     closeBtn.addEventListener("click", () => {
+        //         modal.classList.add("hidden");
+        //         modal.classList.remove("flex");
+        //     });
+
+        //     // Switch image function for prev/next buttons
+        //     const switchImage = (direction = 1) => {
+        //         if (galleryImages.length === 0) return;
+
+        //         currentIndex = (currentIndex + direction + galleryImages.length) % galleryImages.length;
+
+        //         // Set rotation direction
+        //         const rotationAngle = direction > 0 ? 360 : -360;
+
+        //         // Animate rotation
+        //         imgViewer.style.transition = "transform 0.6s ease-in-out";
+        //         imgViewer.style.transform = `rotateY(${rotationAngle}deg)`;
+
+        //         // After animation, reset transform and change image
+        //         setTimeout(() => {
+        //             imgViewer.style.transition = "none"; // remove transition for next rotation
+        //             imgViewer.style.transform = "rotateY(0deg)";
+        //             imgViewer.src = galleryImages[currentIndex];
+        //         }, 600);
+        //     };
+
+
+        //     prevBtn.addEventListener("click", () => switchImage(-1));
+        //     nextBtn.addEventListener("click", () => switchImage(1));
+
+        //     // Dragging for 360° feel
+        //     let isDragging = false;
+        //     let startX = 0;
+
+        //     viewer.addEventListener("mousedown", e => {
+        //         isDragging = true;
+        //         startX = e.clientX;
+        //         viewer.style.cursor = "grabbing";
+        //     });
+        //     viewer.addEventListener("mouseup", () => {
+        //         isDragging = false;
+        //         viewer.style.cursor = "grab";
+        //     });
+        //     viewer.addEventListener("mouseleave", () => {
+        //         isDragging = false;
+        //         viewer.style.cursor = "grab";
+        //     });
+        //     viewer.addEventListener("mousemove", e => {
+        //         if (!isDragging) return;
+        //         const diff = e.clientX - startX;
+        //         if (Math.abs(diff) > 5) { // smaller threshold for continuous feel
+        //             switchImage(diff > 0 ? -1 : 1);
+        //             startX = e.clientX;
+        //         }
+        //     });
+
+        //     // Touch support
+        //     viewer.addEventListener("touchstart", e => startX = e.touches[0].clientX);
+        //     viewer.addEventListener("touchmove", e => {
+        //         const diff = e.touches[0].clientX - startX;
+        //         if (Math.abs(diff) > 5) {
+        //             switchImage(diff > 0 ? -1 : 1);
+        //             startX = e.touches[0].clientX;
+        //         }
+        //     });
+        // });
 
         //zoom
         document.addEventListener("DOMContentLoaded", () => {
@@ -1077,12 +1272,12 @@
 
 
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             let productId = "{{ $product->id }}";
             let shown = localStorage.getItem("review_shown_" + productId);
 
             if (!shown) {
-                setTimeout(function () {
+                setTimeout(function() {
                     document.getElementById("review-modal-wrapper").classList.remove("hidden");
                     localStorage.setItem("review_shown_" + productId, "true");
                 }, 8000); // 8 seconds delay
@@ -1092,11 +1287,11 @@
         function closeReviewModal() {
             document.getElementById("review-modal-wrapper").classList.add("hidden");
         }
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const form = document.getElementById("review-form");
             if (!form) return;
 
-            form.addEventListener("submit", function (e) {
+            form.addEventListener("submit", function(e) {
                 e.preventDefault();
 
                 // Clear old errors
@@ -1105,13 +1300,13 @@
                 let formData = new FormData(form);
 
                 fetch(form.action, {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
-                    }
-                })
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest",
+                            "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                        }
+                    })
                     .then(res => res.json())
                     .then(data => {
                         if (data.errors) {
@@ -1128,12 +1323,12 @@
                             const reviewList = document.getElementById("reviews-list");
                             if (reviewList) {
                                 reviewList.insertAdjacentHTML("afterbegin", `
-                                            <div class="border p-4 rounded-lg mb-3">
-                                                <p class="font-semibold">⭐ ${data.review.rating}</p>
-                                                <p>${data.review.comment}</p>
-                                                <small class="text-gray-500">Just now</small>
-                                            </div>
-                                        `);
+                        <div class="border p-4 rounded-lg mb-3">
+                            <p class="font-semibold">⭐ ${data.review.rating}</p>
+                            <p>${data.review.comment}</p>
+                            <small class="text-gray-500">Just now</small>
+                        </div>
+                    `);
                             }
 
                             // Success message (custom toast style)
@@ -1157,7 +1352,7 @@
             let toast = document.createElement("div");
             toast.textContent = message;
             toast.className = `fixed top-5 right-5 px-4 py-2 rounded-lg shadow-lg text-white z-50
-                            ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
+        ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
             document.body.appendChild(toast);
 
             setTimeout(() => toast.remove(), 3000);
@@ -1214,22 +1409,22 @@
                     mobileCartBtn.className =
                         "fixed bottom-4 left-4 right-4 bg-accent text-white rounded-lg p-4 shadow-modal z-40 md:hidden";
                     mobileCartBtn.innerHTML = `
-                                            <div class="flex items-center justify-between">
-                                                <div>
-                                                    <div class="font-semibold">$149.99</div>
-                                                    <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
-                                                </div>
-                                                <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
-                                                    Add to Cart
-                                                </button>
-                                            </div>
-                                        `;
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="font-semibold">$149.99</div>
+                                <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
+                            </div>
+                            <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
+                                Add to Cart
+                            </button>
+                        </div>
+                    `;
                     document.body.appendChild(mobileCartBtn);
 
                     // Add click handler
                     mobileCartBtn
                         .querySelector("button")
-                        .addEventListener("click", function () {
+                        .addEventListener("click", function() {
                             showToast(
                                 "Added to Cart!",
                                 "Premium Wireless Earbuds Pro has been added to your cart.",
@@ -1253,7 +1448,7 @@
 
 
 
-        document.getElementById("enquiryForm").addEventListener("submit", function (e) {
+        document.getElementById("enquiryForm").addEventListener("submit", function(e) {
             e.preventDefault();
 
             let form = this;
@@ -1270,13 +1465,13 @@
             let formData = new FormData(form);
 
             fetch("{{ route('enquiries.store') }}", {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value,
-                    "Accept": "application/json"
-                },
-                body: formData
-            })
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value,
+                        "Accept": "application/json"
+                    },
+                    body: formData
+                })
                 .then(async res => {
                     let data = await res.json();
 
@@ -1341,7 +1536,7 @@
 
 
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const filterSelect = document.querySelector('select[name="filter"]');
             const sortSelect = document.querySelector('select[name="sort"]');
             const reviewsList = document.getElementById('reviews-list');
@@ -1421,24 +1616,24 @@
         });
 
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const loginWarningModalWrapper = document.getElementById("login-warning-modal-wrapper");
             const loginWarningModalWrapper2 = document.getElementById("login-warning-modal-wrapper2");
             const qtyInput = document.getElementById("quantityValue");
 
             // ✅ Add to Wishlist
-            window.addToWishlist = function (productId) {
+            window.addToWishlist = function(productId) {
                 fetch(`/wishlist/add`, {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                        "Content-Type": "application/json",
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                    body: JSON.stringify({
-                        product_id: productId
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest"
+                        },
+                        body: JSON.stringify({
+                            product_id: productId
+                        })
                     })
-                })
                     .then(response => {
                         if (response.status === 401) {
                             loginWarningModalWrapper.classList.remove("hidden");
@@ -1459,21 +1654,21 @@
             };
 
             // ✅ Add to Cart
-            window.addToCart = function (productId) {
+            window.addToCart = function(productId) {
                 const quantity = parseInt(qtyInput.value) || 1;
 
                 fetch(`/product-view/cart/add`, {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                        "Content-Type": "application/json",
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                    body: JSON.stringify({
-                        product_id: productId,
-                        quantity: quantity
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest"
+                        },
+                        body: JSON.stringify({
+                            product_id: productId,
+                            quantity: quantity
+                        })
                     })
-                })
                     .then(response => {
                         if (response.status === 401) {
                             loginWarningModalWrapper2.classList.remove("hidden");
@@ -1527,10 +1722,10 @@
             }
 
             // ✅ Modal helpers
-            window.goToSignIn = function () {
+            window.goToSignIn = function() {
                 window.location.href = "{{ route('login') }}";
             };
-            window.continueBrowsing = function () {
+            window.continueBrowsing = function() {
                 loginWarningModalWrapper.classList.add("hidden");
                 loginWarningModalWrapper2.classList.add("hidden");
             };
@@ -1538,7 +1733,7 @@
 
 
         document.querySelectorAll('#starRating .star').forEach(star => {
-            star.addEventListener('click', function () {
+            star.addEventListener('click', function() {
                 const value = this.getAttribute('data-value');
                 document.getElementById('ratingValue').value = value;
 
@@ -1582,20 +1777,20 @@
                 toast.classList.add("hidden");
             }, 3000);
         }
-        document.getElementById("reviewForm").addEventListener("submit", function (e) {
+        document.getElementById("reviewForm").addEventListener("submit", function(e) {
             e.preventDefault(); // stop normal form submit
 
             const form = e.target;
             const formData = new FormData(form);
 
             fetch(form.action, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                    "X-Requested-With": "XMLHttpRequest"
-                },
-                body: formData
-            })
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: formData
+                })
                 .then(response => {
                     if (response.status === 401) {
                         loginWarningModalWrapper.classList.remove("hidden");
@@ -1620,91 +1815,6 @@
                     }
                 })
                 .catch(() => showToastComment("Something went wrong. Try again.", "error"));
-        });
-        const mainImage = document.getElementById('mainImage');
-        const thumbnails = document.querySelectorAll('.thumbnail-btn');
-        const zoomLens = document.getElementById('zoomLens');
-        const fullscreenModal = document.getElementById('fullscreenModal');
-        const fullscreenImage = document.getElementById('fullscreenImage');
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        const closeFullscreen = document.getElementById('closeFullscreen');
-
-        // Change main image
-        function changeMainImage(el, src) {
-            mainImage.src = src;
-            thumbnails.forEach(btn => btn.classList.remove('border-accent'));
-            el.classList.add('border-accent');
-        }
-
-        // Fullscreen view
-        fullscreenBtn.addEventListener('click', () => {
-            fullscreenImage.src = mainImage.src;
-            fullscreenModal.classList.remove('hidden');
-            fullscreenModal.classList.add('flex');
-        });
-        closeFullscreen.addEventListener('click', () => fullscreenModal.classList.add('hidden'));
-
-        // Zoom on hover
-        mainImage.addEventListener('mousemove', (e) => {
-            zoomLens.classList.remove('hidden');
-            const rect = mainImage.getBoundingClientRect();
-            const x = e.clientX - rect.left - zoomLens.offsetWidth / 2;
-            const y = e.clientY - rect.top - zoomLens.offsetHeight / 2;
-            zoomLens.style.left = `${x}px`;
-            zoomLens.style.top = `${y}px`;
-            zoomLens.style.backgroundImage = `url(${mainImage.src})`;
-            zoomLens.style.backgroundRepeat = 'no-repeat';
-            zoomLens.style.backgroundSize = `${mainImage.width * 2}px ${mainImage.height * 2}px`;
-            zoomLens.style.backgroundPosition = `-${x * 2}px -${y * 2}px`;
-        });
-        mainImage.addEventListener('mouseleave', () => zoomLens.classList.add('hidden'));
-
-        // Quantity buttons
-        const decrease = document.querySelector('.decreaseQty');
-        const increase = document.querySelector('.increaseQty');
-        const qtyInput = document.getElementById('quantityValue');
-        decrease.addEventListener('click', () => {
-            const min = parseInt(qtyInput.min);
-            if (qtyInput.value > min) qtyInput.value--;
-        });
-        increase.addEventListener('click', () => {
-            const max = parseInt(qtyInput.max);
-            if (qtyInput.value < max) qtyInput.value++;
-        });
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const thumbnailInner = document.getElementById('thumbnailInner');
-            const galleryUp = document.getElementById('galleryUp');
-            const galleryDown = document.getElementById('galleryDown');
-            const thumbnails = thumbnailInner.querySelectorAll('.thumbnail-btn');
-
-            const visibleCount = 6;
-            const thumbHeight = 88; // 80px + margin/gap
-            let scrollIndex = 0;
-
-            function updateArrows() {
-                const total = thumbnails.length;
-                if (total <= visibleCount) {
-                    galleryUp.classList.add('hidden');
-                    galleryDown.classList.add('hidden');
-                    return;
-                }
-                galleryUp.classList.toggle('hidden', scrollIndex === 0);
-                galleryDown.classList.toggle('hidden', scrollIndex >= total - visibleCount);
-            }
-
-            function scrollGallery(direction) {
-                const total = thumbnails.length;
-                scrollIndex = Math.max(0, Math.min(scrollIndex + direction, total - visibleCount));
-                thumbnailInner.style.transform = `translateY(-${scrollIndex * thumbHeight}px)`;
-                updateArrows();
-            }
-
-            galleryUp.addEventListener('click', () => scrollGallery(-1));
-            galleryDown.addEventListener('click', () => scrollGallery(1));
-
-            updateArrows();
         });
     </script>
 @endsection
