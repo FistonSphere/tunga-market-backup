@@ -1404,39 +1404,42 @@
             });
         }
 
-        wishlistManager.showToast = function (title, message, type = 'info') {
-            const container = document.getElementById('toast-container2');
-            if (!container) return;
+    //     wishlistManager.showToast = function (title, message, type = 'info') {
+    //         const container = document.getElementById('toast-container2');
+    //         if (!container) return;
 
-            const toast = document.createElement('div');
-            toast.className = `toast-message toast-${type}`;
-            toast.innerHTML = `
-        <strong>${title}</strong><br>${message}
-    `;
+    //         const toast = document.createElement('div');
+    //         toast.className = `toast-message toast-${type}`;
+    //         toast.innerHTML = `
+    //     <strong>${title}</strong><br>${message}
+    // `;
 
-            toast.style.cssText = `
-        background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#17a2b8'};
-        color: white;
-        padding: 10px 15px;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        opacity: 0;
-        z-index:9999999;
-        transition: opacity 0.3s ease;
-    `;
+    //         toast.style.cssText = `
+    //     background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#17a2b8'};
+    //     color: white;
+    //     padding: 10px 15px;
+    //     border-radius: 5px;
+    //     margin-bottom: 10px;
+    //     opacity: 0;
+    //     z-index:9999999;
+    //     transition: opacity 0.3s ease;
+    // `;
 
-            container.appendChild(toast);
+    //         container.appendChild(toast);
 
-            requestAnimationFrame(() => {
-                toast.style.opacity = '1';
-            });
+    //         requestAnimationFrame(() => {
+    //             toast.style.opacity = '1';
+    //         });
 
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        };
+    //         setTimeout(() => {
+    //             toast.style.opacity = '0';
+    //             setTimeout(() => toast.remove(), 300);
+    //         }, 3000);
+    //     };
 
+       
+       
+       
         function addAllToCart() {
             const items = document.querySelectorAll('.wishlist-item');
             if (items.length === 0) {

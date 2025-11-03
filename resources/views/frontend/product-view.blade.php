@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+        #zoomLens {
+            transition: all 0.05s ease-out;
+        }
+    </style>
     <!-- Breadcrumb Navigation -->
     <section class="bg-surface py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -85,6 +90,7 @@
                     <img id="mainImage" src="{{ $product->main_image }}" alt="{{ $product->name }}"
                         class="w-full h-full object-contain transition-all duration-300 select-none" loading="lazy"
                         onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
+                    <div id="zoomLens" class="hidden"></div>
                     <!-- Magnifier Zoom Container -->
                     <div id="imageZoomResult"
                         class="hidden absolute right-[-520px] top-0 w-[500px] h-[500px] border border-gray-300 rounded-lg overflow-hidden bg-white shadow-lg z-30">
@@ -369,16 +375,16 @@
                                         fill="currentColor" viewBox="0 0 20 20">
                                         <path
                                             d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.178
-                                                                                                                3.63a1 1 0 00.95.69h3.813c.969 0
-                                                                                                                1.371 1.24.588 1.81l-3.087
-                                                                                                                2.243a1 1 0 00-.364 1.118l1.178
-                                                                                                                3.63c.3.921-.755 1.688-1.54
-                                                                                                                1.118l-3.087-2.243a1 1 0
-                                                                                                                00-1.176 0l-3.087
-                                                                                                                2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
-                                                                                                                00-.364-1.118L2.42
-                                                                                                                9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
-                                                                                                                00.951-.69l1.178-3.63z" />
+                                                                                                                                        3.63a1 1 0 00.95.69h3.813c.969 0
+                                                                                                                                        1.371 1.24.588 1.81l-3.087
+                                                                                                                                        2.243a1 1 0 00-.364 1.118l1.178
+                                                                                                                                        3.63c.3.921-.755 1.688-1.54
+                                                                                                                                        1.118l-3.087-2.243a1 1 0
+                                                                                                                                        00-1.176 0l-3.087
+                                                                                                                                        2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
+                                                                                                                                        00-.364-1.118L2.42
+                                                                                                                                        9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
+                                                                                                                                        00.951-.69l1.178-3.63z" />
                                     </svg>
                                 @endfor
                             </div>
@@ -391,7 +397,7 @@
                             <textarea name="comment" id="comment" rows="4"
                                 placeholder="Share your experience with this product..."
                                 class="w-full border border-gray-200 rounded-xl p-4 text-gray-700 resize-none
-                                                                   focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
+                                                                               focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
 
                             <!-- Verified Purchase Badge -->
                             <div class="flex items-center space-x-2">
@@ -412,7 +418,7 @@
                         <div class="md:w-1/4 flex md:justify-end">
                             <button type="submit"
                                 class="bg-primary hover:bg-primary/90 text-white font-medium py-2 px-5
-                                                       rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
+                                                                   rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
                                 Submit Review
                             </button>
                         </div>
@@ -1134,12 +1140,12 @@
                             const reviewList = document.getElementById("reviews-list");
                             if (reviewList) {
                                 reviewList.insertAdjacentHTML("afterbegin", `
-                                                                <div class="border p-4 rounded-lg mb-3">
-                                                                    <p class="font-semibold">⭐ ${data.review.rating}</p>
-                                                                    <p>${data.review.comment}</p>
-                                                                    <small class="text-gray-500">Just now</small>
-                                                                </div>
-                                                            `);
+                                                                            <div class="border p-4 rounded-lg mb-3">
+                                                                                <p class="font-semibold">⭐ ${data.review.rating}</p>
+                                                                                <p>${data.review.comment}</p>
+                                                                                <small class="text-gray-500">Just now</small>
+                                                                            </div>
+                                                                        `);
                             }
 
                             // Success message (custom toast style)
@@ -1163,7 +1169,7 @@
             let toast = document.createElement("div");
             toast.textContent = message;
             toast.className = `fixed top-5 right-5 px-4 py-2 rounded-lg shadow-lg text-white z-50
-                                                ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
+                                                            ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
             document.body.appendChild(toast);
 
             setTimeout(() => toast.remove(), 3000);
@@ -1220,16 +1226,16 @@
                     mobileCartBtn.className =
                         "fixed bottom-4 left-4 right-4 bg-accent text-white rounded-lg p-4 shadow-modal z-40 md:hidden";
                     mobileCartBtn.innerHTML = `
-                                                                <div class="flex items-center justify-between">
-                                                                    <div>
-                                                                        <div class="font-semibold">$149.99</div>
-                                                                        <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
-                                                                    </div>
-                                                                    <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
-                                                                        Add to Cart
-                                                                    </button>
-                                                                </div>
-                                                            `;
+                                                                            <div class="flex items-center justify-between">
+                                                                                <div>
+                                                                                    <div class="font-semibold">$149.99</div>
+                                                                                    <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
+                                                                                </div>
+                                                                                <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
+                                                                                    Add to Cart
+                                                                                </button>
+                                                                            </div>
+                                                                        `;
                     document.body.appendChild(mobileCartBtn);
 
                     // Add click handler
@@ -1752,66 +1758,76 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const mainImage = document.getElementById('mainImage');
+            const zoomLens = document.getElementById('zoomLens');
             const zoomResult = document.getElementById('imageZoomResult');
 
-            let lens;
-            let cx, cy;
+            // ✅ Check all required elements exist
+            if (!mainImage || !zoomLens || !zoomResult) return;
 
-            function createLens() {
-                lens = document.createElement("div");
-                lens.setAttribute("id", "zoomLens");
-                lens.style.position = "absolute";
-                lens.style.border = "1px solid #aaa";
-                lens.style.width = "120px";
-                lens.style.height = "120px";
-                lens.style.opacity = "0.4";
-                lens.style.backgroundColor = "#fff";
-                lens.style.cursor = "crosshair";
-                lens.style.display = "none";
-                lens.style.zIndex = "50";
-                lens.style.pointerEvents = "none";
-                mainImage.parentElement.appendChild(lens);
+            let cx = 0, cy = 0;
+
+            function getCursorPos(e) {
+                const rect = mainImage.getBoundingClientRect();
+                const x = e.pageX - rect.left - window.pageXOffset;
+                const y = e.pageY - rect.top - window.pageYOffset;
+                return { x, y };
             }
-
-            createLens();
 
             function moveLens(e) {
                 e.preventDefault();
-                const rect = mainImage.getBoundingClientRect();
-                const x = e.pageX - rect.left - window.pageXOffset - lens.offsetWidth / 2;
-                const y = e.pageY - rect.top - window.pageYOffset - lens.offsetHeight / 2;
+                const pos = getCursorPos(e);
+                let x = pos.x - zoomLens.offsetWidth / 2;
+                let y = pos.y - zoomLens.offsetHeight / 2;
 
-                // Boundaries
-                const maxX = mainImage.width - lens.offsetWidth;
-                const maxY = mainImage.height - lens.offsetHeight;
-                const posX = Math.max(0, Math.min(x, maxX));
-                const posY = Math.max(0, Math.min(y, maxY));
+                // Clamp lens position
+                if (x > mainImage.width - zoomLens.offsetWidth) x = mainImage.width - zoomLens.offsetWidth;
+                if (x < 0) x = 0;
+                if (y > mainImage.height - zoomLens.offsetHeight) y = mainImage.height - zoomLens.offsetHeight;
+                if (y < 0) y = 0;
 
-                lens.style.left = posX + "px";
-                lens.style.top = posY + "px";
+                zoomLens.style.left = x + "px";
+                zoomLens.style.top = y + "px";
 
-                zoomResult.style.backgroundPosition = `-${posX * cx}px -${posY * cy}px`;
+                zoomResult.style.backgroundPosition = `-${x * cx}px -${y * cy}px`;
             }
 
             function startZoom() {
-                lens.style.display = "block";
+                zoomLens.classList.remove('hidden');
                 zoomResult.classList.remove('hidden');
-                const rect = mainImage.getBoundingClientRect();
+
                 zoomResult.style.backgroundImage = `url('${mainImage.src}')`;
                 zoomResult.style.backgroundRepeat = "no-repeat";
-                cx = zoomResult.offsetWidth / lens.offsetWidth;
-                cy = zoomResult.offsetHeight / lens.offsetHeight;
+
+                cx = zoomResult.offsetWidth / zoomLens.offsetWidth;
+                cy = zoomResult.offsetHeight / zoomLens.offsetHeight;
+
                 zoomResult.style.backgroundSize = `${mainImage.width * cx}px ${mainImage.height * cy}px`;
             }
 
             function endZoom() {
-                lens.style.display = "none";
+                zoomLens.classList.add('hidden');
                 zoomResult.classList.add('hidden');
             }
 
+            // Initial lens styling (Amazon-like)
+            Object.assign(zoomLens.style, {
+                position: "absolute",
+                border: "1px solid #aaa",
+                width: "120px",
+                height: "120px",
+                opacity: "0.4",
+                backgroundColor: "#fff",
+                cursor: "crosshair",
+                pointerEvents: "none",
+                zIndex: "50"
+            });
+
+            // Event listeners
             mainImage.addEventListener("mouseenter", startZoom);
             mainImage.addEventListener("mousemove", moveLens);
             mainImage.addEventListener("mouseleave", endZoom);
         });
+
+
     </script>
 @endsection
