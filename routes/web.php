@@ -238,7 +238,6 @@ Route::get('/{id}', 'show')->name('admin.products.show');
 Route::get('/{id}/edit/', 'edit')->name('admin.products.edit');
 Route::put('/products/{id}', 'update')->name('admin.products.update');
 Route::delete('/products/{id}/delete', 'destroy')->name('products.destroy');
-Route::get('/new-product',  'create')->name('admin.products.create');
 Route::post('/products', 'store')->name('products.store');
 Route::get('/filter', 'filter')->name('products.filter');
 Route::get('/products/print-pdf', 'printPDF')->name('admin.products.printPDF');
@@ -246,6 +245,7 @@ Route::get('/products/save-pdf', 'savePDF')->name('admin.products.savePDF');
 Route::get('/products/save-excel', 'saveExcel')->name('admin.products.saveExcel');
 
 });
+Route::get('/new-product',  [ProductManagementController::class,'create'])->name('admin.products.create');
 //end products route
 
 //start flash deals route
