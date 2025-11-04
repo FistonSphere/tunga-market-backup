@@ -63,7 +63,7 @@
             @endphp
 
             <!-- LEFT SIDE: Gallery + Main Image -->
-            <div class="flex gap-4 flex-shrink-0" style="min-width: 320px; max-width: 550px;">
+            <div class="flex gap-4 flex-shrink-0 mt-4" style="min-width: 320px; max-width: 550px;">
 
                 <!-- Vertical Thumbnail Gallery -->
                 <div class="relative flex flex-col items-center gap-2 select-none group">
@@ -146,7 +146,7 @@
             </div>
 
             <!-- RIGHT SIDE: Product Info -->
-            <div class="flex-1 space-y-6">
+            <div class="flex-1 space-y-6 mt-4 mb-4">
                 <div>
                     <h1 class="text-3xl font-bold text-primary">{{ $product->name }}</h1>
                     <p class="text-gray-600 mt-2">{{ $product->short_description }}</p>
@@ -159,11 +159,11 @@
                                 {{ $product->currency }}{{ number_format($product->price, 2) }}
                             </span>
                             <span class="text-2xl font-bold text-primary">
-                                {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
+                                {{ $product->currency }}{{ number_format($product->discount_price) }}
                             </span>
                         @else
                             <span class="text-2xl font-bold text-primary">
-                                {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                {{ $product->currency }}{{ number_format($product->price) }}
                             </span>
                         @endif
                     </div>
@@ -171,20 +171,34 @@
                 </div>
 
                 @if ($product->features)
-                    <div>
-                        <h3 class="font-semibold text-primary mb-2">Key Features</h3>
-                        <ul class="space-y-1 text-gray-700">
+                    <div class="border border-gray-200 rounded-xl p-5 bg-gray-50">
+                        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+                            <svg class="w-6 h-6 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Key Features
+                        </h3>
+
+                        <div class="flex flex-wrap gap-3">
                             @foreach (json_decode($product->features) as $feature)
-                                <li class="flex items-center space-x-2">
-                                    <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span>{{ $feature }}</span>
-                                </li>
+                                <div
+                                    class="group flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm hover:border-accent hover:bg-accent/10 transition-all duration-300 cursor-default">
+                                    <div
+                                        class="flex items-center justify-center w-6 h-6 rounded-full bg-accent/10 text-accent group-hover:bg-accent group-hover:text-white transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700 group-hover:text-accent">
+                                        {{ $feature }}
+                                    </span>
+                                </div>
                             @endforeach
-                        </ul>
+                        </div>
                     </div>
                 @endif
+
 
                 <div>
                     <h3 class="font-semibold mb-2">Quantity</h3>
@@ -404,16 +418,16 @@
                                         fill="currentColor" viewBox="0 0 20 20">
                                         <path
                                             d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.178
-                                                                                                                                                                                                3.63a1 1 0 00.95.69h3.813c.969 0
-                                                                                                                                                                                                1.371 1.24.588 1.81l-3.087
-                                                                                                                                                                                                2.243a1 1 0 00-.364 1.118l1.178
-                                                                                                                                                                                                3.63c.3.921-.755 1.688-1.54
-                                                                                                                                                                                                1.118l-3.087-2.243a1 1 0
-                                                                                                                                                                                                00-1.176 0l-3.087
-                                                                                                                                                                                                2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
-                                                                                                                                                                                                00-.364-1.118L2.42
-                                                                                                                                                                                                9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
-                                                                                                                                                                                                00.951-.69l1.178-3.63z" />
+                                                                                                                                                                                                        3.63a1 1 0 00.95.69h3.813c.969 0
+                                                                                                                                                                                                        1.371 1.24.588 1.81l-3.087
+                                                                                                                                                                                                        2.243a1 1 0 00-.364 1.118l1.178
+                                                                                                                                                                                                        3.63c.3.921-.755 1.688-1.54
+                                                                                                                                                                                                        1.118l-3.087-2.243a1 1 0
+                                                                                                                                                                                                        00-1.176 0l-3.087
+                                                                                                                                                                                                        2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
+                                                                                                                                                                                                        00-.364-1.118L2.42
+                                                                                                                                                                                                        9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
+                                                                                                                                                                                                        00.951-.69l1.178-3.63z" />
                                     </svg>
                                 @endfor
                             </div>
@@ -426,7 +440,7 @@
                             <textarea name="comment" id="comment" rows="4"
                                 placeholder="Share your experience with this product..."
                                 class="w-full border border-gray-200 rounded-xl p-4 text-gray-700 resize-none
-                                                                                                           focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
+                                                                                                               focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
 
                             <!-- Verified Purchase Badge -->
                             <div class="flex items-center space-x-2">
@@ -447,7 +461,7 @@
                         <div class="md:w-1/4 flex md:justify-end">
                             <button type="submit"
                                 class="bg-primary hover:bg-primary/90 text-white font-medium py-2 px-5
-                                                                                               rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
+                                                                                                   rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
                                 Submit Review
                             </button>
                         </div>
@@ -1169,12 +1183,12 @@
                             const reviewList = document.getElementById("reviews-list");
                             if (reviewList) {
                                 reviewList.insertAdjacentHTML("afterbegin", `
-                                                                                                        <div class="border p-4 rounded-lg mb-3">
-                                                                                                            <p class="font-semibold">⭐ ${data.review.rating}</p>
-                                                                                                            <p>${data.review.comment}</p>
-                                                                                                            <small class="text-gray-500">Just now</small>
-                                                                                                        </div>
-                                                                                                    `);
+                                                                                                            <div class="border p-4 rounded-lg mb-3">
+                                                                                                                <p class="font-semibold">⭐ ${data.review.rating}</p>
+                                                                                                                <p>${data.review.comment}</p>
+                                                                                                                <small class="text-gray-500">Just now</small>
+                                                                                                            </div>
+                                                                                                        `);
                             }
 
                             // Success message (custom toast style)
@@ -1198,7 +1212,7 @@
             let toast = document.createElement("div");
             toast.textContent = message;
             toast.className = `fixed top-5 right-5 px-4 py-2 rounded-lg shadow-lg text-white z-50
-                                                                                        ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
+                                                                                            ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
             document.body.appendChild(toast);
 
             setTimeout(() => toast.remove(), 3000);
@@ -1255,16 +1269,16 @@
                     mobileCartBtn.className =
                         "fixed bottom-4 left-4 right-4 bg-accent text-white rounded-lg p-4 shadow-modal z-40 md:hidden";
                     mobileCartBtn.innerHTML = `
-                                                                                                        <div class="flex items-center justify-between">
-                                                                                                            <div>
-                                                                                                                <div class="font-semibold">$149.99</div>
-                                                                                                                <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
+                                                                                                            <div class="flex items-center justify-between">
+                                                                                                                <div>
+                                                                                                                    <div class="font-semibold">$149.99</div>
+                                                                                                                    <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
+                                                                                                                </div>
+                                                                                                                <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
+                                                                                                                    Add to Cart
+                                                                                                                </button>
                                                                                                             </div>
-                                                                                                            <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
-                                                                                                                Add to Cart
-                                                                                                            </button>
-                                                                                                        </div>
-                                                                                                    `;
+                                                                                                        `;
                     document.body.appendChild(mobileCartBtn);
 
                     // Add click handler
@@ -1870,54 +1884,54 @@
             const fsZoomResult = document.getElementById('fsZoomResult');
 
             // Collect all gallery images from the product thumbnails
-        const thumbnails = Array.from(document.querySelectorAll('.thumbnail-btn img'));
-        if (!thumbnails.length) return;
+            const thumbnails = Array.from(document.querySelectorAll('.thumbnail-btn img'));
+            if (!thumbnails.length) return;
 
-        // Store all image sources
-        const galleryImages = thumbnails.map(img => img.src || img.dataset.src);
-        let currentIndex = 0;
+            // Store all image sources
+            const galleryImages = thumbnails.map(img => img.src || img.dataset.src);
+            let currentIndex = 0;
 
-        /** -----------------------------
-         * OPEN FULLSCREEN MODAL
-         ----------------------------- */
-        function openFullscreen(index = 0) {
-            currentIndex = index;
-            fullscreenImage.src = galleryImages[currentIndex];
-            fullscreenModal.classList.remove('hidden');
-            fullscreenModal.classList.add('flex');
-            setupFullscreenZoom();
-        }
+            /** -----------------------------
+             * OPEN FULLSCREEN MODAL
+             ----------------------------- */
+            function openFullscreen(index = 0) {
+                currentIndex = index;
+                fullscreenImage.src = galleryImages[currentIndex];
+                fullscreenModal.classList.remove('hidden');
+                fullscreenModal.classList.add('flex');
+                setupFullscreenZoom();
+            }
 
-        /** -----------------------------
-         * CLOSE FULLSCREEN
-         ----------------------------- */
-        closeFullscreen?.addEventListener('click', () => {
-            fullscreenModal.classList.add('hidden');
-        });
+            /** -----------------------------
+             * CLOSE FULLSCREEN
+             ----------------------------- */
+            closeFullscreen?.addEventListener('click', () => {
+                fullscreenModal.classList.add('hidden');
+            });
 
-        /** -----------------------------
-         * NEXT / PREV BUTTONS
-         ----------------------------- */
-        fsPrev?.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
-            fullscreenImage.src = galleryImages[currentIndex];
-            setupFullscreenZoom();
-        });
+            /** -----------------------------
+             * NEXT / PREV BUTTONS
+             ----------------------------- */
+            fsPrev?.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+                fullscreenImage.src = galleryImages[currentIndex];
+                setupFullscreenZoom();
+            });
 
-        fsNext?.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % galleryImages.length;
-            fullscreenImage.src = galleryImages[currentIndex];
-            setupFullscreenZoom();
-        });
+            fsNext?.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % galleryImages.length;
+                fullscreenImage.src = galleryImages[currentIndex];
+                setupFullscreenZoom();
+            });
 
-       
-        // Attach click event to all thumbnails to open fullscreen
-        thumbnails.forEach((thumb, index) => {
-            thumb.addEventListener('click', () => {
-                openFullscreen(index);
+
+            // Attach click event to all thumbnails to open fullscreen
+            thumbnails.forEach((thumb, index) => {
+                thumb.addEventListener('click', () => {
+                    openFullscreen(index);
+                });
             });
         });
-    });
 
-       </script>
+    </script>
 @endsection
