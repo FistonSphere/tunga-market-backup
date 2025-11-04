@@ -386,10 +386,7 @@ public function store(Request $request)
 
     $currency = $cartItems->first()->product->currency ?? 'USD';
 
-    // ✅ Generate unique order number
-    $orderNo = $this->generateUniqueOrderNumber();
-
-    // ✅ Create the order (doesn't store order_no because it's in order_items)
+    // ✅ Create the order
     $order = Order::create([
         'user_id' => $user->id,
         'total' => 0,
@@ -405,9 +402,8 @@ public function store(Request $request)
         $price = $item->product->discount_price ?? $item->product->price;
         $quantity = $item->quantity;
 
-        OrderItem::create([
+        $orderItem = OrderItem::create([
             'order_id' => $order->id,
-            'order_no' => $orderNo, // ✅ store order number here
             'product_id' => $item->product_id,
             'quantity' => $quantity,
             'price' => $price,
@@ -441,22 +437,17 @@ public function store(Request $request)
     // ✅ Clear the cart
     Cart::where('user_id', $user->id)->delete();
 
-    // ✅ Return response
+    // ✅ Return response (fetch one order_no from created items)
+    $firstOrderItem = $order->items()->first();
+
     return response()->json([
         'status' => 'success',
         'message' => 'Order placed successfully!',
-        'order_no' => $orderNo, // ✅ fixed variable name
+        'order_no' => $firstOrderItem->order_no ?? null,
         'redirect_url' => route('thankyou', ['order' => $order->id]),
     ]);
 }
-private function generateUniqueOrderNumber()
-{
-    do {
-        $code = 'ORD-' . strtoupper(Str::random(6));
-    } while (OrderItem::where('order_no', $code)->exists());
 
-    return $code;
-}
 
 
 public function thankYou(Order $order)
