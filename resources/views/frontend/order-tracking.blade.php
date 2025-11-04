@@ -579,15 +579,6 @@
     <script src="https://unpkg.com/html5-qrcode" defer></script>
 
     <script>
-        // // Handle window resize
-        // window.addEventListener('resize', () => {
-        //     orderTracker.handleMobileView();
-        // });
-
-        // // Auto-focus search on load
-        // window.addEventListener('load', () => {
-        //     document.getElementById('order-search').focus();
-        // });
 
 
         function applyDateFilter() {
