@@ -301,13 +301,14 @@ public function store(Request $request)
 
     // Create order
     $order = Order::create([
-        'user_id' => $user->id,
-        'total' => 0, // temporary
-        'currency' => $currency,
-        'status' => 'pending',
-        'shipping_address_id' => $request->shipping_address_id,
-        'payment_method' => 'Cash on Delivery',
-    ]);
+    'user_id' => $user->id,
+    'total' => 0,
+    'currency' => $currency,
+    'status' => 'Processing', 
+    'shipping_address_id' => $request->shipping_address_id,
+    'payment_method' => 'Cash', 
+]);
+
 
     // Add order items
     $total = 0;
