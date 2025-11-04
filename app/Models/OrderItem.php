@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class OrderItem extends Model
 {
@@ -15,7 +16,24 @@ class OrderItem extends Model
         'quantity',
         'product_variant_id',
         'price',
+        'order_no',
     ];
+
+     protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($orderItem) {
+            // Only generate if not manually set
+            if (empty($orderItem->order_no)) {
+                do {
+                    $code = 'ORD-' . strtoupper(Str::random(6));
+                } while (self::where('order_no', $code)->exists());
+
+                $orderItem->order_no = $code;
+            }
+        });
+    }
 
     // Relationships
     public function order()

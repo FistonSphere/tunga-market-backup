@@ -387,12 +387,11 @@ public function store(Request $request)
     $currency = $cartItems->first()->product->currency ?? 'USD';
 
     // ✅ Generate unique order number
-    $orderNumber = $this->generateUniqueOrderNumber();
+    $orderNo = $this->generateUniqueOrderNumber();
 
-    // ✅ Create the order
+    // ✅ Create the order (doesn't store order_no because it's in order_items)
     $order = Order::create([
         'user_id' => $user->id,
-        'order_number' => $orderNumber,
         'total' => 0,
         'currency' => $currency,
         'status' => 'Processing',
@@ -408,6 +407,7 @@ public function store(Request $request)
 
         OrderItem::create([
             'order_id' => $order->id,
+            'order_no' => $orderNo, // ✅ store order number here
             'product_id' => $item->product_id,
             'quantity' => $quantity,
             'price' => $price,
@@ -416,7 +416,7 @@ public function store(Request $request)
         $total += $price * $quantity;
     }
 
-    // ✅ Update total
+    // ✅ Update order total
     $order->update(['total' => $total]);
 
     // ✅ Optional invoice generation
@@ -445,22 +445,19 @@ public function store(Request $request)
     return response()->json([
         'status' => 'success',
         'message' => 'Order placed successfully!',
-        'order_number' => $orderNumber,
+        'order_no' => $orderNo, // ✅ fixed variable name
         'redirect_url' => route('thankyou', ['order' => $order->id]),
     ]);
 }
-
-/**
- * Generate a unique alphanumeric order number like ORD-A9F3ZB
- */
 private function generateUniqueOrderNumber()
 {
     do {
         $code = 'ORD-' . strtoupper(Str::random(6));
-    } while (Order::where('order_number', $code)->exists());
+    } while (OrderItem::where('order_no', $code)->exists());
 
     return $code;
 }
+
 
 public function thankYou(Order $order)
 {
