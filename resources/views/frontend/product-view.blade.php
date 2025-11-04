@@ -356,11 +356,9 @@
                     <div id="specCardWrapper" class="relative">
 
                         <!-- HEADER (visible in page, hidden in download) -->
-                        <div
-                            class="spec-header flex items-center justify-between px-6 py-4 border-b">
-
+                        <div class="spec-header flex justify-end px-6 py-4">
                             <button id="downloadSpecImage"
-                                class="flex items-center gap-2 bg-[#ff6b35] text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                class="flex items-center gap-2 bg-accent text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                                     stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -369,6 +367,7 @@
                                 Download Details (JPG)
                             </button>
                         </div>
+
 
                         <!-- SPEC CARD -->
                         <div id="specCard"
@@ -526,16 +525,16 @@
                                         fill="currentColor" viewBox="0 0 20 20">
                                         <path
                                             d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.178
-                                                                                                                                                                                                                                                                                                                        3.63a1 1 0 00.95.69h3.813c.969 0
-                                                                                                                                                                                                                                                                                                                        1.371 1.24.588 1.81l-3.087
-                                                                                                                                                                                                                                                                                                                        2.243a1 1 0 00-.364 1.118l1.178
-                                                                                                                                                                                                                                                                                                                        3.63c.3.921-.755 1.688-1.54
-                                                                                                                                                                                                                                                                                                                        1.118l-3.087-2.243a1 1 0
-                                                                                                                                                                                                                                                                                                                        00-1.176 0l-3.087
-                                                                                                                                                                                                                                                                                                                        2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
-                                                                                                                                                                                                                                                                                                                        00-.364-1.118L2.42
-                                                                                                                                                                                                                                                                                                                        9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
-                                                                                                                                                                                                                                                                                                                        00.951-.69l1.178-3.63z" />
+                                                                                                                                                                                                                                                                                                                                3.63a1 1 0 00.95.69h3.813c.969 0
+                                                                                                                                                                                                                                                                                                                                1.371 1.24.588 1.81l-3.087
+                                                                                                                                                                                                                                                                                                                                2.243a1 1 0 00-.364 1.118l1.178
+                                                                                                                                                                                                                                                                                                                                3.63c.3.921-.755 1.688-1.54
+                                                                                                                                                                                                                                                                                                                                1.118l-3.087-2.243a1 1 0
+                                                                                                                                                                                                                                                                                                                                00-1.176 0l-3.087
+                                                                                                                                                                                                                                                                                                                                2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
+                                                                                                                                                                                                                                                                                                                                00-.364-1.118L2.42
+                                                                                                                                                                                                                                                                                                                                9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
+                                                                                                                                                                                                                                                                                                                                00.951-.69l1.178-3.63z" />
                                     </svg>
                                 @endfor
                             </div>
@@ -548,7 +547,7 @@
                             <textarea name="comment" id="comment" rows="4"
                                 placeholder="Share your experience with this product..."
                                 class="w-full border border-gray-200 rounded-xl p-4 text-gray-700 resize-none
-                                                                                                                                                                       focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
+                                                                                                                                                                           focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
 
                             <!-- Verified Purchase Badge -->
                             <div class="flex items-center space-x-2">
@@ -569,7 +568,7 @@
                         <div class="md:w-1/4 flex md:justify-end">
                             <button type="submit"
                                 class="bg-primary hover:bg-primary/90 text-white font-medium py-2 px-5
-                                                                                                                                                           rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
+                                                                                                                                                               rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
                                 Submit Review
                             </button>
                         </div>
@@ -1291,12 +1290,12 @@
                             const reviewList = document.getElementById("reviews-list");
                             if (reviewList) {
                                 reviewList.insertAdjacentHTML("afterbegin", `
-                                                                                                                                                                    <div class="border p-4 rounded-lg mb-3">
-                                                                                                                                                                        <p class="font-semibold">⭐ ${data.review.rating}</p>
-                                                                                                                                                                        <p>${data.review.comment}</p>
-                                                                                                                                                                        <small class="text-gray-500">Just now</small>
-                                                                                                                                                                    </div>
-                                                                                                                                                                `);
+                                                                                                                                                                        <div class="border p-4 rounded-lg mb-3">
+                                                                                                                                                                            <p class="font-semibold">⭐ ${data.review.rating}</p>
+                                                                                                                                                                            <p>${data.review.comment}</p>
+                                                                                                                                                                            <small class="text-gray-500">Just now</small>
+                                                                                                                                                                        </div>
+                                                                                                                                                                    `);
                             }
 
                             // Success message (custom toast style)
@@ -1320,7 +1319,7 @@
             let toast = document.createElement("div");
             toast.textContent = message;
             toast.className = `fixed top-5 right-5 px-4 py-2 rounded-lg shadow-lg text-white z-50
-                                                                                                                                                    ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
+                                                                                                                                                        ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
             document.body.appendChild(toast);
 
             setTimeout(() => toast.remove(), 3000);
@@ -1377,16 +1376,16 @@
                     mobileCartBtn.className =
                         "fixed bottom-4 left-4 right-4 bg-accent text-white rounded-lg p-4 shadow-modal z-40 md:hidden";
                     mobileCartBtn.innerHTML = `
-                                                                                                                                                                    <div class="flex items-center justify-between">
-                                                                                                                                                                        <div>
-                                                                                                                                                                            <div class="font-semibold">$149.99</div>
-                                                                                                                                                                            <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
+                                                                                                                                                                        <div class="flex items-center justify-between">
+                                                                                                                                                                            <div>
+                                                                                                                                                                                <div class="font-semibold">$149.99</div>
+                                                                                                                                                                                <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
+                                                                                                                                                                            </div>
+                                                                                                                                                                            <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
+                                                                                                                                                                                Add to Cart
+                                                                                                                                                                            </button>
                                                                                                                                                                         </div>
-                                                                                                                                                                        <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
-                                                                                                                                                                            Add to Cart
-                                                                                                                                                                        </button>
-                                                                                                                                                                    </div>
-                                                                                                                                                                `;
+                                                                                                                                                                    `;
                     document.body.appendChild(mobileCartBtn);
 
                     // Add click handler
