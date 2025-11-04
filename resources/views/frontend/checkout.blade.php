@@ -819,11 +819,13 @@
                                             onclick="editStep(2)">Edit</button>
                                     </div>
                                     <div class="text-body-sm text-secondary-700">
-                                        John Smith<br />
-                                        123 Main Street, Apt 4B<br />
-                                        New York, NY 10001<br />
-                                        United States<br />
-                                        Phone: +1 (555) 123-4567
+                                        {{ $address->first_name }} {{ $address->last_name }}<br />
+                                        {!! $address->company ? $address->company . '<br>' : '' !!}
+                                        {{ $address->address_line1 }} {{ $address->address_line2 }}<br />
+                                        {{ $address->city }}, {{ $address->state }}
+                                        {{ $address->postal_code }}<br />
+                                        {{ $address->country }}<br />
+                                        Phone: {{ $address->phone }}
                                     </div>
                                 </div>
 
@@ -1108,11 +1110,11 @@
     <!-- Edit Address Modal -->
     <div id="editAddressModal"
         style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));" class="fixed inset-0 hidden items-center justify-center
-                                            backdrop-blur-sm transition-opacity duration-300 ease-out">
+                                                backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
         <div id="editAddressCard" class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
-                                               transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                                                   transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1656,12 +1658,12 @@
 
             if (paymentMethod === "irembo-pay") {
                 button.innerHTML = `
-                                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                </svg>
-                                                Processing Mobile Payment...
-                                            `;
+                                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                    </svg>
+                                                    Processing Mobile Payment...
+                                                `;
 
                 // Simulate IREMBO Pay processing
                 setTimeout(() => {
@@ -1693,12 +1695,12 @@
                 }, 2000);
             } else {
                 button.innerHTML = `
-                                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                </svg>
-                                                Processing Order...
-                                            `;
+                                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                    </svg>
+                                                    Processing Order...
+                                                `;
 
                 // Standard payment processing
                 setTimeout(() => {
