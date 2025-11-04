@@ -130,6 +130,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/user/sessions', [UserSessionController::class, 'destroyAll']);
     Route::get('/orders/{product}/details', [AuthController::class, 'details']);
     Route::get('/orders/{order}', [OrderTrackingController::class, 'show'])->name('orders.show');
+    Route::get('/orders/by-id/{orderId}', [OrderTrackingController::class, 'showById'])->name('orders.showById');
+
     Route::get('/user/profile', [AuthController::class, 'profile'])->name('user.profile');
     Route::post('/user/update-profile', [AuthController::class, 'updateProfile'])->name('user.update.profile');
     Route::post('/user/change-password', [AuthController::class, 'changePassword'])->name('user.change.password');

@@ -135,7 +135,7 @@
                                                 <div class="flex flex-wrap items-center gap-2">
                                                     <span class="font-semibold text-primary">#{{ $order->order_no }}</span>
                                                     <button
-                                                        onclick="event.stopPropagation(); copyReferenceNumber('{{ $order->order_no }}', this)"
+                                                        onclick="event.stopPropagation(); copyReferenceNumber('{{ $order->order_no ?? $order->invoice_number}}', this)"
                                                         class="text-secondary-400 hover:text-accent transition-fast p-1"
                                                         title="Copy Reference">
                                                         <svg class="w-4 h-4" fill="none" stroke="currentColor"

@@ -101,7 +101,7 @@
         }
     </style>
     @php
-        $orderNo = $order->items->first()->order_no ?? 'N/A';
+        $orderNo = $order->items->first()->order_no ?? $order->invoice_number;
     @endphp
     <!-- Breadcrumb Navigation -->
     <section class="bg-surface py-4">
@@ -692,7 +692,7 @@
                                             <div>
                                                 {{-- Use invoice_number from orders table --}}
                                                 <div class="font-semibold text-primary">
-                                                    #{{ $relOrder->invoice_number ?? $relOrder->items->first()->order_no }}
+                                                    #{{ $relOrder->invoice_number ?? $relOrder->items->first()->order_no ?? 'N/A' }}
                                                 </div>
 
                                                 <div class="text-sm text-secondary-600">
@@ -701,7 +701,7 @@
                                             </div>
                                             <div class="text-right">
                                                 <div class="font-semibold text-accent">
-                                                   {{ number_format($relOrder->items->first()->price * $relOrder->items->first()->quantity, 2) }} {{ $relOrder->currency }}
+                                                   {{ number_format($relOrder->items->first()->price * $relOrder->items->first()->quantity)}} {{ $relOrder->currency }}
                                                 </div>
 
                                                 <span

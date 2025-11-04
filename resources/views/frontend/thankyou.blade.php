@@ -33,7 +33,7 @@
 
             <h1 class="text-4xl font-bold text-primary mb-4">Thank You for Your Order!</h1>
             <p class="text-xl text-secondary-600 mb-8">
-                Your order <strong class="text-primary">#{{ $order->id ?? $order->order_number }}</strong>
+                Your order <strong class="text-primary">#{{$order->invoice_number }}</strong>
                 has been successfully placed and is being processed.
             </p>
 
@@ -45,7 +45,7 @@
                         <div class="space-y-2">
                             <div class="flex justify-between">
                                 <span class="text-secondary-600">Order Number:</span>
-                                <span class="font-semibold text-primary">#{{ $order->id ?? $order->order_number }}</span>
+                                <span class="font-semibold text-primary">#{{$order->invoice_number}}</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-secondary-600">Order Date:</span>
@@ -295,8 +295,8 @@
 
 
     <!-- Tracking Redirect Modal -->
-    <div id="trackingRedirectModal"
-        class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 transition-all duration-300">
+    <div id="trackingRedirectModal" class="fixed inset-0 hidden items-center justify-center z-50 transition-all duration-300
+                                                        bg-black/50 backdrop-blur-md">
         <div class="bg-white rounded-xl shadow-lg max-w-sm w-full mx-4 text-center p-8 animate-scale-in">
             <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-accent/10">
                 <svg class="w-10 h-10 text-accent animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -313,7 +313,11 @@
 
 
 
+
+
     <script>
+        const TrackorderId = {{ $order->id }};
+        console.log("Order ID for tracking:", TrackorderId);
         function downloadInvoice() {
             @if (isset($order) && isset($order->id))
                 const orderId = "{{ $order->id }}";
@@ -322,13 +326,12 @@
                 console.warn("No order ID found for invoice download.");
                 alert("Unable to download invoice — order not found.");
             @endif
-                                                }
+                    }
 
 
-        function showTrackingRedirect(orderId) {
+        function showTrackingRedirect(TrackorderId) {
             const modal = document.getElementById("trackingRedirectModal");
             const progress = document.getElementById("redirectProgress");
-
             modal.classList.remove("hidden");
             modal.classList.add("flex");
 
@@ -336,10 +339,14 @@
             const interval = setInterval(() => {
                 width += 2;
                 progress.style.width = `${width}%`;
+
                 if (width >= 100) {
                     clearInterval(interval);
-                    // ✅ Redirect to your Laravel order tracking route
-                    window.location.href = `/orders/${orderId}`;
+
+                    // ✅ Generate URL using Laravel route helper
+                    const url = "{{ route('orders.showById', ['orderId' => ':id']) }}".replace(':id', TrackorderId);
+                    window.location.href = url;
+
                 }
             }, 100);
         }

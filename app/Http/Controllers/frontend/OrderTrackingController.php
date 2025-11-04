@@ -122,6 +122,88 @@ public function show($orderId)
         'relatedOrders' => $relatedOrders,
     ]);
 }
+
+public function showById($orderIdentifier)
+{
+    // Determine if input is numeric ID or invoice number
+    if (is_numeric($orderIdentifier)) {
+        // It's an ID
+        $order = Order::with(['items.product', 'items.variant', 'shippingAddress'])
+            ->where('id', $orderIdentifier)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+    } else {
+        // It's an invoice number — fetch numeric ID first
+        $order = Order::with(['items.product', 'items.variant', 'shippingAddress'])
+            ->where('invoice_number', $orderIdentifier)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+    }
+
+    // Calculate subtotal
+    $subtotal = $order->items->sum(fn($item) => $item->quantity * $item->price);
+
+    // Tax (10%)
+    $tax = $subtotal * 0.10;
+
+    // Final total
+    $finalTotal = $subtotal + $tax;
+
+    // Build delivery timeline steps dynamically
+    $timeline = [
+        [
+            'title' => 'Order Confirmed',
+            'message' => 'Your order has been confirmed and payment processed',
+            'timestamp' => $order->created_at->format('M d, Y \a\t h:i A'),
+            'done' => true,
+        ],
+        [
+            'title' => 'Processing',
+            'message' => 'Order is being prepared for shipment',
+            'timestamp' => $order->created_at->addMinute(15)->format('M d, Y \a\t h:i A'),
+            'done' => in_array($order->status, ['Processing','Delivered']),
+        ],
+        [
+            'title' => 'Shipped',
+            'message' => 'Package is on the way',
+            'timestamp' => $order->created_at->addHours(2)->format('M d, Y \a\t h:i A'),
+            'done' => in_array($order->status, ['Delivered']),
+        ],
+        [
+            'title' => 'Out for Delivery',
+            'message' => 'Package is out for delivery',
+            'timestamp' => $order->created_at->addHours(20)->format('M d, Y \a\t h:i A'),
+            'done' => ($order->status === 'Delivered'),
+        ],
+        [
+            'title' => 'Delivered',
+            'message' => 'Package delivered successfully',
+            'timestamp' => $order->updated_at->format('M d, Y \a\t h:i A'),
+            'done' => ($order->status === 'Delivered'),
+        ],
+    ];
+
+    // Fetch related orders
+    $relatedOrders = Order::with(['items.product', 'items.variant', 'shippingAddress'])
+        ->where('user_id', auth()->id())
+        ->where('id', '!=', $order->id)
+        ->take(3)
+        ->get();
+
+    return view('frontend.orders.show', [
+        'order' => $order,
+        'subtotal' => $subtotal,
+        'tax' => $tax,
+        'finalTotal' => $finalTotal,
+        'timeline' => $timeline,
+        'relatedOrders' => $relatedOrders,
+    ]);
+}
+
+
+
+
+
 public function reorder(Order $order)
 {
     try {
@@ -286,31 +368,38 @@ public function store(Request $request)
 {
     $user = Auth::user();
 
+    // ✅ Validate shipping address
     $request->validate([
         'shipping_address_id' => 'required|exists:shipping_addresses,id',
     ]);
 
-    // Get cart items for this user
+    // ✅ Fetch cart items
     $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
 
     if ($cartItems->isEmpty()) {
-        return response()->json(['status' => 'error', 'message' => 'Your cart is empty.'], 400);
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Your cart is empty.'
+        ], 400);
     }
 
     $currency = $cartItems->first()->product->currency ?? 'USD';
 
-    // Create order
+    // ✅ Generate unique order number
+    $orderNumber = $this->generateUniqueOrderNumber();
+
+    // ✅ Create the order
     $order = Order::create([
-    'user_id' => $user->id,
-    'total' => 0,
-    'currency' => $currency,
-    'status' => 'Processing', 
-    'shipping_address_id' => $request->shipping_address_id,
-    'payment_method' => 'Cash', 
-]);
+        'user_id' => $user->id,
+        'order_number' => $orderNumber,
+        'total' => 0,
+        'currency' => $currency,
+        'status' => 'Processing',
+        'shipping_address_id' => $request->shipping_address_id,
+        'payment_method' => 'Cash on Delivery',
+    ]);
 
-
-    // Add order items
+    // ✅ Add order items and calculate total
     $total = 0;
     foreach ($cartItems as $item) {
         $price = $item->product->discount_price ?? $item->product->price;
@@ -326,38 +415,56 @@ public function store(Request $request)
         $total += $price * $quantity;
     }
 
-    // Update total & generate invoice number
+    // ✅ Update total
     $order->update(['total' => $total]);
-    $order->generateInvoiceNumber();
 
-    
-    // Generate a unique COD transaction ID
-$transactionId = 'COD-' . strtoupper(uniqid());
+    // ✅ Optional invoice generation
+    if (method_exists($order, 'generateInvoiceNumber')) {
+        $order->generateInvoiceNumber();
+    }
 
-// Create payment record
-Payment::create([
-    'order_id' => $order->id,
-    'user_id' => $user->id,
-    'payment_method' => 'Cash on Delivery',
-    'amount' => $total,
-    'currency' => $currency,
-    'status' => 'pending',
-    'transaction_id' => $transactionId,
-]);
+    // ✅ Generate unique COD transaction ID
+    $transactionId = 'COD-' . strtoupper(uniqid());
 
+    // ✅ Create payment record
+    Payment::create([
+        'order_id' => $order->id,
+        'user_id' => $user->id,
+        'payment_method' => 'Cash on Delivery',
+        'amount' => $total,
+        'currency' => $currency,
+        'status' => 'pending',
+        'transaction_id' => $transactionId,
+    ]);
 
-    // Empty the cart after placing order
+    // ✅ Clear the cart
     Cart::where('user_id', $user->id)->delete();
 
+    // ✅ Return response
     return response()->json([
         'status' => 'success',
         'message' => 'Order placed successfully!',
+        'order_number' => $orderNumber,
         'redirect_url' => route('thankyou', ['order' => $order->id]),
     ]);
 }
+
+/**
+ * Generate a unique alphanumeric order number like ORD-A9F3ZB
+ */
+private function generateUniqueOrderNumber()
+{
+    do {
+        $code = 'ORD-' . strtoupper(Str::random(6));
+    } while (Order::where('order_number', $code)->exists());
+
+    return $code;
+}
+
 public function thankYou(Order $order)
 {
  $order->load(['items.product', 'shippingAddress', 'payment']);
+ 
     return view('frontend.thankyou', compact('order'));
 }
 
