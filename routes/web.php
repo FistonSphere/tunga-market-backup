@@ -88,6 +88,9 @@ Route::post('/checkout/shipping', [CheckoutController::class, 'storeShipping'])-
 Route::post('/checkout/payment', [CheckoutController::class, 'storePayment'])->name('checkout.payment');
 Route::post('/checkout/complete', [CheckoutController::class, 'complete'])->name('checkout.complete');
 Route::get('/order-tracking', [OrderTrackingController::class, 'index'])->name('order.tracking');
+Route::post('/orders/store', [OrderTrackingController::class, 'store'])->name('order.store');
+Route::get('/thank-you/{order}', [OrderTrackingController::class, 'thankYou'])->name('thankyou');
+
 Route::post('/shipping-address/store', [CheckoutController::class, 'store'])->name('shipping-address.store');
 Route::get('/shipping-addresses/{id}/edit', [CheckoutController::class, 'editShippingAddress'])->name('shipping-address.edit');
 Route::put('/shipping-address/update/{id}', [CheckoutController::class, 'updateShippingAddress'])->name('shipping-address.update');

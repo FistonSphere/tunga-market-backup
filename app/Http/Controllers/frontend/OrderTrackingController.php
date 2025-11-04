@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Payment;
 use App\Models\ProductIssue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -278,4 +280,76 @@ public function filter(Request $request)
         'orders' => $orders
     ]);
 }
+
+public function store(Request $request)
+{
+    $user = Auth::user();
+
+    $request->validate([
+        'shipping_address_id' => 'required|exists:shipping_addresses,id',
+    ]);
+
+    // Get cart items for this user
+    $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
+
+    if ($cartItems->isEmpty()) {
+        return response()->json(['status' => 'error', 'message' => 'Your cart is empty.'], 400);
+    }
+
+    $currency = $cartItems->first()->product->currency ?? 'USD';
+
+    // Create order
+    $order = Order::create([
+        'user_id' => $user->id,
+        'total' => 0, // temporary
+        'currency' => $currency,
+        'status' => 'pending',
+        'shipping_address_id' => $request->shipping_address_id,
+        'payment_method' => 'Cash on Delivery',
+    ]);
+
+    // Add order items
+    $total = 0;
+    foreach ($cartItems as $item) {
+        $price = $item->product->discount_price ?? $item->product->price;
+        $quantity = $item->quantity;
+
+        OrderItem::create([
+            'order_id' => $order->id,
+            'product_id' => $item->product_id,
+            'quantity' => $quantity,
+            'price' => $price,
+        ]);
+
+        $total += $price * $quantity;
+    }
+
+    // Update total & generate invoice number
+    $order->update(['total' => $total]);
+    $order->generateInvoiceNumber();
+
+    // Create payment record (Cash on Delivery)
+    Payment::create([
+        'order_id' => $order->id,
+        'user_id' => $user->id,
+        'payment_method' => 'Cash on Delivery',
+        'amount' => $total,
+        'currency' => $currency,
+        'status' => 'pending',
+    ]);
+
+    // Empty the cart after placing order
+    Cart::where('user_id', $user->id)->delete();
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Order placed successfully!',
+        'redirect_url' => route('thankyou', ['order' => $order->id]),
+    ]);
+}
+public function thankYou(Order $order)
+{
+    return view('orders.thank-you', compact('order'));
+}
+
 }

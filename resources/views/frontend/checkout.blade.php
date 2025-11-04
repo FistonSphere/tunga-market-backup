@@ -1110,11 +1110,11 @@
     <!-- Edit Address Modal -->
     <div id="editAddressModal"
         style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));" class="fixed inset-0 hidden items-center justify-center
-                                                backdrop-blur-sm transition-opacity duration-300 ease-out">
+                                                    backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
         <div id="editAddressCard" class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
-                                                   transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                                                       transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1643,104 +1643,55 @@
 
         // Place Order Function with IREMBO Pay Support
         function placeOrder() {
-            if (!validateConfirmationStep()) {
+            const selectedAddress = document.querySelector('input[name="shipping_address_id"]:checked');
+            if (!selectedAddress) {
+                showToast("Please select a shipping address before placing your order.", "error");
                 return;
             }
 
-            const paymentMethod = document.querySelector(
-                'input[name="payment-method"]:checked'
-            )?.value;
+            // Create loading modal
+            const loadingModal = document.createElement("div");
+            loadingModal.id = "orderLoadingModal";
+            loadingModal.className =
+                "fixed inset-0 bg-black/60 flex items-center justify-center z-[9999]";
+            loadingModal.innerHTML = `
+            <div class="bg-white rounded-2xl shadow-xl px-10 py-8 text-center max-w-sm">
+                <div class="animate-spin w-12 h-12 border-4 border-accent border-t-transparent rounded-full mx-auto mb-4"></div>
+                <h2 class="text-lg font-semibold text-primary mb-1">Placing your order...</h2>
+                <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
+            </div>
+        `;
+            document.body.appendChild(loadingModal);
 
-            // Show loading state
-            const button = event.target;
-            const originalText = button.textContent;
-            button.disabled = true;
-
-            if (paymentMethod === "irembo-pay") {
-                button.innerHTML = `
-                                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                    </svg>
-                                                    Processing Mobile Payment...
-                                                `;
-
-                // Simulate IREMBO Pay processing
-                setTimeout(() => {
-                    const provider = document.querySelector(
-                        'input[name="mobile-provider"]:checked'
-                    )?.value;
-                    const paymentType = document.querySelector(
-                        'input[name="payment-type"]:checked'
-                    )?.value;
-
-                    if (paymentType === "phone") {
-                        showToast(
-                            "Payment Request Sent",
-                            "Check your phone for the payment request. Enter your PIN to complete the transaction.",
-                            "success"
-                        );
-                    } else {
-                        showToast(
-                            "Code Verified",
-                            "Payment code verified successfully. Processing payment...",
-                            "success"
-                        );
-                    }
-
-                    // Complete the order after mobile payment simulation
+            fetch(`/orders/store`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    shipping_address_id: selectedAddress.value,
+                }),
+            })
+                .then(res => res.json())
+                .then(data => {
                     setTimeout(() => {
-                        completeOrder();
-                    }, 3000);
-                }, 2000);
-            } else {
-                button.innerHTML = `
-                                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                    </svg>
-                                                    Processing Order...
-                                                `;
+                        loadingModal.remove();
 
-                // Standard payment processing
-                setTimeout(() => {
-                    completeOrder();
-                }, 3000);
-            }
-        }
-
-        function completeOrder() {
-            // Generate order number
-            const orderNumber = "AM" + Date.now().toString().slice(-8);
-
-            // Store order details for thank you page
-            localStorage.setItem(
-                "orderDetails",
-                JSON.stringify({
-                    orderNumber: orderNumber,
-                    total: "$711.36",
-                    items: 7,
-                    email: "john.smith@email.com",
-                    shippingAddress: "123 Main Street, Apt 4B, New York, NY 10001",
-                    estimatedDelivery: "5-7 business days",
-                    paymentMethod: document.querySelector('input[name="payment-method"]:checked')
-                        ?.value || "card",
+                        if (data.status === "success") {
+                            showToast("Order placed successfully!", "success");
+                            window.location.href = data.redirect_url;
+                        } else {
+                            showToast(data.message || "Failed to place order.", "error");
+                        }
+                    }, 5000); // ⏳ simulate 5s loading
                 })
-            );
-
-            showToast(
-                "Order Placed Successfully!",
-                `Order #${orderNumber} has been confirmed.`,
-                "success"
-            );
-
-            // For demo purposes, show success message
-            setTimeout(() => {
-                alert(
-                    `Thank you! Your order #${orderNumber} has been placed successfully. You will receive a confirmation email shortly.`
-                );
-            }, 1000);
+                .catch(() => {
+                    loadingModal.remove();
+                    showToast("Something went wrong while placing your order.", "error");
+                });
         }
+
 
         // Phone number formatting for IREMBO Pay
         function formatPhoneNumber() {
