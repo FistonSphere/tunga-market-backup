@@ -1392,7 +1392,7 @@
                     mobileCartBtn.innerHTML = `
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <div class="font-semibold">{{ $product->currency }}${productPrice}</div>
+                                    <div class="font-semibold">${productPrice} Rwf</div>
                                     <div class="text-body-sm opacity-90">${productName}</div>
                                 </div>
                                 <button id="mobile-add-cart" class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">

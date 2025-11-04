@@ -933,7 +933,7 @@
                                 <button class="btn-secondary" onclick="previousStep(3)">Back to Payment</button>
                                 <button class="btn-primary bg-success hover:bg-success-600 text-lg px-8 py-4"
                                     onclick="placeOrder()">
-                                    Place Order - $711.36
+                                    Place Order - {{ number_format($total) }} Rwf
                                 </button>
                             </div>
                         </div>
