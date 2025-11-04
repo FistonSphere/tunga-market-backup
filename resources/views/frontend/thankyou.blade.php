@@ -1,6 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <style>
+        @keyframes scale-in {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .animate-scale-in {
+            animation: scale-in 0.3s ease-out;
+        }
+    </style>
+
+
+
     <!-- Order Confirmation Hero -->
     <section class="bg-gradient-to-br from-success-50 to-accent-50 py-16">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -379,6 +400,24 @@
     </section>
 
 
+    <!-- Tracking Redirect Modal -->
+    <div id="trackingRedirectModal"
+        class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 transition-all duration-300">
+        <div class="bg-white rounded-xl shadow-lg max-w-sm w-full mx-4 text-center p-8 animate-scale-in">
+            <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-accent/10">
+                <svg class="w-10 h-10 text-accent animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-primary mb-2">Redirecting to Tracking Page...</h3>
+            <p class="text-secondary-600 mb-4 text-sm">You’ll be redirected shortly to track your order. Please wait...</p>
+            <div class="relative w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                <div id="redirectProgress" class="absolute left-0 top-0 h-full bg-accent rounded-full w-0"></div>
+            </div>
+        </div>
+    </div>
+
+
 
     <script>
         function downloadInvoice() {
@@ -389,7 +428,26 @@
                 console.warn("No order ID found for invoice download.");
                 alert("Unable to download invoice — order not found.");
             @endif
+                            }
+
+
+        function showTrackingRedirect(orderNumber) {
+            const modal = document.getElementById("trackingRedirectModal");
+            const progress = document.getElementById("redirectProgress");
+
+            modal.classList.remove("hidden", "opacity-0");
+            modal.classList.add("flex");
+
+            let width = 0;
+            const interval = setInterval(() => {
+                width += 2;
+                progress.style.width = `${width}%`;
+                if (width >= 100) {
+                    clearInterval(interval);
+                    window.location.href = `/track-order?order_number=${orderNumber}`;
                 }
+            }, 100);
+        }
     </script>
 
 @endsection
