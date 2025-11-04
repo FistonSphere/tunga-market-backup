@@ -330,15 +330,21 @@ public function store(Request $request)
     $order->update(['total' => $total]);
     $order->generateInvoiceNumber();
 
-    // Create payment record (Cash on Delivery)
-    Payment::create([
-        'order_id' => $order->id,
-        'user_id' => $user->id,
-        'payment_method' => 'Cash on Delivery',
-        'amount' => $total,
-        'currency' => $currency,
-        'status' => 'pending',
-    ]);
+    
+    // Generate a unique COD transaction ID
+$transactionId = 'COD-' . strtoupper(uniqid());
+
+// Create payment record
+Payment::create([
+    'order_id' => $order->id,
+    'user_id' => $user->id,
+    'payment_method' => 'Cash on Delivery',
+    'amount' => $total,
+    'currency' => $currency,
+    'status' => 'pending',
+    'transaction_id' => $transactionId,
+]);
+
 
     // Empty the cart after placing order
     Cart::where('user_id', $user->id)->delete();
