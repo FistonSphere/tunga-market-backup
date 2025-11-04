@@ -9,7 +9,7 @@
                 {{ Str::plural('item', $totalItems) }}):
             </span>
             <span class="font-medium text-primary" id="summary-subtotal">
-                {{ number_format($subtotal, 2) }} Rwf
+                {{ number_format($subtotal) }} Rwf
             </span>
         </div>
         <div class="flex justify-between">
@@ -22,14 +22,14 @@
         <div class="flex justify-between">
             <span class="text-secondary-600">Estimated Tax (10%):</span>
             <span class="font-medium text-primary" id="summary-tax">
-                {{ number_format($tax, 2) }} Rwf
+                {{ number_format($tax) }} Rwf
             </span>
         </div>
         <div class="border-t border-border pt-3">
             <div class="flex justify-between">
                 <span class="font-semibold text-primary">Total:</span>
                 <span class="text-xl font-bold text-primary" id="summary-total">
-                    {{ number_format($total, 2) }} Rwf
+                    {{ number_format($total) }} Rwf
                 </span>
             </div>
     </div>

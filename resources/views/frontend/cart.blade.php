@@ -148,11 +148,6 @@
                                 id="coupon-code" />
                             <button class="btn-primary" onclick="applyCoupon()">Apply</button>
                         </div>
-
-                        {{-- <div class="mt-3 text-body-sm text-secondary-600">
-                            <span class="text-success">💡 Available coupons:</span> SAVE10 (10% off), BULK25 (25% off orders
-                            over $500)
-                        </div> --}}
                     </div>
 
                     <!-- Item listing -->
@@ -209,18 +204,18 @@
                                                         <!-- Effective price (flash or cart price) -->
                                                         <div
                                                             class="text-xl font-bold {{ $item->deal_id ? 'text-accent' : 'text-primary' }}">
-                                                            {{ $item->product->currency }}{{ number_format($effectivePrice, 2) }}
+                                                            {{ number_format($effectivePrice) }} Rwf
                                                         </div>
 
                                                         <!-- Strike-through original price if we are showing a discount -->
                                                         @if ($item->deal_id && $originalPrice > $effectivePrice)
                                                             <div class="text-body-sm text-secondary-500 line-through">
-                                                                {{ $item->product->currency }}{{ number_format($originalPrice, 2) }}
+                                                                {{ number_format($originalPrice) }} Rwf
                                                             </div>
                                                         @elseif ($item->product->discount_price && $item->product->discount_price < $item->product->price && !$item->deal_id)
                                                             <!-- if product has a discount but not from flash deal -->
                                                             <div class="text-body-sm text-secondary-500 line-through">
-                                                                {{ $item->product->currency }}{{ number_format($item->product->price, 2) }}
+                                                                {{ number_format($item->product->price) }} Rwf
                                                             </div>
                                                         @endif
 
@@ -276,7 +271,7 @@
                                                     <div class="text-right">
                                                         <div class="text-lg font-bold text-primary item-total"
                                                             id="item-total-{{ $item->id }}">
-                                                            {{ $item->product->currency }}{{ number_format($effectivePrice * $item->quantity, 2) }}
+                                                            {{ number_format($effectivePrice * $item->quantity) }} Rwf
                                                         </div>
                                                     </div>
                                                 </div>
@@ -340,7 +335,7 @@
                                             <div class="flex-1">
                                                 <h4 class="font-medium text-primary mb-1">{{ $product->name }}</h4>
                                                 <div class="text-body-sm text-secondary-600 mb-2">
-                                                    {{ $product->currency ?? '$' }}{{ number_format($product->price, 2) }}
+                                                    {{ $product->currency ?? '$' }}{{ number_format($product->price) }}
                                                     @if ($product->stock_quantity > 0)
                                                         <span class="text-success">✓ Available</span>
                                                     @else
@@ -405,32 +400,32 @@
                                 @if ($featureProduct->discount_price)
                                     <span class="line-through text-secondary-500 text-sm mr-2">
                                         @if ($featureProduct->currency === '$')
-                                            {{ $featureProduct->currency }}{{ number_format($featureProduct->price, 2) }}
+                                            {{ number_format($featureProduct->price) }} Rwf
                                         @elseif($featureProduct->currency === 'Rwf')
-                                            {{ number_format($featureProduct->price) }} {{ $featureProduct->currency }}
+                                            {{ number_format($featureProduct->price) }} Rwf
                                         @endif
                                     </span>
                                     <span class="text-md font-bold text-primary">
                                         @if ($featureProduct->currency === '$')
-                                            {{ $featureProduct->currency }}{{ number_format($featureProduct->discount_price, 2) }}
+                                            {{ number_format($featureProduct->discount_price) }} Rwf
                                         @elseif($featureProduct->currency === 'Rwf')
                                             {{ number_format($featureProduct->discount_price) }}
-                                            {{ $featureProduct->currency }}
+                                            Rwf
                                         @endif
                                     </span>
                                 @else
                                     <span class="text-md font-bold text-primary">
                                         @if ($featureProduct->currency === '$')
-                                            {{ $featureProduct->currency }}{{ number_format($featureProduct->price, 2) }}
+                                            {{ number_format($featureProduct->price) }} Rwf
                                         @elseif($featureProduct->currency === 'Rwf')
-                                            {{ number_format($featureProduct->price) }} {{ $featureProduct->currency }}
+                                            {{ number_format($featureProduct->price) }} Rwf
                                         @endif
                                     </span>
                                 @endif
                             </div>
                             <button onclick="quickAddToCart(this)" class="btn-primary text-body-sm px-3 py-1"
                                 title="Quick Add to Cart" data-product-id="{{ $featureProduct->id }}"
-                                data-name="{{ e($featureProduct->name) }}" data-currency="{{ $featureProduct->currency }}"
+                                data-name="{{ e($featureProduct->name) }}" data-currency="Rwf"
                                 data-price="{{ $featureProduct->discount_price ?: $featureProduct->price }}"
                                 data-min-qty="{{ $featureProduct->min_order_quantity ?? 1 }} ">Add to
                                 Cart</button>
@@ -585,7 +580,7 @@
                     // ✅ Update this item's total (flash deal or normal price handled by backend)
                     const itemTotalEl = document.getElementById(`item-total-${itemId}`);
                     if (itemTotalEl) {
-                        itemTotalEl.textContent = `${data.itemTotal} Rwf`;
+                        itemTotalEl.textContent = `${data.itemTotal}`;
                     }
 
                     // ✅ Update order summary fields
