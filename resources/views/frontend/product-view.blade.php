@@ -149,24 +149,26 @@
             <div class="flex-1 space-y-6 mt-4 mb-4">
                 <!-- Product Title and Info -->
                 <div class="space-y-4">
+                    @php
+                        $tags = $product->tags ? json_decode($product->tags) : [];
+                    @endphp
 
                     <!-- Product Title + Short Description -->
                     <div>
                         <h1 class="text-3xl font-bold text-gray-900 leading-tight mb-2">
                             {{ $product->name }}
                         </h1>
-                        <p class="text-gray-600 text-base leading-relaxed">
-                            {{ $product->short_description }}
-                        </p>
-
-                        <!-- Feature Tags under title (optional, if you want) -->
-                        @if ($product->tags)
-                            <div class="flex flex-wrap gap-2 mt-3">
-                                @foreach (explode(',', $product->tags) as $tag)
-                                    <span class="bg-accent/10 text-accent text-xs font-medium px-3 py-1 rounded-full">
-                                        {{ trim($tag) }}
-                                    </span>
-                                @endforeach
+                        @if (!empty($tags))
+                            <div class="mt-4">
+                                <h3 class="text-sm font-medium text-gray-500 uppercase mb-2">Tags</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    @foreach ($tags as $tag)
+                                        <span
+                                            class="bg-gray-100 text-gray-600 text-xs font-semibold px-3 py-1 rounded-full hover:bg-gray-200 transition">
+                                            {{ $tag }}
+                                        </span>
+                                    @endforeach
+                                </div>
                             </div>
                         @endif
                     </div>
@@ -174,17 +176,17 @@
                     <!-- Pricing Card -->
                     <div
                         class="border border-gray-200 rounded-xl p-5 bg-gray-50 hover:shadow-md transition-all duration-300">
-                        <div class="flex items-center justify-between flex-wrap gap-3">
+                        <div class="flex items-center justify-between flex-wrap gap-3" style="padding:15px;">
 
                             <!-- Left: Pricing -->
                             <div class="flex flex-col">
                                 @if ($product->discount_price)
                                     <div class="flex items-baseline space-x-2">
                                         <span class="text-3xl font-semibold text-primary">
-                                            {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
+                                            {{ number_format($product->discount_price) }} {{ $product->currency }}
                                         </span>
                                         <span class="line-through text-gray-400 text-sm">
-                                            {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                            {{ number_format($product->price) }} {{ $product->currency }}
                                         </span>
                                         <span class="ml-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
                                             -{{ round((($product->price - $product->discount_price) / $product->price) * 100) }}%
@@ -192,7 +194,7 @@
                                     </div>
                                 @else
                                     <div class="text-3xl font-semibold text-primary">
-                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                        {{ number_format($product->price) }} {{ $product->currency }}
                                     </div>
                                 @endif
 
@@ -329,30 +331,49 @@
             </div>
 
             <!-- Specifications Tab -->
-            <div id="specifications" class="tab-content">
-                <div class="grid md:grid-cols-2 gap-8">
-                    @php
-                        $specifications = json_decode($product->specifications, true) ?? [];
-                    @endphp
+            <div id="specifications" class="tab-content mt-10">
+                @php
+                    $specifications = json_decode($product->specifications, true) ?? [];
+                @endphp
 
-                    @forelse ($specifications as $section => $details)
-                        <div class="card">
-                            <h3 class="font-semibold text-primary mb-4">{{ ucfirst($section) }}</h3>
-                            <div class="space-y-3">
-                                @foreach ($specifications as $label => $value)
-                                    <div class="flex items-center justify-between py-2 border-b border-border last:border-none">
-                                        <span class="text-secondary-600">{{ $label }}</span>
-                                        <span class="font-medium text-primary">{{ $value }}</span>
-                                    </div>
-                                @endforeach
-
-                            </div>
+                @if (!empty($specifications))
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <!-- Header -->
+                        <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100">
+                            <h2 class="text-lg sm:text-xl font-semibold text-gray-800 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 12h6m-3-3v6m-7 7h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2z" />
+                                </svg>
+                                Product Specifications
+                            </h2>
                         </div>
-                    @empty
-                        <p class="text-secondary-600">No specifications available for this product.</p>
-                    @endforelse
-                </div>
+
+                        <!-- Two-column responsive grid -->
+                        <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+                            @foreach (array_chunk($specifications, ceil(count($specifications) / 2), true) as $column)
+                                <div>
+                                    <table class="w-full text-sm text-gray-700">
+                                        <tbody>
+                                            @foreach ($column as $label => $value)
+                                                <tr class="hover:bg-gray-50 transition border-b border-gray-100 last:border-0">
+                                                    <td class="py-3 px-6 font-medium text-gray-600 w-1/2">{{ $label }}</td>
+                                                    <td class="py-3 px-6 text-gray-900 font-semibold">{{ $value }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @else
+                    <p class="text-gray-500 text-sm mt-4">No specifications available for this product.</p>
+                @endif
             </div>
+
+
 
             <!-- Reviews Tab -->
             <div id="reviews" class="tab-content hidden">
@@ -468,16 +489,16 @@
                                         fill="currentColor" viewBox="0 0 20 20">
                                         <path
                                             d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.178
-                                                                                                                                                                                                                3.63a1 1 0 00.95.69h3.813c.969 0
-                                                                                                                                                                                                                1.371 1.24.588 1.81l-3.087
-                                                                                                                                                                                                                2.243a1 1 0 00-.364 1.118l1.178
-                                                                                                                                                                                                                3.63c.3.921-.755 1.688-1.54
-                                                                                                                                                                                                                1.118l-3.087-2.243a1 1 0
-                                                                                                                                                                                                                00-1.176 0l-3.087
-                                                                                                                                                                                                                2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
-                                                                                                                                                                                                                00-.364-1.118L2.42
-                                                                                                                                                                                                                9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
-                                                                                                                                                                                                                00.951-.69l1.178-3.63z" />
+                                                                                                                                                                                                                                                        3.63a1 1 0 00.95.69h3.813c.969 0
+                                                                                                                                                                                                                                                        1.371 1.24.588 1.81l-3.087
+                                                                                                                                                                                                                                                        2.243a1 1 0 00-.364 1.118l1.178
+                                                                                                                                                                                                                                                        3.63c.3.921-.755 1.688-1.54
+                                                                                                                                                                                                                                                        1.118l-3.087-2.243a1 1 0
+                                                                                                                                                                                                                                                        00-1.176 0l-3.087
+                                                                                                                                                                                                                                                        2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
+                                                                                                                                                                                                                                                        00-.364-1.118L2.42
+                                                                                                                                                                                                                                                        9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
+                                                                                                                                                                                                                                                        00.951-.69l1.178-3.63z" />
                                     </svg>
                                 @endfor
                             </div>
@@ -490,7 +511,7 @@
                             <textarea name="comment" id="comment" rows="4"
                                 placeholder="Share your experience with this product..."
                                 class="w-full border border-gray-200 rounded-xl p-4 text-gray-700 resize-none
-                                                                                                                   focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
+                                                                                                                                       focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
 
                             <!-- Verified Purchase Badge -->
                             <div class="flex items-center space-x-2">
@@ -511,7 +532,7 @@
                         <div class="md:w-1/4 flex md:justify-end">
                             <button type="submit"
                                 class="bg-primary hover:bg-primary/90 text-white font-medium py-2 px-5
-                                                                                                       rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
+                                                                                                                           rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
                                 Submit Review
                             </button>
                         </div>
@@ -657,11 +678,11 @@
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-baseline space-x-2">
                                                 <span class="text-xl font-bold text-primary">
-                                                    {{ number_format($related->price, 2) }} {{ $related->currency }}
+                                                    {{ number_format($related->price) }} {{ $related->currency }}
                                                 </span>
                                                 @if ($related->old_price)
                                                     <span class="text-body-sm text-secondary-500 line-through">
-                                                        {{ number_format($related->old_price, 2) }}
+                                                        {{ number_format($related->old_price) }}
                                                         {{ $related->currency }}
                                                     </span>
                                                 @endif
@@ -1233,12 +1254,12 @@
                             const reviewList = document.getElementById("reviews-list");
                             if (reviewList) {
                                 reviewList.insertAdjacentHTML("afterbegin", `
-                                                                                                                <div class="border p-4 rounded-lg mb-3">
-                                                                                                                    <p class="font-semibold">⭐ ${data.review.rating}</p>
-                                                                                                                    <p>${data.review.comment}</p>
-                                                                                                                    <small class="text-gray-500">Just now</small>
-                                                                                                                </div>
-                                                                                                            `);
+                                                                                                                                    <div class="border p-4 rounded-lg mb-3">
+                                                                                                                                        <p class="font-semibold">⭐ ${data.review.rating}</p>
+                                                                                                                                        <p>${data.review.comment}</p>
+                                                                                                                                        <small class="text-gray-500">Just now</small>
+                                                                                                                                    </div>
+                                                                                                                                `);
                             }
 
                             // Success message (custom toast style)
@@ -1262,7 +1283,7 @@
             let toast = document.createElement("div");
             toast.textContent = message;
             toast.className = `fixed top-5 right-5 px-4 py-2 rounded-lg shadow-lg text-white z-50
-                                                                                                ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
+                                                                                                                    ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
             document.body.appendChild(toast);
 
             setTimeout(() => toast.remove(), 3000);
@@ -1319,16 +1340,16 @@
                     mobileCartBtn.className =
                         "fixed bottom-4 left-4 right-4 bg-accent text-white rounded-lg p-4 shadow-modal z-40 md:hidden";
                     mobileCartBtn.innerHTML = `
-                                                                                                                <div class="flex items-center justify-between">
-                                                                                                                    <div>
-                                                                                                                        <div class="font-semibold">$149.99</div>
-                                                                                                                        <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
-                                                                                                                    </div>
-                                                                                                                    <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
-                                                                                                                        Add to Cart
-                                                                                                                    </button>
-                                                                                                                </div>
-                                                                                                            `;
+                                                                                                                                    <div class="flex items-center justify-between">
+                                                                                                                                        <div>
+                                                                                                                                            <div class="font-semibold">$149.99</div>
+                                                                                                                                            <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
+                                                                                                                                        </div>
+                                                                                                                                        <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
+                                                                                                                                            Add to Cart
+                                                                                                                                        </button>
+                                                                                                                                    </div>
+                                                                                                                                `;
                     document.body.appendChild(mobileCartBtn);
 
                     // Add click handler
