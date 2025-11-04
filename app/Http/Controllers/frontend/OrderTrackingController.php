@@ -9,6 +9,7 @@ use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Models\ProductIssue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrderTrackingController extends Controller
@@ -349,7 +350,8 @@ public function store(Request $request)
 }
 public function thankYou(Order $order)
 {
-    return view('orders.thank-you', compact('order'));
+ $order->load(['items.product', 'shippingAddress', 'payment']);
+    return view('frontend.thankyou', compact('order'));
 }
 
 }
