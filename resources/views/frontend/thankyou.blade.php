@@ -207,197 +207,75 @@
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-bold text-primary mb-4">Share Your Experience</h2>
                 <p class="text-lg text-secondary-600">
-                    Help other buyers by sharing your feedback on products and suppliers
+                    Help other buyers by sharing your feedback on the products you’ve purchased.
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Product Reviews -->
-                <div class="card">
-                    <h3 class="text-xl font-semibold text-primary mb-6">Rate Your Products</h3>
+            <div class="card">
+                <h3 class="text-xl font-semibold text-primary mb-6">Rate Your Products</h3>
+
+                @if(isset($order) && $order->items->count())
                     <div class="space-y-6">
-                        <!-- Product 1 Review -->
-                        <div class="border border-secondary-200 rounded-lg p-4">
-                            <div class="flex items-center space-x-3 mb-4">
-                                <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                                    alt="Wireless Earbuds Pro" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                <div>
-                                    <h4 class="font-semibold text-primary">Premium Wireless Earbuds Pro</h4>
-                                    <p class="text-secondary-600 text-sm">TechSound Electronics</p>
-                                </div>
-                            </div>
+                        @foreach($order->items as $item)
+                            <form class="review-form border border-secondary-200 rounded-lg p-4 bg-white shadow-sm"
+                                data-product="{{ $item->product->id }}" action="{{ route('reviews.store') }}" method="POST">
+                                @csrf
 
-                            <!-- Star Rating -->
-                            <div class="mb-4">
-                                <p class="text-sm text-secondary-600 mb-2">Rate this product:</p>
-                                <div class="flex space-x-1">
-                                    <button class="star-rating text-warning hover:text-warning-600" data-rating="1">
-                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                    </button>
-                                    <button class="star-rating text-warning hover:text-warning-600" data-rating="2">
-                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                    </button>
-                                    <button class="star-rating text-warning hover:text-warning-600" data-rating="3">
-                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                    </button>
-                                    <button class="star-rating text-secondary-300 hover:text-warning" data-rating="4">
-                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                    </button>
-                                    <button class="star-rating text-secondary-300 hover:text-warning" data-rating="5">
-                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
+                                <div class="flex items-center space-x-3 mb-4">
+                                    <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}"
+                                        alt="{{ $item->product->name }}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                    <div>
+                                        <h4 class="font-semibold text-primary">{{ $item->product->name }}</h4>
+                                        <p class="text-secondary-600 text-sm">
+                                            Brand: {{ $item->product->brand->name ?? 'N/A' }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Star Rating -->
+                                <div class="mb-4">
+                                    <p class="text-sm text-secondary-600 mb-2">Rate this product:</p>
+                                    <div class="flex space-x-1">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            <button type="button"
+                                                class="star-rating text-secondary-300 hover:text-warning transition duration-200"
+                                                data-rating="{{ $i }}" data-product="{{ $item->product->id }}">
+                                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                                </svg>
+                                            </button>
+                                        @endfor
+                                    </div>
+                                    <input type="hidden" name="rating" id="rating-{{ $item->product->id }}" value="0">
+                                </div>
+
+                                <textarea name="comment" class="input-field mb-4 w-full rounded-lg border-gray-300" rows="3"
+                                    placeholder="Share your experience with this product..." required></textarea>
+
+                                <input type="hidden" name="product_id" value="{{ $item->product->id }}">
+
+                                <div class="flex justify-end">
+                                    <button type="submit" class="btn-primary px-4 py-2 text-sm font-semibold">
+                                        Submit Review
                                     </button>
                                 </div>
-                            </div>
-
-                            <textarea class="input-field mb-4" rows="3"
-                                placeholder="Share your experience with this product..."></textarea>
-
-                            <div class="flex items-center justify-between">
-                                <label class="flex items-center space-x-2 text-sm text-secondary-600">
-                                    <input type="checkbox" class="rounded border-secondary-300" />
-                                    <span>Add photos</span>
-                                </label>
-                                <button class="text-accent hover:text-accent-600 font-semibold text-sm">
-                                    Submit Review
-                                </button>
-                            </div>
-                        </div>
+                            </form>
+                        @endforeach
                     </div>
-                </div>
-
-                <!-- Supplier Ratings -->
-                <div class="card">
-                    <h3 class="text-xl font-semibold text-primary mb-6">Rate Your Suppliers</h3>
-                    <div class="space-y-6">
-                        <!-- Supplier 1 Rating -->
-                        <div class="border border-secondary-200 rounded-lg p-4">
-                            <div class="flex items-center space-x-3 mb-4">
-                                <div class="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center">
-                                    <span class="font-semibold text-accent">TS</span>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-primary">TechSound Electronics</h4>
-                                    <p class="text-secondary-600 text-sm">3 years partnership</p>
-                                </div>
-                            </div>
-
-                            <!-- Rating Categories -->
-                            <div class="space-y-3 mb-4">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm text-secondary-600">Product Quality</span>
-                                    <div class="flex space-x-1">
-                                        <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-secondary-300 fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm text-secondary-600">Communication</span>
-                                    <div class="flex space-x-1">
-                                        <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm text-secondary-600">Delivery Time</span>
-                                    <div class="flex space-x-1">
-                                        <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-warning fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-secondary-300 fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                        <svg class="w-4 h-4 text-secondary-300 fill-current" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button class="text-accent hover:text-accent-600 font-semibold text-sm">
-                                Submit Supplier Rating
-                            </button>
-                        </div>
-
-                        <!-- Overall Experience -->
-                        <div class="bg-accent-50 rounded-lg p-4">
-                            <h4 class="font-semibold text-primary mb-3">Overall Experience</h4>
-                            <textarea class="input-field mb-4" rows="3"
-                                placeholder="Tell us about your overall experience with this order..."></textarea>
-                            <div class="flex items-center justify-between">
-                                <label class="flex items-center space-x-2 text-sm text-secondary-600">
-                                    <input type="checkbox" class="rounded border-secondary-300" />
-                                    <span>Recommend to others</span>
-                                </label>
-                                <button class="btn-primary">Share Feedback</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @else
+                    <p class="text-secondary-500 text-center">No products found for this order.</p>
+                @endif
             </div>
         </div>
     </section>
+
+    <!-- Toast Message -->
+    <div id="toast-success" style="z-index: 9999999"
+        class="hidden fixed bottom-6 right-6 bg-success text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform">
+        ✅ Review submitted successfully!
+    </div>
+
 
 
     <!-- Tracking Redirect Modal -->
@@ -428,7 +306,7 @@
                 console.warn("No order ID found for invoice download.");
                 alert("Unable to download invoice — order not found.");
             @endif
-                                }
+                                        }
 
 
         function showTrackingRedirect(orderId) {
@@ -448,6 +326,71 @@
                     window.location.href = `/orders/${orderId}`;
                 }
             }, 100);
+        }
+
+        // ⭐ Star Rating Interactivity
+        document.querySelectorAll('.star-rating').forEach(star => {
+            star.addEventListener('click', function () {
+                const productId = this.dataset.product;
+                const ratingValue = this.dataset.rating;
+                const input = document.getElementById(`rating-${productId}`);
+                input.value = ratingValue;
+
+                const allStars = document.querySelectorAll(`[data-product="${productId}"]`);
+                allStars.forEach(s => {
+                    const val = parseInt(s.dataset.rating);
+                    s.classList.toggle('text-warning', val <= ratingValue);
+                    s.classList.toggle('text-secondary-300', val > ratingValue);
+                });
+            });
+        });
+
+        // 💬 AJAX Review Submission
+        document.querySelectorAll('.review-form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+                const submitButton = this.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+                submitButton.textContent = 'Submitting...';
+
+                fetch(this.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: formData
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            showToast(data.message);
+                            this.reset();
+                            const stars = this.querySelectorAll('.star-rating');
+                            stars.forEach(s => s.classList.remove('text-warning'));
+                        } else {
+                            alert('Failed to submit review.');
+                        }
+                    })
+                    .catch(() => alert('Something went wrong!'))
+                    .finally(() => {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Submit Review';
+                    });
+            });
+        });
+
+        // ✅ Toast Function
+        function showToast(message) {
+            const toast = document.getElementById('toast-success');
+            toast.textContent = message;
+            toast.classList.remove('hidden');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
         }
     </script>
 
