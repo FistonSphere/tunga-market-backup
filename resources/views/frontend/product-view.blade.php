@@ -147,31 +147,81 @@
 
             <!-- RIGHT SIDE: Product Info -->
             <div class="flex-1 space-y-6 mt-4 mb-4">
-                <div>
-                    <h1 class="text-3xl font-bold text-primary">{{ $product->name }}</h1>
-                    <p class="text-gray-600 mt-2">{{ $product->short_description }}</p>
-                </div>
+                <!-- Product Title and Info -->
+                <div class="space-y-4">
 
-                <div class="border border-gray-200 rounded-lg p-4">
-                    <div class="flex items-baseline space-x-3">
-                        @if ($product->discount_price)
-                            <span class="line-through text-gray-400 text-sm">
-                                {{ $product->currency }}{{ number_format($product->price, 2) }}
-                            </span>
-                            <span class="text-2xl font-bold text-primary">
-                                {{ $product->currency }}{{ number_format($product->discount_price) }}
-                            </span>
-                        @else
-                            <span class="text-2xl font-bold text-primary">
-                                {{ $product->currency }}{{ number_format($product->price) }}
-                            </span>
+                    <!-- Product Title + Short Description -->
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900 leading-tight mb-2">
+                            {{ $product->name }}
+                        </h1>
+                        <p class="text-gray-600 text-base leading-relaxed">
+                            {{ $product->short_description }}
+                        </p>
+
+                        <!-- Feature Tags under title (optional, if you want) -->
+                        @if ($product->tags)
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                @foreach (explode(',', $product->tags) as $tag)
+                                    <span class="bg-accent/10 text-accent text-xs font-medium px-3 py-1 rounded-full">
+                                        {{ trim($tag) }}
+                                    </span>
+                                @endforeach
+                            </div>
                         @endif
                     </div>
-                    <p class="text-sm text-gray-500 mt-1">MOQ: {{ $product->min_order_quantity }} pcs</p>
+
+                    <!-- Pricing Card -->
+                    <div
+                        class="border border-gray-200 rounded-xl p-5 bg-gray-50 hover:shadow-md transition-all duration-300">
+                        <div class="flex items-center justify-between flex-wrap gap-3">
+
+                            <!-- Left: Pricing -->
+                            <div class="flex flex-col">
+                                @if ($product->discount_price)
+                                    <div class="flex items-baseline space-x-2">
+                                        <span class="text-3xl font-semibold text-primary">
+                                            {{ $product->currency }}{{ number_format($product->discount_price, 2) }}
+                                        </span>
+                                        <span class="line-through text-gray-400 text-sm">
+                                            {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                        </span>
+                                        <span class="ml-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
+                                            -{{ round((($product->price - $product->discount_price) / $product->price) * 100) }}%
+                                        </span>
+                                    </div>
+                                @else
+                                    <div class="text-3xl font-semibold text-primary">
+                                        {{ $product->currency }}{{ number_format($product->price, 2) }}
+                                    </div>
+                                @endif
+
+                                <div class="mt-1 text-gray-500 text-sm">
+                                    <span>MOQ: <strong class="text-gray-700">{{ $product->min_order_quantity }}</strong>
+                                        pcs</span>
+                                </div>
+                            </div>
+
+                            <!-- Right: Stock & Info -->
+                            <div class="flex flex-col text-right">
+                                <div class="text-sm text-gray-500">
+                                    Stock:
+                                    <span class="font-semibold text-gray-800">
+                                        {{ number_format($product->stock_quantity) }}
+                                    </span>
+                                </div>
+
+                                <div class="mt-1 text-xs text-gray-400">
+                                    Last updated: {{ $product->updated_at->diffForHumans() }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+
                 @if ($product->features)
-                    <div class="border border-gray-200 rounded-xl p-5 bg-gray-50">
+                    <div class="border border-gray-200 rounded-xl p-5 bg-gray-50" style="padding:15px">
                         <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
                             <svg class="w-6 h-6 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -418,16 +468,16 @@
                                         fill="currentColor" viewBox="0 0 20 20">
                                         <path
                                             d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.178
-                                                                                                                                                                                                        3.63a1 1 0 00.95.69h3.813c.969 0
-                                                                                                                                                                                                        1.371 1.24.588 1.81l-3.087
-                                                                                                                                                                                                        2.243a1 1 0 00-.364 1.118l1.178
-                                                                                                                                                                                                        3.63c.3.921-.755 1.688-1.54
-                                                                                                                                                                                                        1.118l-3.087-2.243a1 1 0
-                                                                                                                                                                                                        00-1.176 0l-3.087
-                                                                                                                                                                                                        2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
-                                                                                                                                                                                                        00-.364-1.118L2.42
-                                                                                                                                                                                                        9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
-                                                                                                                                                                                                        00.951-.69l1.178-3.63z" />
+                                                                                                                                                                                                                3.63a1 1 0 00.95.69h3.813c.969 0
+                                                                                                                                                                                                                1.371 1.24.588 1.81l-3.087
+                                                                                                                                                                                                                2.243a1 1 0 00-.364 1.118l1.178
+                                                                                                                                                                                                                3.63c.3.921-.755 1.688-1.54
+                                                                                                                                                                                                                1.118l-3.087-2.243a1 1 0
+                                                                                                                                                                                                                00-1.176 0l-3.087
+                                                                                                                                                                                                                2.243c-.784.57-1.838-.197-1.539-1.118l1.178-3.63a1 1 0
+                                                                                                                                                                                                                00-.364-1.118L2.42
+                                                                                                                                                                                                                9.057c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0
+                                                                                                                                                                                                                00.951-.69l1.178-3.63z" />
                                     </svg>
                                 @endfor
                             </div>
@@ -440,7 +490,7 @@
                             <textarea name="comment" id="comment" rows="4"
                                 placeholder="Share your experience with this product..."
                                 class="w-full border border-gray-200 rounded-xl p-4 text-gray-700 resize-none
-                                                                                                               focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
+                                                                                                                   focus:ring-2 focus:ring-primary focus:border-primary transition shadow-sm"></textarea>
 
                             <!-- Verified Purchase Badge -->
                             <div class="flex items-center space-x-2">
@@ -461,7 +511,7 @@
                         <div class="md:w-1/4 flex md:justify-end">
                             <button type="submit"
                                 class="bg-primary hover:bg-primary/90 text-white font-medium py-2 px-5
-                                                                                                   rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
+                                                                                                       rounded-lg shadow-sm hover:shadow-md transition transform hover:scale-105 text-sm md:text-base">
                                 Submit Review
                             </button>
                         </div>
@@ -1183,12 +1233,12 @@
                             const reviewList = document.getElementById("reviews-list");
                             if (reviewList) {
                                 reviewList.insertAdjacentHTML("afterbegin", `
-                                                                                                            <div class="border p-4 rounded-lg mb-3">
-                                                                                                                <p class="font-semibold">⭐ ${data.review.rating}</p>
-                                                                                                                <p>${data.review.comment}</p>
-                                                                                                                <small class="text-gray-500">Just now</small>
-                                                                                                            </div>
-                                                                                                        `);
+                                                                                                                <div class="border p-4 rounded-lg mb-3">
+                                                                                                                    <p class="font-semibold">⭐ ${data.review.rating}</p>
+                                                                                                                    <p>${data.review.comment}</p>
+                                                                                                                    <small class="text-gray-500">Just now</small>
+                                                                                                                </div>
+                                                                                                            `);
                             }
 
                             // Success message (custom toast style)
@@ -1212,7 +1262,7 @@
             let toast = document.createElement("div");
             toast.textContent = message;
             toast.className = `fixed top-5 right-5 px-4 py-2 rounded-lg shadow-lg text-white z-50
-                                                                                            ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
+                                                                                                ${type === "success" ? "bg-green-600" : "bg-red-600"}`;
             document.body.appendChild(toast);
 
             setTimeout(() => toast.remove(), 3000);
@@ -1269,16 +1319,16 @@
                     mobileCartBtn.className =
                         "fixed bottom-4 left-4 right-4 bg-accent text-white rounded-lg p-4 shadow-modal z-40 md:hidden";
                     mobileCartBtn.innerHTML = `
-                                                                                                            <div class="flex items-center justify-between">
-                                                                                                                <div>
-                                                                                                                    <div class="font-semibold">$149.99</div>
-                                                                                                                    <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
+                                                                                                                <div class="flex items-center justify-between">
+                                                                                                                    <div>
+                                                                                                                        <div class="font-semibold">$149.99</div>
+                                                                                                                        <div class="text-body-sm opacity-90">Premium Wireless Earbuds Pro</div>
+                                                                                                                    </div>
+                                                                                                                    <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
+                                                                                                                        Add to Cart
+                                                                                                                    </button>
                                                                                                                 </div>
-                                                                                                                <button class="bg-white text-accent px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-fast">
-                                                                                                                    Add to Cart
-                                                                                                                </button>
-                                                                                                            </div>
-                                                                                                        `;
+                                                                                                            `;
                     document.body.appendChild(mobileCartBtn);
 
                     // Add click handler
