@@ -217,56 +217,72 @@
                 @if(isset($order) && $order->items->count())
                     <div class="space-y-6">
                         @foreach($order->items as $item)
-                            <form class="review-form border border-secondary-200 rounded-lg p-4 bg-white shadow-sm"
-                                data-product="{{ $item->product->id }}" action="{{ route('reviews.store') }}" method="POST">
-                                @csrf
-
-                                <div class="flex items-center space-x-3 mb-4">
-                                    <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}"
-                                        alt="{{ $item->product->name }}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                    <div>
-                                        <h4 class="font-semibold text-primary">{{ $item->product->name }}</h4>
-                                        <p class="text-secondary-600 text-sm">
-                                            Brand: {{ $item->product->brand->name ?? 'N/A' }}
-                                        </p>
+                            @if($item->product->reviews()->where('user_id', auth()->id())->exists())
+                                <div class="border border-secondary-200 rounded-lg p-4 bg-green-50 shadow-sm">
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}"
+                                            alt="{{ $item->product->name }}" class="w-10 h-10 rounded-lg object-cover" />
+                                        <div>
+                                            <h4 class="font-semibold text-primary">{{ $item->product->name }}</h4>
+                                            <p class="text-success text-sm font-semibold">
+                                                ✅ You already reviewed this product.
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
+                            @else
+                                <form class="review-form border border-secondary-200 rounded-lg p-4 bg-white shadow-sm"
+                                    data-product="{{ $item->product->id }}" action="{{ route('reviews.store') }}" method="POST">
+                                    @csrf
 
-                                <!-- Star Rating -->
-                                <div class="mb-4">
-                                    <p class="text-sm text-secondary-600 mb-2">Rate this product:</p>
-                                    <div class="flex space-x-1">
-                                        @for($i = 1; $i <= 5; $i++)
-                                            <button type="button"
-                                                class="star-rating text-secondary-300 hover:text-warning transition duration-200"
-                                                data-rating="{{ $i }}" data-product="{{ $item->product->id }}">
-                                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path
-                                                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                                </svg>
-                                            </button>
-                                        @endfor
+                                    <div class="flex items-center space-x-3 mb-4">
+                                        <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}"
+                                            alt="{{ $item->product->name }}" class="w-12 h-12 rounded-lg object-cover" />
+                                        <div>
+                                            <h4 class="font-semibold text-primary">{{ $item->product->name }}</h4>
+                                            <p class="text-secondary-600 text-sm">
+                                                Brand: {{ $item->product->brand->name ?? 'N/A' }}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <input type="hidden" name="rating" id="rating-{{ $item->product->id }}" value="0">
-                                </div>
 
-                                <textarea name="comment" class="input-field mb-4 w-full rounded-lg border-gray-300" rows="3"
-                                    placeholder="Share your experience with this product..." required></textarea>
+                                    <!-- Star Rating -->
+                                    <div class="mb-4">
+                                        <p class="text-sm text-secondary-600 mb-2">Rate this product:</p>
+                                        <div class="flex space-x-1">
+                                            @for($i = 1; $i <= 5; $i++)
+                                                <button type="button"
+                                                    class="star-rating text-secondary-300 hover:text-warning transition duration-200"
+                                                    data-rating="{{ $i }}" data-product="{{ $item->product->id }}">
+                                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path
+                                                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                                    </svg>
+                                                </button>
+                                            @endfor
+                                        </div>
+                                        <input type="hidden" name="rating" id="rating-{{ $item->product->id }}" value="0">
+                                    </div>
 
-                                <input type="hidden" name="product_id" value="{{ $item->product->id }}">
+                                    <textarea name="comment" class="input-field mb-4 w-full rounded-lg border-gray-300" rows="3"
+                                        placeholder="Share your experience with this product..." required></textarea>
 
-                                <div class="flex justify-end">
-                                    <button type="submit" class="btn-primary px-4 py-2 text-sm font-semibold">
-                                        Submit Review
-                                    </button>
-                                </div>
-                            </form>
+                                    <input type="hidden" name="product_id" value="{{ $item->product->id }}">
+
+                                    <div class="flex justify-end">
+                                        <button type="submit" class="btn-primary px-4 py-2 text-sm font-semibold">
+                                            Submit Review
+                                        </button>
+                                    </div>
+                                </form>
+                            @endif
                         @endforeach
                     </div>
                 @else
                     <p class="text-secondary-500 text-center">No products found for this order.</p>
                 @endif
             </div>
+
         </div>
     </section>
 
@@ -306,7 +322,7 @@
                 console.warn("No order ID found for invoice download.");
                 alert("Unable to download invoice — order not found.");
             @endif
-                                        }
+                                                }
 
 
         function showTrackingRedirect(orderId) {
