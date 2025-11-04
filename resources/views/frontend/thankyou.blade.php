@@ -428,14 +428,14 @@
                 console.warn("No order ID found for invoice download.");
                 alert("Unable to download invoice — order not found.");
             @endif
-                            }
+                                }
 
 
-        function showTrackingRedirect(orderNumber) {
+        function showTrackingRedirect(orderId) {
             const modal = document.getElementById("trackingRedirectModal");
             const progress = document.getElementById("redirectProgress");
 
-            modal.classList.remove("hidden", "opacity-0");
+            modal.classList.remove("hidden");
             modal.classList.add("flex");
 
             let width = 0;
@@ -444,7 +444,8 @@
                 progress.style.width = `${width}%`;
                 if (width >= 100) {
                     clearInterval(interval);
-                    window.location.href = `/track-order?order_number=${orderNumber}`;
+                    // ✅ Redirect to your Laravel order tracking route
+                    window.location.href = `/orders/${orderId}`;
                 }
             }, 100);
         }
