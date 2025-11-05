@@ -1353,11 +1353,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                                                                                                                                          <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                                                                                                                                          <div class="info">
-                                                                                                                                                                                                            <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                                                                                                                                            <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                                                                                                                                          </div>`;
+                                                                                                                                                                                                                  <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                                                                                                                                  <div class="info">
+                                                                                                                                                                                                                    <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                                                                                                                                    <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                                                                                                                                  </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -1516,7 +1516,7 @@
                 return;
             }
 
-            fetch(`/admin/orders/${orderId}/status`, {
+            fetch(`/orders/${orderId}/status`, {
                 method: "POST",
                 headers: {
                     "X-CSRF-TOKEN": csrfToken,
@@ -1531,14 +1531,16 @@
                         badge.textContent = newStatus;
                         badge.className = `order-status ${newStatus}`;
                         toggleStatusDropdown(orderId);
-                        showToast("Order status updated successfully!", "success");
+
+                        showToast(data.message, 'success'); // ✅ Use same toast function
                     } else {
-                        showToast("Failed to update order status.", "error");
+                        showToast(data.message || "Failed to update order status.", 'error');
                     }
                 })
                 .catch(() => {
-                    showToast("Something went wrong updating the order status.", "error");
+                    showToast("Something went wrong updating the order status.", 'error');
                 });
+
         }
 
 
@@ -1579,7 +1581,7 @@
             @if(session('error'))
                 showToast("{{ session('error') }}", 'error');
             @endif
-    });
+            });
     </script>
 
 @endsection
