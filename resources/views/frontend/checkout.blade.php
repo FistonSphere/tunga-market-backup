@@ -1111,12 +1111,12 @@
     <div id="editAddressModal"
         style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));"
         class="fixed inset-0 hidden items-center justify-center
-                                                                    backdrop-blur-sm transition-opacity duration-300 ease-out">
+                                                                            backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
         <div id="editAddressCard"
             class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
-                                                                       transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                                                                               transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1657,18 +1657,18 @@
 
             // ✅ Fullscreen overlay — dark + blur
             loadingModal.className = `
-            fixed inset-0 z-[9999] flex items-center justify-center
-            bg-black/70 backdrop-blur-lg transition-opacity duration-300
-        `;
+                fixed inset-0 z-[9999] flex items-center justify-center
+                bg-black/70 backdrop-blur-lg transition-opacity duration-300
+            `;
 
             // ✅ White visible modal card (keep it solid for clarity)
             loadingModal.innerHTML = `
-            <div class="bg-white rounded-2xl shadow-2xl px-10 py-8 text-center max-w-sm w-full mx-4 transform transition-all duration-300 scale-95 animate-fadeIn">
-                <div class="animate-spin w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full mx-auto mb-4"></div>
-                <h2 class="text-lg font-semibold text-gray-800 mb-1">Placing your order...</h2>
-                <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
-            </div>
-        `;
+                <div class="bg-white rounded-2xl shadow-2xl px-10 py-8 text-center max-w-sm w-full mx-4 transform transition-all duration-300 scale-95 animate-fadeIn">
+                    <div class="animate-spin w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+                    <h2 class="text-lg font-semibold text-gray-800 mb-1">Placing your order...</h2>
+                    <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
+                </div>
+            `;
 
             document.body.appendChild(loadingModal);
 
@@ -1708,6 +1708,8 @@
                     showToast("Something went wrong while placing your order.", "error");
                 });
         }
+
+
 
         // Phone number formatting for IREMBO Pay
         function formatPhoneNumber() {
