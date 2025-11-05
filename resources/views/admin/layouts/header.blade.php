@@ -270,17 +270,21 @@
                                         List</a></li>
                             </ul>
                         </li>
-                        <li class="submenu {{ request()->is('admin/orders*') }}">
-                            <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/purchase1.svg')}}"
-                                    alt="img"><span>
-                                    Orders</span> <span class="menu-arrow"></span></a>
+                        <li class="submenu {{ request()->is('admin/orders.*') ? 'active' : '' }}">
+                            <a href="javascript:void(0);">
+                                <img src="{{ asset('admin/assets/img/icons/purchase1.svg') }}" alt="img">
+                                <span>Orders</span> <span class="menu-arrow"></span>
+                            </a>
                             <ul>
                                 <li><a href="{{ route('admin.orders.index') }}"
-                                        class="{{ request()->routeIs('admin.orders.list') ? 'active' : '' }}">Overview</a></li>
+                                        class="{{ request()->routeIs('admin.orders.index') ? 'active' : '' }}">Overview</a>
+                                </li>
                                 <li><a href="{{ route('admin.orders.list') }}"
-                                        class="{{ request()->routeIs('admin.orders.items') ? 'active' : '' }}">Orders List</a></li>
+                                        class="{{ request()->routeIs('admin.orders.list') ? 'active' : '' }}">Orders
+                                        List</a></li>
                             </ul>
                         </li>
+
                         <li class="submenu">
                             <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/expense1.svg')}}"
                                     alt="img"><span>
