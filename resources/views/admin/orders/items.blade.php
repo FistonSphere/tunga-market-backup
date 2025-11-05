@@ -267,25 +267,39 @@
 
         /* Footer */
         .order-footer {
-            margin-top: 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            gap: 20px;
+            padding: 18px 22px;
+            border-top: 1px solid #eef2f6;
             background: #fff;
-            padding: 15px 25px;
-            border-radius: 12px;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.06);
+            border-radius: 0 0 12px 12px;
+            margin-top: 18px;
         }
 
-        .order-footer p {
-            margin: 3px 0;
+        .footer-left p {
+            margin: 6px 0;
+            color: #334155;
+            font-size: 0.95rem;
         }
 
-        .footer-right button {
+        .footer-right {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: #f97316;
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
         }
     </style>
     <div class="order-details-container">
@@ -393,13 +407,45 @@
 
         <footer class="order-footer">
             <div class="footer-left">
-                <p><i class="bi bi-geo-alt"></i> Shipping Address: {{ $order->shippingAddress->full_address ?? 'N/A' }}</p>
-                <p><i class="bi bi-receipt"></i> Invoice #: {{ $order->invoice_number ?? 'Not Generated' }}</p>
+                <div class="shipping-box">
+                    <h4><i class="bi bi-geo-alt-fill"></i> Shipping Information</h4>
+                    @if($order->shippingAddress)
+                        <p class="ship-name">
+                            <strong>{{ $order->shippingAddress->first_name }} {{ $order->shippingAddress->last_name }}</strong>
+                            @if($order->shippingAddress->company)
+                                <span class="ship-company">({{ $order->shippingAddress->company }})</span>
+                            @endif
+                        </p>
+                        <p class="ship-address">
+                            {{ $order->shippingAddress->full_address }}
+                        </p>
+                        <p class="ship-phone">
+                            <i class="bi bi-telephone"></i> {{ $order->shippingAddress->phone }}
+                        </p>
+                    @else
+                        <p>No shipping address found.</p>
+                    @endif
+                </div>
+
+                <div class="invoice-box">
+                    <p>
+                        <i class="bi bi-receipt"></i>
+                        Invoice #: <strong>{{ $order->invoice_number ?? 'Not Generated' }}</strong>
+                    </p>
+                </div>
             </div>
+
             <div class="footer-right">
-                <button class="btn-primary"><i class="bi bi-file-earmark-pdf"></i> Generate Invoice</button>
+                <form action="{{ route('orders.invoice', $order->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn-primary">
+                        <i class="bi bi-file-earmark-pdf"></i> Generate Invoice
+                    </button>
+                </form>
             </div>
         </footer>
+
+
     </div>
 
     <script>
