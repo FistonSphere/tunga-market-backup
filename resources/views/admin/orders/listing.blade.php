@@ -1353,11 +1353,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                                                                                                                                      <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                                                                                                                                      <div class="info">
-                                                                                                                                                                                                        <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                                                                                                                                        <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                                                                                                                                      </div>`;
+                                                                                                                                                                                                          <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                                                                                                                          <div class="info">
+                                                                                                                                                                                                            <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                                                                                                                            <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                                                                                                                          </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -1570,4 +1570,16 @@
         }
 
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            @if(session('success'))
+                showToast("{{ session('success') }}", 'success');
+            @endif
+
+            @if(session('error'))
+                showToast("{{ session('error') }}", 'error');
+            @endif
+    });
+    </script>
+
 @endsection
