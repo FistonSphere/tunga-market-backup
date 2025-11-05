@@ -1226,38 +1226,7 @@
         @endforelse
 
 
-        @if ($orders->hasPages())
-            <div class="pagination-container">
-                <ul class="pagination-list">
-                    {{-- Previous Page Link --}}
-                    @if ($orders->onFirstPage())
-                        <li class="disabled">&laquo;</li>
-                    @else
-                        <li>
-                            <a href="{{ $orders->previousPageUrl() }}" rel="prev">&laquo;</a>
-                        </li>
-                    @endif
-
-                    {{-- Pagination Elements --}}
-                    @foreach ($orders->links()->elements[0] ?? [] as $page => $url)
-                        @if ($page == $orders->currentPage())
-                            <li class="active">{{ $page }}</li>
-                        @else
-                            <li><a href="{{ $url }}">{{ $page }}</a></li>
-                        @endif
-                    @endforeach
-
-                    {{-- Next Page Link --}}
-                    @if ($orders->hasMorePages())
-                        <li>
-                            <a href="{{ $orders->nextPageUrl() }}" rel="next">&raquo;</a>
-                        </li>
-                    @else
-                        <li class="disabled">&raquo;</li>
-                    @endif
-                </ul>
-            </div>
-        @endif
+       
 
     </div>
 
