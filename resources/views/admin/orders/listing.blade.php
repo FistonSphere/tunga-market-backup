@@ -1516,7 +1516,7 @@
                 return;
             }
 
-            fetch(`/orders/${orderId}/status`, {
+            fetch(`/admin/orders/${orderId}/status`, {
                 method: "POST",
                 headers: {
                     "X-CSRF-TOKEN": csrfToken,
