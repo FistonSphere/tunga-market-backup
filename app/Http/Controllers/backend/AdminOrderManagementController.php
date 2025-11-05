@@ -144,7 +144,15 @@ public function updateStatus(Request $request, Order $order)
     $order->update(['status' => $validated['status']]);
 
     return response()->json(['status' => 'success', 'message' => 'Order status updated successfully.']);
-    
+
+}
+
+public function showOrderItem($orderId)
+{
+    $order = Order::with(['items.product', 'items.variant', 'user', 'payment', 'shippingAddress'])
+        ->findOrFail($orderId);
+
+    return view('admin.orders.items', compact('order'));
 }
 
 
