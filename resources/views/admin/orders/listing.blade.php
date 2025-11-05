@@ -1174,6 +1174,14 @@
                                 d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z" />
                         </svg> Contact Buyer
                     </button>
+                    <!-- ✅ NEW: View Order Items Button -->
+                    <a href="{{ route('admin.orders.items', $order->id) }}" class="btn manage">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-box-seam-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M9.828.122a1 1 0 0 0-.656 0L3.406 2.2a1 1 0 0 0-.658.94v9.72a1 1 0 0 0 .658.94l5.766 2.079a1 1 0 0 0 .658 0l5.766-2.08a1 1 0 0 0 .658-.939V3.14a1 1 0 0 0-.658-.94zM8 1.134 13.334 3 8 4.866 2.666 3zM2 4.567 7.333 6.433v7.865L2 12.432zm12 0v7.865l-5.333 1.866V6.433z" />
+                        </svg> View Items
+                    </a>
 
                     <!-- ✅ Status Dropdown -->
                     <div class="status-dropdown-container">
@@ -1368,11 +1376,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                                                                                                                                                                      <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                                                                                                                                                                      <div class="info">
-                                                                                                                                                                                                                                        <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                                                                                                                                                                        <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                                                                                                                                                                      </div>`;
+                                                                                                                                                                                                                                          <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                                                                                                                                                          <div class="info">
+                                                                                                                                                                                                                                            <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                                                                                                                                                            <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                                                                                                                                                          </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -1601,12 +1609,12 @@
 
             // Inner content
             notification.innerHTML = `
-                            <div class="notification-content">
-                                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                <span>${message}</span>
-                            </div>
-                            <div class="progress-bar"></div>
-                        `;
+                                <div class="notification-content">
+                                    <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                    <span>${message}</span>
+                                </div>
+                                <div class="progress-bar"></div>
+                            `;
 
             document.body.appendChild(notification);
 
@@ -1630,7 +1638,7 @@
             @if(session('error'))
                 showNotification("{{ session('error') }}", 'error');
             @endif
-                    });
+                        });
     </script>
 
 
