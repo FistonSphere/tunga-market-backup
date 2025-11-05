@@ -546,11 +546,11 @@
                             <p class="text-secondary-300 text-sm">+1 (555) 123-4567</p>
                         </div>
                     </div>
-                    <div class="border-t border-secondary-700 mt-4 pt-3 text-center">
-                        <p class="text-secondary-400 text-xs">
-                            Receipt generated on January 26, 2025 at 16:33 PST •
-                            Receipt ID: RCP-2025-456789 •
-                            Verify at: verify.alimaxcommerce.com/RCP-2025-456789
+                    <div class="border-t border-secondary-700 mt-6 pt-4 text-center">
+                        <p class="text-secondary-400 text-sm invoice-time" id="receipt-generated-time">
+                            This Receipt was generated on {{ now()->format('F d, Y') }} at {{ now()->format('H:m') }}
+                            UTC •
+                            Invoice ID: {{ $order->invoice_number }}
                         </p>
                     </div>
                 </div>
@@ -573,6 +573,42 @@
         function downloadReceiptPDF() {
             window.print();
         }
+
+         document.addEventListener("DOMContentLoaded", () => {
+        const el = document.getElementById("receipt-generated-time");
+        if (!el) return;
+
+        const now = new Date();
+
+        // 🕒 Format date and time in user’s local format
+        const date = now.toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "long",
+            day: "2-digit",
+        });
+        const time = now.toLocaleTimeString(undefined, {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+
+        // 🌍 Get timezone offset in hours (e.g. +2, -5, etc.)
+        const offsetMinutes = now.getTimezoneOffset();
+        const offsetHours = Math.floor(Math.abs(offsetMinutes) / 60);
+        const offsetMins = Math.abs(offsetMinutes) % 60;
+        const sign = offsetMinutes <= 0 ? '+' : '-';
+
+        const formattedOffset = `GMT${sign}${String(offsetHours).padStart(2, '0')}:${String(offsetMins).padStart(2, '0')}`;
+
+        // 🧭 Optionally, detect a short timezone name like "PST", "CEST"
+        const tzName = Intl.DateTimeFormat('en', { timeZoneName: 'short' })
+            .formatToParts(now)
+            .find(part => part.type === 'timeZoneName')?.value || formattedOffset;
+
+        // 🪄 Update text dynamically
+        el.textContent = `This receipt was generated on ${date} at ${time} ${tzName}`;
+    });
+
+
     </script>
 
 </body>

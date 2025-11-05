@@ -44,11 +44,11 @@
 </head>
 @if (request()->has('autoPrint'))
     <script>
-        window.onload = function() {
+        window.onload = function () {
             window.print();
 
             // Close tab automatically after print finishes
-            window.onafterprint = function() {
+            window.onafterprint = function () {
                 window.close();
             };
         }
@@ -74,7 +74,8 @@
                     </button>
                     <div class="h-4 w-px bg-secondary-300"></div>
                     <h1 class="text-lg font-semibold text-primary">
-                        {{ $shipping->first_name . ' ' . $shipping->last_name }} Invoice</h1>
+                        {{ $shipping->first_name . ' ' . $shipping->last_name }} Invoice
+                    </h1>
                 </div>
                 <div class="flex items-center space-x-3">
 
@@ -137,7 +138,8 @@
                                         str_pad($order->id ?? 0, 6, '0', STR_PAD_LEFT);
                                 @endphp
                                 <p class="text-xs font-semibold" style="color:#FF6600;">
-                                    {{ $order->invoice_number ?? $trackingRef }}</p>
+                                    {{ $order->invoice_number ?? $trackingRef }}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -209,7 +211,8 @@
                             <h2 class="text-xl font-bold text-primary mb-4">Bill To</h2>
                             <div class="space-y-1 text-secondary-700">
                                 <p class="font-semibold text-primary">{{ $shipping->first_name }}
-                                    {{ $shipping->last_name }}</p>
+                                    {{ $shipping->last_name }}
+                                </p>
                                 @if ($shipping->company)
                                     <p class="font-semibold">{{ $shipping->company }}</p>
                                 @endif
@@ -282,10 +285,12 @@
                                             </td>
                                             <td class="border px-4 py-4">
                                                 <p class="font-semibold text-primary">
-                                                    {{ $item->product->brand->name ?? 'Tunga Market Inc.' }}</p>
+                                                    {{ $item->product->brand->name ?? 'Tunga Market Inc.' }}
+                                                </p>
                                             </td>
                                             <td class="border px-4 py-4 text-center font-semibold">
-                                                {{ $item->quantity }}</td>
+                                                {{ $item->quantity }}
+                                            </td>
                                             <td class="border px-4 py-4 text-right font-semibold">
                                                 {{ $item->price }} {{ $order->currency }}
                                             </td>
@@ -320,24 +325,24 @@
                                                 {{ $order->payment->transaction_id }}</p>
                                             <p><span class="text-secondary-600">Amount:</span>
                                                 {{ number_format($order->payment->amount) }}
-                                                {{ $order->payment->currency }}</p>
+                                                {{ $order->payment->currency }}
+                                            </p>
 
                                             @if ($order->payment->status === 'paid')
                                                 <div class="mt-2 flex items-center space-x-2">
-                                                    <svg class="w-4 h-4 text-success" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2" d="M5 13l4 4L19 7" />
+                                                    <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M5 13l4 4L19 7" />
                                                     </svg>
                                                     <span class="text-success font-semibold text-sm">Payment
                                                         Verified</span>
                                                 </div>
                                             @else
                                                 <div class="mt-2 flex items-center space-x-2">
-                                                    <svg class="w-4 h-4 text-warning" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
+                                                    <svg class="w-4 h-4 text-warning" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                             d="M12 8v4m0 4h.01M21 12A9 9 0 113 12a9 9 0 0118 0z" />
                                                     </svg>
                                                     <span class="text-warning font-semibold text-sm">Payment
@@ -357,13 +362,15 @@
                                         <div class="space-y-1 text-sm">
                                             <p><span class="text-secondary-600">Recipient:</span>
                                                 {{ $order->shippingAddress->first_name }}
-                                                {{ $order->shippingAddress->last_name }}</p>
+                                                {{ $order->shippingAddress->last_name }}
+                                            </p>
                                             <p><span class="text-secondary-600">Address:</span>
                                                 {{ $order->shippingAddress->address_line1 }}
                                                 {{ $order->shippingAddress->address_line2 ? ', ' . $order->shippingAddress->address_line2 : '' }},
                                                 {{ $order->shippingAddress->city }},
                                                 {{ $order->shippingAddress->state }} -
-                                                {{ $order->shippingAddress->postal_code }}</p>
+                                                {{ $order->shippingAddress->postal_code }}
+                                            </p>
                                             <p><span class="text-secondary-600">Country:</span>
                                                 {{ $order->shippingAddress->country }}</p>
                                             <p><span class="text-secondary-600">Phone:</span>
@@ -504,8 +511,9 @@
                         </div>
                     </div>
                     <div class="border-t border-secondary-700 mt-6 pt-4 text-center">
-                        <p class="text-secondary-400 text-sm">
-                            This invoice was generated on January 26, 2025 at 16:19 UTC •
+                        <p class="text-secondary-400 text-sm invoice-time" id="invoice-generated-time">
+                            This invoice was generated on {{ now()->format('F d, Y') }} at {{ now()->format('H:m') }}
+                            UTC •
                             Invoice ID: {{ $order->invoice_number }}
                         </p>
                     </div>
@@ -521,6 +529,42 @@
     function downloadInvoicePDF() {
         window.print();
     }
+    document.addEventListener("DOMContentLoaded", () => {
+        const el = document.getElementById("invoice-generated-time");
+        if (!el) return;
+
+        const now = new Date();
+
+        // 🕒 Format date and time in user’s local format
+        const date = now.toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "long",
+            day: "2-digit",
+        });
+        const time = now.toLocaleTimeString(undefined, {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+
+        // 🌍 Get timezone offset in hours (e.g. +2, -5, etc.)
+        const offsetMinutes = now.getTimezoneOffset();
+        const offsetHours = Math.floor(Math.abs(offsetMinutes) / 60);
+        const offsetMins = Math.abs(offsetMinutes) % 60;
+        const sign = offsetMinutes <= 0 ? '+' : '-';
+
+        const formattedOffset = `GMT${sign}${String(offsetHours).padStart(2, '0')}:${String(offsetMins).padStart(2, '0')}`;
+
+        // 🧭 Optionally, detect a short timezone name like "PST", "CEST"
+        const tzName = Intl.DateTimeFormat('en', { timeZoneName: 'short' })
+            .formatToParts(now)
+            .find(part => part.type === 'timeZoneName')?.value || formattedOffset;
+
+        // 🪄 Update text dynamically
+        el.textContent = `This invoice was generated on ${date} at ${time} ${tzName}`;
+    });
+
+
+
 </script>
 
 </html>
