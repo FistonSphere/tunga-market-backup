@@ -504,7 +504,7 @@
                                     <h4 class="font-semibold text-primary mb-2">General Support</h4>
                                     <div class="text-sm space-y-1">
                                         <p class="flex items-center"><span class="w-4 h-4 mr-2">📧</span>
-                                            support@alimaxcommerce.com</p>
+                                            support@tungamarket.com</p>
                                         <p class="flex items-center"><span class="w-4 h-4 mr-2">📞</span> +1 (555)
                                             123-4567</p>
                                         <p class="flex items-center"><span class="w-4 h-4 mr-2">🕒</span> Mon-Fri: 9
@@ -542,7 +542,7 @@
                         </div>
                         <div>
                             <p class="font-semibold mb-1">Need Help?</p>
-                            <p class="text-secondary-300 text-sm">support@alimaxcommerce.com</p>
+                            <p class="text-secondary-300 text-sm">support@tungamarket.com</p>
                             <p class="text-secondary-300 text-sm">+1 (555) 123-4567</p>
                         </div>
                     </div>

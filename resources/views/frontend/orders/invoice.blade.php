@@ -506,7 +506,7 @@
                         </div>
                         <div>
                             <p class="font-semibold mb-2">Questions?</p>
-                            <p class="text-secondary-300 text-sm">support@alimaxcommerce.com</p>
+                            <p class="text-secondary-300 text-sm">support@tungamarket.com</p>
                             <p class="text-secondary-300 text-sm">+1 (555) 123-4567</p>
                         </div>
                     </div>
