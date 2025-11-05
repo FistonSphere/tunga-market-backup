@@ -1353,11 +1353,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                                                                                                                              <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                                                                                                                              <div class="info">
-                                                                                                                                                                                                <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                                                                                                                                <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                                                                                                                              </div>`;
+                                                                                                                                                                                                  <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                                                                                                                  <div class="info">
+                                                                                                                                                                                                    <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                                                                                                                    <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                                                                                                                  </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -1554,6 +1554,24 @@
                 document.querySelectorAll(".status-dropdown").forEach(d => d.classList.add("hidden"));
             }
         });
+
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.classList.add('toast', type);
+            toast.textContent = message;
+
+            container.appendChild(toast);
+
+            // Auto-hide after 4 seconds
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 400); // remove after animation
+            }, 4000);
+        }
 
     </script>
 @endsection
