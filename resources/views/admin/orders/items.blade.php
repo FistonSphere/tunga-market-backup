@@ -4,205 +4,360 @@
     <style>
         /* resources/css/order-details.css */
 
-.order-details-container {
-    /* background: #f9fafc; */
-    padding: 30px;
-    border-radius: 20px;
-    max-width: 1200px;
-    margin: 30px auto;
-    /* box-shadow: 0 2px 10px rgba(0,0,0,0.05); */
-    font-family: 'Inter', sans-serif;
-    color: #1a202c;
-}
+        .order-summary-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            position: relative;
+        }
 
-/* Header */
-.order-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-    background: #fff;
-    padding: 20px 25px;
-    border-radius: 16px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-}
+        /* ====== ACTION BUTTONS ====== */
+        .order-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
 
-.order-info h2 {
-    font-size: 1.6rem;
-    margin-bottom: 10px;
-    color: #0f172a;
-}
+        .btn-primary,
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            border-radius: 8px;
+            padding: 8px 18px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-size: 0.95rem;
+        }
 
-.order-meta p {
-    margin: 4px 0;
-    font-size: 0.95rem;
-}
+        .btn-primary {
+            background: #f97316;
+            color: #fff;
+            border: none;
+            box-shadow: 0 2px 6px rgba(249, 115, 22, 0.4);
+        }
 
-.highlight {
-    color: #ff7f00;
-    font-weight: 600;
-}
+        .btn-primary:hover {
+            background: #fb923c;
+            transform: translateY(-1px);
+        }
 
-.badge {
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    text-transform: capitalize;
-}
-.status-processing { background: #ffedcc; color: #b45309; }
-.status-delivered { background: #dcfce7; color: #166534; }
-.status-canceled { background: #fee2e2; color: #991b1b; }
-.payment-paid { background: #d1fae5; color: #065f46; }
-.payment-unpaid { background: #fde68a; color: #92400e; }
+        .btn-outline {
+            background: transparent;
+            color: #001428;
+            border: 1.5px solid #001428;
+        }
 
-.order-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
+        .btn-outline:hover {
+            background: #001428;
+            color: #fff;
+            transform: translateY(-1px);
+        }
 
-.btn-primary, .btn-outline {
-    border: none;
-    border-radius: 10px;
-    padding: 10px 18px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+        /* ====== ORDER SUMMARY GRID ====== */
+        .order-title {
+            font-size: 1.6rem;
+            color: #0f172a;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
 
-.btn-primary {
-    background: #ff7f00;
-    color: #fff;
-}
-.btn-primary:hover { background: #e86f00; }
+        .order-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
 
-.btn-outline {
-    background: #fff;
-    border: 1px solid #ddd;
-}
-.btn-outline:hover { background: #f1f1f1; }
+        .meta-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+            transition: all 0.25s ease;
+        }
 
-/* Items Section */
-.order-items .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
+        .meta-card:hover {
+            background: #fff;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
 
-.items-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-}
+        .meta-card .icon {
+            font-size: 1.6rem;
+            color: #f97316;
+        }
 
-.item-card {
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
-}
-.item-card:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .label {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 3px;
+        }
 
-.item-image img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
+        .value {
+            font-size: 1rem;
+            color: #111827;
+            font-weight: 500;
+        }
 
-.item-details {
-    padding: 15px;
-}
-.item-details h4 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #0f172a;
-}
-.item-details p {
-    margin: 5px 0;
-    font-size: 0.9rem;
-    color: #4b5563;
-}
-.variant {
-    color: #6b7280;
-    font-style: italic;
-}
+        .highlight {
+            color: #f97316;
+            font-weight: 600;
+        }
 
-.item-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    padding: 10px 15px 15px;
-}
+        /* ===== BADGES ===== */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            text-transform: capitalize;
+        }
 
-.btn-small {
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-.edit-btn { background: #fef3c7; color: #92400e; }
-.danger-btn { background: #fee2e2; color: #991b1b; }
-.btn-small:hover { opacity: 0.9; }
+        .status-processing {
+            background: #fff7ed;
+            color: #b45309;
+        }
 
-/* Footer */
-.order-footer {
-    margin-top: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    background: #fff;
-    padding: 15px 25px;
-    border-radius: 12px;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.06);
-}
-.order-footer p {
-    margin: 3px 0;
-}
-.footer-right button {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
+        .status-delivered {
+            background: #dcfce7;
+            color: #166534;
+        }
 
+        .status-canceled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .payment-paid {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .payment-unpaid {
+            background: #fde68a;
+            color: #92400e;
+        }
+
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-primary,
+        .btn-outline {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 18px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #ff7f00;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #e86f00;
+        }
+
+        .btn-outline {
+            background: #fff;
+            border: 1px solid #ddd;
+        }
+
+        .btn-outline:hover {
+            background: #f1f1f1;
+        }
+
+        /* Items Section */
+        .order-items .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .item-card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .item-details {
+            padding: 15px;
+        }
+
+        .item-details h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .item-details p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+
+        .variant {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .item-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            padding: 10px 15px 15px;
+        }
+
+        .btn-small {
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .danger-btn {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .btn-small:hover {
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .order-footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: #fff;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.06);
+        }
+
+        .order-footer p {
+            margin: 3px 0;
+        }
+
+        .footer-right button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
     </style>
     <div class="order-details-container">
         <header class="order-header">
-            <div class="order-info">
-                <h2>Order #{{ $order->invoice_number ?? 'N/A' }}</h2>
-                <div class="order-meta">
-                    <p><strong>Customer:</strong> {{ $order->user->first_name ?? 'Unknown' }}
-                        {{ $order->user->last_name ?? '' }}</p>
-                    <p><strong>Status:</strong>
-                        <span class="badge status-{{ strtolower($order->status) }}">
-                            {{ ucfirst($order->status) }}
-                        </span>
-                    </p>
-                    <p><strong>Sub Total:</strong> <span class="highlight">{{ number_format($order->total - $order->tax_amount) }} Rwf</span></p>
-                    <p><strong>Tax:</strong> <span class="highlight">{{ number_format($order->tax_amount) }} Rwf</span></p>
-                    <p><strong>Total:</strong> <span class="highlight">{{ number_format($order->total) }} Rwf</span></p>
-                    <p><strong>Payment:</strong>
-                        <span class="badge payment-{{ $order->payment ? 'paid' : 'unpaid' }}">
-                            {{ $order->payment ? 'Paid' : 'Unpaid' }}
-                        </span>
-                    </p>
+            <div class="order-summary-card">
+                <!-- ===== Order Actions on Top ===== -->
+                <div class="order-actions">
+                    <button class="btn-primary">
+                        <i class="bi bi-cash-stack"></i> Mark as Paid
+                    </button>
+                    <button class="btn-outline">
+                        <i class="bi bi-truck"></i> Update Delivery
+                    </button>
                 </div>
-            </div>
 
-            <div class="order-actions">
-                <button class="btn-primary">
-                    <i class="bi bi-cash-stack"></i> Mark as Paid
-                </button>
-                <button class="btn-outline">
-                    <i class="bi bi-truck"></i> Update Delivery
-                </button>
+                <!-- ===== Order Details ===== -->
+                <h2 class="order-title">Order #{{ $order->invoice_number ?? 'N/A' }}</h2>
+
+                <div class="order-meta-grid">
+                    <div class="meta-card">
+                        <i class="bi bi-person-circle icon"></i>
+                        <div>
+                            <p class="label">Customer</p>
+                            <p class="value">{{ $order->user->first_name ?? 'Unknown' }} {{ $order->user->last_name ?? '' }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="meta-card">
+                        <i class="bi bi-clipboard-check icon"></i>
+                        <div>
+                            <p class="label">Status</p>
+                            <span class="badge status-{{ strtolower($order->status) }}">
+                                {{ ucfirst($order->status) }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="meta-card">
+                        <i class="bi bi-cash icon"></i>
+                        <div>
+                            <p class="label">Sub Total</p>
+                            <p class="value highlight">{{ number_format($order->total - $order->tax_amount) }} Rwf</p>
+                        </div>
+                    </div>
+
+                    <div class="meta-card">
+                        <i class="bi bi-percent icon"></i>
+                        <div>
+                            <p class="label">Tax</p>
+                            <p class="value highlight">{{ number_format($order->tax_amount) }} Rwf</p>
+                        </div>
+                    </div>
+
+                    <div class="meta-card">
+                        <i class="bi bi-wallet2 icon"></i>
+                        <div>
+                            <p class="label">Total</p>
+                            <p class="value highlight">{{ number_format($order->total) }} Rwf</p>
+                        </div>
+                    </div>
+
+                    <div class="meta-card">
+                        <i class="bi bi-credit-card-2-front icon"></i>
+                        <div>
+                            <p class="label">Payment</p>
+                            <span class="badge payment-{{ $order->payment ? 'paid' : 'unpaid' }}">
+                                {{ $order->payment ? 'Paid' : 'Unpaid' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </header>
 
