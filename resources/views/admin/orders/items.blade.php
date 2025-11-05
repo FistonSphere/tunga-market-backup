@@ -436,7 +436,7 @@
             </div>
 
             <div class="footer-right">
-                <form action="{{ route('orders.invoice', $order->id) }}" method="POST" style="display:inline;">
+                <form action="{{ route('orders.invoice', $order->id) }}" method="get" style="display:inline;">
                     @csrf
                     <button type="submit" class="btn-primary">
                         <i class="bi bi-file-earmark-pdf"></i> Generate Invoice

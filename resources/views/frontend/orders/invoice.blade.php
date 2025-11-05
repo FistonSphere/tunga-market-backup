@@ -506,8 +506,7 @@
                     <div class="border-t border-secondary-700 mt-6 pt-4 text-center">
                         <p class="text-secondary-400 text-sm">
                             This invoice was generated on January 26, 2025 at 16:19 UTC •
-                            Invoice ID: INV-2025-789456 •
-                            For authentication, verify at: verify.alimaxcommerce.com
+                            Invoice ID: {{ $order->invoice_number }}
                         </p>
                     </div>
                 </div>
