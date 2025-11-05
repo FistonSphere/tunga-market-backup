@@ -797,6 +797,46 @@
                 text-align: left;
             }
         }
+
+        .order-status {
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: capitalize;
+        }
+
+        .order-status.Processing {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .order-status.Delivered {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .order-status.Canceled {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Dropdown Animation */
+        #status-dropdown {
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
     <div class="orders-dashboard">
         <!-- ===== SUMMARY METRICS ===== -->
@@ -927,6 +967,7 @@
                                 d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
                         </svg> View Details
                     </button>
+
                     <button class="btn contact" onclick="openContactModal('{{ $order->id }}')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-envelope-fill" viewBox="0 0 16 16">
@@ -935,7 +976,25 @@
                         </svg> Contact Buyer
                     </button>
 
+                    {{-- ✅ Status Dropdown --}}
+                    <div class="relative inline-block">
+                        <button onclick="toggleStatusDropdown('{{ $order->id }}')" class="btn status-change">
+                            <i class="bi bi-arrow-repeat"></i> Change Status
+                        </button>
+
+                        <div id="status-dropdown-{{ $order->id }}"
+                            class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+                            @foreach(['Processing', 'Delivered', 'Canceled'] as $status)
+                                <button
+                                    class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 {{ strtolower($status) === strtolower($order->status) ? 'bg-gray-50 text-gray-500 cursor-not-allowed' : 'text-gray-700' }}"
+                                    onclick="updateOrderStatus('{{ $order->id }}', '{{ $status }}')" {{ strtolower($status) === strtolower($order->status) ? 'disabled' : '' }}>
+                                    {{ $status }}
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
+
             </div>
         @empty
             <div class="no-orders">
@@ -1106,11 +1165,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                                                                                          <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                                                                                          <div class="info">
-                                                                                                                                                            <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                                                                                            <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                                                                                          </div>`;
+                                                                                                                                                                  <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                                                                                  <div class="info">
+                                                                                                                                                                    <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                                                                                    <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                                                                                  </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -1247,6 +1306,55 @@
             });
             ordersChart.render();
 
+        });
+
+
+
+        function toggleStatusDropdown(orderId) {
+            const dropdown = document.getElementById(`status-dropdown-${orderId}`);
+            document.querySelectorAll("[id^='status-dropdown-']").forEach(el => {
+                if (el !== dropdown) el.classList.add("hidden");
+            });
+            dropdown.classList.toggle("hidden");
+        }
+
+        function updateOrderStatus(orderId, newStatus) {
+            fetch(`/admin/orders/${orderId}/status`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ status: newStatus }),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        const statusBadge = document.querySelector(`#order-${orderId} .order-status`);
+                        statusBadge.textContent = newStatus;
+                        statusBadge.className = `order-status ${newStatus}`;
+                        toggleStatusDropdown(orderId);
+
+                        // Small success visual feedback
+                        const btn = document.querySelector(`#status-dropdown-${orderId}`).previousElementSibling;
+                        btn.innerHTML = `<i class="bi bi-check2-circle text-green-600"></i> Updated!`;
+                        setTimeout(() => {
+                            btn.innerHTML = `<i class="bi bi-arrow-repeat"></i> Change Status`;
+                        }, 1500);
+                    } else {
+                        alert("Failed to update status.");
+                    }
+                })
+                .catch(() => {
+                    alert("Something went wrong updating the order status.");
+                });
+        }
+
+        // Optional: Close dropdown on outside click
+        document.addEventListener("click", (e) => {
+            if (!e.target.closest(".relative.inline-block")) {
+                document.querySelectorAll("[id^='status-dropdown-']").forEach(el => el.classList.add("hidden"));
+            }
         });
 
     </script>
