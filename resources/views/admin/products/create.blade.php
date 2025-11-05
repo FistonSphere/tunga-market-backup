@@ -8,7 +8,7 @@
     <style>
         :root {
             --prd-dark: #001528;
-            --prd-accent: #ff6b35;
+            --prd-accent: #ff5e0d;
             --prd-white: #fff;
             --prd-muted: #f4f6f8;
             --prd-shadow: 0 6px 30px rgba(0, 20, 40, 0.06);
@@ -245,7 +245,7 @@
 
         .prd-qs-title {
             font-size: 1.3rem;
-            color: #ff6b35;
+            color: #ff5e0d;
             text-transform: uppercase;
             border-bottom: 2px solid rgba(255, 255, 255, 0.15);
             padding-bottom: 8px;
@@ -301,8 +301,8 @@
         }
 
         .prd-toggle input:checked+.slider {
-            background: #ff6b35;
-            box-shadow: 0 0 10px #ff6b35;
+            background: #ff5e0d;
+            box-shadow: 0 0 10px #ff5e0d;
         }
 
         .prd-toggle input:checked+.slider::before {
@@ -325,7 +325,7 @@
         .prd-status-group label {
             font-size: 0.9rem;
             font-weight: 600;
-            color: #ff6b35;
+            color: #ff5e0d;
             text-transform: uppercase;
         }
 

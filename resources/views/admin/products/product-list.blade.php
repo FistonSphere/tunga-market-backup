@@ -215,7 +215,7 @@
         .productfilter-field select {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ff6b35;
+            border: 1px solid #ff5e0d;
             border-radius: 8px;
             background: #fff;
             color: #001528;
@@ -235,7 +235,7 @@
         }
 
         .productfilter-apply {
-            background-color: #ff6b35;
+            background-color: #ff5e0d;
             color: #fff;
             border: none;
             padding: 10px 18px;
@@ -250,8 +250,8 @@
 
         .productfilter-reset {
             background-color: transparent;
-            color: #ff6b35;
-            border: 1px solid #ff6b35;
+            color: #ff5e0d;
+            border: 1px solid #ff5e0d;
             padding: 10px 18px;
             border-radius: 8px;
             font-weight: bold;
@@ -259,7 +259,7 @@
         }
 
         .productfilter-reset:hover {
-            background-color: #ff6b35;
+            background-color: #ff5e0d;
             color: #fff;
         }
 

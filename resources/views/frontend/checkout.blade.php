@@ -22,12 +22,12 @@
         }
 
         .progress-step.active .step-circle {
-            background-color: #ff6b35;
+            background-color: #ff5e0d;
             color: #fff;
         }
 
         .progress-step.active .step-label {
-            color: #ff6b35;
+            color: #ff5e0d;
             font-weight: 500;
         }
 

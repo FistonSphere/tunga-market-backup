@@ -166,7 +166,7 @@
                         📧 support@tungamarket.com
                     </div>
                     <a href="mailto:sanofiston04@gmail.com?subject={{ rawurlencode('Tunga Market Support Request') }}&body={{ rawurlencode('Hello Tunga Market Support, I need help with...') }}"
-                        class="btn-secondary w-full" style="background: #ff6b35">
+                        class="btn-secondary w-full" style="background: #ff5e0d">
                         Send Email
                     </a>
 
@@ -250,8 +250,8 @@
                                     const li = document.createElement("li");
                                     li.className =
                                         "px-4 py-2 hover:bg-primary-50 cursor-pointer";
-                                    li.innerHTML = `<span class="font-medium text-primary">${item.category}</span> → 
-                    <span class="text-secondary-600">${item.topic}</span> → 
+                                    li.innerHTML = `<span class="font-medium text-primary">${item.category}</span> →
+                    <span class="text-secondary-600">${item.topic}</span> →
                     ${item.question}`;
                                     li.onclick = () => {
                                         // Redirect to search route with ID filter

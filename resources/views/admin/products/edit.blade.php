@@ -126,7 +126,7 @@
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            border-color: #ff6b35;
+            border-color: #ff5e0d;
             box-shadow: 0 0 5px rgba(255, 107, 53, 0.2);
         }
 
@@ -156,7 +156,7 @@
 
         .image-item img:hover {
             transform: scale(1.05);
-            border-color: #ff6b35;
+            border-color: #ff5e0d;
         }
 
         .form-actions {
@@ -166,7 +166,7 @@
         }
 
         .btn-primary-gradient {
-            background: linear-gradient(90deg, #ff6b35, #ff914d);
+            background: linear-gradient(90deg, #ff5e0d, #ff914d);
             color: #fff;
             border: none;
             font-weight: bold;
@@ -188,8 +188,8 @@
         }
 
         .btn-outline:hover {
-            border-color: #ff6b35;
-            color: #ff6b35;
+            border-color: #ff5e0d;
+            color: #ff5e0d;
         }
 
         /* Main Layout */

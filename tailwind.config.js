@@ -17,7 +17,7 @@ module.exports = {
           900: "#061b41", // primary-900
           DEFAULT: "#1a365d", // primary
         },
-        
+
         // Secondary Colors - Sophisticated charcoal for content hierarchy
         secondary: {
           50: "#f7fafc", // gray-50
@@ -40,12 +40,12 @@ module.exports = {
           200: "#ffd6c2", // orange-200
           300: "#ffc7ab", // orange-300
           400: "#ffb794", // orange-400
-          500: "#ff6b35", // orange-500 (main)
+          500: "#ff5e0d", // orange-500 (main)
           600: "#e55a2b", // orange-600
           700: "#cc4921", // orange-700
           800: "#b23817", // orange-800
           900: "#99270d", // orange-900
-          DEFAULT: "#ff6b35", // accent
+          DEFAULT: "#ff5e0d", // accent
         },
 
         // Background Colors
@@ -103,7 +103,7 @@ module.exports = {
 
         // Border Colors
         border: "#e2e8f0", // gray-200 - Minimal borders for form inputs and data tables
-        "border-accent": "#ff6b35", // accent - 2px accent borders for active states
+        "border-accent": "#ff5e0d", // accent - 2px accent borders for active states
       },
 
       fontFamily: {

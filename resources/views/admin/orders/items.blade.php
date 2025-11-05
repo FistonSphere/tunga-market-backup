@@ -23,6 +23,9 @@
         .order-actions2 {
             display: flex;
             justify-content: flex-end;
+            top: 2.5em;
+            right:1.8em;
+            position: absolute;
             gap: 12px;
             margin-bottom: 15px;
         }
@@ -307,7 +310,7 @@
                 </div>
                 <div class="order-actions2">
 
-                    <button style="color: red;border:none;background:transparent">
+                    <button onclick="window.history.back()" style="color: red;border:none;background:transparent">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-box-arrow-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"

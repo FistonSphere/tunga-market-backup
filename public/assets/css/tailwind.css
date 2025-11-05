@@ -32,13 +32,13 @@
     --color-secondary-900: #171923;
 
     /* Accent Colors */
-    --color-accent: #ff6b35; /* Energetic orange for key actions and growth */
+    --color-accent: #ff5e0d; /* Energetic orange for key actions and growth */
     --color-accent-50: #fff5f0;
     --color-accent-100: #ffe6d9;
     --color-accent-200: #ffd6c2;
     --color-accent-300: #ffc7ab;
     --color-accent-400: #ffb794;
-    --color-accent-500: #ff6b35; /* Accent */
+    --color-accent-500: #ff5e0d; /* Accent */
     --color-accent-600: #e55a2b;
     --color-accent-700: #cc4921;
     --color-accent-800: #b23817;
@@ -91,7 +91,7 @@
 
     /* Border Colors */
     --color-border: #e2e8f0; /* Minimal borders for form inputs and data tables */
-    --color-border-accent: #ff6b35; /* 2px accent borders for active states */
+    --color-border-accent: #ff5e0d; /* 2px accent borders for active states */
 
     /* Shadow Variables */
     --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
