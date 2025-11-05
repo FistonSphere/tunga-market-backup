@@ -2,207 +2,246 @@
 
 @section('content')
     <style>
-        .order-container {
-            max-width: 1100px;
-            margin: 40px auto;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            padding: 20px 30px;
-        }
+        /* resources/css/order-details.css */
 
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 15px;
-        }
+.order-details-container {
+    background: #f9fafc;
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 1200px;
+    margin: 30px auto;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    font-family: 'Inter', sans-serif;
+    color: #1a202c;
+}
 
-        .order-summary h2 {
-            margin: 0 0 10px;
-            color: #0a2342;
-        }
+/* Header */
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
 
-        .order-summary p {
-            margin: 4px 0;
-        }
+.order-info h2 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    color: #0f172a;
+}
 
-        .badge {
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            color: #fff;
-        }
+.order-meta p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+}
 
-        .status-pending {
-            background: #f59e0b;
-        }
+.highlight {
+    color: #ff7f00;
+    font-weight: 600;
+}
 
-        .status-processing {
-            background: #3b82f6;
-        }
+.badge {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    text-transform: capitalize;
+}
+.status-processing { background: #ffedcc; color: #b45309; }
+.status-delivered { background: #dcfce7; color: #166534; }
+.status-canceled { background: #fee2e2; color: #991b1b; }
+.payment-paid { background: #d1fae5; color: #065f46; }
+.payment-unpaid { background: #fde68a; color: #92400e; }
 
-        .status-delivered {
-            background: #10b981;
-        }
+.order-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
 
-        .payment-paid {
-            background: #16a34a;
-        }
+.btn-primary, .btn-outline {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-        .payment-unpaid {
-            background: #dc2626;
-        }
+.btn-primary {
+    background: #ff7f00;
+    color: #fff;
+}
+.btn-primary:hover { background: #e86f00; }
 
-        .btn-primary {
-            background: #3b82f6;
-            color: white;
-            padding: 8px 14px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+.btn-outline {
+    background: #fff;
+    border: 1px solid #ddd;
+}
+.btn-outline:hover { background: #f1f1f1; }
 
-        .btn-secondary {
-            background: #f59e0b;
-            color: white;
-            padding: 8px 14px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+/* Items Section */
+.order-items .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-        .btn-small {
-            font-size: 12px;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
 
-        .danger-btn {
-            background: #dc2626;
-            color: #fff;
-        }
+.item-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+.item-card:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
-        .edit-btn {
-            background: #0284c7;
-            color: #fff;
-        }
+.item-image img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
 
-        .btn-outline {
-            background: transparent;
-            border: 1px solid #3b82f6;
-            color: #3b82f6;
-            padding: 6px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+.item-details {
+    padding: 15px;
+}
+.item-details h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0f172a;
+}
+.item-details p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #4b5563;
+}
+.variant {
+    color: #6b7280;
+    font-style: italic;
+}
 
-        .items-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+.item-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 10px 15px 15px;
+}
 
-        .items-table th,
-        .items-table td {
-            padding: 12px 10px;
-            border-bottom: 1px solid #eee;
-            text-align: left;
-        }
+.btn-small {
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.edit-btn { background: #fef3c7; color: #92400e; }
+.danger-btn { background: #fee2e2; color: #991b1b; }
+.btn-small:hover { opacity: 0.9; }
 
-        .items-table th {
-            background: #f1f5f9;
-            font-weight: 600;
-        }
+/* Footer */
+.order-footer {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #fff;
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.06);
+}
+.order-footer p {
+    margin: 3px 0;
+}
+.footer-right button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
 
-        .status-dropdown {
-            padding: 5px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
-
-        .order-footer {
-            border-top: 1px solid #eee;
-            margin-top: 20px;
-            padding-top: 10px;
-            text-align: right;
-            color: #555;
-        }
     </style>
-    <div class="order-container">
+    <div class="order-details-container">
         <header class="order-header">
-            <div class="order-summary">
+            <div class="order-info">
                 <h2>Order #{{ $order->invoice_number ?? 'N/A' }}</h2>
-                <p><strong>Customer:</strong> {{ $order->user->first_name ?? 'Unknown' }} {{ $order->user->last_name ?? '' }}</p>
-                <p><strong>Status:</strong>
-                    <span class="badge status-{{ strtolower($order->status) }}">
-                        {{ ucfirst($order->status) }}
-                    </span>
-                </p>
-                <p><strong>Total:</strong> {{ number_format($order->total) }} Rwf</p>
-                <p><strong>Payment:</strong>
-                    <span class="badge payment-{{ $order->payment ? 'paid' : 'unpaid' }}">
-                        {{ $order->payment ? 'Paid' : 'Unpaid' }}
-                    </span>
-                </p>
+                <div class="order-meta">
+                    <p><strong>Customer:</strong> {{ $order->user->first_name ?? 'Unknown' }}
+                        {{ $order->user->last_name ?? '' }}</p>
+                    <p><strong>Status:</strong>
+                        <span class="badge status-{{ strtolower($order->status) }}">
+                            {{ ucfirst($order->status) }}
+                        </span>
+                    </p>
+                    <p><strong>Total:</strong> <span class="highlight">{{ number_format($order->total) }} Rwf</span></p>
+                    <p><strong>Payment:</strong>
+                        <span class="badge payment-{{ $order->payment ? 'paid' : 'unpaid' }}">
+                            {{ $order->payment ? 'Paid' : 'Unpaid' }}
+                        </span>
+                    </p>
+                </div>
             </div>
+
             <div class="order-actions">
-                <button class="btn-primary">Mark as Paid</button>
-                <button class="btn-secondary">Update Delivery</button>
+                <button class="btn-primary">
+                    <i class="bi bi-cash-stack"></i> Mark as Paid
+                </button>
+                <button class="btn-outline">
+                    <i class="bi bi-truck"></i> Update Delivery
+                </button>
             </div>
         </header>
 
         <section class="order-items">
-            <h3>Order Items</h3>
-            <table class="items-table">
-                <thead>
-                    <tr>
-                        <th>Item #</th>
-                        <th>Product</th>
-                        <th>Variant</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                        <th>Subtotal</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($order->items as $index => $item)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $item->product->name ?? 'N/A' }}</td>
-                            <td>{{ $item->variant->name ?? '-' }}</td>
-                            <td>{{ $item->quantity }}</td>
-                            <td>{{ number_format($item->price) }} Rwf</td>
-                            <td>{{ number_format($item->quantity * $item->price) }} Rwf</td>
-                            <td>
-                                <select class="status-dropdown" data-item-id="{{ $item->id }}">
-                                    <option value="pending" {{ $item->order->status == 'pending' ? 'selected' : '' }}>Pending
-                                    </option>
-                                    <option value="processing" {{ $item->order->status == 'processing' ? 'selected' : '' }}>
-                                        Processing</option>
-                                    <option value="delivered" {{ $item->order->status == 'delivered' ? 'selected' : '' }}>
-                                        Delivered</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button class="btn-small edit-btn">Edit</button>
-                                <button class="btn-small danger-btn">Remove</button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="section-header">
+                <h3>Ordered Products</h3>
+            </div>
+
+            <div class="items-grid">
+                @foreach($order->items as $index => $item)
+                    <div class="item-card">
+                        <div class="item-image">
+                            <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}"
+                                alt="Product Image">
+                        </div>
+                        <div class="item-details">
+                            <h4>{{ $item->product->name ?? 'N/A' }}</h4>
+                            <p class="variant">{{ $item->variant->name ?? 'Default Variant' }}</p>
+                            <p class="price">Unit Price: <strong>{{ number_format($item->price) }} Rwf</strong></p>
+                            <p class="quantity">Quantity: <strong>{{ $item->quantity }}</strong></p>
+                            <p class="subtotal">Subtotal:
+                                <span class="highlight">{{ number_format($item->quantity * $item->price) }} Rwf</span>
+                            </p>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-small edit-btn"><i class="bi bi-pencil"></i> Edit</button>
+                            <button class="btn-small danger-btn"><i class="bi bi-trash"></i> Remove</button>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </section>
 
         <footer class="order-footer">
-            <p>Shipping to: {{ $order->shippingAddress->full_address ?? 'N/A' }}</p>
-            <p>Invoice #: {{ $order->invoice_number ?? 'Not Generated' }}</p>
-            <button class="btn-outline">Generate Invoice</button>
+            <div class="footer-left">
+                <p><i class="bi bi-geo-alt"></i> Shipping Address: {{ $order->shippingAddress->full_address ?? 'N/A' }}</p>
+                <p><i class="bi bi-receipt"></i> Invoice #: {{ $order->invoice_number ?? 'Not Generated' }}</p>
+            </div>
+            <div class="footer-right">
+                <button class="btn-primary"><i class="bi bi-file-earmark-pdf"></i> Generate Invoice</button>
+            </div>
         </footer>
     </div>
 
