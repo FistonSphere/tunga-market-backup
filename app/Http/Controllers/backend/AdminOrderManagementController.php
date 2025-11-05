@@ -51,6 +51,7 @@ class AdminOrderManagementController extends Controller
         ->orderBy('date', 'asc')
         ->take(7)
         ->get();
+$totalRevenue = Order::where('status', 'delivered')->sum('total');
 
     // === Top Buyers ===
     $topBuyers = User::withCount('orders')
@@ -68,7 +69,7 @@ class AdminOrderManagementController extends Controller
     ->orderBy('date', 'asc')
     ->take(7)
     ->get();
-    return view('admin.orders.index', compact('orders', 'metrics', 'revenueTrend', 'topBuyers', 'paymentStats','orderTrend'));
+    return view('admin.orders.index', compact('orders', 'metrics', 'revenueTrend', 'topBuyers', 'paymentStats','orderTrend','totalRevenue'));
    }
 
    public function OrderListing(Request $request){

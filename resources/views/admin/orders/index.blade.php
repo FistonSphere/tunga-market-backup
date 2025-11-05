@@ -1072,7 +1072,7 @@
             </div>
             <div class="metric-card revenue">
                 <h3>Total Revenue</h3>
-                <p class="value">{{ number_format($metrics['revenue']) }} Rwf</p>
+                <p class="value">{{ number_format($totalRevenue) }} Rwf</p>
             </div>
         </div>
         <!-- ====== CHARTS ====== -->
@@ -1226,7 +1226,7 @@
         @endforelse
 
 
-       
+
 
     </div>
 
