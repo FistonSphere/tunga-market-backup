@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -153,6 +154,15 @@ public function showOrderItem($orderId)
         ->findOrFail($orderId);
 
     return view('admin.orders.items', compact('order'));
+}
+public function updateItemStatus(Request $request, $itemId)
+{
+    $request->validate(['status' => 'required|string']);
+
+    $item = OrderItem::findOrFail($itemId);
+    $item->order->update(['status' => $request->status]);
+
+    return response()->json(['status' => $request->status]);
 }
 
 
