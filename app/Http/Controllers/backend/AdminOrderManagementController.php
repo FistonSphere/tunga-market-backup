@@ -88,7 +88,7 @@ $totalRevenue = Order::where('status', 'delivered')->sum('total');
         $query->where('payment_method', $request->payment_method);
     }
 
-    $orders = $query->latest()->paginate(3);
+    $orders = $query->latest()->paginate(4);
     return view('admin.orders.listing', compact('orders'));
    }
    public function show($id)
