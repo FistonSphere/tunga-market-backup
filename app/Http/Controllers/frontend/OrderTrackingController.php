@@ -369,22 +369,16 @@ public function store(Request $request)
 {
     $user = Auth::user();
 
-    // Validate shipping address
     $request->validate([
         'shipping_address_id' => 'required|exists:shipping_addresses,id',
     ]);
 
-    // Fetch cart items
     $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
-
     if ($cartItems->isEmpty()) {
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Your cart is empty.'
-        ], 400);
+        return response()->json(['status'=>'error','message'=>'Your cart is empty.'],400);
     }
 
-    // Create the order
+    // Create order
     $order = Order::create([
         'user_id' => $user->id,
         'total' => 0,
@@ -395,55 +389,54 @@ public function store(Request $request)
         'payment_method' => 'Cash on Delivery',
     ]);
 
-    // Add order items and calculate subtotal
-    $subtotal = 0;
+    $total = 0;
+    $totalTax = 0;
+
     foreach ($cartItems as $item) {
         $price = $item->product->discount_price ?? $item->product->price;
         $quantity = $item->quantity;
+        $itemSubtotal = $price * $quantity;
+        $itemTax = round($itemSubtotal * 0.10, 2); // 10% tax per item
 
+        // Save item with tax
         OrderItem::create([
             'order_id' => $order->id,
             'product_id' => $item->product_id,
             'quantity' => $quantity,
             'price' => $price,
+            'tax_amount' => $itemTax,
         ]);
 
-        $subtotal += $price * $quantity;
+        $total += $itemSubtotal;
+        $totalTax += $itemTax;
     }
 
-    // Calculate tax and final total
-    $tax = round($subtotal * 0.10, 2); // 10% tax
-    $finalTotal = round($subtotal + $tax, 2);
+    $orderTotal = $total + $totalTax;
 
     // Update order totals
     $order->update([
-        'total' => $finalTotal,
-        'tax_amount' => $tax,
+        'total' => $orderTotal,
+        'tax_amount' => $totalTax,
     ]);
 
-    // Optional invoice generation
     if (method_exists($order, 'generateInvoiceNumber')) {
         $order->generateInvoiceNumber();
     }
 
-    // Generate unique COD transaction ID
-    $transactionId = 'COD-' . strtoupper(uniqid());
-
-    // Create payment record (include tax in amount)
+    // Payment record
     Payment::create([
         'order_id' => $order->id,
         'user_id' => $user->id,
         'payment_method' => 'Cash on Delivery',
-        'amount' => $finalTotal,
+        'amount' => $orderTotal,
         'currency' => 'Rwf',
         'status' => 'pending',
-        'transaction_id' => $transactionId,
+        'transaction_id' => 'COD-' . strtoupper(uniqid()),
     ]);
 
-    // Clear the cart
+    // Clear cart
     Cart::where('user_id', $user->id)->delete();
 
-    // Return response
     $firstOrderItem = $order->items()->first();
 
     return response()->json([
@@ -453,6 +446,7 @@ public function store(Request $request)
         'redirect_url' => route('thankyou', ['order' => $order->id]),
     ]);
 }
+
 
 
 

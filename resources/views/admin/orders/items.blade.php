@@ -185,6 +185,8 @@
                             {{ ucfirst($order->status) }}
                         </span>
                     </p>
+                    <p><strong>Sub Total:</strong> <span class="highlight">{{ number_format($order->total - $order->tax_amount) }} Rwf</span></p>
+                    <p><strong>Tax:</strong> <span class="highlight">{{ number_format($order->tax_amount) }} Rwf</span></p>
                     <p><strong>Total:</strong> <span class="highlight">{{ number_format($order->total) }} Rwf</span></p>
                     <p><strong>Payment:</strong>
                         <span class="badge payment-{{ $order->payment ? 'paid' : 'unpaid' }}">
