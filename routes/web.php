@@ -313,7 +313,8 @@ Route::get('/items', 'OrderItems')->name('admin.orders.items');
 Route::get('/{id}/show',  'show')->name('admin.orders.show');
 Route::post('/contact-buyer', 'contactBuyer')->name('admin.orders.contact-buyer');
 Route::post('/{order}/status', 'updateStatus')->name('admin.orders.updateStatus');
-
+Route::get('/{order}/items', 'showItems')->name('admin.orders.items');
+Route::post('/order-items/{item}/status', 'updateItemStatus')->name('admin.orderItems.updateStatus');
 });
 //end orders route
 

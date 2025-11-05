@@ -1037,6 +1037,19 @@
                 width: 0%;
             }
         }
+
+        .btn.manage {
+            background: #10b981;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn.manage:hover {
+            background: #0ea371;
+        }
     </style>
     <div class="orders-dashboard">
         <!-- ===== SUMMARY METRICS ===== -->
@@ -1376,11 +1389,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                                                                                                                                                                          <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                                                                                                                                                                          <div class="info">
-                                                                                                                                                                                                                                            <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                                                                                                                                                                            <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                                                                                                                                                                          </div>`;
+                                                                                                                                                                                                                                              <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                                                                                                                                                              <div class="info">
+                                                                                                                                                                                                                                                <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                                                                                                                                                                <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                                                                                                                                                              </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -1609,12 +1622,12 @@
 
             // Inner content
             notification.innerHTML = `
-                                <div class="notification-content">
-                                    <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                    <span>${message}</span>
-                                </div>
-                                <div class="progress-bar"></div>
-                            `;
+                                    <div class="notification-content">
+                                        <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                        <span>${message}</span>
+                                    </div>
+                                    <div class="progress-bar"></div>
+                                `;
 
             document.body.appendChild(notification);
 
@@ -1638,7 +1651,7 @@
             @if(session('error'))
                 showNotification("{{ session('error') }}", 'error');
             @endif
-                        });
+                            });
     </script>
 
 
