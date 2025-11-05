@@ -1673,7 +1673,7 @@
 
             // ✅ Fullscreen overlay with dark blur (same as your trackingRedirectModal)
             loadingModal.className = `
-                    fixed inset-0 z-[9999] flex items-center justify-center
+                    fixed inset-0 z-[99999999] flex items-center justify-center
                     bg-black/50 backdrop-blur-md transition-opacity duration-300
                 `;
 
