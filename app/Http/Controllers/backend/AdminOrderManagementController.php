@@ -68,9 +68,28 @@ class AdminOrderManagementController extends Controller
     ->orderBy('date', 'asc')
     ->take(7)
     ->get();
-    return view('admin.orders.listing', compact('orders', 'metrics', 'revenueTrend', 'topBuyers', 'paymentStats','orderTrend'));
+    return view('admin.orders.index', compact('orders', 'metrics', 'revenueTrend', 'topBuyers', 'paymentStats','orderTrend'));
    }
 
+   public function OrderListing(Request $request){
+    $query = Order::with(['user', 'items.product', 'shippingAddress', 'payment']);
+
+    // === Optional Filters ===
+    if ($request->status) {
+        $query->where('status', $request->status);
+    }
+
+    if ($request->from && $request->to) {
+        $query->whereBetween('created_at', [$request->from, $request->to]);
+    }
+
+    if ($request->payment_method) {
+        $query->where('payment_method', $request->payment_method);
+    }
+
+    $orders = $query->latest()->paginate(3);
+    return view('admin.orders.listing', compact('orders', 'metrics', 'revenueTrend', 'topBuyers', 'paymentStats','orderTrend'));
+   }
    public function show($id)
   {
     $order = Order::with(['user', 'items.product', 'shippingAddress', 'payment'])->findOrFail($id);
