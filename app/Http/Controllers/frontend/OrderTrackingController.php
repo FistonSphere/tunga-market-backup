@@ -384,13 +384,13 @@ public function store(Request $request)
         ], 400);
     }
 
-    $currency = $cartItems->first()->product->currency ?? 'USD';
+    // $currency = $cartItems->first()->product->currency ?? 'USD';
 
     // ✅ Create the order
     $order = Order::create([
         'user_id' => $user->id,
         'total' => 0,
-        'currency' => $currency,
+        'currency' => 'Rwf',
         'status' => 'Processing',
         'shipping_address_id' => $request->shipping_address_id,
         'payment_method' => 'Cash on Delivery',
@@ -453,7 +453,7 @@ public function store(Request $request)
 public function thankYou(Order $order)
 {
  $order->load(['items.product', 'shippingAddress', 'payment']);
- 
+
     return view('frontend.thankyou', compact('order'));
 }
 

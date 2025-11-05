@@ -17,6 +17,8 @@ class Order extends Model
         'shipping_address_id',
         'payment_method',
         'invoice_number',
+        'receipt_number',
+        'tax_amount',
     ];
 
     // Relationships
