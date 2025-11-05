@@ -136,7 +136,7 @@
         <header class="order-header">
             <div class="order-summary">
                 <h2>Order #{{ $order->invoice_number ?? 'N/A' }}</h2>
-                <p><strong>Customer:</strong> {{ $order->user->name ?? 'Unknown' }}</p>
+                <p><strong>Customer:</strong> {{ $order->user->first_name ?? 'Unknown' }} {{ $order->user->last_name ?? '' }}</p>
                 <p><strong>Status:</strong>
                     <span class="badge status-{{ strtolower($order->status) }}">
                         {{ ucfirst($order->status) }}

@@ -1188,7 +1188,7 @@
                         </svg> Contact Buyer
                     </button>
                     <!-- ✅ NEW: View Order Items Button -->
-                    <a href="{{ route('admin.orders.items', $order->id) }}" class="btn manage">
+                    <a href="{{ route('admin.showOrders.items', $order->id) }}" class="btn manage">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-box-seam-fill" viewBox="0 0 16 16">
                             <path
