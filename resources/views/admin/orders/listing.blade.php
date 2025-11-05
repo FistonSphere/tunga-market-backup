@@ -914,21 +914,21 @@
         }
 
         .btn.view {
-            background-color: #4a90e2;
+            background-color: #1b2850;
             color: #fff;
         }
 
         .btn.contact {
-            background-color: #f39c12;
+            background-color: #ff5f0e;
             color: #fff;
         }
 
         .btn.view:hover {
-            background-color: #357abd;
+            background-color: #1b2850;
         }
 
         .btn.contact:hover {
-            background-color: #e08e0b;
+            background-color: #ff5f0e;
         }
 
         .hidden {
