@@ -2,8 +2,6 @@
 
 @section('content')
     <style>
-    
-
         .order-container {
             max-width: 1100px;
             margin: 40px auto;
@@ -207,4 +205,28 @@
             <button class="btn-outline">Generate Invoice</button>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.status-dropdown').forEach(select => {
+                select.addEventListener('change', function () {
+                    const itemId = this.dataset.itemId;
+                    const status = this.value;
+
+                    fetch(`/admin/order-items/${itemId}/status`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({ status })
+                    })
+                        .then(res => res.json())
+                        .then(data => alert(`✅ Status updated to ${data.status}`))
+                        .catch(err => console.error(err));
+                });
+            });
+        });
+
+    </script>
 @endsection
