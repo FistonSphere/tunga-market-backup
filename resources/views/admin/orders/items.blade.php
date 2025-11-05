@@ -5,12 +5,12 @@
         /* resources/css/order-details.css */
 
 .order-details-container {
-    background: #f9fafc;
+    /* background: #f9fafc; */
     padding: 30px;
     border-radius: 20px;
     max-width: 1200px;
     margin: 30px auto;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    /* box-shadow: 0 2px 10px rgba(0,0,0,0.05); */
     font-family: 'Inter', sans-serif;
     color: #1a202c;
 }
