@@ -390,6 +390,7 @@ public function store(Request $request)
     $order = Order::create([
         'user_id' => $user->id,
         'total' => 0,
+        'tax_amount'=>0,
         'currency' => 'Rwf',
         'status' => 'Processing',
         'shipping_address_id' => $request->shipping_address_id,
@@ -398,6 +399,7 @@ public function store(Request $request)
 
     // ✅ Add order items and calculate total
     $total = 0;
+    $tax_amount = 0;
     foreach ($cartItems as $item) {
         $price = $item->product->discount_price ?? $item->product->price;
         $quantity = $item->quantity;
@@ -411,9 +413,13 @@ public function store(Request $request)
 
         $total += $price * $quantity;
     }
-
+$tax = round($total * 0.10);
+    $finaltotal =$total+ $tax;
     // ✅ Update order total
-    $order->update(['total' => $total]);
+    $order->update([
+        'total' => $finaltotal,
+        'tax_amount'=>$tax
+    ]);
 
     // ✅ Optional invoice generation
     if (method_exists($order, 'generateInvoiceNumber')) {
