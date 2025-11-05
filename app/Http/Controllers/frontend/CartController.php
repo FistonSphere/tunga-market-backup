@@ -34,8 +34,8 @@ class CartController extends Controller
 
     $totalItems = $cartItems->sum('quantity');
     $bulkDiscount = ($totalItems > 5) ? $subtotal * 0.1 : 0;
-    $tax = ($subtotal - $bulkDiscount) * 0.1; // or whatever tax logic you want
-    $total = $subtotal - $bulkDiscount + $tax;
+    $tax = $subtotal* 0.1; // or whatever tax logic you want
+    $total = $subtotal + $tax;
 
     // compute savings from flash deals (optional)
     $discountPromo = $cartItems->sum(function ($cart) use ($getPrice) {

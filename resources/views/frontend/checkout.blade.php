@@ -1110,12 +1110,12 @@
     <!-- Edit Address Modal -->
     <div id="editAddressModal"
         style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));" class="fixed inset-0 hidden items-center justify-center
-                                                            backdrop-blur-sm transition-opacity duration-300 ease-out">
+                                                                backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
         <div id="editAddressCard"
             class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
-                                                               transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                                                                   transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1653,17 +1653,28 @@
             // Create loading modal
             const loadingModal = document.createElement("div");
             loadingModal.id = "orderLoadingModal";
-            loadingModal.className =
-                "fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm";
-            // added backdrop-blur-sm for background blur effect
+
+            // ✅ Fullscreen overlay: dark + blurred background
+            loadingModal.className = `
+            fixed inset-0 z-[9999] flex items-center justify-center 
+            bg-black/60 backdrop-blur-md transition-opacity duration-300
+        `;
+
+            // ✅ White visible card inside dark blur
             loadingModal.innerHTML = `
-                <div class="bg-white rounded-2xl shadow-xl px-10 py-8 text-center max-w-sm transform transition-all scale-95 animate-fadeIn">
-                    <div class="animate-spin w-12 h-12 border-4 border-accent border-t-transparent rounded-full mx-auto mb-4"></div>
-                    <h2 class="text-lg font-semibold text-primary mb-1">Placing your order...</h2>
-                    <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
-                </div>
-            `;
+            <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl px-10 py-8 text-center max-w-sm w-full mx-4 transform transition-all duration-300 scale-95 animate-fadeIn">
+                <div class="animate-spin w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+                <h2 class="text-lg font-semibold text-gray-800 mb-1">Placing your order...</h2>
+                <p class="text-sm text-gray-500">Please wait a moment while we confirm your order.</p>
+            </div>
+        `;
+
             document.body.appendChild(loadingModal);
+
+            // Add slight fade-in effect
+            requestAnimationFrame(() => {
+                loadingModal.classList.remove("opacity-0");
+            });
 
             fetch(`/orders/store`, {
                 method: "POST",
@@ -1678,7 +1689,9 @@
                 .then(res => res.json())
                 .then(data => {
                     setTimeout(() => {
-                        loadingModal.remove();
+                        // Smooth fade-out before removal
+                        loadingModal.classList.add("opacity-0");
+                        setTimeout(() => loadingModal.remove(), 300);
 
                         if (data.status === "success") {
                             showToast("Order placed successfully!", "success");
@@ -1686,13 +1699,15 @@
                         } else {
                             showToast(data.message || "Failed to place order.", "error");
                         }
-                    }, 5000); // ⏳ simulate 5s loading
+                    }, 3000); // 3s simulated loading
                 })
                 .catch(() => {
-                    loadingModal.remove();
+                    loadingModal.classList.add("opacity-0");
+                    setTimeout(() => loadingModal.remove(), 300);
                     showToast("Something went wrong while placing your order.", "error");
                 });
         }
+
 
         // Phone number formatting for IREMBO Pay
         function formatPhoneNumber() {
