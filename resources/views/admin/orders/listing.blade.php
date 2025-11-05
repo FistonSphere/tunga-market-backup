@@ -1353,11 +1353,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                                                                                                                                                  <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                                                                                                                                                  <div class="info">
-                                                                                                                                                                                                                    <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                                                                                                                                                    <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                                                                                                                                                  </div>`;
+                                                                                                                                                                                                                          <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                                                                                                                                          <div class="info">
+                                                                                                                                                                                                                            <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                                                                                                                                            <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                                                                                                                                          </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -1532,14 +1532,15 @@
                         badge.className = `order-status ${newStatus}`;
                         toggleStatusDropdown(orderId);
 
-                        showToast(data.message, 'success'); // ✅ Use same toast function
+                        showNotification(data.message, 'success'); // ✅ show in top-right
                     } else {
-                        showToast(data.message || "Failed to update order status.", 'error');
+                        showNotification(data.message || "Failed to update order status.", 'error');
                     }
                 })
                 .catch(() => {
-                    showToast("Something went wrong updating the order status.", 'error');
+                    showNotification("Something went wrong updating the order status.", 'error');
                 });
+
 
         }
 
@@ -1573,15 +1574,49 @@
 
     </script>
     <script>
+        function showNotification(message, type = 'success') {
+            // Remove existing notification if present
+            const existing = document.getElementById('notification');
+            if (existing) existing.remove();
+
+            // Create notification container
+            const notification = document.createElement('div');
+            notification.id = 'notification';
+            notification.className = `notification ${type}`;
+
+            // Inner content
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                    <span>${message}</span>
+                </div>
+                <div class="progress-bar"></div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Animate progress bar
+            const progress = notification.querySelector('.progress-bar');
+            progress.style.transition = 'width 4s linear';
+            setTimeout(() => { progress.style.width = '100%'; }, 50);
+
+            // Auto-remove after 4s
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 500);
+            }, 4000);
+        }
+
+        // Run for session flash messages on page load
         document.addEventListener('DOMContentLoaded', () => {
             @if(session('success'))
-                showToast("{{ session('success') }}", 'success');
+                showNotification("{{ session('success') }}", 'success');
             @endif
-
             @if(session('error'))
-                showToast("{{ session('error') }}", 'error');
+                showNotification("{{ session('error') }}", 'error');
             @endif
-            });
+        });
     </script>
+
 
 @endsection
