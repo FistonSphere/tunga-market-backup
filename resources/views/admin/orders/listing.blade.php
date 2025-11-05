@@ -1353,11 +1353,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                                                                                                                                  <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                                                                                                                                  <div class="info">
-                                                                                                                                                                                                    <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                                                                                                                                    <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                                                                                                                                  </div>`;
+                                                                                                                                                                                                      <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                                                                                                                      <div class="info">
+                                                                                                                                                                                                        <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                                                                                                                        <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                                                                                                                      </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -1512,7 +1512,7 @@
 
             if (!csrfToken) {
                 console.error('CSRF token not found in meta tag!');
-                alert('Security token missing. Please refresh the page.');
+                showToast("Security token missing. Please refresh the page.", "error");
                 return;
             }
 
@@ -1531,20 +1531,16 @@
                         badge.textContent = newStatus;
                         badge.className = `order-status ${newStatus}`;
                         toggleStatusDropdown(orderId);
-
-                        const btn = document.querySelector(`#order-${orderId} .status-change`);
-                        btn.innerHTML = `<i class="bi bi-check-circle-fill" style="color:green"></i> Updated!`;
-                        setTimeout(() => {
-                            btn.innerHTML = `<i class="bi bi-arrow-repeat"></i> Change Status`;
-                        }, 1500);
+                        showToast("Order status updated successfully!", "success");
                     } else {
-                        alert("Failed to update status.");
+                        showToast("Failed to update order status.", "error");
                     }
                 })
                 .catch(() => {
-                    alert("Something went wrong updating the order status.");
+                    showToast("Something went wrong updating the order status.", "error");
                 });
         }
+
 
 
 

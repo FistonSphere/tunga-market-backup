@@ -144,6 +144,7 @@ public function updateStatus(Request $request, Order $order)
     $order->update(['status' => $validated['status']]);
 
     return response()->json(['status' => 'success', 'message' => 'Order status updated successfully.']);
+    
 }
 
 
