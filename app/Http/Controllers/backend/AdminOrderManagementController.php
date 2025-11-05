@@ -148,7 +148,7 @@ public function updateStatus(Request $request, Order $order)
 
 }
 
-public function showOrderItem($orderId)
+public function showItems($orderId)
 {
     $order = Order::with(['items.product', 'items.variant', 'user', 'payment', 'shippingAddress'])
         ->findOrFail($orderId);
