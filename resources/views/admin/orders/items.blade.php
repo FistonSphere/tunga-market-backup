@@ -142,7 +142,7 @@
                         {{ ucfirst($order->status) }}
                     </span>
                 </p>
-                <p><strong>Total:</strong> {{ number_format($order->total, 2) }} {{ $order->currency }}</p>
+                <p><strong>Total:</strong> {{ number_format($order->total) }} Rwf</p>
                 <p><strong>Payment:</strong>
                     <span class="badge payment-{{ $order->payment ? 'paid' : 'unpaid' }}">
                         {{ $order->payment ? 'Paid' : 'Unpaid' }}
@@ -177,8 +177,8 @@
                             <td>{{ $item->product->name ?? 'N/A' }}</td>
                             <td>{{ $item->variant->name ?? '-' }}</td>
                             <td>{{ $item->quantity }}</td>
-                            <td>{{ number_format($item->price, 2) }} {{ $order->currency }}</td>
-                            <td>{{ number_format($item->quantity * $item->price, 2) }} {{ $order->currency }}</td>
+                            <td>{{ number_format($item->price) }} Rwf</td>
+                            <td>{{ number_format($item->quantity * $item->price) }} Rwf</td>
                             <td>
                                 <select class="status-dropdown" data-item-id="{{ $item->id }}">
                                     <option value="pending" {{ $item->order->status == 'pending' ? 'selected' : '' }}>Pending
