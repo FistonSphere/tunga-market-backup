@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Mail;
 
 class AdminOrderManagementController extends Controller
 {
-  
+
    public function index(Request $request){
    $query = Order::with(['user', 'items.product', 'shippingAddress', 'payment']);
 
@@ -133,5 +133,18 @@ public function contactBuyer(Request $request)
 
     return back()->with('success', 'Message sent successfully to buyer via email and SMS.');
 }
+
+
+public function updateStatus(Request $request, Order $order)
+{
+    $validated = $request->validate([
+        'status' => 'required|in:Processing,Delivered,Canceled',
+    ]);
+
+    $order->update(['status' => $validated['status']]);
+
+    return response()->json(['status' => 'success', 'message' => 'Order status updated successfully.']);
+}
+
 
 }

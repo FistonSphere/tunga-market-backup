@@ -312,6 +312,8 @@ Route::get('/overview', 'index')->name('admin.orders.list');
 Route::get('/items', 'OrderItems')->name('admin.orders.items');
 Route::get('/{id}/show',  'show')->name('admin.orders.show');
 Route::post('/contact-buyer', 'contactBuyer')->name('admin.orders.contact-buyer');
+Route::post('/{order}/status', 'updateStatus')->name('admin.orders.updateStatus');
+
 });
 //end orders route
 

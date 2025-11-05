@@ -9,6 +9,7 @@
         content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern,  html5, responsive">
     <meta name="author" content="Dreamguys - Bootstrap Admin Template">
     <meta name="robots" content="noindex, nofollow">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin Dashboard - Tunga Market</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo-circle.png') }}" />
@@ -28,7 +29,7 @@
     <!-- Add Choices.js -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-    
+
 
 </head>
 
