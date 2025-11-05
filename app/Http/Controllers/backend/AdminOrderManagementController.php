@@ -31,7 +31,7 @@ class AdminOrderManagementController extends Controller
         $query->where('payment_method', $request->payment_method);
     }
 
-    $orders = $query->latest()->paginate(10);
+    $orders = $query->latest()->paginate(3);
 
     // === Metrics ===
     $metrics = [
