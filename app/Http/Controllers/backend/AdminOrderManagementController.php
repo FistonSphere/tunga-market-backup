@@ -32,7 +32,7 @@ class AdminOrderManagementController extends Controller
         $query->where('payment_method', $request->payment_method);
     }
 
-    $orders = $query->latest()->paginate(3);
+    $orders = $query->latest()->limit(3);
 
     // === Metrics ===
     $metrics = [
@@ -88,7 +88,7 @@ class AdminOrderManagementController extends Controller
     }
 
     $orders = $query->latest()->paginate(3);
-    return view('admin.orders.listing', compact('orders', 'metrics', 'revenueTrend', 'topBuyers', 'paymentStats','orderTrend'));
+    return view('admin.orders.listing', compact('orders'));
    }
    public function show($id)
   {
