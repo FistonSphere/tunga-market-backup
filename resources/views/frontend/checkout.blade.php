@@ -1127,12 +1127,12 @@
     <div id="editAddressModal"
         style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));"
         class="fixed inset-0 hidden items-center justify-center
-                                                                                        backdrop-blur-sm transition-opacity duration-300 ease-out">
+                                                                                                backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
         <div id="editAddressCard"
             class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
-                                                                                           transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                                                                                                   transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1661,6 +1661,31 @@
 
         // Place Order Function with IREMBO Pay Support
         function placeOrder() {
+            const termsCheckbox = document.getElementById("terms-conditions");
+            const supplierCheckbox = document.getElementById("supplier-terms");
+            const errorContainerId = "termsErrorMessage";
+
+            // Remove any previous error message
+            const existingError = document.getElementById(errorContainerId);
+            if (existingError) existingError.remove();
+
+            // Validate terms agreement
+            if (!termsCheckbox.checked || !supplierCheckbox.checked) {
+                const errorMessage = document.createElement("p");
+                errorMessage.id = errorContainerId;
+                errorMessage.className = "text-red-500 text-sm mt-2 ml-1";
+                errorMessage.textContent = "⚠️ Please agree to all required terms before placing your order.";
+
+                // Insert error below the terms container
+                const termsContainer = document.querySelector('.border.border-border.rounded-lg.p-4');
+                termsContainer.appendChild(errorMessage);
+
+                // Optional toast for better UX
+                showToast("Please accept the required terms before proceeding.", "error");
+                return; // Stop execution
+            }
+
+            // Proceed only if both checkboxes are checked 👇
             const selectedAddress = document.querySelector('input[name="shipping_address_id"]:checked');
             if (!selectedAddress) {
                 showToast("Please select a shipping address before placing your order.", "error");
@@ -1673,20 +1698,20 @@
 
             // ✅ Fullscreen overlay with dark blur (same as your trackingRedirectModal)
             loadingModal.className = `
-                    fixed inset-0 z-[99999999] flex items-center justify-center
-                    bg-black/50 backdrop-blur-md transition-opacity duration-300
-                `;
+                            fixed inset-0 z-[99999999] flex items-center justify-center
+                            bg-black/50 backdrop-blur-md transition-opacity duration-300
+                        `;
 
             // ✅ White modal card — solid, visible, clean
             loadingModal.innerHTML = `
-                    <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center p-8 animate-scale-in">
-                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-orange-100">
-                            <div class="animate-spin w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full"></div>
-                        </div>
-                        <h2 class="text-lg font-semibold text-gray-800 mb-1">Placing your order...</h2>
-                        <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
-                    </div>
-                `;
+                            <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center p-8 animate-scale-in">
+                                <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-orange-100">
+                                    <div class="animate-spin w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full"></div>
+                                </div>
+                                <h2 class="text-lg font-semibold text-gray-800 mb-1">Placing your order...</h2>
+                                <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
+                            </div>
+                        `;
 
             document.body.appendChild(loadingModal);
 
