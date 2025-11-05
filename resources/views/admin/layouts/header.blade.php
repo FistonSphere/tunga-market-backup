@@ -275,11 +275,10 @@
                                     alt="img"><span>
                                     Orders</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{ route('admin.orders.list') }}"
+                                <li><a href="{{ route('admin.orders.index') }}"
                                         class="{{ request()->routeIs('admin.orders.list') ? 'active' : '' }}">Overview</a></li>
-                                <li><a href="{{ route('admin.orders.items') }}"
-                                        class="{{ request()->routeIs('admin.orders.items') ? 'active' : '' }}">Order
-                                        Items</a></li>
+                                <li><a href="{{ route('admin.orders.list') }}"
+                                        class="{{ request()->routeIs('admin.orders.items') ? 'active' : '' }}">Orders List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
