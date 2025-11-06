@@ -79,5 +79,24 @@ public function storeTransport(Request $request)
 }
 
 
+public function update(Request $request, DeliveryAssignment $delivery)
+{
+    $validated = $request->validate([
+        'departure_location' => 'nullable|string|max:255',
+        'destination' => 'nullable|string|max:255',
+        'status' => 'required|in:pending,dispatched,in_transit,arrived',
+        'notes' => 'nullable|string',
+    ]);
+
+    $delivery->update($validated);
+
+    return back()->with('success', 'Delivery details updated successfully!');
+}
+
+public function destroy(DeliveryAssignment $delivery)
+{
+    $delivery->delete();
+    return back()->with('success', 'Delivery assignment removed successfully!');
+}
 
 }
