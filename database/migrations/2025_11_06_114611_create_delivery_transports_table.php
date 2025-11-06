@@ -17,7 +17,7 @@ return new class extends Migration
         $table->foreignId('assigned_by')->nullable()->constrained('users')->onDelete('set null');
         $table->string('driver_name');
         $table->string('driver_phone');
-        $table->enum('transport_type', ['car', 'bike', 'bicycle'])->default('bike');
+        $table->enum('transport_type', ['car', 'bike', 'bicycle','bus','plane'])->default('bike');
         $table->string('vehicle_plate')->nullable();
         $table->string('departure_location')->nullable();
         $table->string('destination')->nullable();
