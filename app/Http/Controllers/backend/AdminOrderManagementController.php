@@ -188,7 +188,7 @@ public function updateItemStatus(Request $request, $itemId)
 public function updatePaymentStatus(Request $request, Order $order)
 {
     $validated = $request->validate([
-        'status' => 'required|in:pending,paid,failed,refunded,unpaid',
+        'status' => 'required|in:paid,failed,refunded,unpaid',
     ]);
 
     $payment = $order->payment;
@@ -198,7 +198,7 @@ public function updatePaymentStatus(Request $request, Order $order)
     }
 
     // Convert 'unpaid' to 'pending'
-    $paymentStatus = $validated['status'] === 'unpaid' ? 'pending' : $validated['status'];
+    $paymentStatus = $validated['status'] === 'paid' ? 'unpaid' : $validated['status'];
 
     $payment->update(['status' => $paymentStatus]);
 
