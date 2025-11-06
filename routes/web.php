@@ -316,6 +316,8 @@ Route::post('/contact-buyer', 'contactBuyer')->name('admin.orders.contact-buyer'
 Route::post('/{order}/status', 'updateStatus')->name('admin.orders.updateStatus');
 Route::get('/{order}/items', 'showItems')->name('admin.showOrders.items');
 Route::post('/order-items/{item}/status', 'updateItemStatus')->name('admin.orderItems.updateStatus');
+Route::post('/{order}/payment-status','updatePaymentStatus')->name('admin.orders.updatePaymentStatus');
+
 });
 //end orders route
 

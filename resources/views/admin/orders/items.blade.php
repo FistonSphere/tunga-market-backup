@@ -323,27 +323,24 @@
             <div class="order-summary-card">
                 <!-- ===== Order Actions on Top ===== -->
                 <div class="order-actions">
-                    @if ($order->payment?->status === 'paid')
-                        <button class="btn-primary" type="button">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-cash-stack" viewBox="0 0 16 16">
-                                <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
-                                <path
-                                    d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z" />
-                            </svg>
-                            Mark as Unpaid
-                        </button>
-                    @else
-                        <button class="btn-primary" type="button">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-cash-stack" viewBox="0 0 16 16">
-                                <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
-                                <path
-                                    d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z" />
-                            </svg>
-                            Mark as Paid
-                        </button>
-                    @endif
+                    <div class="payment-section">
+                        @if ($order->payment)
+
+                            <button class="btn-primary payment-toggle-btn" data-order-id="{{ $order->id }}"
+                                data-status="{{ $order->payment->status }}" data-admin-name="{{ Auth::user()->first_name }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-cash-stack" viewBox="0 0 16 16">
+                                    <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                                    <path
+                                        d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z" />
+                                </svg>
+                                {{ $order->payment->status === 'paid' ? 'Mark as Unpaid' : 'Mark as Paid' }}
+                            </button>
+                        @endif
+                    </div>
+
+
+
 
 
                     <button class="btn-outline">
@@ -619,7 +616,21 @@
 
 
     </div>
-
+    <!-- Alibaba-style confirmation modal -->
+    <div id="confirmModal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modalTitle">Confirm Action</h3>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelBtn" class="btn-cancel">Cancel</button>
+                <button id="confirmBtn" class="btn-confirm">Yes, Proceed</button>
+            </div>
+        </div>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.status-dropdown').forEach(select => {
@@ -684,6 +695,73 @@
                 console.error('Failed to copy invoice number:', err);
                 alert('Unable to copy the invoice number. Please try again.');
             });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('confirmModal');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalTitle = document.getElementById('modalTitle');
+            const confirmBtn = document.getElementById('confirmBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            let selectedOrderId = null;
+
+            document.querySelectorAll('.payment-toggle-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const adminName = button.dataset.adminName;
+                    const status = button.dataset.status;
+                    const orderId = button.dataset.orderId;
+
+                    selectedOrderId = orderId;
+
+                    modalTitle.textContent = `Hi ${adminName}, Confirm Payment Change`;
+                    modalMessage.textContent = status === 'paid'
+                        ? `Are you sure you want to mark this payment as Unpaid?`
+                        : `Are you sure you want to mark this payment as Paid?`;
+
+                    modal.classList.remove('hidden');
+                    modal.classList.add('visible');
+                });
+            });
+
+            cancelBtn.addEventListener('click', () => {
+                modal.classList.remove('visible');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            });
+
+            confirmBtn.addEventListener('click', () => {
+                if (!selectedOrderId) return;
+
+                fetch(`/admin/orders/${selectedOrderId}/payment-status`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({})
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        modal.classList.remove('visible');
+                        setTimeout(() => modal.classList.add('hidden'), 300);
+
+                        showTopNotification(data.message, data.status);
+                        if (data.status === 'success') location.reload();
+                    })
+                    .catch(() => {
+                        showTopNotification("Something went wrong while updating payment.", "error");
+                    });
+            });
+        });
+
+        function showTopNotification(message, type = 'success') {
+            const notif = document.createElement('div');
+            notif.className = `top-notification ${type}`;
+            notif.textContent = message;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.classList.add('show'), 100);
+            setTimeout(() => notif.classList.remove('show'), 4000);
+            setTimeout(() => notif.remove(), 4500);
         }
     </script>
 
