@@ -317,6 +317,121 @@
             opacity: 1;
             transform: translateY(-10px);
         }
+
+        /* ===== Modal Overlay ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 9999;
+        }
+
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ===== Modal Box ===== */
+        .modal-box {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            max-width: 420px;
+            width: 90%;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            animation: slideUp 0.3s ease forwards;
+        }
+
+        .modal-header {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-confirm {
+            background: #ff6a00;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-confirm:hover {
+            background: #e05e00;
+        }
+
+        .btn-cancel {
+            background: #e5e5e5;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px) scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ===== Notification ===== */
+        .top-notification {
+            position: fixed;
+            top: 1.2rem;
+            right: -400px;
+            background: #fff;
+            border-left: 4px solid #ff6a00;
+            padding: 1rem 1.4rem;
+            border-radius: 6px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            font-weight: 500;
+            color: #222;
+            z-index: 99999;
+            transition: all 0.4s ease;
+        }
+
+        .top-notification.success {
+            border-color: #00b67a;
+        }
+
+        .top-notification.error {
+            border-color: #e53935;
+        }
+
+        .top-notification.show {
+            right: 1.2rem;
+        }
     </style>
     <div class="order-details-container">
         <header class="order-header">
