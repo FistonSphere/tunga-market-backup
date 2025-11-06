@@ -93,6 +93,8 @@ public function update(Request $request, DeliveryAssignment $delivery)
     return back()->with('success', 'Delivery details updated successfully!');
 }
 
+
+
 public function destroy(DeliveryAssignment $delivery)
 {
     $delivery->delete();
