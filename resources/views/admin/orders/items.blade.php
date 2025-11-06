@@ -348,7 +348,7 @@
                 </div>
 
                 <!-- ===== Order Details ===== -->
-                <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px; position: relative;">
                     <h2 class="order-title" style="margin: 0;">
                         Order #<span id="invoiceNumber">{{ $order->invoice_number ?? 'N/A' }}</span>
                     </h2>
@@ -372,6 +372,8 @@
                                 d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm3.354-8.646a.5.5 0 0 1 0 .707l-4 4a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7 10.293l3.646-3.647a.5.5 0 0 1 .708 0z" />
                         </svg>
                     </button>
+
+                    <span id="invoiceTooltip" class="copy-tooltip">Copied!</span>
                 </div>
 
 
@@ -634,6 +636,28 @@
             }).catch(err => {
                 console.error('Failed to copy transaction ID:', err);
                 alert('Failed to copy Transaction ID. Please try manually.');
+            });
+        }
+
+        function copyInvoiceNumber() {
+            const invoiceText = document.getElementById('invoiceNumber').innerText.trim();
+            const copyIcon = document.getElementById('copyInvoiceIcon');
+            const checkIcon = document.getElementById('checkInvoiceIcon');
+            const tooltip = document.getElementById('invoiceTooltip');
+
+            navigator.clipboard.writeText(invoiceText).then(() => {
+                copyIcon.style.display = 'none';
+                checkIcon.style.display = 'inline';
+                tooltip.classList.add('show');
+
+                setTimeout(() => {
+                    tooltip.classList.remove('show');
+                    checkIcon.style.display = 'none';
+                    copyIcon.style.display = 'inline';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy invoice number:', err);
+                alert('Unable to copy the invoice number. Please try again.');
             });
         }
     </script>
