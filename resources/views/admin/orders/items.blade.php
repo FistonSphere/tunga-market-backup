@@ -86,7 +86,7 @@
             display: flex;
             align-items: center;
             gap: 14px;
-            background: #f9fafb;
+            background: #001427;
             border-radius: 12px;
             padding: 16px 20px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
@@ -94,7 +94,6 @@
         }
 
         .meta-card:hover {
-            background: #fff;
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
         }
@@ -106,18 +105,18 @@
 
         .label {
             font-size: 0.85rem;
-            color: #6b7280;
+            color: #fff;
             margin-bottom: 3px;
         }
 
         .value {
             font-size: 1rem;
-            color: #111827;
+            color: #fff;
             font-weight: 500;
         }
 
         .highlight {
-            color: #f97316;
+            color: #ff6d05;
             font-weight: 600;
         }
 
@@ -586,6 +585,134 @@
         .modal-content {
             border-radius: 1.2rem !important;
         }
+
+        /* Container */
+        .delivery-transport {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Card */
+        .delivery-summary,
+        .no-delivery {
+            background: #fff;
+            border-radius: 14px;
+            padding: 22px 24px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .delivery-summary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Header */
+        .delivery-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+        }
+
+        .delivery-header h4 {
+            font-size: 1.2rem;
+            color: #001428;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        /* Body items */
+        .delivery-body {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .delivery-item {
+            flex: 1 1 220px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+        .delivery-item .label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .delivery-item .value {
+            font-weight: 500;
+            color: #001428;
+        }
+
+        /* BADGE COLORS – matching your enum statuses */
+
+        .status-pending {
+            background: #f59e0b;
+            /* amber / orange */
+        }
+
+        .status-dispatched {
+            background: #0ea5e9;
+            /* sky blue */
+        }
+
+        .status-in_transit {
+            background: #3b82f6;
+            /* vivid blue */
+        }
+
+        .status-arrived {
+            background: #22c55e;
+            /* green success */
+        }
+
+        /* No delivery card */
+        .no-delivery {
+            text-align: center;
+            padding: 35px 20px;
+            color: #6c757d;
+        }
+
+        .no-delivery p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .btn-assign {
+            background: #f97316;
+            color: #fff;
+            font-weight: 600;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-assign:hover {
+            background: #fb923c;
+            transform: translateY(-1px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .delivery-body {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .delivery-item {
+                justify-content: space-between;
+            }
+        }
     </style>
     <div class="order-details-container">
         <header class="order-header">
@@ -665,7 +792,7 @@
                         style="background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center;"
                         title="Copy Invoice Number">
                         <!-- Copy Icon -->
-                        <svg id="copyInvoiceIcon" style="color:#fd5e0e" xmlns="http://www.w3.org/2000/svg" width="16"
+                        <svg id="copyInvoiceIcon" style="color:#ff7d3d" xmlns="http://www.w3.org/2000/svg" width="16"
                             height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
                             <path
                                 d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z" />
@@ -676,7 +803,7 @@
                         <!-- Check Icon -->
                         <svg id="checkInvoiceIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16"
-                            style="display: none; color: #fd5e0e;">
+                            style="display: none; color: #f38a56;">
                             <path fill-rule="evenodd"
                                 d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0" />
                             <path
@@ -905,18 +1032,19 @@
             </div>
         </footer>
         <section class="delivery-transport">
-            @if($order->deliveryTransport)
+            @if($order->latestDelivery) <!-- Use latestDelivery relationship -->
                 <div class="delivery-summary card">
                     <div class="delivery-header">
                         <h4><i class="bi bi-truck"></i> Delivery Details</h4>
                     </div>
                     <div class="delivery-body">
-                        <p><strong>Driver:</strong> {{ $order->deliveryTransport->driver_name }}</p>
-                        <p><strong>Type:</strong> {{ ucfirst($order->deliveryTransport->transport_type) }}</p>
-                        <p><strong>Contact:</strong> {{ $order->deliveryTransport->driver_phone ?? 'N/A' }}</p>
+                        <p><strong>Driver:</strong> {{ $order->latestDelivery->transport->driver_name }}</p>
+                        <p><strong>Type:</strong> {{ ucfirst($order->latestDelivery->transport->transport_type) }}</p>
+                        <p><strong>Contact:</strong> {{ $order->latestDelivery->transport->driver_phone ?? 'N/A' }}</p>
+                        <p><strong>Plate No:</strong> {{ $order->latestDelivery->transport->vehicle_plate ?? 'N/A' }}</p>
                         <p><strong>Status:</strong>
-                            <span class="badge status-{{ strtolower($order->deliveryTransport->status) }}">
-                                {{ ucfirst($order->deliveryTransport->status) }}
+                            <span class="badge status-{{ strtolower($order->latestDelivery->status) }}">
+                                {{ ucfirst($order->latestDelivery->status) }}
                             </span>
                         </p>
                     </div>
@@ -936,6 +1064,7 @@
                 </div>
             @endif
         </section>
+
     </div>
 
     <!-- Enhanced Assign Delivery Modal -->
@@ -976,9 +1105,13 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-outline" data-bs-toggle="modal"
                                         data-bs-target="#addNewDriverModal">
-                                        <i class="bi bi-plus-lg"></i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                            class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+                                        </svg>
                                     </button>
                                 </div>
                             </div>
@@ -1200,12 +1333,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-                                                                            <div class="notification-content">
-                                                                                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                                                <span>${message}</span>
-                                                                            </div>
-                                                                            <div class="progress-bar"></div>
-                                                                        `;
+                                                                                        <div class="notification-content">
+                                                                                            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                                                            <span>${message}</span>
+                                                                                        </div>
+                                                                                        <div class="progress-bar"></div>
+                                                                                    `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');
