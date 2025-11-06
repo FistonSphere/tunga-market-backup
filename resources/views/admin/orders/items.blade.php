@@ -959,6 +959,10 @@
 
                     <div class="modal-body">
                         <div class="form-grid">
+                            @php
+                                use App\Models\DeliveryTransport;
+                                $deliveryTransports = DeliveryTransport::all();
+                            @endphp
                             <!-- Transport Dropdown -->
                             <div class="form-group position-relative">
                                 <label><i class="bi bi-person-vcard"></i> Select Driver</label>

@@ -326,7 +326,8 @@ Route::post('/{order}/payment-status','updatePaymentStatus')->name('admin.paymen
 Route::prefix('delivery')->controller(DeliveryTransportController::class)->group(function () {
     Route::post('/assign', 'assign')->name('assign');
     Route::put('/update-status/{id}', 'updateStatus')->name('update-status');
-    Route::post('/store',  'store')->name('admin.delivery.store');
+    Route::post('/assign/store',  'assignDelivery')->name('admin.delivery.assign');
+    Route::post('/transport/store',  'storeTransport')->name('admin.delivery.transport.store');
 
 });
 
