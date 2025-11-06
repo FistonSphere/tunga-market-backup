@@ -1009,7 +1009,7 @@
 
             <div class="items-grid">
                 @foreach($order->items as $index => $item)
-                    <div class="item-card">
+                    <div class="item-card" data-id="{{ $item->id }}">
                         <div class="item-image">
                             <img src="{{ $item->product->main_image ?? asset('assets/images/no-image.png') }}"
                                 alt="Product Image">
