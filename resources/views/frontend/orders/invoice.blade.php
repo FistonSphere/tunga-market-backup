@@ -466,7 +466,7 @@
                                     <div class="text-sm space-y-1">
                                         <p>📧 billing@tungamarket.com</p>
                                         <p>📞 +1 (555) 123-4567 ext. 101</p>
-                                        <p>🕒 Mon-Fri: 9 AM - 6 PM PST</p>
+                                        <p>🕒 Mon-Fri: 9 AM - 6 PM GMT +2</p>
                                     </div>
                                 </div>
 
@@ -495,9 +495,9 @@
                 <div class="footer bg-secondary-800 text-white p-6">
                     <div class="grid md:grid-cols-3 gap-6 text-center md:text-left">
                         <div>
-                            <p class="font-semibold mb-2">Tunga Market Inc.</p>
-                            <p class="text-secondary-300 text-sm">Global B2B Commerce Platform</p>
-                            <p class="text-secondary-300 text-sm">Est. 2020 • San Francisco, CA</p>
+                            <p class="font-semibold mb-1">Tunga Market Ltd.</p>
+                            <p class="text-secondary-300 text-sm">Rwanda's Premier Online Marketplace</p>
+                            <p class="text-secondary-300 text-xs">Est. 2025 • Kigali, Rwanda</p>
                         </div>
                         <div>
                             <p class="font-semibold mb-2">Thank You for Your Business!</p>

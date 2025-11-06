@@ -194,19 +194,20 @@ public function updatePaymentStatus(Request $request, Order $order)
     $payment = $order->payment;
 
     if (!$payment) {
-        return response()->json(['status' => 'error', 'message' => 'Payment record not found.']);
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Payment record not found.'
+        ]);
     }
 
-    // Convert 'unpaid' to 'pending'
-    $paymentStatus = $validated['status'] === 'paid' ? 'unpaid' : $validated['status'];
-
-    $payment->update(['status' => $paymentStatus]);
+    $payment->update(['status' => $validated['status']]);
 
     return response()->json([
         'status' => 'success',
-        'message' => "Payment status updated to '{$paymentStatus}'."
+        'message' => "Payment status updated to '{$validated['status']}'."
     ]);
 }
+
 
 
 

@@ -531,9 +531,9 @@
                 <div class="receipt-footer bg-secondary-800 text-white p-4">
                     <div class="grid md:grid-cols-3 gap-4 text-center md:text-left">
                         <div>
-                            <p class="font-semibold mb-1">Tunga Market Inc.</p>
-                            <p class="text-secondary-300 text-sm">Global B2B Commerce Platform</p>
-                            <p class="text-secondary-300 text-xs">Est. 2020 • San Francisco, CA</p>
+                            <p class="font-semibold mb-1">Tunga Market Ltd.</p>
+                            <p class="text-secondary-300 text-sm">Rwanda's Premier Online Marketplace</p>
+                            <p class="text-secondary-300 text-xs">Est. 2025 • Kigali, Rwanda</p>
                         </div>
                         <div>
                             <p class="font-semibold mb-1">Thank You for Your Purchase!</p>
