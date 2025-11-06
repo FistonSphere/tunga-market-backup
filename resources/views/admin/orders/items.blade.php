@@ -402,6 +402,70 @@
                 transform: translateY(0);
             }
         }
+
+        .delivery-transport {
+            margin-top: 25px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .delivery-transport h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .delivery-card {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            padding: 16px;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+        }
+
+        .assign-delivery-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+
+        .assign-delivery-form .form-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #334155;
+        }
+
+        .assign-delivery-form .form-group input,
+        .assign-delivery-form .form-group select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #f97316, #fb923c);
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
     </style>
     <div class="order-details-container">
         <header class="order-header">
@@ -670,6 +734,71 @@
                 @endforeach
             </div>
         </section>
+        <section class="delivery-transport">
+            <h3><i class="bi bi-truck"></i> Delivery Transport</h3>
+
+            @if($order->deliveryTransport)
+                <div class="delivery-card">
+                    <p><strong>Driver:</strong> {{ $order->deliveryTransport->driver_name }}</p>
+                    <p><strong>Phone:</strong> {{ $order->deliveryTransport->driver_phone }}</p>
+                    <p><strong>Type:</strong> {{ ucfirst($order->deliveryTransport->transport_type) }}</p>
+                    <p><strong>From:</strong> {{ $order->deliveryTransport->departure_location }}</p>
+                    <p><strong>Destination:</strong> {{ $order->deliveryTransport->destination }}</p>
+                    <p><strong>Status:</strong>
+                        <span class="badge status-{{ strtolower($order->deliveryTransport->status) }}">
+                            {{ ucfirst($order->deliveryTransport->status) }}
+                        </span>
+                    </p>
+
+                    @if($order->deliveryTransport->status !== 'arrived')
+                        <form method="POST" action="{{ route('admin.delivery.update-status', $order->deliveryTransport->id) }}">
+                            @csrf
+                            @method('PUT')
+                            <select name="status" class="status-select">
+                                @foreach(['dispatched', 'in_transit', 'arrived', 'failed'] as $status)
+                                    <option value="{{ $status }}" {{ $order->deliveryTransport->status === $status ? 'selected' : '' }}>
+                                        {{ ucfirst($status) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <button class="btn-small">Update</button>
+                        </form>
+                    @endif
+                </div>
+            @else
+                <form class="assign-delivery-form" method="POST" action="{{ route('admin.delivery.assign') }}">
+                    @csrf
+                    <input type="hidden" name="order_id" value="{{ $order->id }}">
+
+                    <div class="form-group">
+                        <label>Driver Name</label>
+                        <input type="text" name="driver_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Driver Phone</label>
+                        <input type="text" name="driver_phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Transport Type</label>
+                        <select name="transport_type" required>
+                            <option value="car">Car</option>
+                            <option value="bike">Bike</option>
+                            <option value="bicycle">Bicycle</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Departure</label>
+                        <input type="text" name="departure_location" placeholder="e.g. Kigali Warehouse">
+                    </div>
+                    <div class="form-group">
+                        <label>Destination</label>
+                        <input type="text" name="destination" placeholder="e.g. Remera, Gasabo">
+                    </div>
+
+                    <button class="btn-primary"><i class="bi bi-truck"></i> Assign Delivery</button>
+                </form>
+            @endif
+        </section>
 
         <footer class="order-footer">
             <div class="footer-left">
@@ -853,12 +982,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-            <div class="notification-content">
-                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                <span>${message}</span>
-            </div>
-            <div class="progress-bar"></div>
-        `;
+                    <div class="notification-content">
+                        <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                        <span>${message}</span>
+                    </div>
+                    <div class="progress-bar"></div>
+                `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');
