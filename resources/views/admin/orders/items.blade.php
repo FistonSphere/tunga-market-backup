@@ -815,6 +815,61 @@
 
     </div>
 
+    <!-- Assign Delivery Modal -->
+    <div class="modal fade" id="assignDeliveryModal" tabindex="-1" aria-labelledby="assignDeliveryModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow-lg border-0">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="assignDeliveryModalLabel"><i class="bi bi-truck"></i> Assign Delivery
+                        Transport</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <form id="assignDeliveryForm" method="POST" action="{{ route('admin.delivery.store') }}">
+                    @csrf
+                    <input type="hidden" name="order_id" id="order_id">
+
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Driver Name</label>
+                            <input type="text" name="driver_name" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input type="text" name="driver_phone" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Transport Type</label>
+                            <select name="transport_type" class="form-select" required>
+                                <option value="car">Car</option>
+                                <option value="bike">Bike</option>
+                                <option value="bicycle">Bicycle</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select name="status" class="form-select">
+                                <option value="assigned">Assigned</option>
+                                <option value="in_transit">In Transit</option>
+                                <option value="arrived">Arrived</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Assignment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.status-dropdown').forEach(select => {
@@ -944,12 +999,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-                                <div class="notification-content">
-                                    <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                    <span>${message}</span>
-                                </div>
-                                <div class="progress-bar"></div>
-                            `;
+                                        <div class="notification-content">
+                                            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                            <span>${message}</span>
+                                        </div>
+                                        <div class="progress-bar"></div>
+                                    `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');
@@ -961,6 +1016,16 @@
                 setTimeout(() => notification.remove(), 500);
             }, 4000);
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const assignButtons = document.querySelectorAll('.btn-assign');
+            assignButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const orderId = this.getAttribute('data-order-id');
+                    document.getElementById('order_id').value = orderId;
+                });
+            });
+        });
     </script>
 
 @endsection
