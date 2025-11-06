@@ -297,6 +297,26 @@
             gap: 8px;
             align-items: center;
         }
+
+        .copy-tooltip {
+            position: absolute;
+            top: -20px;
+            right: 0;
+            background-color: #f97316;
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 6px;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-5px);
+            pointer-events: none;
+        }
+
+        .copy-tooltip.show {
+            opacity: 1;
+            transform: translateY(-10px);
+        }
     </style>
     <div class="order-details-container">
         <header class="order-header">
