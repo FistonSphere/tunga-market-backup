@@ -391,6 +391,7 @@
             padding: 0.6rem 1.2rem;
             border-radius: 6px;
             cursor: pointer;
+            color:#001428
         }
 
         @keyframes slideUp {

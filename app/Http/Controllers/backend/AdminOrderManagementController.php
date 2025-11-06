@@ -185,16 +185,10 @@ public function updateItemStatus(Request $request, $itemId)
     return response()->json(['status' => $request->status]);
 }
 
-public function updatePaymentStatus(Request $request, Order $order)
+public function updatePaymentStatus(Request $request, Payment $payment)
 {
-    $admin = auth()->user();
-    $payment = $order->payment;
-
-    if (!$payment) {
-        return response()->json(['status' => 'error', 'message' => 'No payment record found for this order.']);
-    }
-
-    $newStatus = $payment->status === 'paid' ? 'unpaid' : 'paid';
+    // Determine new status (toggle)
+    $newStatus = $payment->status === 'paid' ? 'pending' : 'paid';
 
     $payment->update([
         'status' => $newStatus,
@@ -203,8 +197,8 @@ public function updatePaymentStatus(Request $request, Order $order)
 
     return response()->json([
         'status' => 'success',
-        'message' => "Payment marked as " . ucfirst($newStatus) . " by {$admin->first_name}.",
-        'new_status' => $newStatus,
+        'message' => 'Payment status updated to ' . ucfirst($newStatus) . '.',
+        'new_status' => $newStatus
     ]);
 }
 
