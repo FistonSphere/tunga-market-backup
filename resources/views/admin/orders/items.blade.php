@@ -153,6 +153,14 @@
             background: #fde68a;
             color: #92400e;
         }
+        .payment-failed {
+            background: rgb(218, 18, 18);
+            color: #fff;
+        }
+        .payment-refunded {
+            background: rgb(194, 34, 127);
+            color: #fff;
+        }
 
         .btn-primary {
             background: #ff7f00;
@@ -366,7 +374,7 @@
                                 d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z" />
                         </svg>
                         <div>
-                            <p class="label">Status</p>
+                            <p class="label">Order Status</p>
                             <span class="badge status-{{ strtolower($order->status) }}">
                                 {{ ucfirst($order->status) }}
                             </span>
@@ -430,9 +438,9 @@
                                 d="M2 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5" />
                         </svg>
                         <div>
-                            <p class="label">Payment</p>
-                            <span class="badge payment-{{ $order->payment ? 'paid' : 'unpaid' }}">
-                                {{ $order->payment->status ?? 'unpaid' }}
+                            <p class="label">Payment Status</p>
+                            <span class="badge payment-{{ $order->payment ? strtolower($order->payment->status) : 'unpaid' }}">
+                                {{ ucfirst($order->payment->status ?? 'unpaid') }}
                             </span>
                         </div>
                     </div>
