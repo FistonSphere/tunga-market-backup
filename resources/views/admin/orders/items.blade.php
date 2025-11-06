@@ -722,12 +722,12 @@
         }
 
         .delivery-actions .btn-outline-primary {
-            color: #2563eb;
-            border-color: #2563eb;
+            color: #000f30;
+            border-color: #001135;
         }
 
         .delivery-actions .btn-outline-primary:hover {
-            background: #2563eb;
+            background: #010533;
             color: #fff;
         }
 
@@ -739,6 +739,32 @@
         .delivery-actions .btn-outline-danger:hover {
             background: #dc2626;
             color: #fff;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: none;
+            color: #555;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            color: #fff;
+        }
+
+        .edit-btn:hover {
+            background: #021235;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
         }
     </style>
     <div class="order-details-container">
@@ -1059,42 +1085,62 @@
             </div>
         </footer>
         <section class="delivery-transport">
-            @if($order->latestDelivery) <!-- Use latestDelivery relationship -->
-                <div class="delivery-summary card">
-                    <div class="delivery-header">
-                        <h4><i class="bi bi-truck"></i> Delivery Details</h4>
+            @if($order->latestDelivery)
+                <div class="delivery-summary cardshadow-sm border-0">
+                    <div class="delivery-header d-flex justify-content-between align-items-center">
+                        <h4 class="d-flex align-items-center gap-2">
+                            <i class="bi bi-truck-front-fill text-primary"></i>
+                            Delivery Details
+                        </h4>
+                        <div class="delivery-actions">
+                            <button class="action-btn edit-btn" data-bs-toggle="modal" data-bs-target="#editDeliveryModal"
+                                data-delivery-id="{{ $order->latestDelivery->id }}"
+                                data-departure="{{ $order->latestDelivery->departure_location }}"
+                                data-destination="{{ $order->latestDelivery->destination }}"
+                                data-status="{{ $order->latestDelivery->status }}"
+                                data-notes="{{ $order->latestDelivery->notes }}">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+
+                            <button class="action-btn delete-btn" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+                                data-delivery-id="{{ $order->latestDelivery->id }}">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </div>
                     </div>
+
                     <div class="delivery-body">
-                        <p><strong>Driver:</strong> {{ $order->latestDelivery->transport->driver_name }}</p>
-                        <p><strong>Type:</strong> {{ ucfirst($order->latestDelivery->transport->transport_type) }}</p>
-                        <p><strong>Contact:</strong> {{ $order->latestDelivery->transport->driver_phone ?? 'N/A' }}</p>
-                        <p><strong>Plate No:</strong> {{ $order->latestDelivery->transport->vehicle_plate ?? 'N/A' }}</p>
-                        <p><strong>Status:</strong>
-                            <span class="badge status-{{ strtolower($order->latestDelivery->status) }}">
-                                {{ ucfirst($order->latestDelivery->status) }}
-                            </span>
-                        </p>
+                        <div class="info-grid">
+                            <p><strong>Driver:</strong> {{ $order->latestDelivery->transport->driver_name }}</p>
+                            <p><strong>Type:</strong> {{ ucfirst($order->latestDelivery->transport->transport_type) }}</p>
+                            <p><strong>Contact:</strong> {{ $order->latestDelivery->transport->driver_phone ?? 'N/A' }}</p>
+                            <p><strong>Plate No:</strong> {{ $order->latestDelivery->transport->vehicle_plate ?? 'N/A' }}</p>
+                            <p><strong>Departure:</strong> {{ $order->latestDelivery->departure_location ?? 'N/A' }}</p>
+                            <p><strong>Destination:</strong> {{ $order->latestDelivery->destination ?? 'N/A' }}</p>
+                            <p><strong>Status:</strong>
+                                <span class="badge status-{{ strtolower($order->latestDelivery->status) }}">
+                                    {{ ucfirst($order->latestDelivery->status) }}
+                                </span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             @else
                 <div class="no-delivery text-center">
-                    <p class="text-muted">No delivery assigned yet.</p>
+                    <p class="text-muted mb-2">No delivery assigned yet.</p>
                     <button class="btn-assign" data-bs-toggle="modal" data-bs-target="#assignDeliveryModal"
                         data-order-id="{{ $order->id }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-plus-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                            <path
-                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                        </svg> Assign Delivery Transport
+                        <i class="bi bi-plus-circle"></i> Assign Delivery Transport
                     </button>
                 </div>
             @endif
         </section>
 
+
+
     </div>
 
-    <!-- Enhanced Assign Delivery Modal -->
+
     <!-- Assign Delivery Modal -->
     <div class="modal fade" id="assignDeliveryModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -1229,6 +1275,76 @@
             </div>
         </div>
     </div>
+    <!-- Edit Delivery Modal -->
+    <div class="modal fade" id="editDeliveryModal" tabindex="-1" aria-labelledby="editDeliveryModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content delivery-modal">
+                <div class="modal-header bg-gradient-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Edit Delivery Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <form id="editDeliveryForm" method="POST" action="">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Departure Location</label>
+                                <input type="text" name="departure_location" class="form-control modern-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Destination</label>
+                                <input type="text" name="destination" class="form-control modern-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select name="status" class="form-select modern-select">
+                                    <option value="pending">Pending</option>
+                                    <option value="dispatched">Dispatched</option>
+                                    <option value="in_transit">In Transit</option>
+                                    <option value="arrived">Arrived</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-12">
+                                <label>Notes</label>
+                                <textarea name="notes" class="form-control modern-input" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn save-btn"><i class="bi bi-check-circle"></i> Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content warning-modal">
+                <div class="modal-body text-center">
+                    <i class="bi bi-exclamation-triangle text-warning fs-1 mb-3"></i>
+                    <h5 class="mb-3">Remove Delivery Assignment?</h5>
+                    <p class="text-muted mb-4">This will unassign the driver from this order. You can reassign later if
+                        needed.</p>
+                    <form id="deleteDeliveryForm" method="POST" action="">
+                        @csrf
+                        @method('DELETE')
+                        <div class="d-flex justify-content-center gap-3">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script>
@@ -1360,12 +1476,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-                                                                                            <div class="notification-content">
-                                                                                                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                                                                <span>${message}</span>
-                                                                                            </div>
-                                                                                            <div class="progress-bar"></div>
-                                                                                        `;
+                                                                                                                                <div class="notification-content">
+                                                                                                                                    <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                                                                                                    <span>${message}</span>
+                                                                                                                                </div>
+                                                                                                                                <div class="progress-bar"></div>
+                                                                                                                            `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');
@@ -1385,6 +1501,27 @@
                     const orderId = this.getAttribute('data-order-id');
                     document.getElementById('order_id').value = orderId;
                 });
+            });
+        });
+
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const form = document.getElementById('editDeliveryForm');
+                const id = this.dataset.deliveryId;
+
+                form.action = `/admin/delivery/update/${id}`;
+                form.querySelector('[name="departure_location"]').value = this.dataset.departure || '';
+                form.querySelector('[name="destination"]').value = this.dataset.destination || '';
+                form.querySelector('[name="status"]').value = this.dataset.status || 'pending';
+                form.querySelector('[name="notes"]').value = this.dataset.notes || '';
+            });
+        });
+
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id = this.dataset.deliveryId;
+                const form = document.getElementById('deleteDeliveryForm');
+                form.action = `/admin/delivery/delete/${id}`;
             });
         });
     </script>
