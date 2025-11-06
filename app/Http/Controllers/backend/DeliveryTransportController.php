@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\DeliveryAssignment;
 use App\Models\DeliveryTransport;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -45,22 +46,47 @@ class DeliveryTransportController extends Controller
         return back()->with('success', 'Delivery status updated.');
     }
 
-    public function store(Request $request)
+   public function store(Request $request)
 {
     $validated = $request->validate([
         'order_id' => 'required|exists:orders,id',
         'driver_name' => 'required|string|max:255',
         'driver_phone' => 'required|string|max:50',
-        'transport_type' => 'required|in:car,bike,bicycle',
-        'status' => 'required|in:assigned,in_transit,arrived',
+        'transport_type' => 'required|in:car,bike,bicycle,bus,plane',
+        'vehicle_plate' => 'nullable|string|max:255',
+        'departure_location' => 'nullable|string|max:255',
+        'destination' => 'nullable|string|max:255',
+        'status' => 'required|in:pending,dispatched,in_transit,arrived',
+        'notes' => 'nullable|string',
     ]);
 
-    $validated['assign_by'] = auth()->id();
+    // Step 1: Reuse or create transport record
+    $transport = DeliveryTransport::firstOrCreate(
+        [
+            'driver_name' => $validated['driver_name'],
+            'driver_phone' => $validated['driver_phone'],
+        ],
+        [
+            'assigned_by' => auth()->id(),
+            'transport_type' => $validated['transport_type'],
+            'vehicle_plate' => $validated['vehicle_plate'] ?? null,
+            'notes' => $validated['notes'] ?? null,
+        ]
+    );
 
-    $delivery = DeliveryTransport::create($validated);
+    // Step 2: Create the delivery assignment
+    $assignment = DeliveryAssignment::create([
+        'order_id' => $validated['order_id'],
+        'delivery_transport_id' => $transport->id,
+        'departure_location' => $validated['departure_location'] ?? 'Warehouse HQ',
+        'destination' => $validated['destination'] ?? 'Customer address',
+        'status' => $validated['status'],
+        'dispatched_at' => now(),
+        'notes' => $validated['notes'] ?? null,
+    ]);
 
-    // Update order status automatically if needed
-    $order = Order::find($request->order_id);
+    // Step 3: Update order status
+    $order = Order::find($validated['order_id']);
     if ($order && $order->status === 'pending') {
         $order->status = 'processing';
         $order->save();
@@ -68,5 +94,6 @@ class DeliveryTransportController extends Controller
 
     return back()->with('success', 'Delivery assigned successfully!');
 }
+
 
 }
