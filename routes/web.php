@@ -328,6 +328,9 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
     Route::put('/update-status/{id}', 'updateStatus')->name('update-status');
     Route::post('/assign/store',  'assignDelivery')->name('admin.delivery.assign');
     Route::post('/transport/store',  'storeTransport')->name('admin.delivery.transport.store');
+    Route::delete('/delete/{delivery}', 'destroy')->name('admin.delivery.destroy');
+    Route::put('/update/{delivery}',  'update')->name('admin.delivery.update');
+
 
 });
 
