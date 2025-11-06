@@ -7,6 +7,8 @@ use App\Models\DeliveryAssignment;
 use App\Models\DeliveryTransport;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class DeliveryTransportController extends Controller
 {
@@ -88,9 +90,70 @@ public function update(Request $request, DeliveryAssignment $delivery)
         'notes' => 'nullable|string',
     ]);
 
+    // Update delivery
     $delivery->update($validated);
 
-    return back()->with('success', 'Delivery details updated successfully!');
+    // === Get transport & driver details ===
+    $transport = $delivery->transport;
+    if (!$transport) {
+        return back()->with('warning', 'Delivery updated, but no driver assigned to notify.');
+    }
+
+    $driverName = $transport->driver_name;
+    $driverPhone = $this->formatMtnPhone($transport->driver_phone);
+    $transportType = ucfirst($transport->transport_type ?? 'N/A');
+
+    // === Prepare message ===
+    $smsMessage = "Hello {$driverName},\n\n"
+        . "Your delivery assignment has been updated.\n\n"
+        . "🛻 Vehicle: {$transportType} ({$transport->vehicle_plate})\n"
+        . "📍 Departure: " . ($validated['departure_location'] ?? $delivery->departure_location ?? 'N/A') . "\n"
+        . "🎯 Destination: " . ($validated['destination'] ?? $delivery->destination ?? 'N/A') . "\n"
+        . "🚦 Status: " . ucfirst($validated['status']) . "\n"
+        . (!empty($validated['notes']) ? "📝 Notes: {$validated['notes']}\n\n" : "\n")
+        . "Please check your delivery dashboard for more details.";
+
+    // === Send SMS via Mista.io ===
+    $apiToken = config('services.mista.api_token');
+    $senderId = config('services.mista.sender_id');
+
+    try {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $apiToken,
+            'accept' => 'application/json',
+            'content-type' => 'application/json',
+        ])->post('https://api.mista.io/sms', [
+            'to' => $driverPhone,
+            'from' => $senderId,
+            'message' => $smsMessage,
+        ]);
+
+        Log::info("📩 Delivery update SMS sent to {$driverPhone}. Response: " . $response->body());
+    } catch (\Exception $e) {
+        Log::error("❌ Failed to send SMS to driver {$driverName}: " . $e->getMessage());
+    }
+
+    return back()->with('success', 'Delivery details updated and driver notified via SMS!');
+}
+
+/**
+ * Format MTN phone number to international format (2507xxxxxxx)
+ */
+private function formatMtnPhone($phone)
+{
+    $digits = preg_replace('/\D/', '', $phone); // remove non-numeric characters
+
+    // Handle local MTN formats like 07xxxxxxx or 7xxxxxxx
+    if (str_starts_with($digits, '07')) {
+        $digits = '250' . substr($digits, 1);
+    } elseif (str_starts_with($digits, '7')) {
+        $digits = '250' . $digits;
+    } elseif (!str_starts_with($digits, '2507')) {
+        // fallback if already has 250 but missing 7 (rare)
+        $digits = '2507' . substr($digits, -8);
+    }
+
+    return $digits;
 }
 
 
