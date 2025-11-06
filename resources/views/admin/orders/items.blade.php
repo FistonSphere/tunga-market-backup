@@ -939,254 +939,290 @@
     </div>
 
     <!-- Enhanced Assign Delivery Modal -->
-    <div class="modal fade" id="assignDeliveryModal" tabindex="-1" aria-labelledby="assignDeliveryModalLabel"
-        aria-hidden="true">
+    <!-- Assign Delivery Modal -->
+    <div class="modal fade" id="assignDeliveryModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content delivery-modal">
                 <div class="modal-header">
-                    <div class="header-icon">
-                        <i class="bi bi-truck-front-fill"></i>
-                    </div>
+                    <div class="header-icon"><i class="bi bi-truck-front-fill"></i></div>
                     <div>
                         <h5 class="modal-title">Assign Delivery Transport</h5>
-                        <p class="subtitle">Link an existing or new delivery transport to this order.</p>
+                        <p class="subtitle">Choose an existing transport or add a new one.</p>
                     </div>
                     <button type="button" class="btn-close custom-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
 
-                <form id="assignDeliveryForm" method="POST" action="{{ route('admin.delivery.store') }}">
+                <form id="assignDeliveryForm" method="POST" action="{{ route('admin.delivery.assign') }}">
                     @csrf
                     <input type="hidden" name="order_id" id="order_id">
 
                     <div class="modal-body">
                         <div class="form-grid">
-
-                            <div class="form-group">
-                                <label><i class="bi bi-person-fill"></i> Driver Name</label>
-                                <input type="text" name="driver_name" class="form-control modern-input" required>
+                            <!-- Transport Dropdown -->
+                            <div class="form-group position-relative">
+                                <label><i class="bi bi-person-vcard"></i> Select Driver</label>
+                                <div class="input-group">
+                                    <select name="delivery_transport_id" class="form-select modern-select" required>
+                                        <option value="" disabled selected>Select an existing driver</option>
+                                        @foreach($deliveryTransports as $t)
+                                            <option value="{{ $t->id }}">
+                                                {{ $t->driver_name }} — {{ ucfirst($t->transport_type) }}
+                                                ({{ $t->vehicle_plate ?? 'No Plate' }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+                                        data-bs-target="#addNewDriverModal">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </button>
+                                </div>
                             </div>
 
                             <div class="form-group">
-                                <label><i class="bi bi-telephone-fill"></i> Phone Number</label>
-                                <input type="text" name="driver_phone" class="form-control modern-input" required>
+                                <label><i class="bi bi-geo-alt"></i> Departure Location</label>
+                                <input type="text" name="departure_location" class="form-control modern-input"
+                                    placeholder="Where delivery starts">
                             </div>
 
                             <div class="form-group">
-                                <label><i class="bi bi-car-front"></i> Transport Type</label>
-                                <select name="transport_type" class="form-select modern-select" required>
-                                    <option value="car">🚗 Car</option>
-                                    <option value="bike">🏍️ Bike</option>
-                                    <option value="bicycle">🚲 Bicycle</option>
-                                    <option value="bus">🚌 Bus</option>
-                                        <option value="plane">✈️ Plane</option>
-                                    </select>
-                                </div>
+                                <label><i class="bi bi-geo"></i> Destination</label>
+                                <input type="text" name="destination" class="form-control modern-input"
+                                    placeholder="Delivery destination">
+                            </div>
 
-                                <div class="form-group">
-                                    <label><i class="bi bi-card-text"></i> Vehicle Plate</label>
-                                    <input type="text" name="vehicle_plate" class="form-control modern-input"
-                                        placeholder="RAD 123 B">
-                                </div>
+                            <div class="form-group">
+                                <label><i class="bi bi-flag-fill"></i> Status</label>
+                                <select name="status" class="form-select modern-select">
+                                    <option value="pending">🕓 Pending</option>
+                                    <option value="dispatched">📦 Dispatched</option>
+                                    <option value="in_transit">🚚 In Transit</option>
+                                    <option value="arrived">✅ Arrived</option>
+                                </select>
+                            </div>
 
-                                <div class="form-group">
-                                    <label><i class="bi bi-geo-alt"></i> Departure Location</label>
-                                    <input type="text" name="departure_location" class="form-control modern-input"
-                                        placeholder="Kigali HQ">
-                                </div>
-
-                                <div class="form-group">
-                                    <label><i class="bi bi-geo-fill"></i> Destination</label>
-                                    <input type="text" name="destination" class="form-control modern-input"
-                                        placeholder="Customer address">
-                                </div>
-
-                                <div class="form-group">
-                                    <label><i class="bi bi-flag-fill"></i> Status</label>
-                                    <select name="status" class="form-select modern-select">
-                                        <option value="pending">Pending</option>
-                                        <option value="dispatched">Dispatched</option>
-                                        <option value="in_transit">In Transit</option>
-                                        <option value="arrived">Arrived</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group" style="grid-column: 1 / -1;">
-                                    <label><i class="bi bi-journal-text"></i> Notes</label>
-                                    <textarea name="notes" class="form-control modern-input" rows="3"
-                                        placeholder="Add any remarks about the delivery..."></textarea>
-                                </div>
+                            <div class="form-group">
+                                <label><i class="bi bi-sticky"></i> Notes</label>
+                                <textarea name="notes" rows="2" class="form-control modern-input"
+                                    placeholder="Optional notes..."></textarea>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn save-btn"><i class="bi bi-check-circle"></i> Save
-                                Assignment</button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn save-btn"><i class="bi bi-check-circle"></i> Assign</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
+
+    <!-- Add New Driver Modal -->
+    <div class="modal fade" id="addNewDriverModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content delivery-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-person-plus"></i> Add New Transport</h5>
+                    <button type="button" class="btn-close custom-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form method="POST" action="{{ route('admin.delivery.transport.store') }}">
+                    @csrf
+                    <div class="modal-body form-grid">
+                        <div class="form-group">
+                            <label>Driver Name</label>
+                            <input type="text" name="driver_name" class="form-control modern-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="text" name="driver_phone" class="form-control modern-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Transport Type</label>
+                            <select name="transport_type" class="form-select modern-select" required>
+                                <option value="car">🚗 Car</option>
+                                <option value="bike">🏍️ Bike</option>
+                                <option value="bicycle">🚲 Bicycle</option>
+                                <option value="bus">🚌 Bus</option>
+                                <option value="plane">✈️ Plane</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Vehicle Plate</label>
+                            <input type="text" name="vehicle_plate" class="form-control modern-input">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn save-btn"><i class="bi bi-save2"></i> Save Transport</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.status-dropdown').forEach(select => {
+                select.addEventListener('change', function () {
+                    const itemId = this.dataset.itemId;
+                    const status = this.value;
 
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll('.status-dropdown').forEach(select => {
-                    select.addEventListener('change', function () {
-                        const itemId = this.dataset.itemId;
-                        const status = this.value;
-
-                        fetch(`/admin/order-items/${itemId}/status`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                            },
-                            body: JSON.stringify({ status })
-                        })
-                            .then(res => res.json())
-                            .then(data => alert(`✅ Status updated to ${data.status}`))
-                            .catch(err => console.error(err));
-                    });
+                    fetch(`/admin/order-items/${itemId}/status`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({ status })
+                    })
+                        .then(res => res.json())
+                        .then(data => alert(`✅ Status updated to ${data.status}`))
+                        .catch(err => console.error(err));
                 });
             });
+        });
 
-            function copyTransactionId() {
-                const transactionId = document.getElementById('transactionId').innerText.trim();
-                const copyIcon = document.getElementById('copyIcon');
-                const checkIcon = document.getElementById('checkIcon');
+        function copyTransactionId() {
+            const transactionId = document.getElementById('transactionId').innerText.trim();
+            const copyIcon = document.getElementById('copyIcon');
+            const checkIcon = document.getElementById('checkIcon');
 
-                // Copy to clipboard
-                navigator.clipboard.writeText(transactionId).then(() => {
-                    // Show tick icon
-                    copyIcon.style.display = 'none';
-                    checkIcon.style.display = 'inline';
+            // Copy to clipboard
+            navigator.clipboard.writeText(transactionId).then(() => {
+                // Show tick icon
+                copyIcon.style.display = 'none';
+                checkIcon.style.display = 'inline';
 
-                    // Revert after 2 seconds
-                    setTimeout(() => {
-                        checkIcon.style.display = 'none';
-                        copyIcon.style.display = 'inline';
-                    }, 2000);
-                }).catch(err => {
-                    console.error('Failed to copy transaction ID:', err);
-                    alert('Failed to copy Transaction ID. Please try manually.');
-                });
-            }
+                // Revert after 2 seconds
+                setTimeout(() => {
+                    checkIcon.style.display = 'none';
+                    copyIcon.style.display = 'inline';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy transaction ID:', err);
+                alert('Failed to copy Transaction ID. Please try manually.');
+            });
+        }
 
-            function copyInvoiceNumber() {
-                const invoiceText = document.getElementById('invoiceNumber').innerText.trim();
-                const copyIcon = document.getElementById('copyInvoiceIcon');
-                const checkIcon = document.getElementById('checkInvoiceIcon');
-                const tooltip = document.getElementById('invoiceTooltip');
+        function copyInvoiceNumber() {
+            const invoiceText = document.getElementById('invoiceNumber').innerText.trim();
+            const copyIcon = document.getElementById('copyInvoiceIcon');
+            const checkIcon = document.getElementById('checkInvoiceIcon');
+            const tooltip = document.getElementById('invoiceTooltip');
 
-                navigator.clipboard.writeText(invoiceText).then(() => {
-                    copyIcon.style.display = 'none';
-                    checkIcon.style.display = 'inline';
-                    tooltip.classList.add('show');
-
-                    setTimeout(() => {
-                        tooltip.classList.remove('show');
-                        checkIcon.style.display = 'none';
-                        copyIcon.style.display = 'inline';
-                    }, 2000);
-                }).catch(err => {
-                    console.error('Failed to copy invoice number:', err);
-                    alert('Unable to copy the invoice number. Please try again.');
-                });
-            }
-
-
-            let selectedOrderId = null;
-            let selectedStatus = null;
-
-            function openPaymentModal(orderId, status, adminName) {
-                selectedOrderId = orderId;
-                selectedStatus = status;
-
-                document.getElementById('modalMessage').innerText = `${adminName}, are you sure you want to mark this payment as ${status}?`;
-                document.getElementById('paymentModal').style.display = 'flex';
-
-                const confirmBtn = document.getElementById('modalConfirmBtn');
-                confirmBtn.onclick = () => updatePaymentStatus(selectedOrderId, selectedStatus);
-            }
-
-            function closePaymentModal() {
-                document.getElementById('paymentModal').style.display = 'none';
-            }
-
-            function updatePaymentStatus(orderId, status) {
-                const csrfMeta = document.querySelector('meta[name="csrf-token"]');
-                const csrfToken = csrfMeta ? csrfMeta.content : '';
-
-                if (!csrfToken) {
-                    console.error('CSRF token missing!');
-                    alert('Security token missing. Please refresh the page.');
-                    return;
-                }
-
-                fetch(`/admin/orders/${orderId}/payment-status`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ status: status })
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            showNotification(data.message, 'success');
-                            closePaymentModal();
-                            // Optional: Reload page or update button dynamically
-                            location.reload();
-                        } else {
-                            showNotification(data.message || 'Failed to update payment status.', 'error');
-                        }
-                    })
-                    .catch(() => {
-                        showNotification('Something went wrong updating the payment status.', 'error');
-                    });
-            }
-
-            // Notification logic (reuse your existing)
-            function showNotification(message, type = 'success') {
-                const existing = document.getElementById('notification');
-                if (existing) existing.remove();
-
-                const notification = document.createElement('div');
-                notification.id = 'notification';
-                notification.className = `notification ${type}`;
-
-                notification.innerHTML = `
-                                                                        <div class="notification-content">
-                                                                            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                                            <span>${message}</span>
-                                                                        </div>
-                                                                        <div class="progress-bar"></div>
-                                                                    `;
-                document.body.appendChild(notification);
-
-                const progress = notification.querySelector('.progress-bar');
-                progress.style.transition = 'width 4s linear';
-                setTimeout(() => { progress.style.width = '100%'; }, 50);
+            navigator.clipboard.writeText(invoiceText).then(() => {
+                copyIcon.style.display = 'none';
+                checkIcon.style.display = 'inline';
+                tooltip.classList.add('show');
 
                 setTimeout(() => {
-                    notification.style.opacity = '0';
-                    setTimeout(() => notification.remove(), 500);
-                }, 4000);
+                    tooltip.classList.remove('show');
+                    checkIcon.style.display = 'none';
+                    copyIcon.style.display = 'inline';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy invoice number:', err);
+                alert('Unable to copy the invoice number. Please try again.');
+            });
+        }
+
+
+        let selectedOrderId = null;
+        let selectedStatus = null;
+
+        function openPaymentModal(orderId, status, adminName) {
+            selectedOrderId = orderId;
+            selectedStatus = status;
+
+            document.getElementById('modalMessage').innerText = `${adminName}, are you sure you want to mark this payment as ${status}?`;
+            document.getElementById('paymentModal').style.display = 'flex';
+
+            const confirmBtn = document.getElementById('modalConfirmBtn');
+            confirmBtn.onclick = () => updatePaymentStatus(selectedOrderId, selectedStatus);
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        function updatePaymentStatus(orderId, status) {
+            const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+            const csrfToken = csrfMeta ? csrfMeta.content : '';
+
+            if (!csrfToken) {
+                console.error('CSRF token missing!');
+                alert('Security token missing. Please refresh the page.');
+                return;
             }
 
-            document.addEventListener('DOMContentLoaded', function () {
-                const assignButtons = document.querySelectorAll('.btn-assign');
-                assignButtons.forEach(button => {
-                    button.addEventListener('click', function () {
-                        const orderId = this.getAttribute('data-order-id');
-                        document.getElementById('order_id').value = orderId;
-                    });
+            fetch(`/admin/orders/${orderId}/payment-status`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: status })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showNotification(data.message, 'success');
+                        closePaymentModal();
+                        // Optional: Reload page or update button dynamically
+                        location.reload();
+                    } else {
+                        showNotification(data.message || 'Failed to update payment status.', 'error');
+                    }
+                })
+                .catch(() => {
+                    showNotification('Something went wrong updating the payment status.', 'error');
+                });
+        }
+
+        // Notification logic (reuse your existing)
+        function showNotification(message, type = 'success') {
+            const existing = document.getElementById('notification');
+            if (existing) existing.remove();
+
+            const notification = document.createElement('div');
+            notification.id = 'notification';
+            notification.className = `notification ${type}`;
+
+            notification.innerHTML = `
+                                                                            <div class="notification-content">
+                                                                                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                                                <span>${message}</span>
+                                                                            </div>
+                                                                            <div class="progress-bar"></div>
+                                                                        `;
+            document.body.appendChild(notification);
+
+            const progress = notification.querySelector('.progress-bar');
+            progress.style.transition = 'width 4s linear';
+            setTimeout(() => { progress.style.width = '100%'; }, 50);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 500);
+            }, 4000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const assignButtons = document.querySelectorAll('.btn-assign');
+            assignButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const orderId = this.getAttribute('data-order-id');
+                    document.getElementById('order_id').value = orderId;
                 });
             });
-        </script>
+        });
+    </script>
 
 @endsection
