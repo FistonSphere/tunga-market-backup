@@ -73,7 +73,7 @@ $totalRevenue = Order::where('status', 'delivered')->sum('total');
    }
 
    public function OrderListing(Request $request){
-    $query = Order::with(['user', 'items.product', 'shippingAddress', 'payment','deliveryTransport']);
+    $query = Order::with(['user', 'items.product', 'shippingAddress', 'payment','deliveryAssignments']);
 
     // === Optional Filters ===
     if ($request->status) {
