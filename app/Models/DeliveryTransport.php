@@ -23,10 +23,11 @@ class DeliveryTransport extends Model
         return $this->belongsTo(User::class, 'assigned_by');
     }
 
-    public function assignments()
-    {
-        return $this->hasMany(DeliveryAssignment::class);
-    }
+    public function deliveries()
+{
+    return $this->hasMany(DeliveryAssignment::class, 'delivery_transport_id');
+}
+
 
     public function getDisplayNameAttribute()
     {

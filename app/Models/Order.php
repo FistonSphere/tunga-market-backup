@@ -40,6 +40,20 @@ class Order extends Model
 {
     return $this->hasOne(Payment::class);
 }
+
+public function deliveryAssignments()
+{
+    return $this->hasMany(DeliveryAssignment::class);
+}
+
+public function latestDelivery()
+{
+    return $this->hasOne(DeliveryAssignment::class)->latestOfMany();
+}
+
+
+
+
 public function generateInvoiceNumber()
     {
         if ($this->invoice_number) {

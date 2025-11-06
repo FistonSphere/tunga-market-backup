@@ -20,13 +20,16 @@ class DeliveryAssignment extends Model
         'notes',
     ];
 
-    public function order()
-    {
-        return $this->belongsTo(Order::class);
-    }
-
     public function transport()
-    {
-        return $this->belongsTo(DeliveryTransport::class, 'delivery_transport_id');
-    }
+{
+    return $this->belongsTo(DeliveryTransport::class, 'delivery_transport_id');
+}
+
+public function order()
+{
+    return $this->belongsTo(Order::class);
+}
+
+
+    
 }
