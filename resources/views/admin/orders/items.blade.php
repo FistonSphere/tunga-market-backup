@@ -713,6 +713,33 @@
                 justify-content: space-between;
             }
         }
+
+        .delivery-actions .btn {
+            font-size: 0.85rem;
+            border-radius: 8px;
+            padding: 5px 10px;
+            transition: all 0.2s ease;
+        }
+
+        .delivery-actions .btn-outline-primary {
+            color: #2563eb;
+            border-color: #2563eb;
+        }
+
+        .delivery-actions .btn-outline-primary:hover {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .delivery-actions .btn-outline-danger {
+            color: #dc2626;
+            border-color: #dc2626;
+        }
+
+        .delivery-actions .btn-outline-danger:hover {
+            background: #dc2626;
+            color: #fff;
+        }
     </style>
     <div class="order-details-container">
         <header class="order-header">
@@ -1333,12 +1360,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-                                                                                        <div class="notification-content">
-                                                                                            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                                                            <span>${message}</span>
-                                                                                        </div>
-                                                                                        <div class="progress-bar"></div>
-                                                                                    `;
+                                                                                            <div class="notification-content">
+                                                                                                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                                                                <span>${message}</span>
+                                                                                            </div>
+                                                                                            <div class="progress-bar"></div>
+                                                                                        `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');
