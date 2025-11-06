@@ -209,6 +209,35 @@ public function updatePaymentStatus(Request $request, Order $order)
 }
 
 
+ public function update(Request $request, OrderItem $item)
+    {
+        $validated = $request->validate([
+            'quantity' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+        ]);
 
+        $item->update($validated);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Order item updated successfully.',
+            'updated' => [
+                'quantity' => $item->quantity,
+                'price' => $item->price,
+                'subtotal' => number_format($item->quantity * $item->price),
+            ]
+        ]);
+    }
+
+    public function destroy(OrderItem $item)
+    {
+        $item->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Order item deleted successfully.',
+            'id' => $item->id
+        ]);
+    }
 
 }
