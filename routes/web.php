@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\backend\AdminOrderManagementController;
 use App\Http\Controllers\backend\AdminProductIssueController;
 use App\Http\Controllers\backend\AdminUserController;
+use App\Http\Controllers\backend\DeliveryTransportController;
 use App\Http\Controllers\backend\HomeAdminController;
 use App\Http\Controllers\backend\ProductManagementController;
 use App\Http\Controllers\ComparisonController;
@@ -321,7 +322,13 @@ Route::post('/{order}/payment-status','updatePaymentStatus')->name('admin.paymen
 });
 //end orders route
 
+//delivery routes
+Route::prefix('delivery')->controller(DeliveryTransportController::class)->name('admin.delivery.')->group(function () {
+    Route::post('/assign', 'assign')->name('assign');
+    Route::put('/update-status/{id}', 'updateStatus')->name('update-status');
+});
 
+//delivery routes
 
 
 });
