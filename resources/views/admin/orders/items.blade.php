@@ -422,64 +422,144 @@
             gap: 8px;
         }
 
-        .delivery-card {
-            background: #f9fafb;
-            border: 1px solid #e2e8f0;
-            padding: 16px;
-            border-radius: 10px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 8px;
-        }
-
-        .assign-delivery-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            align-items: end;
-        }
-
-        .assign-delivery-form .form-group label {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #334155;
-        }
-
-        .assign-delivery-form .form-group input,
-        .assign-delivery-form .form-group select {
-            width: 100%;
-            padding: 8px 10px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            font-size: 0.9rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #f97316, #fb923c);
-            color: #fff;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .delivery-summary {
-            padding: 1rem 1.5rem;
+        /* === Modern Alibaba-style Modal === */
+        .delivery-modal {
+            border-radius: 20px;
+            overflow: hidden;
             background: #fff;
-            border-radius: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            margin-top: 10px;
+            border: none;
+            animation: fadeIn 0.3s ease-in-out;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
 
-        .delivery-summary .badge {
-            font-size: 0.85rem;
-            padding: 0.4rem 0.6rem;
-            border-radius: 8px;
+        /* Header */
+        .delivery-modal .modal-header {
+            background: linear-gradient(135deg, #ff5f0e, #ff7f40);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: none;
+            padding: 1.5rem 2rem;
         }
+
+        .delivery-modal .header-icon {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            padding: 0.6rem 0.8rem;
+            font-size: 1.4rem;
+        }
+
+        .delivery-modal .modal-title {
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+
+        .delivery-modal .subtitle {
+            font-size: 0.85rem;
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        /* Form */
+        .delivery-modal .modal-body {
+            padding: 1.8rem 2rem;
+            background-color: #fafbfc;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.2rem 1.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .modern-input,
+        .modern-select {
+            border-radius: 10px;
+            border: 1px solid #dcdcdc;
+            padding: 0.6rem 0.8rem;
+            transition: all 0.3s ease;
+            background-color: #fff;
+        }
+
+        .modern-input:focus,
+        .modern-select:focus {
+            border-color: #ff7f40;
+            box-shadow: 0 0 0 3px rgba(0, 170, 255, 0.2);
+            outline: none;
+        }
+
+        /* Footer */
+        .delivery-modal .modal-footer {
+            border-top: 1px solid #eee;
+            background: #f9f9f9;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .btn.save-btn {
+            background: linear-gradient(135deg, #ff5f0e, #ff7f40);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn.save-btn:hover {
+            background: linear-gradient(135deg, #ff5f0e, #ff7f40);
+            transform: translateY(-1px);
+        }
+
+        .btn.cancel-btn {
+            background: #e8eef3;
+            color: #333;
+            border-radius: 10px;
+            border: none;
+            font-weight: 500;
+            padding: 0.6rem 1rem;
+        }
+
+        .btn.cancel-btn:hover {
+            background: #d9e2ea;
+        }
+
+        /* Close button styling */
+        .custom-close {
+            filter: invert(1);
+            opacity: 0.9;
+        }
+
+        .custom-close:hover {
+            opacity: 1;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
 
         .no-delivery {
             background: #f9fafb;
@@ -489,7 +569,7 @@
         }
 
         .btn-assign {
-            background: #007bff;
+            background: #ff5f0e;
             color: #fff;
             border: none;
             padding: 0.6rem 1rem;
@@ -499,7 +579,7 @@
         }
 
         .btn-assign:hover {
-            background: #0056b3;
+            background: #ff7f40;
             transform: scale(1.03);
         }
 
@@ -823,6 +903,8 @@
                     </button>
                 </form>
             </div>
+        </footer>
+        <section class="delivery-transport">
             @if($order->deliveryTransport)
                 <div class="delivery-summary card">
                     <div class="delivery-header">
@@ -844,26 +926,32 @@
                     <p class="text-muted">No delivery assigned yet.</p>
                     <button class="btn-assign" data-bs-toggle="modal" data-bs-target="#assignDeliveryModal"
                         data-order-id="{{ $order->id }}">
-                        <i class="bi bi-plus-circle"></i> Assign Delivery Transport
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                        </svg> Assign Delivery Transport
                     </button>
                 </div>
             @endif
-
-
-        </footer>
-
-
+        </section>
     </div>
 
-    <!-- Assign Delivery Modal -->
+    <!-- Enhanced Assign Delivery Modal -->
     <div class="modal fade" id="assignDeliveryModal" tabindex="-1" aria-labelledby="assignDeliveryModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 shadow-lg border-0">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="assignDeliveryModalLabel"><i class="bi bi-truck"></i> Assign Delivery
-                        Transport</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content delivery-modal">
+                <div class="modal-header">
+                    <div class="header-icon">
+                        <i class="bi bi-truck-front-fill"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title">Assign Delivery Transport</h5>
+                        <p class="subtitle">Add delivery details and assign a transport to this order.</p>
+                    </div>
+                    <button type="button" class="btn-close custom-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
 
@@ -872,43 +960,53 @@
                     <input type="hidden" name="order_id" id="order_id">
 
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Driver Name</label>
-                            <input type="text" name="driver_name" class="form-control" required>
-                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label><i class="bi bi-person-fill"></i> Driver Name</label>
+                                <input type="text" name="driver_name" class="form-control modern-input"
+                                    placeholder="Enter driver's full name" required>
+                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Phone Number</label>
-                            <input type="text" name="driver_phone" class="form-control" required>
-                        </div>
+                            <div class="form-group">
+                                <label><i class="bi bi-telephone-fill"></i> Phone Number</label>
+                                <input type="text" name="driver_phone" class="form-control modern-input"
+                                    placeholder="+250 7XX XXX XXX" required>
+                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Transport Type</label>
-                            <select name="transport_type" class="form-select" required>
-                                <option value="car">Car</option>
-                                <option value="bike">Bike</option>
-                                <option value="bicycle">Bicycle</option>
-                            </select>
-                        </div>
+                            <div class="form-group">
+                                <label><i class="bi bi-car-front"></i> Transport Type</label>
+                                <select name="transport_type" class="form-select modern-select" required>
+                                    <option value="" disabled selected>Select transport type</option>
+                                    <option value="car">🚗 Car</option>
+                                    <option value="bike">🏍️ Bike</option>
+                                    <option value="bicycle">🚲 Bicycle</option>
+                                    <option value="bus">🚌 Bus</option>
+                                    <option value="plane">✈️     Plane</option>
+                                </select>
+                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select name="status" class="form-select">
-                                <option value="assigned">Assigned</option>
-                                <option value="in_transit">In Transit</option>
-                                <option value="arrived">Arrived</option>
-                            </select>
+                            <div class="form-group">
+                                <label><i class="bi bi-flag-fill"></i> Delivery Status</label>
+                                <select name="status" class="form-select modern-select">
+                                    <option value="assigned">📝 Assigned</option>
+                                    <option value="in_transit">🚚 In Transit</option>
+                                    <option value="arrived">✅ Arrived</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save Assignment</button>
+                        <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn save-btn">
+                            <i class="bi bi-check-circle"></i> Save Assignment
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -1039,12 +1137,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-                                            <div class="notification-content">
-                                                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                <span>${message}</span>
-                                            </div>
-                                            <div class="progress-bar"></div>
-                                        `;
+                                                                <div class="notification-content">
+                                                                    <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                                    <span>${message}</span>
+                                                                </div>
+                                                                <div class="progress-bar"></div>
+                                                            `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');

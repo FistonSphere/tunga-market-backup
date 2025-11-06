@@ -323,7 +323,7 @@ Route::post('/{order}/payment-status','updatePaymentStatus')->name('admin.paymen
 //end orders route
 
 //delivery routes
-Route::prefix('delivery')->controller(DeliveryTransportController::class)->name('admin.delivery.')->group(function () {
+Route::prefix('delivery')->controller(DeliveryTransportController::class)->group(function () {
     Route::post('/assign', 'assign')->name('assign');
     Route::put('/update-status/{id}', 'updateStatus')->name('update-status');
     Route::post('/store',  'store')->name('admin.delivery.store');
