@@ -185,21 +185,29 @@ public function updateItemStatus(Request $request, $itemId)
     return response()->json(['status' => $request->status]);
 }
 
-public function updatePaymentStatus(Request $request, Payment $payment)
+public function updatePaymentStatus(Request $request, Order $order)
 {
-    // Determine new status (toggle)
-    $newStatus = $payment->status === 'paid' ? 'pending' : 'paid';
-
-    $payment->update([
-        'status' => $newStatus,
-        'paid_at' => $newStatus === 'paid' ? now() : null,
+    $validated = $request->validate([
+        'status' => 'required|in:pending,paid,failed,refunded,unpaid',
     ]);
+
+    $payment = $order->payment;
+
+    if (!$payment) {
+        return response()->json(['status' => 'error', 'message' => 'Payment record not found.']);
+    }
+
+    // Convert 'unpaid' to 'pending'
+    $paymentStatus = $validated['status'] === 'unpaid' ? 'pending' : $validated['status'];
+
+    $payment->update(['status' => $paymentStatus]);
 
     return response()->json([
         'status' => 'success',
-        'message' => 'Payment status updated to ' . ucfirst($newStatus) . '.',
-        'new_status' => $newStatus
+        'message' => "Payment status updated to '{$paymentStatus}'."
     ]);
 }
+
+
 
 }

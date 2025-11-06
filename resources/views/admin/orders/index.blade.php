@@ -1572,23 +1572,7 @@
         });
 
 
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            if (!container) return;
-
-            const toast = document.createElement('div');
-            toast.classList.add('toast', type);
-            toast.textContent = message;
-
-            container.appendChild(toast);
-
-            // Auto-hide after 4 seconds
-            setTimeout(() => {
-                toast.classList.add('hide');
-                setTimeout(() => toast.remove(), 400); // remove after animation
-            }, 4000);
-        }
-
+      
     </script>
     <script>
         function showNotification(message, type = 'success') {
