@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\DeliveryTransport;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class DeliveryTransportController extends Controller
@@ -43,4 +44,29 @@ class DeliveryTransportController extends Controller
 
         return back()->with('success', 'Delivery status updated.');
     }
+
+    public function store(Request $request)
+{
+    $validated = $request->validate([
+        'order_id' => 'required|exists:orders,id',
+        'driver_name' => 'required|string|max:255',
+        'driver_phone' => 'required|string|max:50',
+        'transport_type' => 'required|in:car,bike,bicycle',
+        'status' => 'required|in:assigned,in_transit,arrived',
+    ]);
+
+    $validated['assign_by'] = auth()->id();
+
+    $delivery = DeliveryTransport::create($validated);
+
+    // Update order status automatically if needed
+    $order = Order::find($request->order_id);
+    if ($order && $order->status === 'pending') {
+        $order->status = 'processing';
+        $order->save();
+    }
+
+    return back()->with('success', 'Delivery assigned successfully!');
+}
+
 }

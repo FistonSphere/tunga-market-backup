@@ -466,6 +466,46 @@
             align-items: center;
             gap: 8px;
         }
+
+        .delivery-summary {
+            padding: 1rem 1.5rem;
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-top: 10px;
+        }
+
+        .delivery-summary .badge {
+            font-size: 0.85rem;
+            padding: 0.4rem 0.6rem;
+            border-radius: 8px;
+        }
+
+        .no-delivery {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px dashed #ccc;
+        }
+
+        .btn-assign {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-assign:hover {
+            background: #0056b3;
+            transform: scale(1.03);
+        }
+
+        .modal-content {
+            border-radius: 1.2rem !important;
+        }
     </style>
     <div class="order-details-container">
         <header class="order-header">
@@ -999,12 +1039,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-                                        <div class="notification-content">
-                                            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                            <span>${message}</span>
-                                        </div>
-                                        <div class="progress-bar"></div>
-                                    `;
+                                            <div class="notification-content">
+                                                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                <span>${message}</span>
+                                            </div>
+                                            <div class="progress-bar"></div>
+                                        `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');
