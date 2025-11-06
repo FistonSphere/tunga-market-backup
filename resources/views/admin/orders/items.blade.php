@@ -317,6 +317,91 @@
             opacity: 1;
             transform: translateY(-10px);
         }
+
+        .custom-modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(2px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .custom-modal-content {
+            background: #fff;
+            border-radius: 12px;
+            width: 400px;
+            max-width: 90%;
+            padding: 20px 30px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .custom-modal-content h3 {
+            margin-top: 0;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .custom-modal-content p {
+            margin: 15px 0 25px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        .btn-cancel,
+        .btn-confirm {
+            padding: 8px 18px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-confirm {
+            background: #ff6a00;
+            color: #fff;
+        }
+
+        .btn-confirm:hover {
+            background: #e65c00;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
     <div class="order-details-container">
         <header class="order-header">
@@ -703,6 +788,87 @@
                 console.error('Failed to copy invoice number:', err);
                 alert('Unable to copy the invoice number. Please try again.');
             });
+        }
+
+
+        let selectedOrderId = null;
+        let selectedStatus = null;
+
+        function openPaymentModal(orderId, status, adminName) {
+            selectedOrderId = orderId;
+            selectedStatus = status;
+
+            document.getElementById('modalMessage').innerText = `${adminName}, are you sure you want to mark this payment as ${status}?`;
+            document.getElementById('paymentModal').style.display = 'flex';
+
+            const confirmBtn = document.getElementById('modalConfirmBtn');
+            confirmBtn.onclick = () => updatePaymentStatus(selectedOrderId, selectedStatus);
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        function updatePaymentStatus(orderId, status) {
+            const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+            const csrfToken = csrfMeta ? csrfMeta.content : '';
+
+            if (!csrfToken) {
+                console.error('CSRF token missing!');
+                alert('Security token missing. Please refresh the page.');
+                return;
+            }
+
+            fetch(`/admin/orders/${orderId}/payment-status`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: status })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showNotification(data.message, 'success');
+                        closePaymentModal();
+                        // Optional: Reload page or update button dynamically
+                        location.reload();
+                    } else {
+                        showNotification(data.message || 'Failed to update payment status.', 'error');
+                    }
+                })
+                .catch(() => {
+                    showNotification('Something went wrong updating the payment status.', 'error');
+                });
+        }
+
+        // Notification logic (reuse your existing)
+        function showNotification(message, type = 'success') {
+            const existing = document.getElementById('notification');
+            if (existing) existing.remove();
+
+            const notification = document.createElement('div');
+            notification.id = 'notification';
+            notification.className = `notification ${type}`;
+
+            notification.innerHTML = `
+            <div class="notification-content">
+                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                <span>${message}</span>
+            </div>
+            <div class="progress-bar"></div>
+        `;
+            document.body.appendChild(notification);
+
+            const progress = notification.querySelector('.progress-bar');
+            progress.style.transition = 'width 4s linear';
+            setTimeout(() => { progress.style.width = '100%'; }, 50);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 500);
+            }, 4000);
         }
     </script>
 
