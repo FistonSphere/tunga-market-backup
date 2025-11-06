@@ -318,8 +318,8 @@ Route::post('/{order}/status', 'updateStatus')->name('admin.orders.updateStatus'
 Route::get('/{order}/items', 'showItems')->name('admin.showOrders.items');
 Route::post('/order-items/{item}/status', 'updateItemStatus')->name('admin.orderItems.updateStatus');
 Route::post('/{order}/payment-status','updatePaymentStatus')->name('admin.payments.updateStatus');
-Route::put('/{item}/update', 'update')->name('order-items.update');
-Route::delete('/{item}/delete', 'destroy')->name('order-items.destroy');
+Route::put('/order-items/{item}/update', 'update')->name('order-items.update');
+Route::delete('/order-items/{item}/delete', 'destroy')->name('order-items.destroy');
 });
 //end orders route
 

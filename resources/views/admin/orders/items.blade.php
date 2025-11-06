@@ -319,7 +319,6 @@
 
         .custom-modal {
             display: none;
-            /* Hidden by default */
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -777,41 +776,43 @@
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transform: scale(1.05);
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease;
             z-index: 9999;
         }
 
         .custom-modal-overlay.show {
             opacity: 1;
-            transform: scale(1);
         }
 
-        .custom-modal {
+        /* The modal card */
+        .custom-modal2 {
+            position: relative;
             background: #fff;
             border-radius: 12px;
             padding: 30px 40px;
             max-width: 420px;
             width: 100%;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+            z-index: 10000;
+            /* ✅ ensures it's above overlay blur */
             animation: fadeUp 0.35s ease forwards;
         }
 
-        .custom-modal.warning h3 {
+        .custom-modal2.warning h3 {
             color: #c62828;
         }
 
-        .custom-modal h3 {
+        .custom-modal2 h3 {
             margin-bottom: 15px;
             font-size: 20px;
             color: #333;
         }
 
-        .custom-modal p {
+        .custom-modal2 p {
             color: #555;
         }
 
-        .custom-modal form label {
+        .custom-modal2 form label {
             display: block;
             text-align: left;
             margin-top: 10px;
@@ -819,7 +820,7 @@
             font-weight: 500;
         }
 
-        .custom-modal form input {
+        .custom-modal2 form input {
             width: 100%;
             padding: 8px 10px;
             border-radius: 6px;
@@ -861,14 +862,15 @@
         @keyframes fadeUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px) scale(0.95);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
+
 
         /* ===== NOTIFICATION ===== */
         .top-right-notification {
@@ -1164,7 +1166,7 @@
                             </p>
                         </div>
                         <div class="item-actions">
-                            <button class="btn-small edit-btn"><i class="bi bi-pencil"></i> Edit</button>
+                            <button class="btn-small edit-btn2"><i class="bi bi-pencil"></i> Edit</button>
                             <button class="btn-small danger-btn"><i class="bi bi-trash"></i> Remove</button>
                         </div>
                     </div>
@@ -1623,12 +1625,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-                                                                                                                                                    <div class="notification-content">
-                                                                                                                                                        <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                                                                                                                        <span>${message}</span>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="progress-bar"></div>
-                                                                                                                                                `;
+                                                                                                                                                        <div class="notification-content">
+                                                                                                                                                            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                                                                                                                            <span>${message}</span>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="progress-bar"></div>
+                                                                                                                                                    `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');
@@ -1675,7 +1677,7 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             // ===== Edit Order Item =====
-            document.querySelectorAll('.edit-btn').forEach(btn => {
+            document.querySelectorAll('.edit-btn2').forEach(btn => {
                 btn.addEventListener('click', function () {
                     const itemCard = btn.closest('.item-card');
                     const itemId = itemCard.dataset.id;
@@ -1703,20 +1705,20 @@
             const modal = document.createElement('div');
             modal.className = 'custom-modal-overlay';
             modal.innerHTML = `
-            <div class="custom-modal">
-                <h3>Edit Item: <span>${name}</span></h3>
-                <form id="editForm">
-                    <label>Quantity:</label>
-                    <input type="number" id="editQuantity" value="${quantity}" min="1" />
-                    <label>Unit Price:</label>
-                    <input type="number" id="editPrice" value="${price}" min="0" step="0.01" />
-                    <div class="modal-actions">
-                        <button type="button" class="btn cancel" onclick="closeModal()">Cancel</button>
-                        <button type="submit" class="btn confirm">Save Changes</button>
-                    </div>
-                </form>
-            </div>
-        `;
+                <div class="custom-modal2">
+                    <h3>Edit Item: <span>${name}</span></h3>
+                    <form id="editForm">
+                        <label>Quantity:</label>
+                        <input type="number" id="editQuantity" value="${quantity}" min="1" />
+                        <label>Unit Price:</label>
+                        <input type="number" id="editPrice" value="${price}" min="0" step="0.01" />
+                        <div class="modal-actions">
+                            <button type="button" class="btn cancel" onclick="closeModal()">Cancel</button>
+                            <button type="submit" class="btn confirm">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
 
@@ -1732,15 +1734,15 @@
             const modal = document.createElement('div');
             modal.className = 'custom-modal-overlay';
             modal.innerHTML = `
-            <div class="custom-modal warning">
-                <h3>Are you sure?</h3>
-                <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
-                <div class="modal-actions">
-                    <button class="btn cancel" onclick="closeModal()">Cancel</button>
-                    <button class="btn danger" onclick="deleteOrderItem(${id})">Yes, Delete</button>
+                <div class="custom-modal warning">
+                    <h3>Are you sure?</h3>
+                    <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
+                    <div class="modal-actions">
+                        <button class="btn cancel" onclick="closeModal()">Cancel</button>
+                        <button class="btn danger" onclick="deleteOrderItem(${id})">Yes, Delete</button>
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
         }
@@ -1816,6 +1818,9 @@
                 setTimeout(() => notif.remove(), 300);
             }, 4000);
         }
+
+
+
     </script>
 
 @endsection
