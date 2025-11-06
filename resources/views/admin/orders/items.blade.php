@@ -153,10 +153,12 @@
             background: #fde68a;
             color: #92400e;
         }
+
         .payment-failed {
             background: rgb(218, 18, 18);
             color: #fff;
         }
+
         .payment-refunded {
             background: rgb(194, 34, 127);
             color: #fff;
@@ -387,10 +389,36 @@
                             <path
                                 d="M0 5a5 5 0 0 0 4.027 4.905 6.5 6.5 0 0 1 .544-2.073C3.695 7.536 3.132 6.864 3 5.91h-.5v-.426h.466V5.05q-.001-.07.004-.135H2.5v-.427h.511C3.236 3.24 4.213 2.5 5.681 2.5c.316 0 .59.031.819.085v.733a3.5 3.5 0 0 0-.815-.082c-.919 0-1.538.466-1.734 1.252h1.917v.427h-1.98q-.004.07-.003.147v.422h1.983v.427H3.93c.118.602.468 1.03 1.005 1.229a6.5 6.5 0 0 1 4.97-3.113A5.002 5.002 0 0 0 0 5m16 5.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0m-7.75 1.322c.069.835.746 1.485 1.964 1.562V14h.54v-.62c1.259-.086 1.996-.74 1.996-1.69 0-.865-.563-1.31-1.57-1.54l-.426-.1V8.374c.54.06.884.347.966.745h.948c-.07-.804-.779-1.433-1.914-1.502V7h-.54v.629c-1.076.103-1.808.732-1.808 1.622 0 .787.544 1.288 1.45 1.493l.358.085v1.78c-.554-.08-.92-.376-1.003-.787zm1.96-1.895c-.532-.12-.82-.364-.82-.732 0-.41.311-.719.824-.809v1.54h-.005zm.622 1.044c.645.145.943.38.943.796 0 .474-.37.8-1.02.86v-1.674z" />
                         </svg>
-                        <div>
-                            <p class="label">Payment Transaction ID</p>
-                            <p class="value highlight" style="font-size: 15px">{{ $order->payment->transaction_id}}</p>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div>
+                                <p class="label">Payment Transaction ID</p>
+                                <p class="value highlight" id="transactionId" style="font-size: 15px; margin: 0;">
+                                    {{ $order->payment->transaction_id }}
+                                </p>
+                            </div>
+
+                            <!-- Copy Button -->
+                            <button id="copyButton" onclick="copyTransactionId()"
+                                style="background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center;"
+                                title="Copy Transaction ID">
+                                <!-- Copy Icon -->
+                                <svg id="copyIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                    fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                                    <path
+                                        d="M10 1.5v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5z" />
+                                    <path
+                                        d="M9.5 0a1.5 1.5 0 0 1 1.5 1.5V2h1a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h1v-.5A1.5 1.5 0 0 1 6.5 0h3z" />
+                                </svg>
+
+                                <!-- Check Icon (hidden by default) -->
+                                <svg id="checkIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="green"
+                                    class="bi bi-check-circle" viewBox="0 0 16 16" style="display: none;">
+                                    <path
+                                        d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm3.354-8.646a.5.5 0 0 1 0 .707l-4 4a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7 10.293l3.646-3.647a.5.5 0 0 1 .708 0z" />
+                                </svg>
+                            </button>
                         </div>
+
                     </div>
                     <div class="meta-card">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -439,7 +467,8 @@
                         </svg>
                         <div>
                             <p class="label">Payment Status</p>
-                            <span class="badge payment-{{ $order->payment ? strtolower($order->payment->status) : 'unpaid' }}">
+                            <span
+                                class="badge payment-{{ $order->payment ? strtolower($order->payment->status) : 'unpaid' }}">
                                 {{ ucfirst($order->payment->status ?? 'unpaid') }}
                             </span>
                         </div>
@@ -553,5 +582,27 @@
             });
         });
 
+        function copyTransactionId() {
+            const transactionId = document.getElementById('transactionId').innerText.trim();
+            const copyIcon = document.getElementById('copyIcon');
+            const checkIcon = document.getElementById('checkIcon');
+
+            // Copy to clipboard
+            navigator.clipboard.writeText(transactionId).then(() => {
+                // Show tick icon
+                copyIcon.style.display = 'none';
+                checkIcon.style.display = 'inline';
+
+                // Revert after 2 seconds
+                setTimeout(() => {
+                    checkIcon.style.display = 'none';
+                    copyIcon.style.display = 'inline';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy transaction ID:', err);
+                alert('Failed to copy Transaction ID. Please try manually.');
+            });
+        }
     </script>
+
 @endsection
