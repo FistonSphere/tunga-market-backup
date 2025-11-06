@@ -210,34 +210,64 @@ public function updatePaymentStatus(Request $request, Order $order)
 
 
  public function update(Request $request, OrderItem $item)
-    {
-        $validated = $request->validate([
-            'quantity' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
-        ]);
+{
+    $validated = $request->validate([
+        'quantity' => 'required|integer|min:1',
+        'price' => 'required|numeric|min:0',
+    ]);
 
-        $item->update($validated);
+    // ✅ Update the item
+    $item->update($validated);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Order item updated successfully.',
-            'updated' => [
-                'quantity' => $item->quantity,
-                'price' => $item->price,
-                'subtotal' => number_format($item->quantity * $item->price),
-            ]
-        ]);
-    }
+    // ✅ Recalculate the parent order total + tax
+    $order = $item->order;
+    $newTotal = $order->items->sum(fn($i) => $i->price * $i->quantity);
+    $tax = round($newTotal * 0.10); // 10% tax
+    $finalTotal = $newTotal + $tax;
 
-    public function destroy(OrderItem $item)
-    {
-        $item->delete();
+    $order->update([
+        'total' => $finalTotal,
+        'tax_amount' => $tax,
+    ]);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Order item deleted successfully.',
-            'id' => $item->id
-        ]);
-    }
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Order item updated successfully.',
+        'updated' => [
+            'quantity' => $item->quantity,
+            'price' => number_format($item->price, 2),
+            'subtotal' => number_format($item->quantity * $item->price, 2),
+            'order_total' => number_format($finalTotal, 2),
+            'tax' => number_format($tax, 2),
+        ]
+    ]);
+}
+
+public function destroy(OrderItem $item)
+{
+    $order = $item->order;
+
+    // ✅ Delete the item
+    $item->delete();
+
+    // ✅ Recalculate order total + tax after deletion
+    $newTotal = $order->items->sum(fn($i) => $i->price * $i->quantity);
+    $tax = round($newTotal * 0.10);
+    $finalTotal = $newTotal + $tax;
+
+    $order->update([
+        'total' => $finalTotal,
+        'tax_amount' => $tax,
+    ]);
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Order item deleted successfully.',
+        'id' => $item->id,
+        'order_total' => number_format($finalTotal, 2),
+        'tax' => number_format($tax, 2),
+    ]);
+}
+
 
 }

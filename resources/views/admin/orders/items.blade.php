@@ -794,7 +794,6 @@
             width: 100%;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
             z-index: 10000;
-            /* ✅ ensures it's above overlay blur */
             animation: fadeUp 0.35s ease forwards;
         }
 
@@ -1734,7 +1733,7 @@
             const modal = document.createElement('div');
             modal.className = 'custom-modal-overlay';
             modal.innerHTML = `
-                <div class="custom-modal warning">
+                <div class="custom-modal2 warning">
                     <h3>Are you sure?</h3>
                     <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
                     <div class="modal-actions">
