@@ -766,6 +766,143 @@
         .delete-btn:hover {
             background: #dc2626;
         }
+
+        /* ===== MODAL ===== */
+        .custom-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+            z-index: 9999;
+        }
+
+        .custom-modal-overlay.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .custom-modal {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px 40px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeUp 0.35s ease forwards;
+        }
+
+        .custom-modal.warning h3 {
+            color: #c62828;
+        }
+
+        .custom-modal h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .custom-modal p {
+            color: #555;
+        }
+
+        .custom-modal form label {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .custom-modal form input {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .modal-actions .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .modal-actions .btn.cancel {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .modal-actions .btn.confirm {
+            background: #ff8b00;
+            color: white;
+        }
+
+        .modal-actions .btn.danger {
+            background: #d32f2f;
+            color: white;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== NOTIFICATION ===== */
+        .top-right-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #fff;
+            border-left: 5px solid;
+            padding: 12px 18px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s ease;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-right-notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .top-right-notification.success {
+            border-color: #4CAF50;
+            color: #2e7d32;
+        }
+
+        .top-right-notification.error {
+            border-color: #f44336;
+            color: #c62828;
+        }
     </style>
     <div class="order-details-container">
         <header class="order-header">
@@ -1486,12 +1623,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-                                                                                                                                            <div class="notification-content">
-                                                                                                                                                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                                                                                                                <span>${message}</span>
-                                                                                                                                            </div>
-                                                                                                                                            <div class="progress-bar"></div>
-                                                                                                                                        `;
+                                                                                                                                                    <div class="notification-content">
+                                                                                                                                                        <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                                                                                                                        <span>${message}</span>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="progress-bar"></div>
+                                                                                                                                                `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');
@@ -1534,6 +1671,151 @@
                 form.action = `/admin/delivery/delete/${id}`;
             });
         });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // ===== Edit Order Item =====
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const itemCard = btn.closest('.item-card');
+                    const itemId = itemCard.dataset.id;
+                    const name = itemCard.querySelector('h4').textContent;
+                    const quantity = itemCard.querySelector('.quantity strong').textContent;
+                    const price = itemCard.querySelector('.price strong').textContent.replace(/[^\d.]/g, '');
+
+                    openEditModal(itemId, name, quantity, price);
+                });
+            });
+
+            // ===== Delete Order Item =====
+            document.querySelectorAll('.danger-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const itemCard = btn.closest('.item-card');
+                    const itemId = itemCard.dataset.id;
+                    const name = itemCard.querySelector('h4').textContent;
+                    openDeleteModal(itemId, name);
+                });
+            });
+        });
+
+        // --- Modal for Editing ---
+        function openEditModal(id, name, quantity, price) {
+            const modal = document.createElement('div');
+            modal.className = 'custom-modal-overlay';
+            modal.innerHTML = `
+            <div class="custom-modal">
+                <h3>Edit Item: <span>${name}</span></h3>
+                <form id="editForm">
+                    <label>Quantity:</label>
+                    <input type="number" id="editQuantity" value="${quantity}" min="1" />
+                    <label>Unit Price:</label>
+                    <input type="number" id="editPrice" value="${price}" min="0" step="0.01" />
+                    <div class="modal-actions">
+                        <button type="button" class="btn cancel" onclick="closeModal()">Cancel</button>
+                        <button type="submit" class="btn confirm">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        `;
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('show'), 10);
+
+            // handle save
+            modal.querySelector('#editForm').addEventListener('submit', e => {
+                e.preventDefault();
+                updateOrderItem(id);
+            });
+        }
+
+        // --- Modal for Deleting ---
+        function openDeleteModal(id, name) {
+            const modal = document.createElement('div');
+            modal.className = 'custom-modal-overlay';
+            modal.innerHTML = `
+            <div class="custom-modal warning">
+                <h3>Are you sure?</h3>
+                <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
+                <div class="modal-actions">
+                    <button class="btn cancel" onclick="closeModal()">Cancel</button>
+                    <button class="btn danger" onclick="deleteOrderItem(${id})">Yes, Delete</button>
+                </div>
+            </div>
+        `;
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('show'), 10);
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('.custom-modal-overlay');
+            if (modal) {
+                modal.classList.remove('show');
+                setTimeout(() => modal.remove(), 300);
+            }
+        }
+
+        // ===== AJAX for Updating =====
+        function updateOrderItem(id) {
+            const quantity = document.getElementById('editQuantity').value;
+            const price = document.getElementById('editPrice').value;
+            const token = document.querySelector('meta[name="csrf-token"]').content;
+
+            fetch(`/admin/orders/order-items/${id}/update`, {
+                method: 'PUT',
+                headers: {
+                    'X-CSRF-TOKEN': token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ quantity, price })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        closeModal();
+                        showNotification(data.message, 'success');
+
+                        // Update the UI instantly
+                        const card = document.querySelector(`.item-card[data-id="${id}"]`);
+                        card.querySelector('.quantity strong').textContent = data.updated.quantity;
+                        card.querySelector('.price strong').textContent = `${data.updated.price} Rwf`;
+                        card.querySelector('.subtotal .highlight').textContent = `${data.updated.subtotal} Rwf`;
+                    } else {
+                        showNotification('Failed to update item.', 'error');
+                    }
+                });
+        }
+
+        // ===== AJAX for Deleting =====
+        function deleteOrderItem(id) {
+            const token = document.querySelector('meta[name="csrf-token"]').content;
+
+            fetch(`/admin/orders/order-items/${id}/delete`, {
+                method: 'DELETE',
+                headers: { 'X-CSRF-TOKEN': token }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        closeModal();
+                        showNotification(data.message, 'success');
+                        document.querySelector(`.item-card[data-id="${id}"]`).remove();
+                    } else {
+                        showNotification('Failed to delete item.', 'error');
+                    }
+                });
+        }
+
+        // ===== Custom Notification =====
+        function showNotification(message, type) {
+            const notif = document.createElement('div');
+            notif.className = `top-right-notification ${type}`;
+            notif.innerHTML = `<i class="bi ${type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'}"></i> ${message}`;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.classList.add('show'), 10);
+            setTimeout(() => {
+                notif.classList.remove('show');
+                setTimeout(() => notif.remove(), 300);
+            }, 4000);
+        }
     </script>
 
 @endsection
