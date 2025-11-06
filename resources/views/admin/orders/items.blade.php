@@ -317,145 +317,51 @@
             opacity: 1;
             transform: translateY(-10px);
         }
-
-        /* ===== Modal Overlay ===== */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(5px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 9999;
-        }
-
-        .modal-overlay.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* ===== Modal Box ===== */
-        .modal-box {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            max-width: 420px;
-            width: 90%;
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-            animation: slideUp 0.3s ease forwards;
-        }
-
-        .modal-header {
-            padding: 1.2rem 1.5rem;
-            border-bottom: 1px solid #eee;
-            font-weight: 600;
-            color: #222;
-        }
-
-        .modal-body {
-            padding: 1.5rem;
-            font-size: 0.95rem;
-            color: #555;
-        }
-
-        .modal-footer {
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.5rem;
-            border-top: 1px solid #eee;
-        }
-
-        .btn-confirm {
-            background: #ff6a00;
-            color: #fff;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        .btn-confirm:hover {
-            background: #e05e00;
-        }
-
-        .btn-cancel {
-            background: #e5e5e5;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            cursor: pointer;
-            color:#001428
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(30px) scale(0.95);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* ===== Notification ===== */
-        .top-notification {
-            position: fixed;
-            top: 1.2rem;
-            right: -400px;
-            background: #fff;
-            border-left: 4px solid #ff6a00;
-            padding: 1rem 1.4rem;
-            border-radius: 6px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-            font-weight: 500;
-            color: #222;
-            z-index: 99999;
-            transition: all 0.4s ease;
-        }
-
-        .top-notification.success {
-            border-color: #00b67a;
-        }
-
-        .top-notification.error {
-            border-color: #e53935;
-        }
-
-        .top-notification.show {
-            right: 1.2rem;
-        }
     </style>
     <div class="order-details-container">
         <header class="order-header">
             <div class="order-summary-card">
                 <!-- ===== Order Actions on Top ===== -->
                 <div class="order-actions">
-                    <div class="payment-section">
-                        @if ($order->payment)
+                    @php
+                        $adminFirstName = auth()->user()->first_name ?? 'Admin';
+                    @endphp
 
-                            <button class="btn-primary payment-toggle-btn" data-order-id="{{ $order->id }}"
-                                data-status="{{ $order->payment->status }}" data-admin-name="{{ Auth::user()->first_name }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-cash-stack" viewBox="0 0 16 16">
-                                    <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
-                                    <path
-                                        d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z" />
-                                </svg>
-                                {{ $order->payment->status === 'paid' ? 'Mark as Unpaid' : 'Mark as Paid' }}
-                            </button>
-                        @endif
+                    @if ($order->payment?->status === 'paid')
+                        <button class="btn-primary" type="button"
+                            onclick="openPaymentModal({{ $order->id }}, 'unpaid', '{{ $adminFirstName }}')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-cash-stack" viewBox="0 0 16 16">
+                                <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                                <path
+                                    d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z" />
+                            </svg>
+                            Mark as Unpaid
+                        </button>
+                    @else
+                        <button class="btn-primary" type="button"
+                            onclick="openPaymentModal({{ $order->id }}, 'paid', '{{ $adminFirstName }}')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-cash-stack" viewBox="0 0 16 16">
+                                <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                                <path
+                                    d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z" />
+                            </svg>
+                            Mark as Paid
+                        </button>
+                    @endif
+
+                    <!-- Payment Modal -->
+                    <div id="paymentModal" class="custom-modal">
+                        <div class="custom-modal-content">
+                            <h3 id="modalTitle">Update Payment Status</h3>
+                            <p id="modalMessage"></p>
+                            <div class="modal-actions">
+                                <button class="btn-cancel" onclick="closePaymentModal()">Cancel</button>
+                                <button class="btn-confirm" id="modalConfirmBtn">Yes, Update</button>
+                            </div>
+                        </div>
                     </div>
-
-
 
 
 
@@ -732,21 +638,7 @@
 
 
     </div>
-    <!-- Alibaba-style confirmation modal -->
-    <div id="confirmModal" class="modal-overlay hidden">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h3 id="modalTitle">Confirm Action</h3>
-            </div>
-            <div class="modal-body">
-                <p id="modalMessage"></p>
-            </div>
-            <div class="modal-footer">
-                <button id="cancelBtn" class="btn-cancel">Cancel</button>
-                <button id="confirmBtn" class="btn-confirm">Yes, Proceed</button>
-            </div>
-        </div>
-    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.status-dropdown').forEach(select => {
@@ -811,73 +703,6 @@
                 console.error('Failed to copy invoice number:', err);
                 alert('Unable to copy the invoice number. Please try again.');
             });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const modal = document.getElementById('confirmModal');
-            const modalMessage = document.getElementById('modalMessage');
-            const modalTitle = document.getElementById('modalTitle');
-            const confirmBtn = document.getElementById('confirmBtn');
-            const cancelBtn = document.getElementById('cancelBtn');
-            let selectedOrderId = null;
-
-            document.querySelectorAll('.payment-toggle-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    const adminName = button.dataset.adminName;
-                    const status = button.dataset.status;
-                    const orderId = button.dataset.orderId;
-
-                    selectedOrderId = orderId;
-
-                    modalTitle.textContent = `Hi ${adminName}, Confirm Payment Change`;
-                    modalMessage.textContent = status === 'paid'
-                        ? `Are you sure you want to mark this payment as Unpaid?`
-                        : `Are you sure you want to mark this payment as Paid?`;
-
-                    modal.classList.remove('hidden');
-                    modal.classList.add('visible');
-                });
-            });
-
-            cancelBtn.addEventListener('click', () => {
-                modal.classList.remove('visible');
-                setTimeout(() => modal.classList.add('hidden'), 300);
-            });
-
-            confirmBtn.addEventListener('click', () => {
-                if (!selectedOrderId) return;
-
-                fetch(`/admin/orders/${selectedOrderId}/payment-status`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({})
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        modal.classList.remove('visible');
-                        setTimeout(() => modal.classList.add('hidden'), 300);
-
-                        showTopNotification(data.message, data.status);
-                        if (data.status === 'success') location.reload();
-                    })
-                    .catch(() => {
-                        showTopNotification("Something went wrong while updating payment.", "error");
-                    });
-            });
-        });
-
-        function showTopNotification(message, type = 'success') {
-            const notif = document.createElement('div');
-            notif.className = `top-notification ${type}`;
-            notif.textContent = message;
-            document.body.appendChild(notif);
-            setTimeout(() => notif.classList.add('show'), 100);
-            setTimeout(() => notif.classList.remove('show'), 4000);
-            setTimeout(() => notif.remove(), 4500);
         }
     </script>
 
