@@ -70,4 +70,11 @@ class AdminUserController extends Controller
         Auth::logout();
         return redirect()->route('admin.login')->with('success', 'You have been logged out.');
     }
+
+
+    public function UserList()
+    {
+        $users = User::where('is_admin', 'no')->get();
+        return view('backend.users.index', compact('users'));
+    }
 }
