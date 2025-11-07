@@ -70,8 +70,9 @@
         }
 
         .btn-outline:hover {
-            background: #001428;
+            background: #dc2626;
             color: #fff;
+            border: 1.5px solid #dc2626;
             transform: translateY(-1px);
         }
 
@@ -215,15 +216,15 @@
 
         .item-image img {
             width: 100%;
-            max-width: 120px;
-            height: auto;
+            max-width: 200px;
+            /* height: 200px; */
             border-radius: 6px;
-            object-fit: contain;
+            object-fit: cover;
         }
 
         .item-details {
-            /* padding: 15px; */
-            flex: 1;
+            padding: 15px;
+            /* flex: 1; */
         }
 
         .info-grid {
@@ -253,6 +254,7 @@
             display: flex;
             justify-content: flex-end;
             gap: 8px;
+            height: fit-content;
             padding: 10px 15px 15px;
         }
 
@@ -624,13 +626,11 @@
             background: #fff;
             border-radius: 14px;
             padding: 22px 24px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
             transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
         .delivery-summary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
         }
 
         /* Header */
@@ -988,6 +988,7 @@
             .item-card {
                 flex-direction: column;
                 align-items: flex-start;
+                padding: 20px;
             }
 
             .item-image img {
@@ -1121,17 +1122,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn-outline">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-truck" viewBox="0 0 16 16">
-                            <path
-                                d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5zm1.294 7.456A2 2 0 0 1 4.732 11h5.536a2 2 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456M12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2" />
-                        </svg> Update Delivery
-                    </button>
-                </div>
-                <div class="order-actions2">
-
-                    <button onclick="window.history.back()" style="color: red;border:none;background:transparent">
+                    <button class="btn-outline" onclick="window.history.back()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-box-arrow-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
@@ -1790,12 +1781,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-                                                                                                                                                                                                        <div class="notification-content">
-                                                                                                                                                                                                            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                                                                                                                                                                            <span>${message}</span>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="progress-bar"></div>
-                                                                                                                                                                                                    `;
+                                                                                                                                                                                                                    <div class="notification-content">
+                                                                                                                                                                                                                        <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                                                                                                                                                                                        <span>${message}</span>
+                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                    <div class="progress-bar"></div>
+                                                                                                                                                                                                                `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');
@@ -1870,20 +1861,20 @@
             const modal = document.createElement('div');
             modal.className = 'custom-modal-overlay';
             modal.innerHTML = `
-                                                                <div class="custom-modal2">
-                                                                    <h3>Edit Item: <span>${name}</span></h3>
-                                                                    <form id="editForm">
-                                                                        <label>Quantity:</label>
-                                                                        <input type="number" id="editQuantity" value="${quantity}" min="1" />
-                                                                        <label>Unit Price:</label>
-                                                                        <input type="number" id="editPrice" value="${price}" min="0" step="0.01" />
-                                                                        <div class="modal-actions">
-                                                                            <button type="button" class="btn cancel" onclick="closeModal()">Cancel</button>
-                                                                            <button type="submit" class="btn confirm">Save Changes</button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                            `;
+                                                                            <div class="custom-modal2">
+                                                                                <h3>Edit Item: <span>${name}</span></h3>
+                                                                                <form id="editForm">
+                                                                                    <label>Quantity:</label>
+                                                                                    <input type="number" id="editQuantity" value="${quantity}" min="1" />
+                                                                                    <label>Unit Price:</label>
+                                                                                    <input type="number" id="editPrice" value="${price}" min="0" step="0.01" />
+                                                                                    <div class="modal-actions">
+                                                                                        <button type="button" class="btn cancel" onclick="closeModal()">Cancel</button>
+                                                                                        <button type="submit" class="btn confirm">Save Changes</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
 
@@ -1899,15 +1890,15 @@
             const modal = document.createElement('div');
             modal.className = 'custom-modal-overlay';
             modal.innerHTML = `
-                                                                <div class="custom-modal2 warning">
-                                                                    <h3>Are you sure?</h3>
-                                                                    <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
-                                                                    <div class="modal-actions">
-                                                                        <button class="btn cancel" onclick="closeModal()">Cancel</button>
-                                                                        <button class="btn danger" onclick="deleteOrderItem(${id})">Yes, Delete</button>
-                                                                    </div>
-                                                                </div>
-                                                            `;
+                                                                            <div class="custom-modal2 warning">
+                                                                                <h3>Are you sure?</h3>
+                                                                                <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
+                                                                                <div class="modal-actions">
+                                                                                    <button class="btn cancel" onclick="closeModal()">Cancel</button>
+                                                                                    <button class="btn danger" onclick="deleteOrderItem(${id})">Yes, Delete</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
         }
