@@ -249,6 +249,7 @@ Route::get('/filter', 'filter')->name('products.filter');
 Route::get('/products/print-pdf', 'printPDF')->name('admin.products.printPDF');
 Route::get('/products/save-pdf', 'savePDF')->name('admin.products.savePDF');
 Route::get('/products/save-excel', 'saveExcel')->name('admin.products.saveExcel');
+Route::get('/enquiries', 'enquiries')->name('admin.products.enquiries');
 
 });
 Route::get('/new-product',  [ProductManagementController::class,'create'])->name('admin.products.create');
