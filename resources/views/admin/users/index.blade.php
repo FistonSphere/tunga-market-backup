@@ -194,7 +194,13 @@
                                 <td>{{ $user->phone ?? '—' }}</td>
                                 <td>
                                     <span
-                                        class="role-badge role-{{ strtolower($user->role) }}">{{ ucfirst($user->role) }}</span>
+                                        class="role-badge role-admin">
+                                        @if ($user->role === 1)
+                                            Admin
+                                        @else
+                                            Normal User
+                                        @endif
+                                        </span>
                                 </td>
                                 <td>{{ $user->orders()->count() }}</td>
                                 <td>
