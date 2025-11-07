@@ -1055,9 +1055,6 @@
         }
 
         @media (min-width: 760px) {
-            .chart-card {
-                margin-bottom: 20px;
-            }
 
             .chart-box {
                 display: grid;
