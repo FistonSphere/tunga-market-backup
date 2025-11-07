@@ -779,9 +779,6 @@
 
         /* ====== RESPONSIVE OPTIMIZATION ====== */
         @media (max-width: 768px) {
-            .charts-row {
-                grid-template-columns: 1fr;
-            }
 
             .chart-card canvas {
                 height: 220px !important;
@@ -1057,21 +1054,40 @@
 
         }
 
+        @media (min-width: 760px) {
+            .chart-card {
+                margin-bottom: 20px;
+            }
+
+            .chart-box {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+                gap: 25px;
+                margin-top: 20px;
+                margin-bottom: 40px;
+            }
+        }
+
         @media (max-width: 760px) {
             .metrics-container {
                 flex-direction: column;
             }
 
-            .btn.contact{
+            .btn.contact {
                 margin-left: 0;
             }
+
             .order-footer {
                 /* flex-direction: column;
-                    text-align: justify;
-                    gap: 10px; */
+                                    text-align: justify;
+                                    gap: 10px; */
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
                 gap: 1.2rem 1.5rem;
+            }
+
+            .chart-card {
+                margin-bottom: 20px;
             }
         }
     </style>
@@ -1100,6 +1116,7 @@
             </div>
         </div>
         <!-- ====== CHARTS ====== -->
+        <div class="chart-box">
             <div class="chart-card">
                 <h3>📈 Sales Performance</h3>
                 <div id="revenueTrendChart"></div>
@@ -1110,11 +1127,11 @@
                 <div id="paymentChart"></div>
             </div>
 
-        <div class="chart-card">
-            <h3>📦 Orders Trend (Last 7 Days)</h3>
-            <div id="ordersTrendChart"></div>
+            <div class="chart-card">
+                <h3>📦 Orders Trend (Last 7 Days)</h3>
+                <div id="ordersTrendChart"></div>
+            </div>
         </div>
-
 
         <!-- ====== TOP BUYERS ====== -->
         <div class="buyers-section mt-4">
@@ -1388,11 +1405,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                                                                                                                                                                                              <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                                                                                                                                                                                              <div class="info">
-                                                                                                                                                                                                                                                                <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                                                                                                                                                                                                <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                                                                                                                                                                                              </div>`;
+                                                                                                                                                                                                                                                                              <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                                                                                                                                                                                              <div class="info">
+                                                                                                                                                                                                                                                                                <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                                                                                                                                                                                                <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                                                                                                                                                                                              </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -1605,12 +1622,12 @@
 
             // Inner content
             notification.innerHTML = `
-                                                    <div class="notification-content">
-                                                        <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                        <span>${message}</span>
-                                                    </div>
-                                                    <div class="progress-bar"></div>
-                                                `;
+                                                                    <div class="notification-content">
+                                                                        <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                                        <span>${message}</span>
+                                                                    </div>
+                                                                    <div class="progress-bar"></div>
+                                                                `;
 
             document.body.appendChild(notification);
 
@@ -1634,7 +1651,7 @@
             @if(session('error'))
                 showNotification("{{ session('error') }}", 'error');
             @endif
-                                            });
+                                                            });
     </script>
 
 
