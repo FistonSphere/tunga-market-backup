@@ -80,6 +80,7 @@ public function EnquiriesDestroy(Enquiry $enquiry)
         } catch (\Exception $e) {
             Log::error('❌ Email sending failed: ' . $e->getMessage());
         }
+        return back()->with('success', 'Reply sent successfully via Email.');
     }
 
     // ✅ SMS
@@ -107,9 +108,9 @@ public function EnquiriesDestroy(Enquiry $enquiry)
         } catch (\Exception $e) {
             Log::error('❌ SMS sending failed: ' . $e->getMessage());
         }
+        return back()->with('success', 'Reply sent successfully via SMS.');
     }
 
-    return back()->with('success', 'Reply sent successfully via Email/SMS.');
 }
 
 }
