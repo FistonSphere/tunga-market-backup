@@ -3,9 +3,9 @@
 @section('content')
     <style>
         /* ==========================================================
-                                   PRODUCT ENQUIRIES DASHBOARD
-                                   Modern Pro UI (Alibaba / Ant Design inspired)
-                                   ========================================================== */
+                                                       PRODUCT ENQUIRIES DASHBOARD
+                                                       Modern Pro UI (Alibaba / Ant Design inspired)
+                                                       ========================================================== */
 
         .enquiries-container {
             padding: 32px 40px;
@@ -281,6 +281,71 @@
             cursor: pointer;
             transition: background 0.2s ease;
         }
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .pagination-list {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            gap: 8px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 8px 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .pagination-list li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .pagination-list li a {
+            text-decoration: none;
+            color: #444;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            transition: all 0.25s ease;
+        }
+
+        .pagination-list li a:hover {
+            background-color: #ff6b00;
+            color: #fff;
+            box-shadow: 0 3px 6px rgba(255, 107, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .pagination-list li.active {
+            background-color: #ff6b00;
+            color: #fff;
+            box-shadow: 0 3px 6px rgba(255, 107, 0, 0.3);
+            pointer-events: none;
+        }
+
+        .pagination-list li.disabled {
+            color: #ccc;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .pagination-list li.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
     </style>
     <div class="enquiries-container">
 
@@ -312,7 +377,6 @@
                         <th>Customer</th>
                         <th>Quantity</th>
                         <th>Target Price</th>
-                        <th>Contact</th>
                         <th>Date</th>
                         <th class="text-center">Actions</th>
                     </tr>
@@ -329,24 +393,16 @@
                                 </div>
                             </td>
                             <td>
-                                <strong>{{ $enquiry->name ?? $enquiry->company}}</strong>
+                                <strong>{{ $enquiry->name ? $enquiry->name : $enquiry->company }}</strong>
                             </td>
                             <td>{{ $enquiry->quantity }}</td>
                             <td>{{ number_format($enquiry->target_price) }} Rwf</td>
-                            <td>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-envelope" viewBox="0 0 16 16">
-                                    <path
-                                        d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
-                                </svg> {{ $enquiry->email }}<br>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-telephone" viewBox="0 0 16 16">
-                                    <path
-                                        d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
-                                </svg> {{ $enquiry->phone }}
-                            </td>
                             <td>{{ $enquiry->created_at->format('d M Y') }}</td>
                             <td class="text-center">
+                                <button class="btn-action" data-bs-toggle="modal" data-bs-target="#replyEnquiryModal"
+                                    data-enquiry="{{ $enquiry->toJson() }}">
+                                    <i class="bi bi-reply"></i> Reply
+                                </button>
                                 <button class="btn-action view" data-bs-toggle="modal" data-bs-target="#viewEnquiryModal"
                                     data-enquiry='@json($enquiry)'>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -388,9 +444,38 @@
             </table>
         </div>
 
-        <div class="pagination-wrapper mt-4">
-            {{ $enquiries->links() }}
-        </div>
+        @if ($enquiries->hasPages())
+            <div class="pagination-container">
+                <ul class="pagination-list">
+                    {{-- Previous Page Link --}}
+                    @if ($enquiries->onFirstPage())
+                        <li class="disabled">&laquo;</li>
+                    @else
+                        <li>
+                            <a href="{{ $enquiries->previousPageUrl() }}" rel="prev">&laquo;</a>
+                        </li>
+                    @endif
+
+                    {{-- Pagination Elements --}}
+                    @foreach ($enquiries->links()->elements[0] ?? [] as $page => $url)
+                        @if ($page == $enquiries->currentPage())
+                            <li class="active">{{ $page }}</li>
+                        @else
+                            <li><a href="{{ $url }}">{{ $page }}</a></li>
+                        @endif
+                    @endforeach
+
+                    {{-- Next Page Link --}}
+                    @if ($enquiries->hasMorePages())
+                        <li>
+                            <a href="{{ $enquiries->nextPageUrl() }}" rel="next">&raquo;</a>
+                        </li>
+                    @else
+                        <li class="disabled">&raquo;</li>
+                    @endif
+                </ul>
+            </div>
+        @endif
     </div>
 
     <!-- View Enquiry Modal -->
@@ -405,11 +490,93 @@
                             <path
                                 d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2" />
                         </svg> Enquiry Details</h5>
-                    <button type="button" data-bs-dismiss="modal" style="border-radius: 50%; border: none;background:rgb(230, 6, 6);color:#fff;">&times;</button>
+                    <button type="button" data-bs-dismiss="modal"
+                        style="border-radius: 50%; border: none;background:rgb(230, 6, 6);color:#fff;">&times;</button>
                 </div>
                 <div class="modal-body p-4">
                     <div id="enquiryDetails"></div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Reply to Enquiry Modal -->
+    <div class="modal fade" id="replyEnquiryModal" tabindex="-1" aria-labelledby="replyEnquiryModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header bg-light border-0">
+                    <h5 class="modal-title fw-bold" id="replyEnquiryModalLabel">
+                        <i class="bi bi-reply-fill text-primary"></i> Reply to Enquiry
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form id="replyEnquiryForm" method="POST" action="{{ route('admin.enquiries.reply') }}">
+                    @csrf
+                    <input type="hidden" name="enquiry_id" id="replyEnquiryId">
+
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <p><strong>Customer:</strong> <span id="enquiryName"></span></p>
+                            <p><strong>Product:</strong> <span id="enquiryProduct"></span></p>
+                            <p><strong>Email:</strong> <span id="enquiryEmail"></span></p>
+                            <p><strong>Phone:</strong> <span id="enquiryPhone"></span></p>
+                        </div>
+
+                        <!-- Tabs for Email / SMS -->
+                        <ul class="nav nav-tabs mb-3" id="replyTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="email-tab" data-bs-toggle="tab"
+                                    data-bs-target="#emailTab" type="button" role="tab">Email Reply</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="sms-tab" data-bs-toggle="tab" data-bs-target="#smsTab"
+                                    type="button" role="tab">SMS Reply</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <!-- Email Reply -->
+                            <div class="tab-pane fade show active" id="emailTab" role="tabpanel">
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Subject</label>
+                                    <input type="text" class="form-control" name="subject" placeholder="Subject">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Email Message</label>
+                                    <textarea class="form-control" name="email_message" rows="5"
+                                        placeholder="Write your email reply..."></textarea>
+                                </div>
+                                <div class="alert alert-light border mt-3">
+                                    <strong>Preview:</strong>
+                                    <div id="emailPreview" class="mt-2 text-muted small">
+                                        Your message preview will appear here.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SMS Reply -->
+                            <div class="tab-pane fade" id="smsTab" role="tabpanel">
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">SMS Message</label>
+                                    <textarea class="form-control" name="sms_message" rows="4" maxlength="320"
+                                        placeholder="Write your SMS reply..."></textarea>
+                                </div>
+                                <div class="alert alert-warning small">
+                                    <i class="bi bi-info-circle"></i> SMS will be sent via Mista.io API and should not
+                                    exceed 320 characters.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer border-0 bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-send"></i> Send Reply
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -424,15 +591,15 @@
                 btn.addEventListener('click', () => {
                     const enquiry = JSON.parse(btn.dataset.enquiry);
                     modalBody.innerHTML = `
-                                                                        <h5>${enquiry.name} <small class="text-muted">(${enquiry.company || 'No company'})</small></h5>
-                                                                        <p><strong>Email:</strong> ${enquiry.email}</p>
-                                                                        <p><strong>Phone:</strong> ${enquiry.phone}</p>
-                                                                        <p><strong>Quantity:</strong> ${enquiry.quantity}</p>
-                                                                        <p><strong>Target Price:</strong> ${enquiry.target_price.toLocaleString()} Rwf</p>
-                                                                        <p><strong>Message:</strong> ${enquiry.message}</p>
-                                                                        <hr>
-                                                                        <p class="text-muted"><i class="bi bi-hash"></i> Ticket: ${enquiry.ticket}</p>
-                                                                    `;
+                                                                                            <h5>${enquiry.name} <small class="text-muted">(${enquiry.company || 'No company'})</small></h5>
+                                                                                            <p><strong>Email:</strong> ${enquiry.email}</p>
+                                                                                            <p><strong>Phone:</strong> ${enquiry.phone}</p>
+                                                                                            <p><strong>Quantity:</strong> ${enquiry.quantity}</p>
+                                                                                            <p><strong>Target Price:</strong> ${enquiry.target_price.toLocaleString()} Rwf</p>
+                                                                                            <p><strong>Message:</strong> ${enquiry.message}</p>
+                                                                                            <hr>
+                                                                                            <p class="text-muted"><i class="bi bi-hash"></i> Ticket: ${enquiry.ticket}</p>
+                                                                                        `;
                 });
             });
         });
@@ -453,6 +620,28 @@
                 }
             });
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const replyModal = document.getElementById('replyEnquiryModal');
+
+            replyModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const enquiry = JSON.parse(button.getAttribute('data-enquiry'));
+
+                document.getElementById('replyEnquiryId').value = enquiry.id;
+                document.getElementById('enquiryName').textContent = enquiry.name;
+                document.getElementById('enquiryProduct').textContent = enquiry.product?.name || 'N/A';
+                document.getElementById('enquiryEmail').textContent = enquiry.email;
+                document.getElementById('enquiryPhone').textContent = enquiry.phone;
+
+                document.querySelector('[name="subject"]').value = `Response to your enquiry #${enquiry.ticket}`;
+            });
+
+            // Live preview for email message
+            document.querySelector('[name="email_message"]').addEventListener('input', function () {
+                document.getElementById('emailPreview').innerText = this.value || 'Your message preview will appear here.';
+            });
+        });
     </script>
 
 

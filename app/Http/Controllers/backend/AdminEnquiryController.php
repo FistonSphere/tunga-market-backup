@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Enquiry;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class AdminEnquiryController extends Controller
 {
@@ -48,4 +50,65 @@ public function EnquiriesDestroy(Enquiry $enquiry)
             ]
         ]);
     }
+
+    public function reply(Request $request)
+{
+    $request->validate([
+        'enquiry_id' => 'required|exists:enquiries,id',
+        'subject' => 'nullable|string|max:255',
+        'email_message' => 'nullable|string',
+        'sms_message' => 'nullable|string|max:320',
+    ]);
+
+    $enquiry = Enquiry::with('product')->findOrFail($request->enquiry_id);
+
+    // ✅ EMAIL
+    if ($request->email_message) {
+        $emailContent = view('emails.reply_enquiry', [
+            'enquiry' => $enquiry,
+            'messageText' => $request->email_message,
+        ])->render();
+
+        try {
+            Mail::send([], [], function ($message) use ($enquiry, $request, $emailContent) {
+                $message->to($enquiry->email)
+                        ->subject($request->subject)
+                        ->html($emailContent);
+            });
+            Log::info("📧 Reply email sent to {$enquiry->email}");
+        } catch (\Exception $e) {
+            Log::error('❌ Email sending failed: ' . $e->getMessage());
+        }
+    }
+
+    // ✅ SMS
+    if ($request->sms_message && $enquiry->phone) {
+        $apiToken = config('services.mista.api_token');
+        $senderId = config('services.mista.sender_id');
+
+        // Format to MTN: +2507... if not already
+        $phone = preg_replace('/^0/', '+250', $enquiry->phone);
+        if (!str_starts_with($phone, '+250')) {
+            $phone = '+250' . ltrim($enquiry->phone, '0');
+        }
+
+        try {
+            Http::withHeaders([
+                'Authorization' => 'Bearer ' . $apiToken,
+                'accept' => 'application/json',
+                'content-type' => 'application/json'
+            ])->post('https://api.mista.io/sms', [
+                'to' => $phone,
+                'from' => $senderId,
+                'message' => $request->sms_message,
+            ]);
+            Log::info("📩 SMS sent successfully to {$phone}");
+        } catch (\Exception $e) {
+            Log::error('❌ SMS sending failed: ' . $e->getMessage());
+        }
+    }
+
+    return back()->with('success', 'Reply sent successfully via Email/SMS.');
+}
+
 }
