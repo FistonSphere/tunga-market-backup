@@ -13,7 +13,7 @@ class AdminEnquiryController extends Controller
 {
     $products = Product::where('status', 'active')->get();
     $enquiries = Enquiry::with('product')->orderBy('created_at', 'desc')->paginate(10);
-    return view('admin.products.enquiries', compact('enquiries','products'));
+    return view('admin.produhangcts.enquiries', compact('enquiries','products'));
 }
 public function EnquiriesDestroy(Enquiry $enquiry)
     {
