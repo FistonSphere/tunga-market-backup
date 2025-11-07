@@ -567,7 +567,7 @@
                                         placeholder="Write your SMS reply..."></textarea>
                                 </div>
                                 <div class="alert alert-warning small">
-                                    <i class="bi bi-info-circle"></i> SMS will be sent via Mista.io API and should not
+                                    <i class="bi bi-info-circle"></i> SMS should not
                                     exceed 320 characters.
                                 </div>
                             </div>

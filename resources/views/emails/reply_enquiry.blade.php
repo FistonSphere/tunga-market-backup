@@ -153,7 +153,7 @@
                 </div>
 
                 <p>If you’d like to continue this conversation or place an order, please click the button below:</p>
-                <a href="{{ url('/product/' . $product->slug ?? '#') }}" class="cta-button" style="color: #fff">View Product</a>
+                <a href="{{ url('/product-view/' . $product->sku ?? '#') }}" class="cta-button" style="color: #fff">View Product</a>
 
                 <div class="divider"></div>
 
