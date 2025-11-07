@@ -140,7 +140,7 @@
                 <p class="subtitle">Manage customers and their activities on the platform</p>
             </div>
 
-            <form method="GET" action="{{ route('admin.users.index') }}" class="filters-form">
+            <form method="GET" action="{{ route('admin.users.list') }}" class="filters-form">
                 <input type="text" name="search" value="{{ request('search') }}"
                     placeholder="Search by name, email or phone..." class="search-input">
                 <select name="role" class="filter-select">
