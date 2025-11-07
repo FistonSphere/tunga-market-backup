@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Enquiry;
 use App\Models\ProductType;
 use App\Models\TaxClass;
 use App\Models\Unit;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -526,4 +528,19 @@ public function enquiries()
 {
     $enquiries = Enquiry::with('product')->orderBy('created_at', 'desc')->get();
     return view('admin.products.enquiries', compact('enquiries'));
+}
+public function EnquiriesDestroy(Enquiry $enquiry)
+    {
+        $enquiry->delete();
+        return response()->json(['status' => 'success', 'message' => 'Enquiry deleted successfully.']);
+    }
+
+    public function EnquiriesReply(Request $request, Enquiry $enquiry)
+    {
+        // Logic to send reply via email
+        Mail::to($enquiry->email)->send(new EnquiryReplyMail($enquiry, $request->message));
+
+        return response()->json(['status' => 'success', 'message' => 'Reply sent successfully.']);
+    }
+
 }
