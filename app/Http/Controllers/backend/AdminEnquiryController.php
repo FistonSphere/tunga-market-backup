@@ -146,4 +146,11 @@ public function search(Request $request)
 
     return view('admin.products.enquiries', compact('enquiries', 'products'));
 }
+
+
+public function destroy(Enquiry $enquiry)
+    {
+        $enquiry->delete();
+        return back()->with('success', 'Enquiry deleted successfully.');
+    }
 }

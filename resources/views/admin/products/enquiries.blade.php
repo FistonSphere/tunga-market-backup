@@ -3,9 +3,9 @@
 @section('content')
     <style>
         /* ==========================================================
-                                                                                                   PRODUCT ENQUIRIES DASHBOARD
-                                                                                                   Modern Pro UI (Alibaba / Ant Design inspired)
-                                                                                                   ========================================================== */
+                                                                                                           PRODUCT ENQUIRIES DASHBOARD
+                                                                                                           Modern Pro UI (Alibaba / Ant Design inspired)
+                                                                                                           ========================================================== */
 
         .enquiries-container {
             padding: 32px 40px;
@@ -509,7 +509,7 @@
                                     @csrf @method('DELETE')
                                     <button type="button" class="btn-action delete" onclick="confirmDelete(this)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                            class="bi bi-trash" viewBox="0 0 16 16">
+                                            viewBox="0 0 16 16">
                                             <path
                                                 d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
                                             <path
@@ -517,6 +517,7 @@
                                         </svg>
                                     </button>
                                 </form>
+
                             </td>
                         </tr>
                     @empty
@@ -686,15 +687,15 @@
                 btn.addEventListener('click', () => {
                     const enquiry = JSON.parse(btn.dataset.enquiry);
                     modalBody.innerHTML = `
-                                                                                                                                        <h5>${enquiry.name} <small class="text-muted">(${enquiry.company || 'No company'})</small></h5>
-                                                                                                                                        <p><strong>Email:</strong> ${enquiry.email}</p>
-                                                                                                                                        <p><strong>Phone:</strong> ${enquiry.phone}</p>
-                                                                                                                                        <p><strong>Quantity:</strong> ${enquiry.quantity}</p>
-                                                                                                                                        <p><strong>Target Price:</strong> ${enquiry.target_price.toLocaleString()} Rwf</p>
-                                                                                                                                        <p><strong>Message:</strong> ${enquiry.message}</p>
-                                                                                                                                        <hr>
-                                                                                                                                        <p class="text-muted"><i class="bi bi-hash"></i> Ticket: ${enquiry.ticket}</p>
-                                                                                                                                    `;
+                                                                                                                                                <h5>${enquiry.name} <small class="text-muted">(${enquiry.company || 'No company'})</small></h5>
+                                                                                                                                                <p><strong>Email:</strong> ${enquiry.email}</p>
+                                                                                                                                                <p><strong>Phone:</strong> ${enquiry.phone}</p>
+                                                                                                                                                <p><strong>Quantity:</strong> ${enquiry.quantity}</p>
+                                                                                                                                                <p><strong>Target Price:</strong> ${enquiry.target_price.toLocaleString()} Rwf</p>
+                                                                                                                                                <p><strong>Message:</strong> ${enquiry.message}</p>
+                                                                                                                                                <hr>
+                                                                                                                                                <p class="text-muted"><i class="bi bi-hash"></i> Ticket: ${enquiry.ticket}</p>
+                                                                                                                                            `;
                 });
             });
         });
@@ -742,12 +743,12 @@
             navigator.clipboard.writeText(ticket).then(() => {
                 // Swap to checkmark icon
                 btn.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#28a745" class="clipboard-check" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
-                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
-                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
-                        </svg>
-                    `;
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#28a745" class="clipboard-check" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                                </svg>
+                            `;
                 btn.classList.add('copied');
 
                 // Show temporary tooltip
@@ -760,17 +761,57 @@
                     tooltip.remove();
                     // revert back to clipboard icon
                     btn.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" class="clipboard-icon" viewBox="0 0 16 16">
-                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
-                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
-                            </svg>
-                        `;
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" class="clipboard-icon" viewBox="0 0 16 16">
+                                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                                    </svg>
+                                `;
                     btn.classList.remove('copied');
                 }, 1500);
             });
         }
 
+        function confirmDelete(button) {
+            const form = button.closest('form');
 
+            // Create overlay
+            const modal = document.createElement('div');
+            modal.className = 'confirm-modal-overlay';
+            modal.innerHTML = `
+            <div class="confirm-modal">
+                <div class="confirm-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#f44336" viewBox="0 0 16 16">
+                        <path d="M8.982 1.566a1.5 1.5 0 0 0-1.964 0L.165 7.233a1.5 1.5 0 0 0 0 2.134l6.853 5.667a1.5 1.5 0 0 0 1.964 0l6.853-5.667a1.5 1.5 0 0 0 0-2.134L8.982 1.566z"/>
+                    </svg>
+                </div>
+                <h3>Delete this enquiry?</h3>
+                <p>This action cannot be undone. Are you sure you want to proceed?</p>
+                <div class="confirm-actions">
+                    <button class="btn cancel">Cancel</button>
+                    <button class="btn delete">Yes, Delete</button>
+                </div>
+            </div>
+        `;
+            document.body.appendChild(modal);
+
+            // Add animations
+            setTimeout(() => modal.classList.add('show'), 10);
+
+            // Handle cancel
+            modal.querySelector('.cancel').addEventListener('click', () => {
+                modal.classList.remove('show');
+                setTimeout(() => modal.remove(), 300);
+            });
+
+            // Handle delete
+            modal.querySelector('.delete').addEventListener('click', () => {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.remove();
+                    form.submit();
+                }, 300);
+            });
+        }
     </script>
 
 
