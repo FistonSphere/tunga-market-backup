@@ -520,4 +520,10 @@ public function saveExcel()
     $fileName = 'Tunga_Market_Product_Listing_' . date('Y_m_d_H_i') . '.xlsx';
     return Excel::download(new ProductsExport(), $fileName);
 }
+
+
+public function enquiries()
+{
+    $enquiries = Enquiry::with('product')->orderBy('created_at', 'desc')->get();
+    return view('admin.products.enquiries', compact('enquiries'));
 }
