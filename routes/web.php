@@ -260,6 +260,8 @@ Route::prefix('enquiries')->controller(AdminEnquiryController::class)->group(fun
     Route::post('/{enquiry}/reply',  'sendReply');
     Route::post('/reply',  'reply')->name('admin.enquiries.reply');
     Route::delete('/{enquiry}',  'destroy')->name('admin.enquiry.destroy');
+    Route::get('/search', 'search')->name('admin.products.enquiriesSearch');
+
 });
 //end products route
 

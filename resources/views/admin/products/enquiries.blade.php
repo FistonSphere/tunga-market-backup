@@ -3,9 +3,9 @@
 @section('content')
     <style>
         /* ==========================================================
-                                                                               PRODUCT ENQUIRIES DASHBOARD
-                                                                               Modern Pro UI (Alibaba / Ant Design inspired)
-                                                                               ========================================================== */
+                                                                                           PRODUCT ENQUIRIES DASHBOARD
+                                                                                           Modern Pro UI (Alibaba / Ant Design inspired)
+                                                                                           ========================================================== */
 
         .enquiries-container {
             padding: 32px 40px;
@@ -172,7 +172,7 @@
         }
 
         .btn-action.view {
-            color: #007bff;
+            color: #000a2c;
         }
 
         .btn-action.view:hover {
@@ -346,13 +346,67 @@
             transform: none;
             box-shadow: none;
         }
+
+        /* ===== Ticket Copy Button ===== */
+        .ticket-copy {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 139, 0, 0.08);
+            color: #ff6a13;
+        }
+
+        .copy-btn.copied {
+            color: #ff6a13 !important;
+        }
+
+        .copy-btn i {
+            font-size: 15px;
+        }
+
+        /* ===== Tooltip (Copied!) ===== */
+        .copy-tooltip {
+            position: absolute;
+            top: -28px;
+            right: -4px;
+            background: #ff6a13;
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            opacity: 0;
+            transform: translateY(5px);
+            animation: fadeInTooltip 0.25s ease forwards;
+        }
+
+        @keyframes fadeInTooltip {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
     <div class="enquiries-container">
 
         <div class="page-header">
             <h2><i class="bi bi-chat-dots text-primary"></i> Product Enquiries</h2>
             <div class="search-filters">
-                <form method="GET" action="{{ route('admin.products.enquiriesIndex') }}">
+                <form method="GET" action="{{ route('admin.products.enquiriesSearch') }}">
                     <input type="text" name="search" value="{{ request('search') }}"
                         placeholder="Search by name, ticket, or product..." class="search-input">
                     <select name="product_id" class="filter-select">
@@ -390,7 +444,7 @@
                                     <button class="copy-btn" onclick="copyTicket('{{ $enquiry->ticket }}', this)"
                                         title="Copy Ticket">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                            class="bi bi-clipboard" viewBox="0 0 16 16">
+                                            class="clipboard-icon" viewBox="0 0 16 16">
                                             <path
                                                 d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z" />
                                             <path
@@ -399,6 +453,7 @@
                                     </button>
                                 </div>
                             </td>
+
 
                             <td>
                                 <div class="product-info">
@@ -610,15 +665,15 @@
                 btn.addEventListener('click', () => {
                     const enquiry = JSON.parse(btn.dataset.enquiry);
                     modalBody.innerHTML = `
-                                                                                                                    <h5>${enquiry.name} <small class="text-muted">(${enquiry.company || 'No company'})</small></h5>
-                                                                                                                    <p><strong>Email:</strong> ${enquiry.email}</p>
-                                                                                                                    <p><strong>Phone:</strong> ${enquiry.phone}</p>
-                                                                                                                    <p><strong>Quantity:</strong> ${enquiry.quantity}</p>
-                                                                                                                    <p><strong>Target Price:</strong> ${enquiry.target_price.toLocaleString()} Rwf</p>
-                                                                                                                    <p><strong>Message:</strong> ${enquiry.message}</p>
-                                                                                                                    <hr>
-                                                                                                                    <p class="text-muted"><i class="bi bi-hash"></i> Ticket: ${enquiry.ticket}</p>
-                                                                                                                `;
+                                                                                                                                <h5>${enquiry.name} <small class="text-muted">(${enquiry.company || 'No company'})</small></h5>
+                                                                                                                                <p><strong>Email:</strong> ${enquiry.email}</p>
+                                                                                                                                <p><strong>Phone:</strong> ${enquiry.phone}</p>
+                                                                                                                                <p><strong>Quantity:</strong> ${enquiry.quantity}</p>
+                                                                                                                                <p><strong>Target Price:</strong> ${enquiry.target_price.toLocaleString()} Rwf</p>
+                                                                                                                                <p><strong>Message:</strong> ${enquiry.message}</p>
+                                                                                                                                <hr>
+                                                                                                                                <p class="text-muted"><i class="bi bi-hash"></i> Ticket: ${enquiry.ticket}</p>
+                                                                                                                            `;
                 });
             });
         });
@@ -664,30 +719,37 @@
 
         function copyTicket(ticket, btn) {
             navigator.clipboard.writeText(ticket).then(() => {
-                // Temporarily show success feedback
-                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
-      <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
-      <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
-    </svg>`;
+                // Swap to checkmark icon
+                btn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#28a745" class="clipboard-check" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                </svg>
+            `;
                 btn.classList.add('copied');
 
-                // Optional tooltip effect
+                // Show temporary tooltip
                 const tooltip = document.createElement('span');
                 tooltip.className = 'copy-tooltip';
                 tooltip.textContent = 'Copied!';
                 btn.appendChild(tooltip);
 
                 setTimeout(() => {
-                    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
-                            < path d = "M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z" />
-                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z" />
-        </svg > `;
-                    btn.classList.remove('copied');
                     tooltip.remove();
+                    // revert back to clipboard icon
+                    btn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" class="clipboard-icon" viewBox="0 0 16 16">
+                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                    </svg>
+                `;
+                    btn.classList.remove('copied');
                 }, 1500);
             });
         }
+
+
     </script>
 
 

@@ -113,4 +113,37 @@ public function EnquiriesDestroy(Enquiry $enquiry)
 
 }
 
+
+public function search(Request $request)
+{
+    $query = Enquiry::query()->with('product');
+
+    // 🔍 Filter by text search
+    if ($request->filled('search')) {
+        $search = $request->input('search');
+
+        $query->where(function ($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('company', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%")
+              ->orWhere('ticket', 'like', "%{$search}%")
+              ->orWhereHas('product', function ($p) use ($search) {
+                  $p->where('name', 'like', "%{$search}%");
+              });
+        });
+    }
+
+    // 🧩 Filter by specific product
+    if ($request->filled('product_id')) {
+        $query->where('product_id', $request->product_id);
+    }
+
+    // Optional: you can order by latest
+    $enquiries = $query->latest()->paginate(10)->withQueryString();
+
+    // Load all products for filter dropdown
+    $products = Product::select('id', 'name')->orderBy('name')->get();
+
+    return view('admin.products.enquiries', compact('enquiries', 'products'));
+}
 }
