@@ -202,7 +202,9 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             overflow: hidden;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 1rem;
             transition: all 0.3s ease;
         }
 
@@ -213,12 +215,21 @@
 
         .item-image img {
             width: 100%;
-            height: 180px;
+            max-width: 120px;
+            height: auto;
+            border-radius: 6px;
             object-fit: contain;
         }
 
         .item-details {
-            padding: 15px;
+            /* padding: 15px; */
+            flex: 1;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
         }
 
         .item-details h4 {
@@ -273,12 +284,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 20px;
+            gap: 2rem;
             padding: 18px 22px;
             border-top: 1px solid #eef2f6;
             background: #fff;
             border-radius: 0 0 12px 12px;
-            margin-top: 18px;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .footer-left,
+        .footer-right {
+            flex: 1 1 300px;
         }
 
         .footer-left p {
@@ -917,6 +934,147 @@
             padding: 1rem;
             max-width: 100%;
             overflow-x: hidden;
+        }
+
+        /* Responsive typography scaling */
+        @media (max-width: 1200px) {
+            .order-meta-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .items-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        /* Tablet adjustments */
+        @media (max-width: 992px) {
+
+            .order-actions,
+            .order-actions2 {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .order-title {
+                font-size: 1.2rem;
+            }
+
+            .meta-card {
+                padding: 0.8rem;
+            }
+
+            .order-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .footer-left,
+            .footer-right {
+                width: 100%;
+            }
+        }
+
+        /* Mobile landscape */
+        @media (max-width: 768px) {
+            .order-details-container {
+                padding: 0.8rem;
+            }
+
+            .order-meta-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .item-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .item-image img {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .order-actions,
+            .order-actions2 {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .order-header h2 {
+                font-size: 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Small mobile (≤576px) */
+        @media (max-width: 576px) {
+            .order-meta-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .order-header,
+            .order-actions,
+            .order-footer {
+                flex-direction: column;
+            }
+
+            .order-actions button,
+            .order-actions2 button {
+                width: 100%;
+                font-size: 0.9rem;
+            }
+
+            .meta-card p.value {
+                font-size: 0.85rem;
+            }
+
+            .item-details p {
+                font-size: 0.85rem;
+            }
+
+            .footer-left,
+            .footer-right {
+                width: 100%;
+                text-align: left;
+            }
+
+            .order-title {
+                font-size: 1rem;
+                word-wrap: break-word;
+            }
+
+            .order-header svg {
+                width: 14px;
+                height: 14px;
+            }
+        }
+
+        /* Tiny screens */
+        @media (max-width: 400px) {
+            .item-card {
+                padding: 0.5rem;
+            }
+
+            .order-actions button {
+                font-size: 0.8rem;
+                padding: 0.4rem;
+            }
+
+            .meta-card {
+                padding: 0.5rem;
+            }
+
+            .order-header h2 {
+                font-size: 0.9rem;
+            }
         }
     </style>
     <div class="order-details-container">
@@ -1632,12 +1790,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-                                                                                                                                                                            <div class="notification-content">
-                                                                                                                                                                                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                                                                                                                                                <span>${message}</span>
-                                                                                                                                                                            </div>
-                                                                                                                                                                            <div class="progress-bar"></div>
-                                                                                                                                                                        `;
+                                                                                                                                                                                                        <div class="notification-content">
+                                                                                                                                                                                                            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                                                                                                                                                                            <span>${message}</span>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="progress-bar"></div>
+                                                                                                                                                                                                    `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');
@@ -1712,20 +1870,20 @@
             const modal = document.createElement('div');
             modal.className = 'custom-modal-overlay';
             modal.innerHTML = `
-                                    <div class="custom-modal2">
-                                        <h3>Edit Item: <span>${name}</span></h3>
-                                        <form id="editForm">
-                                            <label>Quantity:</label>
-                                            <input type="number" id="editQuantity" value="${quantity}" min="1" />
-                                            <label>Unit Price:</label>
-                                            <input type="number" id="editPrice" value="${price}" min="0" step="0.01" />
-                                            <div class="modal-actions">
-                                                <button type="button" class="btn cancel" onclick="closeModal()">Cancel</button>
-                                                <button type="submit" class="btn confirm">Save Changes</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                `;
+                                                                <div class="custom-modal2">
+                                                                    <h3>Edit Item: <span>${name}</span></h3>
+                                                                    <form id="editForm">
+                                                                        <label>Quantity:</label>
+                                                                        <input type="number" id="editQuantity" value="${quantity}" min="1" />
+                                                                        <label>Unit Price:</label>
+                                                                        <input type="number" id="editPrice" value="${price}" min="0" step="0.01" />
+                                                                        <div class="modal-actions">
+                                                                            <button type="button" class="btn cancel" onclick="closeModal()">Cancel</button>
+                                                                            <button type="submit" class="btn confirm">Save Changes</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
 
@@ -1741,15 +1899,15 @@
             const modal = document.createElement('div');
             modal.className = 'custom-modal-overlay';
             modal.innerHTML = `
-                                    <div class="custom-modal2 warning">
-                                        <h3>Are you sure?</h3>
-                                        <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
-                                        <div class="modal-actions">
-                                            <button class="btn cancel" onclick="closeModal()">Cancel</button>
-                                            <button class="btn danger" onclick="deleteOrderItem(${id})">Yes, Delete</button>
-                                        </div>
-                                    </div>
-                                `;
+                                                                <div class="custom-modal2 warning">
+                                                                    <h3>Are you sure?</h3>
+                                                                    <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
+                                                                    <div class="modal-actions">
+                                                                        <button class="btn cancel" onclick="closeModal()">Cancel</button>
+                                                                        <button class="btn danger" onclick="deleteOrderItem(${id})">Yes, Delete</button>
+                                                                    </div>
+                                                                </div>
+                                                            `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
         }
