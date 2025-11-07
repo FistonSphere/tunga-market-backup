@@ -74,7 +74,7 @@ class AdminUserController extends Controller
 
     public function UserList()
     {
-        $users = User::where('is_admin', 'no')->get();
-        return view('backend.users.index', compact('users'));
+        $users = User::paginate(10);
+        return view('admin.users.index', compact('users'));
     }
 }

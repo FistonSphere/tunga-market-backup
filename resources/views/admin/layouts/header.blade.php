@@ -287,12 +287,12 @@
                                         List</a></li>
                             </ul>
                         </li>
-                        <li class="submenu">
+                        <li class="submenu {{ request()->is('admin/users*') }}">
                             <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/users1.svg')}}"
                                     alt="img"><span>
                                     Users</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="newuser.html">New User </a></li>
+                                <li><a href="{{ route('admin.users.list') }}" class="{{ request()->routeIs('admin.users.list') ? 'active' : '' }}">User Listing</a></li>
                                 <li><a href="userlists.html">Users List</a></li>
                             </ul>
                         </li>
