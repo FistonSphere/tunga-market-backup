@@ -347,7 +347,11 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
 });
 
 //delivery routes
-
+ //user management routes
+    Route::prefix('users')->controller(AdminUserController::class)->group(function () {
+        Route::get('/list',  'UserList')->name('admin.users.list');
+    });
+ //user management routes
 
 });
 // admin with no authentication middleware routes
