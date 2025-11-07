@@ -3,9 +3,9 @@
 @section('content')
     <style>
         /* ==========================================================
-                                                                                               PRODUCT ENQUIRIES DASHBOARD
-                                                                                               Modern Pro UI (Alibaba / Ant Design inspired)
-                                                                                               ========================================================== */
+                                                                                                   PRODUCT ENQUIRIES DASHBOARD
+                                                                                                   Modern Pro UI (Alibaba / Ant Design inspired)
+                                                                                                   ========================================================== */
 
         .enquiries-container {
             padding: 32px 40px;
@@ -347,6 +347,10 @@
             box-shadow: none;
         }
 
+        .nav-link {
+            color: #f88c10;
+        }
+
         /* ===== Ticket Copy Button ===== */
         .ticket-copy {
             display: inline-flex;
@@ -598,7 +602,8 @@
                                 d="M5.921 11.9 1.353 8.62a.72.72 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z" />
                         </svg> Reply to Enquiry
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        style="border-radius: 50%;background-color: #001428;">&times;</button>
                 </div>
 
                 <form id="replyEnquiryForm" method="POST" action="{{ route('admin.enquiries.reply') }}">
@@ -681,15 +686,15 @@
                 btn.addEventListener('click', () => {
                     const enquiry = JSON.parse(btn.dataset.enquiry);
                     modalBody.innerHTML = `
-                                                                                                                                    <h5>${enquiry.name} <small class="text-muted">(${enquiry.company || 'No company'})</small></h5>
-                                                                                                                                    <p><strong>Email:</strong> ${enquiry.email}</p>
-                                                                                                                                    <p><strong>Phone:</strong> ${enquiry.phone}</p>
-                                                                                                                                    <p><strong>Quantity:</strong> ${enquiry.quantity}</p>
-                                                                                                                                    <p><strong>Target Price:</strong> ${enquiry.target_price.toLocaleString()} Rwf</p>
-                                                                                                                                    <p><strong>Message:</strong> ${enquiry.message}</p>
-                                                                                                                                    <hr>
-                                                                                                                                    <p class="text-muted"><i class="bi bi-hash"></i> Ticket: ${enquiry.ticket}</p>
-                                                                                                                                `;
+                                                                                                                                        <h5>${enquiry.name} <small class="text-muted">(${enquiry.company || 'No company'})</small></h5>
+                                                                                                                                        <p><strong>Email:</strong> ${enquiry.email}</p>
+                                                                                                                                        <p><strong>Phone:</strong> ${enquiry.phone}</p>
+                                                                                                                                        <p><strong>Quantity:</strong> ${enquiry.quantity}</p>
+                                                                                                                                        <p><strong>Target Price:</strong> ${enquiry.target_price.toLocaleString()} Rwf</p>
+                                                                                                                                        <p><strong>Message:</strong> ${enquiry.message}</p>
+                                                                                                                                        <hr>
+                                                                                                                                        <p class="text-muted"><i class="bi bi-hash"></i> Ticket: ${enquiry.ticket}</p>
+                                                                                                                                    `;
                 });
             });
         });
@@ -737,12 +742,12 @@
             navigator.clipboard.writeText(ticket).then(() => {
                 // Swap to checkmark icon
                 btn.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#28a745" class="clipboard-check" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
-                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
-                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
-                    </svg>
-                `;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#28a745" class="clipboard-check" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                        </svg>
+                    `;
                 btn.classList.add('copied');
 
                 // Show temporary tooltip
@@ -755,11 +760,11 @@
                     tooltip.remove();
                     // revert back to clipboard icon
                     btn.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" class="clipboard-icon" viewBox="0 0 16 16">
-                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
-                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
-                        </svg>
-                    `;
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" class="clipboard-icon" viewBox="0 0 16 16">
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                            </svg>
+                        `;
                     btn.classList.remove('copied');
                 }, 1500);
             });
