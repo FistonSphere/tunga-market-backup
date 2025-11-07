@@ -524,23 +524,6 @@ public function saveExcel()
 }
 
 
-public function enquiries()
-{
-    $enquiries = Enquiry::with('product')->orderBy('created_at', 'desc')->get();
-    return view('admin.products.enquiries', compact('enquiries'));
-}
-public function EnquiriesDestroy(Enquiry $enquiry)
-    {
-        $enquiry->delete();
-        return response()->json(['status' => 'success', 'message' => 'Enquiry deleted successfully.']);
-    }
 
-    // public function EnquiriesReply(Request $request, Enquiry $enquiry)
-    // {
-    //     // Logic to send reply via email
-    //     Mail::to($enquiry->email)->send(new EnquiryReplyMail($enquiry, $request->message));
-
-    //     return response()->json(['status' => 'success', 'message' => 'Reply sent successfully.']);
-    // }
 
 }

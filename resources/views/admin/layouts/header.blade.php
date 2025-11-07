@@ -257,8 +257,8 @@
                                 <li><a href="{{ route('admin.brand.index') }}"
                                         class="{{ request()->routeIs('admin.brand.index') ? 'active' : '' }}">Brand
                                         List</a></li>
-                                <li><a href="{{ route('admin.products.enquiries') }}"
-                                        class="{{ request()->routeIs('admin.products.enquiries') ? 'active' : '' }}">Product
+                                <li><a href="{{ route('admin.products.enquiriesIndex') }}"
+                                        class="{{ request()->routeIs('admin.products.enquiriesIndex') ? 'active' : '' }}">Product
                                         Enquiries</a></li>
                             </ul>
                         </li>

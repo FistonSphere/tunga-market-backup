@@ -5,6 +5,7 @@ use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\CategoryAdminController;
 use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\backend\AdminEnquiryController;
 use App\Http\Controllers\backend\AdminOrderManagementController;
 use App\Http\Controllers\backend\AdminProductIssueController;
 use App\Http\Controllers\backend\AdminUserController;
@@ -251,8 +252,12 @@ Route::get('/products/save-pdf', 'savePDF')->name('admin.products.savePDF');
 Route::get('/products/save-excel', 'saveExcel')->name('admin.products.saveExcel');
 
 });
-Route::get('/enquiries',  [ProductManagementController::class,'enquiries'])->name('admin.products.enquiries');
+
 Route::get('/new-product',  [ProductManagementController::class,'create'])->name('admin.products.create');
+Route::prefix('enquiries')->controller(AdminEnquiryController::class)->group(function(){
+    Route::get('/overview',  'index')->name('admin.products.enquiriesIndex');
+
+});
 //end products route
 
 //start flash deals route
