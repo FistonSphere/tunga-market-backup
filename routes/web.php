@@ -258,6 +258,7 @@ Route::prefix('enquiries')->controller(AdminEnquiryController::class)->group(fun
     Route::get('/overview',  'index')->name('admin.products.enquiriesIndex');
     Route::get('/{enquiry}/conversation',  'showConversation');
     Route::post('/{enquiry}/reply',  'sendReply');
+    Route::post('/reply',  'reply')->name('admin.enquiries.reply');
     Route::delete('/{enquiry}',  'destroy')->name('admin.enquiry.destroy');
 });
 //end products route
