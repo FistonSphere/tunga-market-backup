@@ -3,9 +3,9 @@
 @section('content')
     <style>
         /* ==========================================================
-                           PRODUCT ENQUIRIES DASHBOARD
-                           Modern Pro UI (Alibaba / Ant Design inspired)
-                           ========================================================== */
+                                   PRODUCT ENQUIRIES DASHBOARD
+                                   Modern Pro UI (Alibaba / Ant Design inspired)
+                                   ========================================================== */
 
         .enquiries-container {
             padding: 32px 40px;
@@ -329,11 +329,10 @@
                                 </div>
                             </td>
                             <td>
-                                <strong>{{ $enquiry->name }}</strong><br>
-                                <small class="text-muted">{{ $enquiry->company ?? '—' }}</small>
+                                <strong>{{ $enquiry->name ?? $enquiry->company}}</strong>
                             </td>
                             <td>{{ $enquiry->quantity }}</td>
-                            <td>${{ number_format($enquiry->target_price, 2) }}</td>
+                            <td>{{ number_format($enquiry->target_price) }} Rwf</td>
                             <td>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-envelope" viewBox="0 0 16 16">
@@ -377,7 +376,11 @@
                     @empty
                         <tr>
                             <td colspan="8" class="text-center text-muted py-4">
-                                <i class="bi bi-inbox"></i> No enquiries found.
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-inbox" viewBox="0 0 16 16">
+                                    <path
+                                        d="M4.98 4a.5.5 0 0 0-.39.188L1.54 8H6a.5.5 0 0 1 .5.5 1.5 1.5 0 1 0 3 0A.5.5 0 0 1 10 8h4.46l-3.05-3.812A.5.5 0 0 0 11.02 4zm9.954 5H10.45a2.5 2.5 0 0 1-4.9 0H1.066l.32 2.562a.5.5 0 0 0 .497.438h12.234a.5.5 0 0 0 .496-.438zM3.809 3.563A1.5 1.5 0 0 1 4.981 3h6.038a1.5 1.5 0 0 1 1.172.563l3.7 4.625a.5.5 0 0 1 .105.374l-.39 3.124A1.5 1.5 0 0 1 14.117 13H1.883a1.5 1.5 0 0 1-1.489-1.314l-.39-3.124a.5.5 0 0 1 .106-.374z" />
+                                </svg> No enquiries found.
                             </td>
                         </tr>
                     @endforelse
@@ -395,8 +398,14 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content rounded-4 border-0 shadow-lg">
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="bi bi-chat-dots"></i> Enquiry Details</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
+                            <path
+                                d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+                            <path
+                                d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2" />
+                        </svg> Enquiry Details</h5>
+                    <button type="button" data-bs-dismiss="modal" style="border-radius: 50%; border: none;background:rgb(230, 6, 6);color:#fff;">&times;</button>
                 </div>
                 <div class="modal-body p-4">
                     <div id="enquiryDetails"></div>
@@ -415,15 +424,15 @@
                 btn.addEventListener('click', () => {
                     const enquiry = JSON.parse(btn.dataset.enquiry);
                     modalBody.innerHTML = `
-                                                                <h5>${enquiry.name} <small class="text-muted">(${enquiry.company || 'No company'})</small></h5>
-                                                                <p><strong>Email:</strong> ${enquiry.email}</p>
-                                                                <p><strong>Phone:</strong> ${enquiry.phone}</p>
-                                                                <p><strong>Quantity:</strong> ${enquiry.quantity}</p>
-                                                                <p><strong>Target Price:</strong> $${enquiry.target_price}</p>
-                                                                <p><strong>Message:</strong> ${enquiry.message}</p>
-                                                                <hr>
-                                                                <p class="text-muted"><i class="bi bi-hash"></i> Ticket: ${enquiry.ticket}</p>
-                                                            `;
+                                                                        <h5>${enquiry.name} <small class="text-muted">(${enquiry.company || 'No company'})</small></h5>
+                                                                        <p><strong>Email:</strong> ${enquiry.email}</p>
+                                                                        <p><strong>Phone:</strong> ${enquiry.phone}</p>
+                                                                        <p><strong>Quantity:</strong> ${enquiry.quantity}</p>
+                                                                        <p><strong>Target Price:</strong> ${enquiry.target_price.toLocaleString()} Rwf</p>
+                                                                        <p><strong>Message:</strong> ${enquiry.message}</p>
+                                                                        <hr>
+                                                                        <p class="text-muted"><i class="bi bi-hash"></i> Ticket: ${enquiry.ticket}</p>
+                                                                    `;
                 });
             });
         });
