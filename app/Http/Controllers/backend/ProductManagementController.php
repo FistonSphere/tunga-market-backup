@@ -535,12 +535,12 @@ public function EnquiriesDestroy(Enquiry $enquiry)
         return response()->json(['status' => 'success', 'message' => 'Enquiry deleted successfully.']);
     }
 
-    public function EnquiriesReply(Request $request, Enquiry $enquiry)
-    {
-        // Logic to send reply via email
-        Mail::to($enquiry->email)->send(new EnquiryReplyMail($enquiry, $request->message));
+    // public function EnquiriesReply(Request $request, Enquiry $enquiry)
+    // {
+    //     // Logic to send reply via email
+    //     Mail::to($enquiry->email)->send(new EnquiryReplyMail($enquiry, $request->message));
 
-        return response()->json(['status' => 'success', 'message' => 'Reply sent successfully.']);
-    }
+    //     return response()->json(['status' => 'success', 'message' => 'Reply sent successfully.']);
+    // }
 
 }
