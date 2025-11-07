@@ -3,6 +3,12 @@
 @section('content')
     <style>
         /* resources/css/order-details.css */
+        section.order-items {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border:1px solid #e5e7eb;
+        }
 
         .order-summary-card {
             background: #fff;
@@ -205,7 +211,7 @@
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            gap: 1rem;
+            padding: 20px;
             transition: all 0.3s ease;
         }
 
@@ -290,7 +296,8 @@
             padding: 18px 22px;
             border-top: 1px solid #eef2f6;
             background: #fff;
-            border-radius: 0 0 12px 12px;
+            border-radius: 15px;
+            border:1px solid #e5e7eb;
             flex-wrap: wrap;
             margin-top: 2rem;
         }
@@ -1781,12 +1788,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-                                                                                                                                                                                                                    <div class="notification-content">
-                                                                                                                                                                                                                        <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                                                                                                                                                                                        <span>${message}</span>
-                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                    <div class="progress-bar"></div>
-                                                                                                                                                                                                                `;
+                                                                                                                                                                                                                        <div class="notification-content">
+                                                                                                                                                                                                                            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                                                                                                                                                                                            <span>${message}</span>
+                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                        <div class="progress-bar"></div>
+                                                                                                                                                                                                                    `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');
@@ -1861,20 +1868,20 @@
             const modal = document.createElement('div');
             modal.className = 'custom-modal-overlay';
             modal.innerHTML = `
-                                                                            <div class="custom-modal2">
-                                                                                <h3>Edit Item: <span>${name}</span></h3>
-                                                                                <form id="editForm">
-                                                                                    <label>Quantity:</label>
-                                                                                    <input type="number" id="editQuantity" value="${quantity}" min="1" />
-                                                                                    <label>Unit Price:</label>
-                                                                                    <input type="number" id="editPrice" value="${price}" min="0" step="0.01" />
-                                                                                    <div class="modal-actions">
-                                                                                        <button type="button" class="btn cancel" onclick="closeModal()">Cancel</button>
-                                                                                        <button type="submit" class="btn confirm">Save Changes</button>
-                                                                                    </div>
-                                                                                </form>
-                                                                            </div>
-                                                                        `;
+                                                                                <div class="custom-modal2">
+                                                                                    <h3>Edit Item: <span>${name}</span></h3>
+                                                                                    <form id="editForm">
+                                                                                        <label>Quantity:</label>
+                                                                                        <input type="number" id="editQuantity" value="${quantity}" min="1" />
+                                                                                        <label>Unit Price:</label>
+                                                                                        <input type="number" id="editPrice" value="${price}" min="0" step="0.01" />
+                                                                                        <div class="modal-actions">
+                                                                                            <button type="button" class="btn cancel" onclick="closeModal()">Cancel</button>
+                                                                                            <button type="submit" class="btn confirm">Save Changes</button>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                            `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
 
@@ -1890,15 +1897,15 @@
             const modal = document.createElement('div');
             modal.className = 'custom-modal-overlay';
             modal.innerHTML = `
-                                                                            <div class="custom-modal2 warning">
-                                                                                <h3>Are you sure?</h3>
-                                                                                <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
-                                                                                <div class="modal-actions">
-                                                                                    <button class="btn cancel" onclick="closeModal()">Cancel</button>
-                                                                                    <button class="btn danger" onclick="deleteOrderItem(${id})">Yes, Delete</button>
+                                                                                <div class="custom-modal2 warning">
+                                                                                    <h3>Are you sure?</h3>
+                                                                                    <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
+                                                                                    <div class="modal-actions">
+                                                                                        <button class="btn cancel" onclick="closeModal()">Cancel</button>
+                                                                                        <button class="btn danger" onclick="deleteOrderItem(${id})">Yes, Delete</button>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        `;
+                                                                            `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
         }

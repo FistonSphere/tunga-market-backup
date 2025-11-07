@@ -1050,10 +1050,29 @@
         .btn.manage:hover {
             background: #0ea371;
         }
+
         .moreBtn:hover {
             background-color: red;
             cursor: pointer;
 
+        }
+
+        @media (max-width: 760px) {
+            .metrics-container {
+                flex-direction: column;
+            }
+
+            .btn.contact{
+                margin-left: 0;
+            }
+            .order-footer {
+                /* flex-direction: column;
+                    text-align: justify;
+                    gap: 10px; */
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+                gap: 1.2rem 1.5rem;
+            }
         }
     </style>
     <div class="orders-dashboard">
@@ -1081,7 +1100,6 @@
             </div>
         </div>
         <!-- ====== CHARTS ====== -->
-        <div class="charts-row">
             <div class="chart-card">
                 <h3>📈 Sales Performance</h3>
                 <div id="revenueTrendChart"></div>
@@ -1091,7 +1109,6 @@
                 <h3>💳 Payment Methods</h3>
                 <div id="paymentChart"></div>
             </div>
-        </div>
 
         <div class="chart-card">
             <h3>📦 Orders Trend (Last 7 Days)</h3>
@@ -1233,7 +1250,8 @@
         @endforelse
         @if($orders->count() > 1)
 
-            <div class="moreBtn" style="text-align: center; margin-top: 20px; background-color: #1b2850; color:#fff; padding: 10px; border-radius: 8px;">
+            <div class="moreBtn"
+                style="text-align: center; margin-top: 20px; background-color: #1b2850; color:#fff; padding: 10px; border-radius: 8px;">
                 <a href="{{ route('admin.orders.list') }}" style="color:#fff">View more orders</a>
             </div>
         @endif
@@ -1370,11 +1388,11 @@
                         const div = document.createElement('div');
                         div.classList.add('product-item');
                         div.innerHTML = `
-                                                                                                                                                                                                                                                          <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
-                                                                                                                                                                                                                                                          <div class="info">
-                                                                                                                                                                                                                                                            <h4>${item.product?.name ?? 'Unknown Product'}</h4>
-                                                                                                                                                                                                                                                            <span>Qty: ${item.quantity} × ${item.price}</span>
-                                                                                                                                                                                                                                                          </div>`;
+                                                                                                                                                                                                                                                              <img src="${item.product?.main_image || '/images/no-image.png'}" alt="">
+                                                                                                                                                                                                                                                              <div class="info">
+                                                                                                                                                                                                                                                                <h4>${item.product?.name ?? 'Unknown Product'}</h4>
+                                                                                                                                                                                                                                                                <span>Qty: ${item.quantity} × ${item.price}</span>
+                                                                                                                                                                                                                                                              </div>`;
                         productsContainer.appendChild(div);
                     });
 
@@ -1572,7 +1590,7 @@
         });
 
 
-      
+
     </script>
     <script>
         function showNotification(message, type = 'success') {
@@ -1587,12 +1605,12 @@
 
             // Inner content
             notification.innerHTML = `
-                                                <div class="notification-content">
-                                                    <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                    <span>${message}</span>
-                                                </div>
-                                                <div class="progress-bar"></div>
-                                            `;
+                                                    <div class="notification-content">
+                                                        <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                        <span>${message}</span>
+                                                    </div>
+                                                    <div class="progress-bar"></div>
+                                                `;
 
             document.body.appendChild(notification);
 
@@ -1616,7 +1634,7 @@
             @if(session('error'))
                 showNotification("{{ session('error') }}", 'error');
             @endif
-                                        });
+                                            });
     </script>
 
 
