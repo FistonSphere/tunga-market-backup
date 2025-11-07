@@ -17,7 +17,8 @@
         .order-actions {
             display: flex;
             justify-content: flex-start;
-            gap: 12px;
+            gap: 10px;
+            flex-wrap: wrap;
             margin-bottom: 15px;
         }
 
@@ -904,6 +905,12 @@
             border-color: #f44336;
             color: #c62828;
         }
+
+        .order-details-container {
+            padding: 1rem;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
     </style>
     <div class="order-details-container">
         <header class="order-header">
@@ -949,9 +956,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                     <button class="btn-outline">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-truck" viewBox="0 0 16 16">
@@ -1283,9 +1287,6 @@
                 </div>
             @endif
         </section>
-
-
-
     </div>
 
 
@@ -1624,12 +1625,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-                                                                                                                                                        <div class="notification-content">
-                                                                                                                                                            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                                                                                                                            <span>${message}</span>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="progress-bar"></div>
-                                                                                                                                                    `;
+                                                                                                                                                                <div class="notification-content">
+                                                                                                                                                                    <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                                                                                                                                    <span>${message}</span>
+                                                                                                                                                                </div>
+                                                                                                                                                                <div class="progress-bar"></div>
+                                                                                                                                                            `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');
@@ -1704,20 +1705,20 @@
             const modal = document.createElement('div');
             modal.className = 'custom-modal-overlay';
             modal.innerHTML = `
-                <div class="custom-modal2">
-                    <h3>Edit Item: <span>${name}</span></h3>
-                    <form id="editForm">
-                        <label>Quantity:</label>
-                        <input type="number" id="editQuantity" value="${quantity}" min="1" />
-                        <label>Unit Price:</label>
-                        <input type="number" id="editPrice" value="${price}" min="0" step="0.01" />
-                        <div class="modal-actions">
-                            <button type="button" class="btn cancel" onclick="closeModal()">Cancel</button>
-                            <button type="submit" class="btn confirm">Save Changes</button>
+                        <div class="custom-modal2">
+                            <h3>Edit Item: <span>${name}</span></h3>
+                            <form id="editForm">
+                                <label>Quantity:</label>
+                                <input type="number" id="editQuantity" value="${quantity}" min="1" />
+                                <label>Unit Price:</label>
+                                <input type="number" id="editPrice" value="${price}" min="0" step="0.01" />
+                                <div class="modal-actions">
+                                    <button type="button" class="btn cancel" onclick="closeModal()">Cancel</button>
+                                    <button type="submit" class="btn confirm">Save Changes</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
-                </div>
-            `;
+                    `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
 
@@ -1733,15 +1734,15 @@
             const modal = document.createElement('div');
             modal.className = 'custom-modal-overlay';
             modal.innerHTML = `
-                <div class="custom-modal2 warning">
-                    <h3>Are you sure?</h3>
-                    <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
-                    <div class="modal-actions">
-                        <button class="btn cancel" onclick="closeModal()">Cancel</button>
-                        <button class="btn danger" onclick="deleteOrderItem(${id})">Yes, Delete</button>
-                    </div>
-                </div>
-            `;
+                        <div class="custom-modal2 warning">
+                            <h3>Are you sure?</h3>
+                            <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
+                            <div class="modal-actions">
+                                <button class="btn cancel" onclick="closeModal()">Cancel</button>
+                                <button class="btn danger" onclick="deleteOrderItem(${id})">Yes, Delete</button>
+                            </div>
+                        </div>
+                    `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
         }
