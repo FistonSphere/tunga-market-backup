@@ -256,7 +256,9 @@ Route::get('/products/save-excel', 'saveExcel')->name('admin.products.saveExcel'
 Route::get('/new-product',  [ProductManagementController::class,'create'])->name('admin.products.create');
 Route::prefix('enquiries')->controller(AdminEnquiryController::class)->group(function(){
     Route::get('/overview',  'index')->name('admin.products.enquiriesIndex');
-
+    Route::get('/{enquiry}/conversation',  'showConversation');
+    Route::post('/{enquiry}/reply',  'sendReply');
+    Route::delete('/{enquiry}',  'destroy')->name('admin.enquiry.destroy');
 });
 //end products route
 

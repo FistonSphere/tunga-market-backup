@@ -4,14 +4,16 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enquiry;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class AdminEnquiryController extends Controller
 {
    public function index()
 {
-    $enquiries = Enquiry::with('product')->orderBy('created_at', 'desc')->get();
-    return view('admin.products.enquiries', compact('enquiries'));
+    $products = Product::where('status', 'active')->get();
+    $enquiries = Enquiry::with('product')->orderBy('created_at', 'desc')->paginate(10);
+    return view('admin.products.enquiries', compact('enquiries','products'));
 }
 public function EnquiriesDestroy(Enquiry $enquiry)
     {
