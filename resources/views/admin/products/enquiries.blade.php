@@ -3,9 +3,9 @@
 @section('content')
     <style>
         /* ==========================================================
-                                                                                                           PRODUCT ENQUIRIES DASHBOARD
-                                                                                                           Modern Pro UI (Alibaba / Ant Design inspired)
-                                                                                                           ========================================================== */
+                                                                                                                           PRODUCT ENQUIRIES DASHBOARD
+                                                                                                                           Modern Pro UI (Alibaba / Ant Design inspired)
+                                                                                                                           ========================================================== */
 
         .enquiries-container {
             padding: 32px 40px;
@@ -404,6 +404,100 @@
                 transform: translateY(0);
             }
         }
+
+        .confirm-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
+
+        .confirm-modal-overlay.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .confirm-modal {
+            background: #fff;
+            border-radius: 14px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            padding: 30px 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(20px);
+            animation: slideUp 0.3s ease forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .confirm-icon {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .confirm-modal h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .confirm-modal p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .confirm-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .confirm-actions .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .confirm-actions .btn.cancel {
+            background: #f1f1f1;
+            color: #333;
+        }
+
+        .confirm-actions .btn.cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .confirm-actions .btn.delete {
+            background: #f44336;
+            color: #fff;
+        }
+
+        .confirm-actions .btn.delete:hover {
+            background: #d32f2f;
+        }
     </style>
     <div class="enquiries-container">
 
@@ -687,15 +781,15 @@
                 btn.addEventListener('click', () => {
                     const enquiry = JSON.parse(btn.dataset.enquiry);
                     modalBody.innerHTML = `
-                                                                                                                                                <h5>${enquiry.name} <small class="text-muted">(${enquiry.company || 'No company'})</small></h5>
-                                                                                                                                                <p><strong>Email:</strong> ${enquiry.email}</p>
-                                                                                                                                                <p><strong>Phone:</strong> ${enquiry.phone}</p>
-                                                                                                                                                <p><strong>Quantity:</strong> ${enquiry.quantity}</p>
-                                                                                                                                                <p><strong>Target Price:</strong> ${enquiry.target_price.toLocaleString()} Rwf</p>
-                                                                                                                                                <p><strong>Message:</strong> ${enquiry.message}</p>
-                                                                                                                                                <hr>
-                                                                                                                                                <p class="text-muted"><i class="bi bi-hash"></i> Ticket: ${enquiry.ticket}</p>
-                                                                                                                                            `;
+                                                                                                                                                                <h5>${enquiry.name} <small class="text-muted">(${enquiry.company || 'No company'})</small></h5>
+                                                                                                                                                                <p><strong>Email:</strong> ${enquiry.email}</p>
+                                                                                                                                                                <p><strong>Phone:</strong> ${enquiry.phone}</p>
+                                                                                                                                                                <p><strong>Quantity:</strong> ${enquiry.quantity}</p>
+                                                                                                                                                                <p><strong>Target Price:</strong> ${enquiry.target_price.toLocaleString()} Rwf</p>
+                                                                                                                                                                <p><strong>Message:</strong> ${enquiry.message}</p>
+                                                                                                                                                                <hr>
+                                                                                                                                                                <p class="text-muted"><i class="bi bi-hash"></i> Ticket: ${enquiry.ticket}</p>
+                                                                                                                                                            `;
                 });
             });
         });
@@ -743,12 +837,12 @@
             navigator.clipboard.writeText(ticket).then(() => {
                 // Swap to checkmark icon
                 btn.innerHTML = `
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#28a745" class="clipboard-check" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
-                                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
-                                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
-                                </svg>
-                            `;
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#28a745" class="clipboard-check" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                                                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                                                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                                                </svg>
+                                            `;
                 btn.classList.add('copied');
 
                 // Show temporary tooltip
@@ -761,11 +855,11 @@
                     tooltip.remove();
                     // revert back to clipboard icon
                     btn.innerHTML = `
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" class="clipboard-icon" viewBox="0 0 16 16">
-                                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
-                                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
-                                    </svg>
-                                `;
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" class="clipboard-icon" viewBox="0 0 16 16">
+                                                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                                                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                                                    </svg>
+                                                `;
                     btn.classList.remove('copied');
                 }, 1500);
             });
@@ -778,20 +872,20 @@
             const modal = document.createElement('div');
             modal.className = 'confirm-modal-overlay';
             modal.innerHTML = `
-            <div class="confirm-modal">
-                <div class="confirm-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#f44336" viewBox="0 0 16 16">
-                        <path d="M8.982 1.566a1.5 1.5 0 0 0-1.964 0L.165 7.233a1.5 1.5 0 0 0 0 2.134l6.853 5.667a1.5 1.5 0 0 0 1.964 0l6.853-5.667a1.5 1.5 0 0 0 0-2.134L8.982 1.566z"/>
-                    </svg>
-                </div>
-                <h3>Delete this enquiry?</h3>
-                <p>This action cannot be undone. Are you sure you want to proceed?</p>
-                <div class="confirm-actions">
-                    <button class="btn cancel">Cancel</button>
-                    <button class="btn delete">Yes, Delete</button>
-                </div>
-            </div>
-        `;
+                            <div class="confirm-modal">
+                                <div class="confirm-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-exclamation-diamond-fill" viewBox="0 0 16 16">
+              <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+            </svg>
+                                </div>
+                                <h3>Delete this enquiry?</h3>
+                                <p>This action cannot be undone. Are you sure you want to proceed?</p>
+                                <div class="confirm-actions">
+                                    <button class="btn cancel">Cancel</button>
+                                    <button class="btn delete">Yes, Delete</button>
+                                </div>
+                            </div>
+                        `;
             document.body.appendChild(modal);
 
             // Add animations
