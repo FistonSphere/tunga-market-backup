@@ -482,38 +482,43 @@
             const form = document.querySelector('.filters-form');
             const tableContainer = document.querySelector('#usersTableContainer tbody');
 
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
+            const tableWrapper = document.querySelector('#usersTableContainer');
 
-                const formData = new FormData(form);
-                const params = new URLSearchParams(formData).toString();
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
 
-                fetch(`{{ route('admin.users.list') }}?${params}`, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        tableContainer.innerHTML = data.html;
-                    })
-                    .catch(err => {
-                        console.error('AJAX error:', err);
-                    });
+            const formData = new FormData(form);
+            const params = new URLSearchParams(formData).toString();
+
+            tableWrapper.classList.add('loading'); // show loading state
+
+            fetch(`{{ route('admin.users.list') }}?${params}`, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(res => res.json())
+            .then(data => {
+                tableContainer.innerHTML = data.html;
+                tableWrapper.classList.remove('loading'); // hide loading
+            })
+            .catch(err => {
+                console.error('AJAX error:', err);
+                tableWrapper.classList.remove('loading');
             });
-
-            // Optional: live filtering as you type
-            const searchInput = form.querySelector('input[name="search"]');
-            searchInput.addEventListener('keyup', function () {
-                clearTimeout(this.delay);
-                this.delay = setTimeout(() => form.dispatchEvent(new Event('submit')), 400);
-            });
-
-            // Auto-submit on dropdown change
-            const roleSelect = form.querySelector('select[name="role"]');
-            roleSelect.addEventListener('change', () => form.dispatchEvent(new Event('submit')));
         });
-    </script>
+
+        // --- Optional live search ---
+        const searchInput = form.querySelector('input[name="search"]');
+        searchInput.addEventListener('keyup', function () {
+            clearTimeout(this.delay);
+            this.delay = setTimeout(() => form.dispatchEvent(new Event('submit')), 400);
+        });
+
+        // --- Auto-submit on dropdown change ---
+        const roleSelect = form.querySelector('select[name="role"]');
+        roleSelect.addEventListener('change', () => form.dispatchEvent(new Event('submit')));
+    });
+
+       </script>
 
 
 
