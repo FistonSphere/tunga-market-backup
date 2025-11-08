@@ -110,7 +110,7 @@
             outline: none;
         }
 
-        .btn-filter {
+        .btn-filter2 {
             background: #ff8b00;
             color: #fff;
             border: none;
@@ -197,6 +197,128 @@
         .rating-stars svg {
             margin-right: 1px;
         }
+
+        /* ===== Delete Modal Overlay ===== */
+        .delete-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s ease;
+            z-index: 9999;
+        }
+
+        .delete-modal-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ===== Modal Box ===== */
+        .delete-modal {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px 28px;
+            width: 100%;
+            max-width: 430px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(40px) scale(0.95);
+            transition: all .3s ease;
+        }
+
+        .delete-modal-overlay.show .delete-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        /* ===== Icon ===== */
+        .modal-icon {
+            background: #fdecea;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px;
+        }
+
+        .modal-icon svg {
+            width: 42px;
+            height: 42px;
+        }
+
+        /* ===== Title & Text ===== */
+        .delete-modal h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .delete-modal p {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        /* ===== Buttons ===== */
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn-cancel,
+        .btn-delete {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-cancel {
+            background: #f1f1f1;
+            color: #333;
+        }
+
+        .btn-cancel:hover {
+            background: #e1e1e1;
+        }
+
+        .btn-delete {
+            background: #f44336;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .btn-delete:hover {
+            background: #d32f2f;
+        }
+
+        /* Small screen optimization */
+        @media (max-width: 480px) {
+            .delete-modal {
+                margin: 0 15px;
+                padding: 24px;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .btn-cancel,
+            .btn-delete {
+                width: 100%;
+            }
+        }
     </style>
     <div class="users-container">
 
@@ -216,8 +338,7 @@
                     <option value="vendor" @selected(request('role') == 'vendor')>Vendor</option>
                     <option value="customer" @selected(request('role') == 'customer')>Customer</option>
                 </select>
-                <button type="submit"
-                    style="padding: 8px;border-radius:12px;border:none;cursor: pointer;background:orangered;color:#fff;">
+                <button type="submit" class="btn-filter2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
                         viewBox="0 0 16 16">
                         <path
@@ -301,8 +422,7 @@
                                                     d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708L4.207 15.5H1v-3.207L12.146.146zM11.207 2.5L2 11.707V14h2.293L13.5 4.793 11.207 2.5z" />
                                             </svg>
                                         </a>
-                                        <button type="button" class="btn-action delete"
-                                            onclick="confirmDeleteUser({{ $user->id }})" title="Delete">
+                                        <button type="button" class="btn-action delete" class="btn-action delete" onclick="confirmDeleteUser({{ $user->id }})" title="Delete">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                 viewBox="0 0 16 16">
                                                 <path
