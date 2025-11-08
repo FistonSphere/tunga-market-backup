@@ -679,8 +679,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 16 16">
                             <path
                                 d="M8 0a8 8 0 1 0 8 8A8.009 8.009 0 0 0 8 0ZM4.285 12.433a6.978 6.978 0 0 1
-                                                                                                        0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
-                                                                                                        0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
+                                                                                                            0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
+                                                                                                            0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
                         </svg>
                     </div>
                     <div class="stats-info">
@@ -838,9 +838,17 @@
 
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <span class="text-muted small">#{{ $address->id }}</span>
-                                        <button class="btn btn-sm btn-outline-dark rounded-pill px-3">
+                                        <button class="btn btn-sm btn-outline-dark rounded-pill px-3 editAddressBtn"
+                                            data-id="{{ $address->id }}" data-first_name="{{ $address->first_name }}"
+                                            data-last_name="{{ $address->last_name }}" data-company="{{ $address->company }}"
+                                            data-address_line1="{{ $address->address_line1 }}"
+                                            data-address_line2="{{ $address->address_line2 }}" data-city="{{ $address->city }}"
+                                            data-state="{{ $address->state }}" data-postal_code="{{ $address->postal_code }}"
+                                            data-country="{{ $address->country }}" data-phone="{{ $address->phone }}"
+                                            data-is_default="{{ $address->is_default }}">
                                             <i class="bi bi-pencil-square me-1"></i>Edit
                                         </button>
+
                                     </div>
                                 </div>
                             @endforeach
@@ -945,12 +953,12 @@
 
             if (!labels.length || !dataValues.length) {
                 chartEl.innerHTML = `
-                                                                        <div style="text-align:center; color:#999; padding:60px;">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
-                                                                                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
-                                                                            </svg>
-                                                                            <p style="margin-top:8px;">No analytics data available</p>
-                                                                        </div>`;
+                                                                            <div style="text-align:center; color:#999; padding:60px;">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
+                                                                                    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
+                                                                                </svg>
+                                                                                <p style="margin-top:8px;">No analytics data available</p>
+                                                                            </div>`;
                 return;
             }
 
