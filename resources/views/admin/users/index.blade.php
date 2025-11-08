@@ -423,7 +423,7 @@
                                             </svg>
                                         </a>
                                         <button type="button" class="btn-action delete" class="btn-action delete"
-                                            onclick="confirmDeleteUser({{ $user->id }})" title="Delete">
+                                            onclick="confirmDeleteUser({{ $user->id }}, '{{ $user->first_name }}')" title="Delete">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                 viewBox="0 0 16 16">
                                                 <path
@@ -512,7 +512,7 @@
             const nameSpan = document.getElementById('deleteUserName');
 
             // Set delete route dynamically
-            form.action = `/admin/users/${userId}`;
+            form.action = `/admin/users/${userId}/delete`;
 
             // Insert user's first name
             nameSpan.textContent = firstName;

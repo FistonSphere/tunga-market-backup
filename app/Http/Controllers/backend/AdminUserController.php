@@ -77,4 +77,12 @@ class AdminUserController extends Controller
         $users = User::paginate(10);
         return view('admin.users.index', compact('users'));
     }
+
+    public function deleteUser($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('admin.users.list')->with('success', 'User deleted successfully.');
+    }
 }
