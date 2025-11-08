@@ -4,7 +4,9 @@
     <style>
         .users-container {
             padding: 20px 30px;
-            background: #fafafa;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
         }
 
         .page-header {
@@ -92,7 +94,7 @@
             background: #ff8b00;
         }
 
-        .role-customer {
+        .role-normal {
             background: #4caf50;
         }
 
@@ -149,12 +151,12 @@
                     <option value="vendor" @selected(request('role') == 'vendor')>Vendor</option>
                     <option value="customer" @selected(request('role') == 'customer')>Customer</option>
                 </select>
-                <button type="submit" class="btn-filter">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <button type="submit"
+                    style="padding: 8px;border-radius:12px;border:none;cursor: pointer;background:orangered;color:#fff;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                        viewBox="0 0 16 16">
                         <path
-                            d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.415 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
-                        <path
-                            d="M6.5 12a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11zM12 6.5A5.5 5.5 0 1 0 6.5 12 5.5 5.5 0 0 0 12 6.5z" />
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                     </svg> Filter
                 </button>
             </form>
@@ -193,14 +195,13 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->phone ?? '—' }}</td>
                                 <td>
-                                    <span
-                                        class="role-badge role-admin">
-                                        @if ($user->role === 1)
+                                    <span class="role-badge role-admin">
+                                        @if ($user->is_admin === 'yes')
                                             Admin
                                         @else
                                             Normal User
                                         @endif
-                                        </span>
+                                    </span>
                                 </td>
                                 <td>{{ $user->orders()->count() }}</td>
                                 <td>
@@ -220,9 +221,11 @@
                                         <a href="{{ route('admin.users.show', $user->id) }}" class="btn-action view"
                                             title="View User">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                viewBox="0 0 16 16">
-                                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z" />
-                                                <path d="M8 5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+                                                class="bi bi-eye" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                                                <path
+                                                    d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
                                             </svg>
                                         </a>
                                         <a href="{{ route('admin.users.edit', $user->id) }}" class="btn-action edit"
@@ -266,24 +269,24 @@
             const modal = document.createElement('div');
             modal.className = 'confirm-modal-overlay';
             modal.innerHTML = `
-                <div class="confirm-modal">
-                    <div class="confirm-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#f44336" viewBox="0 0 16 16">
-                            <path d="M8.982 1.566a1.5 1.5 0 0 0-1.964 0L.165 7.233a1.5 1.5 0 0 0 0 2.134l6.853 5.667a1.5 1.5 0 0 0 1.964 0l6.853-5.667a1.5 1.5 0 0 0 0-2.134L8.982 1.566z"/>
-                        </svg>
-                    </div>
-                    <h3>Delete this user?</h3>
-                    <p>This action will permanently remove the account and related data.</p>
-                    <div class="confirm-actions">
-                        <button class="btn cancel">Cancel</button>
-                        <form method="POST" action="/admin/users/${id}" class="inline-form">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn delete">Yes, Delete</button>
-                        </form>
-                    </div>
-                </div>
-            `;
+                            <div class="confirm-modal">
+                                <div class="confirm-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#f44336" viewBox="0 0 16 16">
+                                        <path d="M8.982 1.566a1.5 1.5 0 0 0-1.964 0L.165 7.233a1.5 1.5 0 0 0 0 2.134l6.853 5.667a1.5 1.5 0 0 0 1.964 0l6.853-5.667a1.5 1.5 0 0 0 0-2.134L8.982 1.566z"/>
+                                    </svg>
+                                </div>
+                                <h3>Delete this user?</h3>
+                                <p>This action will permanently remove the account and related data.</p>
+                                <div class="confirm-actions">
+                                    <button class="btn cancel">Cancel</button>
+                                    <form method="POST" action="/admin/users/${id}" class="inline-form">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn delete">Yes, Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
             modal.querySelector('.cancel').addEventListener('click', () => {
