@@ -734,8 +734,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 16 16">
                             <path
                                 d="M8 0a8 8 0 1 0 8 8A8.009 8.009 0 0 0 8 0ZM4.285 12.433a6.978 6.978 0 0 1
-                                                                                                                        0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
-                                                                                                                        0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
+                                                                                                                            0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
+                                                                                                                            0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
                         </svg>
                     </div>
                     <div class="stats-info">
@@ -776,6 +776,10 @@
                     Wishlist
                 </button>
             </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#cart">Cart</button>
+            </li>
+
             <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#shipping">Shipping Address</button>
             </li>
@@ -1088,12 +1092,12 @@
 
             if (!labels.length || !dataValues.length) {
                 chartEl.innerHTML = `
-                                                                                        <div style="text-align:center; color:#999; padding:60px;">
-                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
-                                                                                                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
-                                                                                            </svg>
-                                                                                            <p style="margin-top:8px;">No analytics data available</p>
-                                                                                        </div>`;
+                                                                                            <div style="text-align:center; color:#999; padding:60px;">
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
+                                                                                                    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
+                                                                                                </svg>
+                                                                                                <p style="margin-top:8px;">No analytics data available</p>
+                                                                                            </div>`;
                 return;
             }
 
