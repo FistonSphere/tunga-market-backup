@@ -366,7 +366,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @include('admin.users._table_rows', ['users' => $users])
+                        @include('admin.users.table_rows', ['users' => $users])
                     </tbody>
                 </table>
             </div>
