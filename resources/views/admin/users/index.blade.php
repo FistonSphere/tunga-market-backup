@@ -422,7 +422,8 @@
                                                     d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708L4.207 15.5H1v-3.207L12.146.146zM11.207 2.5L2 11.707V14h2.293L13.5 4.793 11.207 2.5z" />
                                             </svg>
                                         </a>
-                                        <button type="button" class="btn-action delete" class="btn-action delete" onclick="confirmDeleteUser({{ $user->id }})" title="Delete">
+                                        <button type="button" class="btn-action delete" class="btn-action delete"
+                                            onclick="confirmDeleteUser({{ $user->id }})" title="Delete">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                 viewBox="0 0 16 16">
                                                 <path
@@ -488,8 +489,9 @@
                 </svg>
             </div>
             <h3>Delete This User?</h3>
-            <p>You're about to permanently remove this user account and all its related data. This action <b>cannot</b> be
-                undone.</p>
+            <p>You're about to permanently remove <strong><span id="deleteUserName"></span></strong>'s account and all its
+                related data.
+                This action <b>cannot</b> be undone.</p>
 
             <div class="modal-actions">
                 <button class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
@@ -504,16 +506,20 @@
 
 
     <script>
-        function confirmDeleteUser(userId) {
+        function confirmDeleteUser(userId, firstName) {
             const modal = document.getElementById('deleteUserModal');
             const form = document.getElementById('deleteUserForm');
+            const nameSpan = document.getElementById('deleteUserName');
 
-            // Set the action dynamically
-            form.action = `/admin/users/${userId}/delete`;
+            // Set delete route dynamically
+            form.action = `/admin/users/${userId}`;
 
-            // Show modal with animation
+            // Insert user's first name
+            nameSpan.textContent = firstName;
+
+            // Show modal animation
             modal.classList.add('show');
-            document.body.style.overflow = 'hidden'; // prevent background scroll
+            document.body.style.overflow = 'hidden';
         }
 
         function closeDeleteModal() {
@@ -528,6 +534,7 @@
             if (e.target === modal) closeDeleteModal();
         });
     </script>
+
 
 
 @endsection
