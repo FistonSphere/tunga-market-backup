@@ -551,7 +551,7 @@
         <!-- Header -->
         <div class="user-header card shadow-sm rounded-4 mb-4">
             <div class="card-body d-flex flex-wrap align-items-center">
-                <img src="{{ asset($user->profile_picture ?? 'assets/images/default-user.png') }}" class="user-avatar me-4"
+                <img src="{{ asset($user->profile_picture ?? asset('assets/images/no-image.png')) }}" class="user-avatar me-4"
                     alt="{{ $user->first_name }}">
 
                 <div class="flex-grow-1">
@@ -565,7 +565,7 @@
 
                 <div class="user-actions">
                     <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-outline-primary me-2">
-                        Edit Profile
+                        Back
                     </a>
                     <button class="btn btn-outline-danger delete"
                         onclick="confirmDeleteUser({{ $user->id }}, '{{ $user->first_name }}')">
