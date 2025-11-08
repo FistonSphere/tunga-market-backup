@@ -17,7 +17,7 @@
 
         .stats-card {
             transition: 0.3s;
-            border-left: 5px solid #0d6efd;
+            border-left: 5px solid #001428;
         }
 
         .stats-card:hover {
@@ -33,8 +33,8 @@
         }
 
         .custom-tabs .nav-link.active {
-            color: #0d6efd;
-            border-bottom: 2px solid #0d6efd;
+            color: #001428;
+            border-bottom: 2px solid #001428;
         }
 
         .product-thumb {
@@ -53,6 +53,20 @@
             .user-actions {
                 margin-top: 15px;
             }
+        }
+
+        #userBehaviorChart {
+            max-height: 280px;
+            margin-top: 10px;
+        }
+
+        .card h5 svg {
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .card small.text-muted {
+            font-size: 0.85rem;
         }
     </style>
 
@@ -197,7 +211,7 @@
                 <div class="card p-3 rounded-4 shadow-sm">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="fw-bold mb-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0d6efd"
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#001428"
                                 viewBox="0 0 16 16">
                                 <path d="M0 0h1v15h15v1H0z" />
                                 <path d="M2 13h2V8H2v5zm4 0h2V4H6v9zm4 0h2V1h-2v12z" />
