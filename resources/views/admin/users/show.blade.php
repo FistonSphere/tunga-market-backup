@@ -663,6 +663,56 @@
             border-color: #ff5f0e;
             box-shadow: 0 0 0 3px rgba(255, 95, 14, 0.2);
         }
+
+        /* === Cart Table Styling === */
+        #cart .table {
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        #cart .table thead th {
+            background: #f8f9fa;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #001428;
+            border: none;
+            padding: 12px 16px;
+        }
+
+        #cart .table tbody tr {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0, 20, 40, 0.06);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        #cart .table tbody tr:hover {
+            background: rgba(255, 95, 14, 0.05);
+            transform: translateY(-3px);
+        }
+
+        #cart .table td {
+            border: none;
+            padding: 14px 16px;
+            vertical-align: middle;
+        }
+
+        #cart .badge.bg-gradient-orange {
+            background: linear-gradient(135deg, #ff5f0e, #ff7733);
+        }
+
+        #cart .product-thumb {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        #cart .product-thumb:hover {
+            transform: scale(1.05);
+        }
     </style>
 
 
@@ -734,8 +784,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 16 16">
                             <path
                                 d="M8 0a8 8 0 1 0 8 8A8.009 8.009 0 0 0 8 0ZM4.285 12.433a6.978 6.978 0 0 1
-                                                                                                                                0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
-                                                                                                                                0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
+                                                                                                                                                0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
+                                                                                                                                                0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
                         </svg>
                     </div>
                     <div class="stats-info">
@@ -769,15 +819,17 @@
                 </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#orders" role="tab"> Orders </button>
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#orders" role="tab"> Orders
+                    ({{ $user->orders->count() }})</button>
             </li>
             <li class="nav-item">
                 <button class=" nav-link" data-bs-toggle="tab" data-bs-target="#wishlist" role="tab">
-                    Wishlist
+                    Wishlist ({{ $user->wishlistItems->count() }})
                 </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#cart">Cart</button>
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#cart">Cart
+                    ({{ $user->cartItems->count() }})</button>
             </li>
 
             <li class="nav-item">
@@ -836,13 +888,22 @@
                     @else
                         <p class="text-muted mb-0">No orders found.</p>
                     @endif
+                    <div class="text-end mt-3">
+                        <h6 class="fw-bold text-dark">
+                            Total Value:
+                            <span class="text-gradient">
+                                {{ number_format($user->orders->sum('total')) }} Rwf
+                            </span>
+                        </h6>
+                    </div>
                 </div>
             </div>
 
             <!-- Wishlist -->
             <div class="tab-pane fade" id="wishlist">
                 <div class="card p-3 rounded-4 shadow-sm">
-                    <h5 class="fw-bold mb-3">Wishlist Items</h5> @if($user->wishlistItems->count())
+                    <h5 class="fw-bold mb-3">Wishlist Items</h5>
+                    @if($user->wishlistItems->count())
                         <ul class="list-group">
                             @foreach($user->wishlistItems as $item)
                                 <li class="list-group-item d-flex align-items-center">
@@ -861,7 +922,7 @@
             <!-- Cart -->
             <div class="tab-pane fade" id="cart">
                 <div class="card p-3 rounded-4 shadow-sm">
-                    <h5 class="fw-bold mb-3">Cart Items</h5>
+                    <h5 class="fw-bold mb-3">Cart Items </h5>
 
                     @if($user->cartItems->count())
                         <div class="table-responsive">
@@ -879,7 +940,7 @@
                                     @foreach($user->cartItems as $item)
                                         <tr class="cart-row">
                                             <td class="d-flex align-items-center">
-                                                <img src="{{ asset($item->product->main_image ?? '/assets/images/no-image.png') }}"
+                                                <img src="{{ asset($item->product->main_image ?? asset('/assets/images/no-image.png')) }}"
                                                     alt="Product" class="product-thumb me-3">
                                                 <div>
                                                     <span
@@ -899,8 +960,8 @@
                                             <td><span class="fw-bold">{{ $item->quantity }}</span></td>
 
                                             <td>
-                                                <span class="text-dark fw-semibold">${{ number_format($item->price, 2) }}</span>
-                                                <small class="text-muted ms-1">{{ strtoupper($item->currency ?? 'usd') }}</small>
+                                                <span class="text-dark fw-semibold">{{ number_format($item->price) }}</span>
+                                                <small class="text-muted ms-1">{{ strtoupper($item->currency ?? 'Rwf') }}</small>
                                             </td>
 
                                             <td>
@@ -918,10 +979,19 @@
                     @else
                         <p class="text-muted mb-0">No items currently in cart.</p>
                     @endif
+                    <div class="text-end mt-3">
+                        <h6 class="fw-bold text-dark">
+                            Total Value:
+                            <span class="text-gradient">
+                                {{ number_format($user->cartItems->sum(fn($i) => $i->price * $i->quantity)) }} Rwf
+                            </span>
+                        </h6>
+                    </div>
+
                 </div>
             </div>
 
-            
+
             <div class="tab-pane fade" id="shipping">
                 <div class="card p-4 rounded-4 shadow-sm">
                     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -1156,12 +1226,12 @@
 
             if (!labels.length || !dataValues.length) {
                 chartEl.innerHTML = `
-                                                                                                <div style="text-align:center; color:#999; padding:60px;">
-                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
-                                                                                                        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
-                                                                                                    </svg>
-                                                                                                    <p style="margin-top:8px;">No analytics data available</p>
-                                                                                                </div>`;
+                                                                                                                <div style="text-align:center; color:#999; padding:60px;">
+                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
+                                                                                                                        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
+                                                                                                                    </svg>
+                                                                                                                    <p style="margin-top:8px;">No analytics data available</p>
+                                                                                                                </div>`;
                 return;
             }
 
