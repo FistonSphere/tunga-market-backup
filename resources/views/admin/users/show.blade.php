@@ -542,6 +542,72 @@
                 width: 100%;
             }
         }
+
+        /* === Shipping Addresses Section === */
+        .shipping-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .shipping-card {
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 14px;
+            padding: 18px 20px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shipping-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 20, 40, 0.1);
+        }
+
+        .shipping-card.default {
+            border: 2px solid #ff5f0e;
+            box-shadow: 0 6px 16px rgba(255, 95, 14, 0.15);
+        }
+
+        .shipping-card strong {
+            color: #001428;
+        }
+
+        .shipping-card .badge {
+            background: linear-gradient(90deg, #ff5f0e, #ff7733);
+            border-radius: 10px;
+            font-size: 0.75rem;
+            padding: 6px 10px;
+        }
+
+        .shipping-card p {
+            font-size: 0.92rem;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .shipping-card button {
+            font-size: 0.85rem;
+            border: 1px solid #001428;
+            color: #001428;
+            transition: all 0.3s ease;
+        }
+
+        .shipping-card button:hover {
+            background: linear-gradient(90deg, #ff5f0e, #ff7733);
+            color: #fff;
+            border-color: #ff5f0e;
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 768px) {
+            .shipping-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 
 
@@ -551,8 +617,8 @@
         <!-- Header -->
         <div class="user-header card shadow-sm rounded-4 mb-4">
             <div class="card-body d-flex flex-wrap align-items-center">
-                <img src="{{ asset($user->profile_picture ?? asset('assets/images/no-image.png')) }}" class="user-avatar me-4"
-                    alt="{{ $user->first_name }}">
+                <img src="{{ asset($user->profile_picture ?? asset('assets/images/no-image.png')) }}"
+                    class="user-avatar me-4" alt="{{ $user->first_name }}">
 
                 <div class="flex-grow-1">
                     <h3 class="fw-bold mb-1">{{ $user->first_name }} {{ $user->last_name }}</h3>
@@ -613,8 +679,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 16 16">
                             <path
                                 d="M8 0a8 8 0 1 0 8 8A8.009 8.009 0 0 0 8 0ZM4.285 12.433a6.978 6.978 0 0 1
-                                                                                        0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
-                                                                                        0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
+                                                                                                        0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
+                                                                                                        0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
                         </svg>
                     </div>
                     <div class="stats-info">
@@ -655,6 +721,10 @@
                     Wishlist
                 </button>
             </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#shipping">Shipping Address</button>
+            </li>
+
             <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#activity" role="tab">
                     Activity Logs
@@ -725,6 +795,58 @@
                         </ul>
                     @else
                         <p class="text-muted mb-0">No wishlist items found.</p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="shipping">
+                <div class="card p-4 rounded-4 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#001428"
+                                viewBox="0 0 16 16">
+                                <path
+                                    d="M0 2a1 1 0 0 1 1-1h1.293a1 1 0 0 1 .707.293l1.707 1.707H14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V2z" />
+                                <path d="M1 3v10h12V5H4.414L2.707 3.293A1 1 0 0 0 2 3H1z" />
+                            </svg>
+                            Shipping Address
+                        </h5>
+                        <small class="text-muted">User’s saved shipping details</small>
+                    </div>
+
+                    @if($user->shippingAddresses->count())
+                        <div class="shipping-grid">
+                            @foreach($user->shippingAddresses as $address)
+                                <div class="shipping-card {{ $address->is_default ? 'default' : '' }}">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="fw-bold mb-0">
+                                            {{ $address->first_name }} {{ $address->last_name }}
+                                        </h6>
+                                        @if($address->is_default)
+                                            <span class="badge bg-gradient-orange text-white">Default</span>
+                                        @endif
+                                    </div>
+
+                                    @if($address->company)
+                                        <p class="mb-1 text-muted">{{ $address->company }}</p>
+                                    @endif
+
+                                    <p class="mb-1">
+                                        <strong>Address:</strong> {{ $address->full_address }}
+                                    </p>
+                                    <p class="mb-1"><strong>Phone:</strong> {{ $address->phone }}</p>
+
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="text-muted small">#{{ $address->id }}</span>
+                                        <button class="btn btn-sm btn-outline-dark rounded-pill px-3">
+                                            <i class="bi bi-pencil-square me-1"></i>Edit
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <p class="text-muted">No shipping addresses found for this user.</p>
                     @endif
                 </div>
             </div>
@@ -823,12 +945,12 @@
 
             if (!labels.length || !dataValues.length) {
                 chartEl.innerHTML = `
-                                                        <div style="text-align:center; color:#999; padding:60px;">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
-                                                                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
-                                                            </svg>
-                                                            <p style="margin-top:8px;">No analytics data available</p>
-                                                        </div>`;
+                                                                        <div style="text-align:center; color:#999; padding:60px;">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
+                                                                                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
+                                                                            </svg>
+                                                                            <p style="margin-top:8px;">No analytics data available</p>
+                                                                        </div>`;
                 return;
             }
 
