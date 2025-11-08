@@ -241,4 +241,68 @@
     </div>
 
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ctx = document.getElementById('userBehaviorChart');
+            if (!ctx) return;
+
+            const labels = @json($pageVisits->pluck('page_visited'));
+            const dataValues = @json($pageVisits->pluck('total'));
+
+            const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 200);
+            gradient.addColorStop(0, 'rgba(13,110,253,0.8)');
+            gradient.addColorStop(1, 'rgba(13,110,253,0.2)');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Visits',
+                        data: dataValues,
+                        backgroundColor: gradient,
+                        borderRadius: 6,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#111',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            padding: 10,
+                            cornerRadius: 8
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                color: '#666',
+                                font: { size: 13 }
+                            }
+                        },
+                        y: {
+                            grid: { color: '#eee' },
+                            ticks: {
+                                color: '#666',
+                                font: { size: 12 },
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1200,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+        });
+    </script>
+
 @endsection
