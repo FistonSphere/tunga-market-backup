@@ -145,23 +145,21 @@
         }
 
         .role-badge {
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-            color: white;
-        }
+                    padding: 6px 12px;
+                    border-radius: 20px;
+                    font-weight: 600;
+                    font-size: 0.85rem;
+                    color: #fff;
+                }
 
-        .role-admin {
-            background: #010d31;
-        }
+                .role-admin {
+                    background: linear-gradient(135deg, #001428, #023768);
+                }
 
-        .role-vendor {
-            background: #ff8b00;
-        }
+                .role-customer {
+                    background: linear-gradient(135deg, #ff5f0e, #ff8040);
+                }
 
-        .role-normal {
-            background: #4caf50;
-        }
 
         .action-buttons {
             display: flex;
