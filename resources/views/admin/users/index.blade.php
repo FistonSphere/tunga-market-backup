@@ -248,7 +248,7 @@
                             <tr>
                                 <td>
                                     <div class="user-info">
-                                        <img src="{{ asset($user->profile_picture ?? 'assets/images/default-avatar.png') }}"
+                                        <img src="{{ asset($user->profile_picture ?? asset('assets/images/no-image.png')) }}"
                                             class="user-avatar" alt="">
                                         <div>
                                             <strong>{{ $user->first_name }} {{ $user->last_name }}</strong><br>
