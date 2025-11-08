@@ -608,6 +608,61 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* === Shipping Edit Modal === */
+        .edit-modal {
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 20, 40, 0.15);
+            background: #fff;
+            animation: modalSlideUp 0.4s ease-in-out;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .btn-gradient {
+            background: linear-gradient(90deg, #ff5f0e, #ff7733);
+            color: #fff;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-gradient:hover {
+            background: linear-gradient(90deg, #ff7733, #ff5f0e);
+            transform: translateY(-1px);
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, #ff5f0e, #001428);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #001428;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: #ff5f0e;
+            box-shadow: 0 0 0 3px rgba(255, 95, 14, 0.2);
+        }
     </style>
 
 
@@ -679,8 +734,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 16 16">
                             <path
                                 d="M8 0a8 8 0 1 0 8 8A8.009 8.009 0 0 0 8 0ZM4.285 12.433a6.978 6.978 0 0 1
-                                                                                                            0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
-                                                                                                            0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
+                                                                                                                        0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
+                                                                                                                        0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
                         </svg>
                     </div>
                     <div class="stats-info">
@@ -940,6 +995,86 @@
             </div>
         </div>
     </div>
+    <!-- Shipping Address Edit Modal -->
+    <div class="modal fade" id="editShippingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content edit-modal">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold text-dark">
+                        <i class="bi bi-geo-alt-fill text-gradient me-2"></i>Edit Shipping Address
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="editShippingForm">
+                        @csrf
+                        <input type="hidden" id="edit_id" name="id">
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">First Name</label>
+                                <input type="text" id="edit_first_name" name="first_name" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" id="edit_last_name" name="last_name" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Company</label>
+                                <input type="text" id="edit_company" name="company" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Phone</label>
+                                <input type="text" id="edit_phone" name="phone" class="form-control">
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label">Address Line 1</label>
+                                <input type="text" id="edit_address_line1" name="address_line1" class="form-control">
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label">Address Line 2</label>
+                                <input type="text" id="edit_address_line2" name="address_line2" class="form-control">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">City</label>
+                                <input type="text" id="edit_city" name="city" class="form-control">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">State</label>
+                                <input type="text" id="edit_state" name="state" class="form-control">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Postal Code</label>
+                                <input type="text" id="edit_postal_code" name="postal_code" class="form-control">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Country</label>
+                                <input type="text" id="edit_country" name="country" class="form-control">
+                            </div>
+
+                            <div class="col-md-6 d-flex align-items-center mt-3">
+                                <input class="form-check-input me-2" type="checkbox" id="edit_is_default" name="is_default">
+                                <label for="edit_is_default" class="form-check-label">Set as Default</label>
+                            </div>
+                        </div>
+
+                        <div class="text-end mt-4">
+                            <button type="button" class="btn btn-secondary rounded-pill px-4"
+                                data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-gradient rounded-pill px-4">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
@@ -953,12 +1088,12 @@
 
             if (!labels.length || !dataValues.length) {
                 chartEl.innerHTML = `
-                                                                            <div style="text-align:center; color:#999; padding:60px;">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
-                                                                                    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
-                                                                                </svg>
-                                                                                <p style="margin-top:8px;">No analytics data available</p>
-                                                                            </div>`;
+                                                                                        <div style="text-align:center; color:#999; padding:60px;">
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
+                                                                                                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
+                                                                                            </svg>
+                                                                                            <p style="margin-top:8px;">No analytics data available</p>
+                                                                                        </div>`;
                 return;
             }
 
@@ -1067,6 +1202,53 @@
         window.addEventListener('click', function (e) {
             const modal = document.getElementById('deleteUserModal');
             if (e.target === modal) closeDeleteModal();
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const editButtons = document.querySelectorAll('.editAddressBtn');
+            const modal = new bootstrap.Modal(document.getElementById('editShippingModal'));
+            const form = document.getElementById('editShippingForm');
+
+            editButtons.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    document.getElementById('edit_id').value = this.dataset.id;
+                    document.getElementById('edit_first_name').value = this.dataset.first_name;
+                    document.getElementById('edit_last_name').value = this.dataset.last_name;
+                    document.getElementById('edit_company').value = this.dataset.company;
+                    document.getElementById('edit_phone').value = this.dataset.phone;
+                    document.getElementById('edit_address_line1').value = this.dataset.address_line1;
+                    document.getElementById('edit_address_line2').value = this.dataset.address_line2;
+                    document.getElementById('edit_city').value = this.dataset.city;
+                    document.getElementById('edit_state').value = this.dataset.state;
+                    document.getElementById('edit_postal_code').value = this.dataset.postal_code;
+                    document.getElementById('edit_country').value = this.dataset.country;
+                    document.getElementById('edit_is_default').checked = this.dataset.is_default == 1;
+                    modal.show();
+                });
+            });
+
+            // Optional: AJAX form submission
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const id = document.getElementById('edit_id').value;
+                const formData = new FormData(this);
+
+                fetch(`/admin/shipping-addresses/${id}`, {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    body: formData
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            modal.hide();
+                            location.reload();
+                        } else {
+                            alert('Failed to update address.');
+                        }
+                    });
+            });
         });
     </script>
 

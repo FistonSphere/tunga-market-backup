@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\ShippingAddress;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -135,5 +136,25 @@ class AdminUserController extends Controller
             'behaviorTrend' => $behaviorTrend,
         ]);
     }
+public function updateShipping(Request $request, $id)
+{
+    $address = ShippingAddress::findOrFail($id);
+    $address->update([
+        'first_name' => $request->first_name,
+        'last_name' => $request->last_name,
+        'company' => $request->company,
+        'address_line1' => $request->address_line1,
+        'address_line2' => $request->address_line2,
+        'city' => $request->city,
+        'state' => $request->state,
+        'postal_code' => $request->postal_code,
+        'country' => $request->country,
+        'phone' => $request->phone,
+        'is_default' => $request->has('is_default'),
+    ]);
+
+    return response()->json(['success' => true]);
+}
+
 
 }

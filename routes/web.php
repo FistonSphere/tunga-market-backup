@@ -356,6 +356,8 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
         Route::put('/{user}/update',  'update')->name('admin.users.update');
         Route::delete('/{user}/delete',  'deleteUser')->name('admin.users.destroy');
         Route::get('/{user}/show',  'show')->name('admin.users.show');
+        Route::post('/shipping-addresses/{id}',  'updateShipping')->name('admin.shipping.update');
+
     });
  //user management routes
 
