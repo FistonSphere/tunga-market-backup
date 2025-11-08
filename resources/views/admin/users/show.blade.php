@@ -1234,7 +1234,7 @@
                 const id = document.getElementById('edit_id').value;
                 const formData = new FormData(this);
 
-                fetch(`/admin/shipping-addresses/${id}`, {
+                fetch(`/admin/users/shipping-addresses/${id}`, {
                     method: 'POST',
                     headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                     body: formData
