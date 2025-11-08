@@ -133,7 +133,8 @@
                     <p><strong>Email:</strong> {{ $user->email }}</p>
                     <p><strong>Phone:</strong> {{ $user->phone ?? '—' }}</p>
                     <p><strong>Address:</strong> {{ $user->address_line ?? '—' }}, {{ $user->city }}, {{ $user->state }},
-                        {{ $user->country }}</p>
+                        {{ $user->country }}
+                    </p>
                     <p><strong>Two-Factor Authentication:</strong>
                         {{ $user->two_factor_enabled ? 'Enabled' : 'Disabled' }}
                     </p>
@@ -194,6 +195,19 @@
             <!-- Activity Logs -->
             <div class="tab-pane fade" id="activity">
                 <div class="card p-3 rounded-4 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0d6efd"
+                                viewBox="0 0 16 16">
+                                <path d="M0 0h1v15h15v1H0z" />
+                                <path d="M2 13h2V8H2v5zm4 0h2V4H6v9zm4 0h2V1h-2v12z" />
+                            </svg>
+                            User Behavior Analytics
+                        </h5>
+                        <small class="text-muted">Page visits over time</small>
+                    </div>
+
+                    <canvas id="userBehaviorChart" height="120"></canvas>
                     <h5 class="fw-bold mb-3">Recent Activity</h5>
                     @if($user->activityLogs->count())
                         <table class="table table-striped align-middle">
