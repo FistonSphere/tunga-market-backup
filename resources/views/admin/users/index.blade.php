@@ -319,6 +319,21 @@
                 width: 100%;
             }
         }
+
+        #usersTableContainer.loading {
+            opacity: 0.5;
+            position: relative;
+        }
+
+        #usersTableContainer.loading::after {
+            content: "Loading...";
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #001428;
+            font-weight: 600;
+        }
     </style>
     <div class="users-container">
 
@@ -350,119 +365,155 @@
 
         <!-- ===== Users Table ===== -->
         <div id="usersTableContainer">
-        <div class="table-responsive">
-            <div class="card-table shadow-sm rounded-4">
-                <table class="table align-middle">
-                    <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Role</th>
-                            <th>Orders</th>
-                            <th>Rating</th>
-                            <th>Joined</th>
-                            <th class="text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @include('admin.users.table_rows', ['users' => $users])
-                    </tbody>
-                </table>
+            <div class="table-responsive">
+                <div class="card-table shadow-sm rounded-4">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Role</th>
+                                <th>Orders</th>
+                                <th>Rating</th>
+                                <th>Joined</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @include('admin.users.table_rows', ['users' => $users])
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Pagination -->
+        @if ($users->hasPages())
+            <div class="pagination-container">
+                <ul class="pagination-list">
+                    {{-- Previous Page Link --}}
+                    @if ($users->onFirstPage())
+                        <li class="disabled">&laquo;</li>
+                    @else
+                        <li>
+                            <a href="{{ $users->previousPageUrl() }}" rel="prev">&laquo;</a>
+                        </li>
+                    @endif
+
+                    {{-- Pagination Elements --}}
+                    @foreach ($users->links()->elements[0] ?? [] as $page => $url)
+                        @if ($page == $users->currentPage())
+                            <li class="active">{{ $page }}</li>
+                        @else
+                            <li><a href="{{ $url }}">{{ $page }}</a></li>
+                        @endif
+                    @endforeach
+
+                    {{-- Next Page Link --}}
+                    @if ($users->hasMorePages())
+                        <li>
+                            <a href="{{ $users->nextPageUrl() }}" rel="next">&raquo;</a>
+                        </li>
+                    @else
+                        <li class="disabled">&raquo;</li>
+                    @endif
+                </ul>
+            </div>
+        @endif
+    </div>
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteUserModal" class="delete-modal-overlay">
+        <div class="delete-modal">
+            <div class="modal-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#f44336" viewBox="0 0 16 16">
+                    <path
+                        d="M8.982 1.566a1.5 1.5 0 0 0-1.964 0L.165 7.233a1.5 1.5 0 0 0 0 2.134l6.853 5.667a1.5 1.5 0 0 0 1.964 0l6.853-5.667a1.5 1.5 0 0 0 0-2.134L8.982 1.566z" />
+                </svg>
+            </div>
+            <h3>Delete This User?</h3>
+            <p>You're about to permanently remove <strong><span id="deleteUserName"></span></strong>'s account and all its
+                related data.
+                This action <b>cannot</b> be undone.</p>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+                <form id="deleteUserForm" method="POST" class="inline-form">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-delete">Yes, Delete</button>
+                </form>
             </div>
         </div>
     </div>
 
 
-            <!-- Pagination -->
-            @if ($users->hasPages())
-                <div class="pagination-container">
-                    <ul class="pagination-list">
-                        {{-- Previous Page Link --}}
-                        @if ($users->onFirstPage())
-                            <li class="disabled">&laquo;</li>
-                        @else
-                            <li>
-                                <a href="{{ $users->previousPageUrl() }}" rel="prev">&laquo;</a>
-                            </li>
-                        @endif
+    <script>
+        function confirmDeleteUser(userId, firstName) {
+            const modal = document.getElementById('deleteUserModal');
+            const form = document.getElementById('deleteUserForm');
+            const nameSpan = document.getElementById('deleteUserName');
 
-                        {{-- Pagination Elements --}}
-                        @foreach ($users->links()->elements[0] ?? [] as $page => $url)
-                            @if ($page == $users->currentPage())
-                                <li class="active">{{ $page }}</li>
-                            @else
-                                <li><a href="{{ $url }}">{{ $page }}</a></li>
-                            @endif
-                        @endforeach
+            // Set delete route dynamically
+            form.action = `/admin/users/${userId}/delete`;
 
-                        {{-- Next Page Link --}}
-                        @if ($users->hasMorePages())
-                            <li>
-                                <a href="{{ $users->nextPageUrl() }}" rel="next">&raquo;</a>
-                            </li>
-                        @else
-                            <li class="disabled">&raquo;</li>
-                        @endif
-                    </ul>
-                </div>
-            @endif
-        </div>
-        <!-- Delete Confirmation Modal -->
-        <div id="deleteUserModal" class="delete-modal-overlay">
-            <div class="delete-modal">
-                <div class="modal-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#f44336" viewBox="0 0 16 16">
-                        <path
-                            d="M8.982 1.566a1.5 1.5 0 0 0-1.964 0L.165 7.233a1.5 1.5 0 0 0 0 2.134l6.853 5.667a1.5 1.5 0 0 0 1.964 0l6.853-5.667a1.5 1.5 0 0 0 0-2.134L8.982 1.566z" />
-                    </svg>
-                </div>
-                <h3>Delete This User?</h3>
-                <p>You're about to permanently remove <strong><span id="deleteUserName"></span></strong>'s account and all its
-                    related data.
-                    This action <b>cannot</b> be undone.</p>
+            // Insert user's first name
+            nameSpan.textContent = firstName;
 
-                <div class="modal-actions">
-                    <button class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
-                    <form id="deleteUserForm" method="POST" class="inline-form">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn-delete">Yes, Delete</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+            // Show modal animation
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
 
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteUserModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
 
-        <script>
-            function confirmDeleteUser(userId, firstName) {
-                const modal = document.getElementById('deleteUserModal');
-                const form = document.getElementById('deleteUserForm');
-                const nameSpan = document.getElementById('deleteUserName');
+        // Close modal when clicking outside
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('deleteUserModal');
+            if (e.target === modal) closeDeleteModal();
+        });
 
-                // Set delete route dynamically
-                form.action = `/admin/users/${userId}/delete`;
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('.filters-form');
+            const tableContainer = document.querySelector('#usersTableContainer tbody');
 
-                // Insert user's first name
-                nameSpan.textContent = firstName;
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-                // Show modal animation
-                modal.classList.add('show');
-                document.body.style.overflow = 'hidden';
-            }
+                const formData = new FormData(form);
+                const params = new URLSearchParams(formData).toString();
 
-            function closeDeleteModal() {
-                const modal = document.getElementById('deleteUserModal');
-                modal.classList.remove('show');
-                document.body.style.overflow = 'auto';
-            }
-
-            // Close modal when clicking outside
-            window.addEventListener('click', function (e) {
-                const modal = document.getElementById('deleteUserModal');
-                if (e.target === modal) closeDeleteModal();
+                fetch(`{{ route('admin.users.list') }}?${params}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        tableContainer.innerHTML = data.html;
+                    })
+                    .catch(err => {
+                        console.error('AJAX error:', err);
+                    });
             });
-        </script>
+
+            // Optional: live filtering as you type
+            const searchInput = form.querySelector('input[name="search"]');
+            searchInput.addEventListener('keyup', function () {
+                clearTimeout(this.delay);
+                this.delay = setTimeout(() => form.dispatchEvent(new Event('submit')), 400);
+            });
+
+            // Auto-submit on dropdown change
+            const roleSelect = form.querySelector('select[name="role"]');
+            roleSelect.addEventListener('change', () => form.dispatchEvent(new Event('submit')));
+        });
+    </script>
 
 
 

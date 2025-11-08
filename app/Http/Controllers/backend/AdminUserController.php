@@ -74,9 +74,31 @@ class AdminUserController extends Controller
     }
 
 
-    public function UserList()
+    public function UserList(Request $request)
     {
-        $users = User::paginate(10);
+         $query = User::query();
+
+    if ($search = $request->get('search')) {
+        $query->where(function ($q) use ($search) {
+            $q->where('first_name', 'like', "%{$search}%")
+              ->orWhere('last_name', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%")
+              ->orWhere('phone', 'like', "%{$search}%");
+        });
+    }
+
+    if ($role = $request->get('role')) {
+        $query->where('role', $role);
+    }
+
+    $users = $query->latest()->paginate(10);
+
+    // If AJAX, return partial HTML only
+    if ($request->ajax()) {
+        return response()->json([
+            'html' => view('admin.users.table_rows', compact('users'))->render(),
+        ]);
+    }
         return view('admin.users.index', compact('users'));
     }
 
