@@ -422,7 +422,7 @@
                                                     d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708L4.207 15.5H1v-3.207L12.146.146zM11.207 2.5L2 11.707V14h2.293L13.5 4.793 11.207 2.5z" />
                                             </svg>
                                         </a>
-                                        <button type="button" class="btn-action delete" class="btn-action delete"
+                                        <button type="button" class="btn-action delete"
                                             onclick="confirmDeleteUser({{ $user->id }}, '{{ $user->first_name }}')" title="Delete">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                 viewBox="0 0 16 16">

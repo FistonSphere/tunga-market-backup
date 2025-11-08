@@ -319,452 +319,503 @@
         }
 
         /* === Analytics Two-Column Grid === */
-    .analytics-grid {
-        display: grid;
-        grid-template-columns: 1.3fr 1fr;
-        gap: 24px;
-        align-items: stretch;
-        margin-top: 10px;
-    }
-
-    .analytics-card {
-        background: #fff;
-        border-radius: 16px;
-        padding: 24px;
-        box-shadow: 0 6px 20px rgba(0, 20, 40, 0.06);
-        transition: all 0.3s ease;
-        height: 100%;
-    }
-
-    .analytics-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(0, 20, 40, 0.1);
-    }
-
-    /* === Chart Card Styling === */
-    .chart-card {
-        position: relative;
-    }
-
-    .chart-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 4px;
-        width: 100%;
-        background: linear-gradient(90deg, #ff5f0e, #001428);
-        border-top-left-radius: 16px;
-        border-top-right-radius: 16px;
-    }
-
-    .user-chart-card {
-        height: 340px;
-        width: 100%;
-    }
-
-    /* === Table Container === */
-    .activity-table {
-        max-height: 340px;
-        overflow-y: auto;
-        border-radius: 12px;
-    }
-
-    .activity-table::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    .activity-table::-webkit-scrollbar-thumb {
-        background: rgba(0, 20, 40, 0.25);
-        border-radius: 10px;
-    }
-
-    /* Table styling refinement */
-    .activity-table table {
-        border-collapse: separate;
-        border-spacing: 0 8px;
-        width: 100%;
-    }
-
-    .activity-table thead th {
-        background-color: #f8f9fa;
-        color: #001428;
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 0.85rem;
-        border-bottom: 2px solid #eee;
-    }
-
-    .activity-table tbody tr {
-        background-color: #fff;
-        transition: background-color 0.2s ease;
-    }
-
-    .activity-table tbody tr:hover {
-        background-color: rgba(255, 95, 14, 0.08);
-    }
-
-    .activity-table td {
-        padding: 10px 14px;
-        font-size: 0.92rem;
-        color: #333;
-    }
-
-    /* Responsive: stack vertically */
-    @media (max-width: 992px) {
         .analytics-grid {
-            grid-template-columns: 1fr;
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 24px;
+            align-items: stretch;
+            margin-top: 10px;
         }
+
         .analytics-card {
-            height: auto;
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 6px 20px rgba(0, 20, 40, 0.06);
+            transition: all 0.3s ease;
+            height: 100%;
         }
-    }
 
-        </style>
+        .analytics-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 20, 40, 0.1);
+        }
+
+        /* === Chart Card Styling === */
+        .chart-card {
+            position: relative;
+        }
+
+        .chart-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 4px;
+            width: 100%;
+            background: linear-gradient(90deg, #ff5f0e, #001428);
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+
+        .user-chart-card {
+            height: 340px;
+            width: 100%;
+        }
+
+        /* === Table Container === */
+        .activity-table {
+            max-height: 340px;
+            overflow-y: auto;
+            border-radius: 12px;
+        }
+
+        .activity-table::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .activity-table::-webkit-scrollbar-thumb {
+            background: rgba(0, 20, 40, 0.25);
+            border-radius: 10px;
+        }
+
+        /* Table styling refinement */
+        .activity-table table {
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            width: 100%;
+        }
+
+        .activity-table thead th {
+            background-color: #f8f9fa;
+            color: #001428;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .activity-table tbody tr {
+            background-color: #fff;
+            transition: background-color 0.2s ease;
+        }
+
+        .activity-table tbody tr:hover {
+            background-color: rgba(255, 95, 14, 0.08);
+        }
+
+        .activity-table td {
+            padding: 10px 14px;
+            font-size: 0.92rem;
+            color: #333;
+        }
+
+        /* Responsive: stack vertically */
+        @media (max-width: 992px) {
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .analytics-card {
+                height: auto;
+            }
+        }
+    </style>
 
 
 
-        <div class="user-details-page container-fluid py-4">
+    <div class="user-details-page container-fluid py-4">
 
-            <!-- Header -->
-            <div class="user-header card shadow-sm rounded-4 mb-4">
-                <div class="card-body d-flex flex-wrap align-items-center">
-                    <img src="{{ asset($user->profile_picture ?? 'assets/images/default-user.png') }}" class="user-avatar me-4"
-                        alt="{{ $user->first_name }}">
+        <!-- Header -->
+        <div class="user-header card shadow-sm rounded-4 mb-4">
+            <div class="card-body d-flex flex-wrap align-items-center">
+                <img src="{{ asset($user->profile_picture ?? 'assets/images/default-user.png') }}" class="user-avatar me-4"
+                    alt="{{ $user->first_name }}">
 
-                    <div class="flex-grow-1">
-                        <h3 class="fw-bold mb-1">{{ $user->first_name }} {{ $user->last_name }}</h3>
-                        <p class="text-muted mb-1">{{ $user->email }}</p>
-                        <p class="small text-secondary">
-                            <i class="bi bi-geo-alt"></i>
-                            {{ $user->city }}, {{ $user->country }}
-                        </p>
+                <div class="flex-grow-1">
+                    <h3 class="fw-bold mb-1">{{ $user->first_name }} {{ $user->last_name }}</h3>
+                    <p class="text-muted mb-1">{{ $user->email }}</p>
+                    <p class="small text-secondary">
+                        <i class="bi bi-geo-alt"></i>
+                        {{ $user->city }}, {{ $user->country }}
+                    </p>
+                </div>
+
+                <div class="user-actions">
+                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-outline-primary me-2">
+                        Edit Profile
+                    </a>
+                    <button class="btn btn-outline-danger delete"
+                        onclick="confirmDeleteUser({{ $user->id }}, '{{ $user->first_name }}')">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="row mb-4 g-3 user-stats">
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card gradient-blue">
+                    <div class="stats-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 16 16">
+                            <path
+                                d="M8 0a8 8 0 1 0 8 8A8.009 8.009 0 0 0 8 0ZM4.285 12.433a6.978 6.978 0 0 1 0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0 0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
+                        </svg>
                     </div>
-
-                    <div class="user-actions">
-                        <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-outline-primary me-2">
-                            Edit Profile
-                        </a>
-                        <button class="btn btn-outline-danger"
-                            onclick="confirmDeleteUser({{ $user->id }}, '{{ $user->first_name }}')">
-                            Delete
-                        </button>
+                    <div class="stats-info">
+                        <h6>Total Orders</h6>
+                        <h3>{{ $user->orders->count() }}</h3>
                     </div>
                 </div>
             </div>
 
-            <!-- Quick Stats -->
-            <div class="row mb-4 g-3 user-stats">
-                <div class="col-md-3 col-sm-6">
-                    <div class="stats-card gradient-blue">
-                        <div class="stats-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 16 16">
-                                <path
-                                    d="M8 0a8 8 0 1 0 8 8A8.009 8.009 0 0 0 8 0ZM4.285 12.433a6.978 6.978 0 0 1 0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0 0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
-                            </svg>
-                        </div>
-                        <div class="stats-info">
-                            <h6>Total Orders</h6>
-                            <h3>{{ $user->orders->count() }}</h3>
-                        </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card gradient-orange">
+                    <div class="stats-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 16 16">
+                            <path
+                                d="M3.5 2a.5.5 0 0 1 .5.5V3h8v-.5a.5.5 0 0 1 1 0V3a2 2 0 0 1 2 2v8.5a.5.5 0 0 1-1 0V13H2v.5a.5.5 0 0 1-1 0V5a2 2 0 0 1 2-2v-.5a.5.5 0 0 1 .5-.5Z" />
+                        </svg>
                     </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="stats-card gradient-orange">
-                        <div class="stats-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 16 16">
-                                <path
-                                    d="M3.5 2a.5.5 0 0 1 .5.5V3h8v-.5a.5.5 0 0 1 1 0V3a2 2 0 0 1 2 2v8.5a.5.5 0 0 1-1 0V13H2v.5a.5.5 0 0 1-1 0V5a2 2 0 0 1 2-2v-.5a.5.5 0 0 1 .5-.5Z" />
-                            </svg>
-                        </div>
-                        <div class="stats-info">
-                            <h6>Wishlist Items</h6>
-                            <h3>{{ $user->wishlistItems->count() }}</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="stats-card gradient-green">
-                        <div class="stats-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 16 16">
-                                <path
-                                    d="M8 0a8 8 0 1 0 8 8A8.009 8.009 0 0 0 8 0ZM4.285 12.433a6.978 6.978 0 0 1
-                                                                        0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
-                                                                        0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
-                            </svg>
-                        </div>
-                        <div class="stats-info">
-                            <h6>Platform Rating</h6>
-                            <h3>⭐ {{ number_format($user->platform_rating, 1) }}/5</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <div class=" stats-card gradient-purple">
-                        <div class="stats-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height=" 28" fill="white" viewBox="0 0 16 16">
-                                <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v12l-5-2.5L3 14V2z" />
-                            </svg>
-                        </div>
-                        <div class=" stats-info">
-                            <h6>Activity Logs</h6>
-                            <h3>{{ $user->activityLogs->count() }}</h3>
-                        </div>
+                    <div class="stats-info">
+                        <h6>Wishlist Items</h6>
+                        <h3>{{ $user->wishlistItems->count() }}</h3>
                     </div>
                 </div>
             </div>
 
-
-            <!-- Tabs -->
-            <ul class="nav nav-tabs custom-tabs mb-3" id="userTabs" role="tablist">
-                <li class="nav-item">
-                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview" role="tab">
-                        Overview
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#orders" role="tab"> Orders </button>
-                </li>
-                <li class="nav-item">
-                    <button class=" nav-link" data-bs-toggle="tab" data-bs-target="#wishlist" role="tab">
-                        Wishlist
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#activity" role="tab">
-                        Activity Logs
-                    </button>
-                </li>
-            </ul>
-
-
-            <div class="tab-content">
-                <!-- Overview -->
-                <div class="tab-pane fade show active" id="overview">
-                    <div class="card p-4 rounded-4 shadow-sm">
-                        <h5 class="fw-bold mb-3">Contact Information</h5>
-                        <p><strong>Email:</strong> {{ $user->email }}</p>
-                        <p><strong>Phone:</strong> {{ $user->phone ?? '—' }}</p>
-                        <p><strong>Address:</strong> {{ $user->address_line ?? '—' }}, {{ $user->city }}, {{ $user->state }},
-                            {{ $user->country }}
-                        </p>
-                        <p><strong>Two-Factor Authentication:</strong>
-                            {{ $user->two_factor_enabled ? 'Enabled' : 'Disabled' }}
-                        </p>
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card gradient-green">
+                    <div class="stats-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 16 16">
+                            <path
+                                d="M8 0a8 8 0 1 0 8 8A8.009 8.009 0 0 0 8 0ZM4.285 12.433a6.978 6.978 0 0 1
+                                                                                0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
+                                                                                0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
+                        </svg>
+                    </div>
+                    <div class="stats-info">
+                        <h6>Platform Rating</h6>
+                        <h3>⭐ {{ number_format($user->platform_rating, 1) }}/5</h3>
                     </div>
                 </div>
+            </div>
 
-                <!-- Orders -->
-                <div class="tab-pane fade" id="orders">
-                    <div class="card p-3 rounded-4 shadow-sm">
-                        <h5 class="fw-bold mb-3">Recent Orders</h5>
-                        @if($user->orders->count())
-                            <table class="table table-hover align-middle">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Invoice</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($user->orders->take(5) as $order)
-                                        <tr>
-                                            <td>{{ $order->invoice_number }}</td>
-                                            <td>{{ number_format($order->total) }} Rwf</td>
-                                            <td><span class="badge bg-info">{{ ucfirst($order->status) }}</span></td>
-                                            <td>{{ $order->created_at->format('d M Y') }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        @else
-                            <p class="text-muted mb-0">No orders found.</p>
-                        @endif
+            <div class="col-md-3 col-sm-6">
+                <div class=" stats-card gradient-purple">
+                    <div class="stats-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height=" 28" fill="white" viewBox="0 0 16 16">
+                            <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v12l-5-2.5L3 14V2z" />
+                        </svg>
+                    </div>
+                    <div class=" stats-info">
+                        <h6>Activity Logs</h6>
+                        <h3>{{ $user->activityLogs->count() }}</h3>
                     </div>
                 </div>
-
-                <!-- Wishlist -->
-                <div class="tab-pane fade" id="wishlist">
-                    <div class="card p-3 rounded-4 shadow-sm">
-                        <h5 class="fw-bold mb-3">Wishlist Items</h5> @if($user->wishlistItems->count())
-                            <ul class="list-group">
-                                @foreach($user->wishlistItems as $item)
-                                    <li class="list-group-item d-flex align-items-center">
-                                        <img src="{{ asset($item->product->main_image ?? '/assets/images/no-image.png') }}"
-                                            class="product-thumb me-3" alt="">
-                                        {{ $item->product->name }}
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @else
-                            <p class="text-muted mb-0">No wishlist items found.</p>
-                        @endif
-                    </div>
-                </div>
-
-                <!-- Activity Logs -->
-                <div class="tab-pane fade" id="activity">
-                    <div class="analytics-grid">
-                        <!-- Chart Card -->
-                        <div class="analytics-card chart-card">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="fw-bold mb-0">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#001428"
-                                        viewBox="0 0 16 16">
-                                        <path d="M0 0h1v15h15v1H0z" />
-                                        <path d="M2 13h2V8H2v5zm4 0h2V4H6v9zm4 0h2V1h-2v12z" />
-                                    </svg>
-                                    User Behavior Analytics
-                                </h5>
-                                <small class="text-muted">Page visits over time</small>
-                            </div>
-
-                            <div id="userBehaviorChart" class="user-chart-card"></div>
-                        </div>
-
-                        <!-- Table Card -->
-                        <div class="analytics-card">
-                            <h5 class="fw-bold mb-3">Recent Activity</h5>
-                            @if($user->activityLogs->count())
-                                <div class="activity-table">
-                                    <table class="table align-middle">
-                                        <thead>
-                                            <tr>
-                                                <th>Visited Page</th>
-                                                <th>Device</th>
-                                                <th>Browser</th>
-                                                <th>Location</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($user->activityLogs->take(10) as $log)
-                                                <tr>
-                                                    <td>{{ $log->page_visited }}</td>
-                                                    <td>{{ $log->device }}</td>
-                                                    <td>{{ $log->browser }}</td>
-                                                    <td>{{ $log->location }}</td>
-                                                    <td>{{ $log->created_at->diffForHumans() }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            @else
-                                <p class="text-muted">No recent activity logs.</p>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
 
 
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <!-- Tabs -->
+        <ul class="nav nav-tabs custom-tabs mb-3" id="userTabs" role="tablist">
+            <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview" role="tab">
+                    Overview
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#orders" role="tab"> Orders </button>
+            </li>
+            <li class="nav-item">
+                <button class=" nav-link" data-bs-toggle="tab" data-bs-target="#wishlist" role="tab">
+                    Wishlist
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#activity" role="tab">
+                    Activity Logs
+                </button>
+            </li>
+        </ul>
 
-        <script>
-                    document.addEventListener("DOMContentLoaded",         function () {
-                        const chartEl = document.querySelector("#userBehaviorChart");
-                        if (!chartEl) return;
 
-                        const labels = @json($pageVisits->pluck('page_visited') ?? []);
-                        const dataValues = @json($pageVisits->pluck('total') ?? []);
+        <div class="tab-content">
+            <!-- Overview -->
+            <div class="tab-pane fade show active" id="overview">
+                <div class="card p-4 rounded-4 shadow-sm">
+                    <h5 class="fw-bold mb-3">Contact Information</h5>
+                    <p><strong>Email:</strong> {{ $user->email }}</p>
+                    <p><strong>Phone:</strong> {{ $user->phone ?? '—' }}</p>
+                    <p><strong>Address:</strong> {{ $user->address_line ?? '—' }}, {{ $user->city }}, {{ $user->state }},
+                        {{ $user->country }}
+                    </p>
+                    <p><strong>Two-Factor Authentication:</strong>
+                        {{ $user->two_factor_enabled ? 'Enabled' : 'Disabled' }}
+                    </p>
+                </div>
+            </div>
 
-                        if (!labels.length || !dataValues.length) {
-                            chartEl.innerHTML = `
-                                        <div style="text-align:center; color:#999; padding:60px;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
-                                                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
-                                            </svg>
-                                            <p style="margin-top:8px;">No analytics data available</p>
-                                        </div>`;
-                            return;
-                        }
+            <!-- Orders -->
+            <div class="tab-pane fade" id="orders">
+                <div class="card p-3 rounded-4 shadow-sm">
+                    <h5 class="fw-bold mb-3">Recent Orders</h5>
+                    @if($user->orders->count())
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Invoice</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($user->orders->take(5) as $order)
+                                    <tr>
+                                        <td>{{ $order->invoice_number }}</td>
+                                        <td>{{ number_format($order->total) }} Rwf</td>
+                                        <td><span class="badge bg-info">{{ ucfirst($order->status) }}</span></td>
+                                        <td>{{ $order->created_at->format('d M Y') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <p class="text-muted mb-0">No orders found.</p>
+                    @endif
+                </div>
+            </div>
 
-                        const options = {
-                            chart: {
-                                type: 'bar',
-                                height: 360,
-                                toolbar: { show: false },
-                                animations: {
-                                    enabled: true,
-                                    easing: 'easeinout',
-                                    speed: 900,
-                                    animateGradually: { enabled: true, delay: 150 },
-                                    dynamicAnimation: { enabled: true, speed: 450 }
-                                },
-                                fontFamily: 'Inter, sans-serif'
-                            },
-                            series: [{
-                                name: 'Page Visits',
-                                data: dataValues
-                            }],
-                            plotOptions: {
-                                bar: {
-                                    borderRadius: 9,
-                                    horizontal: false,
-                                    columnWidth: '55%',
-                                    distributed: false,
-                                    endingShape: 'rounded'
-                                }
-                            },
-                            colors: ['#ff5f0e'],
-                            fill: {
-                                type: 'gradient',
-                                gradient: {
-                                    shade: 'light',
-                                    gradientToColors: ['#001428'],
-                                    shadeIntensity: 0.6,
-                                    type: 'vertical',
-                                    opacityFrom: 0.9,
-                                    opacityTo: 0.5,
-                                    stops: [0, 100]
-                                }
-                            },
-                            dataLabels: { enabled: false },
-                            xaxis: {
-                                categories: labels,
-                                labels: {
-                                    style: { colors: '#001428', fontSize: '13px', fontWeight: 500 },
-                                    rotate: -15
-                                },
-                                axisTicks: { show: false },
-                                axisBorder: { show: false }
-                            },
-                            yaxis: {
-                                labels: {
-                                    style: { colors: '#001428', fontSize: '12px' }
-                                },
-                                min: 0,
-                                tickAmount: 5
-                            },
-                            grid: {
-                                borderColor: '#f1f1f1',
-                                strokeDashArray: 3
-                            },
-                            tooltip: {
-                                theme: 'dark',
-                                y: {
-                                    formatter: val => `${val} visits`
-                                }
-                            },
-                            noData: {
-                                text: 'No user behavior data found',
-                                align: 'center',
-                                verticalAlign: 'middle',
-                                style: { color: '#999', fontSize: '14px' }
-                            }
-                        };
+            <!-- Wishlist -->
+            <div class="tab-pane fade" id="wishlist">
+                <div class="card p-3 rounded-4 shadow-sm">
+                    <h5 class="fw-bold mb-3">Wishlist Items</h5> @if($user->wishlistItems->count())
+                        <ul class="list-group">
+                            @foreach($user->wishlistItems as $item)
+                                <li class="list-group-item d-flex align-items-center">
+                                    <img src="{{ asset($item->product->main_image ?? '/assets/images/no-image.png') }}"
+                                        class="product-thumb me-3" alt="">
+                                    {{ $item->product->name }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p class="text-muted mb-0">No wishlist items found.</p>
+                    @endif
+                </div>
+            </div>
 
-                        const chart = new ApexCharts(chartEl, options);
-                        chart.render();
-                    });
-                </script>
+            <!-- Activity Logs -->
+            <div class="tab-pane fade" id="activity">
+                <div class="analytics-grid">
+                    <!-- Chart Card -->
+                    <div class="analytics-card chart-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#001428"
+                                    viewBox="0 0 16 16">
+                                    <path d="M0 0h1v15h15v1H0z" />
+                                    <path d="M2 13h2V8H2v5zm4 0h2V4H6v9zm4 0h2V1h-2v12z" />
+                                </svg>
+                                User Behavior Analytics
+                            </h5>
+                            <small class="text-muted">Page visits over time</small>
+                        </div>
+
+                        <div id="userBehaviorChart" class="user-chart-card"></div>
+                    </div>
+
+                    <!-- Table Card -->
+                    <div class="analytics-card">
+                        <h5 class="fw-bold mb-3">Recent Activity</h5>
+                        @if($user->activityLogs->count())
+                            <div class="activity-table">
+                                <table class="table align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Visited Page</th>
+                                            <th>Device</th>
+                                            <th>Browser</th>
+                                            <th>Location</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($user->activityLogs->take(10) as $log)
+                                            <tr>
+                                                <td>{{ $log->page_visited }}</td>
+                                                <td>{{ $log->device }}</td>
+                                                <td>{{ $log->browser }}</td>
+                                                <td>{{ $log->location }}</td>
+                                                <td>{{ $log->created_at->diffForHumans() }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <p class="text-muted">No recent activity logs.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteUserModal" class="delete-modal-overlay">
+        <div class="delete-modal">
+            <div class="modal-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#f44336" viewBox="0 0 16 16">
+                    <path
+                        d="M8.982 1.566a1.5 1.5 0 0 0-1.964 0L.165 7.233a1.5 1.5 0 0 0 0 2.134l6.853 5.667a1.5 1.5 0 0 0 1.964 0l6.853-5.667a1.5 1.5 0 0 0 0-2.134L8.982 1.566z" />
+                </svg>
+            </div>
+            <h3>Delete This User?</h3>
+            <p>You're about to permanently remove <strong><span id="deleteUserName"></span></strong>'s account and all its
+                related data.
+                This action <b>cannot</b> be undone.</p>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+                <form id="deleteUserForm" method="POST" class="inline-form">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-delete">Yes, Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const chartEl = document.querySelector("#userBehaviorChart");
+            if (!chartEl) return;
+
+            const labels = @json($pageVisits->pluck('page_visited') ?? []);
+            const dataValues = @json($pageVisits->pluck('total') ?? []);
+
+            if (!labels.length || !dataValues.length) {
+                chartEl.innerHTML = `
+                                                <div style="text-align:center; color:#999; padding:60px;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
+                                                        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
+                                                    </svg>
+                                                    <p style="margin-top:8px;">No analytics data available</p>
+                                                </div>`;
+                return;
+            }
+
+            const options = {
+                chart: {
+                    type: 'bar',
+                    height: 360,
+                    toolbar: { show: false },
+                    animations: {
+                        enabled: true,
+                        easing: 'easeinout',
+                        speed: 900,
+                        animateGradually: { enabled: true, delay: 150 },
+                        dynamicAnimation: { enabled: true, speed: 450 }
+                    },
+                    fontFamily: 'Inter, sans-serif'
+                },
+                series: [{
+                    name: 'Page Visits',
+                    data: dataValues
+                }],
+                plotOptions: {
+                    bar: {
+                        borderRadius: 9,
+                        horizontal: false,
+                        columnWidth: '55%',
+                        distributed: false,
+                        endingShape: 'rounded'
+                    }
+                },
+                colors: ['#ff5f0e'],
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shade: 'light',
+                        gradientToColors: ['#001428'],
+                        shadeIntensity: 0.6,
+                        type: 'vertical',
+                        opacityFrom: 0.9,
+                        opacityTo: 0.5,
+                        stops: [0, 100]
+                    }
+                },
+                dataLabels: { enabled: false },
+                xaxis: {
+                    categories: labels,
+                    labels: {
+                        style: { colors: '#001428', fontSize: '13px', fontWeight: 500 },
+                        rotate: -15
+                    },
+                    axisTicks: { show: false },
+                    axisBorder: { show: false }
+                },
+                yaxis: {
+                    labels: {
+                        style: { colors: '#001428', fontSize: '12px' }
+                    },
+                    min: 0,
+                    tickAmount: 5
+                },
+                grid: {
+                    borderColor: '#f1f1f1',
+                    strokeDashArray: 3
+                },
+                tooltip: {
+                    theme: 'dark',
+                    y: {
+                        formatter: val => `${val} visits`
+                    }
+                },
+                noData: {
+                    text: 'No user behavior data found',
+                    align: 'center',
+                    verticalAlign: 'middle',
+                    style: { color: '#999', fontSize: '14px' }
+                }
+            };
+
+            const chart = new ApexCharts(chartEl, options);
+            chart.render();
+        });
+
+        function confirmDeleteUser(userId, firstName) {
+            const modal = document.getElementById('deleteUserModal');
+            const form = document.getElementById('deleteUserForm');
+            const nameSpan = document.getElementById('deleteUserName');
+
+            // Set delete route dynamically
+            form.action = `/admin/users/${userId}/delete`;
+
+            // Insert user's first name
+            nameSpan.textContent = firstName;
+
+            // Show modal animation
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteUserModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('deleteUserModal');
+            if (e.target === modal) closeDeleteModal();
+        });
+    </script>
 
 @endsection
