@@ -575,7 +575,7 @@
                                     @foreach($user->orders->take(5) as $order)
                                         <tr>
                                             <td>{{ $order->invoice_number }}</td>
-                                            <td>${{ number_format($order->total, 2) }}</td>
+                                            <td>{{ number_format($order->total) }} Rwf</td>
                                             <td><span class="badge bg-info">{{ ucfirst($order->status) }}</span></td>
                                             <td>{{ $order->created_at->format('d M Y') }}</td>
                                         </tr>
