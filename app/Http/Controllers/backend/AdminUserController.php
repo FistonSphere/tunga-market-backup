@@ -88,20 +88,52 @@ class AdminUserController extends Controller
     }
 
 
-    public function show(User $user)
-{
-    // Aggregate most visited pages
-    $pageVisits = $user->activityLogs()
-        ->select('page_visited', DB::raw('COUNT(*) as total'))
-        ->groupBy('page_visited')
-        ->orderByDesc('total')
-        ->take(8)
-        ->get();
+     public function show(User $user)
+    {
+        // ✅ Basic details & eager loaded relationships
+        $user->load(['orders.items', 'activityLogs', 'wishlistItems.product']);
 
-    return view('admin.users.show', [
-        'user' => $user,
-        'pageVisits' => $pageVisits
-    ]);
-}
+        // ✅ Count and summaries
+        $orderCount = $user->orders()->count();
+        $wishlistCount = $user->wishlistItems()->count();
+        $activityCount = $user->activityLogs()->count();
+
+        // ✅ Calculate total spent (sum of all orders)
+        $totalSpent = $user->orders()->sum('total');
+
+        // ✅ Get most recent orders
+        $recentOrders = $user->orders()
+            ->with('items.product')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // ✅ Behavior analytics - most visited pages
+        $pageVisits = $user->activityLogs()
+            ->select('page_visited', DB::raw('COUNT(*) as total'))
+            ->groupBy('page_visited')
+            ->orderByDesc('total')
+            ->take(8)
+            ->get();
+
+        // ✅ Behavior over time (last 30 days)
+        $behaviorTrend = $user->activityLogs()
+            ->select(DB::raw('DATE(created_at) as date'), DB::raw('COUNT(*) as visits'))
+            ->where('created_at', '>=', now()->subDays(30))
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        return view('admin.users.show', [
+            'user' => $user,
+            'orderCount' => $orderCount,
+            'wishlistCount' => $wishlistCount,
+            'activityCount' => $activityCount,
+            'totalSpent' => $totalSpent,
+            'recentOrders' => $recentOrders,
+            'pageVisits' => $pageVisits,
+            'behaviorTrend' => $behaviorTrend,
+        ]);
+    }
 
 }
