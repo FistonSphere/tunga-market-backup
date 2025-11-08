@@ -3,6 +3,7 @@
 
 @section('content')
     <style>
+        /* === Global User Header === */
         .user-header .user-avatar {
             width: 90px;
             height: 90px;
@@ -13,25 +14,6 @@
         .user-actions .btn {
             border-radius: 10px;
             font-weight: 500;
-        }
-
-        .stats-card {
-            transition: 0.3s;
-            border-left: 5px solid #001428;
-        }
-
-        .stats-card:hover {
-            transform: translateY(-4px);
-            background-color: #f8f9fa;
-        }
-
-
-
-        .product-thumb {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 6px;
         }
 
         @media (max-width: 768px) {
@@ -45,26 +27,11 @@
             }
         }
 
-        #userBehaviorChart {
-            max-height: 280px;
-            margin-top: 10px;
-        }
-
-        .card h5 svg {
-            margin-right: 6px;
-            vertical-align: middle;
-        }
-
-        .card small.text-muted {
-            font-size: 0.85rem;
-        }
-
-        /* User stats container */
+        /* === Stats Cards Section === */
         .user-stats {
             --transition: all 0.3s ease-in-out;
         }
 
-        /* Each card */
         .stats-card {
             display: flex;
             align-items: center;
@@ -73,6 +40,7 @@
             padding: 20px;
             color: #fff;
             background: #f8f9fa;
+            border-left: 5px solid #001428;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
             cursor: pointer;
             transition: var(--transition);
@@ -80,7 +48,13 @@
             overflow: hidden;
         }
 
-        /* Icon on the left */
+        .stats-card:hover {
+            transform: translateY(-4px);
+            background-color: #f8f9fa;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Stat Card Icon */
         .stats-icon {
             width: 58px;
             height: 58px;
@@ -93,7 +67,7 @@
             flex-shrink: 0;
         }
 
-        /* Info text */
+        /* Stat Info */
         .stats-info h6 {
             font-size: 0.9rem;
             font-weight: 500;
@@ -108,19 +82,13 @@
             margin: 0;
         }
 
-        /* Hover effect */
-        .stats-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-        }
-
-        /* Gradient styles for each type */
+        /* Gradient variants */
         .gradient-blue {
-            background: linear-gradient(135deg, #001528, #023768);
+            background: linear-gradient(135deg, #001428, #023768);
         }
 
         .gradient-orange {
-            background: linear-gradient(135deg, #ff5e0e, #fc8447);
+            background: linear-gradient(135deg, #ff5f0e, #fc8447);
         }
 
         .gradient-green {
@@ -131,7 +99,6 @@
             background: linear-gradient(135deg, #6f42c1, #b97aff);
         }
 
-        /* Responsive tweaks */
         @media (max-width: 767px) {
             .stats-card {
                 flex-direction: row;
@@ -149,11 +116,10 @@
             }
         }
 
-        /* Tabs container */
+        /* === Custom Tabs === */
         .custom-tabs {
             border: none;
             display: flex;
-            justify-content: flex-start;
             gap: 10px;
             overflow-x: auto;
             padding-bottom: 6px;
@@ -164,7 +130,6 @@
             display: none;
         }
 
-        /* Each tab button */
         .custom-tabs .nav-link {
             border: none;
             background: #f7f7f8;
@@ -175,42 +140,22 @@
             transition: all 0.3s ease;
             position: relative;
             font-size: 0.95rem;
-            letter-spacing: 0.2px;
             box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
         }
 
-        /* Hover effect */
         .custom-tabs .nav-link:hover {
             color: #000;
             background: linear-gradient(135deg, #f3f3f3, #ffffff);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
-        /* Active tab with gradient underline */
         .custom-tabs .nav-link.active {
             color: #fff;
             background: linear-gradient(135deg, #ff5f0e, #ff7733);
-            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.25);
+            box-shadow: 0 4px 15px rgba(255, 95, 14, 0.25);
             transform: translateY(-1px);
         }
 
-        /* Smooth underline animation */
-
-
-        /* Animation keyframes */
-        @keyframes tabUnderline {
-            from {
-                width: 0;
-                opacity: 0;
-            }
-
-            to {
-                width: 40%;
-                opacity: 1;
-            }
-        }
-
-        /* Responsive tweaks */
         @media (max-width: 767px) {
             .custom-tabs .nav-link {
                 font-size: 0.9rem;
@@ -218,7 +163,7 @@
             }
         }
 
-        /* --- Tab Content Base --- */
+        /* === Tab Content === */
         .tab-content {
             background: #f9fafb;
             border-radius: 14px;
@@ -230,7 +175,6 @@
             animation: fadeIn 0.4s ease-in-out;
         }
 
-        /* Animation */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -243,7 +187,7 @@
             }
         }
 
-        /* --- Card Styling --- */
+        /* === Cards === */
         .card {
             background: #fff;
             border: 1px solid #eaeaea;
@@ -268,17 +212,16 @@
         .card p {
             font-size: 0.95rem;
             color: #4a4a4a;
-            line-height: 1.5;
         }
 
-        /* --- Contact Info Section --- */
+        /* === Contact Info Section === */
         #overview p strong {
             color: #001428;
             min-width: 120px;
             display: inline-block;
         }
 
-        /* --- Orders Table --- */
+        /* === Tables === */
         .table {
             border-collapse: separate;
             border-spacing: 0 8px;
@@ -317,56 +260,9 @@
             border-radius: 20px;
             font-weight: 500;
             padding: 6px 12px;
-            text-transform: capitalize;
         }
 
-        /* --- Wishlist --- */
-        .list-group-item {
-            border: none;
-            border-bottom: 1px solid #f0f0f0;
-            padding: 12px 0;
-            font-size: 0.95rem;
-            color: #333;
-            transition: all 0.2s ease;
-        }
-
-        .list-group-item:hover {
-            background: #f7faff;
-        }
-
-        .product-thumb {
-            width: 45px;
-            height: 45px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #eee;
-            transition: transform 0.2s ease;
-        }
-
-        .product-thumb:hover {
-            transform: scale(1.05);
-        }
-
-        /* --- Behavior Analytics Section --- */
-        #activity h5 {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        #activity small.text-muted {
-            font-size: 0.85rem;
-        }
-
-        #activity canvas {
-            margin-bottom: 20px;
-            border-radius: 10px;
-            background: #f8f9fc;
-            padding: 10px;
-            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
-        }
-
-        /* --- Responsive --- */
+        /* Responsive table */
         @media (max-width: 992px) {
             .table thead {
                 display: none;
@@ -395,45 +291,137 @@
             }
         }
 
-        .user-chart-card {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 6px 18px rgba(0, 20, 40, 0.08);
-            padding: 24px 28px;
-            height: 360px;
-            position: relative;
+        /* === Wishlist Items === */
+        .list-group-item {
+            border: none;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 12px 0;
+            font-size: 0.95rem;
+            color: #333;
+            transition: all 0.2s ease;
         }
 
-        .user-chart-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 4px;
-            width: 100%;
-            background: linear-gradient(90deg, #ff5f0e, #001428);
-            border-top-left-radius: 14px;
-            border-top-right-radius: 14px;
+        .list-group-item:hover {
+            background: #f7faff;
         }
 
-        .apexcharts-tooltip {
-            background: #001428 !important;
-            color: #fff !important;
-            border: none !important;
-            border-radius: 8px !important;
-            box-shadow: 0 2px 10px rgba(0, 20, 40, 0.25) !important;
+        .product-thumb {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            transition: transform 0.2s ease;
         }
 
-        .apexcharts-xaxis text,
-        .apexcharts-yaxis text {
-            font-weight: 500;
-            color: #001428 !important;
+        .product-thumb:hover {
+            transform: scale(1.05);
         }
-    .apexcharts-bar-area:hover {
-        filter: drop-shadow(0 0 8px rgba(255, 95, 14, 0.5));
-        transition: all 0.3s ease;
+
+        /* === Analytics Two-Column Grid === */
+    .analytics-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr;
+        gap: 24px;
+        align-items: stretch;
+        margin-top: 10px;
     }
+
+    .analytics-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 6px 20px rgba(0, 20, 40, 0.06);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .analytics-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 20, 40, 0.1);
+    }
+
+    /* === Chart Card Styling === */
+    .chart-card {
+        position: relative;
+    }
+
+    .chart-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(90deg, #ff5f0e, #001428);
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+    }
+
+    .user-chart-card {
+        height: 340px;
+        width: 100%;
+    }
+
+    /* === Table Container === */
+    .activity-table {
+        max-height: 340px;
+        overflow-y: auto;
+        border-radius: 12px;
+    }
+
+    .activity-table::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .activity-table::-webkit-scrollbar-thumb {
+        background: rgba(0, 20, 40, 0.25);
+        border-radius: 10px;
+    }
+
+    /* Table styling refinement */
+    .activity-table table {
+        border-collapse: separate;
+        border-spacing: 0 8px;
+        width: 100%;
+    }
+
+    .activity-table thead th {
+        background-color: #f8f9fa;
+        color: #001428;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        border-bottom: 2px solid #eee;
+    }
+
+    .activity-table tbody tr {
+        background-color: #fff;
+        transition: background-color 0.2s ease;
+    }
+
+    .activity-table tbody tr:hover {
+        background-color: rgba(255, 95, 14, 0.08);
+    }
+
+    .activity-table td {
+        padding: 10px 14px;
+        font-size: 0.92rem;
+        color: #333;
+    }
+
+    /* Responsive: stack vertically */
+    @media (max-width: 992px) {
+        .analytics-grid {
+            grid-template-columns: 1fr;
+        }
+        .analytics-card {
+            height: auto;
+        }
+    }
+
         </style>
+
 
 
         <div class="user-details-page container-fluid py-4">
@@ -503,8 +491,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 16 16">
                                 <path
                                     d="M8 0a8 8 0 1 0 8 8A8.009 8.009 0 0 0 8 0ZM4.285 12.433a6.978 6.978 0 0 1
-                                                    0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
-                                                    0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
+                                                                        0-8.866l.825.825a5.979 5.979 0 0 0 0 7.216Zm7.43 0-.825-.825a5.979 5.979 0 0 0
+                                                                        0-7.216l.825-.825a6.978 6.978 0 0 1 0 8.866ZM8 10a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2Z" />
                             </svg>
                         </div>
                         <div class="stats-info">
@@ -621,49 +609,59 @@
 
                 <!-- Activity Logs -->
                 <div class="tab-pane fade" id="activity">
-                    <div class="card p-3 rounded-4 shadow-sm">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="fw-bold mb-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#001428"
-                                    viewBox="0 0 16 16">
-                                    <path d="M0 0h1v15h15v1H0z" />
-                                    <path d="M2 13h2V8H2v5zm4 0h2V4H6v9zm4 0h2V1h-2v12z" />
-                                </svg>
-                                User Behavior Analytics
-                            </h5>
-                            <small class="text-muted">Page visits over time</small>
+                    <div class="analytics-grid">
+                        <!-- Chart Card -->
+                        <div class="analytics-card chart-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold mb-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#001428"
+                                        viewBox="0 0 16 16">
+                                        <path d="M0 0h1v15h15v1H0z" />
+                                        <path d="M2 13h2V8H2v5zm4 0h2V4H6v9zm4 0h2V1h-2v12z" />
+                                    </svg>
+                                    User Behavior Analytics
+                                </h5>
+                                <small class="text-muted">Page visits over time</small>
+                            </div>
+
+                            <div id="userBehaviorChart" class="user-chart-card"></div>
                         </div>
 
-                        <div id="userBehaviorChart" class="user-chart-card"></div>
-                        <h5 class="fw-bold mb-3">Recent Activity</h5>
-                        @if($user->activityLogs->count())
-                            <table class="table table-striped align-middle">
-                                <thead>
-                                    <tr>
-                                        <th>Visited Page</th>
-                                        <th>Device</th>
-                                        <th>Browser</th>
-                                        <th>Location</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($user->activityLogs->take(10) as $log)
-                                        <tr>
-                                            <td>{{ $log->page_visited }}</td>
-                                            <td>{{ $log->device }}</td>
-                                            <td>{{ $log->browser }}</td>
-                                            <td>{{ $log->location }}</td>
-                                            <td>{{ $log->created_at->diffForHumans() }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        @else
-                            <p class="text-muted">No recent activity logs.</p>
-                        @endif
+                        <!-- Table Card -->
+                        <div class="analytics-card">
+                            <h5 class="fw-bold mb-3">Recent Activity</h5>
+                            @if($user->activityLogs->count())
+                                <div class="activity-table">
+                                    <table class="table align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Visited Page</th>
+                                                <th>Device</th>
+                                                <th>Browser</th>
+                                                <th>Location</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($user->activityLogs->take(10) as $log)
+                                                <tr>
+                                                    <td>{{ $log->page_visited }}</td>
+                                                    <td>{{ $log->device }}</td>
+                                                    <td>{{ $log->browser }}</td>
+                                                    <td>{{ $log->location }}</td>
+                                                    <td>{{ $log->created_at->diffForHumans() }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <p class="text-muted">No recent activity logs.</p>
+                            @endif
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -671,102 +669,102 @@
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const chartEl = document.querySelector("#userBehaviorChart");
-                if (!chartEl) return;
+                    document.addEventListener("DOMContentLoaded",         function () {
+                        const chartEl = document.querySelector("#userBehaviorChart");
+                        if (!chartEl) return;
 
-                const labels = @json($pageVisits->pluck('page_visited') ?? []);
-            const dataValues = @json($pageVisits->pluck('total') ?? []);
+                        const labels = @json($pageVisits->pluck('page_visited') ?? []);
+                        const dataValues = @json($pageVisits->pluck('total') ?? []);
 
-            if (!labels.length || !dataValues.length) {
-                chartEl.innerHTML = `
-                    <div style="text-align:center; color:#999; padding:60px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
-                            <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
-                        </svg>
-                        <p style="margin-top:8px;">No analytics data available</p>
-                    </div>`;
-                return;
-            }
+                        if (!labels.length || !dataValues.length) {
+                            chartEl.innerHTML = `
+                                        <div style="text-align:center; color:#999; padding:60px;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#ccc" viewBox="0 0 16 16">
+                                                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.293 6.707a1 1 0 0 0-1.414-1.414L7 8.172 6.121 7.293a1 1 0 1 0-1.414 1.414l1.707 1.707a1 1 0 0 0 1.414 0l3.465-3.707z"/>
+                                            </svg>
+                                            <p style="margin-top:8px;">No analytics data available</p>
+                                        </div>`;
+                            return;
+                        }
 
-            const options = {
-                chart: {
-                    type: 'bar',
-                    height: 360,
-                    toolbar: { show: false },
-                    animations: {
-                        enabled: true,
-                        easing: 'easeinout',
-                        speed: 900,
-                        animateGradually: { enabled: true, delay: 150 },
-                        dynamicAnimation: { enabled: true, speed: 450 }
-                    },
-                    fontFamily: 'Inter, sans-serif'
-                },
-                series: [{
-                    name: 'Page Visits',
-                    data: dataValues
-                }],
-                plotOptions: {
-                    bar: {
-                        borderRadius: 9,
-                        horizontal: false,
-                        columnWidth: '55%',
-                        distributed: false,
-                        endingShape: 'rounded'
-                    }
-                },
-                colors: ['#ff5f0e'],
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shade: 'light',
-                        gradientToColors: ['#001428'],
-                        shadeIntensity: 0.6,
-                        type: 'vertical',
-                        opacityFrom: 0.9,
-                        opacityTo: 0.5,
-                        stops: [0, 100]
-                    }
-                },
-                dataLabels: { enabled: false },
-                xaxis: {
-                    categories: labels,
-                    labels: {
-                        style: { colors: '#001428', fontSize: '13px', fontWeight: 500 },
-                        rotate: -15
-                    },
-                    axisTicks: { show: false },
-                    axisBorder: { show: false }
-                },
-                yaxis: {
-                    labels: {
-                        style: { colors: '#001428', fontSize: '12px' }
-                    },
-                    min: 0,
-                    tickAmount: 5
-                },
-                grid: {
-                    borderColor: '#f1f1f1',
-                    strokeDashArray: 3
-                },
-                tooltip: {
-                    theme: 'dark',
-                    y: {
-                        formatter: val => `${val} visits`
-                    }
-                },
-                noData: {
-                    text: 'No user behavior data found',
-                    align: 'center',
-                    verticalAlign: 'middle',
-                    style: { color: '#999', fontSize: '14px' }
-                }
-            };
+                        const options = {
+                            chart: {
+                                type: 'bar',
+                                height: 360,
+                                toolbar: { show: false },
+                                animations: {
+                                    enabled: true,
+                                    easing: 'easeinout',
+                                    speed: 900,
+                                    animateGradually: { enabled: true, delay: 150 },
+                                    dynamicAnimation: { enabled: true, speed: 450 }
+                                },
+                                fontFamily: 'Inter, sans-serif'
+                            },
+                            series: [{
+                                name: 'Page Visits',
+                                data: dataValues
+                            }],
+                            plotOptions: {
+                                bar: {
+                                    borderRadius: 9,
+                                    horizontal: false,
+                                    columnWidth: '55%',
+                                    distributed: false,
+                                    endingShape: 'rounded'
+                                }
+                            },
+                            colors: ['#ff5f0e'],
+                            fill: {
+                                type: 'gradient',
+                                gradient: {
+                                    shade: 'light',
+                                    gradientToColors: ['#001428'],
+                                    shadeIntensity: 0.6,
+                                    type: 'vertical',
+                                    opacityFrom: 0.9,
+                                    opacityTo: 0.5,
+                                    stops: [0, 100]
+                                }
+                            },
+                            dataLabels: { enabled: false },
+                            xaxis: {
+                                categories: labels,
+                                labels: {
+                                    style: { colors: '#001428', fontSize: '13px', fontWeight: 500 },
+                                    rotate: -15
+                                },
+                                axisTicks: { show: false },
+                                axisBorder: { show: false }
+                            },
+                            yaxis: {
+                                labels: {
+                                    style: { colors: '#001428', fontSize: '12px' }
+                                },
+                                min: 0,
+                                tickAmount: 5
+                            },
+                            grid: {
+                                borderColor: '#f1f1f1',
+                                strokeDashArray: 3
+                            },
+                            tooltip: {
+                                theme: 'dark',
+                                y: {
+                                    formatter: val => `${val} visits`
+                                }
+                            },
+                            noData: {
+                                text: 'No user behavior data found',
+                                align: 'center',
+                                verticalAlign: 'middle',
+                                style: { color: '#999', fontSize: '14px' }
+                            }
+                        };
 
-            const chart = new ApexCharts(chartEl, options);
-            chart.render();
-        });
-        </script>
+                        const chart = new ApexCharts(chartEl, options);
+                        chart.render();
+                    });
+                </script>
 
 @endsection
