@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -85,4 +86,22 @@ class AdminUserController extends Controller
 
         return redirect()->route('admin.users.list')->with('success', 'User deleted successfully.');
     }
+
+
+    public function show(User $user)
+{
+    // Aggregate most visited pages
+    $pageVisits = $user->activityLogs()
+        ->select('page_visited', DB::raw('COUNT(*) as total'))
+        ->groupBy('page_visited')
+        ->orderByDesc('total')
+        ->take(8)
+        ->get();
+
+    return view('admin.users.show', [
+        'user' => $user,
+        'pageVisits' => $pageVisits
+    ]);
+}
+
 }
