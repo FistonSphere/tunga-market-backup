@@ -358,38 +358,56 @@
             </div>
         @endif
     </div>
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteUserModal" class="delete-modal-overlay">
+        <div class="delete-modal">
+            <div class="modal-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#f44336" viewBox="0 0 16 16">
+                    <path
+                        d="M8.982 1.566a1.5 1.5 0 0 0-1.964 0L.165 7.233a1.5 1.5 0 0 0 0 2.134l6.853 5.667a1.5 1.5 0 0 0 1.964 0l6.853-5.667a1.5 1.5 0 0 0 0-2.134L8.982 1.566z" />
+                </svg>
+            </div>
+            <h3>Delete This User?</h3>
+            <p>You're about to permanently remove this user account and all its related data. This action <b>cannot</b> be
+                undone.</p>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+                <form id="deleteUserForm" method="POST" class="inline-form">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-delete">Yes, Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
     <script>
-        function confirmDeleteUser(id) {
-            const modal = document.createElement('div');
-            modal.className = 'confirm-modal-overlay';
-            modal.innerHTML = `
-                                        <div class="confirm-modal">
-                                            <div class="confirm-icon">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#f44336" viewBox="0 0 16 16">
-                                                    <path d="M8.982 1.566a1.5 1.5 0 0 0-1.964 0L.165 7.233a1.5 1.5 0 0 0 0 2.134l6.853 5.667a1.5 1.5 0 0 0 1.964 0l6.853-5.667a1.5 1.5 0 0 0 0-2.134L8.982 1.566z"/>
-                                                </svg>
-                                            </div>
-                                            <h3>Delete this user?</h3>
-                                            <p>This action will permanently remove the account and related data.</p>
-                                            <div class="confirm-actions">
-                                                <button class="btn cancel">Cancel</button>
-                                                <form method="POST" action="/admin/users/${id}" class="inline-form">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn delete">Yes, Delete</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    `;
-            document.body.appendChild(modal);
-            setTimeout(() => modal.classList.add('show'), 10);
-            modal.querySelector('.cancel').addEventListener('click', () => {
-                modal.classList.remove('show');
-                setTimeout(() => modal.remove(), 300);
-            });
+        function confirmDeleteUser(userId) {
+            const modal = document.getElementById('deleteUserModal');
+            const form = document.getElementById('deleteUserForm');
+
+            // Set the action dynamically
+            form.action = `/admin/users/${userId}/delete`;
+
+            // Show modal with animation
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden'; // prevent background scroll
         }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteUserModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('deleteUserModal');
+            if (e.target === modal) closeDeleteModal();
+        });
     </script>
+
 
 @endsection
