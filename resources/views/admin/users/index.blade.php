@@ -2,6 +2,71 @@
 
 @section('content')
     <style>
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .pagination-list {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            gap: 8px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 8px 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .pagination-list li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .pagination-list li a {
+            text-decoration: none;
+            color: #444;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            transition: all 0.25s ease;
+        }
+
+        .pagination-list li a:hover {
+            background-color: #ff6b00;
+            color: #fff;
+            box-shadow: 0 3px 6px rgba(255, 107, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .pagination-list li.active {
+            background-color: #ff6b00;
+            color: #fff;
+            box-shadow: 0 3px 6px rgba(255, 107, 0, 0.3);
+            pointer-events: none;
+        }
+
+        .pagination-list li.disabled {
+            color: #ccc;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .pagination-list li.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
         .users-container {
             padding: 20px 30px;
             background: #fff;
@@ -260,7 +325,38 @@
         </div>
 
         <!-- Pagination -->
-        <div class="pagination-wrapper mt-4">{{ $users->links() }}</div>
+        @if ($users->hasPages())
+            <div class="pagination-container">
+                <ul class="pagination-list">
+                    {{-- Previous Page Link --}}
+                    @if ($users->onFirstPage())
+                        <li class="disabled">&laquo;</li>
+                    @else
+                        <li>
+                            <a href="{{ $users->previousPageUrl() }}" rel="prev">&laquo;</a>
+                        </li>
+                    @endif
+
+                    {{-- Pagination Elements --}}
+                    @foreach ($users->links()->elements[0] ?? [] as $page => $url)
+                        @if ($page == $users->currentPage())
+                            <li class="active">{{ $page }}</li>
+                        @else
+                            <li><a href="{{ $url }}">{{ $page }}</a></li>
+                        @endif
+                    @endforeach
+
+                    {{-- Next Page Link --}}
+                    @if ($users->hasMorePages())
+                        <li>
+                            <a href="{{ $users->nextPageUrl() }}" rel="next">&raquo;</a>
+                        </li>
+                    @else
+                        <li class="disabled">&raquo;</li>
+                    @endif
+                </ul>
+            </div>
+        @endif
     </div>
 
 
@@ -269,24 +365,24 @@
             const modal = document.createElement('div');
             modal.className = 'confirm-modal-overlay';
             modal.innerHTML = `
-                            <div class="confirm-modal">
-                                <div class="confirm-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#f44336" viewBox="0 0 16 16">
-                                        <path d="M8.982 1.566a1.5 1.5 0 0 0-1.964 0L.165 7.233a1.5 1.5 0 0 0 0 2.134l6.853 5.667a1.5 1.5 0 0 0 1.964 0l6.853-5.667a1.5 1.5 0 0 0 0-2.134L8.982 1.566z"/>
-                                    </svg>
-                                </div>
-                                <h3>Delete this user?</h3>
-                                <p>This action will permanently remove the account and related data.</p>
-                                <div class="confirm-actions">
-                                    <button class="btn cancel">Cancel</button>
-                                    <form method="POST" action="/admin/users/${id}" class="inline-form">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn delete">Yes, Delete</button>
-                                    </form>
-                                </div>
-                            </div>
-                        `;
+                                        <div class="confirm-modal">
+                                            <div class="confirm-icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="#f44336" viewBox="0 0 16 16">
+                                                    <path d="M8.982 1.566a1.5 1.5 0 0 0-1.964 0L.165 7.233a1.5 1.5 0 0 0 0 2.134l6.853 5.667a1.5 1.5 0 0 0 1.964 0l6.853-5.667a1.5 1.5 0 0 0 0-2.134L8.982 1.566z"/>
+                                                </svg>
+                                            </div>
+                                            <h3>Delete this user?</h3>
+                                            <p>This action will permanently remove the account and related data.</p>
+                                            <div class="confirm-actions">
+                                                <button class="btn cancel">Cancel</button>
+                                                <form method="POST" action="/admin/users/${id}" class="inline-form">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn delete">Yes, Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
             modal.querySelector('.cancel').addEventListener('click', () => {
