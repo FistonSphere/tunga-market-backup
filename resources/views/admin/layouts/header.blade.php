@@ -293,7 +293,7 @@
                                     Users</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{{ route('admin.users.list') }}" class="{{ request()->routeIs('admin.users.list') ? 'active' : '' }}">User Listing</a></li>
-                                <li><a href="userlists.html">Users List</a></li>
+                                
                             </ul>
                         </li>
 
