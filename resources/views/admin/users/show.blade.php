@@ -564,7 +564,7 @@
                 </div>
 
                 <div class="user-actions">
-                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-outline-primary me-2">
+                    <a href="javascript:void()" onclick="window.history.back()" class="btn btn-outline-primary me-2">
                         Back
                     </a>
                     <button class="btn btn-outline-danger delete"
