@@ -86,10 +86,14 @@ class AdminUserController extends Controller
               ->orWhere('phone', 'like', "%{$search}%");
         });
     }
-
-    if ($role = $request->get('role')) {
-        $query->where('role', $role);
+if ($role = $request->get('role')) {
+    if ($role === 'admin') {
+        $query->where('is_admin', 'yes');
+    } elseif ($role === 'customer') {
+        $query->where('is_admin', 'no');
     }
+}
+
 
     $users = $query->latest()->paginate(10);
 

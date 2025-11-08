@@ -350,9 +350,9 @@
                 <select name="role" class="filter-select">
                     <option value="">All Roles</option>
                     <option value="admin" @selected(request('role') == 'admin')>Admin</option>
-                    <option value="vendor" @selected(request('role') == 'vendor')>Vendor</option>
                     <option value="customer" @selected(request('role') == 'customer')>Customer</option>
                 </select>
+
                 <button type="submit" class="btn-filter2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
                         viewBox="0 0 16 16">
@@ -484,41 +484,41 @@
 
             const tableWrapper = document.querySelector('#usersTableContainer');
 
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-            const formData = new FormData(form);
-            const params = new URLSearchParams(formData).toString();
+                const formData = new FormData(form);
+                const params = new URLSearchParams(formData).toString();
 
-            tableWrapper.classList.add('loading'); // show loading state
+                tableWrapper.classList.add('loading'); // show loading state
 
-            fetch(`{{ route('admin.users.list') }}?${params}`, {
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
-            })
-            .then(res => res.json())
-            .then(data => {
-                tableContainer.innerHTML = data.html;
-                tableWrapper.classList.remove('loading'); // hide loading
-            })
-            .catch(err => {
-                console.error('AJAX error:', err);
-                tableWrapper.classList.remove('loading');
+                fetch(`{{ route('admin.users.list') }}?${params}`, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        tableContainer.innerHTML = data.html;
+                        tableWrapper.classList.remove('loading'); // hide loading
+                    })
+                    .catch(err => {
+                        console.error('AJAX error:', err);
+                        tableWrapper.classList.remove('loading');
+                    });
             });
+
+            // --- Optional live search ---
+            const searchInput = form.querySelector('input[name="search"]');
+            searchInput.addEventListener('keyup', function () {
+                clearTimeout(this.delay);
+                this.delay = setTimeout(() => form.dispatchEvent(new Event('submit')), 400);
+            });
+
+            // --- Auto-submit on dropdown change ---
+            const roleSelect = form.querySelector('select[name="role"]');
+            roleSelect.addEventListener('change', () => form.dispatchEvent(new Event('submit')));
         });
 
-        // --- Optional live search ---
-        const searchInput = form.querySelector('input[name="search"]');
-        searchInput.addEventListener('keyup', function () {
-            clearTimeout(this.delay);
-            this.delay = setTimeout(() => form.dispatchEvent(new Event('submit')), 400);
-        });
-
-        // --- Auto-submit on dropdown change ---
-        const roleSelect = form.querySelector('select[name="role"]');
-        roleSelect.addEventListener('change', () => form.dispatchEvent(new Event('submit')));
-    });
-
-       </script>
+    </script>
 
 
 
