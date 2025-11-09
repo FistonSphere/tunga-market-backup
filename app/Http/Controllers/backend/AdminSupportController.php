@@ -5,56 +5,95 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Models\ContactRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class AdminSupportController extends Controller
 {
-   public function index(Request $request)
+  public function index(){
+     $contacts = ContactRequest::latest()->paginate(10);
+        return view('admin.support.contact-request', compact('contacts'));
+  }
+
+
+  public function show(ContactRequest $contact)
     {
-        $query = ContactRequest::query();
+        return view('admin.support.show-contact-request', compact('contact'));
+    }
 
-        // Filter by status or priority
-        if ($status = $request->get('status')) {
-            $query->where('status', $status);
-        }
+    public function reply(Request $request, ContactRequest $contact)
+    {
+        $validated = $request->validate([
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|max:2000',
+        ]);
 
-        if ($priority = $request->get('priority')) {
-            $query->where('priority', $priority);
-        }
+        $subject = $validated['subject'];
+        $messageText = $validated['message'];
 
-        if ($search = $request->get('search')) {
-            $query->where(function ($q) use ($search) {
-                $q->where('first_name', 'like', "%$search%")
-                  ->orWhere('last_name', 'like', "%$search%")
-                  ->orWhere('email', 'like', "%$search%")
-                  ->orWhere('subject', 'like', "%$search%");
+        /**
+         * =====================
+         * ✉️ EMAIL SENDING
+         * =====================
+         */
+        try {
+            $emailContent = view('emails.reply_contact', [
+                'contact' => $contact,
+                'messageText' => $messageText,
+            ])->render();
+
+            Mail::send([], [], function ($message) use ($contact, $subject, $emailContent) {
+                $message->to($contact->email)
+                    ->subject($subject)
+                    ->html($emailContent);
             });
+
+            Log::info("✅ Contact email sent successfully to {$contact->email}");
+        } catch (\Exception $e) {
+            Log::error("❌ Failed to send email to contact: " . $e->getMessage());
         }
 
-        $requests = $query->latest()->paginate(10);
+        /**
+         * =====================
+         * 📱 SMS SENDING (MISTA.IO)
+         * =====================
+         */
+        if ($contact->phone) {
+            $apiToken = config('services.mista.api_token');
+            $senderId = config('services.mista.sender_id');
 
-        if ($request->ajax()) {
-            return response()->json([
-                'html' => view('admin.support.partials.table', compact('requests'))->render(),
-            ]);
+            // format phone number to 2507... if Rwandan MTN
+            $phone = preg_replace('/[^0-9]/', '', $contact->phone);
+            if (Str::startsWith($phone, '07')) {
+                $phone = '250' . substr($phone, 1);
+            }
+
+            $smsMessage = "Hello {$contact->first_name},\n\n"
+                . "Our support team has replied to your contact request (#{$contact->ticket}).\n\n"
+                . "Message: {$messageText}\n\n"
+                . "Thank you for reaching out to us.";
+
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $apiToken,
+                    'accept' => 'application/json',
+                    'content-type' => 'application/json',
+                ])->post('https://api.mista.io/sms', [
+                    'to' => $phone,
+                    'from' => $senderId,
+                    'message' => $smsMessage,
+                ]);
+
+                Log::info('📩 SMS Response: ' . $response->body());
+            } catch (\Exception $e) {
+                Log::error('❌ SMS sending failed: ' . $e->getMessage());
+            }
         }
 
-        return view('admin.support.contact-request', compact('requests'));
-    }
+        $contact->update(['status' => 'Resolved']);
 
-public function show(ContactRequest $contact)
-{
-    // Return partial view for AJAX
-    if (request()->ajax()) {
-        return view('admin.support.partials.view', compact('contact'))->render();
-    }
-
-    // Fallback (in case accessed directly)
-    return redirect()->route('admin.support.contactRequests');
-}
-
-    public function updateStatus(Request $request, ContactRequest $contact)
-    {
-        $contact->update(['status' => $request->status]);
-        return response()->json(['success' => true]);
+        return back()->with('success', 'Reply sent successfully via Email and SMS.');
     }
 }

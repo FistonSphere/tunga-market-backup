@@ -1,186 +1,213 @@
 @extends('admin.layouts.header')
 
 
+
 @section('content')
     <style>
-        .contact-requests-page .filters select,
-        .contact-requests-page .filters input {
-            border-radius: 10px;
-            border: 1px solid #ddd;
+        .contact-management-container {
+            padding: 1rem 0;
+        }
+
+        .page-title {
+            font-weight: 600;
+        }
+
+        .contact-table tbody tr:hover {
+            background-color: #f9fafb;
             transition: all 0.2s ease;
         }
 
-        .contact-requests-page .filters input:focus,
-        .contact-requests-page .filters select:focus {
-            border-color: #ff5f0e;
-            box-shadow: 0 0 4px rgba(255, 95, 14, 0.4);
+        .badge.status-pending {
+            background-color: #ffc107;
+            color: #000;
         }
 
-        .status-dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 5px;
+        .badge.status-in-progress {
+            background-color: #0dcaf0;
         }
 
-        .status-pending {
-            background: #ffc107;
+        .badge.status-resolved {
+            background-color: #198754;
         }
 
-        .status-in_progress {
-            background: #0d6efd;
+        .badge.priority-low {
+            background-color: #a3e635;
+            color: #000;
         }
 
-        .status-resolved {
-            background: #198754;
+        .badge.priority-medium {
+            background-color: #f59e0b;
         }
 
-        .copy-ticket {
-            cursor: pointer;
-        }
-
-        .copy-ticket:hover {
-            background-color: #001428 !important;
+        .badge.priority-high {
+            background-color: #dc2626;
         }
     </style>
-    <div class="contact-requests-page">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="fw-bold mb-0">Client Contact Requests</h4>
-            <div class="filters d-flex gap-2">
-                <input type="text" name="search" id="searchContact" placeholder="Search name, email or subject..."
-                    class="form-control form-control-sm" style="width: 260px;">
-
-                <select id="filterStatus" class="form-select form-select-sm">
-                    <option value="">All Statuses</option>
-                    <option value="pending">Pending</option>
-                    <option value="in_progress">In Progress</option>
-                    <option value="resolved">Resolved</option>
-                </select>
-
-                <select id="filterPriority" class="form-select form-select-sm">
-                    <option value="">All Priorities</option>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                </select>
+    <div class="contact-management-container">
+        <!-- Header Section -->
+        <div class="header-bar d-flex align-items-center justify-content-between mb-4">
+            <div>
+                <h2 class="page-title"><i class="bi bi-chat-dots-fill"></i> Contact Requests</h2>
+                <p class="text-muted">Manage and respond to client messages submitted via Contact Us form.</p>
+            </div>
+            <div>
+                <form method="GET" class="d-flex gap-2">
+                    <select name="status" class="form-select form-select-sm">
+                        <option value="">All Statuses</option>
+                        <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="In Progress" {{ request('status') == 'In Progress' ? 'selected' : '' }}>In Progress
+                        </option>
+                        <option value="Resolved" {{ request('status') == 'Resolved' ? 'selected' : '' }}>Resolved</option>
+                    </select>
+                    <select name="priority" class="form-select form-select-sm">
+                        <option value="">All Priorities</option>
+                        <option value="low" {{ request('priority') == 'low' ? 'selected' : '' }}>Low</option>
+                        <option value="medium" {{ request('priority') == 'medium' ? 'selected' : '' }}>Medium</option>
+                        <option value="high" {{ request('priority') == 'high' ? 'selected' : '' }}>High</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm"><i class="bi bi-funnel"></i> Filter</button>
+                </form>
             </div>
         </div>
 
-        <div id="contactsTableContainer">
-            @include('admin.support.partials.table', ['requests' => $requests])
+        <!-- Table Section -->
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0 contact-table">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Ticket</th>
+                            <th>Client</th>
+                            <th>Subject</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($contacts as $contact)
+                            <tr>
+                                <td><strong>{{ $contact->ticket }}</strong></td>
+                                <td>
+                                    <div>{{ $contact->first_name }} {{ $contact->last_name }}</div>
+                                    <small class="text-muted">{{ $contact->email }}</small>
+                                </td>
+                                <td>{{ Str::limit($contact->subject, 40) }}</td>
+                                <td>
+                                    <span
+                                        class="badge priority-{{ strtolower($contact->priority) }}">{{ ucfirst($contact->priority) }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="badge status-{{ strtolower(str_replace(' ', '-', $contact->status)) }}">{{ $contact->status }}</span>
+                                </td>
+                                <td>{{ $contact->created_at->format('d M Y, H:i') }}</td>
+                                <td>
+                                    <button class="btn btn-outline-primary btn-sm view-contact" data-bs-toggle="modal"
+                                        data-bs-target="#viewContactModal"
+                                        data-contact="{{ htmlspecialchars(json_encode($contact), ENT_QUOTES, 'UTF-8') }}">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <button class="btn btn-outline-success btn-sm reply-contact" data-bs-toggle="modal"
+                                        data-bs-target="#replyContactModal" data-id="{{ $contact->id }}">
+                                        <i class="bi bi-reply"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-4">No contact requests found.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            {{ $contacts->links() }}
         </div>
     </div>
 
-    <!-- Contact View Modal -->
-    <div class="modal fade" id="contactViewModal" tabindex="-1" aria-labelledby="contactViewLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content border-0 rounded-4 shadow-lg">
-                <div class="modal-header border-0 bg-light">
-                    <h5 class="modal-title fw-bold text-primary" id="contactViewLabel">
-                        <i class="bi bi-envelope-paper text-primary me-2"></i> Contact Request Details
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- View Contact Modal -->
+    <div class="modal fade" id="viewContactModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow-lg border-0">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-person-lines-fill"></i> Contact Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body p-4" id="contactViewBody">
-                    <div class="text-center text-muted py-5">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <p class="mt-3">Loading contact details...</p>
+                <div class="modal-body">
+                    <div id="contactDetails" class="p-3">
+                        <p class="text-center text-muted">Loading...</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Reply Modal -->
+    <div class="modal fade" id="replyContactModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow-lg border-0">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title"><i class="bi bi-envelope-paper"></i> Reply to Contact</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" action="{{ route('admin.contacts.reply') }}">
+                    @csrf
+                    <input type="hidden" name="contact_id" id="reply_contact_id">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-control" name="message" rows="5"
+                                placeholder="Type your reply..."></textarea>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" name="send_sms" class="form-check-input" id="sendSMS">
+                            <label for="sendSMS" class="form-check-label">Send as SMS too</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">Send Reply</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const container = document.querySelector('#contactsTableContainer');
-            const filters = ['#searchContact', '#filterStatus', '#filterPriority'];
-
-            filters.forEach(sel => {
-                document.querySelector(sel).addEventListener('input', filterContacts);
-            });
-
-            function filterContacts() {
-                const params = new URLSearchParams({
-                    search: document.querySelector('#searchContact').value,
-                    status: document.querySelector('#filterStatus').value,
-                    priority: document.querySelector('#filterPriority').value,
+            document.addEventListener('DOMContentLoaded', () => {
+                const viewBtns = document.querySelectorAll('.view-contact');
+                viewBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const contact = JSON.parse(btn.getAttribute('data-contact'));
+                        const html = `
+                                <div class="contact-summary">
+                                    <h5><i class="bi bi-ticket"></i> Ticket: <strong>${contact.ticket}</strong></h5>
+                                    <hr>
+                                    <p><strong>Name:</strong> ${contact.first_name} ${contact.last_name}</p>
+                                    <p><strong>Email:</strong> ${contact.email}</p>
+                                    <p><strong>Phone:</strong> ${contact.phone ?? 'N/A'}</p>
+                                    <p><strong>Company:</strong> ${contact.company ?? '-'}</p>
+                                    <p><strong>Role:</strong> ${contact.role ?? '-'}</p>
+                                    <p><strong>Subject:</strong> ${contact.subject}</p>
+                                    <p><strong>Message:</strong> ${contact.message}</p>
+                                    <p><strong>Status:</strong> <span class="badge status-${contact.status.toLowerCase().replace(' ', '-')}">${contact.status}</span></p>
+                                    <p><strong>Priority:</strong> <span class="badge priority-${contact.priority}">${contact.priority}</span></p>
+                                </div>`;
+                        document.getElementById('contactDetails').innerHTML = html;
+                    });
                 });
 
-                fetch(`{{ route('admin.support.contactRequests') }}?${params.toString()}`, {
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                })
-                    .then(res => res.json())
-                    .then(data => container.innerHTML = data.html)
-                    .catch(err => console.error('Error loading contacts:', err));
-            }
-
-            // View modal
-            document.addEventListener('click', function (e) {
-                if (e.target.closest('.view-contact')) {
-                    const id = e.target.closest('.view-contact').dataset.id;
-                    fetch(`/admin/support/contact-requests/${id}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            document.querySelector('#contactModalBody').innerHTML = data.html;
-                            new bootstrap.Modal('#contactViewModal').show();
-                        });
-                }
-            });
-
-            // Copy ticket
-            document.addEventListener('click', e => {
-                if (e.target.closest('.copy-ticket')) {
-                    const ticket = e.target.closest('.copy-ticket').dataset.ticket;
-                    navigator.clipboard.writeText(ticket);
-                    e.target.textContent = 'Copied!';
-                    setTimeout(() => e.target.textContent = ticket, 1000);
-                }
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const modal = new bootstrap.Modal(document.getElementById('contactViewModal'));
-            const modalBody = document.getElementById('contactViewBody');
-
-            document.body.addEventListener('click', function (e) {
-                const btn = e.target.closest('.view-contact');
-                if (!btn) return;
-
-                const contactId = btn.dataset.id;
-                modalBody.innerHTML = `
-                <div class="text-center text-muted py-5">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <p class="mt-3">Loading contact details...</p>
-                </div>
-            `;
-                modal.show();
-
-                fetch(`/admin/support/contact-requests/${contactId}`)
-                    .then(response => {
-                        if (!response.ok) throw new Error('Failed to load contact details');
-                        return response.text();
-                    })
-                    .then(html => {
-                        modalBody.innerHTML = html;
-                    })
-                    .catch(error => {
-                        modalBody.innerHTML = `
-                        <div class="text-center text-danger py-5">
-                            <i class="bi bi-exclamation-triangle fs-3"></i>
-                            <p class="mt-2">Failed to load contact details. Please try again.</p>
-                        </div>
-                    `;
-                        console.error('Error:', error);
+                const replyBtns = document.querySelectorAll('.reply-contact');
+                replyBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.getElementById('reply_contact_id').value = btn.dataset.id;
                     });
+                });
             });
-        });
-    </script>
-
+        </script>
 @endsection
