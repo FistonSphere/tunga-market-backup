@@ -297,7 +297,7 @@
                             </ul>
                         </li>
                         <li class="submenu {{ request()->is('admin/users*') }}">
-                            <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/users1.svg')}}"
+                            <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/customer-support.png')}}"
                                     alt="img"><span>
                                     Customer Support</span> <span class="menu-arrow"></span></a>
                             <ul>
