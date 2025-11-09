@@ -109,9 +109,9 @@
                                         data-contact="{{ htmlspecialchars(json_encode($contact), ENT_QUOTES, 'UTF-8') }}">
                                         <i class="bi bi-eye"></i>
                                     </button>
-                                    <button class="btn btn-outline-success btn-sm reply-contact" data-bs-toggle="modal"
-                                        data-bs-target="#replyContactModal" data-id="{{ $contact->id }}">
-                                        <i class="bi bi-reply"></i>
+                                    <button class="btn-reply" data-bs-toggle="modal" data-bs-target="#replyModal"
+                                        data-contact="{{ json_encode($contact) }}">
+                                        <i class="bi bi-reply"></i> Reply
                                     </button>
                                 </td>
                             </tr>
@@ -179,35 +179,56 @@
     </div>
 
     <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const viewBtns = document.querySelectorAll('.view-contact');
-                viewBtns.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const contact = JSON.parse(btn.getAttribute('data-contact'));
-                        const html = `
-                                <div class="contact-summary">
-                                    <h5><i class="bi bi-ticket"></i> Ticket: <strong>${contact.ticket}</strong></h5>
-                                    <hr>
-                                    <p><strong>Name:</strong> ${contact.first_name} ${contact.last_name}</p>
-                                    <p><strong>Email:</strong> ${contact.email}</p>
-                                    <p><strong>Phone:</strong> ${contact.phone ?? 'N/A'}</p>
-                                    <p><strong>Company:</strong> ${contact.company ?? '-'}</p>
-                                    <p><strong>Role:</strong> ${contact.role ?? '-'}</p>
-                                    <p><strong>Subject:</strong> ${contact.subject}</p>
-                                    <p><strong>Message:</strong> ${contact.message}</p>
-                                    <p><strong>Status:</strong> <span class="badge status-${contact.status.toLowerCase().replace(' ', '-')}">${contact.status}</span></p>
-                                    <p><strong>Priority:</strong> <span class="badge priority-${contact.priority}">${contact.priority}</span></p>
-                                </div>`;
-                        document.getElementById('contactDetails').innerHTML = html;
-                    });
-                });
-
-                const replyBtns = document.querySelectorAll('.reply-contact');
-                replyBtns.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.getElementById('reply_contact_id').value = btn.dataset.id;
-                    });
+        document.addEventListener('DOMContentLoaded', () => {
+            const viewBtns = document.querySelectorAll('.view-contact');
+            viewBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const contact = JSON.parse(btn.getAttribute('data-contact'));
+                    const html = `
+                                            <div class="contact-summary">
+                                                <h5><i class="bi bi-ticket"></i> Ticket: <strong>${contact.ticket}</strong></h5>
+                                                <hr>
+                                                <p><strong>Name:</strong> ${contact.first_name} ${contact.last_name}</p>
+                                                <p><strong>Email:</strong> ${contact.email}</p>
+                                                <p><strong>Phone:</strong> ${contact.phone ?? 'N/A'}</p>
+                                                <p><strong>Company:</strong> ${contact.company ?? '-'}</p>
+                                                <p><strong>Role:</strong> ${contact.role ?? '-'}</p>
+                                                <p><strong>Subject:</strong> ${contact.subject}</p>
+                                                <p><strong>Message:</strong> ${contact.message}</p>
+                                                <p><strong>Status:</strong> <span class="badge status-${contact.status.toLowerCase().replace(' ', '-')}">${contact.status}</span></p>
+                                                <p><strong>Priority:</strong> <span class="badge priority-${contact.priority}">${contact.priority}</span></p>
+                                            </div>`;
+                    document.getElementById('contactDetails').innerHTML = html;
                 });
             });
-        </script>
+
+            const replyBtns = document.querySelectorAll('.reply-contact');
+            replyBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('reply_contact_id').value = btn.dataset.id;
+                });
+            });
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const replyModal = document.getElementById('replyModal');
+            const replyForm = document.getElementById('replyForm');
+            const previewName = document.getElementById('preview-name');
+            const previewMessage = document.getElementById('preview-message');
+            const messageField = replyForm.querySelector('textarea[name="message"]');
+
+            replyModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const contact = JSON.parse(button.getAttribute('data-contact'));
+
+                replyForm.action = `/admin/support/contact-requests/${contact.id}/reply`;
+                previewName.textContent = contact.first_name;
+
+                messageField.addEventListener('input', () => {
+                    previewMessage.textContent = messageField.value;
+                });
+            });
+        });
+    </script>
 @endsection
