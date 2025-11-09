@@ -41,12 +41,16 @@ class AdminSupportController extends Controller
         return view('admin.support.contact-request', compact('requests'));
     }
 
-    public function show(ContactRequest $contact)
-    {
-        return response()->json([
-            'html' => view('admin.support.partials.view', compact('contact'))->render(),
-        ]);
+public function show(ContactRequest $contact)
+{
+    // Return partial view for AJAX
+    if (request()->ajax()) {
+        return view('admin.support.partials.view', compact('contact'))->render();
     }
+
+    // Fallback (in case accessed directly)
+    return redirect()->route('admin.support.contactRequests');
+}
 
     public function updateStatus(Request $request, ContactRequest $contact)
     {

@@ -34,9 +34,11 @@
                 </td>
                 <td>{{ $contact->created_at->diffForHumans() }}</td>
                 <td class="text-center">
-                    <button class="btn btn-sm btn-outline-primary view-contact" data-id="{{ $contact->id }}">
-                        View
+                    <button class="btn btn-sm btn-outline-primary view-contact d-inline-flex align-items-center gap-1"
+                        data-id="{{ $contact->id }}">
+                        <i class="bi bi-eye"></i> View
                     </button>
+
                 </td>
             </tr>
         @empty
