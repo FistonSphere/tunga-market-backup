@@ -207,102 +207,14 @@
     {{-- ============================= --}}
     {{-- VIEW MODAL --}}
     {{-- ============================= --}}
-    <div class="modal fade" id="viewContactModal" tabindex="-1" aria-labelledby="viewContactModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-light">
-                    <h5 class="modal-title"><i class="bi bi-person-lines-fill"></i> Contact Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body" id="contactDetails">
-                    <div class="text-center text-muted">Loading...</div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
     {{-- ============================= --}}
     {{-- REPLY MODAL --}}
     {{-- ============================= --}}
-    <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content reply-modal-content">
-                <div class="modal-header bg-light">
-                    <h5 class="modal-title"><i class="bi bi-envelope-paper"></i> Reply to Contact</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form method="POST" id="replyForm">
-                    @csrf
-                    <div class="modal-body">
-                        <label>Subject</label>
-                        <input type="text" name="subject" class="form-control" placeholder="Enter subject...">
-
-                        <label class="mt-3">Message</label>
-                        <textarea name="message" rows="5" class="form-control"
-                            placeholder="Type your message..."></textarea>
-
-                        <div class="template-preview mt-3">
-                            <h6><i class="bi bi-eye"></i> Preview</h6>
-                            <div class="border rounded p-3 bg-light">
-                                <p>Dear <span id="preview-name">Customer</span>,</p>
-                                <p id="preview-message" class="text-muted">Your message will appear here...</p>
-                                <p>Best regards,<br>Support Team</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success"><i class="bi bi-send"></i> Send Reply</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+   
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
+ 
 
-            // View Modal
-            document.querySelectorAll('.view-contact').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const contact = JSON.parse(btn.dataset.contact);
-                    const html = `
-                    <div class="contact-summary">
-                        <h5><i class="bi bi-ticket"></i> Ticket: <strong>${contact.ticket}</strong></h5>
-                        <hr>
-                        <p><strong>Name:</strong> ${contact.first_name} ${contact.last_name}</p>
-                        <p><strong>Email:</strong> ${contact.email}</p>
-                        <p><strong>Phone:</strong> ${contact.phone ?? 'N/A'}</p>
-                        <p><strong>Company:</strong> ${contact.company ?? '-'}</p>
-                        <p><strong>Role:</strong> ${contact.role ?? '-'}</p>
-                        <p><strong>Subject:</strong> ${contact.subject}</p>
-                        <p><strong>Message:</strong> ${contact.message}</p>
-                        <p><strong>Status:</strong> <span class="badge bg-info">${contact.status}</span></p>
-                        <p><strong>Priority:</strong> <span class="badge bg-${contact.priority == 'high' ? 'danger' : (contact.priority == 'medium' ? 'warning' : 'success')}">${contact.priority}</span></p>
-                    </div>`;
-                    document.getElementById('contactDetails').innerHTML = html;
-                });
-            });
-
-            // Reply Modal
-            const replyModal = document.getElementById('replyModal');
-            const replyForm = document.getElementById('replyForm');
-            const previewName = document.getElementById('preview-name');
-            const previewMessage = document.getElementById('preview-message');
-            const messageField = replyForm.querySelector('textarea[name="message"]');
-
-            replyModal.addEventListener('show.bs.modal', event => {
-                const button = event.relatedTarget;
-                const contact = JSON.parse(button.getAttribute('data-contact'));
-                replyForm.action = `/admin/support/contact-requests/${contact.id}/reply`;
-                previewName.textContent = contact.first_name;
-                previewMessage.textContent = '';
-                messageField.value = '';
-
-                messageField.addEventListener('input', () => {
-                    previewMessage.textContent = messageField.value || 'Your message will appear here...';
-                });
-            });
-        });
-    </script>
 @endsection
