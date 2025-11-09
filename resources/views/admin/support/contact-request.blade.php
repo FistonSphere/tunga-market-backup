@@ -182,10 +182,9 @@
                                     </button>
 
                                     {{-- REPLY BUTTON --}}
-                                    <button class="btn btn-primary btn-sm reply-contact" data-bs-toggle="modal"
-                                        data-bs-target="#replyModal"
-                                        data-contact="{{ htmlspecialchars(json_encode($contact), ENT_QUOTES, 'UTF-8') }}">
-                                        <i class="bi bi-reply"></i> Reply
+                                    <button class="btn-reply"
+                                        onclick="openReplyModal('{{ $contact->id }}', '{{ addslashes($contact->message) }}', '{{ $contact->status }}')">
+                                        <i class="bi bi-chat-dots-fill"></i> Reply
                                     </button>
                                 </td>
                             </tr>
@@ -199,22 +198,75 @@
             </div>
         </div>
 
-        <div class="mt-4">
-            {{ $contacts->links() }}
-        </div>
+        @if ($contacts->hasPages())
+            <div class="pagination-container">
+                <ul class="pagination-list">
+                    {{-- Previous Page Link --}}
+                    @if ($contacts->onFirstPage())
+                        <li class="disabled">&laquo;</li>
+                    @else
+                        <li>
+                            <a href="{{ $contacts->previousPageUrl() }}" rel="prev">&laquo;</a>
+                        </li>
+                    @endif
+
+                    {{-- Pagination Elements --}}
+                    @foreach ($contacts->links()->elements[0] ?? [] as $page => $url)
+                        @if ($page == $contacts->currentPage())
+                            <li class="active">{{ $page }}</li>
+                        @else
+                            <li><a href="{{ $url }}">{{ $page }}</a></li>
+                        @endif
+                    @endforeach
+
+                    {{-- Next Page Link --}}
+                    @if ($contacts->hasMorePages())
+                        <li>
+                            <a href="{{ $contacts->nextPageUrl() }}" rel="next">&raquo;</a>
+                        </li>
+                    @else
+                        <li class="disabled">&raquo;</li>
+                    @endif
+                </ul>
+            </div>
+        @endif
     </div>
 
     {{-- ============================= --}}
     {{-- VIEW MODAL --}}
     {{-- ============================= --}}
-   
+
 
     {{-- ============================= --}}
     {{-- REPLY MODAL --}}
+    <!-- 📨 Reply Modal -->
+    <div id="replyModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="bi bi-reply-all-fill"></i> Reply to contact request</h3>
+            <p id="issueMessage"></p>
+            <form id="replyForm" method="POST" action="{{ route('admin.contacts.reply') }}">
+                @csrf
+                <input type="hidden" name="contact_id" id="contactId">
+
+                <textarea name="reply_message" placeholder="Type your reply..." required></textarea>
+
+                <label for="status">Status:</label>
+                <select name="status" id="statusSelect" required>
+                    <option value="pending">Pending</option>
+                    <option value="resolved">Resolved</option>
+                </select>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn-submit">Send Reply</button>
+                    <button type="button" class="btn-cancel" onclick="closeReplyModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
     {{-- ============================= --}}
-   
 
 
- 
+
+
 
 @endsection
