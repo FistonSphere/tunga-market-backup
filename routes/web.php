@@ -365,9 +365,9 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
  //contact request routes
     Route::prefix('support')->controller(AdminSupportController::class)->group(function () {
         Route::get('/contact-requests',  'index')->name('admin.support.contactRequests');
+        Route::post('/contact-requests/reply',  'reply')->name('admin.contacts.reply');
         Route::get('/contact-requests/{contact}',  'show')->name('admin.support.contactRequest.show');
         Route::post('/contact-requests/{contact}/update-status',  'updateStatus')->name('admin.support.contactRequest.updateStatus');
-        Route::post('/contact-requests/reply',  'reply')->name('admin.contacts.reply');
  //contact request routes
 });
 // admin with no authentication middleware routes
