@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\backend\AdminEnquiryController;
 use App\Http\Controllers\backend\AdminOrderManagementController;
 use App\Http\Controllers\backend\AdminProductIssueController;
+use App\Http\Controllers\backend\AdminSupportController;
 use App\Http\Controllers\backend\AdminUserController;
 use App\Http\Controllers\backend\DeliveryTransportController;
 use App\Http\Controllers\backend\HomeAdminController;
@@ -361,5 +362,12 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
     });
  //user management routes
 
+ //contact request routes
+    Route::prefix('support')->controller(AdminSupportController::class)->group(function () {
+        Route::get('/contact-requests',  'index')->name('admin.support.contactRequests');
+        Route::get('/contact-requests/{contact}',  'show')->name('admin.support.contactRequest.show');
+        Route::post('/contact-requests/{contact}/update-status',  'updateStatus')->name('admin.support.contactRequest.updateStatus');
+ //contact request routes
 });
 // admin with no authentication middleware routes
+});
