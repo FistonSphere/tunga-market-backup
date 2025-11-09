@@ -174,24 +174,18 @@
                                 </td>
                                 <td>{{ $contact->created_at->format('d M Y, H:i') }}</td>
                                 <td>
+                                    {{-- VIEW BUTTON --}}
                                     <button class="btn btn-outline-primary btn-sm view-contact" data-bs-toggle="modal"
                                         data-bs-target="#viewContactModal"
                                         data-contact="{{ htmlspecialchars(json_encode($contact), ENT_QUOTES, 'UTF-8') }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                            class="bi bi-eye" viewBox="0 0 16 16">
-                                            <path
-                                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
-                                            <path
-                                                d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
-                                        </svg>
+                                        <i class="bi bi-eye"></i>
                                     </button>
-                                    <button class="btn-reply" data-bs-toggle="modal" data-bs-target="#replyModal"
-                                        data-contact="{{ json_encode($contact) }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                            class="bi bi-reply" viewBox="0 0 16 16">
-                                            <path
-                                                d="M6.598 5.013a.144.144 0 0 1 .202.134V6.3a.5.5 0 0 0 .5.5c.667 0 2.013.005 3.3.822.984.624 1.99 1.76 2.595 3.876-1.02-.983-2.185-1.516-3.205-1.799a8.7 8.7 0 0 0-1.921-.306 7 7 0 0 0-.798.008h-.013l-.005.001h-.001L7.3 9.9l-.05-.498a.5.5 0 0 0-.45.498v1.153c0 .108-.11.176-.202.134L2.614 8.254l-.042-.028a.147.147 0 0 1 0-.252l.042-.028zM7.8 10.386q.103 0 .223.006c.434.02 1.034.086 1.7.271 1.326.368 2.896 1.202 3.94 3.08a.5.5 0 0 0 .933-.305c-.464-3.71-1.886-5.662-3.46-6.66-1.245-.79-2.527-.942-3.336-.971v-.66a1.144 1.144 0 0 0-1.767-.96l-3.994 2.94a1.147 1.147 0 0 0 0 1.946l3.994 2.94a1.144 1.144 0 0 0 1.767-.96z" />
-                                        </svg> Reply
+
+                                    {{-- REPLY BUTTON --}}
+                                    <button class="btn btn-primary btn-sm reply-contact" data-bs-toggle="modal"
+                                        data-bs-target="#replyModal"
+                                        data-contact="{{ htmlspecialchars(json_encode($contact), ENT_QUOTES, 'UTF-8') }}">
+                                        <i class="bi bi-reply"></i> Reply
                                     </button>
                                 </td>
                             </tr>
@@ -210,103 +204,103 @@
         </div>
     </div>
 
-    <!-- View Contact Modal -->
-    <div class="modal fade" id="viewContactModal" tabindex="-1" aria-hidden="true">
+    {{-- ============================= --}}
+    {{-- VIEW MODAL --}}
+    {{-- ============================= --}}
+    <div class="modal fade" id="viewContactModal" tabindex="-1" aria-labelledby="viewContactModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content rounded-4 shadow-lg border-0">
-                <div class="modal-header bg-primary text-white">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
                     <h5 class="modal-title"><i class="bi bi-person-lines-fill"></i> Contact Details</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    <div id="contactDetails" class="p-3">
-                        <p class="text-center text-muted">Loading...</p>
-                    </div>
+                <div class="modal-body" id="contactDetails">
+                    <div class="text-center text-muted">Loading...</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Reply Modal -->
-    <div class="modal fade" id="replyContactModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 shadow-lg border-0">
-                <div class="modal-header bg-success text-white">
+    {{-- ============================= --}}
+    {{-- REPLY MODAL --}}
+    {{-- ============================= --}}
+    <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content reply-modal-content">
+                <div class="modal-header bg-light">
                     <h5 class="modal-title"><i class="bi bi-envelope-paper"></i> Reply to Contact</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form method="POST" action="{{ route('admin.contacts.reply') }}">
+                <form method="POST" id="replyForm">
                     @csrf
-                    <input type="hidden" name="contact_id" id="reply_contact_id">
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Message</label>
-                            <textarea class="form-control" name="message" rows="5"
-                                placeholder="Type your reply..."></textarea>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" name="send_sms" class="form-check-input" id="sendSMS">
-                            <label for="sendSMS" class="form-check-label">Send as SMS too</label>
+                        <label>Subject</label>
+                        <input type="text" name="subject" class="form-control" placeholder="Enter subject...">
+
+                        <label class="mt-3">Message</label>
+                        <textarea name="message" rows="5" class="form-control"
+                            placeholder="Type your message..."></textarea>
+
+                        <div class="template-preview mt-3">
+                            <h6><i class="bi bi-eye"></i> Preview</h6>
+                            <div class="border rounded p-3 bg-light">
+                                <p>Dear <span id="preview-name">Customer</span>,</p>
+                                <p id="preview-message" class="text-muted">Your message will appear here...</p>
+                                <p>Best regards,<br>Support Team</p>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-success">Send Reply</button>
+                        <button type="submit" class="btn btn-success"><i class="bi bi-send"></i> Send Reply</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const viewBtns = document.querySelectorAll('.view-contact');
-            viewBtns.forEach(btn => {
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // View Modal
+            document.querySelectorAll('.view-contact').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const contact = JSON.parse(btn.getAttribute('data-contact'));
+                    const contact = JSON.parse(btn.dataset.contact);
                     const html = `
-                                                            <div class="contact-summary">
-                                                                <h5><i class="bi bi-ticket"></i> Ticket: <strong>${contact.ticket}</strong></h5>
-                                                                <hr>
-                                                                <p><strong>Name:</strong> ${contact.first_name} ${contact.last_name}</p>
-                                                                <p><strong>Email:</strong> ${contact.email}</p>
-                                                                <p><strong>Phone:</strong> ${contact.phone ?? 'N/A'}</p>
-                                                                <p><strong>Company:</strong> ${contact.company ?? '-'}</p>
-                                                                <p><strong>Role:</strong> ${contact.role ?? '-'}</p>
-                                                                <p><strong>Subject:</strong> ${contact.subject}</p>
-                                                                <p><strong>Message:</strong> ${contact.message}</p>
-                                                                <p><strong>Status:</strong> <span class="badge status-${contact.status.toLowerCase().replace(' ', '-')}">${contact.status}</span></p>
-                                                                <p><strong>Priority:</strong> <span class="badge priority-${contact.priority}">${contact.priority}</span></p>
-                                                            </div>`;
+                    <div class="contact-summary">
+                        <h5><i class="bi bi-ticket"></i> Ticket: <strong>${contact.ticket}</strong></h5>
+                        <hr>
+                        <p><strong>Name:</strong> ${contact.first_name} ${contact.last_name}</p>
+                        <p><strong>Email:</strong> ${contact.email}</p>
+                        <p><strong>Phone:</strong> ${contact.phone ?? 'N/A'}</p>
+                        <p><strong>Company:</strong> ${contact.company ?? '-'}</p>
+                        <p><strong>Role:</strong> ${contact.role ?? '-'}</p>
+                        <p><strong>Subject:</strong> ${contact.subject}</p>
+                        <p><strong>Message:</strong> ${contact.message}</p>
+                        <p><strong>Status:</strong> <span class="badge bg-info">${contact.status}</span></p>
+                        <p><strong>Priority:</strong> <span class="badge bg-${contact.priority == 'high' ? 'danger' : (contact.priority == 'medium' ? 'warning' : 'success')}">${contact.priority}</span></p>
+                    </div>`;
                     document.getElementById('contactDetails').innerHTML = html;
                 });
             });
 
-            const replyBtns = document.querySelectorAll('.reply-contact');
-            replyBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.getElementById('reply_contact_id').value = btn.dataset.id;
-                });
-            });
-        });
-
-
-        document.addEventListener('DOMContentLoaded', function () {
+            // Reply Modal
             const replyModal = document.getElementById('replyModal');
             const replyForm = document.getElementById('replyForm');
             const previewName = document.getElementById('preview-name');
             const previewMessage = document.getElementById('preview-message');
             const messageField = replyForm.querySelector('textarea[name="message"]');
 
-            replyModal.addEventListener('show.bs.modal', function (event) {
+            replyModal.addEventListener('show.bs.modal', event => {
                 const button = event.relatedTarget;
                 const contact = JSON.parse(button.getAttribute('data-contact'));
-
                 replyForm.action = `/admin/support/contact-requests/${contact.id}/reply`;
                 previewName.textContent = contact.first_name;
+                previewMessage.textContent = '';
+                messageField.value = '';
 
                 messageField.addEventListener('input', () => {
-                    previewMessage.textContent = messageField.value;
+                    previewMessage.textContent = messageField.value || 'Your message will appear here...';
                 });
             });
         });
