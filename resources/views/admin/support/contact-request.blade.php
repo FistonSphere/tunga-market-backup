@@ -72,18 +72,28 @@
         </div>
     </div>
 
-    <!-- Modal for viewing contact details -->
-    <div class="modal fade" id="contactViewModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title fw-bold">Contact Request Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <!-- Contact View Modal -->
+    <div class="modal fade" id="contactViewModal" tabindex="-1" aria-labelledby="contactViewLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-0 bg-light">
+                    <h5 class="modal-title fw-bold text-primary" id="contactViewLabel">
+                        <i class="bi bi-envelope-paper text-primary me-2"></i> Contact Request Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="contactModalBody"></div>
+                <div class="modal-body p-4" id="contactViewBody">
+                    <div class="text-center text-muted py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-3">Loading contact details...</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -130,6 +140,45 @@
                     e.target.textContent = 'Copied!';
                     setTimeout(() => e.target.textContent = ticket, 1000);
                 }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = new bootstrap.Modal(document.getElementById('contactViewModal'));
+            const modalBody = document.getElementById('contactViewBody');
+
+            document.body.addEventListener('click', function (e) {
+                const btn = e.target.closest('.view-contact');
+                if (!btn) return;
+
+                const contactId = btn.dataset.id;
+                modalBody.innerHTML = `
+                <div class="text-center text-muted py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3">Loading contact details...</p>
+                </div>
+            `;
+                modal.show();
+
+                fetch(`/admin/support/contact-requests/${contactId}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Failed to load contact details');
+                        return response.text();
+                    })
+                    .then(html => {
+                        modalBody.innerHTML = html;
+                    })
+                    .catch(error => {
+                        modalBody.innerHTML = `
+                        <div class="text-center text-danger py-5">
+                            <i class="bi bi-exclamation-triangle fs-3"></i>
+                            <p class="mt-2">Failed to load contact details. Please try again.</p>
+                        </div>
+                    `;
+                        console.error('Error:', error);
+                    });
             });
         });
     </script>
