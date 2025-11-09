@@ -42,6 +42,76 @@
         .badge.priority-high {
             background-color: #dc2626;
         }
+
+        .contact-requests-container {
+            padding: 20px;
+        }
+
+        .page-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .modern-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .badge.status-pending {
+            background: #f0ad4e;
+            color: #fff;
+        }
+
+        .badge.status-in-progress {
+            background: #5bc0de;
+            color: #fff;
+        }
+
+        .badge.status-resolved {
+            background: #5cb85c;
+            color: #fff;
+        }
+
+        .badge.priority-low {
+            background: #d9edf7;
+            color: #31708f;
+        }
+
+        .badge.priority-medium {
+            background: #fcf8e3;
+            color: #8a6d3b;
+        }
+
+        .badge.priority-high {
+            background: #f2dede;
+            color: #a94442;
+        }
+
+        .btn-reply {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            transition: 0.3s;
+        }
+
+        .btn-reply:hover {
+            background: #0056b3;
+        }
+
+        .reply-modal-content {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .btn-send {
+            background: linear-gradient(90deg, #007bff, #00c4ff);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 20px;
+        }
     </style>
     <div class="contact-management-container">
         <!-- Header Section -->
@@ -185,19 +255,19 @@
                 btn.addEventListener('click', () => {
                     const contact = JSON.parse(btn.getAttribute('data-contact'));
                     const html = `
-                                            <div class="contact-summary">
-                                                <h5><i class="bi bi-ticket"></i> Ticket: <strong>${contact.ticket}</strong></h5>
-                                                <hr>
-                                                <p><strong>Name:</strong> ${contact.first_name} ${contact.last_name}</p>
-                                                <p><strong>Email:</strong> ${contact.email}</p>
-                                                <p><strong>Phone:</strong> ${contact.phone ?? 'N/A'}</p>
-                                                <p><strong>Company:</strong> ${contact.company ?? '-'}</p>
-                                                <p><strong>Role:</strong> ${contact.role ?? '-'}</p>
-                                                <p><strong>Subject:</strong> ${contact.subject}</p>
-                                                <p><strong>Message:</strong> ${contact.message}</p>
-                                                <p><strong>Status:</strong> <span class="badge status-${contact.status.toLowerCase().replace(' ', '-')}">${contact.status}</span></p>
-                                                <p><strong>Priority:</strong> <span class="badge priority-${contact.priority}">${contact.priority}</span></p>
-                                            </div>`;
+                                                    <div class="contact-summary">
+                                                        <h5><i class="bi bi-ticket"></i> Ticket: <strong>${contact.ticket}</strong></h5>
+                                                        <hr>
+                                                        <p><strong>Name:</strong> ${contact.first_name} ${contact.last_name}</p>
+                                                        <p><strong>Email:</strong> ${contact.email}</p>
+                                                        <p><strong>Phone:</strong> ${contact.phone ?? 'N/A'}</p>
+                                                        <p><strong>Company:</strong> ${contact.company ?? '-'}</p>
+                                                        <p><strong>Role:</strong> ${contact.role ?? '-'}</p>
+                                                        <p><strong>Subject:</strong> ${contact.subject}</p>
+                                                        <p><strong>Message:</strong> ${contact.message}</p>
+                                                        <p><strong>Status:</strong> <span class="badge status-${contact.status.toLowerCase().replace(' ', '-')}">${contact.status}</span></p>
+                                                        <p><strong>Priority:</strong> <span class="badge priority-${contact.priority}">${contact.priority}</span></p>
+                                                    </div>`;
                     document.getElementById('contactDetails').innerHTML = html;
                 });
             });
