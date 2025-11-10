@@ -19,10 +19,10 @@ class AdminSupportController extends Controller
 
 
   public function show(ContactRequest $contact)
-    {
-         $contact = ContactRequest::findOrFail($id);
-        return response()->json($contact);
-    }
+{
+    return response()->json($contact);
+}
+
 
     public function reply(Request $request, ContactRequest $contact)
     {
