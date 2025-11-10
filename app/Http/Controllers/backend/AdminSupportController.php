@@ -12,10 +12,26 @@ use Illuminate\Support\Str;
 
 class AdminSupportController extends Controller
 {
-  public function index(){
-     $contacts = ContactRequest::latest()->paginate(10);
-        return view('admin.support.contact-request', compact('contacts'));
-  }
+  public function index(Request $request)
+ {
+    $query = ContactRequest::query();
+
+    // Filter by status
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    // Filter by priority
+    if ($request->filled('priority')) {
+        $query->where('priority', $request->priority);
+    }
+
+    // Optional: add pagination
+    $contacts = $query->latest()->paginate(10)->withQueryString();
+
+    return view('admin.support.contact-request', compact('contacts'));
+}
+
 
 
  public function show($id)
