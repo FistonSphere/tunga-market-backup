@@ -202,7 +202,8 @@
             form.d-flex.gap-2 {
                 flex-wrap: wrap;
             }
-            .btn-primary{
+
+            .btn-primary {
                 width: 100%;
             }
         }
@@ -338,6 +339,65 @@
 
     {{-- ============================= --}}
     {{-- VIEW MODAL --}}
+    <div id="viewContactModal" class="modal">
+        <div class="modal-content view-modal">
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h3><i class="bi bi-person-lines-fill"></i> Contact Request Details</h3>
+                <button type="button" class="btn-close" onclick="closeViewModal()">&times;</button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+                <!-- LEFT COLUMN -->
+                <div class="modal-left">
+                    <div class="info-block">
+                        <h4>Basic Information</h4>
+                        <p><strong>Ticket:</strong> <span id="v_ticket">-</span></p>
+                        <p><strong>Full Name:</strong> <span id="v_fullName">-</span></p>
+                        <p><strong>Email:</strong> <span id="v_email">-</span></p>
+                        <p><strong>Phone:</strong> <span id="v_phone">-</span></p>
+                        <p><strong>Company:</strong> <span id="v_company">-</span></p>
+                        <p><strong>Role:</strong> <span id="v_role">-</span></p>
+                        <p><strong>Status:</strong> <span id="v_status" class="badge-status"></span></p>
+                        <p><strong>Priority:</strong> <span id="v_priority" class="badge-priority"></span></p>
+                        <p><strong>Created:</strong> <span id="v_created_at">-</span></p>
+                    </div>
+
+                    <div class="info-block">
+                        <h4>Callback Information</h4>
+                        <p><strong>Requested:</strong> <span id="v_callback_requested">-</span></p>
+                        <p><strong>Callback Time:</strong> <span id="v_callback_time">-</span></p>
+                        <p><strong>Timezone:</strong> <span id="v_callback_timezone">-</span></p>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="modal-right">
+                    <div class="info-block">
+                        <h4>Message Details</h4>
+                        <p><strong>Subject:</strong> <span id="v_subject">-</span></p>
+                        <p style="white-space: pre-wrap;"><strong>Message:</strong><br>
+                            <span id="v_message">-</span>
+                        </p>
+                    </div>
+
+                    <div class="info-block">
+                        <h4>Attachments</h4>
+                        <div id="v_attachments" class="attachments-list">
+                            <p>No attachments uploaded.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+                <button class="btn-close-modal" onclick="closeViewModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
     {{-- ============================= --}}
 
 
