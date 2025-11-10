@@ -374,10 +374,10 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
 
     // FAQ routes
     Route::prefix('faqs')->controller(AdminFaqController::class)->group(function () {
-    Route::get('/faqs', 'index')->name('faqs.index');
-    Route::post('/faqs', 'store')->name('faqs.store');
-    Route::put('/faqs/{faq}', 'update')->name('faqs.update');
-    Route::delete('/faqs/{faq}', 'destroy')->name('faqs.destroy');
+    Route::get('/faqs', 'index')->name('admin.faqs.index');
+    Route::post('/faqs', 'store')->name('admin.faqs.store');
+    Route::put('/faqs/{faq}', 'update')->name('admin.faqs.update');
+    Route::delete('/faqs/{faq}', 'destroy')->name('admin.faqs.destroy');
 });
     // FAQ routes
 // admin with no authentication middleware routes

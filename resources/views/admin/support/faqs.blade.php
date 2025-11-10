@@ -2,6 +2,81 @@
 
 
 @section('content')
+
+    <style>
+        /* Modal styling */
+        #faqModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        #faqModal .modal-content {
+            background: #fff;
+            width: 95%;
+            max-width: 600px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Table design */
+        .table-hover tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .btn {
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .table thead {
+                display: none;
+            }
+
+            .table tbody tr {
+                display: block;
+                margin-bottom: 1rem;
+                background: #fff;
+                border-radius: 8px;
+                padding: 1rem;
+            }
+
+            .table tbody td {
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px dashed #ddd;
+            }
+
+            .table tbody td:last-child {
+                border-bottom: none;
+            }
+        }
+    </style>
     <div class="faq-container">
 
         <!-- Header -->
@@ -100,5 +175,49 @@
             </form>
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const modal = document.getElementById("faqModal");
+            const form = document.getElementById("faqForm");
+            const modalTitle = document.getElementById("modalTitle");
+            const saveBtn = document.getElementById("saveFaqBtn");
+
+            document.getElementById("btnAddFaq").addEventListener("click", () => {
+                form.reset();
+                modalTitle.textContent = "Add FAQ";
+                form.action = "{{ route('admin.faqs.store') }}";
+                modal.style.display = "flex";
+            });
+        });
+
+        function openEditModal(faq) {
+            const modal = document.getElementById("faqModal");
+            const form = document.getElementById("faqForm");
+            const modalTitle = document.getElementById("modalTitle");
+
+            modalTitle.textContent = "Edit FAQ";
+            form.action = `/admin/faqs/${faq.id}`;
+            document.getElementById("faqCategory").value = faq.category;
+            document.getElementById("faqTopic").value = faq.topic;
+            document.getElementById("faqQuestion").value = faq.question;
+            document.getElementById("faqAnswer").value = faq.answer;
+            document.getElementById("faqActive").checked = faq.is_active == 1;
+
+            // Add hidden PUT method
+            let methodInput = document.createElement('input');
+            methodInput.type = 'hidden';
+            methodInput.name = '_method';
+            methodInput.value = 'PUT';
+            form.appendChild(methodInput);
+
+            modal.style.display = "flex";
+        }
+
+        function closeFaqModal() {
+            document.getElementById("faqModal").style.display = "none";
+        }
+    </script>
 
 @endsection
