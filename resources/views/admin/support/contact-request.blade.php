@@ -130,7 +130,64 @@
             /* wide for landscape view */
             max-width: 1100px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-            animation: fadeIn 0.3s ease-in-out;   
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-left,
+        .modal-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-left {
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal-left h4 {
+            color: #001428;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .modal-left p {
+            font-size: 14px;
+            margin: 6px 0;
+            padding: 6px 10px;
+            background: #fff;
+            border-left: 3px solid #f97316;
+            border-radius: 5px;
+        }
+
+        /* Right section: reply form */
+        .modal-right h3 {
+            color: #001428;
+            margin-bottom: 10px;
+        }
+
+        .modal-right textarea {
+            width: 100%;
+            height: 120px;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #cfd6df;
+            resize: none;
+            font-size: 14px;
+        }
+
+        .modal-right textarea:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+        }
+
+        .modal-actions {
+            margin-top: 15px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
         }
 
         .modal-content h3 {
