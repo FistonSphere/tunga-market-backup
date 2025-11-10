@@ -382,6 +382,11 @@
         .badge-priority.low {
             background: #27ae60;
         }
+        @media (max-width: 768px) {
+            .modal-body {
+                flex-direction: column;
+            }
+        }
     </style>
     <div class="contact-management-container">
         <!-- Header Section -->
