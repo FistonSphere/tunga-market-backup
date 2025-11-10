@@ -10,7 +10,41 @@ class AdminFaqController extends Controller
 {
     public function index()
     {
-        $faqs = Faq::all();
+        $faqs = Faq::latest()->get();
         return view('admin.support.faqs', compact('faqs'));
+    }
+
+     public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'category' => 'required|string|max:255',
+            'topic' => 'required|string|max:255',
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+            'is_active' => 'boolean',
+        ]);
+
+        Faq::create($validated);
+        return back()->with('success', 'FAQ added successfully.');
+    }
+
+    public function update(Request $request, Faq $faq)
+    {
+        $validated = $request->validate([
+            'category' => 'required|string|max:255',
+            'topic' => 'required|string|max:255',
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+            'is_active' => 'boolean',
+        ]);
+
+        $faq->update($validated);
+        return back()->with('success', 'FAQ updated successfully.');
+    }
+
+    public function destroy(Faq $faq)
+    {
+        $faq->delete();
+        return back()->with('success', 'FAQ deleted successfully.');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\backend\CategoryAdminController;
 use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\backend\AdminEnquiryController;
+use App\Http\Controllers\backend\AdminFaqController;
 use App\Http\Controllers\backend\AdminOrderManagementController;
 use App\Http\Controllers\backend\AdminProductIssueController;
 use App\Http\Controllers\backend\AdminSupportController;
@@ -370,5 +371,14 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
         Route::post('/contact-requests/{contact}/update-status',  'updateStatus')->name('admin.support.contactRequest.updateStatus');
     });
     //contact request routes
+
+    // FAQ routes
+    Route::prefix('faqs')->controller(AdminFaqController::class)->group(function () {
+    Route::get('/faqs', 'index')->name('faqs.index');
+    Route::post('/faqs', 'store')->name('faqs.store');
+    Route::put('/faqs/{faq}', 'update')->name('faqs.update');
+    Route::delete('/faqs/{faq}', 'destroy')->name('faqs.destroy');
+});
+    // FAQ routes
 // admin with no authentication middleware routes
 });
