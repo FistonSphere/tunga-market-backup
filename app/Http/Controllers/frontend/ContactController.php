@@ -36,7 +36,7 @@ class ContactController extends Controller
             'company' => 'nullable|string|max:255',
             'role' => 'nullable|string|max:100',
             'subject' => 'required|string|max:255',
-            'message' => 'required|string|min:50',
+            'message' => 'required|string',
             'priority' => 'required|in:low,medium,high',
             'contact_type_title' => 'nullable|string|max:255',
             'contact_type_description' => 'nullable|string|max:255',
