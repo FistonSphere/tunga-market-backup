@@ -6,7 +6,10 @@
     <style>
         /* ====== PAGE LAYOUT ====== */
         .contact-management-container {
-            padding: 1rem 0;
+            padding: 2em;
+            background: #fff;
+            border-radius: 8px;
+            border:1px solid #bdbdbd;
         }
 
         .page-title {
@@ -187,6 +190,13 @@
             to {
                 opacity: 1;
                 transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                flex-direction: column;
+                width: 95%;
             }
         }
     </style>
@@ -399,6 +409,4 @@
                 }
             </script>
 
-
-            </script>
 @endsection
