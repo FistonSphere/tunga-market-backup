@@ -365,7 +365,7 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
  //contact request routes
     Route::prefix('support')->controller(AdminSupportController::class)->group(function () {
         Route::get('/contact-requests',  'index')->name('admin.support.contactRequests');
-        Route::post('/contact-requests/{contact}/reply', 'reply')->name('admin.contacts.reply');
+        Route::post('/contact-requests/reply', 'reply')->name('admin.contacts.reply');
         Route::get('/contact-requests/{contact}',  'show')->name('admin.support.contactRequest.show');
         Route::post('/contact-requests/{contact}/update-status',  'updateStatus')->name('admin.support.contactRequest.updateStatus');
     });
