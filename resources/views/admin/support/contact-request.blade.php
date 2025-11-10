@@ -9,7 +9,7 @@
             padding: 2em;
             background: #fff;
             border-radius: 8px;
-            border:1px solid #bdbdbd;
+            border: 1px solid #bdbdbd;
         }
 
         .page-title {
@@ -198,6 +198,13 @@
                 flex-direction: column;
                 width: 95%;
             }
+
+            form.d-flex.gap-2 {
+                flex-wrap: wrap;
+            }
+            .btn-primary{
+                width: 100%;
+            }
         }
     </style>
     <div class="contact-management-container">
@@ -380,33 +387,33 @@
 
 
 
-            {{-- ============================= --}}
+    {{-- ============================= --}}
 
 
 
 
-            <script>
-                function openReplyModal(contactData) {
-                    const contact = JSON.parse(contactData);
+    <script>
+        function openReplyModal(contactData) {
+            const contact = JSON.parse(contactData);
 
-                    // Display modal
-                    document.getElementById('replyModal').style.display = 'flex';
+            // Display modal
+            document.getElementById('replyModal').style.display = 'flex';
 
-                    // Populate all visible fields
-                    document.getElementById('contactId').value = contact.id;
-                    document.getElementById('ticketCode').innerText = contact.ticket || '-';
-                    document.getElementById('fullName').innerText = `${contact.first_name} ${contact.last_name}`;
-                    document.getElementById('emailAddress').innerText = contact.email;
-                    document.getElementById('phoneNumber').innerText = contact.phone || 'N/A';
-                    document.getElementById('companyName').innerText = contact.company || '-';
-                    document.getElementById('subjectText').innerText = contact.subject || '-';
-                    document.getElementById('issueMessage').innerText = contact.message || '-';
-                    document.getElementById('statusSelect').value = contact.status || 'Pending';
-                }
+            // Populate all visible fields
+            document.getElementById('contactId').value = contact.id;
+            document.getElementById('ticketCode').innerText = contact.ticket || '-';
+            document.getElementById('fullName').innerText = `${contact.first_name} ${contact.last_name}`;
+            document.getElementById('emailAddress').innerText = contact.email;
+            document.getElementById('phoneNumber').innerText = contact.phone || 'N/A';
+            document.getElementById('companyName').innerText = contact.company || '-';
+            document.getElementById('subjectText').innerText = contact.subject || '-';
+            document.getElementById('issueMessage').innerText = contact.message || '-';
+            document.getElementById('statusSelect').value = contact.status || 'Pending';
+        }
 
-                function closeReplyModal() {
-                    document.getElementById('replyModal').style.display = 'none';
-                }
-            </script>
+        function closeReplyModal() {
+            document.getElementById('replyModal').style.display = 'none';
+        }
+    </script>
 
 @endsection
