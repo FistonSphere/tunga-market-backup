@@ -393,7 +393,7 @@
         <!-- Header Section -->
         <div class="header-bar d-flex align-items-center justify-content-between mb-4">
             <div>
-                <h2 class="page-title"><i class="bi bi-chat-dots-fill"></i> Contact Requests</h2>
+                <h2 class="page-title"><i class="bi bi-chat-dots-fill"></i> Contact Requests ({{ $contacts->count() }})</h2>
                 <p class="text-muted">Manage and respond to client messages submitted via Contact Us form.</p>
             </div>
             <div>
@@ -418,8 +418,8 @@
                             <path
                                 d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
                         </svg> Filter</button>
-                    <a href="/admin/support/contact-requests" onclick="window.history.back()"
-                        class="btn btn-primary btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    <a href="/admin/support/contact-requests" style="background: #001428;color:#fff;"
+                        class="btn btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             fill="currentColor" class="bi bi-repeat" viewBox="0 0 16 16">
                             <path
                                 d="M11 5.466V4H5a4 4 0 0 0-3.584 5.777.5.5 0 1 1-.896.446A5 5 0 0 1 5 3h6V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192m3.81.086a.5.5 0 0 1 .67.225A5 5 0 0 1 11 13H5v1.466a.25.25 0 0 1-.41.192l-2.36-1.966a.25.25 0 0 1 0-.384l2.36-1.966a.25.25 0 0 1 .41.192V12h6a4 4 0 0 0 3.585-5.777.5.5 0 0 1 .225-.67Z" />
