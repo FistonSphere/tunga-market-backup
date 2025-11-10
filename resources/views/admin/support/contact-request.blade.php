@@ -207,6 +207,181 @@
                 width: 100%;
             }
         }
+
+        #viewContactModal.modal {
+            display: none;
+            position: fixed;
+            z-index: 1200;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            backdrop-filter: blur(3px);
+        }
+
+        /* Modal Card */
+        .view-modal {
+            width: 90%;
+            max-width: 950px;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Header */
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+            background: #f8f9fb;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        .modal-header .btn-close {
+            border: none;
+            background: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #777;
+        }
+
+        /* Body */
+        .modal-body {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .modal-left,
+        .modal-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .info-block {
+            background: #fafafa;
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            box-shadow: 0 0 0 1px #f0f0f0;
+        }
+
+        .info-block h4 {
+            color: #111;
+            font-size: 1rem;
+            margin-bottom: 0.6rem;
+            border-left: 3px solid #ff6a00;
+            padding-left: 0.5rem;
+        }
+
+        .info-block p {
+            margin: 0.4rem 0;
+            color: #444;
+        }
+
+        /* Attachments */
+        .attachments-list a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 6px 0;
+        }
+
+        .attachments-list a:hover {
+            text-decoration: underline;
+        }
+
+        .attachments-list i {
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            text-align: right;
+            background: #f9f9f9;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-close-modal {
+            background: #ff6a00;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.6rem 1.2rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn-close-modal:hover {
+            background: #e25900;
+        }
+
+        /* Status Badges */
+        .badge-status,
+        .badge-priority {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .badge-status.Pending {
+            background: #ffc107;
+            color: #111;
+        }
+
+        .badge-status.Resolved {
+            background: #28a745;
+        }
+
+        .badge-status["In Progress"] {
+            background: #17a2b8;
+        }
+
+        .badge-priority.high {
+            background: #e74c3c;
+        }
+
+        .badge-priority.medium {
+            background: #f39c12;
+        }
+
+        .badge-priority.low {
+            background: #27ae60;
+        }
     </style>
     <div class="contact-management-container">
         <!-- Header Section -->
