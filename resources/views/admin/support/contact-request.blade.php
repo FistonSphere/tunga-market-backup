@@ -427,47 +427,49 @@
                     </thead>
                     <tbody>
                         @forelse($contacts as $contact)
-                            <tr>
-                                <td><strong>{{ $contact->ticket }}</strong></td>
-                                <td>
-                                    <div>{{ $contact->first_name }} {{ $contact->last_name }}</div>
-                                    <small class="text-muted">{{ $contact->email }}</small>
-                                </td>
-                                <td>{{ Str::limit($contact->subject, 40) }}</td>
-                                <td>
-                                    <span
-                                        class="badge priority-{{ strtolower($contact->priority) }}">{{ ucfirst($contact->priority) }}</span>
-                                </td>
-                                <td>
-                                    <span
-                                        class="badge status-{{ strtolower(str_replace(' ', '-', $contact->status)) }}">{{ $contact->status }}</span>
-                                </td>
-                                <td>{{ $contact->created_at->format('d M Y, H:i') }}</td>
-                                <td>
-                                    {{-- VIEW BUTTON --}}
-                                    <button class="btn btn-outline-primary btn-sm view-contact" data-bs-toggle="modal"
-                                        data-bs-target="#viewContactModal"
-                                        data-contact="{{ htmlspecialchars(json_encode($contact), ENT_QUOTES, 'UTF-8') }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                            class="bi bi-eye" viewBox="0 0 16 16">
-                                            <path
-                                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
-                                            <path
-                                                d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
-                                        </svg>
-                                    </button>
+                                        <tr>
+                                            <td><strong>{{ $contact->ticket }}</strong></td>
+                                            <td>
+                                                <div>{{ $contact->first_name }} {{ $contact->last_name }}</div>
+                                                <small class="text-muted">{{ $contact->email }}</small>
+                                            </td>
+                                            <td>{{ Str::limit($contact->subject, 40) }}</td>
+                                            <td>
+                                                <span
+                                                    class="badge priority-{{ strtolower($contact->priority) }}">{{ ucfirst($contact->priority) }}</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge status-{{ strtolower(str_replace(' ', '-', $contact->status)) }}">{{ $contact->status }}</span>
+                                            </td>
+                                            <td>{{ $contact->created_at->format('d M Y, H:i') }}</td>
+                                            <td>
+                                                {{-- VIEW BUTTON --}}
+                                                <button type="button" class="btn btn-outline-primary btn-sm view-contact"
+                                                    data-contact='@json($contact)'>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                        class="bi bi-eye" viewBox="0 0 16 16">
+                                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 
+                            4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 
+                            1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 
+                            1.172 8z" />
+                                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 
+                            8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                                                    </svg>
+                                                </button>
 
-                                    {{-- REPLY BUTTON --}}
-                                    <button class="btn-reply" onclick="openReplyModal('{{ json_encode($contact) }}')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                            class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
-                                        </svg> Reply
-                                    </button>
 
-                                </td>
-                            </tr>
+                                                {{-- REPLY BUTTON --}}
+                                                <button class="btn-reply" onclick="openReplyModal('{{ json_encode($contact) }}')">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                        class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+                                                    </svg> Reply
+                                                </button>
+
+                                            </td>
+                                        </tr>
                         @empty
                             <tr>
                                 <td colspan="7" class="text-center text-muted py-4">No contact requests found.</td>
@@ -648,6 +650,60 @@
 
         function closeReplyModal() {
             document.getElementById('replyModal').style.display = 'none';
+        }
+        function openViewModal(contactJSON) {
+            const contact = JSON.parse(contactJSON);
+            document.getElementById('viewContactModal').style.display = 'flex';
+
+            // Populate text fields
+            document.getElementById('v_ticket').textContent = contact.ticket || '-';
+            document.getElementById('v_fullName').textContent = `${contact.first_name} ${contact.last_name}`;
+            document.getElementById('v_email').textContent = contact.email || '-';
+            document.getElementById('v_phone').textContent = contact.phone || '-';
+            document.getElementById('v_company').textContent = contact.company || '-';
+            document.getElementById('v_role').textContent = contact.role || '-';
+            document.getElementById('v_subject').textContent = contact.subject || '-';
+            document.getElementById('v_message').textContent = contact.message || '-';
+            document.getElementById('v_callback_requested').textContent = contact.callback_requested ? 'Yes' : 'No';
+            document.getElementById('v_callback_time').textContent = contact.callback_time || '-';
+            document.getElementById('v_callback_timezone').textContent = contact.callback_timezone || '-';
+            document.getElementById('v_created_at').textContent = contact.created_at || '-';
+
+            // Status and Priority
+            const statusEl = document.getElementById('v_status');
+            statusEl.textContent = contact.status || 'Pending';
+            statusEl.className = `badge-status ${contact.status?.replace(/\s+/g, '')}`;
+
+            const priorityEl = document.getElementById('v_priority');
+            priorityEl.textContent = contact.priority || 'medium';
+            priorityEl.className = `badge-priority ${contact.priority?.toLowerCase()}`;
+
+            // Attachments
+            const attachContainer = document.getElementById('v_attachments');
+            attachContainer.innerHTML = ''; // clear
+
+            try {
+                const files = JSON.parse(contact.attachments || '[]');
+                if (files.length > 0) {
+                    files.forEach(url => {
+                        const fileName = url.split('/').pop();
+                        const ext = fileName.split('.').pop().toLowerCase();
+                        const icon = ext === 'pdf' ? 'bi bi-file-earmark-pdf-fill text-danger' : 'bi bi-paperclip';
+                        attachContainer.innerHTML += `
+                            <a href="${url}" target="_blank">
+                                <i class="${icon}"></i> ${fileName}
+                            </a>`;
+                    });
+                } else {
+                    attachContainer.innerHTML = '<p>No attachments uploaded.</p>';
+                }
+            } catch (err) {
+                attachContainer.innerHTML = '<p>Invalid attachment data.</p>';
+            }
+        }
+
+        function closeViewModal() {
+            document.getElementById('viewContactModal').style.display = 'none';
         }
     </script>
 
