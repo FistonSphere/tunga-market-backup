@@ -74,7 +74,7 @@
 
         .badge.priority-low {
             background: #d9edf7;
-            color: #31708f;
+            color: #03284d;
         }
 
         .badge.priority-medium {
@@ -88,7 +88,7 @@
         }
 
         .btn-reply {
-            background: #007bff;
+            background: #001428;
             color: #fff;
             border: none;
             border-radius: 6px;
@@ -97,20 +97,12 @@
         }
 
         .btn-reply:hover {
-            background: #0056b3;
+            background: #001428;
         }
 
         .reply-modal-content {
             border-radius: 12px;
             overflow: hidden;
-        }
-
-        .btn-send {
-            background: linear-gradient(90deg, #007bff, #00c4ff);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 8px 20px;
         }
 
         /* ====== MODAL ====== */
@@ -128,11 +120,17 @@
 
         .modal-content {
             background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            width: 500px;
-            max-width: 95%;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: row;
+            /* side-by-side layout */
+            gap: 25px;
+            padding: 25px;
+            border-radius: 12px;
+            width: 80%;
+            /* wide for landscape view */
+            max-width: 1100px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.3s ease-in-out;   
         }
 
         .modal-content h3 {
@@ -140,11 +138,6 @@
             margin-bottom: 10px;
         }
 
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 10px;
-        }
 
         .modal-content p {
             background: #f9fafb;
@@ -209,56 +202,6 @@
             }
         }
 
-        /* ====== GENERAL ====== */
-        .product-issues-wrapper {
-            background: #fff;
-            border-radius: 14px;
-            padding: 25px 30px;
-            box-shadow: 0 8px 25px rgba(0, 20, 40, 0.08);
-            color: #001428;
-            margin: 30px auto;
-            max-width: 1300px;
-        }
-
-        /* ====== issue-header ====== */
-        .issue-header {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .issue-header h1 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #001428;
-        }
-
-        .issue-header .actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .issue-header input,
-        .issue-header select {
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid #cfd6df;
-            font-size: 14px;
-            color: #001428;
-            background: #fff;
-            transition: 0.25s ease;
-        }
-
-        .issue-header input:focus,
-        .issue-header select:focus {
-            border-color: #f97316;
-            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
-        }
 
         select {
             width: 100%;
@@ -343,13 +286,14 @@
                                     </button>
 
                                     {{-- REPLY BUTTON --}}
-                                    <button class="btn-reply" onclick="openReplyModal(@json($contact))">
+                                    <button class="btn-reply" onclick="openReplyModal('{{ json_encode($contact) }}')">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                             class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
                                             <path
                                                 d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
                                         </svg> Reply
                                     </button>
+
                                 </td>
                             </tr>
                         @empty
@@ -409,28 +353,26 @@
         <div class="modal-content">
             <h3><i class="bi bi-reply-all-fill"></i> Reply to Contact Request</h3>
 
-            <!-- Contact Summary -->
             <div id="contactSummary" class="contact-summary">
-                <p><strong>Ticket:</strong> <span id="ticketNumber">--</span></p>
-                <p><strong>Name:</strong> <span id="contactName">--</span></p>
-                <p><strong>Email:</strong> <span id="contactEmail">--</span></p>
-                <p><strong>Phone:</strong> <span id="contactPhone">--</span></p>
-                <p><strong>Company:</strong> <span id="contactCompany">--</span></p>
-                <p><strong>Role:</strong> <span id="contactRole">--</span></p>
-                <p><strong>Subject:</strong> <span id="contactSubject">--</span></p>
-                <p><strong>Message:</strong> <span id="issueMessage">--</span></p>
-                <hr>
+                <p><strong>Ticket:</strong> <span id="ticketCode">-</span></p>
+                <p><strong>Name:</strong> <span id="fullName">-</span></p>
+                <p><strong>Email:</strong> <span id="emailAddress">-</span></p>
+                <p><strong>Phone:</strong> <span id="phoneNumber">-</span></p>
+                <p><strong>Company:</strong> <span id="companyName">-</span></p>
+                <p><strong>Subject:</strong> <span id="subjectText">-</span></p>
+                <p><strong>Message:</strong> <span id="issueMessage">-</span></p>
             </div>
 
-            <!-- Reply Form -->
+            <hr>
+
             <form id="replyForm" method="POST" action="{{ route('admin.contacts.reply') }}">
                 @csrf
                 <input type="hidden" name="contact_id" id="contactId">
 
-                <label for="reply_message">Your Reply:</label>
-                <textarea name="reply_message" id="replyMessage" placeholder="Type your reply..." required></textarea>
+                <label for="reply_message">Reply Message:</label>
+                <textarea name="reply_message" id="reply_message" placeholder="Type your reply..." required></textarea>
 
-                <label for="statusSelect">Status:</label>
+                <label for="status">Status:</label>
                 <select name="status" id="statusSelect" required>
                     <option value="Pending">Pending</option>
                     <option value="In Progress">In Progress</option>
@@ -446,38 +388,36 @@
     </div>
 
 
+
     {{-- ============================= --}}
 
 
 
 
     <script>
-        function openReplyModal(contact) {
-            // Parse contact JSON if needed
-            if (typeof contact === 'string') {
-                contact = JSON.parse(contact);
-            }
+        function openReplyModal(contactData) {
+            const contact = JSON.parse(contactData);
 
-            // Display the modal
+            // Display modal
             document.getElementById('replyModal').style.display = 'flex';
 
-            // Populate all data fields
+            // Populate all visible fields
             document.getElementById('contactId').value = contact.id;
-            document.getElementById('ticketNumber').innerText = contact.ticket;
-            document.getElementById('contactName').innerText = `${contact.first_name} ${contact.last_name}`;
-            document.getElementById('contactEmail').innerText = contact.email;
-            document.getElementById('contactPhone').innerText = contact.phone ?? 'N/A';
-            document.getElementById('contactCompany').innerText = contact.company ?? '-';
-            document.getElementById('contactRole').innerText = contact.role ?? '-';
-            document.getElementById('contactSubject').innerText = contact.subject;
-            document.getElementById('issueMessage').innerText = contact.message;
-            document.getElementById('statusSelect').value = contact.status;
+            document.getElementById('ticketCode').innerText = contact.ticket || '-';
+            document.getElementById('fullName').innerText = `${contact.first_name} ${contact.last_name}`;
+            document.getElementById('emailAddress').innerText = contact.email;
+            document.getElementById('phoneNumber').innerText = contact.phone || 'N/A';
+            document.getElementById('companyName').innerText = contact.company || '-';
+            document.getElementById('subjectText').innerText = contact.subject || '-';
+            document.getElementById('issueMessage').innerText = contact.message || '-';
+            document.getElementById('statusSelect').value = contact.status || 'Pending';
         }
 
         function closeReplyModal() {
             document.getElementById('replyModal').style.display = 'none';
         }
     </script>
+
 
     </script>
 @endsection
