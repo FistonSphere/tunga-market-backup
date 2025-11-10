@@ -25,13 +25,16 @@ class AdminSupportController extends Controller
 
     public function reply(Request $request, ContactRequest $contact)
     {
-        $validated = $request->validate([
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string|max:2000',
-        ]);
+            $validated = $request->validate([
+        'contact_id' => 'required|exists:contact_requests,id',
+        'reply_message' => 'required|string|max:2000',
+        'status' => 'required|in:Pending,In Progress,Resolved',
+    ]);
 
-        $subject = $validated['subject'];
-        $messageText = $validated['message'];
+    $contact = ContactRequest::findOrFail($validated['contact_id']);
+
+    $subject = 'Reply to your contact request';
+    $messageText = $validated['reply_message'];
 
         /**
          * =====================
@@ -92,7 +95,7 @@ class AdminSupportController extends Controller
             }
         }
 
-        $contact->update(['status' => 'Resolved']);
+           $contact->update(['status' => $validated['status']]);
 
         return back()->with('success', 'Reply sent successfully via Email and SMS.');
     }
