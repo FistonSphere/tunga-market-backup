@@ -112,6 +112,161 @@
             border-radius: 8px;
             padding: 8px 20px;
         }
+
+        /* ====== MODAL ====== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 500px;
+            max-width: 95%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content h3 {
+            color: #001428;
+            margin-bottom: 10px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .modal-content p {
+            background: #f9fafb;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .modal-content textarea {
+            width: 100%;
+            height: 100px;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #cfd6df;
+            resize: none;
+            font-size: 14px;
+        }
+
+        .modal-content textarea:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+        }
+
+        .modal-actions {
+            margin-top: 15px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-submit {
+            background: #f97316;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 18px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-cancel {
+            background: #001428;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 18px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* ====== GENERAL ====== */
+        .product-issues-wrapper {
+            background: #fff;
+            border-radius: 14px;
+            padding: 25px 30px;
+            box-shadow: 0 8px 25px rgba(0, 20, 40, 0.08);
+            color: #001428;
+            margin: 30px auto;
+            max-width: 1300px;
+        }
+
+        /* ====== issue-header ====== */
+        .issue-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .issue-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #001428;
+        }
+
+        .issue-header .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .issue-header input,
+        .issue-header select {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #cfd6df;
+            font-size: 14px;
+            color: #001428;
+            background: #fff;
+            transition: 0.25s ease;
+        }
+
+        .issue-header input:focus,
+        .issue-header select:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+        }
+
+        select {
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
     </style>
     <div class="contact-management-container">
         <!-- Header Section -->
@@ -188,8 +343,7 @@
                                     </button>
 
                                     {{-- REPLY BUTTON --}}
-                                    <button class="btn-reply"
-                                        onclick="openReplyModal('{{ $contact->id }}', '{{ addslashes($contact->message) }}', '{{ $contact->status }}')">
+                                    <button class="btn-reply" onclick="openReplyModal(@json($contact))">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                             class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
                                             <path
@@ -249,18 +403,34 @@
 
     {{-- ============================= --}}
     {{-- REPLY MODAL --}}
-    <!-- 📨 Reply Modal -->
+
+    <!-- ✅ Reply Modal -->
     <div id="replyModal" class="modal">
         <div class="modal-content">
-            <h3><i class="bi bi-reply-all-fill"></i> Reply to contact request</h3>
-            <p id="issueMessage"></p>
+            <h3><i class="bi bi-reply-all-fill"></i> Reply to Contact Request</h3>
+
+            <!-- Contact Summary -->
+            <div id="contactSummary" class="contact-summary">
+                <p><strong>Ticket:</strong> <span id="ticketNumber">--</span></p>
+                <p><strong>Name:</strong> <span id="contactName">--</span></p>
+                <p><strong>Email:</strong> <span id="contactEmail">--</span></p>
+                <p><strong>Phone:</strong> <span id="contactPhone">--</span></p>
+                <p><strong>Company:</strong> <span id="contactCompany">--</span></p>
+                <p><strong>Role:</strong> <span id="contactRole">--</span></p>
+                <p><strong>Subject:</strong> <span id="contactSubject">--</span></p>
+                <p><strong>Message:</strong> <span id="issueMessage">--</span></p>
+                <hr>
+            </div>
+
+            <!-- Reply Form -->
             <form id="replyForm" method="POST" action="{{ route('admin.contacts.reply') }}">
                 @csrf
                 <input type="hidden" name="contact_id" id="contactId">
 
-                <textarea name="reply_message" placeholder="Type your reply..." required></textarea>
+                <label for="reply_message">Your Reply:</label>
+                <textarea name="reply_message" id="replyMessage" placeholder="Type your reply..." required></textarea>
 
-                <label for="status">Status:</label>
+                <label for="statusSelect">Status:</label>
                 <select name="status" id="statusSelect" required>
                     <option value="Pending">Pending</option>
                     <option value="In Progress">In Progress</option>
@@ -274,10 +444,40 @@
             </form>
         </div>
     </div>
+
+
     {{-- ============================= --}}
 
 
 
 
+    <script>
+        function openReplyModal(contact) {
+            // Parse contact JSON if needed
+            if (typeof contact === 'string') {
+                contact = JSON.parse(contact);
+            }
 
+            // Display the modal
+            document.getElementById('replyModal').style.display = 'flex';
+
+            // Populate all data fields
+            document.getElementById('contactId').value = contact.id;
+            document.getElementById('ticketNumber').innerText = contact.ticket;
+            document.getElementById('contactName').innerText = `${contact.first_name} ${contact.last_name}`;
+            document.getElementById('contactEmail').innerText = contact.email;
+            document.getElementById('contactPhone').innerText = contact.phone ?? 'N/A';
+            document.getElementById('contactCompany').innerText = contact.company ?? '-';
+            document.getElementById('contactRole').innerText = contact.role ?? '-';
+            document.getElementById('contactSubject').innerText = contact.subject;
+            document.getElementById('issueMessage').innerText = contact.message;
+            document.getElementById('statusSelect').value = contact.status;
+        }
+
+        function closeReplyModal() {
+            document.getElementById('replyModal').style.display = 'none';
+        }
+    </script>
+
+    </script>
 @endsection
