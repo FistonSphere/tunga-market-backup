@@ -252,8 +252,9 @@
 
                 <label for="status">Status:</label>
                 <select name="status" id="statusSelect" required>
-                    <option value="pending">Pending</option>
-                    <option value="resolved">Resolved</option>
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
                 </select>
 
                 <div class="modal-actions">
