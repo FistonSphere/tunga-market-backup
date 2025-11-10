@@ -20,7 +20,8 @@ class AdminSupportController extends Controller
 
   public function show(ContactRequest $contact)
     {
-        return view('admin.support.show-contact-request', compact('contact'));
+         $contact = ContactRequest::findOrFail($id);
+        return response()->json($contact);
     }
 
     public function reply(Request $request, ContactRequest $contact)
