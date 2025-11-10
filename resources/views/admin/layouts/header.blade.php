@@ -302,7 +302,7 @@
                                     Customer Support</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{{ route('admin.support.contactRequests') }}" class="{{ request()->routeIs('admin.support.contactRequests') ? 'active' : '' }}">Customer Request</a></li>
-                                <li><a href="{{ route('admin.faqs.index') }}" class="{{ request()->routeIs('admin.faqs.index') ? 'active' : '' }}">Customer Request</a></li>
+                                <li><a href="{{ route('admin.faqs.index') }}" class="{{ request()->routeIs('admin.faqs.index') ? 'active' : '' }}">Faqs</a></li>
                                 
                             </ul>
                         </li>
