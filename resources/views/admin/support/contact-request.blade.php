@@ -354,7 +354,7 @@
             padding: 4px 10px;
             border-radius: 12px;
             font-size: 0.85rem;
-            color: #fff;
+            color: #505050;
             font-weight: 600;
         }
 
