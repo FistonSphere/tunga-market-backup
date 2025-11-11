@@ -245,7 +245,6 @@
             border-radius: .3rem;
             outline: 0;
         }
-
     </style>
 
     <div class="faq-container">
@@ -294,8 +293,11 @@
                                 </span>
                             </td>
                             <td>
-                                <button class="btn btn-sm btn-outline-success view-btn" data-faq-id="{{ $faq->id }}"
-                                    type="button">
+                                <button class="btn btn-sm btn-outline-success view-btn" data-bs-toggle="modal"
+                                    data-bs-target="#viewFaqModal" data-faq-id="{{ $faq->id }}"
+                                    data-category="{{ $faq->category }}" data-topic="{{ $faq->topic }}"
+                                    data-question="{{ $faq->question }}" data-answer="{{ $faq->answer }}"
+                                    data-is_active="{{ $faq->is_active }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-eye" viewBox="0 0 16 16">
                                         <path
@@ -491,7 +493,7 @@
         </div>
     </div>
 
-    <!-- View/Edit FAQ Modal -->
+    <!-- View FAQ Modal -->
     <div class="modal fade" id="viewFaqModal" tabindex="-1" aria-labelledby="viewFaqModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -511,11 +513,11 @@
                         </div>
                         <div class="mb-3">
                             <label for="faqQuestion" class="form-label">Question</label>
-                            <textarea class="form-control" id="faqQuestion" rows="3" readonly></textarea>
+                            <textarea class="form-control" id="faqQuestion" rows="3" readonly style="resize: none"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="faqAnswer" class="form-label">Answer</label>
-                            <textarea class="form-control" id="faqAnswer" rows="3" readonly></textarea>
+                            <textarea class="form-control" id="faqAnswer" rows="3" readonly style="resize: none"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="faqStatus" class="form-label">Status</label>
@@ -525,12 +527,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <!-- Delete Button inside Modal -->
-                    <button type="button" class="btn btn-danger" id="deleteFaqBtn">Delete</button>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 
@@ -598,6 +599,28 @@
                 // Show the modal
                 const deleteFaqModal = new bootstrap.Modal(document.getElementById('deleteFaqModal'));
                 deleteFaqModal.show();
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const viewButtons = document.querySelectorAll(".view-btn");
+
+            viewButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const faqId = this.getAttribute("data-faq-id");
+                    const category = this.getAttribute("data-category");
+                    const topic = this.getAttribute("data-topic");
+                    const question = this.getAttribute("data-question");
+                    const answer = this.getAttribute("data-answer");
+                    const isActive = this.getAttribute("data-is_active");
+
+                    // Populate the modal with the FAQ details
+                    document.getElementById("faqCategory").value = category;
+                    document.getElementById("faqTopic").value = topic;
+                    document.getElementById("faqQuestion").value = question;
+                    document.getElementById("faqAnswer").value = answer;
+                    document.getElementById("faqStatus").value = isActive === "1" ? "Active" : "Inactive";
+                });
             });
         });
 
