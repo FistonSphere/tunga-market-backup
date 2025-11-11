@@ -45,7 +45,7 @@ public function update(Request $request, Faq $faq)
     ]);
 
     // Manually convert 'is_active' to boolean (1 for checked, 0 for unchecked)
-    $validated['is_active'] = $request->has('is_active') ? 1 : 0; // If checked, set to 1; else set to 0.
+    $validated['is_active'] = $request->has('is_active') ? 1 : 0;
 
     // Log the validated data for debugging
     Log::info('Validated Data: ', $validated);
