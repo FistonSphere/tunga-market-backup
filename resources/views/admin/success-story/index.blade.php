@@ -161,18 +161,18 @@
         }
 
         /* No story State */
-        .no-brands {
+        .no-stories {
             text-align: center;
             color: #777;
             padding: 60px 0;
         }
 
-        .no-brands i {
+        .no-stories i {
             font-size: 40px;
             color: #ccc;
         }
 
-        .no-brands p {
+        .no-stories p {
             margin-top: 10px;
             font-size: 16px;
         }
@@ -382,7 +382,7 @@
 
         <!-- Header -->
         <div class="story-header">
-            <h2 class="story-title">Brands</h2>
+            <h2 class="story-title">Success Stories</h2>
             <div class="story-actions">
                 <a href="{{ route('admin.successStories.store') }}" class="btn-add">
                     <i class="bi bi-plus-circle"></i> Add Story
@@ -409,12 +409,12 @@
                     <div class="story-info">
                         <h3 class="story-name">
                             @if(!empty($story->role))
-                                {{ strtoupper($story->role) }}.
+                                {{ strtoupper($story->role) }} of
+                            @endif
+                            @if(!empty($story->company))
+                                 {{ $story->company }} |
                             @endif
                             {{ $story->name ?? '' }}
-                            @if(!empty($story->company))
-                                - {{ $story->company }}
-                            @endif
                         </h3>
                         <p class="story-description">{{ $story->testimonial }}</p>
                     </div>
@@ -423,7 +423,8 @@
                     <div class="story-footer">
                         <span class="story-date">Added: {{ $story->created_at?->format('d M Y') ?? '-' }}</span>
                         <div class="story-options">
-                            <a href="{{ route('admin.story.edit', $story->id) }}" class="btn-icon btn-edit" title="Edit story">
+                            <a href="{{ route('admin.successStories.edit', $story->id) }}" class="btn-icon btn-edit"
+                                title="Edit story">
                                 <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img" />
                             </a>
 
@@ -435,9 +436,14 @@
                     </div>
                 </div>
             @empty
-                <div class="no-brands">
-                    <i class="bi bi-exclamation-circle"></i>
-                    <p>No brands available yet.</p>
+                <div class="no-stories">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                            d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
+                    </svg>
+                    <p>No stories available yet.</p>
                 </div>
             @endforelse
         </div>
@@ -517,13 +523,13 @@
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function (e) {
                     e.preventDefault();
-                    const brandId = this.getAttribute('data-id');
-                    const brandName = this.getAttribute('data-name');
+                    const storyId = this.getAttribute('data-id');
+                    const storyName = this.getAttribute('data-name');
                     // Update confirmation message
-                    deleteMessage.textContent = `Are you sure you want to delete "${brandName}"?`;
+                    deleteMessage.textContent = `Are you sure you want to delete "${storyName}"?`;
 
                     // Update form action dynamically
-                    deleteForm.action = `/admin/story/${brandId}/delete`;
+                    deleteForm.action = `/admin/story/${storyId}/delete`;
 
                     // Show modal
                     deleteModal.style.display = 'flex';

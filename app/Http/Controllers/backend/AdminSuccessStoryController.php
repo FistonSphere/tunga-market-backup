@@ -10,7 +10,7 @@ class AdminSuccessStoryController extends Controller
 {
     public function index()
     {
-        $stories = SuccessStory::latest()->get();
+        $stories = SuccessStory::latest()->paginate(8);
         return view('admin.success-story.index', compact('stories'));
     }
 }

@@ -389,7 +389,7 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
     Route::get('/create', function(){
      return view('admin.success-story.create');
        })->name('admin.brand.create');
-    Route::get('/{id}/edit/', 'edit')->name('admin.brand.edit');
+    Route::get('/{id}/edit/', 'edit')->name('admin.successStories.edit');
     Route::put('/update/{story}', 'update')->name('admin.successStories.update');
     Route::delete('/destory/{story}', 'destroy')->name('admin.successStories.destroy');
 });
