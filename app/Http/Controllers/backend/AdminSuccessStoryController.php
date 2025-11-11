@@ -73,4 +73,10 @@ class AdminSuccessStoryController extends Controller
 
     return redirect()->route('admin.successStories.index')->with('success', 'testimonial deleted successfully!');
 }
+
+public function edit($id)
+    {
+        $story = SuccessStory::findOrFail($id);
+        return view('admin.success-story.edit', compact('story'));
+    }
 }
