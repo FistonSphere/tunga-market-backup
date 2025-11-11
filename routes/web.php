@@ -376,7 +376,7 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
     Route::prefix('faqs')->controller(AdminFaqController::class)->group(function () {
     Route::get('/faqs', 'index')->name('admin.faqs.index');
     Route::post('/store', 'store')->name('admin.faqs.store');
-    Route::put('/update/{faq}', 'update')->name('admin.faqs.update');
+    Route::post('/update/{faq}', 'update')->name('admin.faqs.update');
     Route::delete('/faqs/{faq}', 'destroy')->name('admin.faqs.destroy');
 });
     // FAQ routes

@@ -28,20 +28,26 @@ class AdminFaqController extends Controller
         return back()->with('success', 'FAQ added successfully.');
     }
 
-    public function update(Request $request, Faq $faq)
-    {
-        dd($request->all());
-        $validated = $request->validate([
-            'category' => 'required|string|max:255',
-            'topic' => 'required|string',
-            'question' => 'required|string',
-            'answer' => 'required|string',
-            'is_active' => 'boolean',
-        ]);
+ public function update(Request $request, Faq $faq)
+{
+    
 
-        $faq->update($validated);
-        return back()->with('success', 'FAQ updated successfully.');
-    }
+    // Validate incoming request data
+    $validated = $request->validate([
+        'category' => 'required|string|max:255',
+        'topic' => 'required|string|max:255',
+        'question' => 'required|string|max:255',
+        'answer' => 'required|string',
+        'is_active' => 'boolean',  // Validate 'is_active' as boolean
+    ]);
+
+    // Update the FAQ with the validated data
+    $faq->update($validated);
+
+    // Return with a success message
+    return back()->with('success', 'FAQ updated successfully.');
+}
+
 
     public function destroy(Faq $faq)
     {
