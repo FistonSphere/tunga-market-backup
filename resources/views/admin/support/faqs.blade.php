@@ -194,7 +194,7 @@
                                 </span>
                             </td>
                             <td>
-                                <button class="action-btn edit-btn" data-bs-toggle="modal" data-bs-target="#editFaqModal"
+                                <button class="btn btn-sm btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editFaqModal"
                                     data-faq-id="{{ $faq->id }}" data-category="{{ $faq->category }}"
                                     data-topic="{{ $faq->topic }}" data-question="{{ $faq->question }}"
                                     data-answer="{{ $faq->answer }}" data-is_active="{{ $faq->is_active }}">
