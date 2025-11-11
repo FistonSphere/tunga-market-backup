@@ -46,6 +46,7 @@ public function update(Request $request, Faq $faq)
     return back()->with('success', 'FAQ updated successfully.');
 }
 
+
     public function destroy(Faq $faq)
     {
         $faq->delete();

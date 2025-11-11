@@ -332,11 +332,11 @@
             const modal = document.getElementById("editFaqModal");
             const form = document.getElementById("editFaqForm");
 
-            // Set the form action URL to the correct update route with faq.id
+            // Set the form action URL dynamically, including the FAQ ID
             form.action = `/admin/faqs/update/${faq.id}`;
 
             // Populate the form fields with the FAQ data
-            document.getElementById("editFaqId").value = faq.id;  // Set the hidden field
+            document.getElementById("editFaqId").value = faq.id;  // Set the hidden input value
             document.getElementById("editFaqCategory").value = faq.category;
             document.getElementById("editFaqTopic").value = faq.topic;
             document.getElementById("editFaqQuestion").value = faq.question;
@@ -346,6 +346,7 @@
             // Show the modal
             modal.style.display = "flex";
         }
+
 
 
         function closeCreateFaqModal() {
