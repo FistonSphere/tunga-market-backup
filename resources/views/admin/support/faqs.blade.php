@@ -275,7 +275,7 @@
                 <button type="button" class="btn-close" onclick="closeEditFaqModal()"></button>
             </div>
 
-            <form id="editFaqForm" method="POST" action="{{ route('admin.faqs.update', ['faq' => '']) }}">
+            <form id="editFaqForm" method="POST" action="{{ route('admin.faqs.update', ['faq' => 'id']) }}">
                 @csrf
                 @method('PUT')
                 <!-- The hidden input name should be 'faq' to match the route parameter -->

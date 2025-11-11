@@ -30,6 +30,7 @@ class AdminFaqController extends Controller
 
 public function update(Request $request, Faq $faq)
 {
+    dd($request->all());
     // Validate incoming request data
     $validated = $request->validate([
         'category' => 'required|string|max:255',
