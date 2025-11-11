@@ -446,8 +446,10 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn"  style="background: #000a14; color: #fff;" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn save-btn btn-primary"><i class="bi bi-check-circle"></i> Save Changes</button>
+                        <button type="button" class="btn" style="background: #000a14; color: #fff;"
+                            data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn save-btn btn-primary"><i class="bi bi-check-circle"></i> Save
+                            Changes</button>
                     </div>
                 </form>
             </div>
@@ -478,6 +480,46 @@
         </div>
     </div>
 
+    <!-- View/Edit FAQ Modal -->
+    <div class="modal fade" id="viewFaqModal" tabindex="-1" aria-labelledby="viewFaqModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewFaqModalLabel">View FAQ Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="faqDetailsForm">
+                        <div class="mb-3">
+                            <label for="faqCategory" class="form-label">Category</label>
+                            <input type="text" class="form-control" id="faqCategory" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="faqTopic" class="form-label">Topic</label>
+                            <input type="text" class="form-control" id="faqTopic" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="faqQuestion" class="form-label">Question</label>
+                            <textarea class="form-control" id="faqQuestion" rows="3" readonly></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="faqAnswer" class="form-label">Answer</label>
+                            <textarea class="form-control" id="faqAnswer" rows="3" readonly></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="faqStatus" class="form-label">Status</label>
+                            <input type="text" class="form-control" id="faqStatus" readonly>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!-- Delete Button inside Modal -->
+                    <button type="button" class="btn btn-danger" id="deleteFaqBtn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
