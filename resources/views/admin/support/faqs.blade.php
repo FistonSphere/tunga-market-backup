@@ -275,11 +275,12 @@
                 <button type="button" class="btn-close" onclick="closeEditFaqModal()"></button>
             </div>
 
-            <form id="editFaqForm" method="POST" action="{{ route('admin.faqs.update', ['faq' => ':faq_id']) }}">
+            <!-- Form Action will be updated dynamically -->
+            <form id="editFaqForm" method="POST" action="">
                 @csrf
                 @method('PUT')
 
-                <!-- Hidden input to pass the FAQ ID directly -->
+                <!-- Hidden input to pass the FAQ ID -->
                 <input type="hidden" id="editFaqId" name="faq" value="">
 
                 <div class="mb-3">
@@ -315,6 +316,7 @@
 
 
 
+
     <script>
         function openCreateFaqModal() {
             const modal = document.getElementById("createFaqModal");
@@ -334,7 +336,10 @@
             const modal = document.getElementById("editFaqModal");
             const form = document.getElementById("editFaqForm");
 
-            // Set the hidden input value to the FAQ ID
+            // Dynamically set the form action URL with the FAQ ID
+            form.action = `/admin/faqs/update/${faq.id}`;
+
+            // Set the hidden input field value to the FAQ ID
             document.getElementById("editFaqId").value = faq.id;
 
             // Populate the form fields with the FAQ data
@@ -347,6 +352,7 @@
             // Show the modal
             modal.style.display = "flex";
         }
+
 
 
         function closeCreateFaqModal() {
