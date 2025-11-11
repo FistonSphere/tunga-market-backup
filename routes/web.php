@@ -388,7 +388,7 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
     Route::post('/store', 'store')->name('admin.successStories.store');
     Route::get('/create', function(){
      return view('admin.success-story.create');
-       })->name('admin.brand.create');
+       })->name('admin.success-story.create');
     Route::get('/{id}/edit/', 'edit')->name('admin.successStories.edit');
     Route::put('/update/{story}', 'update')->name('admin.successStories.update');
     Route::delete('/destory/{story}', 'destroy')->name('admin.successStories.destroy');

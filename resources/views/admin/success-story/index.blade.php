@@ -384,7 +384,7 @@
         <div class="story-header">
             <h2 class="story-title">Success Stories</h2>
             <div class="story-actions">
-                <a href="{{ route('admin.successStories.store') }}" class="btn-add">
+                <a href="{{ route('admin.success-story.create') }}" class="btn-add">
                     <i class="bi bi-plus-circle"></i> Add Story
                 </a>
             </div>
