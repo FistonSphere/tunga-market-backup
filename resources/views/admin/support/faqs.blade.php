@@ -431,15 +431,16 @@
         // Trigger the delete confirmation modal and set the form action dynamically
         document.querySelectorAll('.delete-btn').forEach(button => {
             button.addEventListener('click', function () {
-                const faqId = this.getAttribute('data-faq-id');  // Get the FAQ ID from the data attribute
+            const faqId = this.getAttribute('data-faq-id');
 
-                // Set the action URL for the delete form dynamically
-                const form = document.getElementById('deleteFaqForm');
-                form.action = `/admin/faqs/destroy/${faqId}`;
+            // Build URL from named route with placeholder and replace it with the actual id
+            const url = "{{ route('admin.faqs.destroy', ':id') }}";
+            const form = document.getElementById('deleteFaqForm');
+            form.action = url.replace(':id', faqId);
 
-                // Show the modal
-                const deleteFaqModal = new bootstrap.Modal(document.getElementById('deleteFaqModal'));
-                deleteFaqModal.show();
+            // Show the modal
+            const deleteFaqModal = new bootstrap.Modal(document.getElementById('deleteFaqModal'));
+            deleteFaqModal.show();
             });
         });
 

@@ -377,7 +377,7 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
     Route::get('/faqs', 'index')->name('admin.faqs.index');
     Route::post('/store', 'store')->name('admin.faqs.store');
     Route::put('/update/{faq}', 'update')->name('admin.faqs.update'); 
-    Route::delete('/faqs/{faq}', 'destroy')->name('admin.faqs.destroy');
+    Route::delete('/destory/{faq}', 'destroy')->name('admin.faqs.destroy');
 });
     // FAQ routes
 // admin with no authentication middleware routes
