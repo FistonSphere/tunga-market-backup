@@ -217,23 +217,36 @@
             const form = document.getElementById("faqForm");
             const modalTitle = document.getElementById("modalTitle");
 
+            // Set modal title
             modalTitle.textContent = "Edit FAQ";
-            form.action = `/admin/faqs/update/${faq.id}`;
+
+            // Set form action (use the correct URL to update the FAQ)
+            form.action = `/admin/faqs/update/${faq.id}`;  // Adjusted to use the correct route
+
+            // Populate the form fields with the FAQ data
             document.getElementById("faqCategory").value = faq.category;
             document.getElementById("faqTopic").value = faq.topic;
             document.getElementById("faqQuestion").value = faq.question;
             document.getElementById("faqAnswer").value = faq.answer;
             document.getElementById("faqActive").checked = faq.is_active == 1;
 
-            // Add hidden PUT method
-            let methodInput = document.createElement('input');
-            methodInput.type = 'hidden';
-            methodInput.name = '_method';
-            methodInput.value = 'PUT';
-            form.appendChild(methodInput);
+            // Set the faq_id hidden field to the correct FAQ ID
+            document.getElementById("faqId").value = faq.id;  // Populate the faq_id field
 
+            // Make sure the form has the correct method for update
+            let methodInput = document.querySelector('input[name="_method"]');
+            if (!methodInput) {
+                methodInput = document.createElement('input');
+                methodInput.type = 'hidden';
+                methodInput.name = '_method';
+                methodInput.value = 'PUT';
+                form.appendChild(methodInput);
+            }
+
+            // Show the modal
             modal.style.display = "flex";
         }
+
 
         function closeFaqModal() {
             document.getElementById("faqModal").style.display = "none";
