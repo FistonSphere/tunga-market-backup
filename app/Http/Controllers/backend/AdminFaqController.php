@@ -31,9 +31,9 @@ class AdminFaqController extends Controller
 
 public function update(Request $request, Faq $faq)
 {
-    // Log the incoming request to see if data is coming through correctly
+    // Log the incoming request data to debug
     Log::info('Updating FAQ with ID: ' . $faq->id);
-    Log::info('Request Data: ', $request->all());  // This will log all input data
+    Log::info('Request Data: ', $request->all());
 
     // Validate incoming request data
     $validated = $request->validate([
@@ -41,16 +41,19 @@ public function update(Request $request, Faq $faq)
         'topic' => 'required|string|max:255',
         'question' => 'required|string|max:255',
         'answer' => 'required|string',
-        'is_active' => 'boolean',  // Validate 'is_active' as boolean
+        'is_active' => 'nullable|boolean',  // Allow null for unchecked checkbox
     ]);
-    
-    // Log the validated data
+
+    // Manually convert 'is_active' to boolean (1 for checked, 0 for unchecked)
+    $validated['is_active'] = $request->has('is_active') ? 1 : 0; // If checked, set to 1; else set to 0.
+
+    // Log the validated data for debugging
     Log::info('Validated Data: ', $validated);
 
-    // Log the current state of the FAQ before the update
+    // Log the current FAQ before updating
     Log::info('Current FAQ Details: ', $faq->toArray());
 
-    // Update the FAQ with the validated data
+    // Attempt to update the FAQ with the validated data
     try {
         $faq->update($validated);
         Log::info('FAQ updated successfully.', $faq->toArray());
@@ -63,6 +66,8 @@ public function update(Request $request, Faq $faq)
     // Return with a success message
     return back()->with('success', 'FAQ updated successfully.');
 }
+
+
 
 
     public function destroy(Faq $faq)
