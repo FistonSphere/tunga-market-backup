@@ -145,7 +145,7 @@
         }
     </style>
     <div class="edit-brand-wrapper">
-        <h1 class="page-title"><i class="bi bi-pencil-square"></i> Edit Brand</h1>
+        <h1 class="page-title"><i class="bi bi-pencil-square"></i> Edit Testimonial</h1>
 
         <form action="{{ route('admin.successStories.update', $story->id) }}" method="POST" enctype="multipart/form-data"
             class="Story-form">
@@ -220,7 +220,7 @@
 
             <!-- Actions -->
             <div class="form-actions">
-                <button type="submit" class="btn-save">Update Brand</button>
+                <button type="submit" class="btn-save">Update Testimonial</button>
                 <a href="{{ route('admin.brand.index') }}" class="btn-cancel">Cancel</a>
             </div>
 
