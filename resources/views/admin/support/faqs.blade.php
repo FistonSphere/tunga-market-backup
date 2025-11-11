@@ -245,6 +245,116 @@
             border-radius: .3rem;
             outline: 0;
         }
+
+        /* === Toast Container === */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* === Toast Notification === */
+        .toast {
+            min-width: 250px;
+            background-color: #fff;
+            border-left: 5px solid;
+            color: #333;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateX(120%);
+            animation: slideIn 0.4s ease forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Status colors */
+        .toast.success {
+            border-color: #28a745;
+        }
+
+        .toast.error {
+            border-color: #e74c3c;
+        }
+
+        /* Toast exit animation */
+        .toast.hide {
+            animation: slideOut 0.4s ease forwards;
+        }
+
+        /* Progress bar */
+        .toast::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: currentColor;
+            opacity: 0.2;
+            animation: progressBar 4s linear forwards;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(120%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(120%);
+            }
+        }
+
+        @keyframes progressBar {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+
+        .btn.manage {
+            background: #10b981;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn.manage:hover {
+            background: #0ea371;
+        }
+
+        .moreBtn:hover {
+            background-color: red;
+            cursor: pointer;
+
+        }
     </style>
 
     <div class="faq-container">
@@ -542,6 +652,7 @@
 
 
 
+    <div id="toast-container"></div>
 
     <script>
         function openCreateFaqModal() {
@@ -610,28 +721,6 @@
         });
 
         document.addEventListener("DOMContentLoaded", function () {
-            const viewButtons = document.querySelectorAll(".view-btn");
-
-            viewButtons.forEach(button => {
-                button.addEventListener("click", function () {
-                    const faqId = this.getAttribute("data-faq-id");
-                    const category = this.getAttribute("data-category");
-                    const topic = this.getAttribute("data-topic");
-                    const question = this.getAttribute("data-question");
-                    const answer = this.getAttribute("data-answer");
-                    const isActive = this.getAttribute("data-is_active");
-
-                    // Populate the modal with the FAQ details
-                    document.getElementById("faqCategory").value = category;
-                    document.getElementById("faqTopic").value = topic;
-                    document.getElementById("faqQuestion").value = question;
-                    document.getElementById("faqAnswer").value = answer;
-                    document.getElementById("faqStatus").value = isActive === "1" ? "Active" : "Inactive";
-                });
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
             // Trigger modal when Add FAQ button is clicked
             const addFaqButton = document.getElementById("btnAddFaq");
             addFaqButton.addEventListener("click", function () {
@@ -653,16 +742,19 @@
 
                 // Validate fields
                 if (!category || !topic || !question || !answer) {
-                    alert("All fields are required!");
+                    showNotification("All fields are required!", 'error');
                     return;
                 }
 
-                // You can make an AJAX request here to save the FAQ to the backend
-                // Example using fetch (adjust URL and method based on your backend)
-                fetch('/admin/faqs.store', {
+                // Get CSRF token from the meta tag
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                // Send POST request with CSRF token
+                fetch('{{ route('admin.faqs.store') }}', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken  // Include CSRF token
                     },
                     body: JSON.stringify({
                         category: category,
@@ -676,21 +768,69 @@
                     .then(data => {
                         // If FAQ is created successfully, close the modal and show a success message
                         if (data.success) {
-                            alert("FAQ created successfully!");
+                            showNotification("FAQ created successfully!", 'success');
+
+                            // Close the modal
                             const createFaqModal = bootstrap.Modal.getInstance(document.getElementById("createFaqModal"));
                             createFaqModal.hide();
-                            // Optionally reload the FAQ list or add the new FAQ to the table
-                             //loadFaqs(); // Implement this function to refresh the FAQ list
+
+                            // Delay the reload to allow the toast to be visible
+                            setTimeout(() => {
+                                location.reload(); // This will reload the page after the toast message disappears
+                            }, 4000); // Wait for the toast message duration (4 seconds)
                         } else {
-                            alert("Failed to create FAQ: " + data.message);
+                            showNotification("Failed to create FAQ: " + data.message, 'error');
                         }
                     })
                     .catch(error => {
-                        alert("An error occurred while creating the FAQ.");
+                        showNotification("An error occurred while creating the FAQ.", 'error');
                         console.error(error);
                     });
             });
         });
+
+        // Show toast notification
+        function showNotification(message, type = 'success') {
+            // Remove existing notification if present
+            const existing = document.getElementById('notification');
+            if (existing) existing.remove();
+
+            // Create notification container
+            const notification = document.createElement('div');
+            notification.id = 'notification';
+            notification.className = `toast ${type}`;
+
+            // Inner content
+            notification.innerHTML = `
+            <div class="notification-content">
+                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                <span>${message}</span>
+            </div>
+            <div class="progress-bar"></div>
+        `;
+
+            // Ensure toast-container exists in the DOM before appending
+            const toastContainer = document.getElementById('toast-container');
+            if (toastContainer) {
+                toastContainer.appendChild(notification);
+            } else {
+                console.warn('Toast container not found!');
+            }
+
+            // Animate progress bar
+            const progress = notification.querySelector('.progress-bar');
+            progress.style.transition = 'width 4s linear';
+            setTimeout(() => { progress.style.width = '100%'; }, 50);
+
+            // Auto-remove after 4s
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 500);
+            }, 4000);
+
+    }
+
+
     </script>
 
 @endsection
