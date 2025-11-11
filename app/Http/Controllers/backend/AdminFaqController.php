@@ -15,7 +15,7 @@ class AdminFaqController extends Controller
         return view('admin.support.faqs', compact('faqs'));
     }
 
-    public function store(Request $request)
+public function store(Request $request)
 {
     // Validate the input
     $request->validate([
@@ -35,8 +35,10 @@ class AdminFaqController extends Controller
         'is_active' => $request->is_active,
     ]);
 
-    return response()->json(['success' => true, 'data' => $faq]);
+    // Redirect back with success message
+    return back()->with('success', 'FAQ created successfully!');
 }
+
 
 public function update(Request $request, Faq $faq)
 {

@@ -652,8 +652,6 @@
 
 
 
-    <div id="toast-container"></div>
-
     <script>
         function openCreateFaqModal() {
             const modal = document.getElementById("createFaqModal");
@@ -721,6 +719,28 @@
         });
 
         document.addEventListener("DOMContentLoaded", function () {
+            const viewButtons = document.querySelectorAll(".view-btn");
+
+            viewButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const faqId = this.getAttribute("data-faq-id");
+                    const category = this.getAttribute("data-category");
+                    const topic = this.getAttribute("data-topic");
+                    const question = this.getAttribute("data-question");
+                    const answer = this.getAttribute("data-answer");
+                    const isActive = this.getAttribute("data-is_active");
+
+                    // Populate the modal with the FAQ details
+                    document.getElementById("faqCategory").value = category;
+                    document.getElementById("faqTopic").value = topic;
+                    document.getElementById("faqQuestion").value = question;
+                    document.getElementById("faqAnswer").value = answer;
+                    document.getElementById("faqStatus").value = isActive === "1" ? "Active" : "Inactive";
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
             // Trigger modal when Add FAQ button is clicked
             const addFaqButton = document.getElementById("btnAddFaq");
             addFaqButton.addEventListener("click", function () {
@@ -769,15 +789,13 @@
                         // If FAQ is created successfully, close the modal and show a success message
                         if (data.success) {
                             showNotification("FAQ created successfully!", 'success');
-
-                            // Close the modal
                             const createFaqModal = bootstrap.Modal.getInstance(document.getElementById("createFaqModal"));
                             createFaqModal.hide();
 
-                            // Delay the reload to allow the toast to be visible
+                            // Reload the page after success to show changes
                             setTimeout(() => {
-                                location.reload(); // This will reload the page after the toast message disappears
-                            }, 4000); // Wait for the toast message duration (4 seconds)
+                                location.reload(); // This will reload the page after 2 seconds for smooth transition
+                            }, 2000);
                         } else {
                             showNotification("Failed to create FAQ: " + data.message, 'error');
                         }
@@ -802,20 +820,14 @@
 
             // Inner content
             notification.innerHTML = `
-            <div class="notification-content">
-                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                <span>${message}</span>
-            </div>
-            <div class="progress-bar"></div>
-        `;
+                        <div class="notification-content">
+                            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                            <span>${message}</span>
+                        </div>
+                        <div class="progress-bar"></div>
+                    `;
 
-            // Ensure toast-container exists in the DOM before appending
-            const toastContainer = document.getElementById('toast-container');
-            if (toastContainer) {
-                toastContainer.appendChild(notification);
-            } else {
-                console.warn('Toast container not found!');
-            }
+            document.getElementById('toast-container').appendChild(notification);
 
             // Animate progress bar
             const progress = notification.querySelector('.progress-bar');
@@ -827,8 +839,8 @@
                 notification.style.opacity = '0';
                 setTimeout(() => notification.remove(), 500);
             }, 4000);
+        }
 
-    }
 
 
     </script>
