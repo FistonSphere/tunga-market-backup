@@ -15,6 +15,8 @@ class AdminFaqController extends Controller
         return view('admin.support.faqs', compact('faqs'));
     }
 
+
+
 public function store(Request $request)
 {
     // Validate the input
@@ -39,22 +41,6 @@ public function store(Request $request)
     return back()->with('success', 'FAQ created successfully!');
 }
 
-
-public function update(Request $request, Faq $faq)
-{
-    $validated = $request->validate([
-        'category' => 'nullable|string|max:255',
-        'topic' => 'nullable|string|max:255',
-        'question' => 'nullable|string|max:255',
-        'answer' => 'nullable|string',
-        'is_active' => 'nullable|boolean',
-    ]);
-
-    // Update FAQ
-    $faq->update($validated);
-
-    return back()->with('success', 'FAQ updated successfully!');
-}
 
 
 
