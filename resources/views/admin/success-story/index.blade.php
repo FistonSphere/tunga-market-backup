@@ -375,6 +375,57 @@
             transform: none;
             box-shadow: none;
         }
+
+        .story-card {
+            position: relative;
+            /* To position the badge in relation to the card */
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            /* Distance from the top */
+            right: 10px;
+            /* Distance from the right */
+            width: 50px;
+            /* Width of the badge */
+            height: 50px;
+            /* Height of the badge */
+            border-radius: 50%;
+            /* Makes it circular */
+            background-color: #fff;
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            /* Shadow for the "earpiece" effect */
+            border: 2px solid #fff;
+            /* Border color */
+            text-transform: uppercase;
+            z-index: 1;
+            /* Make sure it stays on top of other elements */
+        }
+
+        .status-badge.active {
+            background-color: #ff8b00;
+            /* Green for active */
+            border-color: #ff8b00;
+        }
+
+        .status-badge.inactive {
+            background-color: #9c0000;
+            /* Red for inactive */
+            border-color: #9c0000;
+        }
+
+        .status-badge:hover {
+            opacity: 0.8;
+            /* Hover effect to make it slightly transparent */
+            cursor: pointer;
+        }
     </style>
 
     </style>
@@ -399,6 +450,11 @@
         <div class="story-grid" id="storyGrid">
             @forelse($stories as $story)
                 <div class="story-card" data-name="{{ strtolower($story->name) }}">
+                    <!-- Badge - Active/Inactive at Top Right -->
+                    <div class="status-badge {{ $story->is_active ? 'active' : 'inactive' }}">
+                        {{ $story->is_active ? 'Active' : 'Inactive' }}
+                    </div>
+
                     <!-- Logo -->
                     <div class="profile-image">
                         <img src="{{ $story->photo ? asset($story->photo) : asset('assets/images/no-image.png') }}"
@@ -412,7 +468,7 @@
                                 {{ strtoupper($story->role) }} of
                             @endif
                             @if(!empty($story->company))
-                                 {{ $story->company }} |
+                                {{ $story->company }} |
                             @endif
                             {{ $story->name ?? '' }}
                         </h3>
@@ -447,6 +503,7 @@
                 </div>
             @endforelse
         </div>
+
 
 
         @if ($stories->hasPages())
@@ -487,7 +544,7 @@
     <div id="deleteModal" class="modal-overlay" style="display:none;">
         <div class="modal-content">
             <h2>Are you sure?</h2>
-            <p id="deleteMessage">This action cannot be undone. Do you really want to delete this category?</p>
+            <p id="deleteMessage">This action cannot be undone. Do you really want to delete this testimonal?</p>
 
             <div class="modal-actions">
                 <form id="deleteForm" method="POST">
@@ -526,10 +583,11 @@
                     const storyId = this.getAttribute('data-id');
                     const storyName = this.getAttribute('data-name');
                     // Update confirmation message
-                    deleteMessage.textContent = `Are you sure you want to delete "${storyName}"?`;
+                    deleteMessage.textContent = `Are you sure you want to delete "${storyName}"'s testimonial?`;
 
                     // Update form action dynamically
-                    deleteForm.action = `/admin/story/${storyId}/delete`;
+                    const deleteUrl = deleteForm.getAttribute('action').replace(':storyId', storyId);
+                    deleteForm.setAttribute('action', deleteUrl);
 
                     // Show modal
                     deleteModal.style.display = 'flex';
@@ -547,7 +605,15 @@
                     deleteModal.style.display = 'none';
                 }
             });
+
+            // Automatically submit the form after deletion
+            deleteForm.addEventListener('submit', function () {
+                // Close the modal
+                deleteModal.style.display = 'none';
+                console.log("🟢 Deleting the story...");
+            });
         });
+
 
         document.querySelectorAll('.pagination-list a').forEach(link => {
             link.addEventListener('click', () => {

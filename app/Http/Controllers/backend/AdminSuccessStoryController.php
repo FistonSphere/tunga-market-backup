@@ -22,6 +22,7 @@ class AdminSuccessStoryController extends Controller
             'role' => 'required|string|max:255',
             'company' => 'required|string|max:255',
             'testimonial' => 'nullable|string',
+            'is_active' => 'required|boolean',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
         ]);
 
@@ -31,12 +32,13 @@ class AdminSuccessStoryController extends Controller
         $story->role = $validated['role'];
         $story->company = $validated['company'];
         $story->testimonial = $validated['testimonial'] ?? null;
+        $story->is_active = $validated['is_active'];
 
         // ✅ Handle photo upload with public URL
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $destinationPath = public_path('uploads/brands');
+            $destinationPath = public_path('uploads/story');
 
             // Ensure directory exists
             if (!file_exists($destinationPath)) {
@@ -50,11 +52,20 @@ class AdminSuccessStoryController extends Controller
             $story->photo = url('uploads/story/' . $filename);
         }
 
-        // ✅ Save the brand
+        // ✅ Save the success story
         $story->save();
 
         // ✅ Redirect with success notification
         return redirect()->route('admin.successStories.index')
             ->with('success', '🎉 Success Story "' . $story->name . '" has been added successfully!');
+    }
+
+    public function destroy($id)
+    {
+        $story = SuccessStory::findOrFail($id);
+        $story->delete();
+
+        return redirect()->route('admin.successStories.index')
+            ->with('success', '🗑️ Success Story "' . $story->name . '" has been deleted successfully!');
     }
 }
