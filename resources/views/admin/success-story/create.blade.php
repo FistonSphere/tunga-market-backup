@@ -167,7 +167,7 @@
     </style>
     <div class="Story-create-container">
         <div class="header-bar">
-            <h2><i class="bi bi-bag-plus"></i> Create New Story</h2>
+            <h2><i class="bi bi-bag-plus"></i> Create New Success Story</h2>
             <div class="action-buttons">
                 <a href="{{ route('admin.successStories.index') }}" class="btn-cancel">Cancel</a>
                 <button type="submit" form="storyForm" class="btn-save">
