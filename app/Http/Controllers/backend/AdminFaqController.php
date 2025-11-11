@@ -28,10 +28,8 @@ class AdminFaqController extends Controller
         return back()->with('success', 'FAQ added successfully.');
     }
 
- public function update(Request $request, Faq $faq)
+public function update(Request $request, Faq $faq)
 {
-    
-
     // Validate incoming request data
     $validated = $request->validate([
         'category' => 'required|string|max:255',
@@ -47,7 +45,6 @@ class AdminFaqController extends Controller
     // Return with a success message
     return back()->with('success', 'FAQ updated successfully.');
 }
-
 
     public function destroy(Faq $faq)
     {

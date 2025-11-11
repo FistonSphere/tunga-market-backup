@@ -267,6 +267,7 @@
     </div>
 
     <!-- Modal for Editing FAQ -->
+
     <div id="editFaqModal" class="modal">
         <div class="modal-content p-4 rounded">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -277,7 +278,8 @@
             <form id="editFaqForm" method="POST" action="{{ route('admin.faqs.update', ['faq' => '']) }}">
                 @csrf
                 @method('PUT')
-                <input type="hidden" id="editFaqId" name="faq_id">
+                <!-- The hidden input name should be 'faq' to match the route parameter -->
+                <input type="hidden" id="editFaqId" name="faq" value="">
 
                 <div class="mb-3">
                     <label class="form-label">Category</label>
@@ -310,6 +312,7 @@
 
 
 
+
     <script>
         function openCreateFaqModal() {
             const modal = document.getElementById("createFaqModal");
@@ -329,11 +332,11 @@
             const modal = document.getElementById("editFaqModal");
             const form = document.getElementById("editFaqForm");
 
-            // Set the form action to the correct update URL
+            // Set the form action URL to the correct update route with faq.id
             form.action = `/admin/faqs/update/${faq.id}`;
 
             // Populate the form fields with the FAQ data
-            document.getElementById("editFaqId").value = faq.id;
+            document.getElementById("editFaqId").value = faq.id;  // Set the hidden field
             document.getElementById("editFaqCategory").value = faq.category;
             document.getElementById("editFaqTopic").value = faq.topic;
             document.getElementById("editFaqQuestion").value = faq.question;
@@ -343,6 +346,7 @@
             // Show the modal
             modal.style.display = "flex";
         }
+
 
         function closeCreateFaqModal() {
             document.getElementById("createFaqModal").style.display = "none";
