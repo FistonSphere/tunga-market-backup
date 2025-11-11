@@ -375,50 +375,45 @@
         @endif
     </div>
 
-    <!-- Create FAQ Modal -->
-    <div class="modal fade" id="createFaqModal" tabindex="-1" aria-labelledby="createFaqModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createFaqModalLabel">Create New FAQ</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="createFaqForm">
-                        <div class="mb-3">
-                            <label for="faqCategory" class="form-label">Category</label>
-                            <input type="text" class="form-control" id="faqCategory" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="faqTopic" class="form-label">Topic</label>
-                            <input type="text" class="form-control" id="faqTopic" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="faqQuestion" class="form-label">Question</label>
-                            <textarea class="form-control" id="faqQuestion" rows="3" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="faqAnswer" class="form-label">Answer</label>
-                            <textarea class="form-control" id="faqAnswer" rows="3" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="faqStatus" class="form-label">Status</label>
-                            <select class="form-control" id="faqStatus" required>
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn" style="background: #000a14; color: #fff;"
-                        data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveFaqBtn">Save FAQ</button>
-                </div>
+    <!-- Modal for Creating FAQ -->
+    {{-- <div id="createFaqModal" class="modal">
+        <div class="modal-content p-4 rounded">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4><i class="bi bi-plus-circle"></i> Add FAQ</h4>
+                <button type="button" class="btn-close" onclick="closeCreateFaqModal()"></button>
             </div>
-        </div>
-    </div>
 
+            <form id="createFaqForm" method="POST" action="{{ route('admin.faqs.store') }}">
+                @csrf
+
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <input type="text" class="form-control" name="category" id="createFaqCategory" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Topic</label>
+                    <input type="text" class="form-control" name="topic" id="createFaqTopic" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Question</label>
+                    <input type="text" class="form-control" name="question" id="createFaqQuestion" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Answer</label>
+                    <textarea class="form-control" name="answer" id="createFaqAnswer" rows="4" required></textarea>
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" name="is_active" id="createFaqActive">
+                    <label class="form-check-label" for="createFaqActive">Active</label>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateFaqModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveFaqBtn">Save FAQ</button>
+                </div>
+            </form>
+        </div>
+    </div> --}}
 
     <!-- Modal for Editing FAQ -->
 
@@ -534,6 +529,51 @@
                 <div class="modal-footer">
                     <button type="button" class="btn" style="background: #000a14; color: #fff;"
                         data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create FAQ Modal -->
+    <div class="modal fade" id="createFaqModal" tabindex="-1" aria-labelledby="createFaqModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createFaqModalLabel">Create New FAQ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createFaqForm" action="{{ route('admin.faqs.store') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="faqCategory" class="form-label">Category</label>
+                            <input type="text" class="form-control" id="faqCategory" name="category" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="faqTopic" class="form-label">Topic</label>
+                            <input type="text" class="form-control" id="faqTopic" name="topic" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="faqQuestion" class="form-label">Question</label>
+                            <textarea class="form-control" id="faqQuestion" name="question" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="faqAnswer" class="form-label">Answer</label>
+                            <textarea class="form-control" id="faqAnswer" name="answer" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="faqStatus" class="form-label">Status</label>
+                            <select class="form-control" id="faqStatus" name="is_active" required>
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" style="background: #000a14; color: #fff;"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveFaqBtn">Save FAQ</button>
                 </div>
             </div>
         </div>
@@ -656,60 +696,21 @@
                     return;
                 }
 
-                // Get CSRF token from the meta tag
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                // Get the form element and submit
+                const form = document.getElementById("createFaqForm");
 
-                // Populate the form fields and submit via standard form submit
-            const form = document.getElementById("createFaqForm");
+                // You could also update form action dynamically here if needed
+                // form.action = "some-other-url"; // Uncomment if you want dynamic action
 
-            // Add CSRF token as a hidden input to the form before submitting
-            const csrfField = document.createElement('input');
-            csrfField.type = 'hidden';
-            csrfField.name = '_token';
-            csrfField.value = csrfToken;
-            form.appendChild(csrfField);
+                // Submit the form
+                form.submit();
 
-            // Create a hidden field for the "is_active" status
-            const statusField = document.createElement('input');
-            statusField.type = 'hidden';
-            statusField.name = 'is_active';
-            statusField.value = status;
-            form.appendChild(statusField);
-
-            // Create a hidden field for each form input value (category, topic, etc.)
-            const categoryField = document.createElement('input');
-            categoryField.type = 'hidden';
-            categoryField.name = 'category';
-            categoryField.value = category;
-            form.appendChild(categoryField);
-
-            const topicField = document.createElement('input');
-            topicField.type = 'hidden';
-            topicField.name = 'topic';
-            topicField.value = topic;
-            form.appendChild(topicField);
-
-            const questionField = document.createElement('input');
-            questionField.type = 'hidden';
-            questionField.name = 'question';
-            questionField.value = question;
-            form.appendChild(questionField);
-
-            const answerField = document.createElement('input');
-            answerField.type = 'hidden';
-            answerField.name = 'answer';
-            answerField.value = answer;
-            form.appendChild(answerField);
-
-            // Submit the form
-            form.submit();
-
-            // Close the modal
-            const createFaqModal = bootstrap.Modal.getInstance(document.getElementById("createFaqModal"));
-            createFaqModal.hide(); // Hide the modal
+                // Close the modal
+                const createFaqModal = bootstrap.Modal.getInstance(document.getElementById("createFaqModal"));
+                createFaqModal.hide(); // Hide the modal
+            });
         });
-    });
 
-        </script>
+    </script>
 
 @endsection
