@@ -9,6 +9,7 @@ use App\Http\Controllers\backend\AdminEnquiryController;
 use App\Http\Controllers\backend\AdminFaqController;
 use App\Http\Controllers\backend\AdminOrderManagementController;
 use App\Http\Controllers\backend\AdminProductIssueController;
+use App\Http\Controllers\backend\AdminSuccessStoryController;
 use App\Http\Controllers\backend\AdminSupportController;
 use App\Http\Controllers\backend\AdminUserController;
 use App\Http\Controllers\backend\DeliveryTransportController;
@@ -380,5 +381,19 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
     Route::delete('/destory/{faq}', 'destroy')->name('admin.faqs.destroy');
 });
     // FAQ routes
+
+    // Success Story routes
+    Route::prefix('success-stories')->controller(AdminSuccessStoryController::class)->group(function () {
+    Route::get('/overview', 'index')->name('admin.successStories.index');
+    Route::post('/store', 'store')->name('admin.successStories.store');
+    Route::get('/create', function(){
+     return view('admin.success-story.create');
+       })->name('admin.brand.create');
+    Route::get('/{id}/edit/', 'edit')->name('admin.brand.edit');
+    Route::put('/update/{story}', 'update')->name('admin.successStories.update');
+    Route::delete('/destory/{story}', 'destroy')->name('admin.successStories.destroy');
+});
+    // Success Story routes
+
 // admin with no authentication middleware routes
 });

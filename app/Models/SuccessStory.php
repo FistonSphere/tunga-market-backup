@@ -12,8 +12,6 @@ class SuccessStory extends Model
         'company',
         'photo',
         'testimonial',
-        'highlight_1',
-        'highlight_2',
         'is_active',
     ];
 }

@@ -293,7 +293,7 @@
                                     Users</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{{ route('admin.users.list') }}" class="{{ request()->routeIs('admin.users.list') ? 'active' : '' }}">User Listing</a></li>
-                                
+
                             </ul>
                         </li>
                         <li class="submenu {{ request()->is('admin/support*') }}">
@@ -303,7 +303,16 @@
                             <ul>
                                 <li><a href="{{ route('admin.support.contactRequests') }}" class="{{ request()->routeIs('admin.support.contactRequests') ? 'active' : '' }}">Customer Request</a></li>
                                 <li><a href="{{ route('admin.faqs.index') }}" class="{{ request()->routeIs('admin.faqs.index') ? 'active' : '' }}">Faqs</a></li>
-                                
+
+                            </ul>
+                        </li>
+                        <li class="submenu {{ request()->is('admin/success-stories*') }}">
+                            <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/story.png')}}"
+                                    alt="img"><span>
+                                    Success Stories</span> <span class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a href="{{ route('admin.successStories.index') }}" class="{{ request()->routeIs('admin.successStories.index') ? 'active' : '' }}">Manage Success Stories</a></li>
+
                             </ul>
                         </li>
 
