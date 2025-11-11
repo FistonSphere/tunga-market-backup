@@ -245,8 +245,6 @@
             border-radius: .3rem;
             outline: 0;
         }
-
-      
     </style>
 
     <div class="faq-container">
@@ -661,33 +659,57 @@
                 // Get CSRF token from the meta tag
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-                // Send POST request with CSRF token
-                fetch('{{ route('admin.faqs.store') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken  // Include CSRF token
-                    },
-                    body: JSON.stringify({
-                        category: category,
-                        topic: topic,
-                        question: question,
-                        answer: answer,
-                        is_active: status
-                    })
-                })
-                    .then(response => response.text())  // Expect a plain text response (redirect)
-                    .then(data => {
-                        // After submission, redirect to the previous page, and the success message should appear via Laravel's session flash
-                        window.location.href = data;  // Redirect back
-                    })
-                    .catch(error => {
-                        console.error("An error occurred while creating the FAQ.", error);
-                    });
-            });
+                // Populate the form fields and submit via standard form submit
+            const form = document.getElementById("createFaqForm");
+
+            // Add CSRF token as a hidden input to the form before submitting
+            const csrfField = document.createElement('input');
+            csrfField.type = 'hidden';
+            csrfField.name = '_token';
+            csrfField.value = csrfToken;
+            form.appendChild(csrfField);
+
+            // Create a hidden field for the "is_active" status
+            const statusField = document.createElement('input');
+            statusField.type = 'hidden';
+            statusField.name = 'is_active';
+            statusField.value = status;
+            form.appendChild(statusField);
+
+            // Create a hidden field for each form input value (category, topic, etc.)
+            const categoryField = document.createElement('input');
+            categoryField.type = 'hidden';
+            categoryField.name = 'category';
+            categoryField.value = category;
+            form.appendChild(categoryField);
+
+            const topicField = document.createElement('input');
+            topicField.type = 'hidden';
+            topicField.name = 'topic';
+            topicField.value = topic;
+            form.appendChild(topicField);
+
+            const questionField = document.createElement('input');
+            questionField.type = 'hidden';
+            questionField.name = 'question';
+            questionField.value = question;
+            form.appendChild(questionField);
+
+            const answerField = document.createElement('input');
+            answerField.type = 'hidden';
+            answerField.name = 'answer';
+            answerField.value = answer;
+            form.appendChild(answerField);
+
+            // Submit the form
+            form.submit();
+
+            // Close the modal
+            const createFaqModal = bootstrap.Modal.getInstance(document.getElementById("createFaqModal"));
+            createFaqModal.hide(); // Hide the modal
         });
+    });
 
-
-    </script>
+        </script>
 
 @endsection
