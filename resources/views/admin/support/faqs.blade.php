@@ -4,40 +4,111 @@
 @section('content')
 
     <style>
-        /* Modal styling */
-        #faqModal {
+        /* Modal Styling */
+        .modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
             justify-content: center;
             align-items: center;
             z-index: 2000;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
-        #faqModal .modal-content {
+        .modal-content {
             background: #fff;
-            width: 95%;
+            width: 90%;
             max-width: 600px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            animation: fadeIn 0.2s ease-in-out;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            animation: scaleUp 0.3s ease-in-out;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: scale(0.9);
             }
 
             to {
                 opacity: 1;
+            }
+        }
+
+        @keyframes scaleUp {
+            from {
+                transform: scale(0.9);
+            }
+
+            to {
                 transform: scale(1);
             }
         }
+
+        /* Header Styling */
+        .modal h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .modal h4 i {
+            margin-right: 8px;
+            color: #007bff;
+        }
+
+        /* Input Fields */
+        .form-control {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.9rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        /* Switch for Active/Inactive */
+        .form-check-input {
+            border-radius: 50%;
+        }
+
+        /* Button Styling */
+        button {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        button.btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        button.btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        button.btn-secondary {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        button.btn-secondary:hover {
+            background-color: #ddd;
+        }
+
 
         /* Table design */
         .table-hover tbody tr:hover {
@@ -155,102 +226,132 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div id="faqModal" class="modal">
+    <!-- Modal for Creating FAQ -->
+    <div id="createFaqModal" class="modal">
         <div class="modal-content p-4 rounded">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 id="modalTitle"><i class="bi bi-info-circle"></i> Add FAQ</h4>
-                <button type="button" class="btn-close" onclick="closeFaqModal()"></button>
+                <h4><i class="bi bi-plus-circle"></i> Add FAQ</h4>
+                <button type="button" class="btn-close" onclick="closeCreateFaqModal()"></button>
             </div>
 
-            <form id="faqForm" method="POST" action="{{ route('admin.faqs.store') }}">
+            <form id="createFaqForm" method="POST" action="{{ route('admin.faqs.store') }}">
                 @csrf
-                <input type="hidden" id="faqId" name="faq_id">
 
                 <div class="mb-3">
                     <label class="form-label">Category</label>
-                    <input type="text" class="form-control" name="category" id="faqCategory" required>
+                    <input type="text" class="form-control" name="category" id="createFaqCategory" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Topic</label>
-                    <input type="text" class="form-control" name="topic" id="faqTopic" required>
+                    <input type="text" class="form-control" name="topic" id="createFaqTopic" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Question</label>
-                    <input type="text" class="form-control" name="question" id="faqQuestion" required>
+                    <input type="text" class="form-control" name="question" id="createFaqQuestion" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Answer</label>
-                    <textarea class="form-control" name="answer" id="faqAnswer" rows="4" required></textarea>
+                    <textarea class="form-control" name="answer" id="createFaqAnswer" rows="4" required></textarea>
                 </div>
                 <div class="form-check form-switch mb-3">
-                    <input class="form-check-input" type="checkbox" name="is_active" id="faqActive">
-                    <label class="form-check-label" for="faqActive">Active</label>
+                    <input class="form-check-input" type="checkbox" name="is_active" id="createFaqActive">
+                    <label class="form-check-label" for="createFaqActive">Active</label>
                 </div>
 
                 <div class="d-flex justify-content-end gap-2">
-                    <button type="button" class="btn btn-secondary" onclick="closeFaqModal()">Cancel</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateFaqModal()">Cancel</button>
                     <button type="submit" class="btn btn-primary" id="saveFaqBtn">Save FAQ</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- Modal for Editing FAQ -->
+    <div id="editFaqModal" class="modal">
+        <div class="modal-content p-4 rounded">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4><i class="bi bi-pencil-square"></i> Edit FAQ</h4>
+                <button type="button" class="btn-close" onclick="closeEditFaqModal()"></button>
+            </div>
+
+            <form id="editFaqForm" method="POST" action="{{ route('admin.faqs.update', ['faq' => '']) }}">
+                @csrf
+                @method('PUT')
+                <input type="hidden" id="editFaqId" name="faq_id">
+
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <input type="text" class="form-control" name="category" id="editFaqCategory" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Topic</label>
+                    <input type="text" class="form-control" name="topic" id="editFaqTopic" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Question</label>
+                    <input type="text" class="form-control" name="question" id="editFaqQuestion" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Answer</label>
+                    <textarea class="form-control" name="answer" id="editFaqAnswer" rows="4" required></textarea>
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" name="is_active" id="editFaqActive">
+                    <label class="form-check-label" for="editFaqActive">Active</label>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditFaqModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveEditFaqBtn">Save FAQ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const modal = document.getElementById("faqModal");
-            const form = document.getElementById("faqForm");
-            const modalTitle = document.getElementById("modalTitle");
-            const saveBtn = document.getElementById("saveFaqBtn");
+        function openCreateFaqModal() {
+            const modal = document.getElementById("createFaqModal");
+            const form = document.getElementById("createFaqForm");
 
-            document.getElementById("btnAddFaq").addEventListener("click", () => {
-                form.reset();
-                modalTitle.textContent = "Add FAQ";
-                form.action = "{{ route('admin.faqs.store') }}";
-                modal.style.display = "flex";
-            });
-        });
+            // Reset all form fields for new FAQ creation
+            form.reset();
 
-        function openEditModal(faq) {
-            const modal = document.getElementById("faqModal");
-            const form = document.getElementById("faqForm");
-            const modalTitle = document.getElementById("modalTitle");
-
-            // Set modal title
-            modalTitle.textContent = "Edit FAQ";
-
-            // Set form action (use the correct URL to update the FAQ)
-            form.action = `/admin/faqs/update/${faq.id}`;  // Adjusted to use the correct route
-
-            // Populate the form fields with the FAQ data
-            document.getElementById("faqCategory").value = faq.category;
-            document.getElementById("faqTopic").value = faq.topic;
-            document.getElementById("faqQuestion").value = faq.question;
-            document.getElementById("faqAnswer").value = faq.answer;
-            document.getElementById("faqActive").checked = faq.is_active == 1;
-
-            // Set the faq_id hidden field to the correct FAQ ID
-            document.getElementById("faqId").value = faq.id;  // Populate the faq_id field
-
-            // Make sure the form has the correct method for update
-            let methodInput = document.querySelector('input[name="_method"]');
-            if (!methodInput) {
-                methodInput = document.createElement('input');
-                methodInput.type = 'hidden';
-                methodInput.name = '_method';
-                methodInput.value = 'PUT';
-                form.appendChild(methodInput);
-            }
+            // Set the form action for creating a new FAQ
+            form.action = "{{ route('admin.faqs.store') }}";
 
             // Show the modal
             modal.style.display = "flex";
         }
 
+        function openEditFaqModal(faq) {
+            const modal = document.getElementById("editFaqModal");
+            const form = document.getElementById("editFaqForm");
 
-        function closeFaqModal() {
-            document.getElementById("faqModal").style.display = "none";
+            // Set the form action to the correct update URL
+            form.action = `/admin/faqs/${faq.id}`;
+
+            // Populate the form fields with the FAQ data
+            document.getElementById("editFaqId").value = faq.id;
+            document.getElementById("editFaqCategory").value = faq.category;
+            document.getElementById("editFaqTopic").value = faq.topic;
+            document.getElementById("editFaqQuestion").value = faq.question;
+            document.getElementById("editFaqAnswer").value = faq.answer;
+            document.getElementById("editFaqActive").checked = faq.is_active == 1;
+
+            // Show the modal
+            modal.style.display = "flex";
         }
+
+        function closeCreateFaqModal() {
+            document.getElementById("createFaqModal").style.display = "none";
+        }
+
+        function closeEditFaqModal() {
+            document.getElementById("editFaqModal").style.display = "none";
+        }
+
     </script>
 
 @endsection
