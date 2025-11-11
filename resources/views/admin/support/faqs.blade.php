@@ -690,24 +690,16 @@
                 const answer = document.getElementById("faqAnswer").value;
                 const status = document.getElementById("faqStatus").value;
 
-                // Validate fields
                 if (!category || !topic || !question || !answer) {
                     alert("All fields are required!");
                     return;
                 }
-
-                // Get the form element and submit
                 const form = document.getElementById("createFaqForm");
 
-                // You could also update form action dynamically here if needed
-                // form.action = "some-other-url"; // Uncomment if you want dynamic action
-
-                // Submit the form
                 form.submit();
 
-                // Close the modal
                 const createFaqModal = bootstrap.Modal.getInstance(document.getElementById("createFaqModal"));
-                createFaqModal.hide(); // Hide the modal
+                createFaqModal.hide();
             });
         });
 
