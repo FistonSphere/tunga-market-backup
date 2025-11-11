@@ -5,39 +5,8 @@
 
     <style>
         /* Modal Styling */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            animation: fadeIn 0.3s ease-in-out;
-        }
 
-        .modal-content {
-            background: #fff;
-            width: 90%;
-            max-width: 600px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            padding: 30px;
-            animation: scaleUp 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
+        
 
         @keyframes scaleUp {
             from {
@@ -147,6 +116,143 @@
                 border-bottom: none;
             }
         }
+
+        .delivery-modal {
+            border-radius: 20px;
+            overflow: hidden;
+            background: #fff;
+            border: none;
+            animation: fadeIn 0.3s ease-in-out;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header */
+        .delivery-modal .modal-header {
+            background: linear-gradient(135deg, #ff5f0e, #ff7f40);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: none;
+            padding: 1.5rem 2rem;
+        }
+
+        .delivery-modal .header-icon {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            padding: 0.6rem 0.8rem;
+            font-size: 1.4rem;
+        }
+
+        .delivery-modal .modal-title {
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+
+        .delivery-modal .subtitle {
+            font-size: 0.85rem;
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        /* Form */
+        .delivery-modal .modal-body {
+            padding: 1.8rem 2rem;
+            background-color: #fafbfc;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.2rem 1.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .modern-input,
+        .modern-select {
+            border-radius: 10px;
+            border: 1px solid #dcdcdc;
+            padding: 0.6rem 0.8rem;
+            transition: all 0.3s ease;
+            background-color: #fff;
+        }
+
+        .modern-input:focus,
+        .modern-select:focus {
+            border-color: #ff7f40;
+            box-shadow: 0 0 0 3px rgba(0, 170, 255, 0.2);
+            outline: none;
+        }
+
+        /* Footer */
+        .delivery-modal .modal-footer {
+            border-top: 1px solid #eee;
+            background: #f9f9f9;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .btn.save-btn {
+            background: linear-gradient(135deg, #ff5f0e, #ff7f40);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn.save-btn:hover {
+            background: linear-gradient(135deg, #ff5f0e, #ff7f40);
+            transform: translateY(-1px);
+        }
+
+        .btn.cancel-btn {
+            background: #e8eef3;
+            color: #333;
+            border-radius: 10px;
+            border: none;
+            font-weight: 500;
+            padding: 0.6rem 1rem;
+        }
+
+        .btn.cancel-btn:hover {
+            background: #d9e2ea;
+        }
+
+        /* Close button styling */
+        .custom-close {
+            filter: invert(1);
+            opacity: 0.9;
+        }
+
+        .custom-close:hover {
+            opacity: 1;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
     </style>
     <div class="faq-container">
 
@@ -194,10 +300,11 @@
                                 </span>
                             </td>
                             <td>
-                                <button class="btn btn-sm btn-outline-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editFaqModal"
-                                    data-faq-id="{{ $faq->id }}" data-category="{{ $faq->category }}"
-                                    data-topic="{{ $faq->topic }}" data-question="{{ $faq->question }}"
-                                    data-answer="{{ $faq->answer }}" data-is_active="{{ $faq->is_active }}">
+                                <button class="btn btn-sm btn-outline-primary edit-btn" data-bs-toggle="modal"
+                                    data-bs-target="#editFaqModal" data-faq-id="{{ $faq->id }}"
+                                    data-category="{{ $faq->category }}" data-topic="{{ $faq->topic }}"
+                                    data-question="{{ $faq->question }}" data-answer="{{ $faq->answer }}"
+                                    data-is_active="{{ $faq->is_active }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-pencil-square" viewBox="0 0 16 16">
                                         <path
