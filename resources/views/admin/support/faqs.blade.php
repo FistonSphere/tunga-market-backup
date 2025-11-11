@@ -325,12 +325,12 @@
             modal.style.display = "flex";
         }
 
-        function openEditFaqModal(faq) {
+        function openEditModal(faq) {
             const modal = document.getElementById("editFaqModal");
             const form = document.getElementById("editFaqForm");
 
             // Set the form action to the correct update URL
-            form.action = `/admin/faqs/${faq.id}`;
+            form.action = `/admin/faqs/update/${faq.id}`;
 
             // Populate the form fields with the FAQ data
             document.getElementById("editFaqId").value = faq.id;
@@ -351,7 +351,6 @@
         function closeEditFaqModal() {
             document.getElementById("editFaqModal").style.display = "none";
         }
-
     </script>
 
 @endsection
