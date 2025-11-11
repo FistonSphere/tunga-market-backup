@@ -6,7 +6,7 @@
     <style>
         /* Modal Styling */
 
-        
+
 
         @keyframes scaleUp {
             from {
@@ -19,6 +19,10 @@
         }
 
         /* Header Styling */
+        h5.modal-title {
+            color: #000;
+        }
+
         .modal h4 {
             font-size: 1.2rem;
             font-weight: 600;
