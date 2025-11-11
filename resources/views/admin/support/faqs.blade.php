@@ -11,253 +11,172 @@
         @keyframes scaleUp {
             from {
                 transform: scale(0.9);
+                opacity: 0;
             }
 
             to {
                 transform: scale(1);
+                opacity: 1;
             }
+        }
+
+        /* Modal Container */
+        .modal {
+            animation: scaleUp 0.3s ease-out;
+            border-radius: 12px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            /* background: #fff; */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.fade.show {
+            transform: scale(1);
         }
 
         /* Header Styling */
-        h5.modal-title {
-            color: #000;
-        }
-
-        .modal h4 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #333;
-            display: flex;
-            align-items: center;
-        }
-
-        .modal h4 i {
-            margin-right: 8px;
-            color: #007bff;
-        }
-
-        /* Input Fields */
-        .form-control {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 0.9rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-
-        /* Switch for Active/Inactive */
-        .form-check-input {
-            border-radius: 50%;
-        }
-
-        /* Button Styling */
-        button {
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-
-        button.btn-primary {
-            background-color: #007bff;
-            color: white;
-        }
-
-        button.btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        button.btn-secondary {
-            background-color: #f8f9fa;
-            color: #333;
-        }
-
-        button.btn-secondary:hover {
-            background-color: #ddd;
-        }
-
-
-        /* Table design */
-        .table-hover tbody tr:hover {
-            background-color: #f8f9fa;
-        }
-
-        .btn {
-            transition: all 0.2s ease;
-        }
-
-        .btn:hover {
-            transform: scale(1.05);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .table thead {
-                display: none;
-            }
-
-            .table tbody tr {
-                display: block;
-                margin-bottom: 1rem;
-                background: #fff;
-                border-radius: 8px;
-                padding: 1rem;
-            }
-
-            .table tbody td {
-                display: flex;
-                justify-content: space-between;
-                border-bottom: 1px dashed #ddd;
-            }
-
-            .table tbody td:last-child {
-                border-bottom: none;
-            }
-        }
-
-        .delivery-modal {
-            border-radius: 20px;
-            overflow: hidden;
-            background: #fff;
-            border: none;
-            animation: fadeIn 0.3s ease-in-out;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Header */
-        .delivery-modal .modal-header {
+        .modal-header {
             background: linear-gradient(135deg, #ff5f0e, #ff7f40);
-            color: #fff;
+            color: white;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            border: none;
             padding: 1.5rem 2rem;
+            border: none;
+            /* border-radius: 12px 12px 0 0; */
         }
 
-        .delivery-modal .header-icon {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            padding: 0.6rem 0.8rem;
-            font-size: 1.4rem;
-        }
-
-        .delivery-modal .modal-title {
+        .modal-header .modal-title {
             font-weight: 600;
             font-size: 1.3rem;
+            margin-left: 10px;
         }
 
-        .delivery-modal .subtitle {
-            font-size: 0.85rem;
-            margin: 0;
-            opacity: 0.8;
+        /* Icon */
+        .modal-header svg {
+            margin-right: 10px;
         }
 
-        /* Form */
-        .delivery-modal .modal-body {
-            padding: 1.8rem 2rem;
+        /* Modal Body */
+        .modal-body {
+            padding: 2rem;
             background-color: #fafbfc;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 1.2rem 1.5rem;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 6px;
+            font-size: 1rem;
             color: #333;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
         }
 
-        .modern-input,
-        .modern-select {
-            border-radius: 10px;
-            border: 1px solid #dcdcdc;
-            padding: 0.6rem 0.8rem;
-            transition: all 0.3s ease;
-            background-color: #fff;
-        }
-
-        .modern-input:focus,
-        .modern-select:focus {
-            border-color: #ff7f40;
-            box-shadow: 0 0 0 3px rgba(0, 170, 255, 0.2);
-            outline: none;
+        .modal-body p {
+            font-size: 1rem;
+            color: #333;
+            margin: 1rem 0;
         }
 
         /* Footer */
-        .delivery-modal .modal-footer {
-            border-top: 1px solid #eee;
+        .modal-footer {
             background: #f9f9f9;
-            padding: 1rem 2rem;
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: flex-end;
             gap: 1rem;
+            border-top: 1px solid #eee;
         }
 
-        .btn.save-btn {
-            background: linear-gradient(135deg, #ff5f0e, #ff7f40);
-            color: #fff;
+        /* Button Styling */
+        .btn {
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
             font-weight: 600;
-            border-radius: 10px;
-            padding: 0.6rem 1.2rem;
-            border: none;
-            transition: all 0.3s ease;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .btn.save-btn:hover {
+        /* Primary button (Delete) */
+        .btn-danger {
             background: linear-gradient(135deg, #ff5f0e, #ff7f40);
-            transform: translateY(-1px);
+            color: white;
+            border: none;
         }
 
-        .btn.cancel-btn {
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #ff7f0e, #ff5b0e);
+            transform: scale(1.05);
+        }
+
+        /* Secondary button (Cancel) */
+        .btn-secondary {
+            background-color: #f1f1f1;
+            color: #333;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.05);
+        }
+
+        /* Cancel Button Style */
+        .btn-secondary {
             background: #e8eef3;
             color: #333;
-            border-radius: 10px;
-            border: none;
-            font-weight: 500;
-            padding: 0.6rem 1rem;
         }
 
-        .btn.cancel-btn:hover {
-            background: #d9e2ea;
+        /* Hover effects for the buttons */
+        .btn:hover {
+            transform: translateY(-2px);
         }
 
         /* Close button styling */
-        .custom-close {
-            filter: invert(1);
-            opacity: 0.9;
+        .btn-close {
+            color: #fff;
+            opacity: 0.7;
         }
 
-        .custom-close:hover {
+        .btn-close:hover {
             opacity: 1;
         }
 
-        /* Animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
+        /* Responsive styling */
+        @media (max-width: 768px) {
+            .modal-dialog {
+                max-width: 90%;
             }
 
-            to {
-                opacity: 1;
-                transform: scale(1);
+            .modal-body {
+                padding: 1rem 1.5rem;
+            }
+
+            .modal-footer {
+                padding: 1rem;
+            }
+
+            .btn {
+                padding: 0.6rem 1.5rem;
             }
         }
+
+        /* Modal Transition Effect */
+        .modal.fade .modal-dialog {
+            transform: scale(0.9);
+            transition: transform 0.3s ease-out;
+        }
+
+        .modal.fade.show .modal-dialog {
+            transform: scale(1);
+        }
+
+        .modal-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            pointer-events: auto;
+            background-clip: padding-box;
+            border-radius: .3rem;
+            outline: 0;
+        }
     </style>
+
     <div class="faq-container">
 
         <!-- Header -->
@@ -317,19 +236,17 @@
                                             d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                                     </svg>
                                 </button>
-                                <form action="{{ route('admin.faqs.destroy', $faq->id) }}" method="POST" class="d-inline">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger"
-                                        onclick="return confirm('Delete this FAQ?')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                            class="bi bi-trash" viewBox="0 0 16 16">
-                                            <path
-                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                                            <path
-                                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                                        </svg>
-                                    </button>
-                                </form>
+                                <button class="btn btn-sm btn-outline-danger delete-btn" data-faq-id="{{ $faq->id }}"
+                                    type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path
+                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                        <path
+                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                    </svg>
+                                </button>
+
                             </td>
                         </tr>
                     @empty
@@ -434,6 +351,28 @@
         </div>
     </div>
 
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteFaqModal" tabindex="-1" aria-labelledby="deleteFaqModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteFaqModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this FAQ? This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" style="background: #000a14; color: #fff;" data-bs-dismiss="modal">Cancel</button>
+                    <form id="deleteFaqForm" method="POST" action="" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -487,6 +426,23 @@
         function closeEditFaqModal() {
             document.getElementById("editFaqModal").style.display = "none";
         }
+
+
+        // Trigger the delete confirmation modal and set the form action dynamically
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const faqId = this.getAttribute('data-faq-id');  // Get the FAQ ID from the data attribute
+
+                // Set the action URL for the delete form dynamically
+                const form = document.getElementById('deleteFaqForm');
+                form.action = `/admin/faqs/destroy/${faqId}`;
+
+                // Show the modal
+                const deleteFaqModal = new bootstrap.Modal(document.getElementById('deleteFaqModal'));
+                deleteFaqModal.show();
+            });
+        });
+
     </script>
 
 @endsection
