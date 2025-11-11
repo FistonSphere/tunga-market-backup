@@ -15,19 +15,28 @@ class AdminFaqController extends Controller
         return view('admin.support.faqs', compact('faqs'));
     }
 
-     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'category' => 'required|string',
-            'topic' => 'required|string',
-            'question' => 'required|string',
-            'answer' => 'required|string',
-            'is_active' => 'boolean',
-        ]);
+    public function store(Request $request)
+{
+    // Validate the input
+    $request->validate([
+        'category' => 'required|string',
+        'topic' => 'required|string',
+        'question' => 'required|string',
+        'answer' => 'required|string',
+        'is_active' => 'required|boolean'
+    ]);
 
-        Faq::create($validated);
-        return back()->with('success', 'FAQ added successfully.');
-    }
+    // Create new FAQ
+    $faq = Faq::create([
+        'category' => $request->category,
+        'topic' => $request->topic,
+        'question' => $request->question,
+        'answer' => $request->answer,
+        'is_active' => $request->is_active,
+    ]);
+
+    return response()->json(['success' => true, 'data' => $faq]);
+}
 
 public function update(Request $request, Faq $faq)
 {

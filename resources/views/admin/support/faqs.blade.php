@@ -411,7 +411,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn" style="background: #000a14; color: #fff;" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn" style="background: #000a14; color: #fff;"
+                        data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="saveFaqBtn">Save FAQ</button>
                 </div>
             </div>
@@ -630,6 +631,66 @@
             });
         });
 
+        document.addEventListener("DOMContentLoaded", function () {
+            // Trigger modal when Add FAQ button is clicked
+            const addFaqButton = document.getElementById("btnAddFaq");
+            addFaqButton.addEventListener("click", function () {
+                // Clear the form fields
+                document.getElementById("createFaqForm").reset();
+                // Show the modal
+                const createFaqModal = new bootstrap.Modal(document.getElementById("createFaqModal"));
+                createFaqModal.show();
+            });
+
+            // Handle form submission (Save FAQ)
+            const saveFaqButton = document.getElementById("saveFaqBtn");
+            saveFaqButton.addEventListener("click", function () {
+                const category = document.getElementById("faqCategory").value;
+                const topic = document.getElementById("faqTopic").value;
+                const question = document.getElementById("faqQuestion").value;
+                const answer = document.getElementById("faqAnswer").value;
+                const status = document.getElementById("faqStatus").value;
+
+                // Validate fields
+                if (!category || !topic || !question || !answer) {
+                    alert("All fields are required!");
+                    return;
+                }
+
+                // You can make an AJAX request here to save the FAQ to the backend
+                // Example using fetch (adjust URL and method based on your backend)
+                fetch('/admin/faqs.store', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        category: category,
+                        topic: topic,
+                        question: question,
+                        answer: answer,
+                        is_active: status
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // If FAQ is created successfully, close the modal and show a success message
+                        if (data.success) {
+                            alert("FAQ created successfully!");
+                            const createFaqModal = bootstrap.Modal.getInstance(document.getElementById("createFaqModal"));
+                            createFaqModal.hide();
+                            // Optionally reload the FAQ list or add the new FAQ to the table
+                             //loadFaqs(); // Implement this function to refresh the FAQ list
+                        } else {
+                            alert("Failed to create FAQ: " + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        alert("An error occurred while creating the FAQ.");
+                        console.error(error);
+                    });
+            });
+        });
     </script>
 
 @endsection
