@@ -246,115 +246,7 @@
             outline: 0;
         }
 
-        /* === Toast Container === */
-        #toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        /* === Toast Notification === */
-        .toast {
-            min-width: 250px;
-            background-color: #fff;
-            border-left: 5px solid;
-            color: #333;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 6px;
-            padding: 12px 16px;
-            font-size: 14px;
-            font-weight: 500;
-            opacity: 0;
-            transform: translateX(120%);
-            animation: slideIn 0.4s ease forwards;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Status colors */
-        .toast.success {
-            border-color: #28a745;
-        }
-
-        .toast.error {
-            border-color: #e74c3c;
-        }
-
-        /* Toast exit animation */
-        .toast.hide {
-            animation: slideOut 0.4s ease forwards;
-        }
-
-        /* Progress bar */
-        .toast::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background-color: currentColor;
-            opacity: 0.2;
-            animation: progressBar 4s linear forwards;
-        }
-
-        /* Animations */
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(120%);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideOut {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-
-            to {
-                opacity: 0;
-                transform: translateX(120%);
-            }
-        }
-
-        @keyframes progressBar {
-            from {
-                width: 100%;
-            }
-
-            to {
-                width: 0%;
-            }
-        }
-
-        .btn.manage {
-            background: #10b981;
-            color: #fff;
-            padding: 8px 14px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn.manage:hover {
-            background: #0ea371;
-        }
-
-        .moreBtn:hover {
-            background-color: red;
-            cursor: pointer;
-
-        }
+      
     </style>
 
     <div class="faq-container">
@@ -762,7 +654,7 @@
 
                 // Validate fields
                 if (!category || !topic || !question || !answer) {
-                    showNotification("All fields are required!", 'error');
+                    alert("All fields are required!");
                     return;
                 }
 
@@ -784,63 +676,16 @@
                         is_active: status
                     })
                 })
-                    .then(response => response.json())
+                    .then(response => response.text())  // Expect a plain text response (redirect)
                     .then(data => {
-                        // If FAQ is created successfully, close the modal and show a success message
-                        if (data.success) {
-                            showNotification("FAQ created successfully!", 'success');
-                            const createFaqModal = bootstrap.Modal.getInstance(document.getElementById("createFaqModal"));
-                            createFaqModal.hide();
-
-                            // Reload the page after success to show changes
-                            setTimeout(() => {
-                                location.reload(); // This will reload the page after 2 seconds for smooth transition
-                            }, 2000);
-                        } else {
-                            showNotification("Failed to create FAQ: " + data.message, 'error');
-                        }
+                        // After submission, redirect to the previous page, and the success message should appear via Laravel's session flash
+                        window.location.href = data;  // Redirect back
                     })
                     .catch(error => {
-                        showNotification("An error occurred while creating the FAQ.", 'error');
-                        console.error(error);
+                        console.error("An error occurred while creating the FAQ.", error);
                     });
             });
         });
-
-        // Show toast notification
-        function showNotification(message, type = 'success') {
-            // Remove existing notification if present
-            const existing = document.getElementById('notification');
-            if (existing) existing.remove();
-
-            // Create notification container
-            const notification = document.createElement('div');
-            notification.id = 'notification';
-            notification.className = `toast ${type}`;
-
-            // Inner content
-            notification.innerHTML = `
-                        <div class="notification-content">
-                            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                            <span>${message}</span>
-                        </div>
-                        <div class="progress-bar"></div>
-                    `;
-
-            document.getElementById('toast-container').appendChild(notification);
-
-            // Animate progress bar
-            const progress = notification.querySelector('.progress-bar');
-            progress.style.transition = 'width 4s linear';
-            setTimeout(() => { progress.style.width = '100%'; }, 50);
-
-            // Auto-remove after 4s
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                setTimeout(() => notification.remove(), 500);
-            }, 4000);
-        }
-
 
 
     </script>
