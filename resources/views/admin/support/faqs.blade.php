@@ -7,6 +7,13 @@
         /* Modal Styling */
 
 
+        .faq-container {
+            background:#fff;
+            border:1px solid #e0e0e0;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
 
         @keyframes scaleUp {
             from {
@@ -363,7 +370,8 @@
                     <p>Are you sure you want to delete this FAQ? This action cannot be undone.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn" style="background: #000a14; color: #fff;" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn" style="background: #000a14; color: #fff;"
+                        data-bs-dismiss="modal">Cancel</button>
                     <form id="deleteFaqForm" method="POST" action="" class="d-inline">
                         @csrf
                         @method('DELETE')
@@ -431,16 +439,16 @@
         // Trigger the delete confirmation modal and set the form action dynamically
         document.querySelectorAll('.delete-btn').forEach(button => {
             button.addEventListener('click', function () {
-            const faqId = this.getAttribute('data-faq-id');
+                const faqId = this.getAttribute('data-faq-id');
 
-            // Build URL from named route with placeholder and replace it with the actual id
-            const url = "{{ route('admin.faqs.destroy', ':id') }}";
-            const form = document.getElementById('deleteFaqForm');
-            form.action = url.replace(':id', faqId);
+                // Build URL from named route with placeholder and replace it with the actual id
+                const url = "{{ route('admin.faqs.destroy', ':id') }}";
+                const form = document.getElementById('deleteFaqForm');
+                form.action = url.replace(':id', faqId);
 
-            // Show the modal
-            const deleteFaqModal = new bootstrap.Modal(document.getElementById('deleteFaqModal'));
-            deleteFaqModal.show();
+                // Show the modal
+                const deleteFaqModal = new bootstrap.Modal(document.getElementById('deleteFaqModal'));
+                deleteFaqModal.show();
             });
         });
 
