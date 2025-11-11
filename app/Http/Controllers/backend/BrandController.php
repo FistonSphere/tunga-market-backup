@@ -33,7 +33,7 @@ class BrandController extends Controller
             $file = $request->file('logo');
             $filename = time() . '_' . $file->getClientOriginalName();
             $destinationPath = public_path('uploads/brands');
-            
+
             // Ensure directory exists
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0777, true);

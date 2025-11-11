@@ -87,7 +87,7 @@
         }
 
         .form-card input,
-        .form-card textarea {
+        .form-card textarea,.form-card select {
             width: 100%;
             padding: 12px 14px;
             border: 1px solid #ddd;
@@ -98,7 +98,7 @@
         }
 
         .form-card input:focus,
-        .form-card textarea:focus {
+        .form-card textarea:focus, .form-card select:focus {
             border-color: #ff6a00;
             box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.1);
         }
@@ -208,10 +208,19 @@
                         <textarea id="testimonial" name="testimonial" rows="5"
                             placeholder="Write testimonial..."></textarea>
                     </div>
+
                 </div>
 
                 <!-- Right Side -->
                 <div class="form-right">
+                    <!-- role -->
+                    <div class="form-card">
+                        <label for="name">Role/Position <span class="required"></span></label>
+                        <select name="is_active" id="is_active">
+                            <option value="0">In Active</option>
+                            <option value="1">Active</option>
+                        </select>
+                    </div>
                     <div class="upload-card">
                         <label for="photo">Story photo</label>
                         <div class="upload-box" onclick="document.getElementById('photo').click()">
