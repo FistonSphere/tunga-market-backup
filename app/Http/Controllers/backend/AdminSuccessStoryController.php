@@ -60,12 +60,17 @@ class AdminSuccessStoryController extends Controller
             ->with('success', '🎉 Success Story "' . $story->name . '" has been added successfully!');
     }
 
-    public function destroy($id)
-    {
-        $story = SuccessStory::findOrFail($id);
-        $story->delete();
 
-        return redirect()->route('admin.successStories.index')
-            ->with('success', '🗑️ Success Story "' . $story->name . '" has been deleted successfully!');
+        public function destroy($id)
+{
+    $story = SuccessStory::findOrFail($id);
+
+    // Optionally delete image files if you store them locally
+    if ($story->logo && file_exists(public_path('storage/' . $story->logo))) {
+        unlink(public_path('storage/' . $story->logo));
     }
+    $story->delete();
+
+    return redirect()->route('admin.successStories.index')->with('success', 'testimonial deleted successfully!');
+}
 }

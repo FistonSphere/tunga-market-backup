@@ -485,7 +485,7 @@
                             </a>
 
                             <button type="submit" class="deleteBtn confirm-text" data-id="{{ $story->id }}"
-                                data-name="{{ $story->name }}" title="Delete story">
+                                data-name="{{ $story->name }}" title="Delete Story">
                                 <img src="{{ asset('admin/assets/img/icons/delete.svg') }}" alt="img" />
                             </button>
                         </div>
@@ -544,7 +544,7 @@
     <div id="deleteModal" class="modal-overlay" style="display:none;">
         <div class="modal-content">
             <h2>Are you sure?</h2>
-            <p id="deleteMessage">This action cannot be undone. Do you really want to delete this testimonal?</p>
+            <p id="deleteMessage">This action cannot be undone. Do you really want to delete this category?</p>
 
             <div class="modal-actions">
                 <form id="deleteForm" method="POST">
@@ -581,13 +581,12 @@
                 button.addEventListener('click', function (e) {
                     e.preventDefault();
                     const storyId = this.getAttribute('data-id');
-                    const storyName = this.getAttribute('data-name');
+                    const personName = this.getAttribute('data-name');
                     // Update confirmation message
-                    deleteMessage.textContent = `Are you sure you want to delete "${storyName}"'s testimonial?`;
+                    deleteMessage.textContent = `Are you sure you want to delete "${personName}"?`;
 
                     // Update form action dynamically
-                    const deleteUrl = deleteForm.getAttribute('action').replace(':storyId', storyId);
-                    deleteForm.setAttribute('action', deleteUrl);
+                    deleteForm.action = `/admin/success-stories/destory/${storyId}`;
 
                     // Show modal
                     deleteModal.style.display = 'flex';
@@ -605,15 +604,7 @@
                     deleteModal.style.display = 'none';
                 }
             });
-
-            // Automatically submit the form after deletion
-            deleteForm.addEventListener('submit', function () {
-                // Close the modal
-                deleteModal.style.display = 'none';
-                console.log("🟢 Deleting the story...");
-            });
         });
-
 
         document.querySelectorAll('.pagination-list a').forEach(link => {
             link.addEventListener('click', () => {
