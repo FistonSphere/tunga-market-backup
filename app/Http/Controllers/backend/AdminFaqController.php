@@ -70,6 +70,7 @@ public function update(Request $request, Faq $faq)
 
 
 
+
     public function destroy(Faq $faq)
     {
         $faq->delete();
