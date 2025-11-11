@@ -218,7 +218,7 @@
             const modalTitle = document.getElementById("modalTitle");
 
             modalTitle.textContent = "Edit FAQ";
-            form.action = `/admin/faqs/${faq.id}`;
+            form.action = `/admin/faqs/update/${faq.id}`;
             document.getElementById("faqCategory").value = faq.category;
             document.getElementById("faqTopic").value = faq.topic;
             document.getElementById("faqQuestion").value = faq.question;

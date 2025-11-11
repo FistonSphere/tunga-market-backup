@@ -17,9 +17,9 @@ class AdminFaqController extends Controller
      public function store(Request $request)
     {
         $validated = $request->validate([
-            'category' => 'required|string|max:255',
-            'topic' => 'required|string|max:255',
-            'question' => 'required|string|max:255',
+            'category' => 'required|string',
+            'topic' => 'required|string',
+            'question' => 'required|string',
             'answer' => 'required|string',
             'is_active' => 'boolean',
         ]);
@@ -30,10 +30,11 @@ class AdminFaqController extends Controller
 
     public function update(Request $request, Faq $faq)
     {
+        dd($request->all());
         $validated = $request->validate([
             'category' => 'required|string|max:255',
-            'topic' => 'required|string|max:255',
-            'question' => 'required|string|max:255',
+            'topic' => 'required|string',
+            'question' => 'required|string',
             'answer' => 'required|string',
             'is_active' => 'boolean',
         ]);
