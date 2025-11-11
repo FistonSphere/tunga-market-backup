@@ -1829,6 +1829,8 @@
             });
         });
 
+        
+        
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', function () {
                 const id = this.dataset.deliveryId;

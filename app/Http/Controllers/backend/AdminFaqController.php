@@ -31,41 +31,20 @@ class AdminFaqController extends Controller
 
 public function update(Request $request, Faq $faq)
 {
-    // Log the incoming request data to debug
-    Log::info('Updating FAQ with ID: ' . $faq->id);
-    Log::info('Request Data: ', $request->all());
-
-    // Validate incoming request data
     $validated = $request->validate([
-        'category' => 'required|string|max:255',
-        'topic' => 'required|string|max:255',
-        'question' => 'required|string|max:255',
-        'answer' => 'required|string',
-        'is_active' => 'nullable|boolean',  // Allow null for unchecked checkbox
+        'category' => 'nullable|string|max:255',
+        'topic' => 'nullable|string|max:255',
+        'question' => 'nullable|string|max:255',
+        'answer' => 'nullable|string',
+        'is_active' => 'nullable|boolean',
     ]);
 
-    // Manually convert 'is_active' to boolean (1 for checked, 0 for unchecked)
-    $validated['is_active'] = $request->has('is_active') ? 1 : 0;
+    // Update FAQ
+    $faq->update($validated);
 
-    // Log the validated data for debugging
-    Log::info('Validated Data: ', $validated);
-
-    // Log the current FAQ before updating
-    Log::info('Current FAQ Details: ', $faq->toArray());
-
-    // Attempt to update the FAQ with the validated data
-    try {
-        $faq->update($validated);
-        Log::info('FAQ updated successfully.', $faq->toArray());
-    } catch (\Exception $e) {
-        // Log any error that occurs during the update process
-        Log::error('Error updating FAQ: ' . $e->getMessage());
-        return back()->with('error', 'Failed to update FAQ.');
-    }
-
-    // Return with a success message
-    return back()->with('success', 'FAQ updated successfully.');
+    return back()->with('success', 'FAQ updated successfully!');
 }
+
 
 
 
