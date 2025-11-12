@@ -453,7 +453,7 @@ try {
         'admin_id' => 6, // optional if you store admin ID
         'type' => 'order',
         'title' => 'New Order Received',
-        'message' => "{$firstName} {$lastName} placed a new order (#{$invoiceNumber}) totaling " . number_format($orderTotal) . " RWF.",
+        'message' => "{$firstName} {$lastName} placed a new order (#{$invoiceNumber}) totaling " . " " . number_format($orderTotal) . " RWF.",
         'data' => [
             'order_id' => $invoiceNumber,
             'total' => $orderTotal,
@@ -467,9 +467,9 @@ try {
     NotificationService::notifyAdmins(
         'order',
         '🛍️ New Order Received',
-        "{$user->first_name} {$user->last_name} placed a new order (#{$order->invoice_number}) totaling". number_format($orderTotal) . " RWF.",
+        "{$user->first_name} {$user->last_name} placed a new order (#{$order->invoice_number}) totaling". " " . number_format($orderTotal) . " RWF.",
         [
-            'Order ID' => $order->id,
+            'Order ID' => $order->invoice_number,
             'Total' => number_format($orderTotal) . ' RWF',
             'Status' => $order->status,
         ]
