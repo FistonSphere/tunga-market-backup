@@ -86,12 +86,12 @@ class ContactController extends Controller
 
         // 🔹 Create notification for admin(s)
 try {
-    $admins = User::where('role', 1)->get();
 
-    foreach ($admins as $admin) {
+
+
         Notification::create([
             'user_id' => null, // contact may not be a registered user
-            'admin_id' => $admin->id,
+            'admin_id' => 6,
             'type' => 'contact_request',
             'title' => 'New Contact Request Received',
             'message' => "A new contact request was submitted by {$contact->first_name} {$contact->last_name} ({$contact->email}).",
@@ -104,8 +104,8 @@ try {
             'action_time' => now(),
         ]);
 
-        Log::info("✅ Notification created for admin ID: {$admin->id} for contact ID: {$contact->id}");
-    }
+        Log::info("✅ Notification created for admin ID: 9 for contact ID: {$contact->id}");
+
 } catch (\Exception $e) {
     Log::error("❌ Failed to create admin notification for contact request: " . $e->getMessage());
 }
@@ -155,12 +155,10 @@ public function storeEnquiry(Request $request){
 
     // ✅ Create admin notification
     try {
-        $admins = User::where('role', 1)->get(); // adjust role if needed
 
-        foreach ($admins as $admin) {
             Notification::create([
                 'user_id' => null, // enquiry is from a guest
-                'admin_id' => $admin->id,
+                'admin_id' => 6,
                 'type' => 'product_enquiry',
                 'title' => 'New Product Enquiry',
                 'message' => "{$request->name} submitted an enquiry for product '{$product->title}' (Qty: {$request->quantity}).",
@@ -174,7 +172,6 @@ public function storeEnquiry(Request $request){
                 ],
                 'action_time' => now(),
             ]);
-        }
 
         Log::info("✅ Admin notification created for product enquiry #{$enquiry->id}");
     } catch (\Exception $e) {

@@ -432,7 +432,7 @@ public function store(Request $request)
         'payment_method' => 'Cash on Delivery',
         'amount' => $orderTotal,
         'currency' => 'Rwf',
-        'status' => 'pending',
+        'status' => 'unpaid',
         'transaction_id' => 'COD-' . strtoupper(uniqid()),
     ]);
 
@@ -445,7 +445,7 @@ public function store(Request $request)
 try {
     Notification::create([
         'user_id' => $user->id,
-        'admin_id' => 1, // or loop through all admins if multiple admins exist
+        'admin_id' => 6, // or loop through all admins if multiple admins exist
         'type' => 'order',
         'title' => 'New Order Received',
         'message' => "User {$user->first_name} {$user->last_name} placed a new order (Order ID: #{$order->id}) with total of {$orderTotal} RWF.",

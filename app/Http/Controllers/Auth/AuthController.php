@@ -139,7 +139,7 @@ class AuthController extends Controller
 try {
     Notification::create([
         'user_id' => null, // not yet saved user
-        'admin_id' => 1, // main admin user (adjust if multi-admin)
+        'admin_id' => 6, // main admin user (adjust if multi-admin)
         'type' => 'new_user',
         'title' => 'New User Registration Started',
         'message' => "{$pendingUser['first_name']} {$pendingUser['last_name']} has initiated registration with email {$pendingUser['email']}.",
