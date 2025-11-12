@@ -444,14 +444,18 @@ public function store(Request $request)
 
     // 🔹 Create notification for admin about new order
 try {
+    $firstName = (string) $user->first_name;
+    $lastName = (string) $user->last_name;
+    $invoiceNumber = (string) $order->invoice_number;
+
     Notification::create([
         'user_id' => $user->id,
         'admin_id' => 6, // optional if you store admin ID
         'type' => 'order',
         'title' => 'New Order Received',
-        'message' => "User {$user->first_name} {$user->last_name} placed a new order (#{$order->id}) totaling {$orderTotal} RWF.",
+        'message' => "{$firstName} {$lastName} placed a new order (#{$invoiceNumber}) totaling " . number_format($orderTotal) . " RWF.",
         'data' => [
-            'order_id' => $order->id,
+            'order_id' => $invoiceNumber,
             'total' => $orderTotal,
             'currency' => 'Rwf',
             'status' => $order->status,
@@ -463,7 +467,7 @@ try {
     NotificationService::notifyAdmins(
         'order',
         '🛍️ New Order Received',
-        "User {$user->first_name} {$user->last_name} placed a new order (#{$order->id}) totaling {$orderTotal} RWF.",
+        "{$user->first_name} {$user->last_name} placed a new order (#{$order->invoice_number}) totaling". number_format($orderTotal) . " RWF.",
         [
             'Order ID' => $order->id,
             'Total' => number_format($orderTotal) . ' RWF',
@@ -471,9 +475,9 @@ try {
         ]
     );
 
-    Log::info("✅ Admin notified (email + sms) for Order ID: {$order->id}");
+    Log::info("✅ Admin notified (email + sms) for Order ID: {$order->invoice_number}");
 } catch (\Exception $e) {
-    Log::error("❌ Failed to notify admin for Order ID: {$order->id}. Error: " . $e->getMessage());
+    Log::error("❌ Failed to notify admin for Order ID: {$order->invoice_number}. Error: " . $e->getMessage());
 }
     return response()->json([
         'status' => 'success',

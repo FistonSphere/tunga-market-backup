@@ -43,7 +43,7 @@
             padding: 30px;
         }
         .email-body h2 {
-            color: #004aad;
+            color: #fe5e0d;
             margin-top: 0;
             font-size: 22px;
         }
@@ -72,7 +72,7 @@
         }
         .cta-button {
             display: inline-block;
-            background-color: #004aad;
+            background-color: #fe5e0d;
             color: white;
             padding: 12px 24px;
             border-radius: 6px;
@@ -111,7 +111,7 @@
         <div class="email-container">
             <!-- HEADER -->
             <div class="email-header">
-                <img src="{{ asset('images/logo.png') }}" alt="Tunga Market Logo">
+                <img src="{{ asset('assets/images/logo-circle.png') }}" alt="Tunga Market Logo">
                 <h1 style="margin: 0; font-size: 24px;">Tunga Market Admin Notification</h1>
             </div>
 
@@ -131,7 +131,7 @@
                     </div>
                 @endif
 
-                <a href="{{ url('/admin/notifications') }}" class="cta-button">View in Dashboard</a>
+                <a href="{{ url('/admin/notifications') }}" class="cta-button" style="color:#ffffff">View in Dashboard</a>
 
                 <p style="margin-top: 25px;">
                     If this activity seems suspicious, please review it in your admin dashboard.
