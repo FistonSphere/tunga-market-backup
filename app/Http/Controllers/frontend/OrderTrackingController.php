@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\Notification;
+use Illuminate\Support\Facades\Log;
 
 class OrderTrackingController extends Controller
 {
@@ -439,6 +441,26 @@ public function store(Request $request)
 
     $firstOrderItem = $order->items()->first();
 
+    // 🔹 Create notification for admin about new order
+try {
+    Notification::create([
+        'user_id' => $user->id,
+        'admin_id' => 1, // or loop through all admins if multiple admins exist
+        'type' => 'order',
+        'title' => 'New Order Received',
+        'message' => "User {$user->first_name} {$user->last_name} placed a new order (Order ID: #{$order->id}) with total of {$orderTotal} RWF.",
+        'data' => [
+            'order_id' => $order->id,
+            'total' => $orderTotal,
+            'currency' => 'Rwf',
+            'status' => $order->status,
+        ],
+        'action_time' => now(),
+    ]);
+    Log::info("✅ Admin notification created for Order ID: {$order->id}");
+} catch (\Exception $e) {
+    Log::error("❌ Failed to create admin notification for Order ID: {$order->id}. Error: " . $e->getMessage());
+}
     return response()->json([
         'status' => 'success',
         'message' => 'Order placed successfully!',

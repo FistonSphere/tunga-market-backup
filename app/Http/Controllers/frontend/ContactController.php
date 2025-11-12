@@ -13,6 +13,8 @@ use App\Models\ContactRequest;
 use App\Models\Enquiry;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use App\Models\Notification;
+use App\Models\Product;
 
 class ContactController extends Controller
 {
@@ -82,6 +84,31 @@ class ContactController extends Controller
 
         Log::info('💾 Contact request saved', ['id' => $contact->id]);
 
+        // 🔹 Create notification for admin(s)
+try {
+    $admins = User::where('role', 1)->get();
+
+    foreach ($admins as $admin) {
+        Notification::create([
+            'user_id' => null, // contact may not be a registered user
+            'admin_id' => $admin->id,
+            'type' => 'contact_request',
+            'title' => 'New Contact Request Received',
+            'message' => "A new contact request was submitted by {$contact->first_name} {$contact->last_name} ({$contact->email}).",
+            'data' => [
+                'contact_id' => $contact->id,
+                'priority' => $contact->priority,
+                'subject' => $contact->subject,
+                'email' => $contact->email,
+            ],
+            'action_time' => now(),
+        ]);
+
+        Log::info("✅ Notification created for admin ID: {$admin->id} for contact ID: {$contact->id}");
+    }
+} catch (\Exception $e) {
+    Log::error("❌ Failed to create admin notification for contact request: " . $e->getMessage());
+}
         // ✅ 4. Notify Admin(s)
         $admins = User::where('role', 1)->get();
         foreach ($admins as $admin) {
@@ -118,9 +145,41 @@ public function storeEnquiry(Request $request){
             'product_id'  => 'required|exists:products,id',
         ]);
 
-        Enquiry::create($request->only([
-            'name','company','email','phone','quantity','target_price','message','product_id'
-        ]));
+        // ✅ Save enquiry
+    $enquiry = Enquiry::create($request->only([
+        'name', 'company', 'email', 'phone', 'quantity', 'target_price', 'message', 'product_id'
+    ]));
+
+    // ✅ Load product for context
+    $product = Product::find($request->product_id);
+
+    // ✅ Create admin notification
+    try {
+        $admins = User::where('role', 1)->get(); // adjust role if needed
+
+        foreach ($admins as $admin) {
+            Notification::create([
+                'user_id' => null, // enquiry is from a guest
+                'admin_id' => $admin->id,
+                'type' => 'product_enquiry',
+                'title' => 'New Product Enquiry',
+                'message' => "{$request->name} submitted an enquiry for product '{$product->title}' (Qty: {$request->quantity}).",
+                'data' => [
+                    'enquiry_id' => $enquiry->id,
+                    'product_id' => $product->id,
+                    'product_title' => $product->title,
+                    'email' => $request->email,
+                    'quantity' => $request->quantity,
+                    'target_price' => $request->target_price,
+                ],
+                'action_time' => now(),
+            ]);
+        }
+
+        Log::info("✅ Admin notification created for product enquiry #{$enquiry->id}");
+    } catch (\Exception $e) {
+        Log::error("❌ Failed to create notification for enquiry #{$enquiry->id}: " . $e->getMessage());
+    }
 
         return response()->json([
             'success' => true,
