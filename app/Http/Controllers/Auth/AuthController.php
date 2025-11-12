@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PragmaRX\Countries\Package\Countries;
 use Illuminate\Support\Facades\Http;
+use App\Models\Notification;
 
 class AuthController extends Controller
 {
@@ -134,8 +135,30 @@ class AuthController extends Controller
         Log::error("❌ SMS sending error: " . $e->getMessage());
     }
 
+    // 🔹 Create Notification for Admin
+try {
+    Notification::create([
+        'user_id' => null, // not yet saved user
+        'admin_id' => 1, // main admin user (adjust if multi-admin)
+        'type' => 'new_user',
+        'title' => 'New User Registration Started',
+        'message' => "{$pendingUser['first_name']} {$pendingUser['last_name']} has initiated registration with email {$pendingUser['email']}.",
+        'data' => [
+            'email' => $pendingUser['email'],
+            'phone' => $pendingUser['phone'],
+            'status' => 'pending_verification'
+        ],
+        'action_time' => now(),
+    ]);
+    Log::info("✅ Admin notification created for new registration ({$pendingUser['email']})");
+} catch (\Exception $e) {
+    Log::error("❌ Failed to create admin notification: " . $e->getMessage());
+}
     return response()->json(['message' => 'OTP sent via Email and SMS.'], 200);
-}    public function verifyOtp(Request $request)
+}
+
+
+public function verifyOtp(Request $request)
     {
         $request->validate([
             'otp' => 'required|digits:4', // ensure this is 4 digits
