@@ -35,10 +35,6 @@
             padding: 25px 30px;
             text-align: center;
         }
-        .email-header img {
-            width: 140px;
-            margin-bottom: 10px;
-        }
         .email-body {
             padding: 30px;
         }
@@ -111,7 +107,6 @@
         <div class="email-container">
             <!-- HEADER -->
             <div class="email-header">
-                <img src="{{ asset('assets/images/logo-circle.png') }}" alt="Tunga Market Logo">
                 <h1 style="margin: 0; font-size: 24px;">Tunga Market Admin Notification</h1>
             </div>
 
