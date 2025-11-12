@@ -221,7 +221,7 @@
             <!-- Actions -->
             <div class="form-actions">
                 <button type="submit" class="btn-save">Update Testimonial</button>
-                <a href="{{ route('admin.brand.index') }}" class="btn-cancel">Cancel</a>
+                <a href="{{ route('admin.successStories.index') }}" class="btn-cancel">Cancel</a>
             </div>
 
         </form>
