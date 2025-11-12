@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Models\Notification;
 use App\Models\Product;
+use Illuminate\Support\Facades\Http;
 
 class ContactController extends Controller
 {
@@ -29,7 +30,11 @@ class ContactController extends Controller
     Log::debug('📥 Contact form submission received.', $request->all());
 
     try {
-        // ✅ 1. Validate input
+        /**
+         * ===================================
+         * ✅ 1. Validate Input
+         * ===================================
+         */
         $validated = $request->validate([
             'first-name' => 'required|string|max:100',
             'last-name' => 'required|string|max:100',
@@ -50,85 +55,166 @@ class ContactController extends Controller
 
         Log::debug('✅ Validation passed.', $validated);
 
-        // ✅ 2. Handle file uploads
+        /**
+         * ===================================
+         * 📂 2. Handle File Uploads
+         * ===================================
+         */
         $attachments = [];
 
-    if ($request->hasFile('attachments')) {
-        foreach ($request->file('attachments') as $file) {
-            $filename = Str::random(40) . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('contact_attachments', $filename, 'public');
-
-            // Convert to full URL using asset()
-            $attachments[] = asset('storage/' . $path);
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $filename = Str::random(40) . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('contact_attachments', $filename, 'public');
+                $attachments[] = asset('storage/' . $path);
+            }
         }
-    }
 
-        // ✅ 3. Save to database
+        /**
+         * ===================================
+         * 💾 3. Save to Database
+         * ===================================
+         */
         $contact = ContactRequest::create([
             'first_name' => $validated['first-name'],
-            'last_name' => $validated['last-name'],
-            'email' => $validated['email'],
-            'phone' => $validated['phone'] ?? null,
-            'company' => $validated['company'] ?? null,
-            'role' => $validated['role'] ?? null,
-            'subject' => $validated['subject'],
-            'message' => $validated['message'],
-            'priority' => $validated['priority'],
-            'contact_type_title' => $request->input('contact_type_title'),
+            'last_name'  => $validated['last-name'],
+            'email'      => $validated['email'],
+            'phone'      => $validated['phone'] ?? null,
+            'company'    => $validated['company'] ?? null,
+            'role'       => $validated['role'] ?? null,
+            'subject'    => $validated['subject'],
+            'message'    => $validated['message'],
+            'priority'   => $validated['priority'],
+            'contact_type_title'       => $request->input('contact_type_title'),
             'contact_type_description' => $request->input('contact_type_description'),
-            'attachments' => json_encode($attachments),
-            'callback_requested' => $request->has('callback-request'),
-            'callback_time' => $request->input('callback-time'),
-            'callback_timezone' => $request->input('callback-timezone'),
+            'attachments'              => json_encode($attachments),
+            'callback_requested'       => $request->has('callback-request'),
+            'callback_time'            => $request->input('callback-time'),
+            'callback_timezone'        => $request->input('callback-timezone'),
         ]);
 
-        Log::info('💾 Contact request saved', ['id' => $contact->id]);
+        Log::info('💾 Contact request saved successfully.', ['id' => $contact->id]);
 
-        // 🔹 Create notification for admin(s)
-try {
+        /**
+         * ===================================
+         * 🔔 4. Create Notification Record
+         * ===================================
+         */
+        try {
+            Notification::create([
+                'user_id'   => null,
+                'admin_id'  => 6, // can later loop all admins
+                'type'      => 'contact_request',
+                'title'     => 'New Contact Request Received',
+                'message'   => "A new contact request was submitted by {$contact->first_name} {$contact->last_name} ({$contact->email}).",
+                'data'      => [
+                    'contact_id' => $contact->id,
+                    'priority'   => $contact->priority,
+                    'subject'    => $contact->subject,
+                    'email'      => $contact->email,
+                ],
+                'action_time' => now(),
+            ]);
 
-
-
-        Notification::create([
-            'user_id' => null, // contact may not be a registered user
-            'admin_id' => 6,
-            'type' => 'contact_request',
-            'title' => 'New Contact Request Received',
-            'message' => "A new contact request was submitted by {$contact->first_name} {$contact->last_name} ({$contact->email}).",
-            'data' => [
-                'contact_id' => $contact->id,
-                'priority' => $contact->priority,
-                'subject' => $contact->subject,
-                'email' => $contact->email,
-            ],
-            'action_time' => now(),
-        ]);
-
-        Log::info("✅ Notification created for admin ID: 9 for contact ID: {$contact->id}");
-
-} catch (\Exception $e) {
-    Log::error("❌ Failed to create admin notification for contact request: " . $e->getMessage());
-}
-        // ✅ 4. Notify Admin(s)
-        $admins = User::where('role', 1)->get();
-        foreach ($admins as $admin) {
-            Log::info("📧 Sending notification to admin: {$admin->email}");
-            Mail::to($admin->email)->send(new ContactRequestNotification($contact));
+            Log::info("✅ Admin notification created for contact #{$contact->id}");
+        } catch (\Exception $e) {
+            Log::error("❌ Failed to create admin notification: " . $e->getMessage());
         }
 
-        // ✅ 5. Notify user (confirmation)
-        Mail::to($contact->email)->send(new ContactRequestConfirmation($contact));
-        Log::info("📨 Confirmation email sent to: {$contact->email}");
+        /**
+         * ===================================
+         * ✉️ 5. Notify Admins via Email & SMS
+         * ===================================
+         */
+        $admins = User::where('is_admin', 'yes')->get();
 
-        return redirect()->back()->with('success', 'Your message has been sent successfully. We will get back to you shortly.');
+        foreach ($admins as $admin) {
+            // Email Notification
+            try {
+                $emailTitle = '📩 New Contact Request Received';
+                $emailBody = "{$contact->first_name} {$contact->last_name} has submitted a contact request.";
+                $emailData = [
+                    'Contact ID' => $contact->id,
+                    'Priority'   => ucfirst($contact->priority),
+                    'Subject'    => $contact->subject,
+                    'Email'      => $contact->email,
+                    'Phone'      => $contact->phone ?: 'N/A',
+                    'Company'    => $contact->company ?: 'N/A',
+                ];
+
+                Mail::send('emails.admin_notification', [
+                    'title' => $emailTitle,
+                    'messageBody' => $emailBody,
+                    'data' => $emailData,
+                ], function ($message) use ($admin, $emailTitle) {
+                    $message->to($admin->email)->subject($emailTitle);
+                });
+
+                Log::info("✅ Admin email sent to {$admin->email}");
+            } catch (\Exception $e) {
+                Log::error("❌ Failed to send email to admin {$admin->email}: " . $e->getMessage());
+            }
+
+            // SMS Notification via Mista.io
+            try {
+                if ($admin->phone) {
+                    $apiToken = config('services.mista.api_token');
+                    $senderId = config('services.mista.sender_id');
+
+                    $phone = preg_replace('/\D/', '', $admin->phone);
+                    if (Str::startsWith($phone, '07')) {
+                        $phone = '250' . substr($phone, 1);
+                    } elseif (!Str::startsWith($phone, '+')) {
+                        $phone = '+' . $phone;
+                    }
+
+                    $smsMessage = "📢 New Contact Request:\n"
+                        . "{$contact->first_name} {$contact->last_name}\n"
+                        . "Subject: {$contact->subject}\n"
+                        . "Priority: {$contact->priority}\n"
+                        . "Check your dashboard.";
+
+                    $response = Http::withHeaders([
+                        'Authorization' => 'Bearer ' . $apiToken,
+                        'accept' => 'application/json',
+                        'content-type' => 'application/json',
+                    ])->post('https://api.mista.io/sms', [
+                        'to' => $phone,
+                        'from' => $senderId,
+                        'message' => $smsMessage,
+                    ]);
+
+                    Log::info("✅ SMS sent to Admin {$admin->phone}: " . $response->body());
+                }
+            } catch (\Exception $e) {
+                Log::error("❌ SMS sending failed to {$admin->phone}: " . $e->getMessage());
+            }
+        }
+
+        /**
+         * ===================================
+         * 📬 6. Notify User (Confirmation)
+         * ===================================
+         */
+        try {
+            Mail::to($contact->email)->send(new ContactRequestConfirmation($contact));
+            Log::info("📨 Confirmation email sent to {$contact->email}");
+        } catch (\Exception $e) {
+            Log::error("❌ Failed to send confirmation email to user: " . $e->getMessage());
+        }
+
+        return redirect()->back()->with('success', '✅ Your message has been sent successfully. We will get back to you shortly.');
+
     } catch (\Exception $e) {
         Log::error('❌ Error in contact form submission', [
             'message' => $e->getMessage(),
             'trace' => $e->getTraceAsString(),
         ]);
+
         return redirect()->back()->with('error', 'Something went wrong. Please try again later.');
     }
 }
+
 
 
 public function storeEnquiry(Request $request){
@@ -153,30 +239,108 @@ public function storeEnquiry(Request $request){
     // ✅ Load product for context
     $product = Product::find($request->product_id);
 
-    // ✅ Create admin notification
-    try {
+   // ✅ Create admin notification
+try {
+    // Create notification record
+    $notification = Notification::create([
+        'user_id' => null, // guest
+        'admin_id' => 6, // or loop for all admins
+        'type' => 'product_enquiry',
+        'title' => 'New Product Enquiry',
+        'message' => "{$request->name} submitted an enquiry for product '{$product->title}' (Qty: {$request->quantity}).",
+        'data' => [
+            'enquiry_id' => $enquiry->id,
+            'product_id' => $product->id,
+            'product_title' => $product->title,
+            'email' => $request->email,
+            'quantity' => $request->quantity,
+            'target_price' => $request->target_price,
+        ],
+        'action_time' => now(),
+    ]);
 
-            Notification::create([
-                'user_id' => null, // enquiry is from a guest
-                'admin_id' => 6,
-                'type' => 'product_enquiry',
-                'title' => 'New Product Enquiry',
-                'message' => "{$request->name} submitted an enquiry for product '{$product->title}' (Qty: {$request->quantity}).",
-                'data' => [
-                    'enquiry_id' => $enquiry->id,
-                    'product_id' => $product->id,
-                    'product_title' => $product->title,
-                    'email' => $request->email,
-                    'quantity' => $request->quantity,
-                    'target_price' => $request->target_price,
-                ],
-                'action_time' => now(),
+    Log::info("✅ Admin notification created for product enquiry #{$enquiry->id}");
+
+    /**
+     * =======================
+     * ✉️ EMAIL NOTIFICATION
+     * =======================
+     */
+    try {
+        $admin = User::find(6); // Change this if multiple admins
+        if ($admin && $admin->email) {
+            $emailTitle = '🛒 New Product Enquiry Received';
+            $emailBody = "{$request->name} submitted a new enquiry for <strong>{$product->title}</strong>.";
+            $emailData = [
+                'Enquiry ID' => $enquiry->id,
+                'Product' => $product->title,
+                'Quantity' => $request->quantity,
+                'Target Price' => $request->target_price ?: 'N/A',
+                'Email' => $request->email,
+                'Phone' => $request->phone ?: 'N/A',
+                'Message' => $request->message,
+            ];
+
+            Mail::send('emails.admin_notification', [
+                'title' => $emailTitle,
+                'messageBody' => $emailBody,
+                'data' => $emailData,
+            ], function ($message) use ($admin, $emailTitle) {
+                $message->to($admin->email)
+                        ->subject($emailTitle);
+            });
+
+            Log::info("✅ Admin email notification sent to {$admin->email}");
+        }
+    } catch (\Exception $e) {
+        Log::error("❌ Failed to send admin email for enquiry #{$enquiry->id}: " . $e->getMessage());
+    }
+
+    /**
+     * =======================
+     * 📱 SMS NOTIFICATION (MISTA.IO)
+     * =======================
+     */
+    try {
+        $admin = User::find(6);
+        if ($admin && $admin->phone) {
+            $apiToken = config('services.mista.api_token');
+            $senderId = config('services.mista.sender_id');
+
+            // Normalize phone
+            $phone = preg_replace('/\s+/', '', $admin->phone);
+            if (Str::startsWith($phone, '07')) {
+                $phone = '250' . substr($phone, 1); // Rwanda
+            } elseif (!Str::startsWith($phone, '+')) {
+                $phone = '+'.$phone;
+            }
+
+            $smsMessage = "📢 Tunga Market Admin Alert:\n"
+                . "{$request->name} just submitted a product enquiry for '{$product->title}'.\n"
+                . "Qty: {$request->quantity}\n"
+                . "Email: {$request->email}\n"
+                . "Check dashboard for details.";
+
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $apiToken,
+                'accept' => 'application/json',
+                'content-type' => 'application/json',
+            ])->post('https://api.mista.io/sms', [
+                'to' => $phone,
+                'from' => $senderId,
+                'message' => $smsMessage,
             ]);
 
-        Log::info("✅ Admin notification created for product enquiry #{$enquiry->id}");
+            Log::info("✅ SMS sent to Admin ({$phone}) for Enquiry #{$enquiry->id}: " . $response->body());
+        }
     } catch (\Exception $e) {
-        Log::error("❌ Failed to create notification for enquiry #{$enquiry->id}: " . $e->getMessage());
+        Log::error("❌ Failed to send SMS for enquiry #{$enquiry->id}: " . $e->getMessage());
     }
+
+} catch (\Exception $e) {
+    Log::error("❌ Failed to create notification for enquiry #{$enquiry->id}: " . $e->getMessage());
+}
+
 
         return response()->json([
             'success' => true,
