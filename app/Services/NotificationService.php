@@ -12,7 +12,7 @@ class NotificationService
 {
     public static function notifyAdmins($type, $title, $message, $data = [])
     {
-        $admins = User::where('role', 1)->get();
+        $admins = User::where('is_admin', 'yes')->get();
 
         foreach ($admins as $admin) {
             // Send Email + SMS

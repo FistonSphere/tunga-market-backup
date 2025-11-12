@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Notification;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\Log;
 
 class OrderTrackingController extends Controller
@@ -445,10 +446,10 @@ public function store(Request $request)
 try {
     Notification::create([
         'user_id' => $user->id,
-        'admin_id' => 6, // or loop through all admins if multiple admins exist
+        'admin_id' => 6, // optional if you store admin ID
         'type' => 'order',
         'title' => 'New Order Received',
-        'message' => "User {$user->first_name} {$user->last_name} placed a new order (Order ID: #{$order->id}) with total of {$orderTotal} RWF.",
+        'message' => "User {$user->first_name} {$user->last_name} placed a new order (#{$order->id}) totaling {$orderTotal} RWF.",
         'data' => [
             'order_id' => $order->id,
             'total' => $orderTotal,
@@ -457,9 +458,22 @@ try {
         ],
         'action_time' => now(),
     ]);
-    Log::info("✅ Admin notification created for Order ID: {$order->id}");
+
+    // Send both Email & SMS to all admins
+    NotificationService::notifyAdmins(
+        'order',
+        '🛍️ New Order Received',
+        "User {$user->first_name} {$user->last_name} placed a new order (#{$order->id}) totaling {$orderTotal} RWF.",
+        [
+            'Order ID' => $order->id,
+            'Total' => number_format($orderTotal) . ' RWF',
+            'Status' => $order->status,
+        ]
+    );
+
+    Log::info("✅ Admin notified (email + sms) for Order ID: {$order->id}");
 } catch (\Exception $e) {
-    Log::error("❌ Failed to create admin notification for Order ID: {$order->id}. Error: " . $e->getMessage());
+    Log::error("❌ Failed to notify admin for Order ID: {$order->id}. Error: " . $e->getMessage());
 }
     return response()->json([
         'status' => 'success',
