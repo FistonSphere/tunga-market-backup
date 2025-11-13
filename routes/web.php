@@ -7,6 +7,7 @@ use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\backend\AdminEnquiryController;
 use App\Http\Controllers\backend\AdminFaqController;
+use App\Http\Controllers\backend\AdminNotificationController;
 use App\Http\Controllers\backend\AdminOrderManagementController;
 use App\Http\Controllers\backend\AdminProductIssueController;
 use App\Http\Controllers\backend\AdminSuccessStoryController;
@@ -395,5 +396,13 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
 });
     // Success Story routes
 
+    //notifications routes
+    Route::prefix('notifications')->controller(AdminNotificationController::class)->group(function () {
+    Route::get('/overview', 'notificationsIndex')->name('admin.notifications.index');
+    Route::get('/show/{id}',  'show')->name('admin.notifications.show');
+    Route::post('/{notification}/mark-as-read', 'markAsRead')->name('admin.notifications.markAsRead');
+    Route::post('/mark-all-as-read', 'markAllAsRead')->name('admin.notifications.markAllAsRead');
+});
+    //notifications routes
 // admin with no authentication middleware routes
 });
