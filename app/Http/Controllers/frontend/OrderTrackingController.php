@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Notification;
+use App\Models\User;
 use App\Services\NotificationService;
 use Illuminate\Support\Facades\Log;
 
@@ -443,6 +444,7 @@ public function store(Request $request)
     $firstOrderItem = $order->items()->first();
 
     // 🔹 Create notification for admin about new order
+    $admins = User::where('is_admin', 'yes')->get();
 try {
     $firstName = (string) $user->first_name;
     $lastName = (string) $user->last_name;

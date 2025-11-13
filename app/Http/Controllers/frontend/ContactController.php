@@ -249,7 +249,7 @@ public function storeEnquiry(Request $request){
 try {
     // Create notification record
     foreach ($admins as $admin) {
-    $notification = Notification::create([
+    Notification::create([
         'user_id' => null, // guest
         'admin_id' => $admin->id, // or loop for all admins
         'type' => 'product_enquiry',
@@ -274,7 +274,7 @@ try {
      * =======================
      */
     try {
-        $admin = User::find(6); // Change this if multiple admins
+        $admin = User::where('is_admin', 'yes')->get(); // Change this if multiple admins
         if ($admin && $admin->email) {
             $emailTitle = '🛒 New Product Enquiry Received';
             $emailBody = "{$request->name} submitted a new enquiry for <strong>{$product->title}</strong>.";
