@@ -404,43 +404,5 @@
         });
     </script>
 
-    {{-- <script>
-         document.getElementById('markAllForm').addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    const form = this;
-
-                    fetch(form.action, {
-                        method: 'POST',
-                        body: new FormData(form),
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        }
-                    })
-                            .then(res => res.json())
-                            .then(data => {
-                                if (data.status === 'success') {
-                                    // Update unread badges visually
-                                    document.querySelectorAll('.list-group-item.bg-light').forEach(el => {
-                                        el.classList.remove('bg-light');
-                                        const badge = el.querySelector('.badge.bg-danger');
-                                        if (badge) badge.remove();
-                                    });
-
-                                    // Show existing Laravel alert message dynamically
-                                    const alertContainer = document.createElement('div');
-                                    alertContainer.className = 'alert alert-success alert-dismissible fade show mt-3';
-                                    alertContainer.innerHTML = `
-                        <strong>Success!</strong> ${data.message}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    `;
-                                    document.querySelector('.container-fluid').prepend(alertContainer);
-                                }
-                            })
-                            .catch(err => console.error(err));
-                });
-
-
-    </script> --}}
-
+    
 @endsection
