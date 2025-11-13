@@ -153,7 +153,7 @@
                             </ul>
                         </div>
 
-                        <div class="topnav-dropdown-footer border-top text-center py-2">
+                        <div class="topnav-dropdown-footer border-top text-center" >
                             <a href="{{ route('admin.notifications.index') }}" class="text-primary fw-semibold">View all
                                 Notifications</a>
                         </div>
