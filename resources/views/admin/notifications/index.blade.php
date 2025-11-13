@@ -15,7 +15,7 @@
                 <ul class="list-group list-group-flush">
                     @forelse($notifications as $noti)
                         <li class="list-group-item {{ $noti->is_read ? '' : 'bg-light' }}">
-                            <a href="{{ route('notifications.show', $noti->id) }}"
+                            <a href="{{ route('admin.notifications.show', $noti->id) }}"
                                 class="text-decoration-none text-dark d-flex justify-content-between align-items-center">
                                 <div>
                                     <strong>{{ $noti->title }}</strong><br>

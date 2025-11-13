@@ -113,7 +113,7 @@
                                 @forelse($notifications as $notification)
                                     <li
                                         class="notification-message border-bottom {{ $notification->is_read ? '' : 'bg-light' }}">
-                                        <a href="{{ route('notifications.show', $notification->id) }}"
+                                        <a href="{{ route('admin.notifications.show', $notification->id) }}"
                                             class="d-block px-3 py-2 text-decoration-none text-dark">
                                             <div class="media d-flex align-items-start">
                                                 <span class="avatar flex-shrink-0 me-2">
@@ -139,7 +139,7 @@
                         </div>
 
                         <div class="topnav-dropdown-footer border-top text-center py-2">
-                            <a href="{{ route('notifications.index') }}" class="text-primary fw-semibold">View all
+                            <a href="{{ route('admin.notifications.index') }}" class="text-primary fw-semibold">View all
                                 Notifications</a>
                         </div>
                     </div>
