@@ -4,9 +4,12 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class AdminNotificationController extends Controller
 {
@@ -83,6 +86,58 @@ class AdminNotificationController extends Controller
 
     // Otherwise redirect with flash message
     return redirect()->back()->with('success', 'All notifications marked as read.');
+}
+
+public function sendPeriodicReport($period = '7_days')
+{
+    $adminUsers = User::where('is_admin', 'yes')->get();
+
+    // Define date ranges
+    $now = Carbon::now();
+    $startDate = match ($period) {
+        '7_days'  => $now->copy()->subDays(7),
+        '28_days' => $now->copy()->subDays(28),
+        'year'    => $now->copy()->subYear(),
+        default   => $now->copy()->subDays(7),
+    };
+
+    // Get notifications in this period
+    $notifications = Notification::where('created_at', '>=', $startDate)->get();
+
+    // Compute analytics
+    $total = $notifications->count();
+    $byType = $notifications->groupBy('type')->map->count();
+
+    // Compare to previous period for growth %
+    $previousCount = Notification::whereBetween('created_at', [
+        $startDate->copy()->subDays($startDate->diffInDays($now)),
+        $startDate
+    ])->count();
+
+    $growth = $previousCount > 0 ? (($total - $previousCount) / $previousCount) * 100 : 0;
+
+    $reportData = [
+        'period' => $period,
+        'total' => $total,
+        'byType' => $byType,
+        'growth' => round($growth, 2),
+        'start' => $startDate->format('M d, Y'),
+        'end' => $now->format('M d, Y'),
+    ];
+
+    foreach ($adminUsers as $admin) {
+        Mail::send('emails.notification_report', [
+            'admin' => $admin,
+            'report' => $reportData,
+            'title' => "📊 Platform Activity Report — {$reportData['period']}",
+        ], function ($message) use ($admin, $reportData) {
+            $message->to($admin->email, $admin->name)
+                ->subject("Platform Report ({$reportData['period']}) - Tunga Market");
+        });
+    }
+
+    Log::info("✅ Notification report email sent to admins for period: {$period}");
+    return response()->json(['status' => 'success', 'message' => "Report sent for {$period}."]);
 }
 
 }
