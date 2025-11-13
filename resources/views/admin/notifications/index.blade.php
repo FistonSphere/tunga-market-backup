@@ -203,15 +203,17 @@
     <div class="dashboard-container">
         <div class="dashboard-header">
             <h4>📊 Notifications Analytics</h4>
-            <form action="{{ route('admin.notifications.markAllAsRead') }}" method="POST" id="markAllForm">
+            <form action="{{ route('admin.notifications.markAllAsRead') }}" method="POST" id="markAllForm" class="d-inline">
                 @csrf
-                <button type="submit" class="btn btn-sm btn-outline-primary rounded-pill">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-check2-all" viewBox="0 0 16 16">
+                <button type="submit"
+                    class="btn btn-sm btn-outline-primary rounded-pill shadow-sm d-flex align-items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                        class="bi bi-check2-all">
                         <path
                             d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0" />
                         <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708" />
-                    </svg> Mark All as Read
+                    </svg>
+                    <span>Mark All as Read</span>
                 </button>
             </form>
         </div>
