@@ -85,10 +85,14 @@
                     $adminId = auth()->id();
                     $notifications = Notification::where('admin_id', $adminId)
                         ->latest()
-                        ->take(5)
+                        ->take(10)
+                        ->get();
+                    $notification2 = Notification::where('admin_id', $adminId)
+                        ->latest()
                         ->get();
 
-                    $unreadCount = $notifications->where('is_read', false)->count();
+                    $unreadCount = $notification2->where('is_read', 0)->count();
+                    
                 @endphp
 
                 <li class="nav-item dropdown">

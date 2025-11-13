@@ -236,10 +236,9 @@
             </div>
         </div>
 
-        <!-- Chart Visualization -->
         <div class="chart-card">
             <h5>📈 Notification Volume (Last 30 Days)</h5>
-            <canvas id="notificationsChart" height="100"></canvas>
+            <div id="notificationsChart" style="height: 320px;"></div>
         </div>
 
         <!-- Notifications List -->
@@ -302,37 +301,99 @@
         @endif
     </div>
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
-        const ctx = document.getElementById('notificationsChart');
-        const chartData = @json($chartData);
+        document.addEventListener("DOMContentLoaded", function () {
+            const chartData = @json($chartData);
 
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: chartData.map(d => d.date),
-                datasets: [{
-                    label: 'Notifications',
-                    data: chartData.map(d => d.count),
-                    borderColor: '#2563eb',
-                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 4,
-                    pointBackgroundColor: '#2563eb',
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: false },
+            const options = {
+                chart: {
+                    type: 'area',
+                    height: 320,
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: true,
+                            selection: true,
+                            zoom: true,
+                            zoomin: true,
+                            zoomout: true,
+                            pan: true,
+                            reset: true
+                        }
+                    },
+                    animations: {
+                        enabled: true,
+                        easing: 'easeinout',
+                        speed: 800,
+                        animateGradually: { enabled: true, delay: 100 },
+                        dynamicAnimation: { enabled: true, speed: 350 }
+                    }
                 },
-                scales: {
-                    x: { grid: { display: false } },
-                    y: { grid: { color: '#f1f5f9' }, ticks: { stepSize: 1 } }
-                }
-            }
+                series: [{
+                    name: 'Notifications',
+                    data: chartData.map(d => d.count)
+                }],
+                xaxis: {
+                    categories: chartData.map(d => d.date),
+                    labels: {
+                        rotate: -45,
+                        style: { colors: '#6b7280', fontSize: '12px', fontFamily: 'Inter' }
+                    },
+                    axisBorder: { color: '#e5e7eb' },
+                    axisTicks: { color: '#e5e7eb' }
+                },
+                yaxis: {
+                    title: { text: 'Count', style: { color: '#6b7280', fontSize: '13px' } },
+                    labels: { style: { colors: '#6b7280', fontSize: '12px' } },
+                    min: 0
+                },
+                colors: ['#2563eb'],
+                stroke: {
+                    curve: 'smooth',
+                    width: 3
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.5,
+                        opacityTo: 0.1,
+                        stops: [0, 90, 100]
+                    }
+                },
+                grid: {
+                    borderColor: '#f1f5f9',
+                    strokeDashArray: 4,
+                },
+                markers: {
+                    size: 5,
+                    colors: ['#2563eb'],
+                    strokeColors: '#fff',
+                    hover: { size: 7 }
+                },
+                tooltip: {
+                    theme: 'light',
+                    x: { format: 'yyyy-MM-dd' },
+                    y: {
+                        formatter: val => `${val} notifications`
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                responsive: [{
+                    breakpoint: 768,
+                    options: {
+                        chart: { height: 260 },
+                        xaxis: { labels: { rotate: 0 } }
+                    }
+                }]
+            };
+
+            const chart = new ApexCharts(document.querySelector("#notificationsChart"), options);
+            chart.render();
         });
     </script>
 
