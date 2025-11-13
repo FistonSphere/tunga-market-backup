@@ -28,7 +28,6 @@ class AdminNotificationController extends Controller
         'yearly' => Notification::countByPeriod('1 year'),
     ];
 
-    
     $growth = Notification::growthComparison();
 
     // Optional: group by day for chart
