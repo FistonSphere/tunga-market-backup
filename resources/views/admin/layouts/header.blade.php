@@ -153,10 +153,13 @@
                             </ul>
                         </div>
 
+                        @if($unreadCount > 0)
+
                         <div class="topnav-dropdown-footer border-top text-center" >
                             <a href="{{ route('admin.notifications.index') }}" class="text-primary fw-semibold">View all
                                 Notifications</a>
                         </div>
+                        @endif
                     </div>
                 </li>
 
