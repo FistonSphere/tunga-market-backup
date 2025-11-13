@@ -109,12 +109,13 @@
                         <div
                             class="topnav-dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
                             <span class="notification-title fw-bold text-dark">Notifications</span>
-                            @
-                            <form action="{{ route('admin.notifications.markAllAsRead') }}" method="POST" class="d-inline">
-                                  @csrf
-                            <button type="submit" class="clear-noti text-danger small" style="border:none; background-color: transparent; ">Mark
-                                all as read</button>
-                                 </form>
+                            @if($unreadCount > 0)
+                                <form action="{{ route('admin.notifications.markAllAsRead') }}" method="POST" class="d-inline">
+                                      @csrf
+                                <button type="submit" class="clear-noti text-danger small" style="border:none; background-color: transparent; ">Mark
+                                    all as read</button>
+                                     </form>
+                            @endif
                         </div>
 
                         <div class="noti-content" style="max-height: 350px; overflow-y: auto;">
