@@ -398,7 +398,7 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
 
     //notifications routes
     Route::prefix('notifications')->controller(AdminNotificationController::class)->group(function () {
-    Route::get('/overview', 'notificationsIndex')->name('admin.notifications.index');
+    Route::get('/overview', 'index')->name('admin.notifications.index');
     Route::get('/show/{id}',  'show')->name('admin.notifications.show');
     Route::post('/{notification}/mark-as-read', 'markAsRead')->name('admin.notifications.markAsRead');
     Route::post('/mark-all-as-read', 'markAllAsRead')->name('admin.notifications.markAllAsRead');
