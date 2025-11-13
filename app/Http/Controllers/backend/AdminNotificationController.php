@@ -21,7 +21,22 @@ class AdminNotificationController extends Controller
             ->where('is_read', false)
             ->count();
 
-        return view('admin.notifications.index', compact('notifications', 'unreadCount'));
+         // Analytics data (example model helpers)
+    $stats = [
+        'weekly' => Notification::countByPeriod('7 days'),
+        'monthly' => Notification::countByPeriod('28 days'),
+        'yearly' => Notification::countByPeriod('1 year'),
+    ];
+
+    $growth = Notification::growthComparison();
+
+    // Optional: group by day for chart
+    $chartData = Notification::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        ->where('created_at', '>=', now()->subDays(30))
+        ->groupBy('date')
+        ->orderBy('date')
+        ->get();
+        return view('admin.notifications.index', compact('notifications', 'unreadCount', 'stats', 'growth', 'chartData'));
     }
 
     /**

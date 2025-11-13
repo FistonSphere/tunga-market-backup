@@ -2,118 +2,146 @@
 
 @section('content')
     <style>
-    /* --- Alibaba-like Notification UI --- */
-    .notification-container {
-        background: #f8fafc;
-        min-height: 100vh;
-        padding: 2rem 1.5rem;
-        font-family: "Inter", "Poppins", sans-serif;
-    }
+        /* --- Layout --- */
+        .dashboard-container {
+            background: #f9fafb;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            font-family: "Inter", "Poppins", sans-serif;
+        }
 
-    .notification-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1.5rem;
-    }
+        /* --- Header --- */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
 
-    .notification-header h4 {
-        font-weight: 700;
-        color: #1e293b;
-        letter-spacing: 0.3px;
-    }
+        .dashboard-header h4 {
+            font-weight: 700;
+            color: #1e293b;
+        }
 
-    .notification-header button {
-        transition: 0.3s ease;
-    }
+        /* --- Stats Cards --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
 
-    .notification-header button:hover {
-        background: linear-gradient(90deg, #2563eb, #1d4ed8);
-        color: #fff !important;
-        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
-    }
+        .stat-card {
+            background: linear-gradient(135deg, #ffffff, #f0f4ff);
+            border-radius: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            transition: 0.3s ease;
+        }
 
-    /* --- Notification Card --- */
-    .notification-card {
-        background: #fff;
-        border-radius: 1rem;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
 
-    .notification-card:hover {
-        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    }
+        .stat-title {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
 
-    /* --- Notification Item --- */
-    .notification-item {
-        border-left: 4px solid transparent;
-        padding: 1rem 1.25rem;
-        transition: all 0.25s ease;
-        position: relative;
-    }
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1e3a8a;
+        }
 
-    .notification-item:hover {
-        background: #f1f5f9;
-        border-left: 4px solid #2563eb;
-    }
+        .stat-growth {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.4rem;
+        }
 
-    .notification-item.unread {
-        background: #f0f9ff;
-        border-left: 4px solid #2563eb;
-    }
+        .stat-growth.up {
+            color: #16a34a;
+        }
 
-    .notification-item a {
-        text-decoration: none;
-        color: #1e293b;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+        .stat-growth.down {
+            color: #dc2626;
+        }
 
-    .notification-item strong {
-        font-size: 0.95rem;
-        color: #0f172a;
-    }
+        /* --- Chart Card --- */
+        .chart-card {
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
 
-    .notification-item p {
-        margin: 0.2rem 0 0.3rem;
-        font-size: 0.9rem;
-        color: #475569;
-    }
+        .chart-card h5 {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
 
-    .notification-time {
-        font-size: 0.8rem;
-        color: #94a3b8;
-    }
+        /* --- Notification List --- */
+        .notification-card {
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
 
-    .notification-badge {
-        background: linear-gradient(90deg, #ef4444, #dc2626);
-        color: #fff;
-        font-size: 0.75rem;
-        border-radius: 20px;
-        padding: 0.3rem 0.7rem;
-        font-weight: 600;
-    }
+        .notification-item {
+            border-left: 4px solid transparent;
+            padding: 1rem 1.25rem;
+            transition: all 0.25s ease;
+        }
 
-    /* --- Empty state --- */
-    .notification-empty {
-        text-align: center;
-        color: #94a3b8;
-        padding: 3rem 1rem;
-        font-size: 1rem;
-    }
+        .notification-item.unread {
+            background: #f0f9ff;
+            border-left: 4px solid #2563eb;
+        }
 
-    .pagination {
-        margin-top: 1.5rem;
-        justify-content: center;
-    }
+        .notification-item:hover {
+            background: #f8fafc;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .notification-item strong {
+            color: #0f172a;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .notification-badge {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+            color: #fff;
+            border-radius: 20px;
+            padding: 0.3rem 0.7rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* --- Empty state --- */
+        .notification-empty {
+            text-align: center;
+            color: #94a3b8;
+            padding: 3rem 1rem;
+        }
+
+        .pagination {
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
     </style>
 
-    <div class="notification-container">
-        <div class="notification-header">
-            <h4>📢 Notifications Center</h4>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h4>📊 Notifications Analytics</h4>
             <form action="{{ route('admin.notifications.markAllAsRead') }}" method="POST" id="markAllForm">
                 @csrf
                 <button type="submit" class="btn btn-sm btn-outline-primary rounded-pill">
@@ -122,14 +150,47 @@
             </form>
         </div>
 
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Last 7 Days</div>
+                <div class="stat-value">{{ $stats['weekly'] ?? 0 }}</div>
+                <div class="stat-growth {{ ($growth['weekly'] ?? 0) >= 0 ? 'up' : 'down' }}">
+                    {{ ($growth['weekly'] ?? 0) >= 0 ? '+' : '' }}{{ $growth['weekly'] ?? 0 }}%
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Last 28 Days</div>
+                <div class="stat-value">{{ $stats['monthly'] ?? 0 }}</div>
+                <div class="stat-growth {{ ($growth['monthly'] ?? 0) >= 0 ? 'up' : 'down' }}">
+                    {{ ($growth['monthly'] ?? 0) >= 0 ? '+' : '' }}{{ $growth['monthly'] ?? 0 }}%
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">This Year</div>
+                <div class="stat-value">{{ $stats['yearly'] ?? 0 }}</div>
+                <div class="stat-growth {{ ($growth['yearly'] ?? 0) >= 0 ? 'up' : 'down' }}">
+                    {{ ($growth['yearly'] ?? 0) >= 0 ? '+' : '' }}{{ $growth['yearly'] ?? 0 }}%
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Visualization -->
+        <div class="chart-card">
+            <h5>📈 Notification Volume (Last 30 Days)</h5>
+            <canvas id="notificationsChart" height="100"></canvas>
+        </div>
+
+        <!-- Notifications List -->
         <div class="notification-card">
             <ul class="list-group list-group-flush">
                 @forelse($notifications as $noti)
                     <li class="list-group-item notification-item {{ !$noti->is_read ? 'unread' : '' }}">
-                        <a href="{{ route('admin.notifications.show', $noti->id) }}">
+                        <a href="{{ route('admin.notifications.show', $noti->id) }}"
+                            class="d-flex justify-content-between align-items-center text-decoration-none text-dark">
                             <div>
                                 <strong>{{ $noti->title }}</strong>
-                                <p>{{ Str::limit($noti->message, 100) }}</p>
+                                <p class="mb-1">{{ Str::limit($noti->message, 100) }}</p>
                                 <span class="notification-time">{{ $noti->created_at->diffForHumans() }}</span>
                             </div>
                             @if(!$noti->is_read)
@@ -146,23 +207,57 @@
             </ul>
         </div>
 
-        <div class="pagination mt-4">
+        <div class="pagination">
             {{ $notifications->links() }}
         </div>
     </div>
 
-        <script>
-            document.getElementById('markAllForm').addEventListener('submit', async function (e) {
-                e.preventDefault();
-                const res = await fetch(this.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                });
-                const data = await res.json();
-                if (data.status === 'success') location.reload();
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('notificationsChart');
+        const chartData = @json($chartData);
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: chartData.map(d => d.date),
+                datasets: [{
+                    label: 'Notifications',
+                    data: chartData.map(d => d.count),
+                    borderColor: '#2563eb',
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#2563eb',
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { grid: { color: '#f1f5f9' }, ticks: { stepSize: 1 } }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById('markAllForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const res = await fetch(this.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
             });
-        </script>
+            const data = await res.json();
+            if (data.status === 'success') location.reload();
+        });
+    </script>
 
 @endsection
