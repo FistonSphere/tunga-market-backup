@@ -100,26 +100,31 @@ class ContactController extends Controller
          * 🔔 4. Create Notification Record
          * ===================================
          */
-        try {
-            Notification::create([
-                'user_id'   => null,
-                'admin_id'  => 6, // can later loop all admins
-                'type'      => 'contact_request',
-                'title'     => 'New Contact Request Received',
-                'message'   => "A new contact request was submitted by {$contact->first_name} {$contact->last_name} ({$contact->email}).",
-                'data'      => [
-                    'contact_id' => $contact->id,
-                    'priority'   => $contact->priority,
-                    'subject'    => $contact->subject,
-                    'email'      => $contact->email,
-                ],
-                'action_time' => now(),
-            ]);
+       $admins = User::where('is_admin', 'yes')->get();
 
-            Log::info("✅ Admin notification created for contact #{$contact->id}");
-        } catch (\Exception $e) {
-            Log::error("❌ Failed to create admin notification: " . $e->getMessage());
-        }
+          try {
+            foreach ($admins as $admin) {
+           Notification::create([
+            'user_id'   => null,
+            'admin_id'  => $admin->id,
+            'type'      => 'contact_request',
+            'title'     => 'New Contact Request Received',
+            'message'   => "A new contact request was submitted by {$contact->first_name} {$contact->last_name} ({$contact->email}).",
+            'data'      => [
+                'contact_id' => $contact->id,
+                'priority'   => $contact->priority,
+                'subject'    => $contact->subject,
+                'email'      => $contact->email,
+            ],
+            'action_time' => now(),
+        ]);
+    }
+
+    Log::info("✅ Admin notifications created for contact #{$contact->id}");
+} catch (\Exception $e) {
+    Log::error("❌ Failed to create admin notifications: " . $e->getMessage());
+}
+
 
         /**
          * ===================================
@@ -240,11 +245,13 @@ public function storeEnquiry(Request $request){
     $product = Product::find($request->product_id);
 
    // ✅ Create admin notification
+   $admins = User::where('is_admin', 'yes')->get();
 try {
     // Create notification record
+    foreach ($admins as $admin) {
     $notification = Notification::create([
         'user_id' => null, // guest
-        'admin_id' => 6, // or loop for all admins
+        'admin_id' => $admin->id, // or loop for all admins
         'type' => 'product_enquiry',
         'title' => 'New Product Enquiry',
         'message' => "{$request->name} submitted an enquiry for product '{$product->title}' (Qty: {$request->quantity}).",
@@ -258,7 +265,7 @@ try {
         ],
         'action_time' => now(),
     ]);
-
+    }
     Log::info("✅ Admin notification created for product enquiry #{$enquiry->id}");
 
     /**
