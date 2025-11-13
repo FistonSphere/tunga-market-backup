@@ -86,6 +86,7 @@
                     $notifications = Notification::where('admin_id', $adminId)
                         ->latest()
                         ->take(10)
+                        ->where('is_read', false)
                         ->get();
                     $notification2 = Notification::where('admin_id', $adminId)
                         ->latest()
