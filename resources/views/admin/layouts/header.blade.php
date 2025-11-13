@@ -118,11 +118,16 @@
                                             <div class="media d-flex align-items-start">
                                                 <span class="avatar flex-shrink-0 me-2">
                                                     <img alt="Avatar"
-                                                        src="{{ asset('admin/assets/img/profiles/avatar-02.jpg') }}"
+                                                        src="{{ $notification->user->profile_picture ?? asset('assets/images/no-image.png') }}"
                                                         class="rounded-circle" width="40" height="40">
                                                 </span>
                                                 <div class="media-body flex-grow-1">
                                                     <p class="noti-details mb-1">
+                                                         
+                                                        @if($notification->user)
+                                                            {{ $notification->user->first_name }} {{ $notification->user->last_name }} | 
+                                                        
+                                                        @endif
                                                         <strong>{{ $notification->title }}</strong><br>
                                                         {{ Str::limit($notification->message, 60) }}
                                                     </p>
