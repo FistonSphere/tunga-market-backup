@@ -78,120 +78,88 @@
                     </div>
                 </li>
 
+                @php
+                    use App\Models\Notification;
+                    use Illuminate\Support\Str;
+
+                    $adminId = auth()->id();
+                    $notifications = Notification::where('admin_id', $adminId)
+                        ->latest()
+                        ->take(10)
+                        ->get();
+
+                    $unreadCount = $notifications->where('is_read', false)->count();
+                @endphp
+
                 <li class="nav-item dropdown">
-                    <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                        <img src="{{asset('admin/assets/img/icons/notification-bing.svg')}}" alt="img"> <span
-                            class="badge rounded-pill">4</span>
+                    <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"
+                        id="notificationDropdown">
+                        <img src="{{ asset('admin/assets/img/icons/notification-bing.svg') }}" alt="Notifications">
+                        @if($unreadCount > 0)
+                            <span class="badge rounded-pill bg-danger" id="unread-count">{{ $unreadCount }}</span>
+                        @endif
                     </a>
-                    <div class="dropdown-menu notifications">
-                        <div class="topnav-dropdown-header">
-                            <span class="notification-title">Notifications</span>
-                            <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+
+                    <div class="dropdown-menu notifications shadow-lg border-0 rounded-3" style="width: 380px;">
+                        <div
+                            class="topnav-dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+                            <span class="notification-title fw-bold text-dark">Notifications</span>
+                            <a href="javascript:void(0)" class="clear-noti text-danger small" id="mark-all-read">Mark
+                                all as read</a>
                         </div>
-                        <div class="noti-content">
-                            <ul class="notification-list">
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="{{asset('admin/assets/img/profiles/avatar-02.jpg')}}">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">John Doe</span> added
-                                                    new task <span class="noti-title">Patient appointment booking</span>
-                                                </p>
-                                                <p class="noti-time"><span class="notification-time">4 mins ago</span>
-                                                </p>
+
+                        <div class="noti-content" style="max-height: 350px; overflow-y: auto;">
+                            <ul class="notification-list list-unstyled m-0" id="notification-list">
+                                @forelse($notifications as $notification)
+                                    <li
+                                        class="notification-message border-bottom {{ $notification->is_read ? '' : 'bg-light' }}">
+                                        <a href="{{ route('notifications.show', $notification->id) }}"
+                                            class="d-block px-3 py-2 text-decoration-none text-dark">
+                                            <div class="media d-flex align-items-start">
+                                                <span class="avatar flex-shrink-0 me-2">
+                                                    <img alt="Avatar"
+                                                        src="{{ asset('admin/assets/img/profiles/avatar-02.jpg') }}"
+                                                        class="rounded-circle" width="40" height="40">
+                                                </span>
+                                                <div class="media-body flex-grow-1">
+                                                    <p class="noti-details mb-1">
+                                                        <strong>{{ $notification->title }}</strong><br>
+                                                        {{ Str::limit($notification->message, 60) }}
+                                                    </p>
+                                                    <small
+                                                        class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="{{asset('admin/assets/img/profiles/avatar-03.jpg')}}">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Tarah Shropshire</span>
-                                                    changed the task name <span class="noti-title">Appointment booking
-                                                        with payment gateway</span></p>
-                                                <p class="noti-time"><span class="notification-time">6 mins ago</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="{{asset('admin/assets/img/profiles/avatar-06.jpg')}}">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Misty Tison</span>
-                                                    added <span class="noti-title">Domenic Houston</span> and <span
-                                                        class="noti-title">Claire Mapes</span> to project <span
-                                                        class="noti-title">Doctor available module</span></p>
-                                                <p class="noti-time"><span class="notification-time">8 mins ago</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="{{asset('admin/assets/img/profiles/avatar-17.jpg')}}">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Rolland Webber</span>
-                                                    completed task <span class="noti-title">Patient and Doctor video
-                                                        conferencing</span></p>
-                                                <p class="noti-time"><span class="notification-time">12 mins ago</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt="" src="{{asset('admin/assets/img/profiles/avatar-13.jpg')}}">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Bernardo Galaviz</span>
-                                                    added new task <span class="noti-title">Private chat module</span>
-                                                </p>
-                                                <p class="noti-time"><span class="notification-time">2 days ago</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
+                                        </a>
+                                    </li>
+                                @empty
+                                    <li class="text-center p-3 text-muted">No notifications</li>
+                                @endforelse
                             </ul>
                         </div>
-                        <div class="topnav-dropdown-footer">
-                            <a href="activities.html">View all Notifications</a>
+
+                        <div class="topnav-dropdown-footer border-top text-center py-2">
+                            <a href="{{ route('notifications.index') }}" class="text-primary fw-semibold">View all
+                                Notifications</a>
                         </div>
                     </div>
                 </li>
 
                 <li class="nav-item dropdown has-arrow main-drop">
                     <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-                        <span class="user-img"><img src="{{asset('admin/assets/img/profiles/avator1.jpg')}}" alt="">
+                        <span class="user-img"><img
+                                src="{{ Auth::user()->profile_picture ?? asset('assets/images/no-image.png') }}" alt="">
                             <span class="status online"></span></span>
                     </a>
                     <div class="dropdown-menu menu-drop-user">
                         <div class="profilename">
                             <div class="profileset">
-                                <span class="user-img"><img src="{{asset('admin/assets/img/profiles/avator1.jpg')}}"
+                                <span class="user-img"><img
+                                        src="{{ Auth::user()->profile_picture ?? asset('assets/images/no-image.png') }}"
                                         alt="">
                                     <span class="status online"></span></span>
                                 <div class="profilesets">
-                                    <h6>John Doe</h6>
+                                    <h6>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h6>
                                     <h5>Admin</h5>
                                 </div>
                             </div>
@@ -292,17 +260,23 @@
                                     alt="img"><span>
                                     Users</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{ route('admin.users.list') }}" class="{{ request()->routeIs('admin.users.list') ? 'active' : '' }}">User Listing</a></li>
+                                <li><a href="{{ route('admin.users.list') }}"
+                                        class="{{ request()->routeIs('admin.users.list') ? 'active' : '' }}">User
+                                        Listing</a></li>
 
                             </ul>
                         </li>
                         <li class="submenu {{ request()->is('admin/support*') }}">
-                            <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/customer-support.png')}}"
-                                    alt="img"><span>
+                            <a href="javascript:void(0);"><img
+                                    src="{{asset('admin/assets/img/icons/customer-support.png')}}" alt="img"><span>
                                     Customer Support</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{ route('admin.support.contactRequests') }}" class="{{ request()->routeIs('admin.support.contactRequests') ? 'active' : '' }}">Customer Request</a></li>
-                                <li><a href="{{ route('admin.faqs.index') }}" class="{{ request()->routeIs('admin.faqs.index') ? 'active' : '' }}">Faqs</a></li>
+                                <li><a href="{{ route('admin.support.contactRequests') }}"
+                                        class="{{ request()->routeIs('admin.support.contactRequests') ? 'active' : '' }}">Customer
+                                        Request</a></li>
+                                <li><a href="{{ route('admin.faqs.index') }}"
+                                        class="{{ request()->routeIs('admin.faqs.index') ? 'active' : '' }}">Faqs</a>
+                                </li>
 
                             </ul>
                         </li>
@@ -311,7 +285,9 @@
                                     alt="img"><span>
                                     Success Stories</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{ route('admin.successStories.index') }}" class="{{ request()->routeIs('admin.successStories.index') ? 'active' : '' }}">Manage Success Stories</a></li>
+                                <li><a href="{{ route('admin.successStories.index') }}"
+                                        class="{{ request()->routeIs('admin.successStories.index') ? 'active' : '' }}">Manage
+                                        Success Stories</a></li>
 
                             </ul>
                         </li>
