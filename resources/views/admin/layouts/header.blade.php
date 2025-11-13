@@ -85,7 +85,7 @@
                     $adminId = auth()->id();
                     $notifications = Notification::where('admin_id', $adminId)
                         ->latest()
-                        ->take(10)
+                        ->take(5)
                         ->get();
 
                     $unreadCount = $notifications->where('is_read', false)->count();
