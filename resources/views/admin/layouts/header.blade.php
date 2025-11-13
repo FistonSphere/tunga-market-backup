@@ -300,6 +300,17 @@
 
                             </ul>
                         </li>
+                        <li class="submenu {{ request()->is('admin/success-stories*') }}">
+                            <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/notification-bell.svg')}}"
+                                    alt="img"><span>
+                                    Notifications</span> <span class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a href="{{ route('admin.successStories.index') }}"
+                                        class="{{ request()->routeIs('admin.successStories.index') ? 'active' : '' }}">Manage
+                                        Notifications</a></li>
+
+                            </ul>
+                        </li>
 
 
 
