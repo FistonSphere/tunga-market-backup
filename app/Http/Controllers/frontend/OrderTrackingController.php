@@ -449,10 +449,10 @@ try {
     $firstName = (string) $user->first_name;
     $lastName = (string) $user->last_name;
     $invoiceNumber = (string) $order->invoice_number;
-
+foreach ($admins as $admin) {
     Notification::create([
         'user_id' => $user->id,
-        'admin_id' => 6, // optional if you store admin ID
+        'admin_id' => $admin->id, // optional if you store admin ID
         'type' => 'order',
         'title' => 'New Order Received',
         'message' => "{$firstName} {$lastName} placed a new order (#{$invoiceNumber}) totaling " . " " . number_format($orderTotal) . " RWF.",
@@ -464,7 +464,7 @@ try {
         ],
         'action_time' => now(),
     ]);
-
+}
     // Send both Email & SMS to all admins
     NotificationService::notifyAdmins(
         'order',
