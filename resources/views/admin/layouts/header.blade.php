@@ -109,8 +109,12 @@
                         <div
                             class="topnav-dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
                             <span class="notification-title fw-bold text-dark">Notifications</span>
-                            <a href="javascript:void(0)" class="clear-noti text-danger small" id="mark-all-read">Mark
-                                all as read</a>
+                            @
+                            <form action="{{ route('admin.notifications.markAllAsRead') }}" method="POST" class="d-inline">
+                                  @csrf
+                            <button type="submit" class="clear-noti text-danger small" style="border:none; background-color: transparent; ">Mark
+                                all as read</button>
+                                 </form>
                         </div>
 
                         <div class="noti-content" style="max-height: 350px; overflow-y: auto;">
