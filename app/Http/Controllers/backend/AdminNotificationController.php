@@ -65,16 +65,24 @@ class AdminNotificationController extends Controller
     /**
      * Mark all as read
      */
-    public function markAllRead(Request $request)
-    {
-        $adminId = Auth::id();
+    public function markAllAsRead(Request $request)
+{
+    $adminId = Auth::id();
 
-        Notification::where('admin_id', $adminId)
-            ->where('is_read', false)
-            ->update(['is_read' => true]);
+    // Update all unread notifications for this admin
+    $updated = Notification::where('admin_id', $adminId)
+        ->where('is_read', false)
+        ->update(['is_read' => true]);
 
-        Log::info("✅ All notifications marked as read by admin #{$adminId}");
+    Log::info("✅ Admin {$adminId} marked {$updated} notifications as read.");
 
-        return response()->json(['status' => 'success']);
+    // If AJAX request, return JSON
+    if ($request->ajax()) {
+        return response()->json(['status' => 'success', 'message' => 'All notifications marked as read.']);
     }
+
+    // Otherwise redirect with flash message
+    return redirect()->back()->with('success', 'All notifications marked as read.');
+}
+
 }
