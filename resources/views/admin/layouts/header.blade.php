@@ -536,7 +536,29 @@
 
     <script src="{{ asset('admin/assets/js/script.js') }}"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const markAllBtn = document.getElementById('mark-all-read');
+            if (markAllBtn) {
+                markAllBtn.addEventListener('click', function () {
+                    fetch('{{ route('admin.notifications.markAllAsRead') }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        }
+                    }).then(res => res.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                document.getElementById('unread-count')?.remove();
+                                document.querySelectorAll('#notification-list .notification-message').forEach(el => {
+                                    el.classList.remove('bg-light');
+                                });
+                            }
+                        });
+                });
+            }
+        });
+</body >
 
-</body>
-
-</html>
+</html >
