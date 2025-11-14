@@ -221,6 +221,7 @@
             transform: none;
             box-shadow: none;
         }
+
         #resetBtn:hover {
             transform: translateY(-2px);
             box-shadow: 0 3px 6px rgba(255, 94, 13, 0.25);
@@ -233,18 +234,15 @@
 
         <!-- Filters -->
         <div class="filter-card mb-4">
-            <form action="" method="GET" class="row gy-3">
-
+            <form action="{{ route('admin.reports.purchase_orders') }}" method="GET" class="row gy-3">
                 <div class="col-md-3">
                     <label class="fw-semibold">Start Date</label>
                     <input type="date" name="start_date" class="form-control" value="{{ $startDate->format('Y-m-d') }}">
                 </div>
-
                 <div class="col-md-3">
                     <label class="fw-semibold">End Date</label>
                     <input type="date" name="end_date" class="form-control" value="{{ $endDate->format('Y-m-d') }}">
                 </div>
-
                 <div class="col-md-3">
                     <label class="fw-semibold">Order Status</label>
                     <select name="status" class="form-select">
@@ -255,7 +253,6 @@
                         <option value="Cancelled" {{ $status == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
                     </select>
                 </div>
-
                 <div class="col-md-3">
                     <label class="fw-semibold">Payment Method</label>
                     <select name="payment_method" class="form-select">
@@ -265,13 +262,16 @@
                         <option value="mobile" {{ $paymentMethod == 'mobile' ? 'selected' : '' }}>Mobile Money</option>
                     </select>
                 </div>
-
-                <div class="col-md-12 d-flex gap-2 align-items-end">
+                <div class="col-md-12 d-flex gap-2 align-items-end mt-2">
                     <button class="btn btn-primary px-4">Filter</button>
-                    <a href="{{ route('admin.reports.purchase_orders') }}" class="btn px-4 resetBtn" style="border:1px solid #ff5e0d">Reset</a>
+                    <a href="{{ route('admin.reports.purchase_orders') }}" class="btn btn-outline-warning px-4">Reset</a>
+                    <a href="{{ route('admin.reports.exportPurchaseOrdersPDF', request()->query()) }}"
+                        class="btn btn-success px-4">
+                        Export PDF
+                    </a>
                 </div>
-
             </form>
+
         </div>
 
         <!-- Stats -->
