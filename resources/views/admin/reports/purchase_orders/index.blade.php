@@ -265,7 +265,7 @@
                 <div class="col-md-12 d-flex gap-2 align-items-end mt-2">
                     <button class="btn btn-primary px-4">Filter</button>
                     <a href="{{ route('admin.reports.purchase_orders') }}" class="btn btn-outline-warning px-4">Reset</a>
-                    <a href="{{ route('admin.reports.exportPurchaseOrdersPDF', request()->query()) }}"
+                    <a href="{{ route('admin.reports.purchase_orders.print', request()->query()) }}"
                         class="btn btn-success px-4">
                         Export PDF
                     </a>

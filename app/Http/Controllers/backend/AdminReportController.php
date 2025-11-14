@@ -57,45 +57,38 @@ class AdminReportController extends Controller
     }
 
 
- public function exportPurchaseOrdersPDF(Request $request)
+public function printPurchaseOrders(Request $request)
 {
     $startDate = $request->query('start_date') ? Carbon::parse($request->start_date) : now()->subMonth();
-    $endDate   = $request->query('end_date') ? Carbon::parse($request->end_date) : now();
-    $status    = $request->query('status', '');
-    $paymentMethod = $request->query('payment_method', '');
+    $endDate = $request->query('end_date') ? Carbon::parse($request->end_date) : now();
+    $status = $request->query('status') ?? null;
+    $paymentMethod = $request->query('payment_method') ?? null;
 
-    $ordersQuery = Order::with('user', 'items', 'payment')
-        ->whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()]);
+    $ordersQuery = Order::with(['user', 'payment', 'items'])
+        ->whereBetween('created_at', [$startDate, $endDate]);
 
-    if ($status) $ordersQuery->where('status', $status);
-    if ($paymentMethod) $ordersQuery->where('payment_method', $paymentMethod);
+    if ($status) {
+        $ordersQuery->where('status', $status);
+    }
+
+    if ($paymentMethod) {
+        $ordersQuery->where('payment_method', $paymentMethod);
+    }
 
     $orders = $ordersQuery->orderBy('created_at', 'desc')->get();
 
     $summary = [
-        'total_orders' => $ordersQuery->count(),
-        'total_revenue' => $ordersQuery->sum('total'),
-        'total_tax' => $ordersQuery->sum('tax_amount'),
-        'delivered_orders' => $ordersQuery->where('status', 'Delivered')->count(),
+        'total_orders' => $orders->count(),
+        'total_revenue' => $orders->sum('total'),
+        'total_tax' => $orders->sum('tax_amount'),
+        'delivered_orders' => $orders->where('status', 'Delivered')->count(),
     ];
 
-    $html = view('admin.reports.purchase_orders.pdf', compact(
-        'orders', 'summary', 'startDate', 'endDate', 'status', 'paymentMethod'
-    ))->render();
-
-    // Generate PDF content as string
-    $pdfContent = Browsershot::html($html)
-        ->setOption('args', ['--no-sandbox'])
-        ->format('A4')
-        ->showBackground()
-        ->margins(10, 10, 10, 10)
-        ->pdf(); // <-- returns PDF content as string
-
-    // Return as download
-    return response()->streamDownload(
-        fn() => print($pdfContent),
-        'purchase_orders_report_' . now()->format('Ymd_His') . '.pdf',
-        ['Content-Type' => 'application/pdf']
-    );
+    return view('admin.reports.purchase_orders.pdf', compact('orders', 'summary', 'startDate', 'endDate', 'status', 'paymentMethod'));
 }
+
 }
+
+
+
+
