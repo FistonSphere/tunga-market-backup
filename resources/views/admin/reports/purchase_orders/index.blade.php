@@ -15,12 +15,11 @@
         }
 
         .stat-box {
-            background: white;
-            border-radius: 16px;
-            padding: 22px;
+            border-radius: 12px;
+            padding: 20px;
+            background: linear-gradient(135deg, #eef2ff, #e0e7ff);
             text-align: center;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
-            transition: transform .25s ease, box-shadow .25s ease;
+            transition: .3s;
         }
 
         .stat-box:hover {
@@ -29,14 +28,15 @@
         }
 
         .stat-value {
-            font-size: 1.7rem;
-            font-weight: 700;
-            color: #1e40af;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #111827;
+            margin-bottom: 5px;
         }
 
         .stat-label {
-            font-size: .9rem;
-            color: #475569;
+            font-size: 0.95rem;
+            color: #6B7280;
         }
 
         .filter-card {
@@ -48,6 +48,51 @@
 
         table tr:hover {
             background: #f1f5f9;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+
+            /* Medium Devices - Tablets */
+            .stat-box {
+                padding: 20px;
+            }
+
+            .stat-value {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            /* Small Devices - Phones */
+            .stat-box {
+                padding: 18px;
+            }
+
+            .stat-value {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            /* Extra Small Phones */
+            .stats-row .col-12 {
+                margin-bottom: 15px;
+            }
+
+            .stat-box {
+                padding: 16px;
+            }
+
+            .stat-value {
+                font-size: 1.4rem;
+            }
+
+            .stat-label {
+                font-size: 0.85rem;
+            }
         }
     </style>
 
