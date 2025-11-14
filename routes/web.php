@@ -36,6 +36,7 @@ use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SmsController;
+use App\Http\Controllers\testCheckoutController;
 use App\Http\Controllers\UserActivityController;
 use App\Http\Controllers\UserSessionController;
 use App\Http\Controllers\WishlistController;
