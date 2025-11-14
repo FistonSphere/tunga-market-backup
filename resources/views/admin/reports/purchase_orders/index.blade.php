@@ -221,6 +221,10 @@
             transform: none;
             box-shadow: none;
         }
+        #resetBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(255, 94, 13, 0.25);
+        }
     </style>
 
     <div class="container-fluid py-4">
@@ -262,8 +266,9 @@
                     </select>
                 </div>
 
-                <div class="col-md-12 mt-3">
+                <div class="col-md-12 d-flex gap-2 align-items-end">
                     <button class="btn btn-primary px-4">Filter</button>
+                    <a href="{{ route('admin.reports.purchase_orders') }}" class="btn px-4 resetBtn" style="border:1px solid #ff5e0d">Reset</a>
                 </div>
 
             </form>
