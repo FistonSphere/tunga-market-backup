@@ -341,35 +341,62 @@
             @if ($orders->hasPages())
                 <div class="pagination-container">
                     <ul class="pagination-list">
-                        {{-- Previous Page Link --}}
+
+                        {{-- Previous Button --}}
                         @if ($orders->onFirstPage())
                             <li class="disabled">&laquo;</li>
                         @else
-                            <li>
-                                <a href="{{ $orders->previousPageUrl() }}" rel="prev">&laquo;</a>
-                            </li>
+                            <li><a href="{{ $orders->previousPageUrl() }}">&laquo;</a></li>
                         @endif
 
-                        {{-- Pagination Elements --}}
-                        @foreach ($orders->links()->elements[0] ?? [] as $page => $url)
-                            @if ($page == $orders->currentPage())
-                                <li class="active">{{ $page }}</li>
-                            @else
-                                <li><a href="{{ $url }}">{{ $page }}</a></li>
-                            @endif
-                        @endforeach
+                        {{-- Page Numbers With Ellipsis --}}
+                        @php
+                            $current = $orders->currentPage();
+                            $last = $orders->lastPage();
+                            $start = max($current - 2, 1);
+                            $end = min($current + 2, $last);
+                        @endphp
 
-                        {{-- Next Page Link --}}
+                        {{-- First Page --}}
+                        @if ($start > 1)
+                            <li><a href="{{ $orders->url(1) }}">1</a></li>
+                        @endif
+
+                        {{-- Dots Before --}}
+                        @if ($start > 2)
+                            <li class="dots">…</li>
+                        @endif
+
+                        {{-- Loop Visible Pages --}}
+                        @for ($i = $start; $i <= $end; $i++)
+                            @if ($i == $current)
+                                <li class="active">{{ $i }}</li>
+                            @else
+                                <li><a href="{{ $orders->url($i) }}">{{ $i }}</a></li>
+                            @endif
+                        @endfor
+
+                        {{-- Dots After --}}
+                        @if ($end < $last - 1)
+                            <li class="dots">…</li>
+                        @endif
+
+                        {{-- Last Page --}}
+                        @if ($end < $last)
+                            <li><a href="{{ $orders->url($last) }}">{{ $last }}</a></li>
+                        @endif
+
+                        {{-- Next Button --}}
                         @if ($orders->hasMorePages())
-                            <li>
-                                <a href="{{ $orders->nextPageUrl() }}" rel="next">&raquo;</a>
-                            </li>
+                            <li><a href="{{ $orders->nextPageUrl() }}">&raquo;</a></li>
                         @else
                             <li class="disabled">&raquo;</li>
                         @endif
+
                     </ul>
                 </div>
             @endif
+
         </div>
     </div>
 @endsection

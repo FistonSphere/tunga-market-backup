@@ -428,10 +428,12 @@
                 </div>
             @empty
                 <div class="no-brands">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
-  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-  <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
-</svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                            d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
+                    </svg>
                     <p>No brands available yet.</p>
                 </div>
             @endforelse
@@ -441,32 +443,58 @@
         @if ($brands->hasPages())
             <div class="pagination-container">
                 <ul class="pagination-list">
-                    {{-- Previous Page Link --}}
+
+                    {{-- Previous Button --}}
                     @if ($brands->onFirstPage())
                         <li class="disabled">&laquo;</li>
                     @else
-                        <li>
-                            <a href="{{ $brands->previousPageUrl() }}" rel="prev">&laquo;</a>
-                        </li>
+                        <li><a href="{{ $brands->previousPageUrl() }}">&laquo;</a></li>
                     @endif
 
-                    {{-- Pagination Elements --}}
-                    @foreach ($brands->links()->elements[0] ?? [] as $page => $url)
-                        @if ($page == $brands->currentPage())
-                            <li class="active">{{ $page }}</li>
-                        @else
-                            <li><a href="{{ $url }}">{{ $page }}</a></li>
-                        @endif
-                    @endforeach
+                    {{-- Page Numbers With Ellipsis --}}
+                    @php
+                        $current = $brands->currentPage();
+                        $last = $brands->lastPage();
+                        $start = max($current - 2, 1);
+                        $end = min($current + 2, $last);
+                    @endphp
 
-                    {{-- Next Page Link --}}
+                    {{-- First Page --}}
+                    @if ($start > 1)
+                        <li><a href="{{ $brands->url(1) }}">1</a></li>
+                    @endif
+
+                    {{-- Dots Before --}}
+                    @if ($start > 2)
+                        <li class="dots">…</li>
+                    @endif
+
+                    {{-- Loop Visible Pages --}}
+                    @for ($i = $start; $i <= $end; $i++)
+                        @if ($i == $current)
+                            <li class="active">{{ $i }}</li>
+                        @else
+                            <li><a href="{{ $brands->url($i) }}">{{ $i }}</a></li>
+                        @endif
+                    @endfor
+
+                    {{-- Dots After --}}
+                    @if ($end < $last - 1)
+                        <li class="dots">…</li>
+                    @endif
+
+                    {{-- Last Page --}}
+                    @if ($end < $last)
+                        <li><a href="{{ $brands->url($last) }}">{{ $last }}</a></li>
+                    @endif
+
+                    {{-- Next Button --}}
                     @if ($brands->hasMorePages())
-                        <li>
-                            <a href="{{ $brands->nextPageUrl() }}" rel="next">&raquo;</a>
-                        </li>
+                        <li><a href="{{ $brands->nextPageUrl() }}">&raquo;</a></li>
                     @else
                         <li class="disabled">&raquo;</li>
                     @endif
+
                 </ul>
             </div>
         @endif

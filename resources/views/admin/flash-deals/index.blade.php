@@ -3,8 +3,8 @@
 @section('content')
     <style>
         /* =============================
-                                                                           Flash Deals Overview Styling
-                                                                        ============================= */
+                                                                               Flash Deals Overview Styling
+                                                                            ============================= */
         .flash-page-container {
             padding: 30px;
             background: #f8f9fc;
@@ -485,32 +485,58 @@
     @if ($flashDeals->hasPages())
         <div class="pagination-container">
             <ul class="pagination-list">
-                {{-- Previous Page Link --}}
+
+                {{-- Previous Button --}}
                 @if ($flashDeals->onFirstPage())
                     <li class="disabled">&laquo;</li>
                 @else
-                    <li>
-                        <a href="{{ $flashDeals->previousPageUrl() }}" rel="prev">&laquo;</a>
-                    </li>
+                    <li><a href="{{ $flashDeals->previousPageUrl() }}">&laquo;</a></li>
                 @endif
 
-                {{-- Pagination Elements --}}
-                @foreach ($flashDeals->links()->elements[0] ?? [] as $page => $url)
-                    @if ($page == $flashDeals->currentPage())
-                        <li class="active">{{ $page }}</li>
-                    @else
-                        <li><a href="{{ $url }}">{{ $page }}</a></li>
-                    @endif
-                @endforeach
+                {{-- Page Numbers With Ellipsis --}}
+                @php
+                    $current = $flashDeals->currentPage();
+                    $last = $flashDeals->lastPage();
+                    $start = max($current - 2, 1);
+                    $end = min($current + 2, $last);
+                @endphp
 
-                {{-- Next Page Link --}}
+                {{-- First Page --}}
+                @if ($start > 1)
+                    <li><a href="{{ $flashDeals->url(1) }}">1</a></li>
+                @endif
+
+                {{-- Dots Before --}}
+                @if ($start > 2)
+                    <li class="dots">…</li>
+                @endif
+
+                {{-- Loop Visible Pages --}}
+                @for ($i = $start; $i <= $end; $i++)
+                    @if ($i == $current)
+                        <li class="active">{{ $i }}</li>
+                    @else
+                        <li><a href="{{ $flashDeals->url($i) }}">{{ $i }}</a></li>
+                    @endif
+                @endfor
+
+                {{-- Dots After --}}
+                @if ($end < $last - 1)
+                    <li class="dots">…</li>
+                @endif
+
+                {{-- Last Page --}}
+                @if ($end < $last)
+                    <li><a href="{{ $flashDeals->url($last) }}">{{ $last }}</a></li>
+                @endif
+
+                {{-- Next Button --}}
                 @if ($flashDeals->hasMorePages())
-                    <li>
-                        <a href="{{ $flashDeals->nextPageUrl() }}" rel="next">&raquo;</a>
-                    </li>
+                    <li><a href="{{ $flashDeals->nextPageUrl() }}">&raquo;</a></li>
                 @else
                     <li class="disabled">&raquo;</li>
                 @endif
+
             </ul>
         </div>
     @endif
