@@ -277,32 +277,58 @@
         @if ($notifications->hasPages())
             <div class="pagination-container">
                 <ul class="pagination-list">
-                    {{-- Previous Page Link --}}
+
+                    {{-- Previous Button --}}
                     @if ($notifications->onFirstPage())
                         <li class="disabled">&laquo;</li>
                     @else
-                        <li>
-                            <a href="{{ $notifications->previousPageUrl() }}" rel="prev">&laquo;</a>
-                        </li>
+                        <li><a href="{{ $notifications->previousPageUrl() }}">&laquo;</a></li>
                     @endif
 
-                    {{-- Pagination Elements --}}
-                    @foreach ($notifications->links()->elements[0] ?? [] as $page => $url)
-                        @if ($page == $notifications->currentPage())
-                            <li class="active">{{ $page }}</li>
-                        @else
-                            <li><a href="{{ $url }}">{{ $page }}</a></li>
-                        @endif
-                    @endforeach
+                    {{-- Page Numbers With Ellipsis --}}
+                    @php
+                        $current = $notifications->currentPage();
+                        $last = $notifications->lastPage();
+                        $start = max($current - 2, 1);
+                        $end = min($current + 2, $last);
+                    @endphp
 
-                    {{-- Next Page Link --}}
+                    {{-- First Page --}}
+                    @if ($start > 1)
+                        <li><a href="{{ $notifications->url(1) }}">1</a></li>
+                    @endif
+
+                    {{-- Dots Before --}}
+                    @if ($start > 2)
+                        <li class="dots">…</li>
+                    @endif
+
+                    {{-- Loop Visible Pages --}}
+                    @for ($i = $start; $i <= $end; $i++)
+                        @if ($i == $current)
+                            <li class="active">{{ $i }}</li>
+                        @else
+                            <li><a href="{{ $notifications->url($i) }}">{{ $i }}</a></li>
+                        @endif
+                    @endfor
+
+                    {{-- Dots After --}}
+                    @if ($end < $last - 1)
+                        <li class="dots">…</li>
+                    @endif
+
+                    {{-- Last Page --}}
+                    @if ($end < $last)
+                        <li><a href="{{ $notifications->url($last) }}">{{ $last }}</a></li>
+                    @endif
+
+                    {{-- Next Button --}}
                     @if ($notifications->hasMorePages())
-                        <li>
-                            <a href="{{ $notifications->nextPageUrl() }}" rel="next">&raquo;</a>
-                        </li>
+                        <li><a href="{{ $notifications->nextPageUrl() }}">&raquo;</a></li>
                     @else
                         <li class="disabled">&raquo;</li>
                     @endif
+
                 </ul>
             </div>
         @endif
@@ -404,5 +430,5 @@
         });
     </script>
 
-    
+
 @endsection
