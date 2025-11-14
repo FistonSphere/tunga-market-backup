@@ -409,6 +409,7 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
 
     //report routes
     Route::get('/reports/purchase-orders', [AdminReportController::class, 'purchaseOrderReport'])->name('admin.reports.purchase_orders');
+     Route::get('/reports/purchase-orders/export-pdf', [AdminReportController::class, 'exportPurchaseOrdersPDF'])->name('exportPurchaseOrdersPDF');
     //report routes
 
 
