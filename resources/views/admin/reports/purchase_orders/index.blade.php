@@ -50,6 +50,68 @@
             background: #f1f5f9;
         }
 
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-radius: 24px;
+            text-transform: capitalize;
+            letter-spacing: 0.3px;
+        }
+
+        /* STATUS COLORS */
+        .status-pending {
+            background: rgba(250, 204, 21, 0.15);
+            /* yellow */
+            color: #b45309;
+            border: 1px solid rgba(250, 204, 21, 0.25);
+        }
+
+        .status-processing {
+            background: rgba(59, 130, 246, 0.15);
+            /* blue */
+            color: #1d4ed8;
+            border: 1px solid rgba(59, 130, 246, 0.25);
+        }
+
+        .status-delivered {
+            background: rgba(16, 185, 129, 0.15);
+            /* green */
+            color: #047857;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+        }
+
+        .status-cancelled {
+            background: rgba(239, 68, 68, 0.15);
+            /* red */
+            color: #b91c1c;
+            border: 1px solid rgba(239, 68, 68, 0.25);
+        }
+
+        .status-refunded {
+            background: rgba(139, 92, 246, 0.15);
+            /* purple */
+            color: #6d28d9;
+            border: 1px solid rgba(139, 92, 246, 0.25);
+        }
+
+        .status-failed {
+            background: rgba(245, 101, 101, 0.15);
+            /* red-ish */
+            color: #c53030;
+            border: 1px solid rgba(245, 101, 101, 0.25);
+        }
+
+        /* Responsive scaling */
+        @media (max-width: 576px) {
+            .status-badge {
+                padding: 4px 10px;
+                font-size: 0.75rem;
+            }
+        }
+
+
         /* Responsive adjustments */
         @media (max-width: 992px) {
 
