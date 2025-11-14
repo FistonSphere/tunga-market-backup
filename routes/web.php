@@ -10,6 +10,7 @@ use App\Http\Controllers\backend\AdminFaqController;
 use App\Http\Controllers\backend\AdminNotificationController;
 use App\Http\Controllers\backend\AdminOrderManagementController;
 use App\Http\Controllers\backend\AdminProductIssueController;
+use App\Http\Controllers\backend\AdminReportController;
 use App\Http\Controllers\backend\AdminSuccessStoryController;
 use App\Http\Controllers\backend\AdminSupportController;
 use App\Http\Controllers\backend\AdminUserController;
@@ -405,5 +406,12 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
 
 });
     //notifications routes
+
+    //report routes
+    Route::get('/reports/purchase-orders', [AdminReportController::class, 'purchaseOrderReport'])->name('admin.reports.purchase_orders');
+    //report routes
+
+
+
 // admin with no authentication middleware routes
 });
