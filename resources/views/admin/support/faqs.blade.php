@@ -344,76 +344,63 @@
         @if ($faqs->hasPages())
             <div class="pagination-container">
                 <ul class="pagination-list">
-                    {{-- Previous Page Link --}}
+
+                    {{-- Previous Button --}}
                     @if ($faqs->onFirstPage())
                         <li class="disabled">&laquo;</li>
                     @else
-                        <li>
-                            <a href="{{ $faqs->previousPageUrl() }}" rel="prev">&laquo;</a>
-                        </li>
+                        <li><a href="{{ $faqs->previousPageUrl() }}">&laquo;</a></li>
                     @endif
 
-                    {{-- Pagination Elements --}}
-                    @foreach ($faqs->links()->elements[0] ?? [] as $page => $url)
-                        @if ($page == $faqs->currentPage())
-                            <li class="active">{{ $page }}</li>
-                        @else
-                            <li><a href="{{ $url }}">{{ $page }}</a></li>
-                        @endif
-                    @endforeach
+                    {{-- Page Numbers With Ellipsis --}}
+                    @php
+                        $current = $faqs->currentPage();
+                        $last = $faqs->lastPage();
+                        $start = max($current - 2, 1);
+                        $end = min($current + 2, $last);
+                    @endphp
 
-                    {{-- Next Page Link --}}
+                    {{-- First Page --}}
+                    @if ($start > 1)
+                        <li><a href="{{ $faqs->url(1) }}">1</a></li>
+                    @endif
+
+                    {{-- Dots Before --}}
+                    @if ($start > 2)
+                        <li class="dots">…</li>
+                    @endif
+
+                    {{-- Loop Visible Pages --}}
+                    @for ($i = $start; $i <= $end; $i++)
+                        @if ($i == $current)
+                            <li class="active">{{ $i }}</li>
+                        @else
+                            <li><a href="{{ $faqs->url($i) }}">{{ $i }}</a></li>
+                        @endif
+                    @endfor
+
+                    {{-- Dots After --}}
+                    @if ($end < $last - 1)
+                        <li class="dots">…</li>
+                    @endif
+
+                    {{-- Last Page --}}
+                    @if ($end < $last)
+                        <li><a href="{{ $faqs->url($last) }}">{{ $last }}</a></li>
+                    @endif
+
+                    {{-- Next Button --}}
                     @if ($faqs->hasMorePages())
-                        <li>
-                            <a href="{{ $faqs->nextPageUrl() }}" rel="next">&raquo;</a>
-                        </li>
+                        <li><a href="{{ $faqs->nextPageUrl() }}">&raquo;</a></li>
                     @else
                         <li class="disabled">&raquo;</li>
                     @endif
+
                 </ul>
             </div>
         @endif
     </div>
 
-    <!-- Modal for Creating FAQ -->
-    {{-- <div id="createFaqModal" class="modal">
-        <div class="modal-content p-4 rounded">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4><i class="bi bi-plus-circle"></i> Add FAQ</h4>
-                <button type="button" class="btn-close" onclick="closeCreateFaqModal()"></button>
-            </div>
-
-            <form id="createFaqForm" method="POST" action="{{ route('admin.faqs.store') }}">
-                @csrf
-
-                <div class="mb-3">
-                    <label class="form-label">Category</label>
-                    <input type="text" class="form-control" name="category" id="createFaqCategory" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Topic</label>
-                    <input type="text" class="form-control" name="topic" id="createFaqTopic" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Question</label>
-                    <input type="text" class="form-control" name="question" id="createFaqQuestion" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Answer</label>
-                    <textarea class="form-control" name="answer" id="createFaqAnswer" rows="4" required></textarea>
-                </div>
-                <div class="form-check form-switch mb-3">
-                    <input class="form-check-input" type="checkbox" name="is_active" id="createFaqActive">
-                    <label class="form-check-label" for="createFaqActive">Active</label>
-                </div>
-
-                <div class="d-flex justify-content-end gap-2">
-                    <button type="button" class="btn btn-secondary" onclick="closeCreateFaqModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="saveFaqBtn">Save FAQ</button>
-                </div>
-            </form>
-        </div>
-    </div> --}}
 
     <!-- Modal for Editing FAQ -->
 
