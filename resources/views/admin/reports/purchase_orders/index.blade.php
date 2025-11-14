@@ -15,15 +15,17 @@
         }
 
         .stat-box {
-            border-radius: 12px;
-            padding: 20px;
-            background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+            background: white;
+            border-radius: 16px;
+            padding: 22px;
             text-align: center;
-            transition: .3s;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+            transition: transform .25s ease, box-shadow .25s ease;
         }
 
         .stat-box:hover {
-            background: linear-gradient(135deg, #dbeafe, #c7d2fe);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
         }
 
         .stat-value {
@@ -96,32 +98,36 @@
         </div>
 
         <!-- Stats -->
-        <div class="row mb-4">
-            <div class="col-md-3">
+        <div class="row stats-row mb-4">
+            <div class="col-md-3 col-sm-6 col-12 mb-3">
                 <div class="stat-box">
                     <div class="stat-value">{{ $summary['total_orders'] }}</div>
                     <div class="stat-label">Total Orders</div>
                 </div>
             </div>
-            <div class="col-md-3">
+
+            <div class="col-md-3 col-sm-6 col-12 mb-3">
                 <div class="stat-box">
                     <div class="stat-value">{{ number_format($summary['total_revenue'], 0) }} RWF</div>
                     <div class="stat-label">Total Revenue</div>
                 </div>
             </div>
-            <div class="col-md-3">
+
+            <div class="col-md-3 col-sm-6 col-12 mb-3">
                 <div class="stat-box">
                     <div class="stat-value">{{ number_format($summary['total_tax'], 0) }}</div>
                     <div class="stat-label">Total Tax Collected</div>
                 </div>
             </div>
-            <div class="col-md-3">
+
+            <div class="col-md-3 col-sm-6 col-12 mb-3">
                 <div class="stat-box">
                     <div class="stat-value">{{ $summary['delivered_orders'] }}</div>
                     <div class="stat-label">Delivered Orders</div>
                 </div>
             </div>
         </div>
+
 
         <!-- Orders Table -->
         <div class="report-card">

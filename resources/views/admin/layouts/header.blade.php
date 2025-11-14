@@ -319,12 +319,12 @@
                                         Notifications</a></li>
                             </ul>
                         </li>
-                        <li class="submenu">
+                        <li class="submenu {{ request()->is('admin/reports*') }}">
                             <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/time.svg')}}"
                                     alt="img"><span>
                                     Report</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="purchaseorderreport.html">Purchase order report</a></li>
+                                <li><a href="{{ route('admin.reports.purchase_orders') }}" class="{{ request()->routeIs('admin.reports.purchase_orders') ? 'active' : '' }}">Purchase order report</a></li>
                                 <li><a href="inventoryreport.html">Inventory Report</a></li>
                                 <li><a href="salesreport.html">Sales Report</a></li>
                                 <li><a href="invoicereport.html">Invoice Report</a></li>
