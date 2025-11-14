@@ -198,8 +198,11 @@
                                 <td>{{ $order->user->name ?? 'Guest' }}</td>
                                 <td>{{ number_format($order->total, 0) }} RWF</td>
                                 <td>
-                                    <span class="badge text-bg-primary">{{ $order->status }}</span>
+                                    <span class="status-badge status-{{ strtolower($order->status) }}">
+                                        {{ ucfirst($order->status) }}
+                                    </span>
                                 </td>
+
                                 <td>{{ $order->payment_method }}</td>
                                 <td>{{ $order->created_at->format('d M Y') }}</td>
                             </tr>
