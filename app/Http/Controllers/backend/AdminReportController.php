@@ -57,38 +57,45 @@ class AdminReportController extends Controller
     }
 
 
-     public function exportPurchaseOrdersPDF(Request $request)
-    {
-        // Use same filter as above
-        $startDate = $request->query('start_date') ? Carbon::parse($request->start_date) : now()->subMonth();
-        $endDate   = $request->query('end_date') ? Carbon::parse($request->end_date) : now();
-        $status    = $request->query('status', '');
-        $paymentMethod = $request->query('payment_method', '');
+ public function exportPurchaseOrdersPDF(Request $request)
+{
+    $startDate = $request->query('start_date') ? Carbon::parse($request->start_date) : now()->subMonth();
+    $endDate   = $request->query('end_date') ? Carbon::parse($request->end_date) : now();
+    $status    = $request->query('status', '');
+    $paymentMethod = $request->query('payment_method', '');
 
-        $ordersQuery = Order::with('user', 'items', 'payment')
-            ->whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()]);
+    $ordersQuery = Order::with('user', 'items', 'payment')
+        ->whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()]);
 
-        if ($status) $ordersQuery->where('status', $status);
-        if ($paymentMethod) $ordersQuery->where('payment_method', $paymentMethod);
+    if ($status) $ordersQuery->where('status', $status);
+    if ($paymentMethod) $ordersQuery->where('payment_method', $paymentMethod);
 
-        $orders = $ordersQuery->orderBy('created_at', 'desc')->get();
+    $orders = $ordersQuery->orderBy('created_at', 'desc')->get();
 
-        $summary = [
-            'total_orders' => $ordersQuery->count(),
-            'total_revenue' => $ordersQuery->sum('total'),
-            'total_tax' => $ordersQuery->sum('tax_amount'),
-            'delivered_orders' => $ordersQuery->where('status', 'Delivered')->count(),
-        ];
+    $summary = [
+        'total_orders' => $ordersQuery->count(),
+        'total_revenue' => $ordersQuery->sum('total'),
+        'total_tax' => $ordersQuery->sum('tax_amount'),
+        'delivered_orders' => $ordersQuery->where('status', 'Delivered')->count(),
+    ];
 
-        // Render HTML first
-        $html = view('admin.reports.purchase_orders.pdf', compact('orders', 'summary', 'startDate', 'endDate', 'status', 'paymentMethod'))->render();
+    $html = view('admin.reports.purchase_orders.pdf', compact(
+        'orders', 'summary', 'startDate', 'endDate', 'status', 'paymentMethod'
+    ))->render();
 
-        // Generate PDF via headless Chrome
-        return Browsershot::html($html)
-            ->setOption('args', ['--no-sandbox'])
-            ->format('A4')
-            ->showBackground()
-            ->margins(10, 10, 10, 10)
-            ->download('purchase_orders_report_' . now()->format('Ymd_His') . '.pdf');
-    }
+    // Generate PDF content as string
+    $pdfContent = Browsershot::html($html)
+        ->setOption('args', ['--no-sandbox'])
+        ->format('A4')
+        ->showBackground()
+        ->margins(10, 10, 10, 10)
+        ->pdf(); // <-- returns PDF content as string
+
+    // Return as download
+    return response()->streamDownload(
+        fn() => print($pdfContent),
+        'purchase_orders_report_' . now()->format('Ymd_His') . '.pdf',
+        ['Content-Type' => 'application/pdf']
+    );
+}
 }
