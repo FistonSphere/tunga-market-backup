@@ -487,32 +487,58 @@
         @if ($issues->hasPages())
             <div class="pagination-container">
                 <ul class="pagination-list">
-                    {{-- Previous Page Link --}}
+
+                    {{-- Previous Button --}}
                     @if ($issues->onFirstPage())
                         <li class="disabled">&laquo;</li>
                     @else
-                        <li>
-                            <a href="{{ $issues->previousPageUrl() }}" rel="prev">&laquo;</a>
-                        </li>
+                        <li><a href="{{ $issues->previousPageUrl() }}">&laquo;</a></li>
                     @endif
 
-                    {{-- Pagination Elements --}}
-                    @foreach ($issues->links()->elements[0] ?? [] as $page => $url)
-                        @if ($page == $issues->currentPage())
-                            <li class="active">{{ $page }}</li>
-                        @else
-                            <li><a href="{{ $url }}">{{ $page }}</a></li>
-                        @endif
-                    @endforeach
+                    {{-- Page Numbers With Ellipsis --}}
+                    @php
+                        $current = $issues->currentPage();
+                        $last = $issues->lastPage();
+                        $start = max($current - 2, 1);
+                        $end = min($current + 2, $last);
+                    @endphp
 
-                    {{-- Next Page Link --}}
+                    {{-- First Page --}}
+                    @if ($start > 1)
+                        <li><a href="{{ $issues->url(1) }}">1</a></li>
+                    @endif
+
+                    {{-- Dots Before --}}
+                    @if ($start > 2)
+                        <li class="dots">…</li>
+                    @endif
+
+                    {{-- Loop Visible Pages --}}
+                    @for ($i = $start; $i <= $end; $i++)
+                        @if ($i == $current)
+                            <li class="active">{{ $i }}</li>
+                        @else
+                            <li><a href="{{ $issues->url($i) }}">{{ $i }}</a></li>
+                        @endif
+                    @endfor
+
+                    {{-- Dots After --}}
+                    @if ($end < $last - 1)
+                        <li class="dots">…</li>
+                    @endif
+
+                    {{-- Last Page --}}
+                    @if ($end < $last)
+                        <li><a href="{{ $issues->url($last) }}">{{ $last }}</a></li>
+                    @endif
+
+                    {{-- Next Button --}}
                     @if ($issues->hasMorePages())
-                        <li>
-                            <a href="{{ $issues->nextPageUrl() }}" rel="next">&raquo;</a>
-                        </li>
+                        <li><a href="{{ $issues->nextPageUrl() }}">&raquo;</a></li>
                     @else
                         <li class="disabled">&raquo;</li>
                     @endif
+
                 </ul>
             </div>
         @endif
@@ -626,14 +652,14 @@
                     } else {
                         data.forEach((item, i) => {
                             tbody.innerHTML += `
-                                                                                                                                <tr>
-                                                                                                                                    <td>${i + 1}</td>
-                                                                                                                                    <td>${item.order_no}</td>
-                                                                                                                                    <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:contain"></td>
-                                                                                                                                    <td>${item.product_name}</td>
-                                                                                                                                    <td>${item.quantity}</td>
-                                                                                                                                    <td>${item.price} Rwf</td>
-                                                                                                                                </tr>`;
+                                                                                                                                        <tr>
+                                                                                                                                            <td>${i + 1}</td>
+                                                                                                                                            <td>${item.order_no}</td>
+                                                                                                                                            <td><img src="${item.product_image}" style="border-radius:8px; height:80px;width:200px;object-fit:contain"></td>
+                                                                                                                                            <td>${item.product_name}</td>
+                                                                                                                                            <td>${item.quantity}</td>
+                                                                                                                                            <td>${item.price} Rwf</td>
+                                                                                                                                        </tr>`;
                         });
                     }
                 });
@@ -667,9 +693,9 @@
                             const sender = r.by === 'admin' ? 'Admin Reply' : 'User';
                             const msgClass = r.by === 'admin' ? 'admin' : 'user';
                             timeline.innerHTML += `<div class="message ${msgClass}">
-                                                                    <strong>${sender}:</strong> ${r.message}
-                                                                    <small>${r.timestamp}</small>
-                                                                </div>`;
+                                                                            <strong>${sender}:</strong> ${r.message}
+                                                                            <small>${r.timestamp}</small>
+                                                                        </div>`;
                         });
                     }
 
