@@ -409,8 +409,14 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
     //notifications routes
 
     //report routes
-    Route::get('/reports/purchase-orders', [AdminReportController::class, 'purchaseOrderReport'])->name('admin.reports.purchase_orders');
-     Route::get('/reports/reports/purchase-orders/print', [AdminReportController::class, 'printPurchaseOrders'])->name('admin.reports.purchase_orders.print');
+    Route::prefix('reports')->controller(AdminReportController::class)->group(function(){
+        Route::get('/purchase-orders', 'purchaseOrderReport')->name('admin.reports.purchase_orders');
+        Route::get('/purchase-orders/print', 'printPurchaseOrders')->name('admin.reports.purchase_orders.print');
+        Route::get('/sales-revenue', 'salesRevenueReport')->name('admin.reports.salesRevenue');
+
+    });
+
+
     //report routes
 
 
