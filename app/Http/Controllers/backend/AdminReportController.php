@@ -87,6 +87,34 @@ public function printPurchaseOrders(Request $request)
     return view('admin.reports.purchase_orders.pdf', compact('orders', 'summary', 'startDate', 'endDate', 'status', 'paymentMethod'));
 }
 
+
+public function salesRevenueReport(Request $request)
+{
+    // Filters
+    $range = $request->input('range', '30'); // default 30 days
+    $startDate = now()->subDays($range);
+    $endDate = now();
+
+    // Revenue per day
+    $revenueData = Order::where('status', 'Delivered')
+        ->whereBetween('created_at', [$startDate, $endDate])
+        ->selectRaw('DATE(created_at) as date, SUM(total) as total_revenue')
+        ->groupBy('date')
+        ->orderBy('date')
+        ->get();
+
+    // Summary totals
+    $summary = [
+        'total_revenue'    => $revenueData->sum('total_revenue'),
+        'average_per_day'  => $revenueData->avg('total_revenue'),
+        'highest_day'      => $revenueData->max('total_revenue'),
+        'lowest_day'       => $revenueData->min('total_revenue'),
+        'period_range'     => $range,
+    ];
+
+    return view('admin.reports.sales_revenue', compact('summary', 'revenueData', 'range'));
+}
+
 }
 
 
