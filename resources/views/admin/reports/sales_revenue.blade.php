@@ -100,7 +100,7 @@
             <tbody>
                 @foreach ($topCustomers as $c)
                     <tr>
-                        <td>{{ $c->customer_name }}</td>
+                        <td>{{ $c->first_name }} {{ $c->last_name }}</td>
                         <td>{{ number_format($c->spent) }}</td>
                     </tr>
                 @endforeach
