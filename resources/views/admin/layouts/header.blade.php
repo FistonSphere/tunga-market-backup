@@ -326,7 +326,7 @@
                             <ul>
                                 <li><a href="{{ route('admin.reports.purchase_orders') }}" class="{{ request()->routeIs('admin.reports.purchase_orders') ? 'active' : '' }}">Purchase order report</a></li>
                                 <li><a href="{{ route('admin.reports.salesRevenue') }}" class="{{ request()->routeIs('admin.reports.salesRevenue') ? 'active' : '' }}">Sales Report</a></li>
-                                <li><a href="{{ route('admin.reports.salesRevenue') }}" class="{{ request()->routeIs('admin.reports.salesRevenue') ? 'active' : '' }}">Customer Growth & User Activity</a></li>
+                                <li><a href="{{ route('admin.reports.customerGrowth') }}" class="{{ request()->routeIs('admin.reports.customerGrowth') ? 'active' : '' }}">Customer Growth & User Activity</a></li>
                                 <li><a href="purchasereport.html">Purchase Report</a></li>
                                 <li><a href="supplierreport.html">Supplier Report</a></li>
                                 <li><a href="customerreport.html">Customer Report</a></li>
