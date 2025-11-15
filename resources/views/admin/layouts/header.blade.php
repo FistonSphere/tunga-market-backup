@@ -93,7 +93,7 @@
                         ->get();
 
                     $unreadCount = $notification2->where('is_read', 0)->count();
-                    
+
                 @endphp
 
                 <li class="nav-item dropdown">
@@ -133,10 +133,10 @@
                                                 </span>
                                                 <div class="media-body flex-grow-1">
                                                     <p class="noti-details mb-1">
-                                                         
+
                                                         @if($notification->user)
-                                                            {{ $notification->user->first_name }} {{ $notification->user->last_name }} | 
-                                                        
+                                                            {{ $notification->user->first_name }} {{ $notification->user->last_name }} |
+
                                                         @endif
                                                         <strong>{{ $notification->title }}</strong><br>
                                                         {{ Str::limit($notification->message, 60) }}
@@ -325,8 +325,7 @@
                                     Report</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{{ route('admin.reports.purchase_orders') }}" class="{{ request()->routeIs('admin.reports.purchase_orders') ? 'active' : '' }}">Purchase order report</a></li>
-                                <li><a href="inventoryreport.html">Inventory Report</a></li>
-                                <li><a href="salesreport.html">Sales Report</a></li>
+                                <li><a href="{{ route('admin.reports.salesRevenue') }}" class="{{ request()->routeIs('admin.reports.salesRevenue') ? 'active' : '' }}">Sales Report</a></li>
                                 <li><a href="invoicereport.html">Invoice Report</a></li>
                                 <li><a href="purchasereport.html">Purchase Report</a></li>
                                 <li><a href="supplierreport.html">Supplier Report</a></li>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -91,11 +92,11 @@ public function printPurchaseOrders(Request $request)
 public function salesRevenueReport(Request $request)
 {
     // Filters
-    $range = $request->input('range', '30'); // default 30 days
+    $range = $request->input('range', 30);
     $startDate = now()->subDays($range);
     $endDate = now();
 
-    // Revenue per day
+    // CURRENT PERIOD
     $revenueData = Order::where('status', 'Delivered')
         ->whereBetween('created_at', [$startDate, $endDate])
         ->selectRaw('DATE(created_at) as date, SUM(total) as total_revenue')
@@ -103,7 +104,41 @@ public function salesRevenueReport(Request $request)
         ->orderBy('date')
         ->get();
 
-    // Summary totals
+    // PREVIOUS PERIOD (for comparison)
+    $prevStart = now()->subDays($range * 2);
+    $prevEnd   = now()->subDays($range);
+
+    $previousPeriod = Order::where('status', 'Delivered')
+        ->whereBetween('created_at', [$prevStart, $prevEnd])
+        ->selectRaw('DATE(created_at) as date, SUM(total) as total_revenue')
+        ->groupBy('date')
+        ->orderBy('date')
+        ->get();
+
+    // Top Customers
+    $topCustomers = Order::where('status', 'Delivered')
+        ->selectRaw('customer_name, SUM(total) as spent')
+        ->groupBy('customer_name')
+        ->orderByDesc('spent')
+        ->limit(5)
+        ->get();
+
+    // Revenue by Payment Method
+    $paymentMethods = Order::where('status', 'Delivered')
+        ->selectRaw('payment_method, SUM(total) as total')
+        ->groupBy('payment_method')
+        ->get();
+
+    // Revenue by Product Category
+    $categoryRevenue = OrderItem::join('products', 'products.id', '=', 'order_items.product_id')
+        ->join('categories', 'categories.id', '=', 'products.category_id')
+        ->join('orders', 'orders.id', '=', 'order_items.order_id')
+        ->where('orders.status', 'Delivered')
+        ->selectRaw('categories.name as category, SUM(order_items.total_price) as total')
+        ->groupBy('categories.name')
+        ->get();
+
+    // Summary (current period)
     $summary = [
         'total_revenue'    => $revenueData->sum('total_revenue'),
         'average_per_day'  => $revenueData->avg('total_revenue'),
@@ -112,11 +147,34 @@ public function salesRevenueReport(Request $request)
         'period_range'     => $range,
     ];
 
-    return view('admin.reports.sales_revenue', compact('summary', 'revenueData', 'range'));
+    // AI-LIKE INSIGHTS (simple but effective)
+    $insights = $this->generateInsights($summary, $previousPeriod);
+
+    return view('admin.reports.sales_revenue', compact(
+        'summary', 'revenueData', 'previousPeriod', 'range',
+        'topCustomers', 'paymentMethods', 'categoryRevenue', 'insights'
+    ));
 }
 
+private function generateInsights($summary, $previousPeriod)
+{
+    $prevTotal = $previousPeriod->sum('total_revenue');
+    $currentTotal = $summary['total_revenue'];
+
+    if ($prevTotal == 0) {
+        $growth = 100;
+    } else {
+        $growth = (($currentTotal - $prevTotal) / $prevTotal) * 100;
+    }
+
+    return [
+        'growth_rate' => round($growth, 2),
+        'trend'       => $growth >= 0 ? 'up' : 'down',
+        'note'        => $growth >= 0
+            ? "Sales are increasing compared to the previous period."
+            : "Sales declined this period. Consider checking slow categories.",
+    ];
 }
 
 
-
-
+}
