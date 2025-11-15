@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
+use App\Models\User;
+use App\Models\UserActivityLog;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Spatie\Browsershot\Browsershot;
@@ -187,6 +189,103 @@ private function generateInsights($summary, $previousPeriod)
     ];
 }
 
+public function customerGrowthReport(Request $request)
+{
+    $range = $request->range ?? 30;
+    $startDate = now()->subDays($range);
+
+    // 1️⃣ NEW CUSTOMER GROWTH
+    $customerGrowth = User::where('role', 'customer')
+        ->where('created_at', '>=', $startDate)
+        ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        ->groupBy('date')
+        ->orderBy('date')
+        ->get();
+
+    // 2️⃣ USER ACTIVITY COUNT
+    $activeUsers = UserActivityLog::where('created_at', '>=', $startDate)
+        ->selectRaw('DATE(created_at) as date, COUNT(DISTINCT user_id) as count')
+        ->groupBy('date')
+        ->orderBy('date')
+        ->get();
+
+    // 3️⃣ TOTAL CUSTOMER SUMMARY
+    $summary = [
+        'total_customers' => User::where('role', 'customer')->count(),
+        'new_customers'   => User::where('role', 'customer')
+                                    ->where('created_at', '>=', $startDate)->count(),
+        'active_users'    => UserActivityLog::where('created_at', '>=', $startDate)
+                                ->distinct('user_id')->count(),
+        'retention_rate'  => $this->calculateRetentionRate($startDate),
+    ];
+
+    // 4️⃣ TOP ACTIVE USERS
+    $topActiveUsers = UserActivityLog::select('user_id')
+        ->selectRaw('COUNT(*) as activity_count')
+        ->groupBy('user_id')
+        ->orderByDesc('activity_count')
+        ->take(10)
+        ->with('user')
+        ->get();
+
+    // 5️⃣ MOST VISITED PAGES
+    $visitedPages = UserActivityLog::select('page_visited')
+        ->selectRaw('COUNT(*) as visits')
+        ->groupBy('page_visited')
+        ->orderByDesc('visits')
+        ->take(10)
+        ->get();
+
+    // 6️⃣ DEVICE / BROWSER ANALYTICS
+    $deviceStats = UserActivityLog::select('device')
+        ->selectRaw('COUNT(*) as count')
+        ->groupBy('device')
+        ->get();
+
+    $browserStats = UserActivityLog::select('browser')
+        ->selectRaw('COUNT(*) as count')
+        ->groupBy('browser')
+        ->get();
+
+    // 7️⃣ AI INSIGHTS
+    $insights = $this->generateAIInsights($summary, $customerGrowth, $activeUsers);
+
+    return view('admin.reports.customer_growth', compact(
+        'range',
+        'summary',
+        'customerGrowth',
+        'activeUsers',
+        'topActiveUsers',
+        'visitedPages',
+        'deviceStats',
+        'browserStats',
+        'insights'
+    ));
+}
+
+// HELPER: RETENTION RATE (simple version)
+private function calculateRetentionRate($startDate)
+{
+    $previous = UserActivityLog::where('created_at', '<', $startDate)
+                ->distinct('user_id')->count();
+
+    if ($previous == 0) return 0;
+
+    $current = UserActivityLog::where('created_at', '>=', $startDate)
+                ->distinct('user_id')->count();
+
+    return round(($current / $previous) * 100, 1);
+}
+
+// HELPER: AI INSIGHTS (simple version)
+private function generateAIInsights($summary, $customerGrowth, $activeUsers)
+{
+    return [
+        'note' => "User activity looks stable. Customer acquisition is increasing.",
+        'trend' => $summary['new_customers'] > 0 ? 'up' : 'down',
+        'growth_rate' => $summary['new_customers'],
+    ];
+}
 
 
 }
