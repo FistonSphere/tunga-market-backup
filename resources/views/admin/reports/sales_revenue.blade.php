@@ -46,6 +46,18 @@
         </select>
     </form>
 
+    <div class="alert alert-info p-3 rounded-3 shadow-sm mb-4">
+        <h5 class="fw-bold">🤖 AI Insights Summary</h5>
+        <p class="mb-1">
+            <strong>Growth Rate:</strong>
+            <span class="{{ $insights['trend'] === 'up' ? 'text-success' : 'text-danger' }}">
+                {{ $insights['growth_rate'] }}%
+            </span>
+        </p>
+        <p class="mb-0">{{ $insights['note'] }}</p>
+    </div>
+
+
     <!-- SUMMARY CARDS -->
     <div class="row mb-4 g-3">
         <div class="col-md-3 col-6">
@@ -76,6 +88,27 @@
             </div>
         </div>
     </div>
+    <div class="card shadow-sm p-3 rounded-4 mt-4">
+        <h5 class="fw-bold mb-3">👑 Top Buying Customers</h5>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Total Spent (RWF)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($topCustomers as $c)
+                    <tr>
+                        <td>{{ $c->customer_name }}</td>
+                        <td>{{ number_format($c->spent) }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
 
     <!-- CHART -->
     <div class="card shadow-sm p-3 rounded-4">
@@ -83,11 +116,49 @@
         <div id="revenueChart" style="height: 350px;"></div>
     </div>
 
+    <div class="card shadow-sm p-3 rounded-4 mt-4">
+        <h5 class="fw-bold mb-3">📉 Comparison: This Period vs Previous Period</h5>
+        <div id="comparisonChart" style="height: 350px;"></div>
+    </div>
+
+
+
+
 
     <!-- ECharts -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 
     <script>
+        const prevData = @json($previousPeriod);
+
+        const prevDates = prevData.map(r => r.date);
+        const prevAmounts = prevData.map(r => r.total_revenue);
+
+        const comparisonChart = echarts.init(document.getElementById('comparisonChart'));
+
+        comparisonChart.setOption({
+            tooltip: { trigger: 'axis' },
+            legend: { data: ['Current Period', 'Previous Period'] },
+            xAxis: { type: 'category', data: dates },
+            yAxis: { type: 'value' },
+            series: [
+                {
+                    name: 'Current Period',
+                    type: 'line',
+                    data: amounts,
+                    smooth: true,
+                    lineStyle: { width: 3 }
+                },
+                {
+                    name: 'Previous Period',
+                    type: 'line',
+                    data: prevAmounts,
+                    smooth: true,
+                    lineStyle: { type: 'dashed', width: 2 }
+                }
+            ]
+        });
+
         const chartData = @json($revenueData);
 
         const dates = chartData.map(row => row.date);

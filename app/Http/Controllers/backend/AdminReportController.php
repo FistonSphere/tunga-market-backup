@@ -115,30 +115,40 @@ public function salesRevenueReport(Request $request)
         ->orderBy('date')
         ->get();
 
-    // Top Customers
+    // ============================
+    // ✅ Top Customers (Fixed)
+    // ============================
     $topCustomers = Order::where('status', 'Delivered')
-        ->selectRaw('customer_name, SUM(total) as spent')
-        ->groupBy('customer_name')
+        ->join('users', 'users.id', '=', 'orders.user_id')
+        ->selectRaw("users.first_name, users.last_name, SUM(orders.total) as spent")
+        ->groupBy('users.first_name', 'users.last_name')
         ->orderByDesc('spent')
         ->limit(5)
         ->get();
 
-    // Revenue by Payment Method
-    $paymentMethods = Order::where('status', 'Delivered')
-        ->selectRaw('payment_method, SUM(total) as total')
-        ->groupBy('payment_method')
+    // ============================
+    // ✅ Revenue by Payment Method (Fixed)
+    // ============================
+    $paymentMethods = Payment::join('orders', 'orders.id', '=', 'payments.order_id')
+        ->where('orders.status', 'Delivered')
+        ->selectRaw('payments.payment_method, SUM(payments.amount) as total')
+        ->groupBy('payments.payment_method')
         ->get();
 
-    // Revenue by Product Category
+    // ============================
+    // ✅ Revenue by Product Category (Fixed)
+    // ============================
     $categoryRevenue = OrderItem::join('products', 'products.id', '=', 'order_items.product_id')
         ->join('categories', 'categories.id', '=', 'products.category_id')
         ->join('orders', 'orders.id', '=', 'order_items.order_id')
         ->where('orders.status', 'Delivered')
-        ->selectRaw('categories.name as category, SUM(order_items.total_price) as total')
+        ->selectRaw('categories.name as category, SUM(order_items.quantity * order_items.price) as total')
         ->groupBy('categories.name')
         ->get();
 
-    // Summary (current period)
+    // ============================
+    // Summary
+    // ============================
     $summary = [
         'total_revenue'    => $revenueData->sum('total_revenue'),
         'average_per_day'  => $revenueData->avg('total_revenue'),
@@ -147,7 +157,7 @@ public function salesRevenueReport(Request $request)
         'period_range'     => $range,
     ];
 
-    // AI-LIKE INSIGHTS (simple but effective)
+    // AI insights (simple but effective summary generation)
     $insights = $this->generateInsights($summary, $previousPeriod);
 
     return view('admin.reports.sales_revenue', compact(
@@ -155,6 +165,7 @@ public function salesRevenueReport(Request $request)
         'topCustomers', 'paymentMethods', 'categoryRevenue', 'insights'
     ));
 }
+
 
 private function generateInsights($summary, $previousPeriod)
 {
@@ -175,6 +186,7 @@ private function generateInsights($summary, $previousPeriod)
             : "Sales declined this period. Consider checking slow categories.",
     ];
 }
+
 
 
 }
