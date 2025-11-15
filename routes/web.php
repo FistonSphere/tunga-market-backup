@@ -414,6 +414,12 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
         Route::get('/purchase-orders/print', 'printPurchaseOrders')->name('admin.reports.purchase_orders.print');
         Route::get('/sales-revenue', 'salesRevenueReport')->name('admin.reports.salesRevenue');
 
+          // Customer Growth & User Activity Report
+        Route::get('/customer-growth', 'customerGrowthReport')->name('admin.reports.customerGrowth');
+
+        // Optional: AJAX endpoint to fetch filtered datasets (if you want to update charts without full page reload)
+        Route::get('/customer-growth/data', 'customerGrowthData')->name('admin.reports.customerGrowth.data');
+
     });
 
 

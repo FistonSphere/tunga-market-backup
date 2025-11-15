@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\UserActivityLog;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Spatie\Browsershot\Browsershot;
 
 class AdminReportController extends Controller
@@ -189,103 +190,205 @@ private function generateInsights($summary, $previousPeriod)
     ];
 }
 
-public function customerGrowthReport(Request $request)
-{
-    $range = $request->range ?? 30;
-    $startDate = now()->subDays($range);
+ public function customerGrowthReport(Request $request)
+    {
+        // Accept filters + search
+        $range = intval($request->input('range', 30));
+        $startDate = $request->input('start_date') ? Carbon::parse($request->start_date) : now()->subDays($range);
+        $endDate = $request->input('end_date') ? Carbon::parse($request->end_date) : now();
+        $search = $request->input('search'); // name or email
+        $role = $request->input('role'); // optional role filter
 
-    // 1️⃣ NEW CUSTOMER GROWTH
-    $customerGrowth = User::where('role', 'customer')
-        ->where('created_at', '>=', $startDate)
-        ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
-        ->groupBy('date')
-        ->orderBy('date')
-        ->get();
+        // 1) new customers per day (filtered)
+        $userQuery = User::query();
+        if ($role) $userQuery->where('role', $role);
+        if ($search) {
+            $userQuery->where(function($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
 
-    // 2️⃣ USER ACTIVITY COUNT
-    $activeUsers = UserActivityLog::where('created_at', '>=', $startDate)
-        ->selectRaw('DATE(created_at) as date, COUNT(DISTINCT user_id) as count')
-        ->groupBy('date')
-        ->orderBy('date')
-        ->get();
+        $customerGrowth = $userQuery->whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()])
+            ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
 
-    // 3️⃣ TOTAL CUSTOMER SUMMARY
-    $summary = [
-        'total_customers' => User::where('role', 'customer')->count(),
-        'new_customers'   => User::where('role', 'customer')
-                                    ->where('created_at', '>=', $startDate)->count(),
-        'active_users'    => UserActivityLog::where('created_at', '>=', $startDate)
-                                ->distinct('user_id')->count(),
-        'retention_rate'  => $this->calculateRetentionRate($startDate),
-    ];
+        // 2) active users per day (distinct users from activity logs)
+        $activityQuery = UserActivityLog::query()
+            ->whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()]);
 
-    // 4️⃣ TOP ACTIVE USERS
-    $topActiveUsers = UserActivityLog::select('user_id')
-        ->selectRaw('COUNT(*) as activity_count')
-        ->groupBy('user_id')
-        ->orderByDesc('activity_count')
-        ->take(10)
-        ->with('user')
-        ->get();
+        $activeUsers = $activityQuery->selectRaw('DATE(created_at) as date, COUNT(DISTINCT user_id) as count')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
 
-    // 5️⃣ MOST VISITED PAGES
-    $visitedPages = UserActivityLog::select('page_visited')
-        ->selectRaw('COUNT(*) as visits')
-        ->groupBy('page_visited')
-        ->orderByDesc('visits')
-        ->take(10)
-        ->get();
+        // 3) totals / summary
+        $summary = [
+            'total_customers' => User::count(),
+            'new_customers'   => $userQuery->whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()])->count(),
+            'active_users'    => $activityQuery->distinct('user_id')->count('user_id'),
+            'retention_rate'  => $this->calculateRetentionRate($startDate, $endDate),
+        ];
 
-    // 6️⃣ DEVICE / BROWSER ANALYTICS
-    $deviceStats = UserActivityLog::select('device')
-        ->selectRaw('COUNT(*) as count')
-        ->groupBy('device')
-        ->get();
+        // 4) top active users (by activity_count)
+        $topActiveUsers = UserActivityLog::select('user_id', DB::raw('COUNT(*) as activity_count'))
+            ->whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()])
+            ->groupBy('user_id')
+            ->orderByDesc('activity_count')
+            ->take(10)
+            ->get()
+            ->load('user'); // eager load user relation
 
-    $browserStats = UserActivityLog::select('browser')
-        ->selectRaw('COUNT(*) as count')
-        ->groupBy('browser')
-        ->get();
+        // 5) most visited pages
+        $visitedPages = UserActivityLog::select('page_visited', DB::raw('COUNT(*) as visits'))
+            ->whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()])
+            ->groupBy('page_visited')
+            ->orderByDesc('visits')
+            ->take(10)
+            ->get();
 
-    // 7️⃣ AI INSIGHTS
-    $insights = $this->generateAIInsights($summary, $customerGrowth, $activeUsers);
+        // 6) device / browser stats
+        $deviceStats = UserActivityLog::select('device', DB::raw('COUNT(*) as count'))
+            ->whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()])
+            ->groupBy('device')
+            ->orderByDesc('count')
+            ->get();
 
-    return view('admin.reports.customer_growth', compact(
-        'range',
-        'summary',
-        'customerGrowth',
-        'activeUsers',
-        'topActiveUsers',
-        'visitedPages',
-        'deviceStats',
-        'browserStats',
-        'insights'
-    ));
-}
+        $browserStats = UserActivityLog::select('browser', DB::raw('COUNT(*) as count'))
+            ->whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()])
+            ->groupBy('browser')
+            ->orderByDesc('count')
+            ->get();
+
+        // 7) WORLD MAP: aggregate by location (expects 'location' field stores "Country" or "City, Country")
+        // We'll attempt to extract country (last part after comma) if present
+        $locationData = UserActivityLog::whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()])
+            ->whereNotNull('location')
+            ->get()
+            ->map(function ($row) {
+                $loc = trim($row->location);
+                // try to extract country (if format "City, Country")
+                if (str_contains($loc, ',')) {
+                    $parts = array_map('trim', explode(',', $loc));
+                    $country = end($parts);
+                } else {
+                    $country = $loc;
+                }
+                return strtolower($country);
+            })
+            ->filter()
+            ->countBy()
+            ->map(function($v, $k){ return ['name' => ucwords($k), 'value' => $v]; })
+            ->values();
+
+        // 8) Heatmap hours of activity (hour 0..23 by weekday 0..6)
+        $hourly = UserActivityLog::whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()])
+            ->selectRaw('HOUR(created_at) as hour, DAYOFWEEK(created_at) as weekday, COUNT(*) as count')
+            ->groupBy('hour', 'weekday')
+            ->get();
+
+        // convert to heatmap matrix for ECharts: [weekdayIndex, hour, value] (weekday 0..6)
+        $heatmapData = $hourly->map(function ($r) {
+            // MySQL DAYOFWEEK: 1=Sunday ... 7=Saturday. Convert to 0..6 Monday-first if needed.
+            $weekdayZeroBased = intval($r->weekday) - 1; // 0..6 (Sunday..Saturday)
+            return [$weekdayZeroBased, intval($r->hour), intval($r->count)];
+        })->values();
+
+        // 9) Retention cohort calculation (weekly cohorts)
+        // We'll build cohorts by user signup week and compute number of users who returned in each subsequent week.
+        $cohortStart = $startDate->copy()->startOfWeek(); // baseline start
+        $cohortEnd = $endDate->copy()->endOfWeek();
+
+        // Step A: get users created in the period grouped by cohort week (Y-m-d of week start)
+        $usersByCohort = User::selectRaw('DATE(created_at - INTERVAL (DAYOFWEEK(created_at)-1) DAY) as cohort_week, id')
+            ->whereBetween('created_at', [$cohortStart, $cohortEnd])
+            ->get()
+            ->groupBy('cohort_week');
+
+        // Step B: for each cohort, compute retention across weeks
+        $cohortMatrix = [];
+        $cohortWeeks = collect($usersByCohort->keys())->sort()->values();
+
+        foreach ($cohortWeeks as $i => $cohortWeek) {
+            $cohortUsers = $usersByCohort[$cohortWeek]->pluck('id')->toArray();
+            $cohortStartDate = Carbon::parse($cohortWeek);
+            // number in cohort
+            $cohortSize = count($cohortUsers);
+            $row = ['cohort_week' => $cohortWeek, 'size' => $cohortSize, 'retention' => []];
+
+            // for each subsequent week index up to number of weeks in range
+            $weeksSpan = intval($cohortEnd->diffInWeeks($cohortStartDate)) + 1;
+            for ($wk = 0; $wk < $weeksSpan; $wk++) {
+                $from = $cohortStartDate->copy()->addWeeks($wk)->startOfWeek();
+                $to   = $from->copy()->endOfWeek();
+
+                $retained = UserActivityLog::whereIn('user_id', $cohortUsers)
+                    ->whereBetween('created_at', [$from, $to])
+                    ->distinct('user_id')
+                    ->count('user_id');
+
+                $row['retention'][] = $cohortSize > 0 ? round(($retained / $cohortSize) * 100, 1) : 0;
+            }
+            $cohortMatrix[] = $row;
+        }
+
+        // 10) AI Insights
+        $insights = $this->generateAIInsightsForUsers($summary, $customerGrowth, $activeUsers);
+
+        // return view
+        return view('admin.reports.customer_growth', compact(
+            'range','startDate','endDate','search','role',
+            'summary','customerGrowth','activeUsers','topActiveUsers','visitedPages',
+            'deviceStats','browserStats','locationData','heatmapData','cohortMatrix','cohortWeeks','insights'
+        ));
+    }
+
+     public function customerGrowthData(Request $request)
+    {
+        // you can reuse logic above but return JSON only (not repeated here for brevity)
+        return $this->customerGrowthReport($request);
+    }
 
 // HELPER: RETENTION RATE (simple version)
-private function calculateRetentionRate($startDate)
-{
-    $previous = UserActivityLog::where('created_at', '<', $startDate)
-                ->distinct('user_id')->count();
+private function calculateRetentionRate($startDate, $endDate)
+    {
+        // simple implementation: unique active users in period vs previous same-length period
+        $durationDays = $startDate->diffInDays($endDate) ?: 1;
+        $prevStart = $startDate->copy()->subDays($durationDays);
+        $prevEnd = $startDate->copy()->subDay();
 
-    if ($previous == 0) return 0;
+        $prev = UserActivityLog::whereBetween('created_at', [$prevStart, $prevEnd])->distinct('user_id')->count('user_id');
+        $current = UserActivityLog::whereBetween('created_at', [$startDate, $endDate])->distinct('user_id')->count('user_id');
 
-    $current = UserActivityLog::where('created_at', '>=', $startDate)
-                ->distinct('user_id')->count();
-
-    return round(($current / $previous) * 100, 1);
-}
+        if ($prev == 0) return $current > 0 ? 100 : 0;
+        return round(($current / $prev) * 100, 1);
+    }
 
 // HELPER: AI INSIGHTS (simple version)
-private function generateAIInsights($summary, $customerGrowth, $activeUsers)
-{
-    return [
-        'note' => "User activity looks stable. Customer acquisition is increasing.",
-        'trend' => $summary['new_customers'] > 0 ? 'up' : 'down',
-        'growth_rate' => $summary['new_customers'],
-    ];
-}
+private function generateAIInsightsForUsers($summary, $customerGrowth, $activeUsers)
+    {
+        // small heuristic insights
+        $growthCount = $summary['new_customers'] ?? 0;
+        $active = $summary['active_users'] ?? 0;
+
+        $note = $growthCount > 50 ? "Great acquisition: {$growthCount} new users in the period."
+              : ($growthCount > 0 ? "Positive acquisition: {$growthCount} new users." : "Low new user signups this period.");
+
+        if ($active < max(10, intval($growthCount * 0.2))) {
+            $note .= " Activity seems low relative to signups — consider onboarding improvements.";
+        }
+
+        return [
+            'note' => $note,
+            'trend' => $growthCount > 0 ? 'up' : 'down',
+            'growth_rate' => $growthCount
+        ];
+    }
+
+
 
 
 }
