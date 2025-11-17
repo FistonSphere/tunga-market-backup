@@ -276,7 +276,8 @@ public function customerGrowthReport(Request $request)
     /* ===============================
        4) TOP ACTIVE USERS
     =============================== */
-    $topActiveUsers = UserActivityLog::select('user_id', DB::raw("COUNT(*) as activity_count"))
+ $topActiveUsers = UserActivityLog::with('user') // eager load users first
+    ->select('user_id', DB::raw("COUNT(*) as activity_count"))
     ->whereBetween('created_at', [
         $startDate->copy()->startOfDay(),
         $endDate->copy()->endOfDay()
@@ -285,14 +286,19 @@ public function customerGrowthReport(Request $request)
     ->orderByDesc('activity_count')
     ->take(10)
     ->get()
-    ->load('user')
     ->map(function ($item) {
-        $item->name = $item->user ? $item->user->first_name . ' ' . $item->user->last_name : 'Guest';
+        // If user_id exists and user relation is loaded
+        if ($item->user_id && $item->user) {
+            $item->name = $item->user->first_name . ' ' . $item->user->last_name;
+        } else {
+            $item->name = 'Guest';
+        }
         return $item;
     });
+ // safe to load after mapping
 
 
-
+// dd($topActiveUsers);
 
     /* ===============================
        5) MOST VISITED PAGES
