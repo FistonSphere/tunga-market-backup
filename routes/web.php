@@ -419,7 +419,7 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
 
         // Optional: AJAX endpoint to fetch filtered datasets (if you want to update charts without full page reload)
         Route::get('/customer-growth/data', 'customerGrowthData')->name('admin.reports.customerGrowth.data');
-        Route::get('/dashboard/data', [AdminReportController::class, 'fetchData'])->name('admin.dashboard.data');
+        
 
     });
 

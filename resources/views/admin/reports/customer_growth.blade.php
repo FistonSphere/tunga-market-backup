@@ -175,19 +175,21 @@
         </div>
     </div>
 
+    <!-- ECharts core -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <!-- Theme (optional) -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/theme/dark.js"></script>
+    <!-- World map definition -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/map/js/world.js"></script>
-
 
     <script>
         (function () {
             // ---------- Config ----------
             const DATA_URL = "{{ route('admin.reports.customerGrowth.data') }}"; // AJAX endpoint
             const REFRESH_INTERVAL_MS = 20000; // 20 seconds
-            const THEME = 'dark'; // Option A
+            const THEME = 'dark'; // Chart theme
 
-            // ---------- Initial server-side data (for immediate render) ----------
+            // ---------- Initial server-side data ----------
             const initial = {
                 summary: @json($summary ?? []),
                 customerGrowth: @json($customerGrowth ?? []),
@@ -203,7 +205,7 @@
                 insights: @json($insights ?? []),
             };
 
-            // ---------- Create charts (dark theme) ----------
+            // ---------- Create charts ----------
             const customerChart = echarts.init(document.getElementById('customerGrowthChart'), THEME);
             const activityChart = echarts.init(document.getElementById('userActivityChart'), THEME);
             const deviceChart = echarts.init(document.getElementById('deviceChart'), THEME);
@@ -212,7 +214,7 @@
             const hourChart = echarts.init(document.getElementById('hourHeatmap'), THEME);
             const cohortChart = echarts.init(document.getElementById('cohortHeatmap'), THEME);
 
-            // ---------- Utility: safe arrays ----------
+            // ---------- Utility ----------
             function safeArray(arr) { return Array.isArray(arr) ? arr : []; }
 
             // ---------- Render functions ----------
@@ -221,7 +223,6 @@
                 document.getElementById('newCustomers').textContent = Number(summary.new_customers || 0).toLocaleString();
                 document.getElementById('activeUsers').textContent = Number(summary.active_users || 0).toLocaleString();
                 document.getElementById('retentionRate').textContent = (summary.retention_rate ?? 0) + '%';
-                // insights
                 document.getElementById('insightTrend').textContent = (summary.growth_rate ?? (initial.insights.growth_rate ?? 0)) + '%';
                 document.getElementById('insightNote').textContent = (summary.note ?? (initial.insights.note ?? ''));
             }
@@ -229,69 +230,53 @@
             function renderCustomerGrowth(data) {
                 const dates = safeArray(data).map(r => r.date);
                 const values = safeArray(data).map(r => r.count);
-
-                const opt = {
+                customerChart.setOption({
                     tooltip: { trigger: 'axis' },
                     xAxis: { type: 'category', data: dates, axisLabel: { rotate: 30 } },
                     yAxis: { type: 'value' },
                     series: [{ name: 'New Customers', type: 'line', data: values, smooth: true, lineStyle: { width: 3 } }]
-                };
-                customerChart.setOption(opt, true);
+                }, true);
             }
 
             function renderActivity(data) {
                 const dates = safeArray(data).map(r => r.date);
                 const values = safeArray(data).map(r => r.count);
-
-                const opt = {
+                activityChart.setOption({
                     tooltip: { trigger: 'axis' },
                     xAxis: { type: 'category', data: dates, axisLabel: { rotate: 30 } },
                     yAxis: { type: 'value' },
                     series: [{ name: 'Active Users', type: 'line', data: values, smooth: true, lineStyle: { width: 3 } }]
-                };
-                activityChart.setOption(opt, true);
+                }, true);
             }
 
             function renderDeviceBrowser(deviceStats, browserStats) {
-                // Device
                 const devData = safeArray(deviceStats).map(r => ({ name: r.device || r.name || 'Unknown', value: r.count || r.value || 0 }));
-                deviceChart.setOption({
-                    tooltip: { trigger: 'item' },
-                    series: [{ type: 'pie', radius: '60%', data: devData }]
-                }, true);
+                deviceChart.setOption({ tooltip: { trigger: 'item' }, series: [{ type: 'pie', radius: '60%', data: devData }] }, true);
 
-                // Browser
                 const brData = safeArray(browserStats).map(r => ({ name: r.browser || r.name || 'Unknown', value: r.count || r.value || 0 }));
-                browserChart.setOption({
-                    tooltip: { trigger: 'item' },
-                    series: [{ type: 'pie', radius: '60%', data: brData }]
-                }, true);
+                browserChart.setOption({ tooltip: { trigger: 'item' }, series: [{ type: 'pie', radius: '60%', data: brData }] }, true);
             }
 
             function renderWorldMap(locationData) {
-                const data = safeArray(locationData).map(i => ({
-                    name: i.name || 'Unknown',
-                    value: i.value || 0
-                }));
+                const data = safeArray(locationData).map(i => ({ name: i.name || 'Unknown', value: i.value || 0 }));
+                if (!data.length) data.push({ name: 'United States', value: 0 });
 
-                if (!data.length) {
-                    // fill a dummy to prevent crash
-                    data.push({ name: 'United States', value: 0 });
+                if (!echarts.getMap('world')) {
+                    console.warn('World map not loaded yet, retrying in 100ms');
+                    setTimeout(() => renderWorldMap(locationData), 100);
+                    return;
                 }
-
-                const maxVal = Math.max(...data.map(d => d.value), 1);
 
                 worldChart.setOption({
                     tooltip: { trigger: 'item', formatter: '{b}: {c}' },
-                    visualMap: { min: 0, max: maxVal, text: ['High', 'Low'], calculable: true, inRange: { color: ['#dbeafe', '#60a5fa', '#1e40af'] } },
+                    visualMap: { min: 0, max: Math.max(...data.map(d => d.value), 1), calculable: true, inRange: { color: ['#dbeafe', '#60a5fa', '#1e40af'] } },
                     series: [{ name: 'Users by Country', type: 'map', map: 'world', roam: true, emphasis: { label: { show: true } }, data }]
                 }, true);
             }
 
-
             function renderHourHeatmap(heatmapData) {
                 const data = safeArray(heatmapData).map(d => d.slice());
-                if (data.length === 0) { data.push([0, 0, 0]); }
+                if (!data.length) data.push([0, 0, 0]);
 
                 const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
                 const hours = Array.from({ length: 24 }, (_, i) => (i < 10 ? '0' + i : String(i)) + ':00');
@@ -299,9 +284,7 @@
                 hourChart.setOption({
                     tooltip: {
                         position: 'top',
-                        formatter: function (params) {
-                            return `${weekdays[params.value[0]]} ${hours[params.value[1]]}<br/>${params.value[2]} hits`;
-                        }
+                        formatter: params => `${weekdays[params.value[0]]} ${hours[params.value[1]]}<br/>${params.value[2]} hits`
                     },
                     grid: { height: '70%', top: '10%' },
                     xAxis: { type: 'category', data: hours, splitArea: { show: true } },
@@ -318,25 +301,13 @@
                     return;
                 }
 
-                // build data
                 const yAxis = matrix.map(r => r.cohort_week);
                 const xAxis = matrix[0].retention.map((_, i) => 'Week+' + i);
-                let cohortData = [];
-                let maxRetention = 0;
-                matrix.forEach((row, i) => {
-                    row.retention.forEach((val, j) => {
-                        cohortData.push([i, j, val]);
-                        if (val > maxRetention) maxRetention = val;
-                    });
-                });
+                let cohortData = [], maxRetention = 0;
+                matrix.forEach((row, i) => row.retention.forEach((val, j) => { cohortData.push([i, j, val]); if (val > maxRetention) maxRetention = val; }));
 
                 cohortChart.setOption({
-                    tooltip: {
-                        formatter: function (params) {
-                            const cohortLabel = matrix[params.value[0]]?.cohort_week ?? '';
-                            return `${cohortLabel}<br/>Week +${params.value[1]}: ${params.value[2]}% retention`;
-                        }
-                    },
+                    tooltip: { formatter: params => `${matrix[params.value[0]]?.cohort_week ?? ''}<br/>Week +${params.value[1]}: ${params.value[2]}% retention` },
                     xAxis: { type: 'category', data: xAxis },
                     yAxis: { type: 'category', data: yAxis },
                     visualMap: { min: 0, max: maxRetention || 100, calculable: true, orient: 'horizontal', left: 'center', bottom: '5%' },
@@ -345,30 +316,24 @@
             }
 
             function renderTopUsers(topUsers) {
-                const tbody = document.querySelector('#topUsersTable tbody');
-                if (!tbody) return;
+                const tbody = document.querySelector('#topUsersTable tbody'); if (!tbody) return;
                 tbody.innerHTML = '';
                 safeArray(topUsers).forEach(u => {
-                    const tr = document.createElement('tr');
                     const name = (u.user?.first_name ?? '') + ' ' + (u.user?.last_name ?? '');
-                    tr.innerHTML = `<td>${name}</td><td>${u.activity_count ?? u.activity_count ?? 0}</td>`;
-                    tbody.appendChild(tr);
+                    const count = u.activity_count ?? 0;
+                    tbody.innerHTML += `<tr><td>${name}</td><td>${count}</td></tr>`;
                 });
             }
 
             function renderVisitedPages(pages) {
-                const ul = document.getElementById('visitedPagesList');
-                if (!ul) return;
+                const ul = document.getElementById('visitedPagesList'); if (!ul) return;
                 ul.innerHTML = '';
                 safeArray(pages).forEach(p => {
-                    const li = document.createElement('li');
-                    li.className = 'list-group-item d-flex justify-content-between';
-                    li.innerHTML = `<span>${p.page_visited}</span><strong>${p.visits}</strong>`;
-                    ul.appendChild(li);
+                    ul.innerHTML += `<li class="list-group-item d-flex justify-content-between"><span>${p.page_visited}</span><strong>${p.visits}</strong></li>`;
                 });
             }
 
-            // ---------- Initial render from server-side variables ----------
+            // ---------- Initial render ----------
             renderSummary(initial.summary || {});
             renderCustomerGrowth(initial.customerGrowth || []);
             renderActivity(initial.activeUsers || []);
@@ -379,18 +344,15 @@
             renderTopUsers(initial.topActiveUsers || []);
             renderVisitedPages(initial.visitedPages || []);
 
-            // ---------- Auto-refresh / AJAX fetching ----------
+            // ---------- Auto-refresh ----------
             async function fetchAndUpdate() {
                 try {
-                    // attach current querystring so server-side filters are preserved
                     const qs = new URLSearchParams(window.location.search).toString();
                     const url = DATA_URL + (qs ? '?' + qs : '');
                     const res = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
                     if (!res.ok) throw new Error('Network response was not OK');
-
                     const data = await res.json();
 
-                    // Render provided pieces (each check is defensive)
                     if (data.summary) renderSummary(data.summary);
                     if (data.customerGrowth) renderCustomerGrowth(data.customerGrowth);
                     if (data.activeUsers) renderActivity(data.activeUsers);
@@ -405,23 +367,18 @@
                         document.getElementById('insightTrend').textContent = (data.insights.growth_rate ?? '') + '%';
                     }
                 } catch (err) {
-                    // Don't spam console — log concise message and retry next interval
-                    // (if you want verbose logs, remove the check)
-                    if (console && console.error) console.error('Analytics refresh failed:', err.message || err);
+                    console.error('Analytics refresh failed:', err.message || err);
                 }
             }
 
-            // Start auto-refresh loop (first update after interval)
-            let refreshTimer = setInterval(fetchAndUpdate, REFRESH_INTERVAL_MS);
-
-            // Also support manual refresh via custom event (optional)
+            setInterval(fetchAndUpdate, REFRESH_INTERVAL_MS);
             window.addEventListener('analytics:refresh', fetchAndUpdate);
 
-            // Resize charts when window changes
             window.addEventListener('resize', () => {
                 [customerChart, activityChart, deviceChart, browserChart, worldChart, hourChart, cohortChart].forEach(c => { try { c.resize(); } catch (e) { } });
             });
 
         })();
     </script>
+
 @endsection

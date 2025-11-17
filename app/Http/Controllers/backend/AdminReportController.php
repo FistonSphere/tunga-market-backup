@@ -383,7 +383,7 @@ public function customerGrowthReport(Request $request)
         ->groupBy('cohort_week');
 
     $cohortMatrix = [];
-    $cohortWeeks = $usersByCohort->keys()->sort()->values();
+$cohortWeeks = $usersByCohort->keys()->sort()->values();
 
     foreach ($cohortWeeks as $cohortWeek) {
         $cohortUsers = $usersByCohort[$cohortWeek]->pluck('id')->toArray();
