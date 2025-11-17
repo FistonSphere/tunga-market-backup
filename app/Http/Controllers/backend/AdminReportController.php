@@ -277,15 +277,20 @@ public function customerGrowthReport(Request $request)
        4) TOP ACTIVE USERS
     =============================== */
     $topActiveUsers = UserActivityLog::select('user_id', DB::raw("COUNT(*) as activity_count"))
-        ->whereBetween('created_at', [
-            $startDate->copy()->startOfDay(),
-            $endDate->copy()->endOfDay()
-        ])
-        ->groupBy('user_id')
-        ->orderByDesc('activity_count')
-        ->take(10)
-        ->get()
-        ->load('user');
+    ->whereBetween('created_at', [
+        $startDate->copy()->startOfDay(),
+        $endDate->copy()->endOfDay()
+    ])
+    ->groupBy('user_id')
+    ->orderByDesc('activity_count')
+    ->take(10)
+    ->get()
+    ->load('user')
+    ->map(function ($item) {
+        $item->name = $item->user ? $item->user->first_name . ' ' . $item->user->last_name : 'Guest';
+        return $item;
+    });
+
 
 
 

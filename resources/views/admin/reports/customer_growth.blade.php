@@ -143,7 +143,7 @@
                         @foreach ($topActiveUsers as $u)
                             <tr>
                                 <td>
-                                    {{ $u->user ? $u->user->first_name . ' ' . $u->user->last_name : 'Guest' }}
+                                    {{ $u->name }}
                                 </td>
                                 <td>{{ $u->activity_count }}</td>
                             </tr>
