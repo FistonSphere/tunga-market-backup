@@ -696,8 +696,10 @@
     <!-- Bottom Navigation for Mobile -->
     <div id="mobile-bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-border md:hidden z-40">
         <div class="flex items-center justify-around py-2">
-            <button onclick="window.location.href='{{ route('home') }}'"
-                class="flex flex-col items-center p-2 text-secondary-600 hover:text-primary transition-fast">
+            <!-- Home Button -->
+            <button onclick="window.location.href='{{ route('home') }}'" class="flex flex-col items-center p-2
+                {{ request()->routeIs('home') ? 'text-accent' : 'text-secondary-600' }}
+                hover:text-primary transition-fast">
                 <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -705,8 +707,10 @@
                 <span class="text-xs">Home</span>
             </button>
 
-            <button onclick="window.location.href='{{ route('product.discovery') }}'"
-                class="flex flex-col items-center p-2 text-secondary-600 hover:text-primary transition-fast">
+            <!-- Discover Button -->
+            <button onclick="window.location.href='{{ route('product.discovery') }}'" class="flex flex-col items-center p-2
+                {{ request()->routeIs('product.discovery') ? 'text-accent' : 'text-secondary-600' }}
+                hover:text-primary transition-fast">
                 <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -714,8 +718,10 @@
                 <span class="text-xs">Discover</span>
             </button>
 
-            <button id="open-wishlist-btn2"
-                class="flex flex-col items-center p-2 text-accent hover:text-accent-600 transition-fast">
+            <!-- Wishlist Button -->
+            <button id="open-wishlist-btn2" class="flex flex-col items-center p-2
+                {{ request()->routeIs('wishlist') ? 'text-accent' : 'text-secondary-600' }}
+                hover:text-accent-600 transition-fast">
                 <div class="relative">
                     <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -728,8 +734,10 @@
                 <span class="text-xs font-semibold">Wishlist</span>
             </button>
 
-            <button onclick="window.location.href='{{ route('cart') }}'"
-                class="flex flex-col items-center p-2 text-secondary-600 hover:text-primary transition-fast">
+            <!-- Cart Button -->
+            <button onclick="window.location.href='{{ route('cart') }}'" class="flex flex-col items-center p-2
+                {{ request()->routeIs('cart') ? 'text-accent' : 'text-secondary-600' }}
+                hover:text-primary transition-fast">
                 <div class="relative">
                     <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -742,8 +750,10 @@
                 <span class="text-xs">Cart</span>
             </button>
 
-            <button onclick="window.location.href='{{ route('order.tracking') }}'"
-                class="flex flex-col items-center p-2 text-secondary-600 hover:text-primary transition-fast">
+            <!-- Orders Button -->
+            <button onclick="window.location.href='{{ route('order.tracking') }}'" class="flex flex-col items-center p-2
+                {{ request()->routeIs('order.tracking') ? 'text-accent' : 'text-secondary-600' }}
+                hover:text-primary transition-fast">
                 <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -752,6 +762,7 @@
             </button>
         </div>
     </div>
+
     <div id="toast-success"
         class="hidden fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 opacity-0"
         style="z-index: 999999;">
