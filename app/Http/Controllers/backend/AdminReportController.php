@@ -327,28 +327,24 @@ public function customerGrowthReport(Request $request)
     /* ===============================
        7) WORLD MAP (COUNTRY COUNTS)
     =============================== */
-    $locationData = UserActivityLog::whereBetween('created_at', [
-            $startDate->copy()->startOfDay(),
-            $endDate->copy()->endOfDay()
-        ])
-        ->whereNotNull('location')
-        ->get()
-        ->map(function ($row) {
-            $loc = trim($row->location);
+    $locationData = UserActivityLog::whereBetween('created_at', [$startDate, $endDate])
+    ->whereNotNull('location')
+    ->get()
+    ->map(function ($row) {
+        $loc = trim($row->location);
+        if (str_contains($loc, ',')) {
+            $parts = array_map('trim', explode(',', $loc));
+            $country = end($parts);
+        } else {
+            $country = $loc;
+        }
+        return $country; // don't lowercase
+    })
+    ->filter(fn($c) => !empty($c) && strtolower($c) !== 'unknown')
+    ->countBy()
+    ->map(fn($count, $country) => ['name' => $country, 'value' => $count])
+    ->values();
 
-            if (str_contains($loc, ',')) {
-                $parts = array_map('trim', explode(',', $loc));
-                return strtolower(end($parts)); // country only
-            }
-
-            return strtolower($loc);
-        })
-        ->filter()
-        ->countBy()
-        ->map(function ($val, $key) {
-            return ['name' => ucwords($key), 'value' => $val];
-        })
-        ->values();
 
 
     /* ===============================
