@@ -421,8 +421,8 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
         // Optional: AJAX endpoint to fetch filtered datasets (if you want to update charts without full page reload)
         Route::get('/customer-growth/data', [AdminReportController::class,'customerGrowthData'])->name('admin.reports.customerGrowth.data');
         Route::get('/inventory', [AdminInventoryController::class, 'index'])->name('admin.inventory');
-        Route::get('/inventory/data', [AdminInventoryController::class, 'data'])->name('admin.inventory.data');
-        Route::get('/inventory/export', [AdminInventoryController::class, 'exportCsv'])->name('admin.inventory.export');
+        Route::get('/inventory/data', [AdminInventoryController::class, 'data'])->name('admin.reports.inventory.data');
+        Route::get('/inventory/export', [AdminInventoryController::class, 'exportCsv'])->name('admin.reports.inventory.export');
 
     });
 
