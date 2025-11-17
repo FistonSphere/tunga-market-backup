@@ -326,6 +326,7 @@ public function customerGrowthReport(Request $request)
         ->orderByDesc('count')
         ->get();
 
+        
     $browserStats = UserActivityLog::select('browser', DB::raw("COUNT(*) as count"))
         ->whereBetween('created_at', [
             $startDate->copy()->startOfDay(),

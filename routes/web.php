@@ -7,6 +7,7 @@ use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\backend\AdminEnquiryController;
 use App\Http\Controllers\backend\AdminFaqController;
+use App\Http\Controllers\backend\AdminInventoryController;
 use App\Http\Controllers\backend\AdminNotificationController;
 use App\Http\Controllers\backend\AdminOrderManagementController;
 use App\Http\Controllers\backend\AdminProductIssueController;
@@ -409,17 +410,19 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
     //notifications routes
 
     //report routes
-    Route::prefix('reports')->controller(AdminReportController::class)->group(function(){
-        Route::get('/purchase-orders', 'purchaseOrderReport')->name('admin.reports.purchase_orders');
-        Route::get('/purchase-orders/print', 'printPurchaseOrders')->name('admin.reports.purchase_orders.print');
-        Route::get('/sales-revenue', 'salesRevenueReport')->name('admin.reports.salesRevenue');
+    Route::prefix('reports')->group(function(){
+        Route::get('/purchase-orders', [AdminReportController::class,'purchaseOrderReport'])->name('admin.reports.purchase_orders');
+        Route::get('/purchase-orders/print', [AdminReportController::class,'printPurchaseOrders'])->name('admin.reports.purchase_orders.print');
+        Route::get('/sales-revenue', [AdminReportController::class,'salesRevenueReport'])->name('admin.reports.salesRevenue');
 
           // Customer Growth & User Activity Report
-        Route::get('/customer-growth', 'customerGrowthReport')->name('admin.reports.customerGrowth');
+        Route::get('/customer-growth', [AdminReportController::class,'customerGrowthReport'])->name('admin.reports.customerGrowth');
 
         // Optional: AJAX endpoint to fetch filtered datasets (if you want to update charts without full page reload)
-        Route::get('/customer-growth/data', 'customerGrowthData')->name('admin.reports.customerGrowth.data');
-        
+        Route::get('/customer-growth/data', [AdminReportController::class,'customerGrowthData'])->name('admin.reports.customerGrowth.data');
+        Route::get('/inventory', [AdminInventoryController::class, 'index'])->name('admin.inventory');
+        Route::get('/inventory/data', [AdminInventoryController::class, 'data'])->name('admin.inventory.data');
+        Route::get('/inventory/export', [AdminInventoryController::class, 'exportCsv'])->name('admin.inventory.export');
 
     });
 
