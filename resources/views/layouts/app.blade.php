@@ -276,13 +276,26 @@
             <!-- Mobile Navigation Menu -->
             <div id="mobile-menu" class="md:hidden border-t border-border bg-white shadow-lg hidden">
                 <div class="px-4 py-6 space-y-4">
-                    <a href="{{ route('home') }}" class="block text-primary font-semibold py-2">Home</a>
-                    <a href="{{ route('about') }}"
-                        class="block text-secondary-600 hover:text-primary transition-fast py-2">About Us</a>
-                    <a href="{{ route('compare') }}"
-                        class="block text-secondary-600 hover:text-primary transition-fast py-2">Compare</a>
-                    <a href="{{ route('help.center') }}"
-                        class="block text-secondary-600 hover:text-primary transition-fast py-2">Help Center</a>
+                    <a href="{{ route('home') }}" class="block text-primary font-semibold py-2
+           {{ request()->routeIs('home') ? 'text-accent bg-orange-100' : '' }}">
+                        Home
+                    </a>
+                    <a href="{{ route('about') }}" class="block text-secondary-600 hover:text-primary transition-fast py-2
+           {{ request()->routeIs('about') ? 'text-accent bg-orange-100' : '' }}">
+                        About Us
+                    </a>
+                    <a href="{{ route('contact') }}" class="block text-secondary-600 hover:text-primary transition-fast py-2
+           {{ request()->routeIs('contact') ? 'text-accent bg-orange-100' : '' }}">
+                        Contact Us
+                    </a>
+                    <a href="{{ route('compare') }}" class="block text-secondary-600 hover:text-primary transition-fast py-2
+           {{ request()->routeIs('compare') ? 'text-accent bg-orange-100' : '' }}">
+                        Compare
+                    </a>
+                    <a href="{{ route('help.center') }}" class="block text-secondary-600 hover:text-primary transition-fast py-2
+           {{ request()->routeIs('help.center') ? 'text-accent bg-orange-100' : '' }}">
+                        Help Center
+                    </a>
 
                     <!-- If user is authenticated -->
                     @auth
@@ -303,7 +316,6 @@
                                             class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                                         </div>
                                     @endif
-
                                     <span class="text-primary font-semibold">
                                         Hi, {{ $user->first_name ?? 'My Account' }}
                                     </span>
@@ -311,33 +323,34 @@
 
                                 <form method="POST" action="{{ route('normal.logout') }}">
                                     @csrf
-                                    <button type="submit" class="btn-primary">
-                                        Logout
-                                    </button>
+                                    <button type="submit" class="btn-primary">Logout</button>
                                 </form>
                             </div>
                         </div>
 
                         @if (!$hasProfilePic)
-                            <!-- Hidden values for JavaScript -->
                             <input type="hidden" id="userFirstName" value="{{ $user->first_name }}">
                             <input type="hidden" id="userLastName" value="{{ $user->last_name }}">
                         @endif
                     @endauth
-
 
                     <!-- If user is NOT authenticated -->
                     @guest
                         <div class="border-t border-border pt-4 space-y-3">
                             <div class="flex space-x-4">
                                 <a href="{{ route('login') }}"
-                                    class="flex-1 text-primary hover:text-accent transition-fast py-2">Sign In</a>
-                                <a href="{{ route('login') }}" class="flex-1 btn-primary py-2 text-sm">Get Started</a>
+                                    class="flex-1 text-primary hover:text-accent transition-fast py-2">
+                                    Sign In
+                                </a>
+                                <a href="{{ route('login') }}" class="flex-1 btn-primary py-2 text-sm">
+                                    Get Started
+                                </a>
                             </div>
                         </div>
                     @endguest
                 </div>
             </div>
+
         </nav>
 
     </header>
@@ -1404,38 +1417,38 @@
             });
         }
 
-    //     wishlistManager.showToast = function (title, message, type = 'info') {
-    //         const container = document.getElementById('toast-container2');
-    //         if (!container) return;
+        //     wishlistManager.showToast = function (title, message, type = 'info') {
+        //         const container = document.getElementById('toast-container2');
+        //         if (!container) return;
 
-    //         const toast = document.createElement('div');
-    //         toast.className = `toast-message toast-${type}`;
-    //         toast.innerHTML = `
-    //     <strong>${title}</strong><br>${message}
-    // `;
+        //         const toast = document.createElement('div');
+        //         toast.className = `toast-message toast-${type}`;
+        //         toast.innerHTML = `
+        //     <strong>${title}</strong><br>${message}
+        // `;
 
-    //         toast.style.cssText = `
-    //     background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#17a2b8'};
-    //     color: white;
-    //     padding: 10px 15px;
-    //     border-radius: 5px;
-    //     margin-bottom: 10px;
-    //     opacity: 0;
-    //     z-index:9999999;
-    //     transition: opacity 0.3s ease;
-    // `;
+        //         toast.style.cssText = `
+        //     background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#17a2b8'};
+        //     color: white;
+        //     padding: 10px 15px;
+        //     border-radius: 5px;
+        //     margin-bottom: 10px;
+        //     opacity: 0;
+        //     z-index:9999999;
+        //     transition: opacity 0.3s ease;
+        // `;
 
-    //         container.appendChild(toast);
+        //         container.appendChild(toast);
 
-    //         requestAnimationFrame(() => {
-    //             toast.style.opacity = '1';
-    //         });
+        //         requestAnimationFrame(() => {
+        //             toast.style.opacity = '1';
+        //         });
 
-    //         setTimeout(() => {
-    //             toast.style.opacity = '0';
-    //             setTimeout(() => toast.remove(), 300);
-    //         }, 3000);
-    //     };
+        //         setTimeout(() => {
+        //             toast.style.opacity = '0';
+        //             setTimeout(() => toast.remove(), 300);
+        //         }, 3000);
+        //     };
 
 
 
