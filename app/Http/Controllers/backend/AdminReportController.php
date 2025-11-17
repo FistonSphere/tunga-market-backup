@@ -298,7 +298,7 @@ public function customerGrowthReport(Request $request)
  // safe to load after mapping
 
 
-// dd($topActiveUsers);
+
 
     /* ===============================
        5) MOST VISITED PAGES
