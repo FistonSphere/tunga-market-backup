@@ -288,6 +288,7 @@ public function customerGrowthReport(Request $request)
         ->load('user');
 
 
+
     /* ===============================
        5) MOST VISITED PAGES
     =============================== */
