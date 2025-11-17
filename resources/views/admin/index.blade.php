@@ -544,8 +544,8 @@
 
 
 
-    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const options = {
@@ -652,6 +652,9 @@
             const chart = new google.visualization.GeoChart(document.getElementById('geo_chart'));
             chart.draw(data, options);
         }
+
+
+
     </script>
 
 @endsection

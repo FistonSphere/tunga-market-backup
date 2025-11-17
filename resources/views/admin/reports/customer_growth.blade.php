@@ -88,22 +88,29 @@
     </div>
 
     <!-- Line charts -->
-    <div class="card p-3 mb-4 shadow-sm rounded-4 chart-card">
-        <h5 class="fw-bold">📈 New Customer Growth</h5>
-        <div id="customerGrowthChart" style="height: 350px;"></div>
+    <div class="row mt-4 g-3">
+        <div class="col-md-6">
+            <div class="card p-3 shadow-sm rounded-4">
+                <h5 class="fw-bold">📈 New Customer Growth</h5>
+                <div id="customerGrowthChart" style="height: 350px;"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-3 shadow-sm rounded-4">
+                <h5 class="fw-bold">🔥 User Activity Trend</h5>
+                <div id="userActivityChart" style="height: 350px;"></div>
+            </div>
+        </div>
     </div>
 
-    <div class="card p-3 mb-4 shadow-sm rounded-4 chart-card">
-        <h5 class="fw-bold">🔥 User Activity Trend</h5>
-        <div id="userActivityChart" style="height: 350px;"></div>
-    </div>
+
 
     <!-- Map + Heatmap + Cohort -->
     <div class="row g-3">
         <div class="col-lg-6">
             <div class="card p-3 shadow-sm rounded-4 chart-card">
                 <h5 class="fw-bold">🌍 Users by Country</h5>
-                <div id="worldMap" style="height: 420px;"></div>
+                <div id="geo_chart" style="height: 420px;"></div>
             </div>
         </div>
 
@@ -136,7 +143,7 @@
                         @foreach ($topActiveUsers ?? [] as $u)
                             <tr>
                                 <td>{{ $u->user?->first_name }} {{ $u->user?->last_name }}</td>
-                                <td>{{ $u->activity_count }}</td>
+                                {{-- <td>{{ $u->activity_count }}</td> --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -177,10 +184,9 @@
 
     <!-- ECharts core -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-    <!-- Theme (optional) -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/theme/dark.js"></script>
-    <!-- World map definition -->
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5/map/js/world.js"></script>
+    <!-- Google Charts for GeoChart -->
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script>
         (function () {
@@ -203,21 +209,21 @@
                 topActiveUsers: @json($topActiveUsers ?? []),
                 visitedPages: @json($visitedPages ?? []),
                 insights: @json($insights ?? []),
+                userLocations: @json($userLocations ?? [])
             };
 
-            // ---------- Create charts ----------
+            // ---------- Create ECharts ----------
             const customerChart = echarts.init(document.getElementById('customerGrowthChart'), THEME);
             const activityChart = echarts.init(document.getElementById('userActivityChart'), THEME);
             const deviceChart = echarts.init(document.getElementById('deviceChart'), THEME);
             const browserChart = echarts.init(document.getElementById('browserChart'), THEME);
-            const worldChart = echarts.init(document.getElementById('worldMap'), THEME);
             const hourChart = echarts.init(document.getElementById('hourHeatmap'), THEME);
             const cohortChart = echarts.init(document.getElementById('cohortHeatmap'), THEME);
 
             // ---------- Utility ----------
             function safeArray(arr) { return Array.isArray(arr) ? arr : []; }
 
-            // ---------- Render functions ----------
+            // ---------- Render Functions ----------
             function renderSummary(summary) {
                 document.getElementById('totalCustomers').textContent = Number(summary.total_customers || 0).toLocaleString();
                 document.getElementById('newCustomers').textContent = Number(summary.new_customers || 0).toLocaleString();
@@ -257,21 +263,54 @@
                 browserChart.setOption({ tooltip: { trigger: 'item' }, series: [{ type: 'pie', radius: '60%', data: brData }] }, true);
             }
 
+            // ---------- Google GeoChart for world map ----------
+            google.charts.load('current', { 'packages': ['geochart'], 'mapsApiKey': '' });
+
+            const countryMap = {
+                'USA': 'United States',
+                'UK': 'United Kingdom',
+                'Ivory Coast': "Côte d'Ivoire",
+                'DR Congo': "Democratic Republic of the Congo"
+            };
+
+            let geoChartReady = false;
+            let geoChart;
+            const geoOptions = {
+                colorAxis: { colors: ['#c6e48b', '#239a3b'] },
+                backgroundColor: '#ffffff',
+                datalessRegionColor: '#f5f5f5',
+                defaultColor: '#f5f5f5',
+                legend: { textStyle: { color: '#666' } },
+                tooltip: { textStyle: { fontSize: 13 } },
+                resolution: 'countries'
+            };
+
+            google.charts.setOnLoadCallback(() => {
+                geoChart = new google.visualization.GeoChart(document.getElementById('geo_chart'));
+                geoChartReady = true;
+                drawGeoChart(initial.userLocations || []);
+            });
+
+            function drawGeoChart(locationData) {
+                if (!geoChartReady || !google.visualization) return;
+
+                const rows = safeArray(locationData).map(i => {
+                    const name = countryMap[i.country] || i.country || 'Unknown';
+                    const value = parseInt(i.total || 0);
+                    return [name, value];
+                });
+
+                const dataArray = [['Country', 'Users'], ...rows];
+                const data = google.visualization.arrayToDataTable(dataArray);
+                geoChart.draw(data, geoOptions);
+            }
+
             function renderWorldMap(locationData) {
-                const data = safeArray(locationData).map(i => ({ name: i.name || 'Unknown', value: i.value || 0 }));
-                if (!data.length) data.push({ name: 'United States', value: 0 });
-
-                if (!echarts.getMap('world')) {
-                    console.warn('World map not loaded yet, retrying in 100ms');
-                    setTimeout(() => renderWorldMap(locationData), 100);
-                    return;
+                if (geoChartReady) {
+                    drawGeoChart(locationData);
+                } else {
+                    google.charts.setOnLoadCallback(() => drawGeoChart(locationData));
                 }
-
-                worldChart.setOption({
-                    tooltip: { trigger: 'item', formatter: '{b}: {c}' },
-                    visualMap: { min: 0, max: Math.max(...data.map(d => d.value), 1), calculable: true, inRange: { color: ['#dbeafe', '#60a5fa', '#1e40af'] } },
-                    series: [{ name: 'Users by Country', type: 'map', map: 'world', roam: true, emphasis: { label: { show: true } }, data }]
-                }, true);
             }
 
             function renderHourHeatmap(heatmapData) {
@@ -282,10 +321,7 @@
                 const hours = Array.from({ length: 24 }, (_, i) => (i < 10 ? '0' + i : String(i)) + ':00');
 
                 hourChart.setOption({
-                    tooltip: {
-                        position: 'top',
-                        formatter: params => `${weekdays[params.value[0]]} ${hours[params.value[1]]}<br/>${params.value[2]} hits`
-                    },
+                    tooltip: { position: 'top', formatter: params => `${weekdays[params.value[0]]} ${hours[params.value[1]]}<br/>${params.value[2]} hits` },
                     grid: { height: '70%', top: '10%' },
                     xAxis: { type: 'category', data: hours, splitArea: { show: true } },
                     yAxis: { type: 'category', data: weekdays, splitArea: { show: true } },
@@ -296,10 +332,7 @@
 
             function renderCohort(cohortMatrix) {
                 const matrix = safeArray(cohortMatrix);
-                if (!matrix.length) {
-                    cohortChart.setOption({ title: { text: 'No cohort data available' } }, true);
-                    return;
-                }
+                if (!matrix.length) { cohortChart.setOption({ title: { text: 'No cohort data available' } }, true); return; }
 
                 const yAxis = matrix.map(r => r.cohort_week);
                 const xAxis = matrix[0].retention.map((_, i) => 'Week+' + i);
@@ -333,12 +366,12 @@
                 });
             }
 
-            // ---------- Initial render ----------
+            // ---------- Initial Render ----------
             renderSummary(initial.summary || {});
             renderCustomerGrowth(initial.customerGrowth || []);
             renderActivity(initial.activeUsers || []);
             renderDeviceBrowser(initial.deviceStats || [], initial.browserStats || []);
-            renderWorldMap(initial.locationData || []);
+            renderWorldMap(initial.userLocations || []);
             renderHourHeatmap(initial.heatmapData || []);
             renderCohort(initial.cohortMatrix || []);
             renderTopUsers(initial.topActiveUsers || []);
@@ -350,14 +383,14 @@
                     const qs = new URLSearchParams(window.location.search).toString();
                     const url = DATA_URL + (qs ? '?' + qs : '');
                     const res = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
-                    if (!res.ok) throw new Error('Network response was not OK');
+                    if (!res.ok) throw new Error('Network response not OK');
                     const data = await res.json();
 
                     if (data.summary) renderSummary(data.summary);
                     if (data.customerGrowth) renderCustomerGrowth(data.customerGrowth);
                     if (data.activeUsers) renderActivity(data.activeUsers);
                     if (data.deviceStats || data.browserStats) renderDeviceBrowser(data.deviceStats || [], data.browserStats || []);
-                    if (data.locationData) renderWorldMap(data.locationData);
+                    if (data.locationData) renderWorldMap(data.locationData); // Update map
                     if (data.heatmapData) renderHourHeatmap(data.heatmapData);
                     if (data.cohortMatrix) renderCohort(data.cohortMatrix);
                     if (data.topActiveUsers) renderTopUsers(data.topActiveUsers);
@@ -374,11 +407,15 @@
             setInterval(fetchAndUpdate, REFRESH_INTERVAL_MS);
             window.addEventListener('analytics:refresh', fetchAndUpdate);
 
+            // ---------- Resize charts ----------
             window.addEventListener('resize', () => {
-                [customerChart, activityChart, deviceChart, browserChart, worldChart, hourChart, cohortChart].forEach(c => { try { c.resize(); } catch (e) { } });
+                [customerChart, activityChart, deviceChart, browserChart, hourChart, cohortChart].forEach(c => { try { c.resize(); } catch (e) { } });
             });
 
         })();
     </script>
+
+
+
 
 @endsection

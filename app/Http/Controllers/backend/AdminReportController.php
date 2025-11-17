@@ -424,13 +424,18 @@ $cohortWeeks = $usersByCohort->keys()->sort()->values();
     $insights = $this->generateAIInsightsForUsers($summary, $customerGrowth, $activeUsers);
 
 
+    $userLocations = User::select('country', DB::raw('count(*) as total'))
+        ->whereNotNull('country')
+        ->groupBy('country')
+        ->get();
     /* ===============================
        RETURN BLADE
     =============================== */
+
     return view('admin.reports.customer_growth', compact(
         'range','startDate','endDate','search','role',
         'summary','customerGrowth','activeUsers','topActiveUsers','visitedPages',
-        'deviceStats','browserStats','locationData','heatmapData','cohortMatrix','cohortWeeks','insights'
+        'deviceStats','browserStats','locationData','heatmapData','cohortMatrix','cohortWeeks','insights','userLocations'
     ));
 }
 
@@ -471,4 +476,8 @@ private function generateAIInsightsForUsers($summary, $customerGrowth, $activeUs
     ];
 }
 
+
+public function fetchData(){
+
+}
 }
