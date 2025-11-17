@@ -184,12 +184,11 @@
         </div>
     </div>
 
-    <!-- ECharts core -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5"></script>
+    <!-- ECharts + world map dependency -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-
-    <!-- World map data -->
+    <!-- Optional: world map data (ECharts needs map data). Using CDN for world map -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/map/js/world.js"></script>
-
 
     <script>
         const customerGrowth = @json($customerGrowth);
