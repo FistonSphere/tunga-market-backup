@@ -297,14 +297,6 @@
                                     </svg>
                                     <span>Scan Barcode</span>
                                 </button>
-                                <button onclick="useVoiceInput()"
-                                    class="flex flex-wrap items-center gap-2 px-3 py-2 border border-border rounded-lg hover:bg-surface transition-fast text-sm">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                                    </svg>
-                                    <span>Voice Input</span>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -691,7 +683,7 @@
                 const total = Number(item.quantity * item.price).toLocaleString();
                 itemsContainer.innerHTML += `
                 <div class="flex items-center space-x-4 p-3 border border-border rounded-lg">
-                    <img src="${item.product.main_image}" alt="${item.product.name}" 
+                    <img src="${item.product.main_image}" alt="${item.product.name}"
                         class="w-16 h-16 rounded-lg object-cover" loading="lazy">
                     <div class="flex-1">
                         <h5 class="font-semibold text-primary">${item.product.name}</h5>
@@ -711,7 +703,7 @@
             timeline.forEach(step => {
                 timelineContainer.innerHTML += `
                 <div class="flex items-start space-x-4 mb-8">
-                    <div class="w-12 h-12 ${step.done ? 'bg-success' : 'bg-secondary-200'} 
+                    <div class="w-12 h-12 ${step.done ? 'bg-success' : 'bg-secondary-200'}
                         rounded-full flex items-center justify-center flex-shrink-0">
                         <svg class="w-6 h-6 ${step.done ? 'text-white' : 'text-secondary-600'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

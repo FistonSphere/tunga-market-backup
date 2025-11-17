@@ -5570,6 +5570,7 @@ h6 {
     .lg\:text-5xl {
         font-size: 3rem;
         line-height: 1;
+
     }
 }
 
@@ -5578,6 +5579,7 @@ h6 {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 }
+
 
 #loader {
     height: 100px; /* or any fixed height to avoid layout jump */
@@ -5816,6 +5818,7 @@ div#wishlist-overlay {
     z-index: 99999;
 }
 
+
 @media (min-width: 487px) and (max-width: 768px) {
     #notification-login {
         bottom: 24em !important;
@@ -5833,8 +5836,8 @@ div#wishlist-overlay {
     }
 }
 
-@media (max-width: 383px) {
+/* @media(max-width:383px){
     body.bg-background.text-text-primary {
-        width: 24em;
-    }
+    width: 24em;
 }
+} */
