@@ -2,366 +2,238 @@
 
 @section('content')
 
-    <style>
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 14px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-            height: 100%;
-        }
+        <style>
+            .stat-card {
+                background: white;
+                padding: 20px;
+                border-radius: 14px;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+                height: 100%;
+            }
 
-        .stat-label {
-            color: #6c757d;
-            font-size: .9rem;
-        }
+            .stat-label {
+                color: #6c757d;
+                font-size: .9rem;
+            }
 
-        .stat-value {
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
-    </style>
+            .stat-value {
+                font-size: 1.4rem;
+                font-weight: 700;
+            }
+        </style>
 
-    <div class="page-header mb-4">
-        <h2 class="fw-bold">👥 Customer Growth & User Activity</h2>
-        <p class="text-muted">Monitor how your users join and interact with the platform.</p>
-    </div>
+       <div class="container-fluid py-4">
 
-    <form method="GET" class="d-flex gap-2 mb-3">
-        <label class="fw-bold">Range:</label>
-        <select name="range" class="form-select w-auto" onchange="this.form.submit()">
-            <option value="7" {{ $range == 7 ? 'selected' : '' }}>Last 7 Days</option>
-            <option value="14" {{ $range == 14 ? 'selected' : '' }}>Last 14 Days</option>
-            <option value="30" {{ $range == 30 ? 'selected' : '' }}>Last 30 Days</option>
-            <option value="90" {{ $range == 90 ? 'selected' : '' }}>Last 90 Days</option>
-        </select>
-    </form>
+        <!-- PAGE HEADER -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold">Analytics Dashboard</h2>
 
-    <!-- AI INSIGHTS -->
-    <div class="alert alert-info p-3 rounded-3 shadow-sm mb-4">
-        <h5 class="fw-bold">🤖 AI Insights</h5>
-        <p><strong>Trend: </strong>
-            <span class="{{ $insights['trend'] === 'up' ? 'text-success' : 'text-danger' }}">
-                {{ $insights['growth_rate'] }}%
-            </span>
-        </p>
-        <p class="mb-0">{{ $insights['note'] }}</p>
-    </div>
+            <!-- SEARCH + FILTER -->
+            <form id="filterForm" class="d-flex gap-2">
+                <input type="text" name="search" class="form-control"
+                       placeholder="Search users, emails, countries...">
 
-    <!-- SUMMARY -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-3 col-6">
-            <div class="stat-card">
-                <div class="stat-label">Total Customers</div>
-                <div class="stat-value">{{ number_format($summary['total_customers']) }}</div>
+                <select name="date_range" class="form-select">
+                    <option value="7">Last 7 days</option>
+                    <option value="30">Last 30 days</option>
+                    <option value="90">Last 90 days</option>
+                    <option value="365">Last 12 months</option>
+                </select>
+
+                <button class="btn btn-primary">Apply</button>
+            </form>
+        </div>
+
+        <!-- SUMMARY CARDS -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3">
+                    <h6>Total Users</h6>
+                    <h3 id="totalUsers">0</h3>
+                </div>
             </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="stat-card">
-                <div class="stat-label">New Customers</div>
-                <div class="stat-value">{{ number_format($summary['new_customers']) }}</div>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="stat-card">
-                <div class="stat-label">Active Users</div>
-                <div class="stat-value">{{ number_format($summary['active_users']) }}</div>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="stat-card">
-                <div class="stat-label">Retention Rate</div>
-                <div class="stat-value">{{ $summary['retention_rate'] }}%</div>
-            </div>
-        </div>
-    </div>
 
-    <!-- CHARTS -->
-    <div class="card p-3 mb-4 shadow-sm rounded-4">
-        <h5 class="fw-bold">📈 New Customer Growth</h5>
-        <div id="customerGrowthChart" style="height: 350px;"></div>
-    </div>
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3">
+                    <h6>New Users (30 days)</h6>
+                    <h3 id="newUsers">0</h3>
+                </div>
+            </div>
 
-    <div class="card p-3 shadow-sm rounded-4">
-        <h5 class="fw-bold">🔥 User Activity Trend</h5>
-        <div id="userActivityChart" style="height: 350px;"></div>
-    </div>
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3">
+                    <h6>Active Today</h6>
+                    <h3 id="activeToday">0</h3>
+                </div>
+            </div>
 
-    <!-- Add Filters / Search at top (if not present) -->
-    <form method="GET" class="row g-2 mb-3">
-        <div class="col-auto">
-            <select name="range" class="form-select" onchange="this.form.submit()">
-                <option value="7" {{ $range == 7 ? 'selected' : '' }}>7d</option>
-                <option value="14" {{ $range == 14 ? 'selected' : '' }}>14d</option>
-                <option value="30" {{ $range == 30 ? 'selected' : '' }}>30d</option>
-                <option value="90" {{ $range == 90 ? 'selected' : '' }}>90d</option>
-            </select>
-        </div>
-        <div class="col-auto">
-            <input type="text" name="search" value="{{ $search ?? '' }}" class="form-control"
-                placeholder="Search name or email">
-        </div>
-        <div class="col-auto">
-            <select name="role" class="form-select" onchange="this.form.submit()">
-                <option value="">All roles</option>
-                <option value="customer" {{ ($role ?? '') == 'customer' ? 'selected' : '' }}>Customer</option>
-                <option value="vendor" {{ ($role ?? '') == 'vendor' ? 'selected' : '' }}>Vendor</option>
-            </select>
-        </div>
-        <div class="col-auto">
-            <button class="btn btn-primary">Apply</button>
-        </div>
-    </form>
-    <!-- New blocks: World map, Hours heatmap, Cohort heatmap -->
-    <div class="row g-3">
-        <div class="col-lg-6">
-            <div class="card p-3 shadow-sm rounded-4">
-                <h5 class="fw-bold">🌍 Users by Country</h5>
-                <div id="worldMap" style="height: 420px;"></div>
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3">
+                    <h6>Registrations Trend</h6>
+                    <h3 id="regTrend">0%</h3>
+                </div>
             </div>
         </div>
 
-        <div class="col-lg-6">
-            <div class="card p-3 shadow-sm rounded-4">
-                <h5 class="fw-bold">⏱️ Activity Heatmap (Weekday × Hour)</h5>
-                <div id="hourHeatmap" style="height: 420px;"></div>
+        <!-- CHARTS -->
+        <div class="row g-4">
+
+            <!-- USER GROWTH -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm p-3">
+                    <h5 class="mb-3 fw-bold">User Growth</h5>
+                    <div id="userGrowthChart" style="height: 330px;"></div>
+                </div>
             </div>
+
+            <!-- WORLD MAP -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm p-3">
+                    <h5 class="mb-3 fw-bold">Users by Country</h5>
+                    <div id="worldMap" style="height: 330px;"></div>
+                </div>
+            </div>
+
+            <!-- HOURLY HEATMAP -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm p-3">
+                    <h5 class="mb-3 fw-bold">Active Hours Heatmap</h5>
+                    <div id="heatmap" style="height: 330px;"></div>
+                </div>
+            </div>
+
+            <!-- RETENTION COHORT -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm p-3">
+                    <h5 class="mb-3 fw-bold">User Retention Cohort</h5>
+                    <div id="retentionCohort" style="height: 330px;"></div>
+                </div>
+            </div>
+
         </div>
     </div>
+@endsection
 
-    <div class="card mt-4 p-3 shadow-sm rounded-4">
-        <h5 class="fw-bold">🔢 Retention Cohort Heatmap (weekly cohorts)</h5>
-        <div id="cohortHeatmap" style="height: 420px;"></div>
-    </div>
-
-    <!-- TOP ACTIVE USERS -->
-    <div class="card p-3 shadow-sm rounded-4 mt-4">
-        <h5 class="fw-bold">🏆 Top Active Users</h5>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Activity Count</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($topActiveUsers as $u)
-                    <tr>
-                        <td>{{ $u->user?->first_name }} {{ $u->user?->last_name }}</td>
-                        <td>{{ $u->activity_count }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
-    <!-- MOST VISITED PAGES -->
-    <div class="card p-3 shadow-sm rounded-4 mt-4">
-        <h5 class="fw-bold">📄 Most Visited Pages</h5>
-        <ul class="list-group">
-            @foreach ($visitedPages as $p)
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>{{ $p->page_visited }}</span>
-                    <strong>{{ $p->visits }}</strong>
-                </li>
-            @endforeach
-        </ul>
-    </div>
-
-    <!-- DEVICE / BROWSER STATS -->
-    <div class="row mt-4 g-3">
-        <div class="col-md-6">
-            <div class="card p-3 shadow-sm rounded-4">
-                <h5 class="fw-bold">📱 Device Usage</h5>
-                <div id="deviceChart" style="height: 300px;"></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card p-3 shadow-sm rounded-4">
-                <h5 class="fw-bold">🌐 Browser Usage</h5>
-                <div id="browserChart" style="height: 300px;"></div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5"></script>
-    <!-- ECharts + world map dependency -->
+@section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-    <!-- Optional: world map data (ECharts needs map data). Using CDN for world map -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/map/js/world.js"></script>
 
     <script>
-        const customerGrowth = @json($customerGrowth);
-        const activity = @json($activeUsers);
-        const deviceStats = @json($deviceStats);
-        const browserStats = @json($browserStats);
+    /* ===============================
+       DARK MODE ECHARTS THEME
+    ================================ */
+    const darkTheme = {
+        backgroundColor: "transparent",
+        textStyle: { color: "#e0e0e0" },
+        title: { textStyle: { color: "#fff" } },
+        tooltip: { backgroundColor: "#333", textStyle: { color: "#fff" } },
+        visualMap: {
+            textStyle: { color: "#fff" }
+        }
+    };
 
-        const dates1 = customerGrowth.map(x => x.date);
-        const newUsers = customerGrowth.map(x => x.count);
+    echarts.registerTheme("dark", darkTheme);
 
-        const dates2 = activity.map(x => x.date);
-        const active = activity.map(x => x.count);
+    /* ===============================
+       INIT CHARTS
+    ================================ */
+    let userGrowthChart = echarts.init(document.getElementById('userGrowthChart'), 'dark');
+    let worldMapChart   = echarts.init(document.getElementById('worldMap'), 'dark');
+    let heatmapChart    = echarts.init(document.getElementById('heatmap'), 'dark');
+    let retentionChart  = echarts.init(document.getElementById('retentionCohort'), 'dark');
 
-        // CUSTOMER GROWTH CHART
-        echarts.init(document.getElementById('customerGrowthChart')).setOption({
-            tooltip: { trigger: 'axis' },
-            xAxis: { type: 'category', data: dates1 },
-            yAxis: { type: 'value' },
-            series: [{
-                name: 'New Customers',
-                type: 'line',
-                data: newUsers,
-                smooth: true,
-                lineStyle: { width: 3 }
-            }]
-        });
+    /* ===============================
+       AUTO REFRESH FUNCTION
+    ================================ */
+    function loadDashboardData() {
+        const params = new URLSearchParams(new FormData(document.getElementById('filterForm')));
 
-        // USER ACTIVITY CHART
-        echarts.init(document.getElementById('userActivityChart')).setOption({
-            tooltip: { trigger: 'axis' },
-            xAxis: { type: 'category', data: dates2 },
-            yAxis: { type: 'value' },
-            series: [{
-                name: 'Active Users',
-                type: 'line',
-                data: active,
-                smooth: true,
-                lineStyle: { width: 3 }
-            }]
-        });
+        fetch(`{{ route('admin.dashboard.data') }}?` + params, {
+            headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
+        .then(res => res.json())
+        .then(data => {
 
-        // DEVICE USAGE PIE
-        echarts.init(document.getElementById('deviceChart')).setOption({
-            tooltip: { trigger: 'item' },
-            series: [{
-                type: 'pie',
-                data: deviceStats.map(x => ({ name: x.device, value: x.count }))
-            }]
-        });
+            // SUMMARY NUMBERS
+            document.getElementById('totalUsers').textContent = data.totalUsers;
+            document.getElementById('newUsers').textContent = data.newUsers;
+            document.getElementById('activeToday').textContent = data.activeToday;
+            document.getElementById('regTrend').textContent = data.regTrend + "%";
 
-        // BROWSER USAGE PIE
-        echarts.init(document.getElementById('browserChart')).setOption({
-            tooltip: { trigger: 'item' },
-            series: [{
-                type: 'pie',
-                data: browserStats.map(x => ({ name: x.browser, value: x.count }))
-            }]
-        });
+            /* ==========================
+               USER GROWTH CHART
+            ========================== */
+            userGrowthChart.setOption({
+                xAxis: { type: 'category', data: data.userGrowth.labels },
+                yAxis: { type: 'value' },
+                tooltip: { trigger: 'axis' },
+                series: [{
+                    name: 'Users',
+                    type: 'line',
+                    smooth: true,
+                    data: data.userGrowth.values
+                }]
+            });
 
-        // LOCATION DATA for world map
-        const locationData = @json($locationData); // [{name:'Rwanda', value:10}, ...]
-        const maxVal = Math.max(...locationData.map(x => x.value), 1);
+            /* ==========================
+               WORLD MAP — DYNAMIC COUNTRY LIST
+            ========================== */
+            worldMapChart.setOption({
+                tooltip: { trigger: 'item' },
+                visualMap: {
+                    min: 1,
+                    max: data.maxCountryValue,
+                    calculable: true
+                },
+                series: [{
+                    type: 'map',
+                    map: 'world',
+                    roam: true,
+                    data: data.countryDistribution   // <- dynamic from DB
+                }]
+            });
 
-        const worldChart = echarts.init(document.getElementById('worldMap'));
-        worldChart.setOption({
-            tooltip: {
-                trigger: 'item',
-                formatter: '{b}: {c}'
-            },
-            visualMap: {
-                min: 0,
-                max: maxVal,
-                text: ['High', 'Low'],
-                realtime: false,
-                calculable: true,
-                inRange: { color: ['#dbeafe', '#60a5fa', '#1e40af'] }
-            },
-            series: [{
-                name: 'Users by Country',
-                type: 'map',
-                map: 'world',
-                roam: true,
-                emphasis: { label: { show: true } },
-                data: locationData
-            }]
-        });
+            /* ==========================
+               HEATMAP — ACTIVE HOURS
+            ========================== */
+            heatmapChart.setOption({
+                tooltip: {},
+                xAxis: { type: 'category', data: data.heatmap.hours },
+                yAxis: { type: 'category', data: data.heatmap.days },
+                visualMap: { min: 0, max: data.heatmap.max, calculable: true },
+                series: [{
+                    name: 'Activity',
+                    type: 'heatmap',
+                    data: data.heatmap.data
+                }]
+            });
 
-        // HOUR HEATMAP
-        // heatmapData: array of [weekdayIndex (0=Sun), hour (0..23), value]
-        const heatmapData = @json($heatmapData);
-
-        // prepare axis labels: weekday names and hours
-        const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        const hours = Array.from({ length: 24 }, (_, i) => (i < 10 ? '0' + i : String(i)) + ':00');
-
-        const hourChart = echarts.init(document.getElementById('hourHeatmap'));
-        hourChart.setOption({
-            tooltip: {
-                position: 'top',
-                formatter: function (params) {
-                    return `${weekdays[params.value[0]]} ${hours[params.value[1]]}<br/>${params.value[2]} hits`;
-                }
-            },
-            grid: { height: '70%', top: '10%' },
-            xAxis: { type: 'category', data: hours, splitArea: { show: true } },
-            yAxis: { type: 'category', data: weekdays, splitArea: { show: true } },
-            visualMap: {
-                min: 0,
-                max: (heatmapData.length ? Math.max(...heatmapData.map(d => d[2])) : 1),
-                calculable: true,
-                orient: 'horizontal',
-                left: 'center',
-                bottom: '0%'
-            },
-            series: [{
-                name: 'Activity',
-                type: 'heatmap',
-                data: heatmapData,
-                emphasis: { itemStyle: { borderColor: '#333', borderWidth: 1 } },
-                progressive: 1000,
-                progressiveThreshold: 5000
-            }]
-        });
-
-        // COHORT HEATMAP
-        // cohortMatrix = [{cohort_week: '2025-11-03', size: 20, retention: [100, 60, 45, ...]}, ...]
-        const cohortMatrix = @json($cohortMatrix);
-        const cohortWeeks = @json($cohortWeeks); // array of week keys (strings)
-        // build series data as [cohortIndex, weekOffset, value]
-        let cohortData = [];
-        let maxRetention = 0;
-        cohortMatrix.forEach((row, i) => {
-            row.retention.forEach((val, j) => {
-                cohortData.push([i, j, val]);
-                if (val > maxRetention) maxRetention = val;
+            /* ==========================
+               RETENTION COHORT
+            ========================== */
+            retentionChart.setOption({
+                tooltip: {},
+                xAxis: { type: 'category', data: data.cohort.labels },
+                yAxis: { type: 'category', data: data.cohort.weeks },
+                visualMap: { min: 0, max: 100, calculable: true },
+                series: [{
+                    name: 'Retention %',
+                    type: 'heatmap',
+                    data: data.cohort.data
+                }]
             });
         });
+    }
 
-        const cohortChart = echarts.init(document.getElementById('cohortHeatmap'));
-        cohortChart.setOption({
-            tooltip: {
-                formatter: function (params) {
-                    const cohortLabel = cohortMatrix[params.value[0]]?.cohort_week ?? '';
-                    const weekOffset = params.value[1];
-                    const val = params.value[2];
-                    return `${cohortLabel}<br/>Week +${weekOffset}: ${val}% retention`;
-                }
-            },
-            xAxis: { type: 'category', data: cohortMatrix.length ? cohortMatrix[0].retention.map((_, i) => 'Week+' + i) : [] },
-            yAxis: { type: 'category', data: cohortMatrix.map(r => r.cohort_week) },
-            visualMap: {
-                min: 0,
-                max: maxRetention || 100,
-                calculable: true,
-                orient: 'horizontal',
-                left: 'center',
-                bottom: '5%'
-            },
-            series: [{
-                name: 'Cohort',
-                type: 'heatmap',
-                data: cohortData,
-                emphasis: { itemStyle: { borderColor: '#333', borderWidth: 1 } },
-                progressive: 500,
-            }]
-        });
+    /* AUTO REFRESH */
+    loadDashboardData();
+    setInterval(loadDashboardData, 10000);
 
-        // ensure charts resize on window resize
-        window.addEventListener('resize', () => {
-            worldChart.resize();
-            hourChart.resize();
-            cohortChart.resize();
-        });
+    /* REFRESH ON FILTER SUBMIT */
+    document.getElementById('filterForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        loadDashboardData();
+    });
     </script>
-
 @endsection
+
