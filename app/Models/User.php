@@ -87,4 +87,11 @@ public function cartItems()
     return $this->hasMany(Cart::class);
 }
 
+protected static function booted()
+{
+    static::updating(function ($user) {
+        $user->last_active_at = now();
+    });
+}
+
 }
