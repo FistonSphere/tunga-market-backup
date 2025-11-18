@@ -482,7 +482,7 @@
                                         <span class="font-semibold text-primary">Credit/Debit Card</span>
 
                                     </label>
-git config --global credential.https://github.com.username <USERNAME>
+
                                     <div id="card-form" class="space-y-4 pl-7">
                                         <!-- Saved Cards -->
                                         <div class="space-y-3">
