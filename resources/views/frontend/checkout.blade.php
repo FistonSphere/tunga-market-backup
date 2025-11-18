@@ -1023,12 +1023,12 @@
     <div id="editAddressModal"
         style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));"
         class="fixed inset-0 hidden items-center justify-center
-                                                                                                        backdrop-blur-sm transition-opacity duration-300 ease-out">
+                                                                                                            backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
         <div id="editAddressCard"
             class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
-                                                                                                           transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                                                                                                               transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1594,20 +1594,20 @@
 
             // ✅ Fullscreen overlay with dark blur (same as your trackingRedirectModal)
             loadingModal.className = `
-                                    fixed inset-0 z-[99999999] flex items-center justify-center
-                                    bg-black/50 backdrop-blur-md transition-opacity duration-300
-                                `;
+                                        fixed inset-0 z-[99999999] flex items-center justify-center
+                                        bg-black/50 backdrop-blur-md transition-opacity duration-300
+                                    `;
 
             // ✅ White modal card — solid, visible, clean
             loadingModal.innerHTML = `
-                                    <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center p-8 animate-scale-in">
-                                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-orange-100">
-                                            <div class="animate-spin w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full"></div>
+                                        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center p-8 animate-scale-in">
+                                            <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-orange-100">
+                                                <div class="animate-spin w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full"></div>
+                                            </div>
+                                            <h2 class="text-lg font-semibold text-gray-800 mb-1">Placing your order...</h2>
+                                            <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
                                         </div>
-                                        <h2 class="text-lg font-semibold text-gray-800 mb-1">Placing your order...</h2>
-                                        <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
-                                    </div>
-                                `;
+                                    `;
 
             document.body.appendChild(loadingModal);
 
@@ -2020,4 +2020,75 @@
             });
         });
     </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            /* ============================
+               UTIL — HIDE ALL SECTIONS
+            ============================ */
+            const hideAllSections = () => {
+                document.querySelector("#card-form").classList.add("hidden");
+                document.querySelector("#irembo-form").classList.add("hidden");
+                document.querySelector("#momo-code-form").classList.add("hidden");
+                document.querySelector("#cod-info").classList.add("hidden");
+                document.querySelector("#bank-transfer-form").classList.add("hidden");
+            };
+
+            /* ============================
+               ON CHANGE PAYMENT METHOD
+            ============================ */
+            document.querySelectorAll("input[name='payment-method']").forEach((radio) => {
+                radio.addEventListener("change", function () {
+                    hideAllSections();
+
+                    switch (this.value) {
+                        case "card":
+                            document.querySelector("#card-form").classList.remove("hidden");
+                            break;
+
+                        case "irembo-pay":
+                            document.querySelector("#irembo-form").classList.remove("hidden");
+                            break;
+
+                        case "momo-code":
+                            document.querySelector("#momo-code-form").classList.remove("hidden");
+                            break;
+
+                        case "cod":
+                            document.querySelector("#cod-info").classList.remove("hidden");
+                            break;
+
+                        case "bank-transfer":
+                            document.querySelector("#bank-transfer-form").classList.remove("hidden");
+                            break;
+                    }
+                });
+            });
+
+            /* ============================
+               CARD – NEW CARD TOGGLE
+            ============================ */
+            const toggleNewCardForm = () => {
+                const selected = document.querySelector("input[name='saved-card']:checked");
+                const newCardForm = document.querySelector("#new-card-form");
+
+                if (selected && selected.value === "new-card") {
+                    newCardForm.classList.remove("hidden");
+                } else {
+                    newCardForm.classList.add("hidden");
+                }
+            };
+
+            document.querySelectorAll("input[name='saved-card']").forEach((radio) => {
+                radio.addEventListener("change", toggleNewCardForm);
+            });
+
+            // Initialize on load
+            toggleNewCardForm();
+
+        });
+    </script>
+
 @endsection
