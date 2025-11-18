@@ -259,31 +259,61 @@
                         <button class="edit-btn" onclick="toggleEdit(this)">Edit</button>
                     </h2>
                     <div class="display-mode">
-                            <div class="image-preview">
-                                <p>Logo:</p>
-                                <img src="{{ $settings->logo ?? 'https://via.placeholder.com/150' }}" alt="Logo">
-                            </div>
-                            <div class="image-preview">
-                                <p>Favicon:</p>
-                                <img src="{{ $settings->favicon ?? 'https://via.placeholder.com/50' }}" alt="Favicon">
-                            </div>
+                        <div class="image-preview">
+                            <p>Logo:</p>
+                            <img src="{{ $settings->logo ?? 'https://via.placeholder.com/150' }}" alt="Logo">
+                        </div>
+                        <div class="image-preview">
+                            <p>Favicon:</p>
+                            <img src="{{ $settings->favicon ?? 'https://via.placeholder.com/50' }}" alt="Favicon">
+                        </div>
                     </div>
+                    <form class="edit-mode" style="display:none;" method="POST"
+                        action="{{ route('general-settings.update') }}">
+                        @csrf
+                        <input type="hidden" name="section" value="branding">
+                        <label>Logo URL: <input type="text" name="logo" value="{{ $settings->logo }}"></label>
+                        <label>Favicon URL: <input type="text" name="favicon" value="{{ $settings->favicon }}"></label>
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="cancel-btn" onclick="toggleEdit(this, true)">Cancel</button>
+                    </form>
                 </div>
             </div>
 
             <!-- Banner -->
             <div class="tab-panel" id="banner">
                 <div class="settings-card">
-                    <h2>Banner / Hero</h2>
-                    @if($settings->banner_video_enabled && $settings->banner_video)
-                        <video controls width="100%" class="banner-preview">
-                            <source src="{{ $settings->banner_video }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    @else
-                        <img src="{{ $settings->banner_image ?? 'https://via.placeholder.com/300x150' }}" alt="Banner"
-                            class="banner-preview">
-                    @endif
+                    <h2>Banner / Hero
+                        <button class="edit-btn" onclick="toggleEdit(this)">Edit</button>
+                    </h2>
+
+                    <div class="display-mode">
+                        @if($settings->banner_video_enabled && $settings->banner_video)
+                            <video controls width="100%" class="banner-preview">
+                                <source src="{{ $settings->banner_video }}" type="video/mp4">
+                            </video>
+                        @else
+                            <img src="{{ $settings->banner_image ?? 'https://via.placeholder.com/300x150' }}" alt="Banner"
+                                class="banner-preview">
+                        @endif
+                    </div>
+                    <form class="edit-mode" style="display:none;" method="POST"
+                        action="{{ route('general-settings.update') }}">
+                        @csrf
+                        <input type="hidden" name="section" value="banner">
+                        <label>Banner Image URL: <input type="text" name="banner_image"
+                                value="{{ $settings->banner_image }}"></label>
+                        <label>Banner Mobile Image URL: <input type="text" name="banner_mobile_image"
+                                value="{{ $settings->banner_mobile_image }}"></label>
+                        <label>Banner Video URL: <input type="text" name="banner_video"
+                                value="{{ $settings->banner_video }}"></label>
+                        <label>
+                            Enable Video:
+                            <input type="checkbox" name="banner_video_enabled" {{ $settings->banner_video_enabled ? 'checked' : '' }}>
+                        </label>
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="cancel-btn" onclick="toggleEdit(this, true)">Cancel</button>
+                    </form>
                 </div>
             </div>
 
