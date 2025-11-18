@@ -225,25 +225,48 @@
             <!-- Site Info -->
             <div class="tab-panel active" id="site-info">
                 <div class="settings-card">
-                    <h2>Site Info</h2>
-                    <p><strong>Name:</strong> {{ $settings->site_name ?? 'Not set' }}</p>
-                    <p><strong>Tagline:</strong> {{ $settings->site_tagline ?? 'Not set' }}</p>
-                    <p><strong>Email:</strong> {{ $settings->site_email ?? 'Not set' }}</p>
-                    <p><strong>Phone:</strong> {{ $settings->site_phone ?? 'Not set' }}</p>
+                    <h2>Site Info
+                        <button class="edit-btn" onclick="toggleEdit(this)">Edit</button>
+                    </h2>
+                    <!-- Display -->
+                    <div class="display-mode">
+                        <p><strong>Name:</strong> <span>{{ $settings->site_name ?? 'Not set' }}</span></p>
+                        <p><strong>Tagline:</strong> <span>{{ $settings->site_tagline ?? 'Not set' }}</span></p>
+                        <p><strong>Email:</strong> <span>{{ $settings->site_email ?? 'Not set' }}</span></p>
+                        <p><strong>Phone:</strong> <span>{{ $settings->site_phone ?? 'Not set' }}</span></p>
+                    </div>
+
+                    <!-- Edit Form -->
+                    <form class="edit-mode" style="display:none;" method="POST"
+                        action="{{ route('general-settings.update') }}">
+                        @csrf
+                        <input type="hidden" name="section" value="site-info">
+                        <label>Name: <input type="text" name="site_name" value="{{ $settings->site_name }}"></label>
+                        <label>Tagline: <input type="text" name="site_tagline"
+                                value="{{ $settings->site_tagline }}"></label>
+                        <label>Email: <input type="email" name="site_email" value="{{ $settings->site_email }}"></label>
+                        <label>Phone: <input type="text" name="site_phone" value="{{ $settings->site_phone }}"></label>
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="cancel-btn" onclick="toggleEdit(this, true)">Cancel</button>
+                    </form>
                 </div>
             </div>
 
             <!-- Branding -->
             <div class="tab-panel" id="branding">
                 <div class="settings-card">
-                    <h2>Branding</h2>
-                    <div class="image-preview">
-                        <p>Logo:</p>
-                        <img src="{{ $settings->logo ?? 'https://via.placeholder.com/150' }}" alt="Logo">
-                    </div>
-                    <div class="image-preview">
-                        <p>Favicon:</p>
-                        <img src="{{ $settings->favicon ?? 'https://via.placeholder.com/50' }}" alt="Favicon">
+                    <h2>Branding
+                        <button class="edit-btn" onclick="toggleEdit(this)">Edit</button>
+                    </h2>
+                    <div class="display-mode">
+                            <div class="image-preview">
+                                <p>Logo:</p>
+                                <img src="{{ $settings->logo ?? 'https://via.placeholder.com/150' }}" alt="Logo">
+                            </div>
+                            <div class="image-preview">
+                                <p>Favicon:</p>
+                                <img src="{{ $settings->favicon ?? 'https://via.placeholder.com/50' }}" alt="Favicon">
+                            </div>
                     </div>
                 </div>
             </div>
