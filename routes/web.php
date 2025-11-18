@@ -16,6 +16,7 @@ use App\Http\Controllers\backend\AdminSuccessStoryController;
 use App\Http\Controllers\backend\AdminSupportController;
 use App\Http\Controllers\backend\AdminUserController;
 use App\Http\Controllers\backend\DeliveryTransportController;
+use App\Http\Controllers\backend\GeneralSettingsController;
 use App\Http\Controllers\backend\HomeAdminController;
 use App\Http\Controllers\backend\ProductManagementController;
 use App\Http\Controllers\ComparisonController;
@@ -428,6 +429,14 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
 
 
     //report routes
+
+    //general settings routes
+    Route::prefix('/settings')->controller(GeneralSettingsController::class)->group(function () {
+    Route::get('/general',  'index')->name('admin.settings.general');
+
+    Route::post('/general/update',  'update')->name('admin.settings.general.update');
+});
+    //general settings routes
 
 
 
