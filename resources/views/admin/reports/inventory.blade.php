@@ -16,7 +16,7 @@
         }
 
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700
         }
 
@@ -33,7 +33,7 @@
     </style>
 
     <div class="page-header mb-3">
-        <h2 class="fw-bold">📦 Inventory & Stock Movement Report</h2>
+        <h3 class="fw-bold">Inventory & Stock Movement Report</h3>
         <p class="text-muted">Overview of current stock, top sellers, and movement history.</p>
     </div>
 
