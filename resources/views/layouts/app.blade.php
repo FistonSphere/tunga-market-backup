@@ -19,16 +19,19 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta property="og:title" content="Tunga Market" />
     <meta name="description"
         content="Discover Tunga Market — where innovation meets commerce. Explore trusted brands, great deals, and a seamless shopping experience built for everyone." />
-
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 </head>
 
 <body class="bg-background text-text-primary">
 
     <!-- Navigation Header -->
-    <header class="bg-white shadow-card sticky top-0" style="z-index: 99999;">
+    <header
+        class="bg-transparent bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 shadow-card sticky top-0 backdrop-blur-md"
+        style="z-index: 99999;">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
@@ -350,10 +353,9 @@
                     @endguest
                 </div>
             </div>
-
         </nav>
-
     </header>
+
 
     <!-- Full-Screen Search Overlay -->
     <div id="search-overlay"
@@ -486,11 +488,14 @@
                 </p>
 
                 <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="javascript:void(0)" class="text-secondary-400 hover:text-accent transition-fast">Privacy
+                    <a href="{{ route('privacy.policy') }}"
+                        class="text-secondary-400 hover:text-accent transition-fast">Privacy
                         Policy</a>
-                    <a href="javascript:void(0)" class="text-secondary-400 hover:text-accent transition-fast">Terms of
+                    <a href="{{ route('terms.and.conditions') }}"
+                        class="text-secondary-400 hover:text-accent transition-fast">Terms of
                         Service</a>
-                    <a href="javascript:void(0)" class="text-secondary-400 hover:text-accent transition-fast">Cookie
+                    <a href="{{ route('policies.cookies') }}"
+                        class="text-secondary-400 hover:text-accent transition-fast">Cookie
                         Policy</a>
                 </div>
             </div>
@@ -851,7 +856,14 @@
         </div>
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true, // Animation happens only once per scroll
+            easing: 'ease-out-back', // You can customize easing if you like
+            duration: 1000 // Duration of animation in ms
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const cookieBanner = document.getElementById('cookie-banner');
@@ -889,7 +901,7 @@
                             console.error("Could not save cookie consent:", data.message);
                         }
                     })
-                    .catch(err => console.error("Cookie consent error:", err));
+                    .catch(err => console.error("Cookie consent error: ", err));
             };
 
             // Check if user already accepted cookies before
