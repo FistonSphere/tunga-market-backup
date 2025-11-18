@@ -6,31 +6,28 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('general_settings', function (Blueprint $table) {
             $table->id();
 
-            // Website Identity
+            // Basic Site Info
             $table->string('site_name')->nullable();
             $table->string('site_tagline')->nullable();
             $table->string('site_email')->nullable();
             $table->string('site_phone')->nullable();
 
             // Branding
-            $table->string('logo')->nullable();
-            $table->string('favicon')->nullable();
+            $table->string('logo')->nullable();       // Public URL of logo
+            $table->string('favicon')->nullable();    // Public URL of favicon
 
-            // Homepage Banner
+            // Banner / Hero Section
             $table->string('banner_image')->nullable();
             $table->string('banner_mobile_image')->nullable();
-            $table->string('banner_video')->nullable();     // mp4, webm, etc.
+            $table->string('banner_video')->nullable();
             $table->boolean('banner_video_enabled')->default(false);
 
-            // Backgrounds
+            // Background Images
             $table->string('background_image')->nullable();
             $table->string('background_pattern')->nullable();
 
@@ -39,7 +36,7 @@ return new class extends Migration
             $table->text('meta_description')->nullable();
             $table->text('meta_keywords')->nullable();
 
-            // Social Links
+            // Socials
             $table->string('facebook_url')->nullable();
             $table->string('instagram_url')->nullable();
             $table->string('twitter_url')->nullable();
@@ -48,33 +45,28 @@ return new class extends Migration
 
             // Footer
             $table->text('footer_about')->nullable();
-            $table->string('footer_logo')->nullable();
+            $table->string('footer_logo')->nullable(); // Public URL
 
-            // Cookie Notice
-            $table->boolean('cookie_enabled')->default(true);
+            // Cookies
+            $table->boolean('cookie_enabled')->default(false);
             $table->text('cookie_message')->nullable();
 
-            // System settings
-            $table->string('default_currency')->default('USD');
-            $table->string('timezone')->default('UTC');
-
-            // File Storage (optional)
+            // Global config
+            $table->string('default_currency')->default('RWF');
+            $table->string('timezone')->default('Africa/Kigali');
             $table->string('storage_disk')->default('public');
 
-            // Maintenance Mode
+            // Maintenance
             $table->boolean('maintenance_mode')->default(false);
             $table->text('maintenance_message')->nullable();
 
-            // Extra JSON options for future expansion
+            // Extra JSON
             $table->json('extra')->nullable();
 
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('general_settings');
