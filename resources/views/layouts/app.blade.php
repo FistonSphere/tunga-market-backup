@@ -279,27 +279,27 @@
                 <div class="px-4 py-6 space-y-4">
                     <a href="{{ route('home') }}" class="block text-white font-semibold py-2
             {{ request()->routeIs('home') ? 'text-accent' : '' }}"
-                        style="{{ request()->routeIs('home') ? 'background-color: rgb(255, 107, 53)' : '' }}">
+                        style="{{ request()->routeIs('home') ? 'background-color: rgb(255, 107, 53); border-radius: 6px;' : '' }}">
                         Home
                     </a>
                     <a href="{{ route('about') }}" class="block text-white hover:text-white transition-fast py-2
             {{ request()->routeIs('about') ? 'text-accent' : '' }}"
-                        style="{{ request()->routeIs('about') ? 'background-color: rgb(255, 107, 53)' : '' }}">
+                        style="{{ request()->routeIs('about') ? 'background-color: rgb(255, 107, 53); border-radius: 6px;' : '' }}">
                         About Us
                     </a>
                     <a href="{{ route('contact') }}" class="block text-white hover:text-white transition-fast py-2
             {{ request()->routeIs('contact') ? 'text-accent' : '' }}"
-                        style="{{ request()->routeIs('contact') ? 'background-color: rgb(255, 107, 53)' : '' }}">
+                        style="{{ request()->routeIs('contact') ? 'background-color: rgb(255, 107, 53); border-radius: 6px;' : '' }}">
                         Contact Us
                     </a>
                     <a href="{{ route('compare') }}" class="block text-white hover:text-white transition-fast py-2
             {{ request()->routeIs('compare') ? 'text-accent' : '' }}"
-                        style="{{ request()->routeIs('compare') ? 'background-color: rgb(255, 107, 53)' : '' }}">
+                        style="{{ request()->routeIs('compare') ? 'background-color: rgb(255, 107, 53); border-radius: 6px;' : '' }}">
                         Compare
                     </a>
                     <a href="{{ route('help.center') }}" class="block text-white hover:text-white transition-fast py-2
             {{ request()->routeIs('help.center') ? 'text-accent' : '' }}"
-                        style="{{ request()->routeIs('help.center') ? 'background-color: rgb(255, 107, 53)' : '' }}">
+                        style="{{ request()->routeIs('help.center') ? 'background-color: rgb(255, 107, 53); border-radius: 6px;' : '' }}">
                         Help Center
                     </a>
 
@@ -345,7 +345,7 @@
                         <div class="border-t border-border pt-4 space-y-3">
                             <div class="flex space-x-4">
                                 <a href="{{ route('login') }}"
-                                    class="flex-1 text-primary hover:text-accent transition-fast py-2">
+                                    class="flex-1 text-white hover:text-accent transition-fast py-2">
                                     Sign In
                                 </a>
                                 <a href="{{ route('login') }}" class="flex-1 btn-primary py-2 text-sm">
