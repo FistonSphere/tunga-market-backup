@@ -160,8 +160,8 @@
                         <span>Track Orders</span>
                     </a>
                     <!-- Search Icon -->
-                    <button onclick="openSearchOverlay()"
-                        class="text-white hover:text-accent transition-fast p-2" title="Search Products">
+                    <button onclick="openSearchOverlay()" class="text-white hover:text-accent transition-fast p-2"
+                        title="Search Products">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -178,8 +178,8 @@
                         }
                     @endphp
 
-                    <button id="open-wishlist-btn"
-                        class="relative text-white hover:text-accent transition-fast p-2" title="Wishlist">
+                    <button id="open-wishlist-btn" class="relative text-white hover:text-accent transition-fast p-2"
+                        title="Wishlist">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -200,8 +200,7 @@
                     @endphp
 
                     <a href="{{ route('cart') }}" id="open-cart-btn"
-                        class="relative text-white hover:text-accent transition-fast p-2 mr-2"
-                        title="Shopping Cart">
+                        class="relative text-white hover:text-accent transition-fast p-2 mr-2" title="Shopping Cart">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7m0 0h9.5M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5-7" />
@@ -266,8 +265,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
-                    <svg id="mobile-close-icon" class="h-6 w-6 text-white hidden" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
+                    <svg id="mobile-close-icon" class="h-6 w-6 text-white hidden" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -275,26 +274,32 @@
             </div>
 
             <!-- Mobile Navigation Menu -->
-            <div id="mobile-menu" class="md:hidden border-t border-border bg-white shadow-lg hidden" style="background: none;">
+            <div id="mobile-menu" class="md:hidden border-t border-border bg-white shadow-lg hidden"
+                style="background: none;">
                 <div class="px-4 py-6 space-y-4">
-                    <a href="{{ route('home') }}" class="block text-primary font-semibold py-2
-           {{ request()->routeIs('home') ? 'text-accent bg-orange-100' : '' }}">
+                    <a href="{{ route('home') }}" class="block text-white font-semibold py-2
+            {{ request()->routeIs('home') ? 'text-accent' : '' }}"
+                        style="{{ request()->routeIs('home') ? 'background-color: rgb(255, 107, 53)' : '' }}">
                         Home
                     </a>
-                    <a href="{{ route('about') }}" class="block text-secondary-600 hover:text-primary transition-fast py-2
-           {{ request()->routeIs('about') ? 'text-accent bg-orange-100' : '' }}">
+                    <a href="{{ route('about') }}" class="block text-white hover:text-white transition-fast py-2
+            {{ request()->routeIs('about') ? 'text-accent' : '' }}"
+                        style="{{ request()->routeIs('about') ? 'background-color: rgb(255, 107, 53)' : '' }}">
                         About Us
                     </a>
-                    <a href="{{ route('contact') }}" class="block text-secondary-600 hover:text-primary transition-fast py-2
-           {{ request()->routeIs('contact') ? 'text-accent bg-orange-100' : '' }}">
+                    <a href="{{ route('contact') }}" class="block text-white hover:text-white transition-fast py-2
+            {{ request()->routeIs('contact') ? 'text-accent' : '' }}"
+                        style="{{ request()->routeIs('contact') ? 'background-color: rgb(255, 107, 53)' : '' }}">
                         Contact Us
                     </a>
-                    <a href="{{ route('compare') }}" class="block text-secondary-600 hover:text-primary transition-fast py-2
-           {{ request()->routeIs('compare') ? 'text-accent bg-orange-100' : '' }}">
+                    <a href="{{ route('compare') }}" class="block text-white hover:text-white transition-fast py-2
+            {{ request()->routeIs('compare') ? 'text-accent' : '' }}"
+                        style="{{ request()->routeIs('compare') ? 'background-color: rgb(255, 107, 53)' : '' }}">
                         Compare
                     </a>
-                    <a href="{{ route('help.center') }}" class="block text-secondary-600 hover:text-primary transition-fast py-2
-           {{ request()->routeIs('help.center') ? 'text-accent bg-orange-100' : '' }}">
+                    <a href="{{ route('help.center') }}" class="block text-white hover:text-white transition-fast py-2
+            {{ request()->routeIs('help.center') ? 'text-accent' : '' }}"
+                        style="{{ request()->routeIs('help.center') ? 'background-color: rgb(255, 107, 53)' : '' }}">
                         Help Center
                     </a>
 
@@ -351,6 +356,7 @@
                     @endguest
                 </div>
             </div>
+
 
         </nav>
 
