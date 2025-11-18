@@ -26,12 +26,10 @@
 
 </head>
 
-<body class="bg-background text-text-primary">
+<body class="bg-background text-text-primary dark-theme">
 
     <!-- Navigation Header -->
-    <header
-        class="bg-transparent bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 shadow-card sticky top-0 backdrop-blur-md"
-        style="z-index: 99999;">
+    <header class="bg-white shadow-card sticky top-0" style="z-index: 99999; background-color: #1f262d; color:#fff">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
@@ -45,11 +43,11 @@
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8 relative">
                     <a href="{{ route('home') }}"
-                        class="{{ request()->routeIs('home') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
+                        class="{{ request()->routeIs('home') ? 'text-white font-semibold border-b-2 border-accent' : 'text-white-600 hover:text-white transition-fast' }}">
                         Home
                     </a>
                     <a href="{{ route('product.discovery') }}"
-                        class="{{ request()->routeIs('product.discovery') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
+                        class="{{ request()->routeIs('product.discovery') ? 'text-white font-semibold border-b-2 border-accent' : 'text-white-600 hover:text-white transition-fast' }}">
                         Discover
                     </a>
 
@@ -61,7 +59,7 @@
 
                     <div class="relative group">
                         <button
-                            class="flex items-center space-x-1 text-secondary-600 hover:text-primary transition-fast font-medium group-hover:text-primary"
+                            class="flex items-center space-x-1 text-white-600 hover:text-white transition-fast font-medium group-hover:text-white"
                             id="explore-button">
                             <span>Explore</span>
                             <svg class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none"
@@ -145,7 +143,7 @@
                         </div>
                     </div>
                     <a href="{{ route('contact') }}"
-                        class="{{ request()->routeIs('contact') ? 'text-primary font-semibold border-b-2 border-accent' : 'text-secondary-600 hover:text-primary transition-fast' }}">
+                        class="{{ request()->routeIs('contact') ? 'text-white font-semibold border-b-2 border-accent' : 'text-white-600 hover:text-white transition-fast' }}">
                         Contact Us
                     </a>
                 </div>
@@ -154,7 +152,7 @@
                 <!-- CTA Buttons -->
                 <div class="hidden md:flex items-center space-x-4">
                     <a href="{{ route('order.tracking') }}"
-                        class="inline-flex items-center space-x-2 text-sm bg-primary-50 text-primary px-4 py-2 rounded-full hover:bg-primary-100 transition-fast">
+                        class="inline-flex items-center space-x-2 text-sm bg-primary-50 text-primary px-4 py-2 rounded-full hover:bg-primary-100 hover:text-primary transition-fast">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -163,7 +161,7 @@
                     </a>
                     <!-- Search Icon -->
                     <button onclick="openSearchOverlay()"
-                        class="text-secondary-600 hover:text-accent transition-fast p-2" title="Search Products">
+                        class="text-white hover:text-accent transition-fast p-2" title="Search Products">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -181,7 +179,7 @@
                     @endphp
 
                     <button id="open-wishlist-btn"
-                        class="relative text-secondary-600 hover:text-accent transition-fast p-2" title="Wishlist">
+                        class="relative text-white hover:text-accent transition-fast p-2" title="Wishlist">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -202,7 +200,7 @@
                     @endphp
 
                     <a href="{{ route('cart') }}" id="open-cart-btn"
-                        class="relative text-secondary-600 hover:text-accent transition-fast p-2 mr-2"
+                        class="relative text-white hover:text-accent transition-fast p-2 mr-2"
                         title="Shopping Cart">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -233,7 +231,7 @@
                                     </div>
                                 @endif
 
-                                <span class="text-primary font-semibold">
+                                <span class="text-white font-semibold">
                                     Hi, {{ $user->first_name ?? 'My Account' }}
                                 </span>
                             </a>
@@ -255,7 +253,7 @@
 
 
                     @guest
-                        <a href="{{ route('login') }}" class="text-primary hover:text-accent transition-fast">Sign In</a>
+                        <a href="{{ route('login') }}" class="text-white hover:text-accent transition-fast">Sign In</a>
                         <a href="{{ route('login', ['form' => 'signup']) }}" class="btn-primary">Get Started</a>
 
                     @endguest
@@ -263,12 +261,12 @@
 
                 <!-- Mobile Menu Button -->
                 <button onclick="toggleMobileMenu()" class="md:hidden p-2" id="mobileMenuBtn">
-                    <svg id="mobile-menu-icon" class="h-6 w-6 text-secondary-600" fill="none" stroke="currentColor"
+                    <svg id="mobile-menu-icon" class="h-6 w-6 text-white" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
-                    <svg id="mobile-close-icon" class="h-6 w-6 text-secondary-600 hidden" fill="none"
+                    <svg id="mobile-close-icon" class="h-6 w-6 text-white hidden" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M6 18L18 6M6 6l12 12" />
@@ -277,7 +275,7 @@
             </div>
 
             <!-- Mobile Navigation Menu -->
-            <div id="mobile-menu" class="md:hidden border-t border-border bg-white shadow-lg hidden">
+            <div id="mobile-menu" class="md:hidden border-t border-border bg-white shadow-lg hidden" style="background: none;">
                 <div class="px-4 py-6 space-y-4">
                     <a href="{{ route('home') }}" class="block text-primary font-semibold py-2
            {{ request()->routeIs('home') ? 'text-accent bg-orange-100' : '' }}">
@@ -353,7 +351,9 @@
                     @endguest
                 </div>
             </div>
+
         </nav>
+
     </header>
 
 

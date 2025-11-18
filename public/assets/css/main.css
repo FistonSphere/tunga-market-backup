@@ -5836,8 +5836,13 @@ div#wishlist-overlay {
     }
 }
 
-/* @media(max-width:383px){
-    body.bg-background.text-text-primary {
-    width: 24em;
+/* Default tab text color (for light backgrounds) */
+.menu-tab {
+    color: var(--text-primary); /* Assuming text-primary is set in your styles */
 }
-} */
+
+/* Override text color for dark sections */
+.dark-theme .menu-tab {
+    color: white;
+}
+
