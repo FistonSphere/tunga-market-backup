@@ -331,12 +331,12 @@
                             </ul>
                         </li>
 
-                        <li class="submenu">
+                        <li class="submenu {{ request()->is('admin/settings*') }}">
                             <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/settings.svg')}}"
                                     alt="img"><span>
                                     Settings</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="generalsettings.html">General Settings</a></li>
+                                <li><a href="{{ route('admin.settings.general') }}" class="{{ request()->routeIs('admin.settings.general') ? 'active' : '' }}">General Settings</a></li>
                                 <li><a href="emailsettings.html">Email Settings</a></li>
                                 <li><a href="paymentsettings.html">Payment Settings</a></li>
                                 <li><a href="currencysettings.html">Currency Settings</a></li>
