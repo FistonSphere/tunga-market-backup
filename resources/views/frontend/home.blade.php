@@ -121,7 +121,7 @@
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <!-- Hero Content -->
-                <div class="text-center lg:text-left space-y-6">
+                <div class="text-center lg:text-left space-y-6" style="padding-top:1.16em">
                     <h1 class="text-5xl font-bold leading-tight tracking-tight text-white mb-4">
                         <span class="block">Transform Your Business</span>
                         <span class="block" style="color: #ff6b35;">With Global Opportunities</span>
