@@ -129,7 +129,7 @@
         }
     </style>
     <section class="relative bg-cover bg-center pb-4"
-        style="background-image: url('{{ asset('assets/images/banner.webp') }}'); background-size: cover; background-repeat: no-repeat;"
+        style="background-image: url('{{ asset('assets/images/banner.webp') }}'); background-size: cover; background-repeat: no-repeat; height: 100vh; padding-bottom: .8em;"
         id="banner-section">
         <!-- Check if video background is needed -->
         <div class="absolute inset-0">
@@ -149,21 +149,22 @@
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <!-- Hero Content -->
                 <div class="text-center lg:text-left space-y-6" style="padding-top:1.16em" data-aos="fade-up">
-                    <h1 class="text-5xl font-bold leading-tight tracking-tight text-white mb-4">
-                        <span class="block">Transform Your Business</span>
-                        <span class="block" style="color: #ff6b35;">With Global Opportunities</span>
+                    <h1 class="text-5xl font-bold leading-tight tracking-tight text-white mb-4 text-center"
+                        data-aos="fade-up">
+                        <span class="block">Shop Premium Products</span>
+                        <span class="block text-orange-500" style="text-align: left">Your Trusted Shopping Destination</span>
                     </h1>
-                    <p class="text-lg text-white opacity-80 mb-6 max-w-xl mx-auto lg:mx-0" data-aos="fade-up">
-                        Leverage Tunga Market to take your business to the next level with global reach and seamless
-                        transactions.
+                    <p class="text-lg text-white opacity-80 mb-8 max-w-3xl mx-auto lg:mx-0" data-aos="fade-up" style="text-align: justify">
+                        Browse a curated selection of high-quality products. Fast delivery, secure payments, and great prices all in one place.
                     </p>
+
 
                     <!-- Personalized Entry Points -->
                     <div class="grid sm:grid-cols-3 gap-8">
                         <a href="{{ route('product.discovery') }}" class="text-center group transition-all duration-300"
                             data-aos="zoom-in" data-aos-delay="100">
                             <div class="w-16 h-16"
-                                style="background: linear-gradient(135deg, #ff6b35, #ff9e6b); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                                style="background: linear-gradient(135deg, #ff5e0d, #ff9e6b); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
                                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -189,8 +190,10 @@
                         <a href="javascript:void();" class="text-center group transition-all duration-300"
                             data-aos="zoom-in" data-aos-delay="300">
                             <div class="w-16 h-16"
-                                style="background: linear-gradient(135deg, #001528, #ff6b35); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color:white">
-                                <img src="{{ asset('assets/images/lock.svg') }}" class="w-6 h-6 text-white" alt="">
+                                style="background: linear-gradient(135deg, #5c7388, #ff5e0d); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color:white">
+                                <strong> <img src="{{ asset('assets/images/lock.svg') }}" class="w-6 h-6 text-white"
+                                        alt=""></strong>
+
                             </div>
                             <h3 class="font-semibold text-xl text-white mb-2">Secure Checkout</h3>
                             <p class="text-sm text-white opacity-70">Fast and safe payment solutions</p>
@@ -1138,9 +1141,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                                                                                            <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                                                                                            <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                                                                                        `;
+                                                                                                                                                                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                                                                                <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                                                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1480,9 +1483,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                        <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                        <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                    `;
+                                                                                                                                            <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                            <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                        `;
 
             // Progress bar
             const progress = document.createElement("div");

@@ -279,7 +279,7 @@
                 <div class="px-4 py-6 space-y-4">
                     <a href="{{ route('home') }}" class="block text-white font-semibold py-2
             {{ request()->routeIs('home') ? 'text-accent' : '' }}"
-                        style="{{ request()->routeIs('home') ? 'background-color: rgb(255, 107, 53); border-radius: 6px;' : '' }}">
+                        style="{{ request()->routeIs('home') ? 'background-color: rgb(255, 107, 53); border-radius: 6px;padding:1em;' : '' }}">
                         Home
                     </a>
                     <a href="{{ route('about') }}" class="block text-white hover:text-white transition-fast py-2
