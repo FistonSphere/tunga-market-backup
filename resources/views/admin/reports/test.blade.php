@@ -1,356 +1,95 @@
-@extends('admin.layouts.header')
+<!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-primary-50 to-accent-50 overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <svg class="w-full h-full" viewBox="0 0 1200 600" fill="none">
+                <path d="M100 300Q300 100 500 300T900 300Q1000 200 1100 300" stroke="currentColor" stroke-width="2"
+                    opacity="0.3" />
+                <path d="M0 400Q200 200 400 400T800 400Q900 300 1200 400" stroke="currentColor" stroke-width="2"
+                    opacity="0.2" />
+                <circle cx="200" cy="150" r="3" fill="currentColor" opacity="0.4" />
+                <circle cx="600" cy="250" r="3" fill="currentColor" opacity="0.4" />
+                <circle cx="1000" cy="180" r="3" fill="currentColor" opacity="0.4" />
+            </svg>
+        </div>
 
-@section('content')
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Hero Content -->
+                <div class="text-center lg:text-left">
+                    <h1 class="text-hero font-bold text-primary mb-6">
+                        Where Business
+                        <span class="text-gradient">Grows Together</span>
+                    </h1>
+                    <p class="text-body-lg text-secondary-600 mb-8 max-w-xl">
+                        Experience the evolution of global trade through Tunga Market, a platform that turns buying and
+                        selling into a meaningful journey of growth and opportunity.
+                    </p>
 
-    <style>
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 14px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-            height: 100%;
-        }
+                    <!-- Personalized Entry Points -->
+                    <div class="grid sm:grid-cols-3 gap-4 mb-8">
+                        <a href="{{ route('product.discovery') }}"
+                            class="card hover:shadow-hover transition-all duration-300 text-center group">
+                            <div
+                                class="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:bg-accent-200 transition-fast">
+                                <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold text-primary mb-2">Start Buying</h3>
+                            <p class="text-body-sm text-secondary-600">Discover trending products</p>
+                        </a>
 
-        .stat-label {
-            color: #6c757d;
-            font-size: .9rem;
-        }
+                        <a href="seller_central_dashboard.html"
+                            class="card hover:shadow-hover transition-all duration-300 text-center group">
+                            <div
+                                class="w-12 h-12 bg-success-100 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:bg-success-200 transition-fast">
+                                <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold text-primary mb-2">Track Orders</h3>
+                            <p class="text-body-sm text-secondary-600">Monitor delivery updates</p>
+                        </a>
 
-        .stat-value {
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
-    </style>
+                        <a href="community_marketplace.html"
+                            class="card hover:shadow-hover transition-all duration-300 text-center group">
+                            <div
+                                class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:bg-primary-200 transition-fast">
+                                <img src="{{ asset('assets/images/lock.svg') }}"
+                                    style="width:28px; height: 28px; object-fit: cover;" alt="">
+                            </div>
+                            <h3 class="font-semibold text-primary mb-2">Secure Checkout</h3>
+                            <p class="text-body-sm text-secondary-600">Fast, safe payment</p>
+                        </a>
+                    </div>
+                </div>
 
-    <div class="page-header mb-4">
-        <h2 class="fw-bold">👥 Customer Growth & User Activity</h2>
-        <p class="text-muted">Monitor how your users join and interact with the platform.</p>
-    </div>
-
-    <form method="GET" class="d-flex gap-2 mb-3">
-        <label class="fw-bold">Range:</label>
-        <select name="range" class="form-select w-auto" onchange="this.form.submit()">
-            <option value="7" {{ $range == 7 ? 'selected' : '' }}>Last 7 Days</option>
-            <option value="14" {{ $range == 14 ? 'selected' : '' }}>Last 14 Days</option>
-            <option value="30" {{ $range == 30 ? 'selected' : '' }}>Last 30 Days</option>
-            <option value="90" {{ $range == 90 ? 'selected' : '' }}>Last 90 Days</option>
-        </select>
-    </form>
-
-    <!-- AI INSIGHTS -->
-    <div class="alert alert-info p-3 rounded-3 shadow-sm mb-4">
-        <h5 class="fw-bold">🤖 AI Insights</h5>
-        <p><strong>Trend: </strong>
-            <span class="{{ $insights['trend'] === 'up' ? 'text-success' : 'text-danger' }}">
-                {{ $insights['growth_rate'] }}%
-            </span>
-        </p>
-        <p class="mb-0">{{ $insights['note'] }}</p>
-    </div>
-
-    <!-- SUMMARY -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-3 col-6">
-            <div class="stat-card">
-                <div class="stat-label">Total Customers</div>
-                <div class="stat-value">{{ number_format($summary['total_customers']) }}</div>
+                <!-- Hero Visual -->
+                <div class="relative">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-4">
+                            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2940&auto=format&fit=crop"
+                                alt="Business collaboration" class="w-full h-32 object-cover rounded-lg shadow-card"
+                                loading="lazy"
+                                onerror="this.src='https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
+                            <img src="https://www.indiawarehousing.in/wp-content/uploads/2024/11/How-to-Start-a-Warehousing-Business-in-India.jpg"
+                                alt="Global logistics" class="w-full h-40 object-cover rounded-lg shadow-card"
+                                loading="lazy"
+                                onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2940&auto=format&fit=crop'; this.onerror=null;" />
+                        </div>
+                        <div class="space-y-4 mt-8">
+                            <img src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                                alt="Digital commerce" class="w-full h-40 object-cover rounded-lg shadow-card"
+                                loading="lazy"
+                                onerror="this.src='https://images.pixabay.com/photo/2016/11/27/21/42/stock-1863880_1280.jpg'; this.onerror=null;" />
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2787&auto=format&fit=crop"
+                                alt="Business growth" class="w-full h-32 object-cover rounded-lg shadow-card" loading="lazy"
+                                onerror="this.src='https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-3 col-6">
-            <div class="stat-card">
-                <div class="stat-label">New Customers</div>
-                <div class="stat-value">{{ number_format($summary['new_customers']) }}</div>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="stat-card">
-                <div class="stat-label">Active Users</div>
-                <div class="stat-value">{{ number_format($summary['active_users']) }}</div>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="stat-card">
-                <div class="stat-label">Retention Rate</div>
-                <div class="stat-value">{{ $summary['retention_rate'] }}%</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CHARTS -->
-    <div class="card p-3 mb-4 shadow-sm rounded-4">
-        <h5 class="fw-bold">📈 New Customer Growth</h5>
-        <div id="customerGrowthChart" style="height: 350px;"></div>
-    </div>
-
-    <div class="card p-3 shadow-sm rounded-4">
-        <h5 class="fw-bold">🔥 User Activity Trend</h5>
-        <div id="userActivityChart" style="height: 350px;"></div>
-    </div>
-
-    <!-- Add Filters / Search at top (if not present) -->
-    <form method="GET" class="row g-2 mb-3">
-        <div class="col-auto">
-            <select name="range" class="form-select" onchange="this.form.submit()">
-                <option value="7" {{ $range == 7 ? 'selected' : '' }}>7d</option>
-                <option value="14" {{ $range == 14 ? 'selected' : '' }}>14d</option>
-                <option value="30" {{ $range == 30 ? 'selected' : '' }}>30d</option>
-                <option value="90" {{ $range == 90 ? 'selected' : '' }}>90d</option>
-            </select>
-        </div>
-        <div class="col-auto">
-            <input type="text" name="search" value="{{ $search ?? '' }}" class="form-control"
-                placeholder="Search name or email">
-        </div>
-        <div class="col-auto">
-            <select name="role" class="form-select" onchange="this.form.submit()">
-                <option value="">All roles</option>
-                <option value="customer" {{ ($role ?? '') == 'customer' ? 'selected' : '' }}>Customer</option>
-                <option value="vendor" {{ ($role ?? '') == 'vendor' ? 'selected' : '' }}>Vendor</option>
-            </select>
-        </div>
-        <div class="col-auto">
-            <button class="btn btn-primary">Apply</button>
-        </div>
-    </form>
-    <!-- New blocks: World map, Hours heatmap, Cohort heatmap -->
-    <div class="row g-3">
-        <div class="col-lg-6">
-            <div class="card p-3 shadow-sm rounded-4">
-                <h5 class="fw-bold">🌍 Users by Country</h5>
-                <div id="worldMap" style="height: 420px;"></div>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="card p-3 shadow-sm rounded-4">
-                <h5 class="fw-bold">⏱️ Activity Heatmap (Weekday × Hour)</h5>
-                <div id="hourHeatmap" style="height: 420px;"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card mt-4 p-3 shadow-sm rounded-4">
-        <h5 class="fw-bold">🔢 Retention Cohort Heatmap (weekly cohorts)</h5>
-        <div id="cohortHeatmap" style="height: 420px;"></div>
-    </div>
-
-    <!-- TOP ACTIVE USERS -->
-    <div class="card p-3 shadow-sm rounded-4 mt-4">
-        <h5 class="fw-bold">🏆 Top Active Users</h5>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Activity Count</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($topActiveUsers as $u)
-                    <tr>
-                        <td>{{ $u->user?->first_name }} {{ $u->user?->last_name }}</td>
-                        <td>{{ $u->activity_count }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
-    <!-- MOST VISITED PAGES -->
-    <div class="card p-3 shadow-sm rounded-4 mt-4">
-        <h5 class="fw-bold">📄 Most Visited Pages</h5>
-        <ul class="list-group">
-            @foreach ($visitedPages as $p)
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>{{ $p->page_visited }}</span>
-                    <strong>{{ $p->visits }}</strong>
-                </li>
-            @endforeach
-        </ul>
-    </div>
-
-    <!-- DEVICE / BROWSER STATS -->
-    <div class="row mt-4 g-3">
-        <div class="col-md-6">
-            <div class="card p-3 shadow-sm rounded-4">
-                <h5 class="fw-bold">📱 Device Usage</h5>
-                <div id="deviceChart" style="height: 300px;"></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card p-3 shadow-sm rounded-4">
-                <h5 class="fw-bold">🌐 Browser Usage</h5>
-                <div id="browserChart" style="height: 300px;"></div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5"></script>
-    <!-- ECharts + world map dependency -->
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-    <!-- Optional: world map data (ECharts needs map data). Using CDN for world map -->
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5/map/js/world.js"></script>
-
-    <script>
-        const customerGrowth = @json($customerGrowth);
-        const activity = @json($activeUsers);
-        const deviceStats = @json($deviceStats);
-        const browserStats = @json($browserStats);
-
-        const dates1 = customerGrowth.map(x => x.date);
-        const newUsers = customerGrowth.map(x => x.count);
-
-        const dates2 = activity.map(x => x.date);
-        const active = activity.map(x => x.count);
-
-        // CUSTOMER GROWTH CHART
-        echarts.init(document.getElementById('customerGrowthChart')).setOption({
-            tooltip: { trigger: 'axis' },
-            xAxis: { type: 'category', data: dates1 },
-            yAxis: { type: 'value' },
-            series: [{
-                name: 'New Customers',
-                type: 'line',
-                data: newUsers,
-                smooth: true,
-                lineStyle: { width: 3 }
-            }]
-        });
-
-        // USER ACTIVITY CHART
-        echarts.init(document.getElementById('userActivityChart')).setOption({
-            tooltip: { trigger: 'axis' },
-            xAxis: { type: 'category', data: dates2 },
-            yAxis: { type: 'value' },
-            series: [{
-                name: 'Active Users',
-                type: 'line',
-                data: active,
-                smooth: true,
-                lineStyle: { width: 3 }
-            }]
-        });
-
-        // DEVICE USAGE PIE
-        echarts.init(document.getElementById('deviceChart')).setOption({
-            tooltip: { trigger: 'item' },
-            series: [{
-                type: 'pie',
-                data: deviceStats.map(x => ({ name: x.device, value: x.count }))
-            }]
-        });
-
-        // BROWSER USAGE PIE
-        echarts.init(document.getElementById('browserChart')).setOption({
-            tooltip: { trigger: 'item' },
-            series: [{
-                type: 'pie',
-                data: browserStats.map(x => ({ name: x.browser, value: x.count }))
-            }]
-        });
-
-        /* ==========================
-           WORLD MAP — DYNAMIC COUNTRY LIST
-        ========================== */
-        worldMapChart.setOption({
-            tooltip: { trigger: 'item' },
-            visualMap: {
-                min: 1,
-                max: data.maxCountryValue,
-                calculable: true
-            },
-            series: [{
-                type: 'map',
-                map: 'world',
-                roam: true,
-                data: data.countryDistribution   // <- dynamic from DB
-            }]
-        });
-
-        // HOUR HEATMAP
-        // heatmapData: array of [weekdayIndex (0=Sun), hour (0..23), value]
-        const heatmapData = @json($heatmapData);
-
-        // prepare axis labels: weekday names and hours
-        const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        const hours = Array.from({ length: 24 }, (_, i) => (i < 10 ? '0' + i : String(i)) + ':00');
-
-        const hourChart = echarts.init(document.getElementById('hourHeatmap'));
-        hourChart.setOption({
-            tooltip: {
-                position: 'top',
-                formatter: function (params) {
-                    return `${weekdays[params.value[0]]} ${hours[params.value[1]]}<br/>${params.value[2]} hits`;
-                }
-            },
-            grid: { height: '70%', top: '10%' },
-            xAxis: { type: 'category', data: hours, splitArea: { show: true } },
-            yAxis: { type: 'category', data: weekdays, splitArea: { show: true } },
-            visualMap: {
-                min: 0,
-                max: (heatmapData.length ? Math.max(...heatmapData.map(d => d[2])) : 1),
-                calculable: true,
-                orient: 'horizontal',
-                left: 'center',
-                bottom: '0%'
-            },
-            series: [{
-                name: 'Activity',
-                type: 'heatmap',
-                data: heatmapData,
-                emphasis: { itemStyle: { borderColor: '#333', borderWidth: 1 } },
-                progressive: 1000,
-                progressiveThreshold: 5000
-            }]
-        });
-
-        // COHORT HEATMAP
-        // cohortMatrix = [{cohort_week: '2025-11-03', size: 20, retention: [100, 60, 45, ...]}, ...]
-        const cohortMatrix = @json($cohortMatrix);
-        const cohortWeeks = @json($cohortWeeks); // array of week keys (strings)
-        // build series data as [cohortIndex, weekOffset, value]
-        let cohortData = [];
-        let maxRetention = 0;
-        cohortMatrix.forEach((row, i) => {
-            row.retention.forEach((val, j) => {
-                cohortData.push([i, j, val]);
-                if (val > maxRetention) maxRetention = val;
-            });
-        });
-
-        const cohortChart = echarts.init(document.getElementById('cohortHeatmap'));
-        cohortChart.setOption({
-            tooltip: {
-                formatter: function (params) {
-                    const cohortLabel = cohortMatrix[params.value[0]]?.cohort_week ?? '';
-                    const weekOffset = params.value[1];
-                    const val = params.value[2];
-                    return `${cohortLabel}<br/>Week +${weekOffset}: ${val}% retention`;
-                }
-            },
-            xAxis: { type: 'category', data: cohortMatrix.length ? cohortMatrix[0].retention.map((_, i) => 'Week+' + i) : [] },
-            yAxis: { type: 'category', data: cohortMatrix.map(r => r.cohort_week) },
-            visualMap: {
-                min: 0,
-                max: maxRetention || 100,
-                calculable: true,
-                orient: 'horizontal',
-                left: 'center',
-                bottom: '5%'
-            },
-            series: [{
-                name: 'Cohort',
-                type: 'heatmap',
-                data: cohortData,
-                emphasis: { itemStyle: { borderColor: '#333', borderWidth: 1 } },
-                progressive: 500,
-            }]
-        });
-
-        // ensure charts resize on window resize
-        window.addEventListener('resize', () => {
-            worldChart.resize();
-            hourChart.resize();
-            cohortChart.resize();
-        });
-    </script>
-@endsection
+    </section>
