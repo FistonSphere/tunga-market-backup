@@ -434,7 +434,7 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
     Route::prefix('/settings')->controller(GeneralSettingsController::class)->group(function () {
     Route::get('/general',  'index')->name('admin.settings.general');
 
-    Route::post('/general/update',  'update')->name('admin.settings.general.update');
+    Route::post('/general/update',  'update')->name('general-settings.update');
 });
     //general settings routes
 

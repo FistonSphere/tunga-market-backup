@@ -1,22 +1,21 @@
 @extends('admin.layouts.header')
 
-<!-- resources/views/admin/general-settings.blade.php -->
-<!-- Assuming you have a base admin layout -->
-
 @section('content')
     <style>
-        /* Container */
+        /* ---------- Container ---------- */
         .settings-container {
             font-family: 'Inter', sans-serif;
             padding: 2rem;
             background-color: #f4f6fa;
+            min-height: 100vh;
         }
 
-        /* Header */
+        /* ---------- Header ---------- */
         .settings-header h1 {
             font-size: 2rem;
-            color: #1f2a38;
+            color: #001528;
             margin-bottom: 0.2rem;
+            font-weight: 600;
         }
 
         .settings-header p {
@@ -24,110 +23,190 @@
             font-size: 0.95rem;
         }
 
-        /* Tabs Navigation */
+        /* ---------- Tabs Navigation ---------- */
         .tabs {
             display: flex;
             flex-wrap: wrap;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
             gap: 0.5rem;
         }
 
         .tab-button {
-            padding: 0.5rem 1rem;
-            background-color: #e0e7ff;
-            border: none;
-            border-radius: 8px;
+            padding: 0.6rem 1.2rem;
+            background: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 0.95rem;
-            color: #1f2a38;
-            transition: all 0.2s;
+            color: #001528;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
         .tab-button.active {
-            background-color: #001427;
+            background: #001528;
             color: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
 
         .tab-button:hover:not(.active) {
-            background-color: #ff5f0e;
+            background: #ff5f0e;
             color: #fff;
         }
 
-        /* Tab Content */
+        /* ---------- Tab Content ---------- */
         .tab-content {
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
 
-        /* Tab Panels */
         .tab-panel {
             display: none;
-            animation: fadeIn 0.3s ease-in-out;
+            animation: fadeIn 0.35s ease-in-out;
         }
 
         .tab-panel.active {
             display: block;
         }
 
-        /* Card */
+        /* ---------- Cards ---------- */
         .settings-card {
-            background-color: #fff;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 1rem;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: #fff;
+            padding: 1.8rem;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
         }
 
         .settings-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+            border-left: 4px solid #ff5f0e;
         }
 
         .settings-card h2 {
-            font-size: 1.2rem;
-            color: #0d1a2b;
-            margin-bottom: 0.8rem;
+            font-size: 1.25rem;
+            color: #001528;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        /* Links */
-        .settings-card a {
-            color: #1a73e8;
-            text-decoration: none;
+        /* ---------- Buttons ---------- */
+        .edit-btn {
+            background: #001528;
+            color: #fff;
+            border: none;
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
         }
 
-        .settings-card a:hover {
-            text-decoration: underline;
+        .edit-btn:hover {
+            background: #ff5f0e;
         }
 
-        /* Images */
+        .save-btn {
+            background: #ff5f0e;
+            color: #fff;
+            border: none;
+            padding: 0.45rem 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 0.6rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .save-btn:hover {
+            background: #e55300;
+        }
+
+        .cancel-btn {
+            background: #001528;
+            color: #fff;
+            border: none;
+            padding: 0.45rem 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .cancel-btn:hover {
+            background: #3b5278;
+        }
+
+        /* ---------- Display / Edit Mode ---------- */
+        .display-mode p {
+            font-size: 0.95rem;
+            color: #3c4b5a;
+            margin: 0.3rem 0;
+            line-height: 1.5;
+        }
+
+        .display-mode span {
+            font-weight: 500;
+        }
+
+        .edit-mode label {
+            display: block;
+            margin: 0.6rem 0;
+            font-weight: 500;
+        }
+
+        .edit-mode input[type="text"],
+        .edit-mode input[type="email"],
+        .edit-mode input[type="url"],
+        .edit-mode textarea,
+        .edit-mode input[type="file"] {
+            width: 100%;
+            padding: 0.55rem;
+            margin-top: 0.3rem;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            transition: border 0.2s, box-shadow 0.2s;
+        }
+
+        .edit-mode input:focus,
+        .edit-mode textarea:focus {
+            outline: none;
+            border-color: #ff5f0e;
+            box-shadow: 0 0 6px rgba(255, 95, 14, 0.25);
+        }
+
+        .edit-mode textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        /* ---------- Images / Video ---------- */
         .image-preview img,
         .banner-preview,
         .footer-logo {
             max-width: 100%;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-top: 0.5rem;
+            transition: transform 0.3s;
         }
 
-        /* Banner / video */
-        .banner-preview {
-            display: block;
-            margin-top: 0.5rem;
-            border-radius: 10px;
+        .image-preview img:hover,
+        .banner-preview:hover,
+        .footer-logo:hover {
+            transform: scale(1.03);
         }
 
-        /* Text elements */
-        .settings-card p {
-            font-size: 0.95rem;
-            color: #3c4b5a;
-            margin: 0.3rem 0;
-        }
-
-        /* Animations */
+        /* ---------- Animations ---------- */
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(12px);
             }
 
             to {
@@ -136,7 +215,7 @@
             }
         }
 
-        /* Responsive */
+        /* ---------- Responsive ---------- */
         @media(max-width: 768px) {
             .settings-container {
                 padding: 1rem;
@@ -145,67 +224,19 @@
             .tabs {
                 flex-direction: column;
             }
-        }
 
-        /* Buttons inside cards */
-        .edit-btn {
-            float: right;
-            background-color: #1e40af;
-            color: #fff;
-            border: none;
-            padding: 0.3rem 0.6rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .save-btn {
-            background-color: #10b981;
-            color: #fff;
-            border: none;
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 0.5rem;
-        }
-
-        .cancel-btn {
-            background-color: #ef4444;
-            color: #fff;
-            border: none;
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-left: 0.5rem;
-        }
-
-        /* Form inside card */
-        .edit-mode label {
-            display: block;
-            margin: 0.5rem 0;
-        }
-
-        .edit-mode input[type="text"],
-        .edit-mode input[type="email"],
-        .edit-mode input[type="url"] {
-            width: 100%;
-            padding: 0.5rem;
-            margin-top: 0.2rem;
-            border-radius: 5px;
-            border: 1px solid #d1d5db;
-        }
-
-        /* Display mode text span */
-        .display-mode span {
-            font-weight: 500;
+            .settings-card {
+                padding: 1.2rem;
+            }
         }
     </style>
+
     <div class="settings-container">
 
         <!-- Header -->
         <div class="settings-header">
             <h1>General Settings Overview</h1>
-            <p>Manage all your site settings efficiently from one place.</p>
+            <p>Manage all your site settings efficiently from one page.</p>
         </div>
 
         <!-- Tabs Navigation -->
@@ -222,21 +253,18 @@
         <!-- Tabs Content -->
         <div class="tab-content">
 
-            <!-- Site Info -->
+            <!-- SITE INFO -->
             <div class="tab-panel active" id="site-info">
                 <div class="settings-card">
                     <h2>Site Info
                         <button class="edit-btn" onclick="toggleEdit(this)">Edit</button>
                     </h2>
-                    <!-- Display -->
                     <div class="display-mode">
                         <p><strong>Name:</strong> <span>{{ $settings->site_name ?? 'Not set' }}</span></p>
                         <p><strong>Tagline:</strong> <span>{{ $settings->site_tagline ?? 'Not set' }}</span></p>
                         <p><strong>Email:</strong> <span>{{ $settings->site_email ?? 'Not set' }}</span></p>
                         <p><strong>Phone:</strong> <span>{{ $settings->site_phone ?? 'Not set' }}</span></p>
                     </div>
-
-                    <!-- Edit Form -->
                     <form class="edit-mode" style="display:none;" method="POST"
                         action="{{ route('general-settings.update') }}">
                         @csrf
@@ -252,7 +280,7 @@
                 </div>
             </div>
 
-            <!-- Branding -->
+            <!-- BRANDING -->
             <div class="tab-panel" id="branding">
                 <div class="settings-card">
                     <h2>Branding
@@ -269,24 +297,23 @@
                         </div>
                     </div>
                     <form class="edit-mode" style="display:none;" method="POST"
-                        action="{{ route('general-settings.update') }}">
+                        action="{{ route('general-settings.update') }}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="section" value="branding">
-                        <label>Logo URL: <input type="text" name="logo" value="{{ $settings->logo }}"></label>
-                        <label>Favicon URL: <input type="text" name="favicon" value="{{ $settings->favicon }}"></label>
+                        <label>Logo: <input type="file" name="logo"></label>
+                        <label>Favicon: <input type="file" name="favicon"></label>
                         <button type="submit" class="save-btn">Save</button>
                         <button type="button" class="cancel-btn" onclick="toggleEdit(this, true)">Cancel</button>
                     </form>
                 </div>
             </div>
 
-            <!-- Banner -->
+            <!-- BANNER / HERO -->
             <div class="tab-panel" id="banner">
                 <div class="settings-card">
                     <h2>Banner / Hero
                         <button class="edit-btn" onclick="toggleEdit(this)">Edit</button>
                     </h2>
-
                     <div class="display-mode">
                         @if($settings->banner_video_enabled && $settings->banner_video)
                             <video controls width="100%" class="banner-preview">
@@ -298,15 +325,12 @@
                         @endif
                     </div>
                     <form class="edit-mode" style="display:none;" method="POST"
-                        action="{{ route('general-settings.update') }}">
+                        action="{{ route('general-settings.update') }}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="section" value="banner">
-                        <label>Banner Image URL: <input type="text" name="banner_image"
-                                value="{{ $settings->banner_image }}"></label>
-                        <label>Banner Mobile Image URL: <input type="text" name="banner_mobile_image"
-                                value="{{ $settings->banner_mobile_image }}"></label>
-                        <label>Banner Video URL: <input type="text" name="banner_video"
-                                value="{{ $settings->banner_video }}"></label>
+                        <label>Banner Image: <input type="file" name="banner_image"></label>
+                        <label>Banner Mobile Image: <input type="file" name="banner_mobile_image"></label>
+                        <label>Banner Video: <input type="file" name="banner_video"></label>
                         <label>
                             Enable Video:
                             <input type="checkbox" name="banner_video_enabled" {{ $settings->banner_video_enabled ? 'checked' : '' }}>
@@ -320,55 +344,121 @@
             <!-- SEO -->
             <div class="tab-panel" id="seo">
                 <div class="settings-card">
-                    <h2>SEO Settings</h2>
-                    <p><strong>Meta Title:</strong> {{ $settings->meta_title ?? '-' }}</p>
-                    <p><strong>Description:</strong> {{ $settings->meta_description ?? '-' }}</p>
-                    <p><strong>Keywords:</strong> {{ $settings->meta_keywords ?? '-' }}</p>
+                    <h2>SEO Settings
+                        <button class="edit-btn" onclick="toggleEdit(this)">Edit</button>
+                    </h2>
+                    <div class="display-mode">
+                        <p><strong>Meta Title:</strong> <span>{{ $settings->meta_title ?? '-' }}</span></p>
+                        <p><strong>Description:</strong> <span>{{ $settings->meta_description ?? '-' }}</span></p>
+                        <p><strong>Keywords:</strong> <span>{{ $settings->meta_keywords ?? '-' }}</span></p>
+                    </div>
+                    <form class="edit-mode" style="display:none;" method="POST"
+                        action="{{ route('general-settings.update') }}">
+                        @csrf
+                        <input type="hidden" name="section" value="seo">
+                        <label>Meta Title: <input type="text" name="meta_title" value="{{ $settings->meta_title }}"></label>
+                        <label>Meta Description: <textarea
+                                name="meta_description">{{ $settings->meta_description }}</textarea></label>
+                        <label>Meta Keywords: <textarea
+                                name="meta_keywords">{{ $settings->meta_keywords }}</textarea></label>
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="cancel-btn" onclick="toggleEdit(this, true)">Cancel</button>
+                    </form>
                 </div>
             </div>
 
-            <!-- Socials -->
+            <!-- SOCIALS -->
             <div class="tab-panel" id="socials">
                 <div class="settings-card">
-                    <h2>Social Links</h2>
-                    <p><strong>Facebook:</strong> <a href="{{ $settings->facebook_url }}"
-                            target="_blank">{{ $settings->facebook_url }}</a></p>
-                    <p><strong>Instagram:</strong> <a href="{{ $settings->instagram_url }}"
-                            target="_blank">{{ $settings->instagram_url }}</a></p>
-                    <p><strong>Twitter:</strong> <a href="{{ $settings->twitter_url }}"
-                            target="_blank">{{ $settings->twitter_url }}</a></p>
-                    <p><strong>LinkedIn:</strong> <a href="{{ $settings->linkedin_url }}"
-                            target="_blank">{{ $settings->linkedin_url }}</a></p>
-                    <p><strong>YouTube:</strong> <a href="{{ $settings->youtube_url }}"
-                            target="_blank">{{ $settings->youtube_url }}</a></p>
+                    <h2>Social Links
+                        <button class="edit-btn" onclick="toggleEdit(this)">Edit</button>
+                    </h2>
+                    <div class="display-mode">
+                        <p><strong>Facebook:</strong> <a href="{{ $settings->facebook_url }}"
+                                target="_blank">{{ $settings->facebook_url }}</a></p>
+                        <p><strong>Instagram:</strong> <a href="{{ $settings->instagram_url }}"
+                                target="_blank">{{ $settings->instagram_url }}</a></p>
+                        <p><strong>Twitter:</strong> <a href="{{ $settings->twitter_url }}"
+                                target="_blank">{{ $settings->twitter_url }}</a></p>
+                        <p><strong>LinkedIn:</strong> <a href="{{ $settings->linkedin_url }}"
+                                target="_blank">{{ $settings->linkedin_url }}</a></p>
+                        <p><strong>YouTube:</strong> <a href="{{ $settings->youtube_url }}"
+                                target="_blank">{{ $settings->youtube_url }}</a></p>
+                    </div>
+                    <form class="edit-mode" style="display:none;" method="POST"
+                        action="{{ route('general-settings.update') }}">
+                        @csrf
+                        <input type="hidden" name="section" value="socials">
+                        <label>Facebook: <input type="url" name="facebook_url"
+                                value="{{ $settings->facebook_url }}"></label>
+                        <label>Instagram: <input type="url" name="instagram_url"
+                                value="{{ $settings->instagram_url }}"></label>
+                        <label>Twitter: <input type="url" name="twitter_url" value="{{ $settings->twitter_url }}"></label>
+                        <label>LinkedIn: <input type="url" name="linkedin_url"
+                                value="{{ $settings->linkedin_url }}"></label>
+                        <label>YouTube: <input type="url" name="youtube_url" value="{{ $settings->youtube_url }}"></label>
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="cancel-btn" onclick="toggleEdit(this, true)">Cancel</button>
+                    </form>
                 </div>
             </div>
 
-            <!-- Footer -->
+            <!-- FOOTER -->
             <div class="tab-panel" id="footer">
                 <div class="settings-card">
-                    <h2>Footer</h2>
-                    <p>{{ $settings->footer_about ?? '-' }}</p>
-                    <img src="{{ $settings->footer_logo ?? 'https://via.placeholder.com/100' }}" alt="Footer Logo"
-                        class="footer-logo">
+                    <h2>Footer
+                        <button class="edit-btn" onclick="toggleEdit(this)">Edit</button>
+                    </h2>
+                    <div class="display-mode">
+                        <p>{{ $settings->footer_about ?? '-' }}</p>
+                        <img src="{{ $settings->footer_logo ?? 'https://via.placeholder.com/100' }}" alt="Footer Logo"
+                            class="footer-logo">
+                    </div>
+                    <form class="edit-mode" style="display:none;" method="POST"
+                        action="{{ route('general-settings.update') }}" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="section" value="footer">
+                        <label>Footer About: <textarea name="footer_about">{{ $settings->footer_about }}</textarea></label>
+                        <label>Footer Logo: <input type="file" name="footer_logo"></label>
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="cancel-btn" onclick="toggleEdit(this, true)">Cancel</button>
+                    </form>
                 </div>
             </div>
 
-            <!-- Global / Maintenance -->
+            <!-- GLOBAL / MAINTENANCE -->
             <div class="tab-panel" id="global">
                 <div class="settings-card">
-                    <h2>Global Settings</h2>
-                    <p><strong>Currency:</strong> {{ $settings->default_currency }}</p>
-                    <p><strong>Timezone:</strong> {{ $settings->timezone }}</p>
-                    <p><strong>Maintenance Mode:</strong> {{ $settings->maintenance_mode ? 'Enabled' : 'Disabled' }}</p>
-                    @if($settings->maintenance_mode)
-                        <p><strong>Message:</strong> {{ $settings->maintenance_message ?? '-' }}</p>
-                    @endif
+                    <h2>Global Settings
+                        <button class="edit-btn" onclick="toggleEdit(this)">Edit</button>
+                    </h2>
+                    <div class="display-mode">
+                        <p><strong>Currency:</strong> {{ $settings->default_currency }}</p>
+                        <p><strong>Timezone:</strong> {{ $settings->timezone }}</p>
+                        <p><strong>Maintenance Mode:</strong> {{ $settings->maintenance_mode ? 'Enabled' : 'Disabled' }}</p>
+                        @if($settings->maintenance_mode)
+                            <p><strong>Message:</strong> {{ $settings->maintenance_message ?? '-' }}</p>
+                        @endif
+                    </div>
+                    <form class="edit-mode" style="display:none;" method="POST"
+                        action="{{ route('general-settings.update') }}">
+                        @csrf
+                        <input type="hidden" name="section" value="global">
+                        <label>Default Currency: <input type="text" name="default_currency"
+                                value="{{ $settings->default_currency }}"></label>
+                        <label>Timezone: <input type="text" name="timezone" value="{{ $settings->timezone }}"></label>
+                        <label>Maintenance Mode: <input type="checkbox" name="maintenance_mode" {{ $settings->maintenance_mode ? 'checked' : '' }}></label>
+                        <label>Maintenance Message: <textarea
+                                name="maintenance_message">{{ $settings->maintenance_message }}</textarea></label>
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" class="cancel-btn" onclick="toggleEdit(this, true)">Cancel</button>
+                    </form>
                 </div>
             </div>
 
         </div>
     </div>
+
 
     <script>
         function toggleEdit(button, cancel = false) {
@@ -391,39 +481,9 @@
             }
         }
 
-        // Optional: AJAX submission (fetch)
-        document.querySelectorAll('.edit-mode').forEach(form => {
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                const data = new FormData(form);
-
-                fetch(form.action, {
-                    method: 'POST',
-                    body: data,
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-                    },
-                })
-                    .then(res => res.json())
-                    .then(response => {
-                        if (response.success) {
-                            // Update display mode with new values
-                            Object.keys(response.data).forEach(key => {
-                                const span = form.closest('.settings-card').querySelector(`.display-mode span`);
-                                if (span) span.textContent = response.data[key];
-                            });
-                            toggleEdit(form.querySelector('.save-btn'), true);
-                            alert('Settings updated successfully!');
-                        } else {
-                            alert('Failed to update settings.');
-                        }
-                    })
-                    .catch(err => console.error(err));
-            });
-        });
-
+       
+       
+       
         document.querySelectorAll('.tab-button').forEach(button => {
             button.addEventListener('click', () => {
                 const tab = button.dataset.tab;
