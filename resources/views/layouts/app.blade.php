@@ -1,3 +1,6 @@
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,6 +20,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="shortcut icon" href="{{ $gs->favicon }}" type="image/x-icon">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta property="og:title" content="Tunga Market" />
@@ -35,8 +39,8 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="/" class="imglogolink">
-                        <img src="{{ asset('assets/images/logo.png') }}"
-                            style="width: 80px; height: 40px; border-radius: 8px; object-fit: cover;"
+                        <img src="{{ $gs->logo }}"
+                            style="width: 150px; height: auto;border-radius: 6px; object-fit: contain; overflow: hidden;"
                             alt="Tunga Market Logo" class="Imglogo text-primary" />
                     </a>
                 </div>
@@ -414,7 +418,7 @@
                 <div>
                     <div class="flex items-center mb-4">
                         <a href="/">
-                            <img src="{{ asset('assets/images/logo.png') }}" alt="Tunga Market Logo"
+                            <img src="{{ $gs->logo }}" alt="Tunga Market Logo"
                                 class=" text-primary"
                                 style="object-fit: cover; border-radius: 6px; height: 50px; width: 120px;" />
                         </a>
