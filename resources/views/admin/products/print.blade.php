@@ -1,3 +1,7 @@
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,7 +80,7 @@
 
 <body>
     <header>
-        <img src="{{ public_path('assets/images/logo-header.png') }}" style="border-radius: 7px"
+        <img src="{{ $gs->logo }}" style="border-radius: 7px"
             alt="Tunga Market Logo">
         <h1>{{ $title }}</h1>
         <div class="meta">

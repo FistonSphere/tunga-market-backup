@@ -48,7 +48,7 @@
 
             <div class="header-left active">
                 <a href=" {{ route('admin.dashboard') }}" class="logo">
-                    <img src="{{ asset('assets/images/logo-header.png') }}" style="border-radius:6px" alt="">
+                    <img src="{{ $gs->logo }}" style="border-radius:6px" alt="">
                 </a>
                 {{-- <a id="toggle_btn" href="javascript:void(0);">
                 </a> --}}

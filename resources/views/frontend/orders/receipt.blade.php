@@ -1,3 +1,7 @@
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -112,7 +116,7 @@
                         <!-- Company Logo & Info -->
                         <div class="lg:col-span-2">
                             <div class="flex items-center space-x-4 mb-6">
-                                <img src="{{ asset('assets/images/logo.png') }}" alt="Tunga Market Logo"
+                                <img src="{{ $gs->logo }}" alt="Tunga Market Logo"
                                     class="block rounded-lg" style="width:150px; height:100px; object-fit:cover;" />
 
                                 <div>
