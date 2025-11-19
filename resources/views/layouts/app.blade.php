@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tunga Market - Where Business Grows Together</title>
+    <title>{{ $gs->meta_title ?? $gs->site_name ?? 'Tunga Market' }}</title>
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
     <!-- Toastify CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -23,9 +23,9 @@
     <link rel="shortcut icon" href="{{ $gs->favicon }}" type="image/x-icon">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta property="og:title" content="Tunga Market" />
-    <meta name="description"
-        content="Discover Tunga Market — where innovation meets commerce. Explore trusted brands, great deals, and a seamless shopping experience built for everyone." />
+    <meta property="og:title" content="{{ $gs->meta_title ?? $gs->site_name ?? 'Tunga Market' }}">
+    <meta name="description" content="{{ $gs->meta_description ?? 'Discover Tunga Market — where innovation meets commerce. Explore trusted brands, great deals, and a seamless shopping experience built for everyone.' }}">
+
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 </head>
