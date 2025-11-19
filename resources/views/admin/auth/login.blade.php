@@ -1,3 +1,6 @@
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +17,7 @@
     <meta name="robots" content="noindex, nofollow" />
     <title>Login - Tunga Market Admin Dashboard</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo-circle.png') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ $gs->favicon }}" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap.min.css') }}" />
 
@@ -31,8 +34,9 @@
                 <div class="login-content">
                     <div class="login-userset">
                         <div class="login-logo">
-                            <img src="{{ asset('assets/images/logo.png') }}"
-                                style="border-radius: 50%; height: 100px;width:100px;object-fit:cover;" alt="img" />
+                            <img src="{{ $gs->logo }}"
+                                style="border-radius: 50%; height: 100px; width: 100px; object-fit: cover;" alt="logo">
+
                         </div>
                         <div class="login-userheading">
                             <h3>Sign In</h3>

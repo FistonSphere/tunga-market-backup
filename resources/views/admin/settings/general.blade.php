@@ -194,6 +194,8 @@
             border-radius: 12px;
             margin-top: 0.5rem;
             transition: transform 0.3s;
+            height: 100px;
+            object-fit: cover;
         }
 
         .image-preview img:hover,
