@@ -24,7 +24,8 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta property="og:title" content="{{ $gs->meta_title ?? $gs->site_name ?? 'Tunga Market' }}">
-    <meta name="description" content="{{ $gs->meta_description ?? 'Discover Tunga Market — where innovation meets commerce. Explore trusted brands, great deals, and a seamless shopping experience built for everyone.' }}">
+    <meta name="description"
+        content="{{ $gs->meta_description ?? 'Discover Tunga Market — where innovation meets commerce. Explore trusted brands, great deals, and a seamless shopping experience built for everyone.' }}">
 
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
@@ -418,13 +419,13 @@
                 <div>
                     <div class="flex items-center mb-4">
                         <a href="/">
-                            <img src="{{ $gs->logo }}" alt="Tunga Market Logo"
-                                class=" text-primary"
+                            <img src="{{ $gs->logo }}" alt="Tunga Market Logo" class=" text-primary"
                                 style="object-fit: cover; border-radius: 6px; height: 50px; width: 120px;" />
                         </a>
                     </div>
                     <p class="text-secondary-300 mb-4">
-                        Where Business Grows Together. The next-generation marketplace transforming global trade.
+
+                        {{ $gs->footer_about ?? 'Where Business Grows Together. The next-generation marketplace transforming global trade.' }}
                     </p>
                     <div class="flex space-x-4">
                         <a href="javascript:void(0)" class="text-secondary-400 hover:text-accent transition-fast">
