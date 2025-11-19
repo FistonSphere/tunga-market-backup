@@ -1,3 +1,7 @@
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +16,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin Dashboard - Tunga Market</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo-circle.png') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ $gs->favicon }}" />
 
     <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap.min.css') }}">
 
