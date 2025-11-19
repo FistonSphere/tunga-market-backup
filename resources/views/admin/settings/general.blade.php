@@ -382,6 +382,8 @@
                                 target="_blank">{{ $settings->instagram_url }}</a></p>
                         <p><strong>Twitter:</strong> <a href="{{ $settings->twitter_url }}"
                                 target="_blank">{{ $settings->twitter_url }}</a></p>
+                        <p><strong>TikTok:</strong> <a href="{{ $settings->tiktok_url }}"
+                                target="_blank">{{ $settings->tiktok_url }}</a></p>
                         <p><strong>LinkedIn:</strong> <a href="{{ $settings->linkedin_url }}"
                                 target="_blank">{{ $settings->linkedin_url }}</a></p>
                         <p><strong>YouTube:</strong> <a href="{{ $settings->youtube_url }}"
@@ -396,6 +398,7 @@
                         <label>Instagram: <input type="url" name="instagram_url"
                                 value="{{ $settings->instagram_url }}"></label>
                         <label>Twitter: <input type="url" name="twitter_url" value="{{ $settings->twitter_url }}"></label>
+                        <label>Twitter: <input type="url" name="tiktok_url" value="{{ $settings->tiktok_url }}"></label>
                         <label>LinkedIn: <input type="url" name="linkedin_url"
                                 value="{{ $settings->linkedin_url }}"></label>
                         <label>YouTube: <input type="url" name="youtube_url" value="{{ $settings->youtube_url }}"></label>

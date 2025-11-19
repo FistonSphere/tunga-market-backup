@@ -37,6 +37,7 @@ class GeneralSetting extends Model
         'facebook_url',
         'instagram_url',
         'twitter_url',
+        'tiktok_url',
         'linkedin_url',
         'youtube_url',
 

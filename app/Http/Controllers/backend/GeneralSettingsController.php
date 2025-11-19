@@ -118,6 +118,7 @@ class GeneralSettingsController extends Controller
             $data['facebook_url'] = $request->input('facebook_url');
             $data['instagram_url'] = $request->input('instagram_url');
             $data['twitter_url'] = $request->input('twitter_url');
+            $data['tiktok_url'] = $request->input('tiktok_url');
             $data['linkedin_url'] = $request->input('linkedin_url');
             $data['youtube_url'] = $request->input('youtube_url');
             break;
