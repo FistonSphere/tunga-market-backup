@@ -428,24 +428,74 @@
                         {{ $gs->footer_about ?? 'Where Business Grows Together. The next-generation marketplace transforming global trade.' }}
                     </p>
                     <div class="flex space-x-4">
-                        <a href="javascript:void(0)" class="text-secondary-400 hover:text-accent transition-fast">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
-                            </svg>
-                        </a>
-                        <a href="javascript:void(0)" class="text-secondary-400 hover:text-accent transition-fast">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z" />
-                            </svg>
-                        </a>
-                        <a href="javascript:void(0)" class="text-secondary-400 hover:text-accent transition-fast">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                            </svg>
-                        </a>
+                        {{-- Facebook --}}
+                        @if (!empty($gs->facebook_url))
+                            <a href="{{ $gs->facebook_url }}" target="_blank" rel="noopener noreferrer"
+                                class="text-secondary-400 hover:text-accent transition-fast">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003zM12.82 24V14.708h3.104l.465-3.605h-3.569V8.374c0-1.043.29-1.753 1.787-1.753h1.907V3.39c-.33-.044-1.462-.142-2.78-.142-2.75 0-4.63 1.68-4.63 4.765v2.653H7.691v3.605h3.123V24h2.006z" />
+                                </svg>
+                            </a>
+                        @endif
+
+                        {{-- Instagram --}}
+                        @if (!empty($gs->instagram_url))
+                            <a href="{{ $gs->instagram_url }}" target="_blank" rel="noopener noreferrer"
+                                class="text-secondary-400 hover:text-accent transition-fast">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M7.75 2A5.75 5.75 0 0 0 2 7.75v8.5A5.75 5.75 0 0 0 7.75 22h8.5A5.75 5.75 0 0 0 22 16.25v-8.5A5.75 5.75 0 0 0 16.25 2h-8.5Zm8.5 1.5A4.25 4.25 0 0 1 20.5 7.75v8.5a4.25 4.25 0 0 1-4.25 4.25h-8.5A4.25 4.25 0 0 1 3.5 16.25v-8.5A4.25 4.25 0 0 1 7.75 3.5h8.5Zm-4.25 3a5.25 5.25 0 1 0 0 10.5a5.25 5.25 0 0 0 0-10.5Zm0 1.5a3.75 3.75 0 1 1 0 7.5a3.75 3.75 0 0 1 0-7.5ZM17 6.75a1 1 0 1 0 0-2a1 1 0 0 0 0 2Z" />
+                                </svg>
+                            </a>
+                        @endif
+
+                        {{-- Twitter / X --}}
+                        @if (!empty($gs->twitter_url))
+                            <a href="{{ $gs->twitter_url }}" target="_blank" rel="noopener noreferrer"
+                                class="text-secondary-400 hover:text-accent transition-fast">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045C7.628 8.24 3.999 6.28 1.571 3.3.281 5.513.902 8.408 3.094 9.874 2.287 9.848 1.527 9.627.864 9.258c-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084C3.216 16.188 5.034 17.611 7.19 17.651 5.12 19.274 2.512 19.999-.1 19.691C2.079 21.088 4.668 21.903 7.448 21.903c9.142 0 14.307-7.721 13.995-14.646c.962-.695 1.797-1.562 2.457-2.549z" />
+                                </svg>
+                            </a>
+                        @endif
+
+                        {{-- LinkedIn --}}
+                        @if (!empty($gs->linkedin_url))
+                            <a href="{{ $gs->linkedin_url }}" target="_blank" rel="noopener noreferrer"
+                                class="text-secondary-400 hover:text-accent transition-fast">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M4.98 3.5A2.49 2.49 0 1 1 2.5 6a2.49 2.49 0 0 1 2.48-2.5zM2.4 21.5h5.1v-14H2.4v14zM9.37 7.5h4.89v1.92h.07c.68-1.28 2.35-2.64 4.84-2.64c5.17 0 6.12 3.4 6.12 7.82v8.9h-5.09v-7.89c0-1.88-.03-4.29-2.61-4.29c-2.62 0-3.02 2.05-3.02 4.16v7.99h-5.2v-14z" />
+                                </svg>
+                            </a>
+                        @endif
+
+                        {{-- YouTube --}}
+                        @if (!empty($gs->youtube_url))
+                            <a href="{{ $gs->youtube_url }}" target="_blank" rel="noopener noreferrer"
+                                class="text-secondary-400 hover:text-accent transition-fast">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M23.5 6.2s-.2-1.6-.8-2.3c-.8-.9-1.7-.9-2.1-.9C17.4 3 12 3 12 3h-.1s-5.4 0-8.5.1c-.5 0-1.4 0-2.2.9c-.6.7-.8 2.3-.8 2.3S0 8.1 0 10v1.9c0 1.9.2 3.8.2 3.8s.2 1.6.8 2.3c.8.9 1.9.8 2.4.9c1.7.2 7.4.2 7.4.2s5.4 0 8.5-.1c.5 0 1.4 0 2.2-.9c.6-.7.8-2.3.8-2.3s.2-1.9.2-3.8V10c0-1.9-.2-3.8-.2-3.8zM9.6 14.6V8.8l6.4 2.9l-6.4 2.9z" />
+                                </svg>
+                            </a>
+                        @endif
+
+                        {{-- TikTok --}}
+                        @if (!empty($gs->tiktok_url))
+                            <a href="{{ $gs->tiktok_url }}" target="_blank" rel="noopener noreferrer"
+                                class="text-secondary-400 hover:text-accent transition-fast">
+                                <!-- Simple TikTok glyph -->
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.5 3.5h2.5v3.1a4.4 4.4 0 01-4.4-4.4v0.0h1.9z" />
+                                    <path d="M12 5.5a4 4 0 004 4h.5v1.5a5.5 5.5 0 11-5.5-5.5V5.5z" />
+                                </svg>
+                            </a>
+                        @endif
+
                     </div>
                 </div>
 
