@@ -277,11 +277,13 @@ Route::prefix('enquiries')->controller(AdminEnquiryController::class)->group(fun
 Route::prefix('/flash-deals')->controller(AdminFlashDealsController::class)->group(function(){
 Route::get('/overview','index')->name('admin.flashDeals.index');
 Route::get('/create', function(){
-    return view('admin.category.create');
+    $products= Product::where('status', 'active')->get();
+    return view('admin.flash-deals.create', compact('products'));
 })->name('admin.flash-deals.create');
 Route::get('/{id}/edit/', 'edit')->name('admin.flash-deals.edit');
 Route::put('/{id}/update', 'update')->name('admin.flash-deals.update');
 Route::delete('/{id}/delete', 'destroy')->name('admin.flash-deals.destroy');
+Route::post('/store', 'store')->name('admin.flash-deals.store');
 });
 
 //end flash deals route

@@ -266,6 +266,8 @@
                         <p><strong>Tagline:</strong> <span>{{ $settings->site_tagline ?? 'Not set' }}</span></p>
                         <p><strong>Email:</strong> <span>{{ $settings->site_email ?? 'Not set' }}</span></p>
                         <p><strong>Phone:</strong> <span>{{ $settings->site_phone ?? 'Not set' }}</span></p>
+                        <p><strong>Banner Title:</strong> <span>{{ $settings->banner_title ?? 'Not set' }}</span></p>
+                        <p><strong>Banner Subtitle:</strong> <span>{{ $settings->banner_subtitle ?? 'Not set' }}</span></p>
                     </div>
                     <form class="edit-mode" style="display:none;" method="POST"
                         action="{{ route('general-settings.update') }}">
@@ -276,6 +278,8 @@
                                 value="{{ $settings->site_tagline }}"></label>
                         <label>Email: <input type="email" name="site_email" value="{{ $settings->site_email }}"></label>
                         <label>Phone: <input type="text" name="site_phone" value="{{ $settings->site_phone }}"></label>
+                        <label>Banner Title: <input type="text" name="banner_title" value="{{ $settings->banner_title }}"></label>
+                        <label>Banner Subtitle: <input type="text" name="banner_subtitle" value="{{ $settings->banner_subtitle }}"></label>
                         <button type="submit" class="save-btn">Save</button>
                         <button type="button" class="cancel-btn" onclick="toggleEdit(this, true)">Cancel</button>
                     </form>

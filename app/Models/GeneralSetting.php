@@ -14,6 +14,8 @@ class GeneralSetting extends Model
         'site_tagline',
         'site_email',
         'site_phone',
+        'banner_title',
+        'banner_subtitle',
 
         // NEW: only ONE logo (public URL)
         'logo',           // stored as https://domain.com/images/logo.png
@@ -25,8 +27,7 @@ class GeneralSetting extends Model
         'banner_video',         // URL for video
         'banner_video_enabled', // boolean (true/false)
 
-        'banner_title',     // general background image URL
-        'banner_subtitle',   // pattern URL if needed
+      
 
         // SEO
         'meta_title',

@@ -42,6 +42,8 @@ class GeneralSettingsController extends Controller
             $data['site_tagline'] = $request->input('site_tagline');
             $data['site_email'] = $request->input('site_email');
             $data['site_phone'] = $request->input('site_phone');
+            $data['banner_title'] = $request->input('banner_title');
+            $data['banner_subtitle'] = $request->input('banner_subtitle');
             break;
 
 

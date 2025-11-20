@@ -57,4 +57,24 @@ class AdminFlashDealsController extends Controller
 
     return redirect()->route('admin.flashDeals.index')->with('success', 'flash deal deleted successfully!');
 }
+
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'product_id'       => 'required|exists:products,id',
+        'flash_price'      => 'required|numeric|min:1',
+        'discount_percent' => 'nullable|numeric|min:0',
+        'start_time'       => 'required|date',
+        'end_time'         => 'required|date|after:start_time',
+        'stock_limit'      => 'nullable|numeric|min:0',
+        'is_active'        => 'required|in:Active,Inactive'
+    ]);
+
+    FlashDeal::create($validated);
+
+    return redirect()
+        ->route('admin.flashDeals.index')
+        ->with('success', 'Flash Deal created successfully!');
+}
+
 }

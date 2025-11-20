@@ -190,7 +190,7 @@
                 <!-- LEFT SIDE TEXT -->
                 <div class="text-center lg:text-left space-y-6" data-aos="fade-up">
 
-                    <h1 class="text-5xl font-bold leading-tight tracking-tight text-white mb-4 text-center">
+                    <h1 class="text-5xl font-bold leading-tight tracking-tight text-white mb-4 text-left" style="margin-top:1.5em">
                         <span class="block">{{ $gs->banner_title ?? 'Shop Premium Products' }}</span>
                         <span class="block text-orange-500" style="text-align:left;">
                             {{ $gs->banner_subtitle ?? 'Your Trusted Shopping Destination' }}
