@@ -165,5 +165,43 @@ class GeneralSettingsController extends Controller
 
     return redirect()->back()->with('success', ucfirst(str_replace('-', ' ', $section)).' updated successfully!');
 }
+
+public function delete(Request $request)
+{
+    $settings = GeneralSetting::getSettings();
+
+    $section = $request->input('section');
+    $field = $request->input('delete_field');
+
+    if (!$field) {
+        return redirect()->back()->with('error', 'Invalid delete request.');
+    }
+
+    // Only allow fields that actually exist in DB
+    if (!array_key_exists($field, $settings->getAttributes())) {
+        return redirect()->back()->with('error', 'Field does not exist.');
+    }
+
+    // If field contains a public URL, delete the physical file
+    if (!empty($settings->$field) && str_contains($settings->$field, 'uploads/general')) {
+        $filePath = str_replace(url('/').'/', '', $settings->$field);
+
+        if (file_exists(public_path($filePath))) {
+@unlink(public_path($filePath));
+        }
+    }
+
+    // Set the field to null
+    $settings->update([
+        $field => null
+    ]);
+
+    Cache::forget('general_settings');
+    Cache::rememberForever('general_settings', fn() => $settings->fresh());
+
+    return redirect()->back()->with('success', ucfirst($field).' deleted successfully!');
+}
+
+
   
 }
