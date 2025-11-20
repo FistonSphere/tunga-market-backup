@@ -469,7 +469,7 @@
                                     <h4 class="font-semibold text-primary mb-2">Billing Inquiries</h4>
                                     <div class="text-sm space-y-1">
                                         <p>📧 billing@tungamarket.com</p>
-                                        <p>📞 +1 (555) 123-4567 ext. 101</p>
+                                        <p>📞 {{ $gs->site_phone }}</p>
                                         <p>🕒 Mon-Fri: 9 AM - 6 PM GMT +2</p>
                                     </div>
                                 </div>
@@ -478,7 +478,7 @@
                                     <h4 class="font-semibold text-primary mb-2">Order Support</h4>
                                     <div class="text-sm space-y-1">
                                         <p>📧 orders@tungamarket.com</p>
-                                        <p>📞 +1 (555) 123-4567 ext. 102</p>
+                                        <p>📞 {{ $gs->site_phone }}</p>
                                         <p>💬 Live Chat: Available 24/7</p>
                                     </div>
                                 </div>
@@ -511,7 +511,7 @@
                         <div>
                             <p class="font-semibold mb-2">Questions?</p>
                             <p class="text-secondary-300 text-sm">support@tungamarket.com</p>
-                            <p class="text-secondary-300 text-sm">+1 (555) 123-4567</p>
+                            <p class="text-secondary-300 text-sm">{{ $gs->site_phone }}</p>
                         </div>
                     </div>
                     <div class="border-t border-secondary-700 mt-6 pt-4 text-center">

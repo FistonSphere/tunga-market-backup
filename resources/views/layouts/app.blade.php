@@ -29,6 +29,46 @@
 
     <meta name="keywords" content="{{ $gs->meta_keywords ?? '' }}">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    OPEN GRAPH (FACEBOOK)
+    ========================= -->
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="{{ $gs->meta_description ?? 'Welcome to our website.' }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ $gs->banner_image ?? $gs->logo ?? '' }}">
+    <!-- =========================
+         TWITTER META TAGS
+========================= -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $gs->meta_title ?? $gs->site_name ?? 'Website Title' }}">
+    <meta name="twitter:description" content="{{ $gs->meta_description ?? 'Welcome to our website.' }}">
+    <meta name="twitter:image" content="{{ $gs->banner_image ?? $gs->logo ?? '' }}">
+
+    <!-- =========================
+         SOCIAL URL META
+========================= -->
+    @if($gs->facebook_url)
+        <meta property="og:see_also" content="{{ $gs->facebook_url }}">
+    @endif
+
+    @if($gs->instagram_url)
+        <meta property="og:see_also" content="{{ $gs->instagram_url }}">
+    @endif
+
+    @if($gs->twitter_url)
+        <meta property="og:see_also" content="{{ $gs->twitter_url }}">
+    @endif
+
+    @if($gs->tiktok_url)
+        <meta property="og:see_also" content="{{ $gs->tiktok_url }}">
+    @endif
+
+    @if($gs->linkedin_url)
+        <meta property="og:see_also" content="{{ $gs->linkedin_url }}">
+    @endif
+
+    @if($gs->youtube_url)
+        <meta property="og:see_also" content="{{ $gs->youtube_url }}">
+    @endif
 
 </head>
 
