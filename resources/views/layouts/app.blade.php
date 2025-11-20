@@ -432,9 +432,10 @@
                         @if (!empty($gs->facebook_url))
                             <a href="{{ $gs->facebook_url }}" target="_blank" rel="noopener noreferrer"
                                 class="text-secondary-400 hover:text-accent transition-fast">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor"
+                                    class="bi bi-facebook" viewBox="0 0 16 16">
                                     <path
-                                        d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003zM12.82 24V14.708h3.104l.465-3.605h-3.569V8.374c0-1.043.29-1.753 1.787-1.753h1.907V3.39c-.33-.044-1.462-.142-2.78-.142-2.75 0-4.63 1.68-4.63 4.765v2.653H7.691v3.605h3.123V24h2.006z" />
+                                        d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
                                 </svg>
                             </a>
                         @endif
@@ -545,7 +546,7 @@
 
             <div class="border-t border-secondary-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-secondary-400">
-                    © <span id="copyright-year">2025</span> Tunga Market. All Rights Reserved.
+                    © <span id="copyright-year">2025</span> {{$gs->site_name}}. All Rights Reserved.
                 </p>
 
                 <div class="flex space-x-6 mt-4 md:mt-0">
