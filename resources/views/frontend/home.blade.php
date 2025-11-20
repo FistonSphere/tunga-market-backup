@@ -2,6 +2,9 @@
 @section('content')
     @php
         $gs = \App\Models\GeneralSetting::first();
+        $bannerImage = $gs->banner_image ?? null;
+        $bannerMobile = $gs->banner_mobile_image ?? $gs->banner_image ?? null;
+        $bannerVideo = $gs->banner_video ?? null;
     @endphp
     <style>
         @keyframes slideIn {
@@ -1147,9 +1150,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                                                                                                    <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                                                                                                    <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                                                                                                `;
+                                                                                                                                                                                                                        <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                                                                                        <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                                                                                                    `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1489,9 +1492,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                                <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                                <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                            `;
+                                                                                                                                                    <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                    <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                                `;
 
             // Progress bar
             const progress = document.createElement("div");

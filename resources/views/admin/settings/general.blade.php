@@ -398,7 +398,7 @@
                         <label>Instagram: <input type="url" name="instagram_url"
                                 value="{{ $settings->instagram_url }}"></label>
                         <label>Twitter: <input type="url" name="twitter_url" value="{{ $settings->twitter_url }}"></label>
-                        <label>Twitter: <input type="url" name="tiktok_url" value="{{ $settings->tiktok_url }}"></label>
+                        <label>TikTok: <input type="url" name="tiktok_url" value="{{ $settings->tiktok_url }}"></label>
                         <label>LinkedIn: <input type="url" name="linkedin_url"
                                 value="{{ $settings->linkedin_url }}"></label>
                         <label>YouTube: <input type="url" name="youtube_url" value="{{ $settings->youtube_url }}"></label>
