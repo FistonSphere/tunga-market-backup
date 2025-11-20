@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $gs = \App\Models\GeneralSetting::first();
+    @endphp
     <!-- Main Content -->
     <main class="flex-1">
         <!-- Verification Success Header -->
@@ -25,7 +28,7 @@
                 </div>
                 <h1 class="text-hero font-bold text-primary mb-4">Email Verified Successfully!</h1>
                 <p class="text-body-lg text-secondary-600 max-w-xl mx-auto">
-                    Your email has been verified. Now create a strong, secure password for your Tunga Market account.
+                    Your email has been verified. Now create a strong, secure password for your {{$gs->site_name}} account.
                 </p>
             </div>
         </section>
@@ -110,16 +113,16 @@
                         </div>
 
                         <button type="submit" id="reset-btn" style="
-                                    width: 100%;
-                                    background: #0c2d57;
-                                    color: white;
-                                    border: none;
-                                    padding: 14px;
-                                    border-radius: 10px;
-                                    font-size: 17px;
-                                    font-weight: 600;
-                                    cursor: pointer;
-                                    transition: background 0.3s ease;">
+                                        width: 100%;
+                                        background: #0c2d57;
+                                        color: white;
+                                        border: none;
+                                        padding: 14px;
+                                        border-radius: 10px;
+                                        font-size: 17px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                        transition: background 0.3s ease;">
                             Reset Password
                         </button>
                     </form>
@@ -239,14 +242,14 @@
 
         <!-- Success Modal -->
         <div id="success-modal" style="
-                display:none;
-                position:fixed;
-                inset:0;
-                background:rgba(0,0,0,0.5);
-                backdrop-filter:blur(5px);
-                align-items:center;
-                justify-content:center;
-                z-index:9999;">
+                    display:none;
+                    position:fixed;
+                    inset:0;
+                    background:rgba(0,0,0,0.5);
+                    backdrop-filter:blur(5px);
+                    align-items:center;
+                    justify-content:center;
+                    z-index:9999;">
             <div style="background:white; padding:40px; border-radius:20px; text-align:center;">
                 <svg style="width:70px; height:70px; color:#22c55e; margin:0 auto;" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">

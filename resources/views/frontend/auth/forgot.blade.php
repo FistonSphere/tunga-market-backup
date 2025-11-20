@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $gs = \App\Models\GeneralSetting::first();
+    @endphp
     <!-- Main Content -->
     <main class="flex-1">
         <!-- Hero Section with Logo -->
@@ -26,7 +29,7 @@
                 </div>
                 <h1 class="text-hero font-bold text-primary mb-4">Recover Your Account Access</h1>
                 <p class="text-body-lg text-secondary-600 max-w-xl mx-auto">
-                    Don't worry! We'll help you regain access to your Tunga Market account quickly and securely.
+                    Don't worry! We'll help you regain access to your {{$gs->site_name}} account quickly and securely.
                 </p>
             </div>
         </section>

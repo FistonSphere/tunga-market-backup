@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
     <style>
         @keyframes slideIn {
             from {
@@ -476,7 +479,7 @@
                                 <h4 class="font-semibold text-primary mb-3">Supplier Information</h4>
                                 <div class="flex items-center justify-between">
                                     <div>
-                                        <div class="font-medium" id="supplier-name">Tunga Market</div>
+                                        <div class="font-medium" id="supplier-name">{{$gs->site_name}}</div>
                                         <div class="text-sm text-secondary-600" id="supplier-location">Kigali, Rwanda
                                         </div>
                                     </div>

@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
     <style>
         #toast {
             transition: opacity 0.5s ease;
@@ -29,7 +32,7 @@
                         <span class="text-gradient">Shopping Adventure</span>
                     </h1>
                     <p class="text-body-lg text-secondary-600 mb-8 max-w-xl">
-                        Discover a fresh way to shop online with Tunga Market. Browse quality products from trusted sellers,
+                        Discover a fresh way to shop online with {{$gs->site_name}}. Browse quality products from trusted sellers,
                         find great deals, and be part of a growing community of smart shoppers.
 
                     </p>
@@ -84,7 +87,7 @@
                         </div>
                     </div>
                     <blockquote class="text-body text-secondary-700 italic">
-                        "Tunga Market transformed our sourcing process. We've reduced costs by 35% while improving
+                        "{{$gs->site_name}} transformed our sourcing process. We've reduced costs by 35% while improving
                         quality."
                     </blockquote>
                 </div>
@@ -379,7 +382,7 @@
     <section class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Why Shop with Tunga Market?</h2>
+                <h2 class="text-heading font-bold text-primary mb-4">Why Shop with {{$gs->site_name}}?</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
                     Enjoy a smarter, simpler, and more personal online shopping experience designed with you in mind.
                 </p>
@@ -515,7 +518,7 @@
                 <!-- Public Security Display -->
                 <div class="card">
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="font-semibold text-primary">How We Keep Tunga Market Secure</h3>
+                        <h3 class="font-semibold text-primary">How We Keep {{$gs->site_name}} Secure</h3>
                         <span class="px-3 py-1 bg-success-100 text-success rounded-full text-sm font-semibold">System
                             Secure</span>
                     </div>
