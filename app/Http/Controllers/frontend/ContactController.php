@@ -22,46 +22,8 @@ class ContactController extends Controller
    public function index()
    {
        // Logic to retrieve and display contact information
-       $socialPlatforms = [
-    'facebook' => [
-        'label' => 'Facebook',
-        'color' => 'blue-700',
-        'response' => '1-2 hours',
-        'icon' => 'facebook',
-    ],
-    'twitter' => [
-        'label' => 'Twitter',
-        'color' => 'blue-500',
-        'response' => '1-3 hours',
-        'icon' => 'twitter',
-    ],
-    'linkedin' => [
-        'label' => 'LinkedIn',
-        'color' => 'blue-600',
-        'response' => '2-4 hours',
-        'icon' => 'linkedin',
-    ],
-    'instagram' => [
-        'label' => 'Instagram',
-        'color' => 'pink-600',
-        'response' => '2-3 hours',
-        'icon' => 'instagram',
-    ],
-    'tiktok' => [
-        'label' => 'TikTok',
-        'color' => 'black',
-        'response' => '1-2 hours',
-        'icon' => 'tiktok',
-    ],
-    'whatsapp' => [
-        'label' => 'WhatsApp',
-        'color' => 'green-600',
-        'response' => '15–30 minutes',
-        'icon' => 'whatsapp',
-    ],
-];
-
-       return view('frontend.contact',compact( 'socialPlatforms')); // Adjust the view name as necessary
+       
+       return view('frontend.contact'); // Adjust the view name as necessary
    }
 
    public function store(Request $request)
