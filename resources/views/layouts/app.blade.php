@@ -27,6 +27,7 @@
     <meta name="description"
         content="{{ $gs->meta_description ?? 'Discover Tunga Market — where innovation meets commerce. Explore trusted brands, great deals, and a seamless shopping experience built for everyone.' }}">
 
+    <meta name="keywords" content="{{ $gs->meta_keywords ?? '' }}">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 </head>
@@ -765,7 +766,8 @@
     </div>
 
     <!-- Bottom Navigation for Mobile -->
-    <div id="mobile-bottom-nav" class="fixed bottom-0 left-0 right-0 border-t md:hidden z-40" style="background: #000e2a; border-top:1px solid #000e2a">
+    <div id="mobile-bottom-nav" class="fixed bottom-0 left-0 right-0 border-t md:hidden z-40"
+        style="background: #000e2a; border-top:1px solid #000e2a">
         <div class="flex items-center justify-around py-2">
             <!-- Home Button -->
             <button onclick="window.location.href='{{ route('home') }}'" class="flex flex-col items-center p-2
