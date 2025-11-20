@@ -38,9 +38,6 @@
 </head>
 
 <body>
-    {{-- <div id="global-loader">
-        <div class="whirly-loader"> </div>
-    </div> --}}
 
     <div class="main-wrapper">
 
@@ -50,8 +47,6 @@
                 <a href=" {{ route('admin.dashboard') }}" class="logo">
                     <img src="{{ $gs->logo }}" style="border-radius:6px" alt="">
                 </a>
-                {{-- <a id="toggle_btn" href="javascript:void(0);">
-                </a> --}}
             </div>
 
             <a id="mobile_btn" class="mobile_btn" href="#sidebar">
@@ -114,11 +109,13 @@
                             class="topnav-dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
                             <span class="notification-title fw-bold text-dark">Notifications</span>
                             @if($unreadCount > 0)
-                                <form action="{{ route('admin.notifications.markAllAsRead') }}" method="POST" class="d-inline">
-                                      @csrf
-                                <button type="submit" class="clear-noti text-danger small" style="border:none; background-color: transparent; ">Mark
-                                    all as read</button>
-                                     </form>
+                                <form action="{{ route('admin.notifications.markAllAsRead') }}" method="POST"
+                                    class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="clear-noti text-danger small"
+                                        style="border:none; background-color: transparent; ">Mark
+                                        all as read</button>
+                                </form>
                             @endif
                         </div>
 
@@ -139,7 +136,8 @@
                                                     <p class="noti-details mb-1">
 
                                                         @if($notification->user)
-                                                            {{ $notification->user->first_name }} {{ $notification->user->last_name }} |
+                                                            {{ $notification->user->first_name }}
+                                                            {{ $notification->user->last_name }} |
 
                                                         @endif
                                                         <strong>{{ $notification->title }}</strong><br>
@@ -159,10 +157,10 @@
 
                         @if($unreadCount > 0)
 
-                        <div class="topnav-dropdown-footer border-top text-center" >
-                            <a href="{{ route('admin.notifications.index') }}" class="text-primary fw-semibold">View all
-                                Notifications</a>
-                        </div>
+                            <div class="topnav-dropdown-footer border-top text-center">
+                                <a href="{{ route('admin.notifications.index') }}" class="text-primary fw-semibold">View all
+                                    Notifications</a>
+                            </div>
                         @endif
                     </div>
                 </li>
@@ -186,9 +184,9 @@
                                 </div>
                             </div>
                             <hr class="m-0">
-                            <a class="dropdown-item" href="profile.html"> <i class="me-2" data-feather="user"></i> My
+                            <a class="dropdown-item" href="{{ route('admin.profile-setting') }}"> <i class="me-2" data-feather="user"></i> My
                                 Profile</a>
-                            <a class="dropdown-item" href="generalsettings.html"><i class="me-2"
+                            <a class="dropdown-item" href="{{ route('admin.settings.general') }}"><i class="me-2"
                                     data-feather="settings"></i>Settings</a>
                             <hr class="m-0">
                             <form action="{{ route('admin.logout') }}" method="post">
@@ -207,9 +205,14 @@
                 <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
                     aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="profile.html">My Profile</a>
-                    <a class="dropdown-item" href="generalsettings.html">Settings</a>
-                    <a class="dropdown-item" href="signin.html">Logout</a>
+                    <a class="dropdown-item" href="{{ route('admin.profile-setting') }}">My Profile</a>
+                    <a class="dropdown-item" href="{{ route('admin.settings.general') }}">Settings</a>
+                    <form action="{{ route('admin.logout') }}" method="post">
+                        @csrf
+                        <button type="submit" class="dropdown-item logout pb-0"><img
+                                src="{{ asset('admin/assets/img/icons/log-out.svg') }}" class="me-2"
+                                alt="img">Logout</button>
+                    </form>
                 </div>
             </div>
 
@@ -314,8 +317,8 @@
                             </ul>
                         </li>
                         <li class="submenu {{ request()->is('admin/notifications*') }}">
-                            <a href="javascript:void(0);"><img src="{{asset('admin/assets/img/icons/notification-bell.svg')}}"
-                                    alt="img"><span>
+                            <a href="javascript:void(0);"><img
+                                    src="{{asset('admin/assets/img/icons/notification-bell.svg')}}" alt="img"><span>
                                     Notifications</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{{ route('admin.notifications.index') }}"
@@ -328,10 +331,18 @@
                                     alt="img"><span>
                                     Report</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{ route('admin.reports.purchase_orders') }}" class="{{ request()->routeIs('admin.reports.purchase_orders') ? 'active' : '' }}">Purchase order report</a></li>
-                                <li><a href="{{ route('admin.reports.salesRevenue') }}" class="{{ request()->routeIs('admin.reports.salesRevenue') ? 'active' : '' }}">Sales Report</a></li>
-                                <li><a href="{{ route('admin.reports.customerGrowth') }}" class="{{ request()->routeIs('admin.reports.customerGrowth') ? 'active' : '' }}">Customer Growth & User Activity</a></li>
-                                <li><a href="{{ route('admin.inventory') }}" class="{{ request()->routeIs('admin.inventory') ? 'active' : '' }}">Inventory & Stock Movement</a></li>
+                                <li><a href="{{ route('admin.reports.purchase_orders') }}"
+                                        class="{{ request()->routeIs('admin.reports.purchase_orders') ? 'active' : '' }}">Purchase
+                                        order report</a></li>
+                                <li><a href="{{ route('admin.reports.salesRevenue') }}"
+                                        class="{{ request()->routeIs('admin.reports.salesRevenue') ? 'active' : '' }}">Sales
+                                        Report</a></li>
+                                <li><a href="{{ route('admin.reports.customerGrowth') }}"
+                                        class="{{ request()->routeIs('admin.reports.customerGrowth') ? 'active' : '' }}">Customer
+                                        Growth & User Activity</a></li>
+                                <li><a href="{{ route('admin.inventory') }}"
+                                        class="{{ request()->routeIs('admin.inventory') ? 'active' : '' }}">Inventory &
+                                        Stock Movement</a></li>
                             </ul>
                         </li>
 
@@ -340,12 +351,13 @@
                                     alt="img"><span>
                                     Settings</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{ route('admin.settings.general') }}" class="{{ request()->routeIs('admin.settings.general') ? 'active' : '' }}">General Settings</a></li>
-                                <li><a href="emailsettings.html">Email Settings</a></li>
-                                <li><a href="paymentsettings.html">Payment Settings</a></li>
-                                <li><a href="currencysettings.html">Currency Settings</a></li>
-                                <li><a href="grouppermissions.html">Group Permissions</a></li>
-                                <li><a href="taxrates.html">Tax Rates</a></li>
+                                <li><a href="{{ route('admin.settings.general') }}"
+                                        class="{{ request()->routeIs('admin.settings.general') ? 'active' : '' }}">General
+                                        Settings</a></li>
+                                <li><a href="{{ route('admin.profile-setting') }}"
+                                        class="{{ request()->routeIs('admin.profile-setting') ? 'active' : '' }}">Profile
+                                        Settings</a></li>
+
                             </ul>
                         </li>
                     </ul>
