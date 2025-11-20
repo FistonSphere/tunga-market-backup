@@ -133,47 +133,81 @@
                 /* Center on mobile */
             }
         }
+
+        /* Mobile height scaling */
+        #banner-section {
+            height: 100vh;
+        }
+
+        @media (max-width:1024px) {
+            #banner-section {
+                height: 75vh;
+            }
+        }
+
+        @media (max-width:768px) {
+            #banner-section {
+                height: auto !important;
+                padding-top: 3em;
+                padding-bottom: 3em;
+            }
+        }
     </style>
     <section class="relative bg-cover bg-center pb-4"
-        style="background-image: url('{{ asset('assets/images/banner.webp') }}'); background-size: cover; background-repeat: no-repeat; height: 100vh; padding-bottom: .8em;"
+        style="background-image:url('{{ $bannerImage }}'); background-size:cover; background-repeat:no-repeat;"
         id="banner-section">
-        <!-- Check if video background is needed -->
-        <div class="absolute inset-0">
-            <video class="w-full h-full object-cover" id="video-background" autoplay loop muted>
-                <source src="" type="video/mp4">
-                <!-- Fallback content if video is not supported -->
-                Your browser does not support the video tag.
-            </video>
-        </div>
 
-        <!-- Dark linear gradient overlay (reduced opacity) -->
+        <!-- VIDEO BACKGROUND WITH AUTO FALLBACK -->
+        @if($bannerVideo)
+            <div class="absolute inset-0">
+                <video class="w-full h-full object-cover" id="video-background" autoplay loop muted playsinline
+                    onerror="videoFallback()" onstalled="videoFallback()" onabort="videoFallback()">
+                    <source src="{{ $bannerVideo }}" type="video/mp4">
+                </video>
+            </div>
+        @endif
+
+        <!-- Mobile image override -->
+        @if($bannerMobile)
+            <style>
+                @media (max-width:768px) {
+                    #banner-section {
+                        background-image: url('{{ $bannerMobile }}') !important;
+                    }
+                }
+            </style>
+        @endif
+
+        <!-- Overlay -->
         <div class="absolute inset-0"
-            style="background: linear-gradient(180deg, rgba(0, 21, 40, 0.55) 0%, rgba(0, 21, 40, 0.65) 25%, rgba(0, 21, 40, 0.75) 50%, rgba(0, 21, 40, 0.85) 100%); margin-top: -4em;">
+            style="background: linear-gradient(180deg, rgba(0,21,40,0.55) 0%, rgba(0,21,40,0.65) 25%, rgba(0,21,40,0.75) 50%, rgba(0,21,40,0.85) 100%);">
         </div>
 
+        <!-- CONTENT -->
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <!-- Hero Content -->
-                <div class="text-center lg:text-left space-y-6" style="padding-top:1.16em" data-aos="fade-up">
-                    <h1 class="text-5xl font-bold leading-tight tracking-tight text-white mb-4 text-center"
-                        data-aos="fade-up">
-                        <span class="block">Shop Premium Products</span>
-                        <span class="block text-orange-500" style="text-align: left">Your Trusted Shopping
-                            Destination</span>
+
+                <!-- LEFT SIDE TEXT -->
+                <div class="text-center lg:text-left space-y-6" data-aos="fade-up">
+
+                    <h1 class="text-5xl font-bold leading-tight tracking-tight text-white mb-4 text-center">
+                        <span class="block">{{ $gs->banner_title ?? 'Shop Premium Products' }}</span>
+                        <span class="block text-orange-500" style="text-align:left;">
+                            {{ $gs->banner_subtitle ?? 'Your Trusted Shopping Destination' }}
+                        </span>
                     </h1>
-                    <p class="text-lg text-white opacity-80 mb-8 max-w-3xl mx-auto lg:mx-0" data-aos="fade-up"
-                        style="text-align: justify">
-                        Browse a curated selection of high-quality products. Fast delivery, secure payments, and great
-                        prices all in one place.
+
+                    <p class="text-lg text-white opacity-80 mb-8 max-w-3xl mx-auto lg:mx-0" style="text-align:justify;">
+                        {{ $gs->banner_description ?? 'Browse a curated selection of high-quality products with fast delivery and secure payments.' }}
                     </p>
 
-
-                    <!-- Personalized Entry Points -->
+                    <!-- CTA BUTTONS (Dynamic) -->
+                    <!-- ACTION BUTTONS (unchanged) -->
                     <div class="grid sm:grid-cols-3 gap-8">
                         <a href="{{ route('product.discovery') }}" class="text-center group transition-all duration-300"
                             data-aos="zoom-in" data-aos-delay="100">
                             <div class="w-16 h-16"
-                                style="background: linear-gradient(135deg, #ff5e0d, #ff9e6b); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                                style="background: linear-gradient(135deg, #ff5e0d, #ff9e6b); border-radius: 50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
                                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -186,7 +220,7 @@
                         <a href="{{ route('order.tracking') }}" class="text-center group transition-all duration-300"
                             data-aos="zoom-in" data-aos-delay="200">
                             <div class="w-16 h-16"
-                                style="background: linear-gradient(135deg, #001528, #005c75); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                                style="background: linear-gradient(135deg, #001528, #005c75); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
                                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -199,10 +233,9 @@
                         <a href="javascript:void();" class="text-center group transition-all duration-300"
                             data-aos="zoom-in" data-aos-delay="300">
                             <div class="w-16 h-16"
-                                style="background: linear-gradient(135deg, #5c7388, #ff5e0d); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color:white">
-                                <strong> <img src="{{ asset('assets/images/lock.svg') }}" class="w-6 h-6 text-white"
+                                style="background: linear-gradient(135deg, #5c7388, #ff5e0d); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; color:white">
+                                <strong><img src="{{ asset('assets/images/lock.svg') }}" class="w-6 h-6 text-white"
                                         alt=""></strong>
-
                             </div>
                             <h3 class="font-semibold text-xl text-white mb-2">Secure Checkout</h3>
                             <p class="text-sm text-white opacity-70">Fast and safe payment solutions</p>
@@ -210,19 +243,20 @@
                     </div>
                 </div>
 
-                <!-- Hero Visual (adjusted image positioning) -->
+
+                <!-- RIGHT SIDE IMAGES (same as before) -->
                 <div class="relative space-y-4 mt-12 lg:mt-0">
                     <div class="flex flex-wrap gap-4 justify-center lg:justify-end">
-                        <div class="w-full lg:w-2/3 bg-cover bg-center rounded-xl shadow-lg transform transition-transform hover:scale-105"
-                            style="background-image: url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2940&auto=format&fit=crop');"
-                            data-aos="fade-left" data-aos-delay="100">
+                        <div class="w-full lg:w-2/3 bg-cover bg-center rounded-xl shadow-lg transform hover:scale-105"
+                            style="background-image: url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2940&auto=format&fit=crop');">
                         </div>
-                        <div class="w-full lg:w-1/3 bg-cover bg-center rounded-xl shadow-lg transform transition-transform hover:scale-105"
-                            style="background-image: url('https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');"
-                            data-aos="fade-left" data-aos-delay="200">
+
+                        <div class="w-full lg:w-1/3 bg-cover bg-center rounded-xl shadow-lg transform hover:scale-105"
+                            style="background-image: url('https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');">
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -1150,9 +1184,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                                                                                                        <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                                                                                                        <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                                                                                                    `;
+                                                                                                                                                                                                                                        <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                                                                                                        <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                                                                                                                    `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1492,9 +1526,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                                    <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                                    <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                                `;
+                                                                                                                                                                    <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                                    <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                                                `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1516,6 +1550,9 @@
         }
 
 
-
+        function videoFallback() {
+            const video = document.getElementById('video-background');
+            if (video) video.style.display = 'none';
+        }
     </script>
 @endsection

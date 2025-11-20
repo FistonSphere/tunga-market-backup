@@ -53,7 +53,7 @@
                     </a>
                     <a href="{{ route('product.discovery') }}"
                         class="{{ request()->routeIs('product.discovery') ? 'text-white font-semibold border-b-2 border-accent' : 'text-white-600 hover:text-white transition-fast' }}">
-                        Discover
+                        Products
                     </a>
 
                     <style>
@@ -509,7 +509,7 @@
                     <h3 class="font-semibold mb-4">Quick Links</h3>
                     <ul class="space-y-2">
                         <li><a href="{{ route('product.discovery') }}"
-                                class="text-secondary-300 hover:text-accent transition-fast">Product Discovery</a></li>
+                                class="text-secondary-300 hover:text-accent transition-fast">Products</a></li>
                         <li><a href="{{ route('compare') }}"
                                 class="text-secondary-300 hover:text-accent transition-fast">Compare</a></li>
                         <li><a href="{{ route('order.tracking') }}"
@@ -786,7 +786,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <span class="text-xs">Discover</span>
+                <span class="text-xs">Products</span>
             </button>
 
             <!-- Wishlist Button -->
