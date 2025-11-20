@@ -231,6 +231,41 @@
                 padding: 1.2rem;
             }
         }
+
+        .delete-btn {
+            background: #ff5f0e;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            font-size: 13px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px 0 15px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s ease-in-out;
+        }
+
+        .delete-btn:hover {
+            background: #d94d00;
+            transform: translateY(-1px);
+        }
+
+        .delete-btn i {
+            font-size: 14px;
+        }
+
+        .delete-wrapper {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .delete-wrapper form {
+            display: inline-block;
+        }
     </style>
 
     <div class="settings-container">
@@ -263,17 +298,54 @@
                     </h2>
                     <div class="display-mode">
                         <p><strong>Name:</strong> <span>{{ $settings->site_name ?? 'Not set' }}</span></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="site-info">
+                            <input type="hidden" name="delete_field" value="site_name">
+                            <button type="submit" class="delete-btn">Delete Site Name</button>
+                        </form>
                         <p><strong>Tagline:</strong> <span>{{ $settings->site_tagline ?? 'Not set' }}</span></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="site-info">
+                            <input type="hidden" name="delete_field" value="site_tagline">
+                            <button type="submit" class="delete-btn">Delete Site Tagline</button>
+                        </form>
                         <p><strong>Email:</strong> <span>{{ $settings->site_email ?? 'Not set' }}</span></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="site-info">
+                            <input type="hidden" name="delete_field" value="site_email">
+                            <button type="submit" class="delete-btn">Delete Site Email</button>
+                        </form>
                         <p><strong>Phone:</strong> <span>{{ $settings->site_phone ?? 'Not set' }}</span></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="site-info">
+                            <input type="hidden" name="delete_field" value="site_phone">
+                            <button type="submit" class="delete-btn">Delete Site phone</button>
+                        </form>
                         <p><strong>Banner Title:</strong> <span>{{ $settings->banner_title ?? 'Not set' }}</span></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="site-info">
+                            <input type="hidden" name="delete_field" value="banner_title">
+                            <button type="submit" class="delete-btn">Delete Banner Title</button>
+                        </form>
                         <p><strong>Banner Subtitle:</strong> <span>{{ $settings->banner_subtitle ?? 'Not set' }}</span></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="site-info">
+                            <input type="hidden" name="delete_field" value="banner_subtitle">
+                            <button type="submit" class="delete-btn">Delete Banner Subtitle</button>
+                        </form>
                     </div>
                     <form class="edit-mode" style="display:none;" method="POST"
                         action="{{ route('general-settings.update') }}">
                         @csrf
                         <input type="hidden" name="section" value="site-info">
                         <label>Name: <input type="text" name="site_name" value="{{ $settings->site_name }}"></label>
+
                         <label>Tagline: <input type="text" name="site_tagline"
                                 value="{{ $settings->site_tagline }}"></label>
                         <label>Email: <input type="email" name="site_email" value="{{ $settings->site_email }}"></label>
@@ -297,7 +369,7 @@
                     <div class="display-mode">
                         <div class="image-preview">
                             <p>Logo:</p>
-                            <img src="{{ $settings->logo ?? 'https://via.placeholder.com/150' }}" alt="Logo">
+                            <img src="{{ $settings->logo ?? asset('assets/images/no-image.png') }}" alt="Logo">
                         </div>
                         <form method="POST" action="{{ route('general-settings.delete') }}">
                             @csrf
@@ -307,8 +379,14 @@
                         </form>
                         <div class="image-preview">
                             <p>Favicon:</p>
-                            <img src="{{ $settings->favicon ?? 'https://via.placeholder.com/50' }}" alt="Favicon">
+                            <img src="{{ $settings->favicon ?? asset('assets/images/no-image.png') }}" alt="Favicon">
                         </div>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="branding">
+                            <input type="hidden" name="delete_field" value="favicon">
+                            <button type="submit" class="delete-btn">Delete Favicon</button>
+                        </form>
                     </div>
                     <form class="edit-mode" style="display:none;" method="POST"
                         action="{{ route('general-settings.update') }}" enctype="multipart/form-data">
@@ -319,12 +397,7 @@
                         <button type="submit" class="save-btn">Save</button>
                         <button type="button" class="cancel-btn" onclick="toggleEdit(this, true)">Cancel</button>
                     </form>
-                    <form method="POST" action="{{ route('general-settings.delete') }}">
-                        @csrf
-                        <input type="hidden" name="section" value="branding">
-                        <input type="hidden" name="delete_field" value="favicon">
-                        <button type="submit" class="delete-btn">Delete Favicon</button>
-                    </form>
+
                 </div>
             </div>
 
@@ -335,33 +408,43 @@
                         <button class="edit-btn" onclick="toggleEdit(this)">Edit</button>
                     </h2>
                     <div class="display-mode">
-                        @if($settings->banner_video_enabled && $settings->banner_video)
+                        {{-- @if($settings->banner_video_enabled && $settings->banner_video) --}}
+                        <div class="image-preview">
                             <video controls width="100%" class="banner-preview">
                                 <source src="{{ $settings->banner_video }}" type="video/mp4">
                             </video>
-                        @else
-                            <img src="{{ $settings->banner_image ?? 'https://via.placeholder.com/300x150' }}" alt="Banner"
+                            <form method="POST" action="{{ route('general-settings.delete') }}">
+                                @csrf
+                                <input type="hidden" name="section" value="banner">
+                                <input type="hidden" name="delete_field" value="banner_video">
+                                <button type="submit" class="delete-btn">Delete Banner Video</button>
+                            </form>
+                        </div>
+                        {{-- @else --}}
+                        <div class="image-preview">
+                            <img src="{{ $settings->banner_image ?? asset('assets/images/no-image.png') }}" alt="Banner"
                                 class="banner-preview">
-                        @endif
+                            <form method="POST" action="{{ route('general-settings.delete') }}">
+                                @csrf
+                                <input type="hidden" name="section" value="banner">
+                                <input type="hidden" name="delete_field" value="banner_image">
+                                <button type="submit" class="delete-btn">Delete Banner Image</button>
+                            </form>
+                        </div>
+                        <div class="image-preview">
+                            <img src="{{ $settings->banner_mobile_image ?? asset('assets/images/no-image.png')}}"
+                                alt="Banner" class="banner-preview">
+                            <form method="POST" action="{{ route('general-settings.delete') }}">
+                                @csrf
+                                <input type="hidden" name="section" value="banner">
+                                <input type="hidden" name="delete_field" value="banner_mobile_image">
+                                <button type="submit" class="delete-btn">Delete Banner Mobile Image</button>
+                            </form>
+
+                        </div>
+                        {{-- @endif --}}
                     </div>
-                    <form method="POST" action="{{ route('general-settings.delete') }}">
-                        @csrf
-                        <input type="hidden" name="section" value="banner">
-                        <input type="hidden" name="delete_field" value="banner_image">
-                        <button type="submit" class="delete-btn">Delete Banner Image</button>
-                    </form>
-                    <form method="POST" action="{{ route('general-settings.delete') }}">
-                        @csrf
-                        <input type="hidden" name="section" value="banner">
-                        <input type="hidden" name="delete_field" value="banner_mobile_image">
-                        <button type="submit" class="delete-btn">Delete Mobile Banner</button>
-                    </form>
-                    <form method="POST" action="{{ route('general-settings.delete') }}">
-                        @csrf
-                        <input type="hidden" name="section" value="banner">
-                        <input type="hidden" name="delete_field" value="banner_video">
-                        <button type="submit" class="delete-btn">Delete Banner Video</button>
-                    </form>
+
                     <form class="edit-mode" style="display:none;" method="POST"
                         action="{{ route('general-settings.update') }}" enctype="multipart/form-data">
                         @csrf
@@ -387,8 +470,27 @@
                     </h2>
                     <div class="display-mode">
                         <p><strong>Meta Title:</strong> <span>{{ $settings->meta_title ?? '-' }}</span></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="seo">
+                            <input type="hidden" name="delete_field" value="meta_title">
+                            <button type="submit" class="delete-btn">Delete Meta Title</button>
+                        </form>
+
                         <p><strong>Description:</strong> <span>{{ $settings->meta_description ?? '-' }}</span></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="seo">
+                            <input type="hidden" name="delete_field" value="meta_description">
+                            <button type="submit" class="delete-btn">Delete Meta Description</button>
+                        </form>
                         <p><strong>Keywords:</strong> <span>{{ $settings->meta_keywords ?? '-' }}</span></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="seo">
+                            <input type="hidden" name="delete_field" value="meta_keywords">
+                            <button type="submit" class="delete-btn">Delete Meta Keywords</button>
+                        </form>
                     </div>
                     <form class="edit-mode" style="display:none;" method="POST"
                         action="{{ route('general-settings.update') }}">
@@ -494,8 +596,22 @@
                     </h2>
                     <div class="display-mode">
                         <p>{{ $settings->footer_about ?? '-' }}</p>
-                        <img src="{{ $settings->footer_logo ?? 'https://via.placeholder.com/100' }}" alt="Footer Logo"
-                            class="footer-logo">
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="footer">
+                            <input type="hidden" name="delete_field" value="footer_about">
+                            <button type="submit" class="delete-btn">Delete Footer About</button>
+                        </form>
+                        <div class="image-preview">
+                            <img src="{{ $settings->footer_logo ?? asset('assets/images/no-image.png') }}" alt="Footer Logo"
+                                class="footer-logo">
+                            <form method="POST" action="{{ route('general-settings.delete') }}">
+                                @csrf
+                                <input type="hidden" name="section" value="footer">
+                                <input type="hidden" name="delete_field" value="footer_logo">
+                                <button type="submit" class="delete-btn">Delete Footer Logo</button>
+                            </form>
+                        </div>
                     </div>
                     <form class="edit-mode" style="display:none;" method="POST"
                         action="{{ route('general-settings.update') }}" enctype="multipart/form-data">
