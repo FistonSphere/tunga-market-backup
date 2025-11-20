@@ -605,7 +605,7 @@
                                                 </div>
                                             </div>
                                         </a>
-                                        <a href="tel:+250787444019"
+                                        <a href="tel:{{ $gs->site_phone }}"
                                             class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
                                             <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">

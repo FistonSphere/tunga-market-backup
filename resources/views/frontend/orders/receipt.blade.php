@@ -509,8 +509,7 @@
                                     <div class="text-sm space-y-1">
                                         <p class="flex items-center"><span class="w-4 h-4 mr-2">📧</span>
                                             support@tungamarket.com</p>
-                                        <p class="flex items-center"><span class="w-4 h-4 mr-2">📞</span> +1 (555)
-                                            123-4567</p>
+                                        <p class="flex items-center"><span class="w-4 h-4 mr-2">📞</span> {{ $gs->site_phone }}</p>
                                         <p class="flex items-center"><span class="w-4 h-4 mr-2">🕒</span> Mon-Fri: 9
                                             AM - 6 PM PST</p>
                                         <p class="flex items-center"><span class="w-4 h-4 mr-2">💬</span> Live Chat:
@@ -547,7 +546,7 @@
                         <div>
                             <p class="font-semibold mb-1">Need Help?</p>
                             <p class="text-secondary-300 text-sm">support@tungamarket.com</p>
-                            <p class="text-secondary-300 text-sm">+1 (555) 123-4567</p>
+                            <p class="text-secondary-300 text-sm">{{ $gs->site_phone }}</p>
                         </div>
                     </div>
                     <div class="border-t border-secondary-700 mt-6 pt-4 text-center">

@@ -189,9 +189,9 @@
                         Speak directly with our experts for complex issues and urgent matters.
                     </p>
                     <div class="text-sm text-secondary-600 mb-4">
-                        📞 +250 (787) 555-0123 • Mon-Fri 9AM-6PM EST
+                        📞 {{ $gs->site_phone }} • Mon-Fri 9AM-6PM EST
                     </div>
-                    <a href="tel:+250787444019" class="btn-primary w-full" style="background:#38a169">Call Now</a>
+                    <a href="tel:{{ $gs->site_phone }}" class="btn-primary w-full" style="background:#38a169">Call Now</a>
                 </div>
             </div>
         </div>
