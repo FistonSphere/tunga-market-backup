@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+    @php
+        $gs = \App\Models\GeneralSetting::first();
+    @endphp
     <style>
         @keyframes slideIn {
             from {
@@ -152,10 +155,13 @@
                     <h1 class="text-5xl font-bold leading-tight tracking-tight text-white mb-4 text-center"
                         data-aos="fade-up">
                         <span class="block">Shop Premium Products</span>
-                        <span class="block text-orange-500" style="text-align: left">Your Trusted Shopping Destination</span>
+                        <span class="block text-orange-500" style="text-align: left">Your Trusted Shopping
+                            Destination</span>
                     </h1>
-                    <p class="text-lg text-white opacity-80 mb-8 max-w-3xl mx-auto lg:mx-0" data-aos="fade-up" style="text-align: justify">
-                        Browse a curated selection of high-quality products. Fast delivery, secure payments, and great prices all in one place.
+                    <p class="text-lg text-white opacity-80 mb-8 max-w-3xl mx-auto lg:mx-0" data-aos="fade-up"
+                        style="text-align: justify">
+                        Browse a curated selection of high-quality products. Fast delivery, secure payments, and great
+                        prices all in one place.
                     </p>
 
 
@@ -528,7 +534,7 @@
                 <div class="text-center mb-12">
                     <h2 class="text-heading font-bold text-primary mb-4">Success Stories</h2>
                     <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                        Real transformations from businesses that chose to grow with Tunga Market
+                        Real transformations from businesses that chose to grow with {{$gs->site_name}}
                     </p>
                 </div>
 
@@ -773,7 +779,7 @@
     <section class="py-20 bg-gradient-to-r from-primary to-primary-700">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-heading font-bold text-white mb-6">
-                Ready to Grow With Tunga Market?
+                Ready to Grow With {{$gs->site_name}}?
             </h2>
             <p class="text-body-lg text-primary-100 mb-8 max-w-2xl mx-auto">
                 Shop the latest products, enjoy exclusive deals, and experience secure, hassle-free shopping. Join Tunga
@@ -1141,9 +1147,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                                                                                                <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                                                                                                <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                                                                                            `;
+                                                                                                                                                                                                                    <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                                                                                    <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                                                                                                `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1483,9 +1489,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                            <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                            <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                        `;
+                                                                                                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");

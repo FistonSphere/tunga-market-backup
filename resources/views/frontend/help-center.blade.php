@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $gs = \App\Models\GeneralSetting::first();
+    @endphp
     <!-- Hero Section with Search -->
     <section class="relative bg-gradient-to-br from-primary-50 to-accent-50 py-20 overflow-hidden">
         <div class="absolute inset-0 opacity-10">
@@ -17,7 +20,7 @@
                 How Can We <span class="text-gradient">Help You</span> Today?
             </h1>
             <p class="text-body-lg text-secondary-600 mb-8 max-w-2xl mx-auto">
-                Find answers, step-by-step guides, and instant support for all your Tunga Market needs. Our comprehensive
+                Find answers, step-by-step guides, and instant support for all your {{$gs->site_name}} needs. Our comprehensive
                 help center is here to empower your success.
             </p>
 
@@ -144,7 +147,7 @@
                     <div class="text-sm text-success mb-4">
                         🟢 Online Now • Avg. response: 2 minutes
                     </div>
-                    <a href="https://wa.me/250787444019?text={{ urlencode('Hello Tunga Market Support, I need help with...') }}"
+                    <a href="https://wa.me/250787444019?text={{ urlencode('Hello {{$gs->site_name}} Support, I need help with...') }}"
                         target="_blank" class="btn-primary w-full" style="background: #1a365d" rel="noopener">
                         Start Chat
                     </a>
@@ -165,7 +168,7 @@
                     <div class="text-sm text-secondary-600 mb-4">
                         📧 support@tungamarket.com
                     </div>
-                    <a href="mailto:sanofiston04@gmail.com?subject={{ rawurlencode('Tunga Market Support Request') }}&body={{ rawurlencode('Hello Tunga Market Support, I need help with...') }}"
+                    <a href="mailto:sanofiston04@gmail.com?subject={{ rawurlencode('{{$gs->site_name}} Support Request') }}&body={{ rawurlencode('Hello {{$gs->site_name}} Support, I need help with...') }}"
                         class="btn-secondary w-full" style="background: #ff5e0d">
                         Send Email
                     </a>
@@ -224,14 +227,14 @@
             }
         });
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const searchInput = document.getElementById("faq-search");
             const suggestionsBox = document.getElementById("faq-suggestions");
             const suggestionsList = suggestionsBox.querySelector("ul");
 
             let timer;
 
-            searchInput.addEventListener("input", function() {
+            searchInput.addEventListener("input", function () {
                 clearTimeout(timer);
                 const query = this.value.trim();
 
@@ -251,8 +254,8 @@
                                     li.className =
                                         "px-4 py-2 hover:bg-primary-50 cursor-pointer";
                                     li.innerHTML = `<span class="font-medium text-primary">${item.category}</span> →
-                    <span class="text-secondary-600">${item.topic}</span> →
-                    ${item.question}`;
+                        <span class="text-secondary-600">${item.topic}</span> →
+                        ${item.question}`;
                                     li.onclick = () => {
                                         // Redirect to search route with ID filter
                                         window.location.href =
@@ -270,7 +273,7 @@
             });
 
             // Hide on outside click
-            document.addEventListener("click", function(e) {
+            document.addEventListener("click", function (e) {
                 if (!suggestionsBox.contains(e.target) && e.target !== searchInput) {
                     suggestionsBox.classList.add("hidden");
                 }
