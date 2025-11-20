@@ -34,14 +34,14 @@
 <body class="bg-background text-text-primary dark-theme">
 
     <!-- Navigation Header -->
-    <header class="bg-white shadow-card sticky top-0" style="z-index: 99999; background-color: #1f262d; color:#fff">
+    <header class="bg-white shadow-card sticky top-0" style="z-index: 99999; background-color: #000e2a; color:#fff">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="/" class="imglogolink">
                         <img src="{{ $gs->logo }}"
-                            style="width: 150px; height: auto;border-radius: 6px; object-fit: contain; overflow: hidden;"
+                            style="width: 150px; height: 80px;border-radius: 6px; object-fit: contain; overflow: hidden;"
                             alt="Tunga Market Logo" class="Imglogo text-primary" />
                     </a>
                 </div>
@@ -327,7 +327,7 @@
                                             class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                                         </div>
                                     @endif
-                                    <span class="text-primary font-semibold">
+                                    <span class="text-white font-semibold">
                                         Hi, {{ $user->first_name ?? 'My Account' }}
                                     </span>
                                 </a>
@@ -412,7 +412,7 @@
     @yield('content')
 
     <!-- Footer -->
-    <footer class="bg-secondary-800 text-white">
+    <footer class=" text-white" style="background: #000e2a">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Company Info -->
@@ -765,12 +765,12 @@
     </div>
 
     <!-- Bottom Navigation for Mobile -->
-    <div id="mobile-bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-border md:hidden z-40">
+    <div id="mobile-bottom-nav" class="fixed bottom-0 left-0 right-0 border-t md:hidden z-40" style="background: #000e2a; border-top:1px solid #000e2a">
         <div class="flex items-center justify-around py-2">
             <!-- Home Button -->
             <button onclick="window.location.href='{{ route('home') }}'" class="flex flex-col items-center p-2
-                {{ request()->routeIs('home') ? 'text-accent' : 'text-secondary-600' }}
-                hover:text-primary transition-fast">
+                {{ request()->routeIs('home') ? 'text-accent' : 'text-white' }}
+                hover:text-accent transition-fast">
                 <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -780,8 +780,8 @@
 
             <!-- Discover Button -->
             <button onclick="window.location.href='{{ route('product.discovery') }}'" class="flex flex-col items-center p-2
-                {{ request()->routeIs('product.discovery') ? 'text-accent' : 'text-secondary-600' }}
-                hover:text-primary transition-fast">
+                {{ request()->routeIs('product.discovery') ? 'text-accent' : 'text-white' }}
+                hover:text-accent transition-fast">
                 <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -791,7 +791,7 @@
 
             <!-- Wishlist Button -->
             <button id="open-wishlist-btn2" class="flex flex-col items-center p-2
-                {{ request()->routeIs('wishlist') ? 'text-accent' : 'text-secondary-600' }}
+                {{ request()->routeIs('wishlist') ? 'text-accent' : 'text-white' }}
                 hover:text-accent-600 transition-fast">
                 <div class="relative">
                     <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -807,8 +807,8 @@
 
             <!-- Cart Button -->
             <button onclick="window.location.href='{{ route('cart') }}'" class="flex flex-col items-center p-2
-                {{ request()->routeIs('cart') ? 'text-accent' : 'text-secondary-600' }}
-                hover:text-primary transition-fast">
+                {{ request()->routeIs('cart') ? 'text-accent' : 'text-white' }}
+                hover:text-accent transition-fast">
                 <div class="relative">
                     <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -823,8 +823,8 @@
 
             <!-- Orders Button -->
             <button onclick="window.location.href='{{ route('order.tracking') }}'" class="flex flex-col items-center p-2
-                {{ request()->routeIs('order.tracking') ? 'text-accent' : 'text-secondary-600' }}
-                hover:text-primary transition-fast">
+                {{ request()->routeIs('order.tracking') ? 'text-accent' : 'text-white' }}
+                hover:text-accent transition-fast">
                 <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />

@@ -25,8 +25,8 @@ class GeneralSetting extends Model
         'banner_video',         // URL for video
         'banner_video_enabled', // boolean (true/false)
 
-        'background_image',     // general background image URL
-        'background_pattern',   // pattern URL if needed
+        'banner_title',     // general background image URL
+        'banner_subtitle',   // pattern URL if needed
 
         // SEO
         'meta_title',

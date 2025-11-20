@@ -159,7 +159,7 @@
 
                                             {{-- Supplier --}}
                                             <td class="px-4 py-4 text-sm text-secondary-600">
-                                                {{ $order->first()->product->brand->name ?? '{{$gs->site_name}} Inc.' }}
+                                                {{ $order->first()->product->brand->name ?? 'Tunga Market Inc.' }}
 
                                             </td>
 
@@ -740,13 +740,13 @@
 
         function contactSupplier() {
             const orderId = document.getElementById("detail-order-number")?.innerText.replace('#', '') || 'N/A';
-            const supplierName = "{{$gs->site_name}}";
+            const supplierName = "Tunga Market";
 
             const message = encodeURIComponent(
                 `Hello ${supplierName},\n\nI am contacting you regarding my order (NO: ${orderId}). Could you please assist me with more details?`
             );
 
-            // WhatsApp contact number for {{$gs->site_name}}
+            // WhatsApp contact number for Tunga Market
             window.open(`https://wa.me/250787444019?text=${message}`, "_blank");
         }
 
