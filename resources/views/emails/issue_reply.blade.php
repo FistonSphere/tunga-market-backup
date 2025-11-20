@@ -1,9 +1,12 @@
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Tunga Market - Issue Reply</title>
+    <title>{{$gs->site_name}} - Issue Reply</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -157,13 +160,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Tunga Market</h1>
+            <h1>{{$gs->site_name}}</h1>
             <p>Customer Support Center</p>
         </div>
 
         <div class="content">
             <h2>Hello {{ $user->first_name ?? 'Customer' }},</h2>
-            <p>We’ve reviewed your report regarding one of your recent orders on <strong>Tunga Market</strong>.</p>
+            <p>We’ve reviewed your report regarding one of your recent orders on <strong>{{$gs->site_name}}</strong>.</p>
 
             <div class="product-section">
                 <img src="{{ $issue->product->main_image }}" alt="Product Image">
@@ -179,7 +182,7 @@
                 </div>
 
                 <div class="message admin">
-                    <p><strong>Tunga Market Support:</strong><br>{{ $reply }}</p>
+                    <p><strong>{{$gs->site_name}} Support:</strong><br>{{ $reply }}</p>
                 </div>
             </div>
 
@@ -188,13 +191,13 @@
             </p>
 
             <p>If you have any more details or updates, simply reply to this email — we’ll follow up promptly.</p>
-            <p>Thank you for trusting <strong>Tunga Market</strong>!</p>
+            <p>Thank you for trusting <strong>{{$gs->site_name}}</strong>!</p>
         </div>
 
         <div class="footer">
-            <p>&copy; {{ date('Y') }} Tunga Market. All Rights Reserved.</p>
+            <p>&copy; {{ date('Y') }} {{$gs->site_name}}. All Rights Reserved.</p>
             <p>
-                <a href="{{ url('/') }}">Visit Website</a> | 
+                <a href="{{ url('/') }}">Visit Website</a> |
                 <a href="{{ url('/support') }}">Contact Support</a>
             </p>
         </div>

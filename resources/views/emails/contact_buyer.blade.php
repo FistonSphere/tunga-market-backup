@@ -1,9 +1,12 @@
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Tunga Market Notification</title>
+    <title>{{$gs->site_name}} Notification</title>
     <style>
         body {
             background-color: #f4f6f9;
@@ -83,12 +86,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Tunga Market</h1>
+            <h1>{{$gs->site_name}}</h1>
         </div>
         <div class="content">
             <h2>Dear {{ $user->first_name ?? 'Customer' }},</h2>
-            <p>You have a new message from the Tunga Market support team regarding your order
-                <strong>{{ $order->invoice_number }}</strong>.</p>
+            <p>You have a new message from the {{$gs->site_name}} support team regarding your order
+                <strong>{{ $order->invoice_number }}</strong>.
+            </p>
 
             <div class="message-box">
                 <p>{{ $messageText }}</p>
@@ -103,7 +107,7 @@
         </div>
 
         <div class="footer">
-            <p>© {{ date('Y') }} Tunga Market. All rights reserved.</p>
+            <p>© {{ date('Y') }} {{$gs->site_name}}. All rights reserved.</p>
             <p><a href="{{ url('/') }}">Visit Our Website</a></p>
         </div>
     </div>
