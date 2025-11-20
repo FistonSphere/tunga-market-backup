@@ -1,3 +1,6 @@
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
 <!DOCTYPE html>
 <html>
 
@@ -147,8 +150,8 @@
         </div>
 
         <div class="footer">
-            Tunga Market Analytics — Automated Report<br>
-            © {{ date('Y') }} Tunga Market. All rights reserved.
+            {{$gs->site_name}} Analytics — Automated Report<br>
+            © {{ date('Y') }} {{$gs->site_name}}. All rights reserved.
         </div>
     </div>
 </body>

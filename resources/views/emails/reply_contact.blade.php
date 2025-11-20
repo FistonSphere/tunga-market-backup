@@ -1,3 +1,6 @@
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -144,7 +147,7 @@
                     {!! nl2br(e($messageText)) !!}
                 </div>
 
-                <p>We appreciate your patience and the time you took to reach out.  
+                <p>We appreciate your patience and the time you took to reach out.
                     If you need further assistance, please don’t hesitate to contact us again.</p>
 
                 <p>
@@ -152,7 +155,7 @@
                 </p>
 
                 <p style="margin-top: 25px;">Best regards,<br>
-                    <strong>Tunga Market Support Team</strong>
+                    <strong>{{$gs->site_name}} Support Team</strong>
                 </p>
             </div>
 
@@ -163,7 +166,7 @@
                     <a href="{{ url('/contact') }}">Contact Us</a> |
                     <a href="{{ url('/privacy-policy') }}">Privacy Policy</a>
                 </div>
-                <p style="margin-top: 8px;">© {{ date('Y') }} Tunga Market. All rights reserved.</p>
+                <p style="margin-top: 8px;">© {{ date('Y') }} {{$gs->site_name}}. All rights reserved.</p>
             </div>
         </div>
     </div>
