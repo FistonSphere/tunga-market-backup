@@ -482,7 +482,7 @@
                                     </div>
                                     <div class="flex space-x-2">
                                         <button onclick="contactSupplier()" class="btn-secondary px-3 py-2 text-sm">
-                                            Contact Supplier
+                                            Contact Us
                                         </button>
                                         <button onclick="downloadInvoice()"
                                             class="text-accent hover:text-accent-600 text-sm font-semibold">
