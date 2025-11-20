@@ -202,6 +202,9 @@ public function delete(Request $request)
     return redirect()->back()->with('success', ucfirst($field).' deleted successfully!');
 }
 
+public function profileSetting(){
 
+    return view('admin.settings.profile');
+}
   
 }
