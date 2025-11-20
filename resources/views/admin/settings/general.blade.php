@@ -278,8 +278,10 @@
                                 value="{{ $settings->site_tagline }}"></label>
                         <label>Email: <input type="email" name="site_email" value="{{ $settings->site_email }}"></label>
                         <label>Phone: <input type="text" name="site_phone" value="{{ $settings->site_phone }}"></label>
-                        <label>Banner Title: <input type="text" name="banner_title" value="{{ $settings->banner_title }}"></label>
-                        <label>Banner Subtitle: <input type="text" name="banner_subtitle" value="{{ $settings->banner_subtitle }}"></label>
+                        <label>Banner Title: <input type="text" name="banner_title"
+                                value="{{ $settings->banner_title }}"></label>
+                        <label>Banner Subtitle: <input type="text" name="banner_subtitle"
+                                value="{{ $settings->banner_subtitle }}"></label>
                         <button type="submit" class="save-btn">Save</button>
                         <button type="button" class="cancel-btn" onclick="toggleEdit(this, true)">Cancel</button>
                     </form>
@@ -297,6 +299,12 @@
                             <p>Logo:</p>
                             <img src="{{ $settings->logo ?? 'https://via.placeholder.com/150' }}" alt="Logo">
                         </div>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="branding">
+                            <input type="hidden" name="delete_field" value="logo">
+                            <button type="submit" class="delete-btn">Delete Logo</button>
+                        </form>
                         <div class="image-preview">
                             <p>Favicon:</p>
                             <img src="{{ $settings->favicon ?? 'https://via.placeholder.com/50' }}" alt="Favicon">
@@ -310,6 +318,12 @@
                         <label>Favicon: <input type="file" name="favicon"></label>
                         <button type="submit" class="save-btn">Save</button>
                         <button type="button" class="cancel-btn" onclick="toggleEdit(this, true)">Cancel</button>
+                    </form>
+                    <form method="POST" action="{{ route('general-settings.delete') }}">
+                        @csrf
+                        <input type="hidden" name="section" value="branding">
+                        <input type="hidden" name="delete_field" value="favicon">
+                        <button type="submit" class="delete-btn">Delete Favicon</button>
                     </form>
                 </div>
             </div>
@@ -330,6 +344,24 @@
                                 class="banner-preview">
                         @endif
                     </div>
+                    <form method="POST" action="{{ route('general-settings.delete') }}">
+                        @csrf
+                        <input type="hidden" name="section" value="banner">
+                        <input type="hidden" name="delete_field" value="banner_image">
+                        <button type="submit" class="delete-btn">Delete Banner Image</button>
+                    </form>
+                    <form method="POST" action="{{ route('general-settings.delete') }}">
+                        @csrf
+                        <input type="hidden" name="section" value="banner">
+                        <input type="hidden" name="delete_field" value="banner_mobile_image">
+                        <button type="submit" class="delete-btn">Delete Mobile Banner</button>
+                    </form>
+                    <form method="POST" action="{{ route('general-settings.delete') }}">
+                        @csrf
+                        <input type="hidden" name="section" value="banner">
+                        <input type="hidden" name="delete_field" value="banner_video">
+                        <button type="submit" class="delete-btn">Delete Banner Video</button>
+                    </form>
                     <form class="edit-mode" style="display:none;" method="POST"
                         action="{{ route('general-settings.update') }}" enctype="multipart/form-data">
                         @csrf
@@ -382,16 +414,58 @@
                     <div class="display-mode">
                         <p><strong>Facebook:</strong> <a href="{{ $settings->facebook_url }}"
                                 target="_blank">{{ $settings->facebook_url }}</a></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="socials">
+                            <input type="hidden" name="delete_field" value="facebook_url">
+                            <button type="submit" class="delete-btn">Delete Facebook Link</button>
+                        </form>
+
                         <p><strong>Instagram:</strong> <a href="{{ $settings->instagram_url }}"
                                 target="_blank">{{ $settings->instagram_url }}</a></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="socials">
+                            <input type="hidden" name="delete_field" value="instagram_url">
+                            <button type="submit" class="delete-btn">Delete Instagram Link</button>
+                        </form>
+
                         <p><strong>Twitter:</strong> <a href="{{ $settings->twitter_url }}"
                                 target="_blank">{{ $settings->twitter_url }}</a></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="socials">
+                            <input type="hidden" name="delete_field" value="twitter_url">
+                            <button type="submit" class="delete-btn">Delete Twitter Link</button>
+                        </form>
+
                         <p><strong>TikTok:</strong> <a href="{{ $settings->tiktok_url }}"
                                 target="_blank">{{ $settings->tiktok_url }}</a></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="socials">
+                            <input type="hidden" name="delete_field" value="tiktok_url">
+                            <button type="submit" class="delete-btn">Delete TikTok Link</button>
+                        </form>
+
                         <p><strong>LinkedIn:</strong> <a href="{{ $settings->linkedin_url }}"
                                 target="_blank">{{ $settings->linkedin_url }}</a></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="socials">
+                            <input type="hidden" name="delete_field" value="linkedin_url">
+                            <button type="submit" class="delete-btn">Delete Linkedin Link</button>
+                        </form>
+
                         <p><strong>YouTube:</strong> <a href="{{ $settings->youtube_url }}"
                                 target="_blank">{{ $settings->youtube_url }}</a></p>
+                        <form method="POST" action="{{ route('general-settings.delete') }}">
+                            @csrf
+                            <input type="hidden" name="section" value="socials">
+                            <input type="hidden" name="delete_field" value="youtube_url">
+                            <button type="submit" class="delete-btn">Delete YouTube Link</button>
+                        </form>
+
                     </div>
                     <form class="edit-mode" style="display:none;" method="POST"
                         action="{{ route('general-settings.update') }}">
@@ -490,9 +564,9 @@
             }
         }
 
-       
-       
-       
+
+
+
         document.querySelectorAll('.tab-button').forEach(button => {
             button.addEventListener('click', () => {
                 const tab = button.dataset.tab;
