@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $gs = \App\Models\GeneralSetting::first();
+    @endphp
     <!-- Hero Section -->
     <section class="relative bg-gradient-to-br from-primary-50 to-accent-50 py-20 overflow-hidden">
         <div class="absolute inset-0 opacity-10">
@@ -19,7 +22,7 @@
                     <span class="text-gradient">Global Commerce</span>
                 </h1>
                 <p class="text-body-lg text-secondary-600 mb-8 max-w-3xl mx-auto">
-                    Join our mission to democratize international trade through cutting-edge technology. At Tunga Market,
+                    Join our mission to democratize international trade through cutting-edge technology. At {{$gs->site_name}},
                     your ideas shape the global marketplace and your career grows with limitless opportunities.
                 </p>
 
@@ -46,7 +49,8 @@
                         </div>
                     </div>
                     <p class="text-body text-secondary-700 italic">
-                        "Tunga Market isn't just a workplace—it's where innovation meets impact. Every day, I help shape products
+                        "{{$gs->site_name}} isn't just a workplace—it's where innovation meets impact. Every day, I help shape
+                        products
                         that connect businesses worldwide."
                     </p>
                 </div>
@@ -58,7 +62,7 @@
     <section id="culture" class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Why Tunga Market?</h2>
+                <h2 class="text-heading font-bold text-primary mb-4">Why {{$gs->site_name}}?</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
                     Experience a culture that values innovation, diversity, and personal growth in the heart of global
                     commerce
@@ -429,8 +433,7 @@
                                     Strategy</span>
                                 <span class="bg-secondary-100 text-secondary-600 px-2 py-1 rounded text-xs">User
                                     Research</span>
-                                <span
-                                    class="bg-secondary-100 text-secondary-600 px-2 py-1 rounded text-xs">Analytics</span>
+                                <span class="bg-secondary-100 text-secondary-600 px-2 py-1 rounded text-xs">Analytics</span>
                                 <span class="bg-secondary-100 text-secondary-600 px-2 py-1 rounded text-xs">AI/ML</span>
                             </div>
                         </div>
@@ -491,8 +494,7 @@
                             <div class="flex flex-wrap gap-2">
                                 <span class="bg-secondary-100 text-secondary-600 px-2 py-1 rounded text-xs">Digital
                                     Marketing</span>
-                                <span
-                                    class="bg-secondary-100 text-secondary-600 px-2 py-1 rounded text-xs">Analytics</span>
+                                <span class="bg-secondary-100 text-secondary-600 px-2 py-1 rounded text-xs">Analytics</span>
                                 <span class="bg-secondary-100 text-secondary-600 px-2 py-1 rounded text-xs">A/B
                                     Testing</span>
                                 <span class="bg-secondary-100 text-secondary-600 px-2 py-1 rounded text-xs">SEO/SEM</span>
@@ -560,8 +562,7 @@
             <div class="grid md:grid-cols-4 gap-8">
                 <!-- Step 1 -->
                 <div class="text-center">
-                    <div
-                        class="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 shadow-card">
+                    <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 shadow-card">
                         <span class="text-white font-bold text-xl">1</span>
                     </div>
                     <h3 class="font-semibold text-primary mb-2">Application</h3>
@@ -626,7 +627,7 @@
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">What Our Team Says</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Hear from our employees about their experience working at Tunga Market
+                    Hear from our employees about their experience working at {{$gs->site_name}}
                 </p>
             </div>
 
@@ -821,14 +822,14 @@
         }
 
         // Add fade in animation for filtered jobs
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const style = document.createElement('style');
             style.textContent = `
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(10px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-        `;
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `;
             document.head.appendChild(style);
         });
     </script>

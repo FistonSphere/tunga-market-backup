@@ -1,3 +1,6 @@
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,7 +80,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Tunga Market</h1>
+            <h1>{{$gs->site_name}}</h1>
             <p>Secure Your Account</p>
         </div>
 
@@ -89,11 +92,11 @@
             <div class="otp-box">{{ $newPassword }}</div>
 
             <p>If you did not request this change, please contact support immediately.</p>
-            <p>Thank you,<br>Tunga Market Team</p>
+            <p>Thank you,<br>{{$gs->site_name}} Team</p>
         </div>
 
         <div class="footer">
-            &copy; {{ date('Y') }} Tunga Market. All rights reserved.
+            &copy; {{ date('Y') }} {{$gs->site_name}}. All rights reserved.
             <br>
             Need help? <a href="#">Contact Support</a>
         </div>

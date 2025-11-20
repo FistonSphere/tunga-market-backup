@@ -1,3 +1,6 @@
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,7 +80,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Tunga Market</h1>
+            <h1>{{$gs->site_name}}</h1>
             <p>Secure Your Account</p>
         </div>
 
@@ -94,7 +97,7 @@
         </div>
 
         <div class="footer">
-            &copy; {{ date('Y') }} Tunga Market. All rights reserved.
+            &copy; {{ date('Y') }} {{$gs->site_name}}. All rights reserved.
             <br>
             Need help? <a href="#">Contact Support</a>
         </div>

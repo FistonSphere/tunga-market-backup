@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $gs = \App\Models\GeneralSetting::first();
+    @endphp
     <!-- Hero Section -->
     <section class="relative bg-gradient-to-br from-primary-50 to-accent-50 py-20 overflow-hidden">
         <div class="absolute inset-0 opacity-10">
@@ -19,7 +22,7 @@
                     <span class="text-gradient">A Better Marketplace</span>
                 </h1>
                 <p class="text-body-lg text-secondary-600 mb-8 max-w-3xl mx-auto">
-                    At Tunga Market, we make shopping simple, secure, and rewarding. Discover a world of products, enjoy
+                    At {{$gs->site_name}}, we make shopping simple, secure, and rewarding. Discover a world of products, enjoy
                     seamless experiences, and shop with confidence wherever you are. Our mission is to connect people with
                     quality goods and trusted sellers, making global shopping accessible to everyone.
                 </p>
@@ -214,7 +217,8 @@
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">Our Journey</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    Our journey is just beginning! Here are the first steps as we launch Tunga Market and start bringing a new shopping experience to Rwanda.
+                    Our journey is just beginning! Here are the first steps as we launch {{$gs->site_name}} and start bringing a
+                    new shopping experience to Rwanda.
                 </p>
             </div>
 
@@ -227,9 +231,10 @@
                     <div class="flex items-center">
                         <div class="w-1/2 pr-8 text-right">
                             <div class="card">
-                                <h3 class="font-semibold text-primary mb-2">Tunga Market Launch</h3>
+                                <h3 class="font-semibold text-primary mb-2">{{$gs->site_name}} Launch</h3>
                                 <p class="text-body-sm text-secondary-600">
-                                    In 2025, we opened our doors to shoppers across Rwanda, making it easy and safe for everyone to discover and buy quality products online.
+                                    In 2025, we opened our doors to shoppers across Rwanda, making it easy and safe for
+                                    everyone to discover and buy quality products online.
                                 </p>
                             </div>
                         </div>
@@ -249,7 +254,9 @@
                             <div class="card">
                                 <h3 class="font-semibold text-primary mb-2">Exciting Times Ahead</h3>
                                 <p class="text-body-sm text-secondary-600">
-                                    We’re just getting started! Our goal is to bring more products, better service, and a seamless shopping experience to every home in Rwanda. Thank you for being part of our story from day one.
+                                    We’re just getting started! Our goal is to bring more products, better service, and a
+                                    seamless shopping experience to every home in Rwanda. Thank you for being part of our
+                                    story from day one.
                                 </p>
                             </div>
                         </div>
@@ -265,7 +272,7 @@
             <div class="text-center mb-12">
                 <h2 class="text-heading font-bold text-primary mb-4">Our Values</h2>
                 <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    The principles that shape every shopping experience and interaction at Tunga Market
+                    The principles that shape every shopping experience and interaction at {{$gs->site_name}}
                 </p>
             </div>
 
@@ -358,7 +365,8 @@
                             </div>
                             <div>
                                 <h4 class="font-medium text-primary">Eco-Friendly Shopping</h4>
-                                <p class="text-body-sm text-secondary-600">We highlight and promote products with sustainable packaging and responsible sourcing.</p>
+                                <p class="text-body-sm text-secondary-600">We highlight and promote products with
+                                    sustainable packaging and responsible sourcing.</p>
                             </div>
                         </div>
                         <div class="flex items-start">
@@ -371,7 +379,8 @@
                             </div>
                             <div>
                                 <h4 class="font-medium text-primary">Green Delivery Options</h4>
-                                <p class="text-body-sm text-secondary-600">Choose eco-friendly delivery at checkout to reduce your carbon footprint.</p>
+                                <p class="text-body-sm text-secondary-600">Choose eco-friendly delivery at checkout to
+                                    reduce your carbon footprint.</p>
                             </div>
                         </div>
                         <div class="flex items-start">
@@ -384,7 +393,8 @@
                             </div>
                             <div>
                                 <h4 class="font-medium text-primary">Digital Receipts</h4>
-                                <p class="text-body-sm text-secondary-600">We use digital receipts to reduce paper waste and help you track your purchases easily.</p>
+                                <p class="text-body-sm text-secondary-600">We use digital receipts to reduce paper waste and
+                                    help you track your purchases easily.</p>
                             </div>
                         </div>
                     </div>
@@ -404,7 +414,8 @@
                             </div>
                             <div>
                                 <h4 class="font-medium text-primary">Supporting Local Communities</h4>
-                                <p class="text-body-sm text-secondary-600">We partner with local organizations to give back and support community projects.</p>
+                                <p class="text-body-sm text-secondary-600">We partner with local organizations to give back
+                                    and support community projects.</p>
                             </div>
                         </div>
                         <div class="flex items-start">
@@ -417,7 +428,8 @@
                             </div>
                             <div>
                                 <h4 class="font-medium text-primary">Education for Shoppers</h4>
-                                <p class="text-body-sm text-secondary-600">We provide tips and resources to help you shop safely and make informed choices online.</p>
+                                <p class="text-body-sm text-secondary-600">We provide tips and resources to help you shop
+                                    safely and make informed choices online.</p>
                             </div>
                         </div>
                         <div class="flex items-start">
@@ -430,7 +442,8 @@
                             </div>
                             <div>
                                 <h4 class="font-medium text-primary">Diversity & Inclusion</h4>
-                                <p class="text-body-sm text-secondary-600">We celebrate diversity and make sure everyone feels welcome and valued at Tunga Market.</p>
+                                <p class="text-body-sm text-secondary-600">We celebrate diversity and make sure everyone
+                                    feels welcome and valued at {{$gs->site_name}}.</p>
                             </div>
                         </div>
                     </div>
@@ -446,7 +459,8 @@
                 Shop with Confidence
             </h2>
             <p class="text-body-lg text-primary-100 mb-8 max-w-2xl mx-auto">
-                Discover amazing products, enjoy secure shopping, and experience convenience like never before. Join thousands of happy shoppers at Tunga Market today!
+                Discover amazing products, enjoy secure shopping, and experience convenience like never before. Join
+                thousands of happy shoppers at {{$gs->site_name}} today!
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="{{ route('login') }}"

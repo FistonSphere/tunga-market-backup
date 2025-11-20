@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $gs = \App\Models\GeneralSetting::first();
+    @endphp
     <!-- Breadcrumb Navigation -->
     <section class="bg-surface py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -94,25 +97,6 @@
                             <option value="different">Only Differences</option>
                             <option value="similar">Only Similarities</option>
                         </select>
-
-
-                        <!-- Export Button -->
-                        {{-- <button onclick="exportComparison()" class="btn-secondary text-sm">
-                            <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            Export PDF
-                        </button> --}}
-
-                        <!-- Save Comparison -->
-                        {{-- <button onclick="saveComparison()" class="btn-primary text-sm">
-                            <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                            </svg>
-                            Save Comparison
-                        </button> --}}
                     </div>
                 </div>
 
@@ -132,95 +116,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Popular Comparisons -->
-    {{-- <section class="py-16 bg-surface">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-heading font-bold text-primary mb-4">Popular Comparisons</h2>
-                <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                    See what other buyers are comparing to make their purchasing decisions
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Comparison 1 -->
-                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300"
-                    onclick="loadPresetComparison('wireless-earbuds')">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="flex -space-x-2">
-                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=2679&auto=format&fit=crop"
-                                alt="Product 1" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                            <img src="https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                alt="Product 2" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                            <img src="https://images.pixabay.com/photo/2017-05-10/19/29/robot-2301646_1280.jpg"
-                                alt="Product 3" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-primary">Premium Wireless Earbuds</h3>
-                            <p class="text-body-sm text-secondary-600">3 products • Electronics</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-body-sm text-secondary-600">Compared 2.4K times</span>
-                        <span class="text-accent font-semibold group-hover:text-accent-600">Compare →</span>
-                    </div>
-                </div>
-
-                <!-- Comparison 2 -->
-                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300"
-                    onclick="loadPresetComparison('smart-home')">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="flex -space-x-2">
-                            <img src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                alt="Product 1" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2669&auto=format&fit=crop"
-                                alt="Product 2" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-primary">Smart Home Devices</h3>
-                            <p class="text-body-sm text-secondary-600">2 products • Home & Garden</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-body-sm text-secondary-600">Compared 1.8K times</span>
-                        <span class="text-accent font-semibold group-hover:text-accent-600">Compare →</span>
-                    </div>
-                </div>
-
-                <!-- Comparison 3 -->
-                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300"
-                    onclick="loadPresetComparison('fitness-trackers')">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="flex -space-x-2">
-                            <img src="https://images.unsplash.com/photo-1544117519-31a4b719223d?q=80&w=2671&auto=format&fit=crop"
-                                alt="Product 1" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                            <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=2940&auto=format&fit=crop"
-                                alt="Product 2" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                            <img src="https://images.pexels.com/photos/267389/pexels-photo-267389.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                                alt="Product 3" class="w-12 h-12 rounded-lg object-cover border-2 border-white"
-                                loading="lazy" />
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-primary">Fitness Trackers</h3>
-                            <p class="text-body-sm text-secondary-600">3 products • Health & Fitness</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-body-sm text-secondary-600">Compared 3.1K times</span>
-                        <span class="text-accent font-semibold group-hover:text-accent-600">Compare →</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
 
     <!-- Product Search Modal -->
     <div id="product-search-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 99999;">
@@ -261,8 +156,9 @@
                                     class="w-16 h-16 rounded-lg object-cover" loading="lazy" />
                                 <div class="flex-1">
                                     <h4 class="font-semibold text-primary">{{ $product->name }}</h4>
-                                    <p class="text-body-sm text-secondary-600">Tunga Market •
-                                        {{ $product->category->name }}</p>
+                                    <p class="text-body-sm text-secondary-600">{{$gs->site_name}} •
+                                        {{ $product->category->name }}
+                                    </p>
                                     <div class="flex items-center space-x-2 mt-1">
                                         @if ($product->discount_price)
                                             <span class="line-through text-accent font-semibold text-sm mr-2">
@@ -392,8 +288,7 @@
         <div
             class="toast-inner bg-white shadow-modal rounded-lg p-4 border-l-4 border-success max-w-sm flex items-start space-x-3">
             <!-- Icon -->
-            <svg id="toast-icon" class="w-6 h-6 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
+            <svg id="toast-icon" class="w-6 h-6 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -473,15 +368,15 @@
                 slot.className =
                     'comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer';
                 slot.innerHTML = `
-                <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                    </svg>
-                </div>
-                <p class="text-secondary-600 font-medium">Add Product ${i + 1}</p>
-                <p class="text-body-sm text-secondary-500 mt-1">${i < 2 ? 'Click to search' : 'Optional'}</p>
-            `;
+                    <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                    </div>
+                    <p class="text-secondary-600 font-medium">Add Product ${i + 1}</p>
+                    <p class="text-body-sm text-secondary-500 mt-1">${i < 2 ? 'Click to search' : 'Optional'}</p>
+                `;
                 slot.onclick = () => openProductSearch(i);
 
                 slotsContainer.appendChild(slot);
@@ -510,17 +405,17 @@
 
             slot.className = 'comparison-slot border-2 border-accent rounded-lg p-4 text-center bg-accent-50 relative';
             slot.innerHTML = `
-            <button onclick="removeProduct(${slotIndex})" class="absolute top-2 right-2 w-6 h-6 bg-error text-white rounded-full flex items-center justify-center hover:bg-error-600 transition-fast">
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
-            <img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-lg object-cover mx-auto mb-3" loading="lazy" />
-            <h3 class="font-semibold text-primary text-sm mb-1">${product.name}</h3>
-            <p class="text-body-sm text-secondary-600 mb-2">${product.supplier}</p>
-            <div class="text-accent font-bold">${Number(product.price).toLocaleString()} ${product.currency}</div>
-            <div class="text-success text-sm">⭐ ${product.rating}</div>
-        `;
+                <button onclick="removeProduct(${slotIndex})" class="absolute top-2 right-2 w-6 h-6 bg-error text-white rounded-full flex items-center justify-center hover:bg-error-600 transition-fast">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+                <img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-lg object-cover mx-auto mb-3" loading="lazy" />
+                <h3 class="font-semibold text-primary text-sm mb-1">${product.name}</h3>
+                <p class="text-body-sm text-secondary-600 mb-2">${product.supplier}</p>
+                <div class="text-accent font-bold">${Number(product.price).toLocaleString()} ${product.currency}</div>
+                <div class="text-success text-sm">⭐ ${product.rating}</div>
+            `;
 
             slot.onclick = null; // Remove click
 
@@ -535,14 +430,14 @@
             slot.className =
                 'comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer';
             slot.innerHTML = `
-            <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                </svg>
-            </div>
-            <p class="text-secondary-600 font-medium">Add Product ${slotIndex + 1}</p>
-            <p class="text-body-sm text-secondary-500 mt-1">${slotIndex < 2 ? 'Click to search' : 'Optional'}</p>
-        `;
+                <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                </div>
+                <p class="text-secondary-600 font-medium">Add Product ${slotIndex + 1}</p>
+                <p class="text-body-sm text-secondary-500 mt-1">${slotIndex < 2 ? 'Click to search' : 'Optional'}</p>
+            `;
             slot.onclick = () => openProductSearch(slotIndex);
 
             comparisonProducts.filter(p => p).length < 2 ? hideComparisonTable() : showComparisonTable();
@@ -576,14 +471,14 @@
                 slot.className =
                     'comparison-slot border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-accent hover:bg-accent-50 transition-fast cursor-pointer';
                 slot.innerHTML = `
-                    <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                        </svg>
-                    </div>
-                    <p class="text-secondary-600 font-medium">Add Product ${index + 1}</p>
-                    <p class="text-body-sm text-secondary-500 mt-1">${index < 2 ? 'Click to search' : 'Optional'}</p>
-                `;
+                        <div class="w-16 h-16 bg-surface rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+                        </div>
+                        <p class="text-secondary-600 font-medium">Add Product ${index + 1}</p>
+                        <p class="text-body-sm text-secondary-500 mt-1">${index < 2 ? 'Click to search' : 'Optional'}</p>
+                    `;
                 slot.onclick = () => openProductSearch(index);
             });
 
@@ -612,22 +507,22 @@
                 .features)];
 
             let tableHTML = `
-                <thead class="bg-surface">
-                    <tr>
-                        <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
-                        ${validProducts.map(product => `
-                                                                                                                                                                                            <th class="px-4 py-3 text-center border-b border-border">
-                                                                                                                                                                                                <div class="flex flex-col items-center space-y-2">
-                                                                                                                                                                                                    <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                                                                                                                                                                                                    <div class="font-semibold text-primary text-sm">${product.name}</div>
-                                                                                                                                                                                                    <div class="text-body-sm text-secondary-600">${product.supplier}</div>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                            </th>
-                                                                                                                                                                                        `).join('')}
-                    </tr>
-                </thead>
-                <tbody>
-            `;
+                    <thead class="bg-surface">
+                        <tr>
+                            <th class="px-4 py-3 text-left font-semibold text-primary border-b border-border">Features</th>
+                            ${validProducts.map(product => `
+                                                                                                                                                                                                <th class="px-4 py-3 text-center border-b border-border">
+                                                                                                                                                                                                    <div class="flex flex-col items-center space-y-2">
+                                                                                                                                                                                                        <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                                                                                                                                                                                        <div class="font-semibold text-primary text-sm">${product.name}</div>
+                                                                                                                                                                                                        <div class="text-body-sm text-secondary-600">${product.supplier}</div>
+                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                </th>
+                                                                                                                                                                                            `).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
 
             features.forEach((feature, index) => {
                 const isEven = index % 2 === 0;
@@ -645,10 +540,10 @@
                     if (feature === 'price') {
                         const savings = product.originalPrice - product.price;
                         value = `
-                            <div class="font-bold text-lg text-accent">${product.price} ${product.currency}</div>
-                            <div class="text-body-sm text-secondary-500 line-through">${product.originalPrice} ${product.currency}</div>
-                            <div class="text-body-sm text-success">Save $${savings.toFixed(2)}</div>
-                        `;
+                                <div class="font-bold text-lg text-accent">${product.price} ${product.currency}</div>
+                                <div class="text-body-sm text-secondary-500 line-through">${product.originalPrice} ${product.currency}</div>
+                                <div class="text-body-sm text-success">Save $${savings.toFixed(2)}</div>
+                            `;
 
                         // Highlight best value
                         const minPrice = Math.min(...validProducts.map(p => p.price));
@@ -659,11 +554,11 @@
                         }
                     } else if (feature === 'rating') {
                         value = `
-                            <div class="flex items-center justify-center space-x-1">
-                                <span class="text-warning">⭐</span>
-                                <span class="font-semibold">${product.rating}</span>
-                            </div>
-                        `;
+                                <div class="flex items-center justify-center space-x-1">
+                                    <span class="text-warning">⭐</span>
+                                    <span class="font-semibold">${product.rating}</span>
+                                </div>
+                            `;
 
                         // Highlight highest rating
                         const maxRating = Math.max(...validProducts.map(p => p.rating));
@@ -716,62 +611,62 @@
                 if (product.id === topRated.id) badges.push('🌟 Top Rated');
 
                 return `
-                    <div class="card">
-                        <div class="flex items-center space-x-3 mb-4">
-                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
-                            <div>
-                                <h4 class="font-semibold text-primary">${product.name}</h4>
-                                <p class="text-body-sm text-secondary-600">${product.supplier}</p>
+                        <div class="card">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                                <div>
+                                    <h4 class="font-semibold text-primary">${product.name}</h4>
+                                    <p class="text-body-sm text-secondary-600">${product.supplier}</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 mb-4">
+                                <div class="flex justify-between">
+                                    <span class="text-body-sm text-secondary-600">Overall Score:</span>
+                                    <span class="font-semibold text-primary">${product.scores.overall}/5</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-body-sm text-secondary-600">Value Score:</span>
+                                    <span class="font-semibold text-success">${product.scores.value}/5</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-body-sm text-secondary-600">Quality Score:</span>
+                                    <span class="font-semibold text-accent">${product.scores.quality}/5</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-body-sm text-secondary-600">Delivery Score:</span>
+                                    <span class="font-semibold text-primary">${product.scores.delivery}/5</span>
+                                </div>
+                            </div>
+
+                            ${badges.length > 0 ? `
+                                                                                                                                                                                                <div class="space-y-1 mb-4">
+                                                                                                                                                                                                    ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                            ` : ''}
+
+                            <div class="space-y-2">
+                                 <button 
+                            onclick="quickAddToCart(this)" 
+                            class="w-full btn-primary text-sm" 
+                            data-product-id="${product.id}" 
+                            data-name="${product.name}"
+                            data-currency="${product.currency}"
+                            data-price="${product.price}"
+                            data-min-qty="${product.min_order_quantity || 1}">
+                            Add to Cart - ${product.price} ${product.currency}
+                        </button>
+                                <button onclick="addToWishlist(this)"
+            data-product-slug="${product.id}"
+            data-name="${product.name}"
+            data-currency="${product.currency}"
+            data-price="${product.price}"
+                                      class="w-full btn-secondary text-sm">
+                                      Add to Wishlist
+                                </button>
                             </div>
                         </div>
-
-                        <div class="space-y-2 mb-4">
-                            <div class="flex justify-between">
-                                <span class="text-body-sm text-secondary-600">Overall Score:</span>
-                                <span class="font-semibold text-primary">${product.scores.overall}/5</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-body-sm text-secondary-600">Value Score:</span>
-                                <span class="font-semibold text-success">${product.scores.value}/5</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-body-sm text-secondary-600">Quality Score:</span>
-                                <span class="font-semibold text-accent">${product.scores.quality}/5</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-body-sm text-secondary-600">Delivery Score:</span>
-                                <span class="font-semibold text-primary">${product.scores.delivery}/5</span>
-                            </div>
-                        </div>
-
-                        ${badges.length > 0 ? `
-                                                                                                                                                                                            <div class="space-y-1 mb-4">
-                                                                                                                                                                                                ${badges.map(badge => `<div class="text-xs font-semibold text-success">${badge}</div>`).join('')}
-                                                                                                                                                                                            </div>
-                                                                                                                                                                                        ` : ''}
-
-                        <div class="space-y-2">
-                             <button 
-                        onclick="quickAddToCart(this)" 
-                        class="w-full btn-primary text-sm" 
-                        data-product-id="${product.id}" 
-                        data-name="${product.name}"
-                        data-currency="${product.currency}"
-                        data-price="${product.price}"
-                        data-min-qty="${product.min_order_quantity || 1}">
-                        Add to Cart - ${product.price} ${product.currency}
-                    </button>
-                            <button onclick="addToWishlist(this)"
-        data-product-slug="${product.id}"
-        data-name="${product.name}"
-        data-currency="${product.currency}"
-        data-price="${product.price}"
-                                  class="w-full btn-secondary text-sm">
-                                  Add to Wishlist
-                            </button>
-                        </div>
-                    </div>
-                `;
+                    `;
             }).join('');
 
             summaryContainer.innerHTML = summaryHTML;
@@ -866,7 +761,7 @@
                 document.getElementById('login-warning-modal-wrapper').classList.remove('hidden');
                 return;
             @endif
-            const slug = btn.dataset.productId; // slug currently
+                const slug = btn.dataset.productId; // slug currently
             const qty = parseInt(btn.dataset.minQty || '1', 10);
             const name = btn.dataset.name || 'Item';
             const currency = btn.dataset.currency || '$';
@@ -923,7 +818,7 @@
                 return;
             @endif
 
-            const productIds = comparisonProducts.filter(p => p).map(p => p.id);
+                const productIds = comparisonProducts.filter(p => p).map(p => p.id);
 
             if (productIds.length < 2) {
                 showToastComparison("Select at least 2 products before saving", "error");
@@ -931,16 +826,16 @@
             }
 
             fetch("{{ route('comparisons.store') }}", {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: JSON.stringify({
-                        products: productIds
-                    })
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    products: productIds
                 })
+            })
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
@@ -1034,7 +929,7 @@
                 document.getElementById('login-warning-modal-wrapper2').classList.remove('hidden');
                 return;
             @endif
-            const slug = btn.dataset.productSlug; // THIS now works
+                const slug = btn.dataset.productSlug; // THIS now works
             const name = btn.dataset.name || 'Item';
             const currency = btn.dataset.currency || '$';
             const uiPrice = btn.dataset.price;
@@ -1148,18 +1043,18 @@
             toast.className = 'fixed top-4 right-4 bg-white shadow-modal rounded-lg p-4 border-l-4 ' + colors[type] +
                 ' max-w-sm z-50 transform translate-x-full transition-transform duration-300';
             toast.innerHTML = `
-                <div class="flex items-start space-x-3">
-                    <div>
-                        <h4 class="font-semibold text-primary">${title}</h4>
-                        <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                    <div class="flex items-start space-x-3">
+                        <div>
+                            <h4 class="font-semibold text-primary">${title}</h4>
+                            <p class="text-body-sm text-secondary-600 mt-1">${message}</p>
+                        </div>
+                        <button onclick="this.parentElement.parentElement.parentElement.remove()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
                     </div>
-                    <button onclick="this.parentElement.parentElement.parentElement.remove()" class="text-secondary-400 hover:text-secondary-600 transition-fast">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-            `;
+                `;
 
             document.body.appendChild(toast);
 
@@ -1180,10 +1075,10 @@
         }
 
         // Search functionality
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const searchInput = document.getElementById('product-search-input');
             if (searchInput) {
-                searchInput.addEventListener('input', function() {
+                searchInput.addEventListener('input', function () {
                     const query = this.value.toLowerCase();
                     const results = document.querySelectorAll('.product-result');
 
@@ -1202,7 +1097,7 @@
         });
 
         // Close modal on outside click
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             const modal = document.getElementById('product-search-modal');
             if (e.target === modal) {
                 closeProductSearch();
@@ -1210,14 +1105,14 @@
         });
 
         // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closeProductSearch();
             }
         });
 
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const container = document.querySelector('#popular-comparisons-grid');
 
             fetch('{{ route('popular.comparisons') }}')
@@ -1227,25 +1122,25 @@
 
                     const html = data.comparisons.map(comp => {
                         const productImgs = comp.products.map(p => `
-                    <img src="${p.image}" alt="${p.name}" class="w-12 h-12 rounded-lg object-cover border-2 border-white" loading="lazy"/>
-                `).join('');
+                        <img src="${p.image}" alt="${p.name}" class="w-12 h-12 rounded-lg object-cover border-2 border-white" loading="lazy"/>
+                    `).join('');
 
                         return `
-                <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300"
-                    onclick="loadPresetComparison('${comp.slug}')">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="flex -space-x-2">${productImgs}</div>
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-primary">${comp.title}</h3>
-                            <p class="text-body-sm text-secondary-600">${comp.products.length} products • ${comp.category}</p>
+                    <div class="card group cursor-pointer hover:shadow-hover transition-all duration-300"
+                        onclick="loadPresetComparison('${comp.slug}')">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="flex -space-x-2">${productImgs}</div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-primary">${comp.title}</h3>
+                                <p class="text-body-sm text-secondary-600">${comp.products.length} products • ${comp.category}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-body-sm text-secondary-600">Compared ${comp.times_compared.toLocaleString()} times</span>
+                            <span class="text-accent font-semibold group-hover:text-accent-600">Compare →</span>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-body-sm text-secondary-600">Compared ${comp.times_compared.toLocaleString()} times</span>
-                        <span class="text-accent font-semibold group-hover:text-accent-600">Compare →</span>
-                    </div>
-                </div>
-                `;
+                    `;
                     }).join('');
 
                     container.innerHTML = html;
