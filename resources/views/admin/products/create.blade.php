@@ -1,9 +1,9 @@
 @extends('admin.layouts.header')
 
-@section('title', 'Add New Product')
-
 @section('content')
-
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
 
     <style>
         :root {
@@ -354,7 +354,7 @@
         <div class="prd-create-header">
             <div>
                 <h1>Create New Product</h1>
-                <small>Tunga Market — Smart Product Management</small>
+                <small>{{$gs->site_name}} — Smart Product Management</small>
             </div>
         </div>
 

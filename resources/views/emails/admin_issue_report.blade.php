@@ -1,9 +1,13 @@
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
-    <title>Tunga Market - Admin Issue Notification</title>
+    <title>{{$gs->site_name}} - Admin Issue Notification</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -61,7 +65,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h2>Tunga Market Support</h2>
+            <h2>{{$gs->site_name}} Support</h2>
         </div>
 
         <div class="content">
@@ -81,7 +85,7 @@
         </div>
 
         <div class="footer">
-            <p>&copy; {{ date('Y') }} Tunga Market. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} {{$gs->site_name}}. All rights reserved.</p>
         </div>
     </div>
 </body>

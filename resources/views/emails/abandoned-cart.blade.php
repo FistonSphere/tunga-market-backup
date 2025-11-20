@@ -1,3 +1,7 @@
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -154,7 +158,7 @@
 <body>
     <div class="email-wrapper">
         <div class="email-header">
-            <h1>Tunga Market</h1>
+            <h1>{{$gs->site_name}}</h1>
             <p style="text-align: center">Your cart is waiting for you </p>
         </div>
 
@@ -191,7 +195,7 @@
         </div>
 
         <div class="footer">
-            &copy; {{ date('Y') }} Tunga Market. All rights reserved. <br>
+            &copy; {{ date('Y') }} {{$gs->site_name}}. All rights reserved. <br>
             <a href="#" style="color: #FF6B00;">Contact Support</a>
         </div>
     </div>

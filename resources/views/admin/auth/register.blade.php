@@ -8,14 +8,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
     <meta name="description"
-        content="Manage your marketplace smarter with Tunga Market Admin — intuitive analytics, real-time insights, and full control over your digital ecosystem." />
+        content="Manage your marketplace smarter with {{$gs->site_name}} Admin — intuitive analytics, real-time insights, and full control over your digital ecosystem." />
 
     <meta name="keywords"
-        content="Tunga Market, admin panel, commerce automation, digital trading, backend management, data insights, online market control, platform administration, ecommerce intelligence" />
+        content="{{$gs->site_name}}, admin panel, commerce automation, digital trading, backend management, data insights, online market control, platform administration, ecommerce intelligence" />
 
-    <meta name="author" content="Tunga Market - Admin Dashboard" />
+    <meta name="author" content="{{$gs->site_name}} - Admin Dashboard" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>Sign Up - Tunga Market Admin Dashboard</title>
+    <title>Sign Up - {{$gs->site_name}} Admin Dashboard</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ $gs->favicon }}" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />

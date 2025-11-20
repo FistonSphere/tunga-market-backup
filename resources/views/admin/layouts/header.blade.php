@@ -14,7 +14,7 @@
     <meta name="author" content="Dreamguys - Bootstrap Admin Template">
     <meta name="robots" content="noindex, nofollow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Admin Dashboard - Tunga Market</title>
+    <title>Admin Dashboard - {{$gs->site_name}}</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ $gs->favicon }}" />
 

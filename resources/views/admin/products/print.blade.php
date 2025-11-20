@@ -81,7 +81,7 @@
 <body>
     <header>
         <img src="{{ $gs->logo }}" style="border-radius: 7px"
-            alt="Tunga Market Logo">
+            alt="{{$gs->site_name}} Logo">
         <h1>{{ $title }}</h1>
         <div class="meta">
             <strong>Date:</strong> {{ $date }} |
@@ -120,7 +120,7 @@
     </table>
 
     <footer>
-        <div>Tunga Market © {{ date('Y') }} — All Rights Reserved</div>
+        <div>{{$gs->site_name}} © {{ date('Y') }} — All Rights Reserved</div>
     </footer>
 
     <script>
