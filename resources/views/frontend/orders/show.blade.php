@@ -1443,4 +1443,6 @@
             window.open(whatsappLink, '_blank');
         }
     });
+
+
 </script>

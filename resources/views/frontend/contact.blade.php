@@ -91,7 +91,7 @@
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Sales Inquiries -->
                 <div class="card text-center group cursor-pointer hover:shadow-hover transition-all duration-300"
                     onclick="selectContactType('sales')">
@@ -105,23 +105,6 @@
                     <h3 class="font-semibold text-primary mb-2">Sales</h3>
                     <p class="text-body-sm text-secondary-600 mb-3">Product inquiries, quotes, and bulk orders</p>
                     <div class="text-xs text-success font-semibold">Response: 30 minutes</div>
-                </div>
-
-                <!-- Technical Support -->
-                <div class="card text-center group cursor-pointer hover:shadow-hover transition-all duration-300"
-                    onclick="selectContactType('technical')">
-                    <div
-                        class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-200 transition-fast">
-                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-semibold text-primary mb-2">Technical Support</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Platform issues, integrations, API help</p>
-                    <div class="text-xs text-primary font-semibold">Response: 1 hour</div>
                 </div>
 
                 <!-- Partnerships -->
@@ -424,23 +407,8 @@
                     <div class="space-y-3 text-sm">
                         <div>
                             <div class="font-medium text-secondary-700">General Inquiries</div>
-                            <a href="mailto:info@tungamarket.com"
-                                class="text-accent hover:text-accent-600">info@tungamarket.com</a>
-                        </div>
-                        <div>
-                            <div class="font-medium text-secondary-700">Sales Team</div>
-                            <a href="mailto:sales@tungamarket.com"
-                                class="text-accent hover:text-accent-600">sales@tungamarket.com</a>
-                        </div>
-                        <div>
-                            <div class="font-medium text-secondary-700">Technical Support</div>
-                            <a href="mailto:support@tungamarket.com"
-                                class="text-accent hover:text-accent-600">support@tungamarket.com</a>
-                        </div>
-                        <div>
-                            <div class="font-medium text-secondary-700">Partnership</div>
-                            <a href="mailto:partners@tungamarket.com"
-                                class="text-accent hover:text-accent-600">partners@tungamarket.com</a>
+                            <a href="mailto:{{ $gs->site_email }}"
+                                class="text-accent hover:text-accent-600">{{ $gs->site_email }}</a>
                         </div>
                     </div>
                 </div>
@@ -456,22 +424,10 @@
                     <h3 class="font-semibold text-primary mb-4">Phone Support</h3>
                     <div class="space-y-3 text-sm">
                         <div>
-                            <div class="font-medium text-secondary-700">North America</div>
-                            <a href="tel:+1-800-555-0123" class="text-success hover:text-success-600">+1 (800)
-                                555-0123</a>
+                            <div class="font-medium text-secondary-700">Kigali, Rwanda</div>
+                            <a href="tel:{{ $gs->site_phone }}"
+                                class="text-success hover:text-success-600">{{ $gs->site_phone }}</a>
                             <div class="text-xs text-secondary-500">24/7 Available</div>
-                        </div>
-                        <div>
-                            <div class="font-medium text-secondary-700">Europe</div>
-                            <a href="tel:+44-20-7946-0958" class="text-success hover:text-success-600">+44 20 7946
-                                0958</a>
-                            <div class="text-xs text-secondary-500">9 AM - 6 PM GMT</div>
-                        </div>
-                        <div>
-                            <div class="font-medium text-secondary-700">Asia Pacific</div>
-                            <a href="tel:+86-400-123-4567" class="text-success hover:text-success-600">+86 400 123
-                                4567</a>
-                            <div class="text-xs text-secondary-500">9 AM - 9 PM CST</div>
                         </div>
                     </div>
                 </div>
@@ -489,16 +445,10 @@
                         Get instant help from our AI assistant or connect with a live agent
                     </p>
                     <div class="space-y-3">
-                        <button onclick="startLiveChat()"
+                        <button id="chatBtn" onclick="toggleChat()"
                             class="w-full bg-accent hover:bg-accent-600 text-white font-semibold py-2 px-4 rounded-lg transition-fast">
                             Start Chat Now
                         </button>
-                        <div class="text-xs text-secondary-500">
-                            <div class="flex items-center justify-center space-x-1">
-                                <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
-                                <span>156 agents online</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -882,7 +832,46 @@
             </div>
         </div>
     </section>
+    <!-- Chat Window -->
+    <div id="chatWindow"
+        class="hidden fixed bottom-20 right-6 bg-white rounded-xl shadow-2xl flex flex-col transform scale-0 transition-transform duration-300"
+        style="width: 23rem;height: 30em; z-index: 9999999;">
+        <!-- Header -->
+        <div class="bg-primary text-white px-4 py-3 rounded-t-xl flex justify-between items-center">
+            <span class="font-semibold">Support Chat</span>
+            <button onclick="toggleChat()" class="text-white text-lg font-bold">✕</button>
+        </div>
 
+        <!-- Chat Messages -->
+        <div id="chatMessages"
+            class="flex-1 p-4 overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+            <!-- Messages dynamically added here -->
+        </div>
+
+        <!-- Typing Indicator -->
+        <div id="typingIndicator" class="hidden px-4 py-2 text-gray-500 text-sm flex space-x-2 items-center">
+            <span>Bot is typing</span>
+            <span class="dot-flashing"></span>
+        </div>
+
+        <!-- Input -->
+        <div class="p-4 border-t border-gray-200 flex space-x-2">
+            <input id="userQuestion" type="text" placeholder="Type your question..."
+                class="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+            <button onclick="sendQuestion()"
+                class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition">Send</button>
+        </div>
+
+        <!-- WhatsApp Button -->
+        <div class="p-4 border-t border-gray-200">
+            <button id="whatsappBtn" onclick="sendToWhatsApp()"
+                class="flex items-center justify-center space-x-2 bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600 transition w-full">
+                <img src="{{ asset('assets/images/WhatsApp.svg') }}" style="height:20px; width:20px;object-fit:cover;"
+                    alt="">
+                <span>Continue on WhatsApp</span>
+            </button>
+        </div>
+    </div>
     <script>
         // Contact type configuration
         const contactTypes = {
@@ -1013,21 +1002,21 @@
                 const fileItem = document.createElement('div');
                 fileItem.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
                 fileItem.innerHTML = `
-                    <div class="flex items-center space-x-3">
-                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                        </svg>
-                        <div>
-                            <div class="font-medium text-sm">${file.name}</div>
-                            <div class="text-xs text-gray-500">${formatFileSize(file.size)}</div>
-                        </div>
-                    </div>
-                    <button type="button" onclick="removeFile(this)" class="text-red-500 hover:text-red-700">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                `;
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                <div>
+                                    <div class="font-medium text-sm">${file.name}</div>
+                                    <div class="text-xs text-gray-500">${formatFileSize(file.size)}</div>
+                                </div>
+                            </div>
+                            <button type="button" onclick="removeFile(this)" class="text-red-500 hover:text-red-700">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        `;
 
                 fileList.appendChild(fileItem);
             }
@@ -1069,12 +1058,12 @@
             const submitButton = this.querySelector('button[type="submit"]');
             const originalText = submitButton.innerHTML;
             submitButton.innerHTML = `
-                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Sending...
-            `;
+                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Sending...
+                    `;
             submitButton.disabled = true;
 
             // Simulate form submission
@@ -1101,21 +1090,21 @@
             notification.className =
                 'fixed top-4 right-4 bg-success text-white p-6 rounded-lg shadow-modal z-50 transform translate-x-full transition-all duration-300';
             notification.innerHTML = `
-                <div class="flex items-center space-x-3">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <div>
-                        <div class="font-semibold">Message Sent Successfully!</div>
-                        <div class="text-sm opacity-90">We'll respond within our SLA timeframe</div>
-                    </div>
-                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-            `;
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <div>
+                                <div class="font-semibold">Message Sent Successfully!</div>
+                                <div class="text-sm opacity-90">We'll respond within our SLA timeframe</div>
+                            </div>
+                            <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                    `;
 
             document.body.appendChild(notification);
 
@@ -1244,27 +1233,27 @@
                 if (sender === 'user') {
                     messageDiv.className = 'flex justify-end space-x-2 chat-message-slide-in-right';
                     messageDiv.innerHTML = `
-                        <div class="bg-accent text-white rounded-lg p-3 max-w-xs shadow-md">
-                            <p class="text-sm">${message}</p>
-                        </div>
-                        <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                            </svg>
-                        </div>
-                    `;
+                                <div class="bg-accent text-white rounded-lg p-3 max-w-xs shadow-md">
+                                    <p class="text-sm">${message}</p>
+                                </div>
+                                <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                    </svg>
+                                </div>
+                            `;
                 } else {
                     messageDiv.className = 'flex space-x-2 chat-message-slide-in';
                     messageDiv.innerHTML = `
-                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                            </svg>
-                        </div>
-                        <div class="bg-surface rounded-lg p-3 max-w-xs shadow-md">
-                            <p class="text-sm text-secondary-700">${message}</p>
-                        </div>
-                    `;
+                                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </div>
+                                <div class="bg-surface rounded-lg p-3 max-w-xs shadow-md">
+                                    <p class="text-sm text-secondary-700">${message}</p>
+                                </div>
+                            `;
                 }
 
                 chatContent.appendChild(messageDiv);
@@ -1277,19 +1266,19 @@
                 typingDiv.id = 'typing-indicator';
                 typingDiv.className = 'flex space-x-2 chat-message-slide-in';
                 typingDiv.innerHTML = `
-                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        </svg>
-                    </div>
-                    <div class="bg-surface rounded-lg p-3 shadow-md">
-                        <div class="typing-indicator">
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                        </div>
-                    </div>
-                `;
+                            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                            </div>
+                            <div class="bg-surface rounded-lg p-3 shadow-md">
+                                <div class="typing-indicator">
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                </div>
+                            </div>
+                        `;
 
                 chatContent.appendChild(typingDiv);
                 this.scrollToBottom();
@@ -1480,5 +1469,140 @@
                     console.error("Network error:", error); // for debugging
                 });
         });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatWindow = document.getElementById('chatWindow');
+            const chatMessages = document.getElementById('chatMessages');
+            const userInput = document.getElementById('userQuestion');
+            const typingIndicator = document.getElementById('typingIndicator');
+
+            const conversationHistory = [];
+
+            const ai = {
+                greetings: [
+                    "Hey there! 👋 How can I help you today?",
+                    "Hello! Glad to see you here. Need assistance?",
+                    "Hi! What can I do for you today?",
+                    "Hey! I'm here to help. Ask me anything!"
+                ],
+                workingHours: ["Our store is open Mon-Fri, 9 AM - 6 PM."],
+                trackOrder: ["You can track your order in 'My Orders' section."],
+                returnPolicy: ["You can return items within 7 days of delivery."],
+                payment: ["We accept Credit/Debit cards, Mobile Money, and Airtel Money."],
+                shipping: ["Free shipping for all orders. Delivery: 30 min - 7 days."],
+                discounts: ["Check the 'Deals' section for current discounts."],
+                closing: [
+                    "You're welcome! 😊 Have a great day!",
+                    "Glad I could help! If you need more assistance, just ask."
+                ],
+                fallback: [
+                    "Hmm, I’m not sure about that. You can continue on WhatsApp! 📲"
+                ]
+            };
+
+            appendMessage('bot', getRandom(ai.greetings));
+
+            window.toggleChat = function () {
+                chatWindow.classList.toggle('scale-0');
+                chatWindow.classList.toggle('scale-100');
+                chatWindow.classList.toggle('hidden');
+            }
+
+            window.sendQuestion = function () {
+                const q = userInput.value.trim();
+                if (!q) return;
+
+                appendMessage('user', q);
+                conversationHistory.push({
+                    sender: 'user',
+                    message: q
+                });
+                userInput.value = '';
+
+                typingIndicator.classList.remove('hidden');
+                setTimeout(() => {
+                    typingIndicator.classList.add('hidden');
+                    const response = getAIResponse(q.toLowerCase());
+                    appendMessage('bot', response);
+                    conversationHistory.push({
+                        sender: 'bot',
+                        message: response
+                    });
+                }, 1200);
+            }
+
+            function getAIResponse(msg) {
+                if (msg.match(/\b(hi|hello|hey|good morning|good afternoon)\b/)) return getRandom(ai.greetings);
+                if (msg.includes("track") || msg.includes("order")) return getRandom(ai.trackOrder);
+                if (msg.includes("return") || msg.includes("refund")) return getRandom(ai.returnPolicy);
+                if (msg.includes("payment") || msg.includes("pay")) return getRandom(ai.payment);
+                if (msg.includes("ship") || msg.includes("delivery")) return getRandom(ai.shipping);
+                if (msg.includes("hours") || msg.includes("time")) return getRandom(ai.workingHours);
+                if (msg.includes("discount") || msg.includes("offer")) return getRandom(ai.discounts);
+                if (msg.match(/\b(thanks|thank you|thx|ok|bye|goodbye)\b/)) return getRandom(ai.closing);
+
+                // Context-aware follow-up
+                if (msg.includes("again") || msg.includes("more info") || msg.includes("details")) {
+                    const lastBotMsg = conversationHistory.slice().reverse().find(c => c.sender === 'bot');
+                    if (lastBotMsg) {
+                        if (lastBotMsg.message.includes("order"))
+                            return "Do you want step-by-step instructions on tracking your order?";
+                        if (lastBotMsg.message.includes("return"))
+                            return "Would you like to know the exact return process?";
+                        if (lastBotMsg.message.includes("payment"))
+                            return "Do you want information on all payment options?";
+                        if (lastBotMsg.message.includes("shipping"))
+                            return "I can explain delivery times in detail if you want.";
+                    }
+                }
+
+                return getRandom(ai.fallback);
+            }
+
+            function appendMessage(sender, text) {
+                const msgDiv = document.createElement('div');
+                msgDiv.className =
+                    `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} chat-bubble items-end`;
+
+                const time = new Date().toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                let innerHTML = '';
+
+                if (sender === 'user') {
+                    innerHTML = `<div class="flex flex-col items-end">
+                                <div class="inline-block px-3 py-2 rounded-lg bg-primary text-white max-w-[70%]">${text}</div>
+                                <div class="timestamp">${time}</div>
+                             </div>
+                             <div class="user-avatar ml-2"></div>`;
+                } else {
+                    innerHTML = `<div class="bot-avatar mr-2"></div>
+                             <div class="flex flex-col items-start">
+                                <div class="inline-block px-3 py-2 rounded-lg bg-gray-100 text-gray-800 max-w-[70%]">${text}</div>
+                                <div class="timestamp">${time}</div>
+                             </div>`;
+                }
+
+                msgDiv.innerHTML = innerHTML;
+                chatMessages.appendChild(msgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function getRandom(arr) {
+                return arr[Math.floor(Math.random() * arr.length)];
+            }
+
+            window.sendToWhatsApp = function () {
+                const lastQuestion = [...chatMessages.children].filter(m => m.className.includes('justify-end'))
+                    .slice(-1)[0];
+                if (!lastQuestion) return;
+                const text = encodeURIComponent(lastQuestion.innerText);
+                const whatsappLink = `https://wa.me/250787444019?text=${text}`;
+                window.open(whatsappLink, '_blank');
+            }
+        });
+
+
     </script>
 @endsection

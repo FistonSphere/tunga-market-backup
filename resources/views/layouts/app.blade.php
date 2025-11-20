@@ -29,6 +29,7 @@
 
     <meta name="keywords" content="{{ $gs->meta_keywords ?? '' }}">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- =========================
     OPEN GRAPH (FACEBOOK)
     ========================= -->
     <meta property="og:type" content="website">
