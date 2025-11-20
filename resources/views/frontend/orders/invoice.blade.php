@@ -8,10 +8,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Invoice #{{ $order->invoice_number }} - Tunga Market</title>
+    <title>Invoice #{{ $order->invoice_number }} - {{$gs->site_name}}</title>
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
     <meta name="description"
-        content="Invoice with QR code for order tracking - Download and print your Tunga Market invoice" />
+        content="Invoice with QR code for order tracking - Download and print your {{$gs->site_name}} invoice" />
 
 
     <style>
@@ -106,17 +106,17 @@
                         <!-- Company Logo & Info -->
                         <div class="lg:col-span-2">
                             <div class="flex items-center space-x-4 mb-6">
-                                <img src="{{ $gs->logo }}" alt="Tunga Market Logo"
+                                <img src="{{ $gs->logo }}" alt="{{$gs->site_name}} Logo"
                                     class="block rounded-lg" style="width:150px; height:100px; object-fit:cover;" />
 
                                 <div>
-                                    <h1 class="text-3xl font-bold" style="color:#FF6600;">Tunga Market</h1>
+                                    <h1 class="text-3xl font-bold" style="color:#FF6600;">{{$gs->site_name}}</h1>
                                     <p class="text-sm text-gray-600">Where Business Grows Together</p>
                                 </div>
                             </div>
 
                             <div class="space-y-1 text-gray-700">
-                                <p class="font-semibold">Tunga Market Inc.</p>
+                                <p class="font-semibold">{{$gs->site_name}} Inc.</p>
                                 <p>123 Commerce Drive, Suite 500</p>
                                 <p>San Francisco, CA 94107, United States</p>
                                 <p>Phone: +1 (555) 123-4567</p>
@@ -289,7 +289,7 @@
                                             </td>
                                             <td class="border px-4 py-4">
                                                 <p class="font-semibold text-primary">
-                                                    {{ $item->product->brand->name ?? 'Tunga Market Inc.' }}
+                                                    {{ $item->product->brand->name ?? '{{$gs->site_name}} Inc.' }}
                                                 </p>
                                             </td>
                                             <td class="border px-4 py-4 text-center font-semibold">
@@ -499,7 +499,7 @@
                 <div class="footer bg-secondary-800 text-white p-6">
                     <div class="grid md:grid-cols-3 gap-6 text-center md:text-left">
                         <div>
-                            <p class="font-semibold mb-1">Tunga Market Ltd.</p>
+                            <p class="font-semibold mb-1">{{$gs->site_name}} Ltd.</p>
                             <p class="text-secondary-300 text-sm">Rwanda's Premier Online Marketplace</p>
                             <p class="text-secondary-300 text-xs">Est. 2025 • Kigali, Rwanda</p>
                         </div>

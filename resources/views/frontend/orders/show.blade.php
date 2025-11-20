@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $gs = \App\Models\GeneralSetting::first();
+@endphp
     <style>
         @keyframes slideIn {
             from {
@@ -565,7 +568,7 @@
                                     </svg>
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="font-semibold text-primary" id="supplier-name-display">Tunga Market</h4>
+                                    <h4 class="font-semibold text-primary" id="supplier-name-display">{{$gs->site_name}}</h4>
                                     <p class="text-secondary-600" id="supplier-location-display">Kigali, Rwanda</p>
 
                                 </div>
@@ -1057,7 +1060,7 @@
 
     function contactViaWhatsApp() {
         const orderId = "{{ $orderNo }}";
-        const supplierName = "Tunga Market";
+        const supplierName = "{{$gs->site_name}}";
 
         // Template message
         const message = encodeURIComponent(

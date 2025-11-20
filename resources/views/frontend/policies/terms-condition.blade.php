@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $gs = \App\Models\GeneralSetting::first();
+    @endphp
     <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <!-- Header -->
@@ -522,7 +525,8 @@
 
                         <p>
                             Our data handling practices are outlined in a separate and detailed
-                            <a href="{{ route('privacy.policy') }}" class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
+                            <a href="{{ route('privacy.policy') }}"
+                                class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
                                 Privacy Policy
                             </a>, which forms an integral part of these Terms and Conditions.
                             By using the Platform, Users acknowledge and agree to the collection and processing of their
@@ -652,8 +656,7 @@
                                 Privacy Policy
                             </a>
                             and the
-                            <a href=""
-                                class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
+                            <a href="" class="text-blue-600 dark:text-blue-400 underline hover:text-blue-800">
                                 Return & Refund Policy
                             </a>, constitute the <strong>entire agreement</strong> between the User and the Company
                             concerning the use
@@ -716,7 +719,7 @@
 
         <!-- Floating Banner -->
         <div id="terms-banner" class="fixed bottom-5 right-5 bg-gray-900 text-white p-5 rounded-xl shadow-xl max-w-sm z-50">
-            <p class="text-sm mb-3">By continuing to use Tunga Market, you agree to our <a href="/terms-and-conditions"
+            <p class="text-sm mb-3">By continuing to use {{$gs->site_name}}, you agree to our <a href="/terms-and-conditions"
                     class="underline text-orange-400">Terms & Conditions</a>.</p>
             <button onclick="acceptTerms()"
                 class="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg text-white text-sm">Accept</button>

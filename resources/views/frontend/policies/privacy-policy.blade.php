@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $gs = \App\Models\GeneralSetting::first();
+    @endphp
     <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Header Section -->
         <div class="text-center mb-12">
@@ -13,7 +16,7 @@
                 <span>Last Updated: {{ now()->format('F d, Y') }}</span>
             </div>
             <p class="text-body-lg text-secondary-600 max-w-2xl mx-auto">
-                Your privacy is important to us. This Privacy Policy explains how Tunga Market collects, uses, and
+                Your privacy is important to us. This Privacy Policy explains how {{$gs->site_name}} collects, uses, and
                 protects your personal information when you use our platform.
             </p>
         </div>
@@ -173,7 +176,7 @@
                             Purpose of This Policy
                         </h3>
                         <p class="text-body text-secondary-600">
-                            This Privacy Policy explains how <strong>Tunga Market</strong> (“we,” “our,” or “the Company”)
+                            This Privacy Policy explains how <strong>{{$gs->site_name}}</strong> (“we,” “our,” or “the Company”)
                             collects, uses, discloses, and protects the personal data of individuals (“you,” “users,” or
                             “customers”)
                             who interact with our platform, services, and related digital products.
@@ -1058,7 +1061,7 @@
                             Policy Overview
                         </h3>
                         <p class="text-body text-secondary-600">
-                            <strong>Tunga Market</strong> does not knowingly collect or process personal data from
+                            <strong>{{$gs->site_name}}</strong> does not knowingly collect or process personal data from
                             individuals
                             under the age of <strong>16</strong>. Our services are intended for users who can lawfully enter
                             into
@@ -1100,7 +1103,7 @@
                         </h3>
                         <p class="text-body text-secondary-600">
                             We encourage parents and guardians to educate children about responsible online behavior and the
-                            importance of safeguarding personal information. <strong>Tunga Market</strong> promotes a safe,
+                            importance of safeguarding personal information. <strong>{{$gs->site_name}}</strong> promotes a safe,
                             family-friendly digital environment that aligns with Rwandan child protection guidelines.
                         </p>
                     </div>
@@ -1158,7 +1161,7 @@
                             Policy Updates and Notifications
                         </h3>
                         <p class="text-body text-secondary-600">
-                            <strong>Tunga Market</strong> reserves the right to revise or update this Privacy Policy from
+                            <strong>{{$gs->site_name}}</strong> reserves the right to revise or update this Privacy Policy from
                             time to time
                             to reflect changes in legal requirements, technological advancements, or our operational
                             practices.
@@ -1200,7 +1203,7 @@
                         </h3>
                         <p class="text-body text-secondary-600">
                             We encourage users to review this Privacy Policy periodically to stay informed about how
-                            <strong>Tunga Market</strong> protects personal data and ensures compliance with Rwanda’s
+                            <strong>{{$gs->site_name}}</strong> protects personal data and ensures compliance with Rwanda’s
                             <em>Law No. 058/2021 of 13/10/2021 on the Protection of Personal Data and Privacy</em>.
                         </p>
                     </div>
@@ -1271,7 +1274,7 @@
                         </p>
                         <div class="space-y-2">
                             <p class="text-body-sm">
-                                <strong>Address:</strong> Tunga Market Headquarters, KN 78 Street, Kigali, Rwanda
+                                <strong>Address:</strong> {{$gs->site_name}} Headquarters, KN 78 Street, Kigali, Rwanda
                             </p>
                             <p class="text-body-sm">
                                 <strong>Email:</strong>
@@ -1296,7 +1299,7 @@
                             class="btn-secondary bg-white hover:bg-gray-100 text-primary py-3 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
                             Visit Help Center
                         </a>
-                        <a href="https://wa.me/250787444019?text={{ urlencode('Hello Tunga Market Support, I need help with...') }}"
+                        <a href="https://wa.me/250787444019?text={{ urlencode('Hello {{$gs->site_name}} Support, I need help with...') }}"
                             target="_blank"
                             class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 border border-white/20">
                             WhatsApp Chat Support

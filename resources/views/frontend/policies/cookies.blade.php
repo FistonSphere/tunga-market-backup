@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $gs = \App\Models\GeneralSetting::first();
+    @endphp
     <section class="relative py-20 bg-gradient-to-b from-orange-50 via-white to-gray-50 overflow-hidden">
         <!-- Decorative background shapes -->
         <div class="absolute top-0 left-0 w-60 h-60 bg-orange-200 rounded-full blur-3xl opacity-30 -z-10"></div>
@@ -15,7 +18,7 @@
                 <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">Cookies Policy</h1>
                 <p class="text-gray-500 mt-3 text-sm">Last Updated: {{ now()->format('F d, Y') }}</p>
                 <p class="mt-4 text-lg text-gray-700 max-w-3xl mx-auto">
-                    Welcome to <strong class="text-orange-600">Tunga Market</strong>.
+                    Welcome to <strong class="text-orange-600">{{$gs->site_name}}</strong>.
                     This page explains how and why we use cookies to provide a better, faster, and safer shopping
                     experience.
                 </p>
@@ -29,7 +32,7 @@
                         <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 1. Introduction
                     </h2>
                     <p class="text-gray-700 leading-relaxed">
-                        Welcome to <strong>Tunga Market!</strong>
+                        Welcome to <strong>{{$gs->site_name}}!</strong>
                         This Cookies Policy explains how and why cookies and similar tracking technologies are used when you
                         visit our platform (<a href="https://www.tungamarket.com"
                             style="color: blue">www.tungamarket.com</a>). Cookies help us improve your browsing experience,
@@ -193,7 +196,7 @@
                     <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-3">
                         <span class="w-1.5 h-8 bg-orange-500 rounded-full mr-3"></span> 10. Consent and Withdrawal
                     </h2>
-                    <p class="text-gray-700 mb-3">When you first visit Tunga Market, a cookie consent banner will appear
+                    <p class="text-gray-700 mb-3">When you first visit {{$gs->site_name}}, a cookie consent banner will appear
                         asking for your approval.
                         You can:
                     </p>
@@ -254,7 +257,7 @@
             </div>
 
             <div class="mt-12 text-center text-sm text-gray-500">
-                © {{ date('Y') }} <strong>Tunga Market</strong> • All Rights Reserved.
+                © {{ date('Y') }} <strong>{{$gs->site_name}}</strong> • All Rights Reserved.
             </div>
         </div>
 

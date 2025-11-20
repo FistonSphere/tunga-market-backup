@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $gs = \App\Models\GeneralSetting::first();
+    @endphp
     @if (session('success'))
         <div id="toast"
             class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg animate-slide-in transition-opacity duration-300 ease-in-out z-50">
@@ -156,8 +159,7 @@
                     onclick="selectContactType('general')">
                     <div
                         class="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-secondary-200 transition-fast">
-                        <svg class="w-8 h-8 text-secondary-600" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -189,8 +191,7 @@
                         <div class="flex items-center space-x-3">
                             <div id="contact-type-icon"
                                 class="w-8 h-8 bg-accent-100 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                                 </svg>
@@ -236,8 +237,7 @@
                         <div>
                             <label for="phone" class="block text-sm font-medium text-secondary-700 mb-2">Phone
                                 Number</label>
-                            <input type="tel" id="phone" name="phone" class="input-field"
-                                placeholder="+250 78XXXXXX" />
+                            <input type="tel" id="phone" name="phone" class="input-field" placeholder="+250 78XXXXXX" />
                         </div>
                     </div>
 
@@ -383,8 +383,8 @@
                             <!-- Loading spinner (hidden by default) -->
                             <span class="loading-spinner hidden ml-2">
                                 <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10"
-                                        stroke="currentColor" stroke-width="4"></circle>
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4"></circle>
                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
                                 </svg>
                             </span>
@@ -532,8 +532,7 @@
                     </div>
                     <div class="space-y-2 text-sm">
                         <div class="flex items-start space-x-2">
-                            <svg class="w-4 h-4 text-gray-400 mt-0.5" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -587,8 +586,7 @@
                     </div>
                     <div class="space-y-2 text-sm">
                         <div class="flex items-start space-x-2">
-                            <svg class="w-4 h-4 text-gray-400 mt-0.5" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -643,8 +641,7 @@
                     </div>
                     <div class="space-y-2 text-sm">
                         <div class="flex items-start space-x-2">
-                            <svg class="w-4 h-4 text-gray-400 mt-0.5" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -742,7 +739,7 @@
                         </svg>
                     </div>
                     <h3 class="font-semibold text-primary mb-2">LinkedIn</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Tunga Market</p>
+                    <p class="text-body-sm text-secondary-600 mb-3">{{$gs->site_name}}</p>
                     <div class="text-xs text-blue-600 font-semibold">Response time: 2-4 hours</div>
                 </div>
 
@@ -756,7 +753,7 @@
                         </svg>
                     </div>
                     <h3 class="font-semibold text-primary mb-2">Facebook</h3>
-                    <p class="text-body-sm text-secondary-600 mb-3">Tunga Market</p>
+                    <p class="text-body-sm text-secondary-600 mb-3">{{$gs->site_name}}</p>
                     <div class="text-xs text-blue-700 font-semibold">Response time: 1-2 hours</div>
                 </div>
 
@@ -962,7 +959,7 @@
         }
 
         // File upload functionality
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const fileDropZone = document.getElementById('file-drop-zone');
             const fileInput = document.getElementById('file-input');
             const fileList = document.getElementById('file-list');
@@ -1016,21 +1013,21 @@
                 const fileItem = document.createElement('div');
                 fileItem.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
                 fileItem.innerHTML = `
-                <div class="flex items-center space-x-3">
-                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    <div>
-                        <div class="font-medium text-sm">${file.name}</div>
-                        <div class="text-xs text-gray-500">${formatFileSize(file.size)}</div>
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <div>
+                            <div class="font-medium text-sm">${file.name}</div>
+                            <div class="text-xs text-gray-500">${formatFileSize(file.size)}</div>
+                        </div>
                     </div>
-                </div>
-                <button type="button" onclick="removeFile(this)" class="text-red-500 hover:text-red-700">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            `;
+                    <button type="button" onclick="removeFile(this)" class="text-red-500 hover:text-red-700">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                `;
 
                 fileList.appendChild(fileItem);
             }
@@ -1055,7 +1052,7 @@
         }
 
         // Callback request toggle
-        document.getElementById('callback-request').addEventListener('change', function() {
+        document.getElementById('callback-request').addEventListener('change', function () {
             const callbackDetails = document.getElementById('callback-details');
             if (this.checked) {
                 callbackDetails.classList.remove('hidden');
@@ -1065,19 +1062,19 @@
         });
 
         // Form submission
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
+        document.getElementById('contact-form').addEventListener('submit', function (e) {
             e.preventDefault();
 
             // Show loading state
             const submitButton = this.querySelector('button[type="submit"]');
             const originalText = submitButton.innerHTML;
             submitButton.innerHTML = `
-            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Sending...
-        `;
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Sending...
+            `;
             submitButton.disabled = true;
 
             // Simulate form submission
@@ -1104,21 +1101,21 @@
             notification.className =
                 'fixed top-4 right-4 bg-success text-white p-6 rounded-lg shadow-modal z-50 transform translate-x-full transition-all duration-300';
             notification.innerHTML = `
-            <div class="flex items-center space-x-3">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <div>
-                    <div class="font-semibold">Message Sent Successfully!</div>
-                    <div class="text-sm opacity-90">We'll respond within our SLA timeframe</div>
-                </div>
-                <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                <div class="flex items-center space-x-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                </button>
-            </div>
-        `;
+                    <div>
+                        <div class="font-semibold">Message Sent Successfully!</div>
+                        <div class="text-sm opacity-90">We'll respond within our SLA timeframe</div>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
 
             document.body.appendChild(notification);
 
@@ -1247,27 +1244,27 @@
                 if (sender === 'user') {
                     messageDiv.className = 'flex justify-end space-x-2 chat-message-slide-in-right';
                     messageDiv.innerHTML = `
-                    <div class="bg-accent text-white rounded-lg p-3 max-w-xs shadow-md">
-                        <p class="text-sm">${message}</p>
-                    </div>
-                    <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                        </svg>
-                    </div>
-                `;
+                        <div class="bg-accent text-white rounded-lg p-3 max-w-xs shadow-md">
+                            <p class="text-sm">${message}</p>
+                        </div>
+                        <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                        </div>
+                    `;
                 } else {
                     messageDiv.className = 'flex space-x-2 chat-message-slide-in';
                     messageDiv.innerHTML = `
-                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        </svg>
-                    </div>
-                    <div class="bg-surface rounded-lg p-3 max-w-xs shadow-md">
-                        <p class="text-sm text-secondary-700">${message}</p>
-                    </div>
-                `;
+                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                        </div>
+                        <div class="bg-surface rounded-lg p-3 max-w-xs shadow-md">
+                            <p class="text-sm text-secondary-700">${message}</p>
+                        </div>
+                    `;
                 }
 
                 chatContent.appendChild(messageDiv);
@@ -1280,19 +1277,19 @@
                 typingDiv.id = 'typing-indicator';
                 typingDiv.className = 'flex space-x-2 chat-message-slide-in';
                 typingDiv.innerHTML = `
-                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                </div>
-                <div class="bg-surface rounded-lg p-3 shadow-md">
-                    <div class="typing-indicator">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
                     </div>
-                </div>
-            `;
+                    <div class="bg-surface rounded-lg p-3 shadow-md">
+                        <div class="typing-indicator">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                `;
 
                 chatContent.appendChild(typingDiv);
                 this.scrollToBottom();
@@ -1322,7 +1319,7 @@
                     response =
                         "📞 Our phone numbers:<br>• North America: +1 (800) 555-0123 (24/7)<br>• Europe: +44 20 7946 0958 (9AM-6PM GMT)<br>• Asia Pacific: +65 6808 7123 (9AM-7PM SGT)<br>• Emergency: +1 (800) 911-HELP (24/7)";
                 } else if (lowerMessage.includes('office') || lowerMessage.includes('visit') || lowerMessage.includes(
-                        'location')) {
+                    'location')) {
                     response =
                         "🏢 Our offices:<br>• San Francisco (HQ): 123 Market Street<br>• London: 25 Old Broad Street<br>• Singapore: 1 Raffles Place<br>You can schedule visits using the buttons on each office card!";
                 } else if (lowerMessage.includes('emergency') || lowerMessage.includes('urgent')) {
@@ -1378,7 +1375,7 @@
         }
 
         // Initialize contact-specific functionality
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Initialize contact chatbot
             window.contactChatbot = new ContactSupportChatbot();
 
@@ -1392,7 +1389,7 @@
 
             // Add smooth scroll to all anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
+                anchor.addEventListener('click', function (e) {
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
                     if (target) {
@@ -1407,7 +1404,7 @@
     </script>
 
     <script>
-        document.getElementById('contact-request-form').addEventListener('submit', function(e) {
+        document.getElementById('contact-request-form').addEventListener('submit', function (e) {
             e.preventDefault();
 
             const form = e.target;
@@ -1423,13 +1420,13 @@
             document.querySelectorAll('[id^=error-]').forEach(el => el.innerText = '');
 
             fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json'
-                    },
-                    body: formData
-                })
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                },
+                body: formData
+            })
                 .then(async (response) => {
                     const contentType = response.headers.get("content-type");
                     const isJson = contentType && contentType.indexOf("application/json") !== -1;
