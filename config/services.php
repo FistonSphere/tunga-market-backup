@@ -38,4 +38,10 @@ return [
     'api_token' => env('MISTA_API_TOKEN'),
     'sender_id' => env('MISTA_SENDER_ID'),
 ],
+
+'google' => [
+    'client_id' => env('GOOGLE_CLIENT_ID'),
+    'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+    'redirect' => env('GOOGLE_REDIRECT_URI'),
+],
 ];
