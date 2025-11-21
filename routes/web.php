@@ -32,6 +32,7 @@ use App\Http\Controllers\frontend\HelpCenterController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\OrderTrackingController;
 use App\Http\Controllers\frontend\ProductListingController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\OrderDocumentController;
 use App\Http\Controllers\ProductDiscoveryHubController;
 use App\Http\Controllers\ResetPasswordController;
@@ -457,3 +458,6 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
 
 // admin with no authentication middleware routes
 });
+
+Route::get('auth/google', [GoogleAuthController::class,'redirect'])->name('google.auth');
+Route::get('auth/google/call-back', [GoogleAuthController::class,'callbackGoogle'])->name('google.auth.callback');
