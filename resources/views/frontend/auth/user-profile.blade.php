@@ -578,7 +578,7 @@
                                 <div>
                                     <h3 class="text-lg font-semibold text-primary mb-4">Quick Actions</h3>
                                     <div class="space-y-3">
-                                        <a href="https://wa.me/250787444019?text={{ urlencode('Hello {{$gs->site_name}} Support, I need help with...') }}"
+                                        <a href="https://wa.me/250787444019?text={{ urlencode('Hello Tunga Market Support, I need help with...') }}"
                                             target="_blank"
                                             class="w-full text-left p-4 border border-secondary-200 rounded-lg hover:bg-surface transition-fast flex items-center space-x-3">
                                             <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor"

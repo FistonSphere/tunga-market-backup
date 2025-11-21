@@ -4,10 +4,10 @@
 
 @section('content')
     <!--
-                                  Alibaba-inspired Glass UI (Option B)
-                                  - Brand colors: #001528 (navy), #ff5f0e (accent), #fff (white)
-                                  - Glassmorphism, subtle gradients, micro-interactions
-                                -->
+                                              Alibaba-inspired Glass UI (Option B)
+                                              - Brand colors: #001528 (navy), #ff5f0e (accent), #fff (white)
+                                              - Glassmorphism, subtle gradients, micro-interactions
+                                            -->
 
     <style>
         :root {
@@ -299,6 +299,79 @@
         input#avatarInput {
             width: 100%;
         }
+
+        .field {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all .25s ease;
+        }
+
+        .field:focus {
+            border-color: #001528;
+            box-shadow: 0 0 0 3px rgba(0, 21, 40, 0.15);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-eye {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            opacity: 0.6;
+            transition: 0.2s;
+        }
+
+        .toggle-eye:hover {
+            opacity: 1;
+        }
+
+        /* Strength Meter */
+        .strength-meter {
+            height: 8px;
+            border-radius: 8px;
+            background: #e5e7eb;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width .3s ease;
+        }
+
+        .strength-weak {
+            background: #e11d48;
+        }
+
+        .strength-medium {
+            background: #fb923c;
+        }
+
+        .strength-strong {
+            background: #16a34a;
+        }
+
+        /* Confirm match status */
+        .match-message {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .match-ok {
+            color: #16a34a;
+        }
+
+        .match-bad {
+            color: #e11d48;
+        }
     </style>
 
     <div class="container">
@@ -337,7 +410,7 @@
                             <label class="btn btn-ghost">
                                 <input type="file" name="profile_picture" id="avatarInput" accept="image/*" class="hidden"
                                     onchange="previewImage(event)">
-                                
+
                             </label>
 
                             <button type="submit" class="btn btn-primary">Save Photo</button>
@@ -444,32 +517,58 @@
 
                 <!-- SECURITY -->
                 <div id="tab-security" class="tab-panel" role="tabpanel" aria-labelledby="Security" hidden>
+
                     <form action="{{ route('admin.profile.updatePassword') }}" method="POST" class="mt-3">
                         @csrf
+
                         <div class="form-grid">
+
+                            <!-- CURRENT PASSWORD -->
                             <div style="grid-column: 1 / -1;">
-                                <label for="current_password">Current password</label>
-                                <input id="current_password" name="current_password" class="field" type="password" />
+                                <label for="current_password" class="font-semibold">Current Password</label>
+                                <div class="password-wrapper">
+                                    <input id="current_password" name="current_password" class="field" type="password" />
+                                    <span class="toggle-eye" onclick="togglePassword('current_password', this)">👁️</span>
+                                </div>
                             </div>
 
+                            <!-- NEW PASSWORD -->
                             <div>
-                                <label for="new_password">New password</label>
-                                <input id="new_password" name="new_password" class="field" type="password" />
+                                <label for="new_password" class="font-semibold">New Password</label>
+                                <div class="password-wrapper">
+                                    <input id="new_password" name="new_password" class="field" type="password"
+                                        oninput="checkStrength()" />
+                                    <span class="toggle-eye" onclick="togglePassword('new_password', this)">👁️</span>
+                                </div>
+
+                                <div class="strength-meter">
+                                    <div id="strengthBar" class="strength-bar"></div>
+                                </div>
                             </div>
 
+                            <!-- CONFIRM PASSWORD -->
                             <div>
-                                <label for="new_password_confirmation">Confirm new password</label>
-                                <input id="new_password_confirmation" name="new_password_confirmation" class="field"
-                                    type="password" />
+                                <label for="new_password_confirmation" class="font-semibold">Confirm Password</label>
+                                <div class="password-wrapper">
+                                    <input id="new_password_confirmation" name="new_password_confirmation" class="field"
+                                        type="password" oninput="checkMatch()" />
+                                    <span class="toggle-eye"
+                                        onclick="togglePassword('new_password_confirmation', this)">👁️</span>
+                                </div>
+
+                                <div id="matchMessage" class="match-message"></div>
                             </div>
                         </div>
 
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">Change password</button>
-                            <a class="btn btn-ghost" href="#">Password rules</a>
+                        <div class="form-actions mt-4">
+                            <button type="submit" class="btn btn-primary"
+                                style="background:#001528; border-radius:12px; padding:10px 25px;">
+                                Change Password
+                            </button>
                         </div>
                     </form>
                 </div>
+
 
                 <!-- ADDRESS -->
                 <div id="tab-address" class="tab-panel" role="tabpanel" aria-labelledby="Address" hidden>
@@ -590,6 +689,56 @@
         // small helper clear form fields (for demo)
         function clearProfile() {
             document.querySelectorAll('#tab-profile .field').forEach(f => f.value = '');
+        }
+
+        function togglePassword(id, el) {
+            const field = document.getElementById(id);
+            field.type = field.type === "password" ? "text" : "password";
+        }
+
+        // 🔥 Password Strength Meter
+        function checkStrength() {
+            const pass = document.getElementById("new_password").value;
+            const bar = document.getElementById("strengthBar");
+
+            let strength = 0;
+            if (pass.length >= 6) strength++;
+            if (/[A-Z]/.test(pass)) strength++;
+            if (/[0-9]/.test(pass)) strength++;
+            if (/[^A-Za-z0-9]/.test(pass)) strength++;
+
+            if (strength === 0) {
+                bar.style.width = "0%";
+            } else if (strength <= 1) {
+                bar.style.width = "33%";
+                bar.className = "strength-bar strength-weak";
+            } else if (strength === 2 || strength === 3) {
+                bar.style.width = "66%";
+                bar.className = "strength-bar strength-medium";
+            } else {
+                bar.style.width = "100%";
+                bar.className = "strength-bar strength-strong";
+            }
+        }
+
+        // 🔥 Confirm password match
+        function checkMatch() {
+            const pass = document.getElementById("new_password").value;
+            const confirm = document.getElementById("new_password_confirmation").value;
+            const msg = document.getElementById("matchMessage");
+
+            if (!confirm) {
+                msg.textContent = "";
+                return;
+            }
+
+            if (pass === confirm) {
+                msg.textContent = "Passwords match ✔";
+                msg.className = "match-message match-ok";
+            } else {
+                msg.textContent = "Passwords do not match ✘";
+                msg.className = "match-message match-bad";
+            }
         }
     </script>
 @endsection

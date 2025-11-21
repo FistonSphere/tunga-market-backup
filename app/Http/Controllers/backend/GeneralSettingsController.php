@@ -261,7 +261,7 @@ public function profileSetting(){
     {
         $request->validate([
             'current_password'      => 'required',
-            'new_password'          => ['required', 'confirmed', Password::defaults()],
+            'new_password'          => 'required|min:8|confirmed',
         ]);
 
         $user = Auth::user();
