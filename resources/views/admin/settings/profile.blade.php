@@ -4,10 +4,10 @@
 
 @section('content')
     <!--
-                              Alibaba-inspired Glass UI (Option B)
-                              - Brand colors: #001528 (navy), #ff5f0e (accent), #fff (white)
-                              - Glassmorphism, subtle gradients, micro-interactions
-                            -->
+                                  Alibaba-inspired Glass UI (Option B)
+                                  - Brand colors: #001528 (navy), #ff5f0e (accent), #fff (white)
+                                  - Glassmorphism, subtle gradients, micro-interactions
+                                -->
 
     <style>
         :root {
@@ -333,16 +333,17 @@
                         <form action="{{ route('admin.profile.updatePicture') }}" method="POST"
                             enctype="multipart/form-data" style="display:inline;">
                             @csrf
+
                             <label class="btn btn-ghost">
-                                <input type="file" id="avatarInput" accept="image/*" class="hidden"
+                                <input type="file" name="profile_picture" id="avatarInput" accept="image/*" class="hidden"
                                     onchange="previewImage(event)">
+                                
                             </label>
 
-
-                            <!-- Hidden file is fine; user clicks Upload above then Save here -->
                             <button type="submit" class="btn btn-primary">Save Photo</button>
                         </form>
                     </div>
+
 
                     <div class="meta-row" style="margin-top:14px">
                         <div class="stat">
