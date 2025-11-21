@@ -374,8 +374,22 @@ public function store(Request $request)
     $user = Auth::user();
 
     $request->validate([
-        'shipping_address_id' => 'required|exists:shipping_addresses,id',
-    ]);
+    'shipping_address_id' => 'required|exists:shipping_addresses,id',
+    'payment_method' => 'required|in:momo-code,cod,bank-transfer',
+    'mobile_code' => 'required_if:payment_method,momo-code|nullable|string|max:6',
+    'mobile_pin' => 'required_if:payment_method,momo-code|nullable|string|max:4',
+    'attachments.*' => 'required_if:payment_method,bank-transfer|nullable|file|max:10240|mimes:pdf,doc,docx,xls,xlsx,png,jpg,jpeg',
+]);
+
+     $attachments = [];
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $filename = Str::random(40) . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('payment_attachments', $filename, 'public');
+                $attachments[] = asset('storage/' . $path);
+            }
+        }
 
     $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
     if ($cartItems->isEmpty()) {
@@ -435,6 +449,7 @@ public function store(Request $request)
         'amount' => $orderTotal,
         'currency' => 'Rwf',
         'status' => 'unpaid',
+        'attachments' => json_encode($attachments),
         'transaction_id' => 'COD-' . strtoupper(uniqid()),
     ]);
 

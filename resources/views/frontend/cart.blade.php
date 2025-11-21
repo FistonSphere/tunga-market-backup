@@ -162,7 +162,7 @@
 
                                         <img src="{{ asset($item->product->main_image ?? 'assets/images/no-image.png') }}"
                                             alt="{{ $item->product->name }}"
-                                            class="w-24 h-24 rounded-lg object-fill flex-shrink-0" loading="lazy" />
+                                            class="w-24 h-24 rounded-lg object-cover flex-shrink-0" loading="lazy" />
 
                                         <div class="flex-1 min-w-0">
                                             <div class="flex flex-col lg:flex-row lg:items-start justify-between">
@@ -382,7 +382,7 @@
                             <a href="{{ route('product.view', $featureProduct->sku) }}">
                                 <img src="{{ $featureProduct->main_image ? asset($featureProduct->main_image) : asset('assets/images/no-image.png') }}"
                                     alt="{{ $featureProduct->product_name }}"
-                                    class="w-full h-48 object-fill group-hover:scale-105 transition-all duration-300 rounded-lg"
+                                    class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300 rounded-lg"
                                     loading="lazy" />
                             </a>
                             <button onclick="addToWishlist('{{ $featureProduct->id }}')"

@@ -129,7 +129,7 @@
                 <div class="relative flex-1 bg-gray-50 rounded-xl overflow-hidden flex justify-center items-center shadow-xl transition hover:shadow-2xl group"
                     style="width:500px; height:500px; min-width:300px;">
                     <img id="mainImage" src="{{ $product->main_image }}" alt="{{ $product->name }}"
-                        class="w-full h-full object-contain transition-all duration-300 select-none" loading="lazy"
+                        class="w-full h-full object-cover transition-all duration-300 select-none" loading="lazy"
                         onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
 
                     <!-- Zoom Lens -->
@@ -315,7 +315,7 @@
                 ▶
             </button>
 
-            <img id="fullscreenImage" src="" class="max-h-[90vh] max-w-[90vw] object-contain rounded-lg">
+            <img id="fullscreenImage" src="" class="max-h-[90vh] max-w-[90vw] object-cover rounded-lg">
 
             <!-- Fullscreen Zoom Lens -->
             <div id="fsZoomLens" class="hidden"></div>
@@ -840,7 +840,7 @@
             <div id="fake3dViewer"
                 class="relative w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden cursor-grab">
 
-                <img id="fake3dImage" src="" class="max-h-full max-w-full object-contain select-none" draggable="false" />
+                <img id="fake3dImage" src="" class="max-h-full max-w-full object-cover select-none" draggable="false" />
 
                 <!-- Prev Button -->
                 <button id="prevImageBtn"

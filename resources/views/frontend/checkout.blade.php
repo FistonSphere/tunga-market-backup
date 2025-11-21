@@ -401,7 +401,8 @@
                                     <div class="space-y-3">
                                         <!-- TechSound Manufacturing Shipping -->
                                         <div class="border border-border rounded-lg p-4">
-                                            <h4 class="font-medium text-primary mb-3">{{$gs->site_name}} Shipping Co Ltd.</h4>
+                                            <h4 class="font-medium text-primary mb-3">{{$gs->site_name}} Shipping Co Ltd.
+                                            </h4>
                                             <div class="space-y-2">
                                                 <label
                                                     class="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-surface cursor-pointer">
@@ -474,213 +475,6 @@
 
                             <!-- Payment Methods -->
                             <div class="space-y-6">
-
-                                <!-- ========================= -->
-                                <!-- 1. CREDIT / DEBIT CARD -->
-                                <!-- ========================= -->
-                                <div>
-                                    <label class="flex items-center space-x-3 mb-4">
-                                        <input type="radio" name="payment-method" value="card"
-                                            class="text-accent focus:ring-accent-500 border-border" checked />
-                                        <span class="font-semibold text-primary">Credit/Debit Card</span>
-
-                                    </label>
-
-                                    <div id="card-form" class="space-y-4 pl-7">
-                                        <!-- Saved Cards -->
-                                        <div class="space-y-3">
-                                            <h4 class="font-medium text-primary">Saved Payment Methods</h4>
-
-                                            <label
-                                                class="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-surface cursor-pointer">
-                                                <div class="flex items-center space-x-3">
-                                                    <input type="radio" name="saved-card" value="card1"
-                                                        class="text-accent focus:ring-accent-500 border-border" />
-                                                    <div
-                                                        class="w-8 h-5 bg-primary rounded text-white text-xs flex items-center justify-center font-bold">
-                                                        VISA
-                                                    </div>
-                                                    <div>
-                                                        <div class="font-medium text-primary">•••• •••• •••• 1234</div>
-                                                        <div class="text-body-sm text-secondary-600">Expires 12/26 • John
-                                                            Smith</div>
-                                                    </div>
-                                                </div>
-
-                                                <button
-                                                    class="text-accent hover:text-accent-600 transition-fast text-body-sm">Edit</button>
-                                            </label>
-
-                                            <label
-                                                class="flex items-center space-x-3 p-4 border-2 border-dashed border-border rounded-lg hover:bg-surface cursor-pointer">
-                                                <input type="radio" name="saved-card" value="new-card"
-                                                    class="text-accent focus:ring-accent-500 border-border" checked />
-                                                <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                </svg>
-                                                <span class="font-medium text-primary">Add New Card</span>
-                                            </label>
-                                        </div>
-
-                                        <!-- New Card Form -->
-                                        <div id="new-card-form" class="space-y-4">
-                                            <div>
-                                                <label class="block text-body-sm font-medium text-primary mb-1">Card Number
-                                                    *</label>
-                                                <input type="text" class="input-field" placeholder="1234 5678 9012 3456"
-                                                    maxlength="19" required />
-                                            </div>
-
-                                            <div class="grid md:grid-cols-3 gap-4">
-                                                <div class="md:col-span-2">
-                                                    <label class="block text-body-sm font-medium text-primary mb-1">Expiry
-                                                        Date *</label>
-                                                    <input type="text" class="input-field" placeholder="MM/YY" maxlength="5"
-                                                        required />
-                                                </div>
-                                                <div>
-                                                    <label class="block text-body-sm font-medium text-primary mb-1">CVV
-                                                        *</label>
-                                                    <input type="text" class="input-field" placeholder="123" maxlength="4"
-                                                        required />
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <label class="block text-body-sm font-medium text-primary mb-1">Cardholder
-                                                    Name *</label>
-                                                <input type="text" class="input-field" placeholder="John Smith" required />
-                                            </div>
-
-                                            <div class="flex items-center space-x-3">
-                                                <input type="checkbox" id="save-card"
-                                                    class="w-4 h-4 text-accent focus:ring-accent-500 border-border rounded" />
-                                                <label for="save-card" class="text-body-sm text-secondary-700">Save this
-                                                    card for future purchases</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!-- ========================= -->
-                                <!-- 2. IREMBO PAY (existing) -->
-                                <!-- ========================= -->
-                                <div>
-                                    <label class="flex items-center space-x-3 mb-4">
-                                        <input type="radio" name="payment-method" value="irembo-pay"
-                                            class="text-accent focus:ring-accent-500 border-border" />
-                                        <span class="font-semibold text-primary">IREMBO Pay</span>
-
-                                    </label>
-
-                                    <div id="irembo-form" class="space-y-4 pl-7 hidden">
-                                        <div class="bg-primary-50 border border-primary-200 rounded-lg p-4 mb-4">
-                                            <div class="flex items-center space-x-3">
-                                                <svg class="w-6 h-6 text-primary flex-shrink-0" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                                </svg>
-                                                <div>
-                                                    <h4 class="font-semibold text-primary mb-1">IREMBO Pay - Mobile Money
-                                                    </h4>
-                                                    <p class="text-body-sm text-primary-700">Secure mobile money payments in
-                                                        Rwanda. Supports MTN Mobile Money and Airtel Money.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Mobile Money Provider Selection -->
-                                        <div>
-                                            <label class="block text-body-sm font-medium text-primary mb-2">Select Mobile
-                                                Money Provider *</label>
-                                            <div class="grid grid-cols-2 gap-3">
-                                                <label
-                                                    class="flex items-center justify-center p-4 border border-border rounded-lg cursor-pointer hover:bg-surface transition-fast">
-                                                    <input type="radio" name="mobile-provider" value="mtn"
-                                                        class="sr-only" />
-                                                    <div class="text-center">
-                                                        <div
-                                                            class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-2">
-                                                            <span class="text-white font-bold text-sm">MTN</span>
-                                                        </div>
-                                                        <div class="font-semibold text-primary">MTN Mobile Money</div>
-                                                        <div class="text-sm text-secondary-600">*182# or App</div>
-                                                    </div>
-                                                </label>
-
-                                                <label
-                                                    class="flex items-center justify-center p-4 border border-border rounded-lg cursor-pointer hover:bg-surface transition-fast">
-                                                    <input type="radio" name="mobile-provider" value="airtel"
-                                                        class="sr-only" />
-                                                    <div class="text-center">
-                                                        <div
-                                                            class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-2">
-                                                            <span class="text-white font-bold text-sm">AIRTEL</span>
-                                                        </div>
-                                                        <div class="font-semibold text-primary">Airtel Money</div>
-                                                        <div class="text-sm text-secondary-600">*175# or App</div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <!-- Payment Method Selection -->
-                                        <div id="payment-method-selection" class="hidden">
-                                            <label class="block text-body-sm font-medium text-primary mb-2">How would you
-                                                like to pay?</label>
-                                            <div class="space-y-3">
-                                                <!-- Phone Number Payment -->
-                                                <label
-                                                    class="flex items-start space-x-3 p-4 border border-border rounded-lg hover:bg-surface cursor-pointer">
-                                                    <input type="radio" name="payment-type" value="phone"
-                                                        class="mt-1 text-accent focus:ring-accent-500 border-border" />
-                                                    <div class="flex-1">
-                                                        <div class="flex items-center space-x-2 mb-1">
-                                                            <svg class="w-5 h-5 text-accent" fill="none"
-                                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    stroke-width="2"
-                                                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                                            </svg>
-                                                            <span class="font-medium text-primary">Pay with Phone
-                                                                Number</span>
-                                                        </div>
-                                                        <div class="text-body-sm text-secondary-600">
-                                                            Enter your mobile money phone number. You'll receive a payment
-                                                            request on your phone.
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <!-- Phone Number Input -->
-                                        <div id="phone-input-section" class="hidden">
-                                            <label class="block text-body-sm font-medium text-primary mb-1">Mobile Money
-                                                Phone Number *</label>
-                                            <div class="flex">
-                                                <div
-                                                    class="flex items-center px-3 bg-surface border border-r-0 border-border rounded-l-lg">
-                                                    <span class="text-secondary-600">+250</span>
-                                                </div>
-                                                <input type="tel" id="mobile-phone"
-                                                    class="flex-1 input-field rounded-l-none" placeholder="7xxxxxxxx"
-                                                    maxlength="9" required />
-                                            </div>
-                                            <p class="text-body-sm text-secondary-600 mt-1">Enter your 9-digit mobile number
-                                                (without +250)</p>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-
-
-
                                 <!-- ========================= -->
                                 <!-- 3. MTN MOMO CODE PAYMENT -->
                                 <!-- ========================= -->
@@ -806,7 +600,8 @@
 
                                         <label class="block text-body-sm font-medium text-primary">Upload Payment Proof
                                             *</label>
-                                        <input type="file" class="input-field" accept="image/*,application/pdf" />
+                                        <input type="file" class="input-field" name="attachments[]"
+                                            accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" />
                                     </div>
                                 </div>
 
@@ -1142,12 +937,12 @@
     <div id="editAddressModal"
         style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));"
         class="fixed inset-0 hidden items-center justify-center
-                                                                                                                        backdrop-blur-sm transition-opacity duration-300 ease-out">
+                                                                                                                                backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
         <div id="editAddressCard"
             class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
-                                                                                                                           transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                                                                                                                                   transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1713,20 +1508,20 @@
 
             // ✅ Fullscreen overlay with dark blur (same as your trackingRedirectModal)
             loadingModal.className = `
-                                                    fixed inset-0 z-[99999999] flex items-center justify-center
-                                                    bg-black/50 backdrop-blur-md transition-opacity duration-300
-                                                `;
+                                                            fixed inset-0 z-[99999999] flex items-center justify-center
+                                                            bg-black/50 backdrop-blur-md transition-opacity duration-300
+                                                        `;
 
             // ✅ White modal card — solid, visible, clean
             loadingModal.innerHTML = `
-                                                    <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center p-8 animate-scale-in">
-                                                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-orange-100">
-                                                            <div class="animate-spin w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full"></div>
-                                                        </div>
-                                                        <h2 class="text-lg font-semibold text-gray-800 mb-1">Placing your order...</h2>
-                                                        <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
-                                                    </div>
-                                                `;
+                                                            <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center p-8 animate-scale-in">
+                                                                <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-orange-100">
+                                                                    <div class="animate-spin w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full"></div>
+                                                                </div>
+                                                                <h2 class="text-lg font-semibold text-gray-800 mb-1">Placing your order...</h2>
+                                                                <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
+                                                            </div>
+                                                        `;
 
             document.body.appendChild(loadingModal);
 
@@ -2208,6 +2003,96 @@
             toggleNewCardForm();
 
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const paymentRadios = document.querySelectorAll('input[name="payment-method"]');
+
+            const momoForm = document.getElementById("momo-code-form");
+            const codInfo = document.getElementById("cod-info");
+            const bankForm = document.getElementById("bank-transfer-form");
+
+            const mobileCode = document.getElementById("mobile-code");
+            const mobilePin = document.getElementById("mobile-pin");
+            const paymentProofInput = document.querySelector('input[name="attachments[]"]');
+
+            // Hide all sections first
+            function hideAll() {
+                momoForm.classList.add("hidden");
+                codInfo.classList.add("hidden");
+                bankForm.classList.add("hidden");
+            }
+
+            // Handle radio changes
+            paymentRadios.forEach(radio => {
+                radio.addEventListener("change", function () {
+                    hideAll();
+
+                    if (this.value === "momo-code") {
+                        momoForm.classList.remove("hidden");
+                    }
+                    if (this.value === "cod") {
+                        codInfo.classList.remove("hidden");
+                    }
+                    if (this.value === "bank-transfer") {
+                        bankForm.classList.remove("hidden");
+                    }
+                });
+            });
+
+            // ============================
+            // VALIDATE BEFORE NEXT STEP
+            // ============================
+            window.validatePaymentStep = function () {
+
+                const selected = document.querySelector('input[name="payment-method"]:checked');
+
+                if (!selected) {
+                    alert("⚠ Please select a payment method before proceeding.");
+                    return false;
+                }
+
+                const method = selected.value;
+
+                // MTN MOMO VALIDATION
+                if (method === "momo-code") {
+
+                    if (mobileCode.value.trim().length !== 6) {
+                        alert("⚠ Please enter a valid 6-digit MTN payment code.");
+                        return false;
+                    }
+
+                    if (mobilePin.value.trim().length !== 4) {
+                        alert("⚠ Please enter your 4-digit MTN PIN.");
+                        return false;
+                    }
+                }
+
+                // BANK TRANSFER VALIDATION
+                if (method === "bank-transfer") {
+                    if (!paymentProofInput.files.length) {
+                        alert("⚠ Please upload payment proof.");
+                        return false;
+                    }
+                }
+
+                return true;
+            };
+
+            // ============================
+            // OVERRIDE NEXT BUTTON
+            // ============================
+            window.nextStep = function (step) {
+                if (step === 4) {
+                    if (!validatePaymentStep()) {
+                        return;
+                    }
+                }
+                goToStep(step); // Your existing function
+            };
+
+        });
+
     </script>
 
 @endsection
