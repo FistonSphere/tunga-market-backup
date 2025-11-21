@@ -21,7 +21,7 @@
 
         /* Page background */
         body {
-            background: linear-gradient(180deg, #0b1620 0%, #071017 40%, #041018 100%);
+            /* background: linear-gradient(180deg, #0b1620 0%, #071017 40%, #041018 100%); */
             color: #0b1a26;
             -webkit-font-smoothing: antialiased;
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
@@ -42,7 +42,7 @@
             padding: 28px;
             border-radius: 14px;
             background: linear-gradient(135deg, rgba(0, 21, 40, 0.9), rgba(0, 30, 50, 0.85));
-            box-shadow: 0 10px 30px rgba(0, 20, 40, 0.6);
+            /* box-shadow: 0 10px 30px rgba(0, 20, 40, 0.6); */
             color: var(--white);
             border: 1px solid rgba(255, 255, 255, 0.04);
         }
@@ -76,7 +76,7 @@
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
             border: 1px solid rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(8px);
-            box-shadow: 0 8px 30px rgba(3, 10, 18, 0.6);
+            /* box-shadow: 0 8px 30px rgba(3, 10, 18, 0.6); */
         }
 
         .avatar-wrap {
@@ -92,7 +92,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 4px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); */
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.12));
         }
 
@@ -122,12 +122,13 @@
         .btn-primary {
             background: linear-gradient(90deg, var(--accent), #ff7b3b);
             color: #fff;
-            box-shadow: 0 8px 20px rgba(255, 95, 14, 0.18), inset 0 -2px 6px rgba(0, 0, 0, 0.12);
+            /* box-shadow: 0 8px 20px rgba(255, 95, 14, 0.18), inset 0 -2px 6px rgba(0, 0, 0, 0.12); */
             border: none;
         }
 
         .btn-ghost:hover {
             transform: translateY(-3px);
+            color:#d1d5db;
         }
 
         .btn-primary:hover {
@@ -169,7 +170,7 @@
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(8px);
-            box-shadow: 0 8px 30px rgba(2, 8, 15, 0.55);
+            /* box-shadow: 0 8px 30px rgba(2, 8, 15, 0.55); */
         }
 
         /* Tabs */
@@ -195,7 +196,7 @@
             background: linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
             color: var(--accent);
             transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0, 10, 20, 0.45);
+            /* box-shadow: 0 8px 20px rgba(0, 10, 20, 0.45); */
             border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
@@ -388,7 +389,7 @@
         <div class="grid-main" role="main">
 
             <!-- Left summary -->
-            <aside class="panel" aria-label="Profile summary">
+            <aside class="panel" aria-label="Profile summary" style="background: #101820">
                 <div class="avatar-wrap">
                     <img id="avatarPreview" class="avatar"
                         src="{{ $user->profile_picture ?? asset('assets/images/default-avatar.png') }}" alt="Avatar">
@@ -435,15 +436,9 @@
 
                     <div style="margin-top:18px; width:100%;">
                         <div style="display:flex;gap:8px;flex-direction:column;">
-                            <a href="#" class="btn btn-primary" style="justify-content:center;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                    <path d="M5 12h14" stroke="white" stroke-width="1.2" stroke-linecap="round" />
-                                </svg>
-                                Manage Store
-                            </a>
                             <a href="{{ route('admin.logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                class="btn btn-ghost" style="justify-content:center;">
+                                class="btn btn-ghost border-primary" style="justify-content:center;">
                                 Sign Out
                             </a>
                             <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display:none;">
@@ -455,7 +450,7 @@
             </aside>
 
             <!-- Right content -->
-            <section class="card" aria-label="Profile settings area">
+            <section class="card" aria-label="Profile settings area" style="background: #101820">
                 <!-- tabs -->
                 <div class="tabs" role="tablist" aria-label="Profile tabs">
                     <button class="tab active" role="tab" aria-selected="true"
