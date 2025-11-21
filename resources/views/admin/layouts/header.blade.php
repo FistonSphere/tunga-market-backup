@@ -34,6 +34,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
 
 </head>
 
@@ -184,7 +186,8 @@
                                 </div>
                             </div>
                             <hr class="m-0">
-                            <a class="dropdown-item" href="{{ route('admin.profile-setting') }}"> <i class="me-2" data-feather="user"></i> My
+                            <a class="dropdown-item" href="{{ route('admin.profile-setting') }}"> <i class="me-2"
+                                    data-feather="user"></i> My
                                 Profile</a>
                             <a class="dropdown-item" href="{{ route('admin.settings.general') }}"><i class="me-2"
                                     data-feather="settings"></i>Settings</a>
@@ -384,6 +387,8 @@
 
     </div>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script src="{{ asset('admin/assets/js/jquery-3.6.0.min.js') }}"></script>
 

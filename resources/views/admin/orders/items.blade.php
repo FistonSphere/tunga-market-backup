@@ -7,7 +7,7 @@
             background: white;
             padding: 20px;
             border-radius: 15px;
-            border:1px solid #e5e7eb;
+            border: 1px solid #e5e7eb;
         }
 
         .order-summary-card {
@@ -297,7 +297,7 @@
             border-top: 1px solid #eef2f6;
             background: #fff;
             border-radius: 15px;
-            border:1px solid #e5e7eb;
+            border: 1px solid #e5e7eb;
             flex-wrap: wrap;
             margin-top: 2rem;
         }
@@ -1173,6 +1173,19 @@
 
                     <span id="invoiceTooltip" class="copy-tooltip">Copied!</span>
                 </div>
+                @if ($order->payment && $order->payment->payment_method === 'bank-transfer')
+                    @php
+                        $attachments = json_decode($order->payment->attachments, true) ?? [];
+                    @endphp
+
+                    @if (count($attachments) > 0)
+                        <button onclick="openReceiptModal()"
+                            style="margin-left: 12px; background:#ff7d3d; color:white; border:none; padding:6px 14px; 
+                                                                               border-radius:8px; cursor:pointer; font-size:13px; display:flex; align-items:center; gap:5px;">
+                            <i class="bi bi-receipt"></i> View Receipt
+                        </button>
+                    @endif
+                @endif
 
 
                 <div class="order-meta-grid">
@@ -1659,6 +1672,66 @@
     </div>
 
 
+    <!-- RECEIPT MODAL -->
+    <div id="receiptModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); 
+                    justify-content:center; align-items:center; z-index:9999;">
+
+        <div style="width:520px; max-height:85vh; overflow:hidden; background:white; 
+                        border-radius:14px; padding:20px; box-shadow:0 8px 25px rgba(0,0,0,0.2); position:relative;">
+
+            <!-- Header -->
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="font-size:18px; font-weight:600; color:#ff7d3d;">Bank Transfer Receipt</h3>
+
+                <button onclick="closeReceiptModal()"
+                    style="background:none; border:none; font-size:22px; cursor:pointer; color:#333;">×</button>
+            </div>
+
+            <hr style="margin:10px 0;">
+
+            <!-- Swiper Container -->
+            <div class="swiper receiptSwiper" style="width:100%; padding-bottom:30px;">
+                <div class="swiper-wrapper">
+
+                    @php $attachments = json_decode($order->payment->attachments, true) ?? []; @endphp
+
+                    @foreach ($attachments as $file)
+                        <div class="swiper-slide"
+                            style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+
+                            @if (preg_match('/\.(jpg|jpeg|png)$/i', $file))
+                                <img src="{{ $file }}"
+                                    style="width:100%; height:350px; object-fit:contain; border-radius:10px; border:1px solid #eee;">
+                            @else
+                                <div style="padding:25px; border:1px solid #ddd; border-radius:10px; background:#fafafa; width:100%;
+                                                                text-align:center;">
+                                    <i class="bi bi-file-earmark-text" style="font-size:50px; color:#ff7d3d;"></i>
+                                    <p style="margin-top:10px;">Document Preview</p>
+                                </div>
+                            @endif
+
+                            <!-- Download Button -->
+                            <a href="{{ $file }}" download
+                                style="margin-top:12px; padding:8px 16px; background:#ff7d3d; color:white;
+                                                  border-radius:8px; text-decoration:none; display:flex; align-items:center; gap:6px;">
+
+                                <i class="bi bi-download"></i> Download
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- Pagination Dots -->
+                <div class="swiper-pagination"></div>
+
+                <!-- Navigation Buttons -->
+                <div class="swiper-button-prev" style="color:#ff7d3d;"></div>
+                <div class="swiper-button-next" style="color:#ff7d3d;"></div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.status-dropdown').forEach(select => {
@@ -1788,12 +1861,12 @@
             notification.className = `notification ${type}`;
 
             notification.innerHTML = `
-                                                                                                                                                                                                                        <div class="notification-content">
-                                                                                                                                                                                                                            <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
-                                                                                                                                                                                                                            <span>${message}</span>
-                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                        <div class="progress-bar"></div>
-                                                                                                                                                                                                                    `;
+                                                                                                                                                                                                                                            <div class="notification-content">
+                                                                                                                                                                                                                                                <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}"></i>
+                                                                                                                                                                                                                                                <span>${message}</span>
+                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                            <div class="progress-bar"></div>
+                                                                                                                                                                                                                                        `;
             document.body.appendChild(notification);
 
             const progress = notification.querySelector('.progress-bar');
@@ -1829,8 +1902,8 @@
             });
         });
 
-        
-        
+
+
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', function () {
                 const id = this.dataset.deliveryId;
@@ -1870,20 +1943,20 @@
             const modal = document.createElement('div');
             modal.className = 'custom-modal-overlay';
             modal.innerHTML = `
-                                                                                <div class="custom-modal2">
-                                                                                    <h3>Edit Item: <span>${name}</span></h3>
-                                                                                    <form id="editForm">
-                                                                                        <label>Quantity:</label>
-                                                                                        <input type="number" id="editQuantity" value="${quantity}" min="1" />
-                                                                                        <label>Unit Price:</label>
-                                                                                        <input type="number" id="editPrice" value="${price}" min="0" step="0.01" />
-                                                                                        <div class="modal-actions">
-                                                                                            <button type="button" class="btn cancel" onclick="closeModal()">Cancel</button>
-                                                                                            <button type="submit" class="btn confirm">Save Changes</button>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                </div>
-                                                                            `;
+                                                                                                    <div class="custom-modal2">
+                                                                                                        <h3>Edit Item: <span>${name}</span></h3>
+                                                                                                        <form id="editForm">
+                                                                                                            <label>Quantity:</label>
+                                                                                                            <input type="number" id="editQuantity" value="${quantity}" min="1" />
+                                                                                                            <label>Unit Price:</label>
+                                                                                                            <input type="number" id="editPrice" value="${price}" min="0" step="0.01" />
+                                                                                                            <div class="modal-actions">
+                                                                                                                <button type="button" class="btn cancel" onclick="closeModal()">Cancel</button>
+                                                                                                                <button type="submit" class="btn confirm">Save Changes</button>
+                                                                                                            </div>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
 
@@ -1899,15 +1972,15 @@
             const modal = document.createElement('div');
             modal.className = 'custom-modal-overlay';
             modal.innerHTML = `
-                                                                                <div class="custom-modal2 warning">
-                                                                                    <h3>Are you sure?</h3>
-                                                                                    <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
-                                                                                    <div class="modal-actions">
-                                                                                        <button class="btn cancel" onclick="closeModal()">Cancel</button>
-                                                                                        <button class="btn danger" onclick="deleteOrderItem(${id})">Yes, Delete</button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            `;
+                                                                                                    <div class="custom-modal2 warning">
+                                                                                                        <h3>Are you sure?</h3>
+                                                                                                        <p>Do you really want to remove <strong>${name}</strong> from this order?</p>
+                                                                                                        <div class="modal-actions">
+                                                                                                            <button class="btn cancel" onclick="closeModal()">Cancel</button>
+                                                                                                            <button class="btn danger" onclick="deleteOrderItem(${id})">Yes, Delete</button>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                `;
             document.body.appendChild(modal);
             setTimeout(() => modal.classList.add('show'), 10);
         }
@@ -1983,6 +2056,31 @@
                 setTimeout(() => notif.remove(), 300);
             }, 4000);
         }
+        function openReceiptModal() {
+            document.getElementById('receiptModal').style.display = 'flex';
+
+            if (!window.receiptSwiperInit) {
+                window.receiptSwiperInit = true;
+
+                new Swiper(".receiptSwiper", {
+                    loop: false,
+                    spaceBetween: 20,
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
+                    },
+                });
+            }
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').style.display = 'none';
+        }
+
 
 
 
