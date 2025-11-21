@@ -497,8 +497,6 @@
                                         <div id="code-input-section" class="hidden">
                                             <label class="block text-body-sm font-medium text-primary mb-1">Mobile Money
                                                 Payment Code *</label>
-                                            <input type="text" id="mobile-code" class="input-field"
-                                                placeholder="Enter 6-digit payment code" maxlength="6" required />
                                             <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-2">
                                                 <h5 class="font-medium text-yellow-800 mb-1">How to get your payment code:
                                                 </h5>
@@ -506,21 +504,13 @@
                                                     <li>1. Dial *182# on your MTN phone</li>
                                                     <li>2. Select "Pay Bill" or "Send Money"</li>
                                                     <li>3. Enter merchant code: <strong>123456</strong></li>
-                                                    <li>4. Enter amount: <strong>$<span
-                                                                id="payment-amount">711.36</span></strong></li>
+                                                    <li>4. Enter amount: <strong><span
+                                                                id="payment-amount">{{ number_format($total) }}
+                                                                Rwf</span></strong>
+                                                    </li>
                                                     <li>5. Generate payment code and enter it above</li>
                                                 </ol>
                                             </div>
-                                        </div>
-
-                                        <!-- PIN Input for Both Methods -->
-                                        <div id="pin-input-section" class="hidden">
-                                            <label class="block text-body-sm font-medium text-primary mb-1">Mobile Money PIN
-                                                *</label>
-                                            <input type="password" id="mobile-pin" class="input-field"
-                                                placeholder="Enter your 4-digit PIN" maxlength="4" required />
-                                            <p class="text-body-sm text-secondary-600 mt-1">Your mobile money PIN for
-                                                transaction authorization</p>
                                         </div>
 
                                         <!-- Payment Instructions -->
@@ -600,7 +590,8 @@
 
                                         <label class="block text-body-sm font-medium text-primary">Upload Payment Proof
                                             *</label>
-                                        <input type="file" class="input-field" name="attachments[]" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" />
+                                        <input type="file" class="input-field" name="attachments[]"
+                                            accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" />
                                     </div>
                                 </div>
 
@@ -608,7 +599,7 @@
 
 
                             <!-- Navigation Buttons -->
-                            <div class="flex justify-between mt-8">
+                            <div class="flex justify-between mt-8" style="gap:20px">
                                 <button class="btn-secondary" onclick="previousStep(2)">
                                     Back to Shipping
                                 </button>
@@ -756,7 +747,7 @@
                             </div>
 
                             <!-- Place Order Button -->
-                            <div class="flex justify-between mt-8">
+                            <div class="flex justify-between mt-8" style="gap:20px;">
                                 <button class="btn-secondary" onclick="previousStep(3)">Back to Payment</button>
                                 <button class="btn-primary bg-success hover:bg-success-600 text-lg px-8 py-4"
                                     onclick="placeOrder()">
@@ -857,6 +848,17 @@
                 </div>
     </section>
 
+    <!-- Mobile Progress Bar -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border p-4 z-40">
+        <div class="flex items-center justify-between mb-3">
+            <div class="text-body-sm text-secondary-600">Step <span id="mobile-step">1</span> of 4</div>
+            <div class="text-lg font-bold text-primary" id="mobile-total">$711.36</div>
+        </div>
+        <div class="w-full bg-border rounded-full h-2">
+            <div id="mobile-progress" class="bg-accent h-2 rounded-full transition-all duration-300" style="width: 25%">
+            </div>
+        </div>
+    </div>
 
     <!-- 🛑 Save Address Confirmation Modal -->
     <div id="save-address-modal-wrapper"
@@ -925,12 +927,12 @@
     <div id="editAddressModal"
         style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));"
         class="fixed inset-0 hidden items-center justify-center
-                                                                                                                            backdrop-blur-sm transition-opacity duration-300 ease-out">
+                                                                                                                                    backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
         <div id="editAddressCard"
             class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
-                                                                                                                               transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                                                                                                                                       transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1276,6 +1278,9 @@
             return true;
         }
 
+
+
+
         function validateConfirmationStep() {
             const termsChecked =
                 document.getElementById("terms-conditions")?.checked;
@@ -1459,99 +1464,104 @@
 
         // Place Order Function with IREMBO Pay Support
         function placeOrder() {
+
             const termsCheckbox = document.getElementById("terms-conditions");
             const supplierCheckbox = document.getElementById("supplier-terms");
             const errorContainerId = "termsErrorMessage";
 
-            // Remove any previous error message
+            // Remove error if exists
             const existingError = document.getElementById(errorContainerId);
             if (existingError) existingError.remove();
 
-            // Validate terms agreement
             if (!termsCheckbox.checked || !supplierCheckbox.checked) {
                 const errorMessage = document.createElement("p");
                 errorMessage.id = errorContainerId;
                 errorMessage.className = "text-red-500 text-sm mt-2 ml-1";
                 errorMessage.textContent = "⚠️ Please agree to all required terms before placing your order.";
-
-                // Insert error below the terms container
-                const termsContainer = document.querySelector('.border.border-border.rounded-lg.p-4');
-                termsContainer.appendChild(errorMessage);
-
-                // Optional toast for better UX
+                document.querySelector('.border.border-border.rounded-lg.p-4').appendChild(errorMessage);
                 showToast("Please accept the required terms before proceeding.", "error");
-                return; // Stop execution
+                return;
             }
 
-            // Proceed only if both checkboxes are checked 👇
             const selectedAddress = document.querySelector('input[name="shipping_address_id"]:checked');
             if (!selectedAddress) {
                 showToast("Please select a shipping address before placing your order.", "error");
                 return;
             }
 
-            // Create loading modal
+            // Detect selected payment method
+            const selectedPayment = document.querySelector('input[name="payment-method"]:checked');
+            if (!selectedPayment) {
+                showToast("Please choose a payment method.", "error");
+                return;
+            }
+
+            const paymentMethod = selectedPayment.value;
+
+            // 🔹 Build FormData
+            let formData = new FormData();
+            formData.append("shipping_address_id", selectedAddress.value);
+            formData.append("payment_method", paymentMethod);
+
+            // 🔹 MOMO Code fields
+            if (paymentMethod === "momo-code") {
+                const code = document.getElementById("mobile-money-code")?.value || "";
+                const pin = document.getElementById("mobile-pin")?.value || "";
+
+                formData.append("mobile_code", code);
+                formData.append("mobile_pin", pin);
+            }
+
+            // 🔹 Bank transfer proof attachments
+            if (paymentMethod === "bank-transfer") {
+                const files = document.querySelector('input[name="attachments[]"]').files;
+                for (let i = 0; i < files.length; i++) {
+                    formData.append("attachments[]", files[i]);
+                }
+            }
+
+            // CSRF token
+            const token = document.querySelector('meta[name="csrf-token"]').content;
+            formData.append("_token", token);
+
+            // 🔹 Loading modal
             const loadingModal = document.createElement("div");
             loadingModal.id = "orderLoadingModal";
-
-            // ✅ Fullscreen overlay with dark blur (same as your trackingRedirectModal)
-            loadingModal.className = `
-                                                        fixed inset-0 z-[99999999] flex items-center justify-center
-                                                        bg-black/50 backdrop-blur-md transition-opacity duration-300
-                                                    `;
-
-            // ✅ White modal card — solid, visible, clean
+            loadingModal.className = `fixed inset-0 z-[99999999] flex items-center justify-center bg-black/50 backdrop-blur-md`;
             loadingModal.innerHTML = `
-                                                        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center p-8 animate-scale-in">
-                                                            <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-orange-100">
-                                                                <div class="animate-spin w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full"></div>
-                                                            </div>
-                                                            <h2 class="text-lg font-semibold text-gray-800 mb-1">Placing your order...</h2>
-                                                            <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
-                                                        </div>
-                                                    `;
-
+            <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center p-8 animate-scale-in">
+                <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-orange-100">
+                    <div class="animate-spin w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full"></div>
+                </div>
+                <h2 class="text-lg font-semibold text-gray-800 mb-1">Placing your order...</h2>
+                <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
+            </div>`;
             document.body.appendChild(loadingModal);
 
-            // ✅ Optional: small fade-in
-            requestAnimationFrame(() => {
-                loadingModal.classList.remove("opacity-0");
-            });
-
-            // 🧾 Send request
+            // 🔺 SEND REQUEST
             fetch(`/orders/store`, {
                 method: "POST",
                 headers: {
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": token
                 },
-                body: JSON.stringify({
-                    shipping_address_id: selectedAddress.value,
-                }),
+                body: formData
             })
                 .then(res => res.json())
                 .then(data => {
-                    setTimeout(() => {
-                        // Smooth fade-out
-                        loadingModal.classList.add("opacity-0");
-                        setTimeout(() => loadingModal.remove(), 300);
+                    loadingModal.remove();
 
-                        if (data.status === "success") {
-                            showToast("Order placed successfully!", "success");
-                            window.location.href = data.redirect_url;
-                        } else {
-                            showToast(data.message || "Failed to place order.", "error");
-                        }
-                    }, 3000);
+                    if (data.status === "success") {
+                        showToast("Order placed successfully!", "success");
+                        window.location.href = data.redirect_url;
+                    } else {
+                        showToast(data.message || "Failed to place order.", "error");
+                    }
                 })
-                .catch(() => {
-                    loadingModal.classList.add("opacity-0");
-                    setTimeout(() => loadingModal.remove(), 300);
+                .catch((err) => {
+                    loadingModal.remove();
                     showToast("Something went wrong while placing your order.", "error");
                 });
         }
-
-
         // Phone number formatting for IREMBO Pay
         function formatPhoneNumber() {
             const phoneInput = document.getElementById("mobile-phone");
@@ -1923,19 +1933,29 @@
         });
     </script>
 
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
 
             /* ============================
-               UTIL — HIDE ALL SECTIONS
+               UTIL — HIDE ALL OUTER SECTIONS
             ============================ */
             const hideAllSections = () => {
-                document.querySelector("#card-form").classList.add("hidden");
-                document.querySelector("#irembo-form").classList.add("hidden");
-                document.querySelector("#momo-code-form").classList.add("hidden");
-                document.querySelector("#cod-info").classList.add("hidden");
-                document.querySelector("#bank-transfer-form").classList.add("hidden");
+                document.querySelector("#card-form")?.classList.add("hidden");
+                document.querySelector("#irembo-form")?.classList.add("hidden");
+                document.querySelector("#momo-code-form")?.classList.add("hidden");
+                document.querySelector("#cod-info")?.classList.add("hidden");
+                document.querySelector("#bank-transfer-form")?.classList.add("hidden");
+            };
+
+            /* ============================
+               UTIL — HIDE ALL MOMO INNER SECTIONS
+            ============================ */
+            const hideMomoInner = () => {
+                document.querySelector("#code-input-section")?.classList.add("hidden");
+                document.querySelector("#pin-input-section")?.classList.add("hidden");
+                document.querySelector("#payment-instructions")?.classList.add("hidden");
+                document.querySelector("#phone-instructions")?.classList.add("hidden");
+                document.querySelector("#code-instructions")?.classList.add("hidden");
             };
 
             /* ============================
@@ -1944,6 +1964,7 @@
             document.querySelectorAll("input[name='payment-method']").forEach((radio) => {
                 radio.addEventListener("change", function () {
                     hideAllSections();
+                    hideMomoInner();
 
                     switch (this.value) {
                         case "card":
@@ -1956,6 +1977,14 @@
 
                         case "momo-code":
                             document.querySelector("#momo-code-form").classList.remove("hidden");
+
+                            // SHOW MOMO CODE INNER SECTIONS 
+                            document.querySelector("#code-input-section").classList.remove("hidden");
+                            document.querySelector("#pin-input-section").classList.remove("hidden");
+                            document.querySelector("#payment-instructions").classList.remove("hidden");
+
+                            // Show MOMO code instructions only
+                            document.querySelector("#code-instructions").classList.remove("hidden");
                             break;
 
                         case "cod":
@@ -1970,7 +1999,7 @@
             });
 
             /* ============================
-               CARD – NEW CARD TOGGLE
+               CARD — NEW CARD TOGGLE
             ============================ */
             const toggleNewCardForm = () => {
                 const selected = document.querySelector("input[name='saved-card']:checked");
@@ -1989,10 +2018,8 @@
 
             // Initialize on load
             toggleNewCardForm();
-
         });
-
-        
     </script>
+
 
 @endsection
