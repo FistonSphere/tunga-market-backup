@@ -445,12 +445,12 @@ public function store(Request $request)
     Payment::create([
         'order_id' => $order->id,
         'user_id' => $user->id,
-        'payment_method' => 'Cash on Delivery',
+        'payment_method' => $request->payment_method,
         'amount' => $orderTotal,
         'currency' => 'Rwf',
         'status' => 'unpaid',
         'attachments' => json_encode($attachments),
-        'transaction_id' => 'COD-' . strtoupper(uniqid()),
+        'transaction_id' => strtoupper($request->payment_method) . '-' . uniqid(),
     ]);
 
     // Clear cart

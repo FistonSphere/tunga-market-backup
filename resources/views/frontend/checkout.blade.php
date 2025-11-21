@@ -430,7 +430,7 @@
                             </div>
 
                             <!-- Navigation Buttons -->
-                            <div class="flex justify-between mt-8">
+                            <div class="flex justify-between mt-8" style="gap: 20px;">
                                 <button class="btn-secondary" onclick="previousStep(1)">Back to Order Review</button>
                                 <button class="btn-primary" onclick="nextStep(3)">Continue to Payment</button>
                             </div>
@@ -440,7 +440,7 @@
                     <!-- Step 3: Payment -->
                     <div id="step-3" class="checkout-step hidden">
                         <div class="card">
-                            <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center justify-between mb-6" style="gap:20px">
                                 <h2 class="text-2xl font-bold text-primary">
                                     3. Payment Method
                                 </h2>
@@ -600,8 +600,7 @@
 
                                         <label class="block text-body-sm font-medium text-primary">Upload Payment Proof
                                             *</label>
-                                        <input type="file" class="input-field" name="attachments[]"
-                                            accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" />
+                                        <input type="file" class="input-field" name="attachments[]" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" />
                                     </div>
                                 </div>
 
@@ -858,17 +857,6 @@
                 </div>
     </section>
 
-    <!-- Mobile Progress Bar -->
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border p-4 z-40">
-        <div class="flex items-center justify-between mb-3">
-            <div class="text-body-sm text-secondary-600">Step <span id="mobile-step">1</span> of 4</div>
-            <div class="text-lg font-bold text-primary" id="mobile-total">$711.36</div>
-        </div>
-        <div class="w-full bg-border rounded-full h-2">
-            <div id="mobile-progress" class="bg-accent h-2 rounded-full transition-all duration-300" style="width: 25%">
-            </div>
-        </div>
-    </div>
 
     <!-- 🛑 Save Address Confirmation Modal -->
     <div id="save-address-modal-wrapper"
@@ -937,12 +925,12 @@
     <div id="editAddressModal"
         style="z-index: 99999;--tw-bg-opacity: 0.3;background-color: rgb(0 0 0 / var(--tw-bg-opacity, 0.3));"
         class="fixed inset-0 hidden items-center justify-center
-                                                                                                                                backdrop-blur-sm transition-opacity duration-300 ease-out">
+                                                                                                                            backdrop-blur-sm transition-opacity duration-300 ease-out">
 
         <!-- Animated Modal Card -->
         <div id="editAddressCard"
             class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-0 relative flex flex-col md:flex-row
-                                                                                                                                   transform scale-95 opacity-0 transition-all duration-300 ease-out">
+                                                                                                                               transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <!-- Left Side: Form -->
             <div class="flex-1 p-8 relative">
@@ -1508,20 +1496,20 @@
 
             // ✅ Fullscreen overlay with dark blur (same as your trackingRedirectModal)
             loadingModal.className = `
-                                                            fixed inset-0 z-[99999999] flex items-center justify-center
-                                                            bg-black/50 backdrop-blur-md transition-opacity duration-300
-                                                        `;
+                                                        fixed inset-0 z-[99999999] flex items-center justify-center
+                                                        bg-black/50 backdrop-blur-md transition-opacity duration-300
+                                                    `;
 
             // ✅ White modal card — solid, visible, clean
             loadingModal.innerHTML = `
-                                                            <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center p-8 animate-scale-in">
-                                                                <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-orange-100">
-                                                                    <div class="animate-spin w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full"></div>
-                                                                </div>
-                                                                <h2 class="text-lg font-semibold text-gray-800 mb-1">Placing your order...</h2>
-                                                                <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
+                                                        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center p-8 animate-scale-in">
+                                                            <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-orange-100">
+                                                                <div class="animate-spin w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full"></div>
                                                             </div>
-                                                        `;
+                                                            <h2 class="text-lg font-semibold text-gray-800 mb-1">Placing your order...</h2>
+                                                            <p class="text-sm text-gray-600">Please wait a moment while we confirm your order.</p>
+                                                        </div>
+                                                    `;
 
             document.body.appendChild(loadingModal);
 
@@ -2004,95 +1992,7 @@
 
         });
 
-        document.addEventListener("DOMContentLoaded", function () {
-
-            const paymentRadios = document.querySelectorAll('input[name="payment-method"]');
-
-            const momoForm = document.getElementById("momo-code-form");
-            const codInfo = document.getElementById("cod-info");
-            const bankForm = document.getElementById("bank-transfer-form");
-
-            const mobileCode = document.getElementById("mobile-code");
-            const mobilePin = document.getElementById("mobile-pin");
-            const paymentProofInput = document.querySelector('input[name="attachments[]"]');
-
-            // Hide all sections first
-            function hideAll() {
-                momoForm.classList.add("hidden");
-                codInfo.classList.add("hidden");
-                bankForm.classList.add("hidden");
-            }
-
-            // Handle radio changes
-            paymentRadios.forEach(radio => {
-                radio.addEventListener("change", function () {
-                    hideAll();
-
-                    if (this.value === "momo-code") {
-                        momoForm.classList.remove("hidden");
-                    }
-                    if (this.value === "cod") {
-                        codInfo.classList.remove("hidden");
-                    }
-                    if (this.value === "bank-transfer") {
-                        bankForm.classList.remove("hidden");
-                    }
-                });
-            });
-
-            // ============================
-            // VALIDATE BEFORE NEXT STEP
-            // ============================
-            window.validatePaymentStep = function () {
-
-                const selected = document.querySelector('input[name="payment-method"]:checked');
-
-                if (!selected) {
-                    alert("⚠ Please select a payment method before proceeding.");
-                    return false;
-                }
-
-                const method = selected.value;
-
-                // MTN MOMO VALIDATION
-                if (method === "momo-code") {
-
-                    if (mobileCode.value.trim().length !== 6) {
-                        alert("⚠ Please enter a valid 6-digit MTN payment code.");
-                        return false;
-                    }
-
-                    if (mobilePin.value.trim().length !== 4) {
-                        alert("⚠ Please enter your 4-digit MTN PIN.");
-                        return false;
-                    }
-                }
-
-                // BANK TRANSFER VALIDATION
-                if (method === "bank-transfer") {
-                    if (!paymentProofInput.files.length) {
-                        alert("⚠ Please upload payment proof.");
-                        return false;
-                    }
-                }
-
-                return true;
-            };
-
-            // ============================
-            // OVERRIDE NEXT BUTTON
-            // ============================
-            window.nextStep = function (step) {
-                if (step === 4) {
-                    if (!validatePaymentStep()) {
-                        return;
-                    }
-                }
-                goToStep(step); // Your existing function
-            };
-
-        });
-
+        
     </script>
 
 @endsection
