@@ -850,13 +850,13 @@
                                             onclick="editStep(2)">Edit</button>
                                     </div>
                                     <div class="text-body-sm text-secondary-700">
-                                        {{ $address->first_name }} {{ $address->last_name }}<br />
-                                        {!! $address->company ? $address->company . '<br>' : '' !!}
-                                        {{ $address->address_line1 }} {{ $address->address_line2 }}<br />
-                                        {{ $address->city }}, {{ $address->state }}
-                                        {{ $address->postal_code }}<br />
-                                        {{ $address->country }}<br />
-                                        Phone: {{ $address->phone }}
+                                        {{ $address->first_name ?? ''}} {{ $address->last_name ?? ''}}<br />
+                                        {!! $address->company ?? '' ? ($address->company . '<br>') : '' !!}
+                                        {{ $address->address_line1 ?? '' }} {{ $address->address_line2 ?? ''}}<br />
+                                        {{ $address->city ?? '' }}, {{ $address->state ?? ''}}
+                                        {{ $address->postal_code ?? ''}}<br />
+                                        {{ $address->country ?? ''}}<br />
+                                        Phone: {{ $address->phone ?? ''}}
                                     </div>
                                 </div>
 

@@ -58,10 +58,11 @@ class HomeAdminController extends Controller
         ->get();
 
         $abandonedCarts = Cart::with('product', 'user')
-        ->where('updated_at', '<=', Carbon::now()->subDay())
+        ->where('created_at', '<=', Carbon::now()->subDay())
         ->whereNotNull('user_id')
         ->get()
         ->groupBy('user_id');
+        
       return view('admin.index', [
         'totalUsers'         => User::count(),
         'totalProducts'      => Product::count(),

@@ -13,6 +13,7 @@ class Payment extends Model
         'masked_account',
         'transaction_id',
         'status',
+        'attachments',
         'amount',
         'currency',
         'paid_at',
