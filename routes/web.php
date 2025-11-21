@@ -436,9 +436,20 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
     Route::prefix('/settings')->controller(GeneralSettingsController::class)->group(function () {
     Route::get('/general',  'index')->name('admin.settings.general');
     Route::post('/delete', 'delete')->name('general-settings.delete');
-    Route::get('/profile','profileSetting')->name('admin.profile-setting');
-
     Route::post('/general/update',  'update')->name('general-settings.update');
+    Route::get('/profile','profileSetting')->name('admin.profile-setting');
+    // Update profile info (name, phone)
+    Route::post('/profile/update-info',  'updateInfo')->name('admin.profile.updateInfo');
+    // Update profile picture
+    Route::post('/profile/update-picture',  'updatePicture')->name('admin.profile.updatePicture');
+    // Update password
+    Route::post('/profile/update-password',  'updatePassword')->name('admin.profile.updatePassword');
+    // Update address
+    Route::post('/profile/update-address',  'updateAddress')->name('admin.profile.updateAddress');
+    // Enable 2FA
+    Route::post('/profile/enable-2fa',  'enable2FA')->name('admin.profile.enable2FA');
+    // Disable 2FA
+    Route::post('/profile/disable-2fa',  'disable2FA')->name('admin.profile.disable2FA');
 });
     //general settings routes
 

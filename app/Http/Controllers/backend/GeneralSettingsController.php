@@ -5,7 +5,10 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\GeneralSetting;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Storage;
 
 class GeneralSettingsController extends Controller
@@ -203,8 +206,140 @@ public function delete(Request $request)
 }
 
 public function profileSetting(){
+    $user = Auth::user();
 
-    return view('admin.settings.profile');
+    return view('admin.settings.profile', compact('user'));
 }
   
+ // =============================
+    //  UPDATE INFO (name, phone)
+    // =============================
+    public function updateInfo(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'nullable|string|max:255',
+            'last_name'  => 'nullable|string|max:255',
+            'phone'      => 'nullable|string|max:255',
+        ]);
+
+        $user = Auth::user();
+        $user->update($request->only('first_name', 'last_name', 'phone'));
+
+        return back()->with('success', 'Profile information updated successfully.');
+    }
+
+
+    // =============================
+    //  UPDATE PROFILE PICTURE
+    // =============================
+    public function updatePicture(Request $request)
+    {
+        $request->validate([
+            'profile_picture' => 'required|image|max:2048',
+        ]);
+
+        $user = Auth::user();
+
+        // Store in /public/uploads/profile
+        $file = $request->file('profile_picture');
+        $path = $file->store('uploads/profile', 'public');
+
+        // Convert to public URL
+        $publicUrl = asset('storage/' . $path);
+
+        $user->profile_picture = $publicUrl;
+        $user->save();
+
+        return back()->with('success', 'Profile picture updated successfully.');
+    }
+
+
+    // =============================
+    //  UPDATE PASSWORD
+    // =============================
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password'      => 'required',
+            'new_password'          => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        $user = Auth::user();
+
+        // Check if current password matches
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Your current password is incorrect.']);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return back()->with('success', 'Password updated successfully.');
+    }
+
+
+    // =============================
+    //  UPDATE ADDRESS
+    // =============================
+    public function updateAddress(Request $request)
+    {
+        $request->validate([
+            'address_line' => 'nullable|string|max:255',
+            'city'         => 'nullable|string|max:255',
+            'state'        => 'nullable|string|max:255',
+            'country'      => 'nullable|string|max:255',
+        ]);
+
+        $user = Auth::user();
+        $user->update([
+            'address_line' => $request->address_line,
+            'city'         => $request->city,
+            'state'        => $request->state,
+            'country'      => $request->country,
+        ]);
+
+        return back()->with('success', 'Address updated successfully.');
+    }
+
+
+    // =============================
+    //  ENABLE 2FA
+    // =============================
+    public function enable2FA(Request $request)
+    {
+        $request->validate([
+            'two_factor_type' => 'required|in:sms,authenticator',
+        ]);
+
+        $user = Auth::user();
+
+        $user->two_factor_enabled = 1;
+        $user->two_factor_type = $request->two_factor_type;
+
+        // OPTIONAL: Generate a code
+        $user->two_factor_code = rand(100000, 999999);
+        $user->two_factor_expires_at = now()->addMinutes(10);
+
+        $user->save();
+
+        return back()->with('success', 'Two-factor authentication enabled.');
+    }
+
+
+    // =============================
+    //  DISABLE 2FA
+    // =============================
+    public function disable2FA()
+    {
+        $user = Auth::user();
+
+        $user->two_factor_enabled = 0;
+        $user->two_factor_type = null;
+        $user->two_factor_code = null;
+        $user->two_factor_expires_at = null;
+
+        $user->save();
+
+        return back()->with('success', 'Two-factor authentication disabled.');
+    }
 }
