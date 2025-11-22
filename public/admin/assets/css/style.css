@@ -6013,7 +6013,7 @@ span.select2-container.select2-container--default.select2-container--open {
     margin-top: 25px;
 }
 .login-wrapper .login-content .form-sociallink ul li {
-    width: 50%;
+    width: 100%;
     text-align: center;
 }
 @media (max-width: 575px) {
