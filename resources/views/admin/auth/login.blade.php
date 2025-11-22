@@ -34,8 +34,8 @@
                 <div class="login-content">
                     <div class="login-userset">
                         <div class="login-logo">
-                            <img src="{{ $gs->logo }}"
-                                style="border-radius: 50%; height: 100px; width: 100px; object-fit: cover;" alt="logo">
+                            <img src="{{ $gs->favicon }}"
+                                style="object-fit: cover;" alt="logo">
 
                         </div>
                         <div class="login-userheading">
@@ -147,13 +147,6 @@
                                         <img src="{{ asset('admin/assets/img/icons/google.png') }}" class="me-2"
                                             alt="google" />
                                         Sign Up using Google
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <img src="{{ asset('admin/assets/img/icons/facebook.png') }}" class="me-2"
-                                            alt="google" />
-                                        Sign Up using Facebook
                                     </a>
                                 </li>
                             </ul>

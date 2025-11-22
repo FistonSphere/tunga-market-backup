@@ -192,7 +192,7 @@ $featuredWithMostViewed = $featuredProducts
 
         return response()->json($data);
     } catch (\Throwable $e) {
-        \Log::error('Failed to fetch FX rates', ['error' => $e->getMessage()]);
+        Log::error('Failed to fetch FX rates', ['error' => $e->getMessage()]);
         return response()->json(['timestamp' => now()->timestamp, 'rates' => []], 500);
     }
 }
