@@ -183,7 +183,7 @@
                     </form>
 
                     <!-- Two-Factor Authentication Setup -->
-                    <div class="mt-6 p-4 bg-primary-50 rounded-lg">
+                    {{-- <div class="mt-6 p-4 bg-primary-50 rounded-lg">
                         <div class="flex items-start space-x-3">
                             <div
                                 class="w-5 h-5 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -192,15 +192,15 @@
                                         d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
                             </div>
-                            {{-- <div>
+                            <div>
                                 <h4 class="text-sm font-semibold text-primary mb-1">Enhanced Security Available</h4>
                                 <p class="text-xs text-secondary-600 mb-2">Enable 2FA to protect your account with an
                                     extra layer of security.</p>
                                 <button class="text-xs text-accent hover:text-accent-600 font-medium">Learn More
                                     →</button>
-                            </div> --}}
+                            </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <!-- Sign Up Form -->
@@ -353,7 +353,7 @@
                             <div>
                                 <h4 class="text-sm font-semibold text-accent mb-1">What's Next?</h4>
                                 <p class="text-xs text-secondary-600">After registration, we'll guide you through
-                                    profile setup, business verification, and finding your first suppliers.</p>
+                                    profile setup.</p>
                             </div>
                         </div>
                     </div>
