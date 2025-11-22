@@ -34,8 +34,8 @@
                 <div class="login-content">
                     <div class="login-userset">
                         <div class="login-logo">
-                            <img src="{{ $gs->logo }}"
-                                style="border-radius: 50%; height: 100px; width: 100px; object-fit: cover;" alt="logo">
+                            <img src="{{ $gs->favicon }}"
+                                style="object-fit: cover;" alt="logo">
                         </div>
                         <div class="login-userheading">
                             <h3>Create an Account</h3>
