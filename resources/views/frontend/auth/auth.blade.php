@@ -78,17 +78,16 @@
                 <!-- Social Proof -->
                 <div class="bg-white/80 backdrop-blur rounded-lg p-6">
                     <div class="flex items-center space-x-4 mb-4">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2787&auto=format&fit=crop"
+                        <img src="{{asset('assets/images/iza.jpg')}}"
                             alt="Business Owner" class="w-12 h-12 rounded-full object-cover" loading="lazy"
-                            onerror="this.src='https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
+                            onerror="this.src='{{asset('assets/images/iza.jpg')}}'; this.onerror=null;" />
                         <div>
-                            <div class="font-semibold text-primary">Sarah Chen</div>
-                            <div class="text-body-sm text-secondary-600">CEO, TechStart Solutions</div>
+                            <div class="font-semibold text-primary">Isabelle</div>
+                            <div class="text-body-sm text-secondary-600">CEO, Tunga Market</div>
                         </div>
                     </div>
                     <blockquote class="text-body text-secondary-700 italic">
-                        "{{$gs->site_name}} transformed our sourcing process. We've reduced costs by 35% while improving
-                        quality."
+                        From Kigali to your doorstep, quality picks, fast delivery, Rwandan care.
                     </blockquote>
                 </div>
             </div>
@@ -193,13 +192,13 @@
                                         d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
                             </div>
-                            <div>
+                            {{-- <div>
                                 <h4 class="text-sm font-semibold text-primary mb-1">Enhanced Security Available</h4>
                                 <p class="text-xs text-secondary-600 mb-2">Enable 2FA to protect your account with an
                                     extra layer of security.</p>
                                 <button class="text-xs text-accent hover:text-accent-600 font-medium">Learn More
                                     →</button>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>

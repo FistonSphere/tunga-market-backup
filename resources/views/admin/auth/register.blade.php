@@ -152,27 +152,6 @@
                                 <a href="{{ route('admin.login') }}" class="hover-a">Sign In</a>
                             </h4>
                         </div>
-                        <div class="form-setlogin">
-                            <h4>Or sign up with</h4>
-                        </div>
-                        <div class="form-sociallink">
-                            <ul>
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <img src="{{ asset('admin/assets/img/icons/google.png') }}" class="me-2"
-                                            alt="google" />
-                                        Sign Up using Google
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <img src="{{ asset('admin/assets/img/icons/facebook.png') }}" class="me-2"
-                                            alt="google" />
-                                        Sign Up using Facebook
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 <div class="login-img">
