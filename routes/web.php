@@ -155,6 +155,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/2fa/verify', [TwoFactorController::class, 'verify'])
         ->name('2fa.verify');
+        Route::get('/2fa/backup-codes/download', [TwoFactorController::class, 'downloadBackupCodes'])
+    ->name('2fa.download.codes');
+
 
 
 
@@ -488,5 +491,3 @@ Route::get('auth/google/call-back', [GoogleAuthController::class,'callbackGoogle
 Route::get('/choose-login-mode', function () {
     return view('frontend.auth.choose-login-mode');
 })->name('choose-login-mode');
-
-
