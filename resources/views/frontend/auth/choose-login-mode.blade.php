@@ -103,11 +103,11 @@
 
     <script>
         function goAdmin() {
-            window.location.href = "/account/admin/login";
+            window.location.href = "{{ route('admin.login') }}";
         }
 
         function goNormal() {
-            window.location.href = "/";
+            window.location.href = "{{ route('home') }}";
         }
     </script>
 
