@@ -844,51 +844,64 @@
     </div>
 
     <!-- 2FA Modal -->
-    <div id="twoFaModal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex justify-center items-center"
-        style="z-index:99999999">
-        <div class="bg-white rounded-xl p-6 shadow-xl w-full max-w-md">
+    <div id="twoFaModal" class="fixed inset-0 bg-opacity-60 hidden flex justify-center items-center"
+        style="z-index:99999999;background-color: rgb(0 0 0 / 58%);">
+        <div class="bg-white rounded-xl p-4 shadow-xl w-full max-w-md max-h-[70vh] overflow-y-auto">
 
-            <h2 class="text-xl font-bold text-primary mb-4">Enable Two-Factor Authentication</h2>
+            <h2 class="text-lg font-bold text-primary mb-3">Enable Two-Factor Authentication</h2>
 
-            <div id="2fa-loading" class="text-center py-6 hidden">
-                <i class="fas fa-spinner fa-spin text-primary text-xl"></i>
-                <p class="mt-2 text-secondary-600">Generating your 2FA key...</p>
+            <div id="2fa-loading" class="text-center py-4 hidden">
+                <i class="fas fa-spinner fa-spin text-primary text-lg"></i>
+                <p class="mt-2 text-secondary-600 text-sm">Generating your 2FA key...</p>
             </div>
 
             <div id="2fa-content" class="hidden">
-                <p class="text-secondary-700 mb-4">
+                <p class="text-secondary-700 mb-3 text-sm">
                     Scan this QR code using Google Authenticator or any TOTP app.
                 </p>
 
-                <div id="2fa-qrcode" class="my-4 flex justify-center"></div>
+                <div id="2fa-qrcode" class="my-3 flex justify-center"></div>
 
-                <p class="text-secondary-600 text-sm mt-2">
+                <p class="text-secondary-600 text-xs mt-2">
                     If you can’t scan QR, use this code:
                 </p>
                 <p id="2fa-secret"
-                    class="font-mono bg-secondary-100 border border-secondary-300 p-2 rounded text-center text-primary font-bold">
+                    class="font-mono bg-secondary-100 border border-secondary-300 p-2 rounded text-center text-primary font-bold text-sm">
                 </p>
 
                 <!-- Verification Form -->
-                <div class="mt-6">
-                    <label class="block text-sm font-medium mb-2">Enter 6-digit code</label>
+                <div class="mt-4">
+                    <label class="block text-sm font-medium mb-1">Enter 6-digit code</label>
                     <input type="text" id="verify2faCode" class="input-field" placeholder="123456">
-                    <label class="block text-sm font-medium mb-2 mt-4">Enter your password</label>
+                    <label class="block text-sm font-medium mb-1 mt-3">Enter your password</label>
                     <input type="password" id="verify2faPassword" class="input-field" placeholder="Your Password">
 
-                    <button onclick="verifyTwoFactorCode()" class="btn-primary w-full mt-4">
+                    <button onclick="verifyTwoFactorCode()" class="btn-primary w-full mt-3">
                         Verify & Activate 2FA
                     </button>
 
                 </div>
             </div>
 
-            <button class="mt-4 text-secondary-600 hover:text-secondary-800 font-medium" onclick="close2FAModal()">
+            <button class="mt-3 text-secondary-600 hover:text-secondary-800 font-medium text-sm" onclick="close2FAModal()">
                 Cancel
             </button>
 
         </div>
     </div>
+
+    <script>
+        // adjust generated QR size when populated
+        (function adjust2faQrSize() {
+            const observer = new MutationObserver(() => {
+                const qr = document.querySelector('#2fa-qrcode img');
+                if (qr) {
+                    qr.className = 'w-32 h-32 mx-auto';
+                }
+            });
+            observer.observe(document.getElementById('2fa-qrcode'), { childList: true, subtree: true });
+        })();
+    </script>
 
     <div id="notification" class="fixed top-4 right-4 space-y-2 shadow-md rounded p-4  text-white hidden"
         style="z-index:9999999; background-color:rgb(225 20 20)">
