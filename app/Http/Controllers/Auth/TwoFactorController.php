@@ -8,6 +8,7 @@ use PragmaRX\Google2FA\Google2FA;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class TwoFactorController extends Controller
 {
@@ -21,39 +22,40 @@ class TwoFactorController extends Controller
     /**
      * 1.) Generate secret + QR when user clicks "Enable 2FA"
      */
-    public function generate(Request $request)
-    {
-        $user = $request->user();
 
-        // If user already enabled 2FA
-        if ($user->two_factor_enabled) {
-            return response()->json([
-                'status' => 'already_enabled',
-                'message' => 'Two-factor authentication is already enabled.'
-            ]);
-        }
+public function generate(Request $request)
+{
+    $user = $request->user();
 
-        // Generate secret key
-        $secret = $this->google2fa->generateSecretKey();
-
-        // Store in session temporarily until user confirms
-        $request->session()->put('two_factor_temp_secret', $secret);
-
-        // Build QR Code provisioning URI
-        $appName = config('app.name', 'Tunga Market');
-        $email = $user->email;
-
-        $provisioningUri = $this->google2fa->getQRCodeUrl($appName, $email, $secret);
-
-        // Generate QR Code image (Google Chart API)
-        $qrCodeUrl = 'https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl=' . urlencode($provisioningUri);
-
+    if ($user->two_factor_enabled) {
         return response()->json([
-            'status' => 'success',
-            'secret' => $secret,
-            'qr_code_url' => $qrCodeUrl,
+            'status' => 'already_enabled',
+            'message' => 'Two-factor authentication is already enabled.'
         ]);
     }
+
+    // Generate secret key
+    $secret = $this->google2fa->generateSecretKey();
+
+    // Store in session
+    $request->session()->put('two_factor_temp_secret', $secret);
+
+    // Build provisioning URI
+    $appName = config('app.name', 'Tunga Market');
+    $email = $user->email;
+
+    $provisioningUri = $this->google2fa->getQRCodeUrl($appName, $email, $secret);
+
+    // Generate QR CODE SVG directly (NO Google API)
+    $qrSvg = QrCode::format('svg')->size(200)->generate($provisioningUri);
+
+    return response()->json([
+        'status' => 'success',
+        'secret' => $secret,
+        'qr_code' => base64_encode($qrSvg), // send encoded SVG
+    ]);
+}
+
 
     /**
      * 2.) Enable 2FA after user submits TOTP code
