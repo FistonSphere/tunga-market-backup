@@ -461,3 +461,6 @@ Route::prefix('delivery')->controller(DeliveryTransportController::class)->group
 
 Route::get('auth/google', [GoogleAuthController::class,'redirect'])->name('google.auth');
 Route::get('auth/google/call-back', [GoogleAuthController::class,'callbackGoogle'])->name('google.auth.callback');
+Route::get('/choose-login-mode', function () {
+    return view('auth.choose-login-mode');
+})->name('choose-login-mode');
