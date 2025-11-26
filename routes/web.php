@@ -473,6 +473,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/2fa/manage', [TwoFactorController::class, 'manage'])->name('2fa.manage');
     Route::post('/2fa/regenerate', [TwoFactorController::class, 'regenerateRecovery'])->name('2fa.regenerate');
     Route::post('/2fa/disable', [TwoFactorController::class, 'disable'])->name('2fa.disable');
+    // Generate QR + Secret Key
+    Route::get('/profile/2fa/generate', [TwoFactorController::class, 'generate'])
+        ->name('profile.2fa.generate');
+
+    // Enable 2FA
+    Route::post('/profile/2fa/enable', [TwoFactorController::class, 'enable'])
+        ->name('profile.2fa.enable');
+
+    // Disable 2FA
+    Route::post('/profile/2fa/disable', [TwoFactorController::class, 'disable2'])
+        ->name('profile.2fa.disable');
 });
 
 // Verification after login (show/verify) — require auth (user must be authenticated)
