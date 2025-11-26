@@ -157,6 +157,8 @@ Route::group(['middleware' => 'auth'], function () {
         ->name('2fa.verify');
         Route::get('/2fa/backup-codes/download', [TwoFactorController::class, 'downloadBackupCodes'])
     ->name('2fa.download.codes');
+    Route::post('/2fa/verify-login', [TwoFactorController::class, 'verifyLoginCode'])
+    ->name('2fa.verify.login');
 
 
 

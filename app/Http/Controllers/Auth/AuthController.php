@@ -192,7 +192,7 @@ public function verifyOtp(Request $request)
         return response()->json(['message' => 'Account created and verified successfully, now swipe to login.', 'redirect' => route('login')]);
     }
 
-   public function login(Request $request)
+  public function login(Request $request)
 {
     $validator = Validator::make($request->all(), [
         'email' => 'required|email|exists:users,email',
@@ -203,27 +203,38 @@ public function verifyOtp(Request $request)
         return back()->withErrors($validator)->withInput();
     }
 
-    if (Auth::attempt([
-        'email' => $request->email,
-        'password' => $request->password
-    ], $request->has('remember'))) {
+    // Find user NOT logging in yet
+    $user = User::where('email', $request->email)->first();
 
-        $request->session()->regenerate();
-
-        // Store session (your code)
-        $userSessionController = new UserSessionController();
-        $userSessionController->store($request);
-
-        // Check if admin
-        if (Auth::user()->is_admin === 'yes') {
-            return redirect()->route('choose-login-mode');
-        }
-
-        return redirect()->intended()->with('success', 'Login successful!');
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return back()->withErrors(['password' => 'Invalid credentials'])->withInput();
     }
 
-    return back()->withErrors(['password' => 'The provided credentials are incorrect.'])->withInput();
+    // CHECK 2FA STATUS
+    if ($user->two_factor_enabled) {
+        // Store temp user id for next step (NOT logged in yet)
+        session(['2fa:user:id' => $user->id]);
+
+        return response()->json([
+            'requires_2fa' => true
+        ]);
+    }
+
+    // NORMAL LOGIN WITHOUT 2FA
+    Auth::login($user, $request->has('remember'));
+    $request->session()->regenerate();
+
+    // Store session record
+    (new UserSessionController())->store($request);
+
+    // If admin → choose mode
+    if ($user->is_admin === 'yes') {
+        return response()->json(['redirect' => route('choose-login-mode')]);
+    }
+
+    return response()->json(['redirect' => url('/')]);
 }
+
 
     public function logout(Request $request)
     {
