@@ -192,35 +192,39 @@ public function verifyOtp(Request $request)
         return response()->json(['message' => 'Account created and verified successfully, now swipe to login.', 'redirect' => route('login')]);
     }
 
-    public function login(Request $request)
-    {
-        // Validate input
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|exists:users,email',
-            'password' => 'required|string|min:6',
-        ]);
+   public function login(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email|exists:users,email',
+        'password' => 'required|string|min:6',
+    ]);
 
     if ($validator->fails()) {
         return back()->withErrors($validator)->withInput();
     }
 
-
-
-    // Attempt login
     if (Auth::attempt([
         'email' => $request->email,
         'password' => $request->password
     ], $request->has('remember'))) {
 
         $request->session()->regenerate();
-// Call store as an instance method
-    $userSessionController = new UserSessionController();
-    $userSessionController->store($request);
+
+        // Store session (your code)
+        $userSessionController = new UserSessionController();
+        $userSessionController->store($request);
+
+        // Check if admin
+        if (Auth::user()->is_admin === 'yes') {
+            return redirect()->route('choose-login-mode');
+        }
+
         return redirect()->intended()->with('success', 'Login successful!');
     }
 
     return back()->withErrors(['password' => 'The provided credentials are incorrect.'])->withInput();
 }
+
     public function logout(Request $request)
     {
         auth()->logout();
