@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class User extends Authenticatable
 {
@@ -44,6 +45,11 @@ class User extends Authenticatable
         ];
     }
 
+     protected $casts = [
+        'two_factor_enabled' => 'boolean',
+        'two_factor_confirmed_at' => 'datetime',
+        // other casts...
+    ];
     // ✅ Relationship: a user has many orders
     public function orders()
     {
@@ -86,6 +92,32 @@ public function cartItems()
 {
     return $this->hasMany(Cart::class);
 }
+
+public function getTwoFactorSecretDecryptedAttribute()
+    {
+        if (!$this->two_factor_secret) return null;
+        try {
+            return decrypt($this->two_factor_secret);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    public function getRecoveryCodesAttribute()
+    {
+        if (!$this->two_factor_recovery_codes) return [];
+        try {
+            return json_decode(decrypt($this->two_factor_recovery_codes), true) ?: [];
+        } catch (DecryptException $e) {
+            return [];
+        }
+    }
+
+    public function setRecoveryCodes(array $codes)
+    {
+        $this->two_factor_recovery_codes = encrypt(json_encode($codes));
+        $this->save();
+    }
 
 
 }
