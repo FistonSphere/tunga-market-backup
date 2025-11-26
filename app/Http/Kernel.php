@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
 
             // Substitutes bindings (route-model binding)
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\TwoFactorMiddleware::class,
         ],
 
         'api' => [
@@ -100,5 +101,6 @@ class Kernel extends HttpKernel
         // Example placeholders (uncomment/register actual classes if you add them)
         // 'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         // 'role' => \App\Http\Middleware\CheckUserRole::class,
+        '2fa' => \App\Http\Middleware\TwoFactorMiddleware::class,
     ];
 }
