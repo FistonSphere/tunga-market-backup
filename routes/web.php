@@ -136,6 +136,28 @@ Route::get('/policies/cookies', function() {
 Route::get('/home/products/{id}/details', [HomeController::class, 'getDetails']);
 
 Route::group(['middleware' => 'auth'], function () {
+
+     // Generate QR + Secret
+    Route::get('/profile/2fa/generate', [TwoFactorController::class, 'generate'])
+        ->name('profile.2fa.generate');
+
+    // Enable 2FA
+    Route::post('/profile/2fa/enable', [TwoFactorController::class, 'enable'])
+        ->name('profile.2fa.enable');
+
+    // Disable 2FA
+    Route::post('/profile/2fa/disable', [TwoFactorController::class, 'disable'])
+        ->name('profile.2fa.disable');
+
+    // After-login 2FA verification screen
+    Route::get('/2fa/verify', [TwoFactorController::class, 'showVerify'])
+        ->name('2fa.verify.show');
+
+    Route::post('/2fa/verify', [TwoFactorController::class, 'verify'])
+        ->name('2fa.verify');
+
+
+
     Route::post('/home/cart/add', [CartController::class, 'AddCartFromHome'])->name('home.cart.add');
      Route::get('/user/sessions', [UserSessionController::class, 'index']);
     Route::post('/user/sessions', [UserSessionController::class, 'store']);
@@ -468,24 +490,3 @@ Route::get('/choose-login-mode', function () {
 })->name('choose-login-mode');
 
 
-Route::middleware(['auth'])->group(function () {
-
-    // Generate QR + Secret
-    Route::get('/profile/2fa/generate', [TwoFactorController::class, 'generate'])
-        ->name('profile.2fa.generate');
-
-    // Enable 2FA
-    Route::post('/profile/2fa/enable', [TwoFactorController::class, 'enable'])
-        ->name('profile.2fa.enable');
-
-    // Disable 2FA
-    Route::post('/profile/2fa/disable', [TwoFactorController::class, 'disable'])
-        ->name('profile.2fa.disable');
-
-    // After-login 2FA verification screen
-    Route::get('/2fa/verify', [TwoFactorController::class, 'showVerify'])
-        ->name('2fa.verify.show');
-
-    Route::post('/2fa/verify', [TwoFactorController::class, 'verify'])
-        ->name('2fa.verify');
-});
