@@ -6,6 +6,7 @@ use App\Http\Controllers\backend\CategoryAdminController;
 use App\Http\Controllers\frontend\AboutController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\TwoFactorController;
+use App\Http\Controllers\Auth\TwoFactorController as AuthTwoFactorController;
 use App\Http\Controllers\backend\AdminEnquiryController;
 use App\Http\Controllers\backend\AdminFaqController;
 use App\Http\Controllers\backend\AdminInventoryController;
@@ -468,12 +469,8 @@ Route::get('/choose-login-mode', function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/2fa/setup', [TwoFactorController::class, 'showSetup'])->name('2fa.setup');
-    Route::post('/2fa/confirm', [TwoFactorController::class, 'confirmSetup'])->name('2fa.confirm');
-    Route::get('/2fa/manage', [TwoFactorController::class, 'manage'])->name('2fa.manage');
-    Route::post('/2fa/regenerate', [TwoFactorController::class, 'regenerateRecovery'])->name('2fa.regenerate');
-    Route::post('/2fa/disable', [TwoFactorController::class, 'disable'])->name('2fa.disable');
-    // Generate QR + Secret Key
+
+    // Generate QR + Secret
     Route::get('/profile/2fa/generate', [TwoFactorController::class, 'generate'])
         ->name('profile.2fa.generate');
 
@@ -482,12 +479,13 @@ Route::middleware(['auth'])->group(function () {
         ->name('profile.2fa.enable');
 
     // Disable 2FA
-    Route::post('/profile/2fa/disable', [TwoFactorController::class, 'disable2'])
+    Route::post('/profile/2fa/disable', [TwoFactorController::class, 'disable'])
         ->name('profile.2fa.disable');
-});
 
-// Verification after login (show/verify) — require auth (user must be authenticated)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/2fa/verify', [TwoFactorController::class, 'showVerify'])->name('2fa.verify.show');
-    Route::post('/2fa/verify', [TwoFactorController::class, 'verify'])->name('2fa.verify');
+    // After-login 2FA verification screen
+    Route::get('/2fa/verify', [TwoFactorController::class, 'showVerify'])
+        ->name('2fa.verify.show');
+
+    Route::post('/2fa/verify', [TwoFactorController::class, 'verify'])
+        ->name('2fa.verify');
 });
