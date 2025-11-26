@@ -135,35 +135,30 @@ Route::get('/policies/cookies', function() {
 })->name('policies.cookies');
 Route::get('/home/products/{id}/details', [HomeController::class, 'getDetails']);
 
-Route::group(['middleware' => 'auth'], function () {
+// ========== ROUTES OUTSIDE AUTH (LOGIN TIME) ==========
+Route::post('/2fa/verify-login', [TwoFactorController::class, 'verifyLogin'])
+    ->name('2fa.verify.login');
 
-     // Generate QR + Secret
+Route::post('/2fa/email-otp', [TwoFactorController::class, 'sendEmailOtp'])
+    ->name('2fa.email.send');
+
+
+// ========== ROUTES INSIDE AUTH (ACCOUNT SETTINGS) ==========
+Route::middleware('auth')->group(function () {
+
     Route::get('/profile/2fa/generate', [TwoFactorController::class, 'generate'])
         ->name('profile.2fa.generate');
 
-    // Enable 2FA
     Route::post('/profile/2fa/enable', [TwoFactorController::class, 'enable'])
         ->name('profile.2fa.enable');
 
-    // Disable 2FA
     Route::post('/profile/2fa/disable', [TwoFactorController::class, 'disable'])
         ->name('profile.2fa.disable');
 
-    // After-login 2FA verification screen
-    Route::get('/2fa/verify', [TwoFactorController::class, 'showVerify'])
-        ->name('2fa.verify.show');
-
-    Route::post('/2fa/verify', [TwoFactorController::class, 'verify'])
-        ->name('2fa.verify');
-        Route::get('/2fa/backup-codes/download', [TwoFactorController::class, 'downloadBackupCodes'])
-    ->name('2fa.download.codes');
-    Route::post('/2fa/verify-login', [TwoFactorController::class, 'verifyLoginCode'])
-    ->name('2fa.verify.login');
-    Route::post('/2fa/email-otp', [TwoFactorController::class, 'sendEmailOtp'])
-    ->name('2fa.email.send');
-
-Route::post('/2fa/verify-login', [TwoFactorController::class, 'verifyLogin'])
-    ->name('2fa.verify.login');
+    Route::get('/2fa/backup-codes/download', [TwoFactorController::class, 'downloadBackupCodes'])
+        ->name('2fa.download.codes');
+    
+    
 
 
 
