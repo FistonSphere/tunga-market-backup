@@ -1752,7 +1752,7 @@
 
                     // Insert QR + Secret
                     document.getElementById('2fa-qrcode').innerHTML =
-                        `<img src="${data.qr_code_url}" class="w-40 h-40 mx-auto">`;
+                        `<img src="data:image/svg+xml;base64,${data.qr_code}" class="w-40 h-40 mx-auto">`;
 
                     document.getElementById('2fa-secret').innerText = data.secret;
                 });
