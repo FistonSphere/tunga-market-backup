@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TwoFactorController extends Controller
 {
@@ -181,4 +182,23 @@ public function generate(Request $request)
             'message' => 'Two-factor authentication disabled.',
         ]);
     }
+
+    public function downloadBackupCodes()
+{
+    $user = auth()->user();
+
+    if (!$user->two_factor_enabled) {
+        abort(403, '2FA not enabled.');
+    }
+
+    // Decrypt stored codes
+    $codes = json_decode(decrypt($user->two_factor_recovery_codes), true);
+
+    $pdf = Pdf::loadView('pdf.backup-codes', [
+        'user' => $user,
+        'codes' => $codes
+    ]);
+
+    return $pdf->download('backup-codes.pdf');
+}
 }
