@@ -159,6 +159,11 @@ Route::group(['middleware' => 'auth'], function () {
     ->name('2fa.download.codes');
     Route::post('/2fa/verify-login', [TwoFactorController::class, 'verifyLoginCode'])
     ->name('2fa.verify.login');
+    Route::post('/2fa/email-otp', [TwoFactorController::class, 'sendEmailOtp'])
+    ->name('2fa.email.send');
+
+Route::post('/2fa/verify-login', [TwoFactorController::class, 'verifyLogin'])
+    ->name('2fa.verify.login');
 
 
 

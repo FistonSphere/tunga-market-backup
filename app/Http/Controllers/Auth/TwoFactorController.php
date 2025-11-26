@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Illuminate\Container\Attributes\Log;
+use Illuminate\Support\Facades\Mail;
 use OTPHP\TOTP;
 
 class TwoFactorController extends Controller
@@ -21,6 +24,129 @@ class TwoFactorController extends Controller
     public function __construct()
     {
         $this->google2fa = new Google2FA();
+    }
+    protected $trustedCookieName = 'trusted_2fa';
+
+      /**
+     * Send email OTP fallback (AJAX)
+     */
+    public function sendEmailOtp(Request $request)
+    {
+        $userId = session('2fa:user:id');
+        if (!$userId) {
+            return response()->json(['success'=>false, 'message'=>'Session expired. Try login again.'], 401);
+        }
+
+        $user = User::find($userId);
+        if (!$user) {
+            return response()->json(['success'=>false, 'message'=>'User not found.'], 404);
+        }
+
+        // Generate numeric OTP (6 digits)
+        $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+
+        // Save OTP and expiry in session (short lived ~10 minutes)
+        session(['2fa:email:otp' => $otp, '2fa:email:otp_expires' => now()->addMinutes(10)->timestamp]);
+
+        // Send simple email (replace with Mailable in production)
+        try {
+            Mail::raw("Your login code is: {$otp}. It expires in 10 minutes.", function ($m) use ($user) {
+                $m->to($user->email)->subject(config('app.name') . ' - Your login code');
+            });
+
+            return response()->json(['success'=>true, 'message'=>'A one-time code was sent to your email.']);
+        } catch (\Throwable $e) {
+            Log::error('Failed to send 2FA email OTP: ' . $e->getMessage());
+            return response()->json(['success'=>false, 'message'=>'Failed to send OTP. Try again later.'], 500);
+        }
+    }
+
+    /**
+     * Verify 2FA code on login (from modal).
+     * Accepts either authenticator TOTP or email OTP.
+     * If remember_device = true, returns trusted token to set in cookie client-side.
+     */
+    public function verifyLogin(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string',
+            'remember_device' => 'sometimes|boolean',
+        ]);
+
+        $userId = session('2fa:user:id');
+        if (!$userId) {
+            return response()->json(['success'=>false, 'message'=>'Session expired. Please login again.'], 401);
+        }
+
+        $user = User::find($userId);
+        if (!$user) {
+            return response()->json(['success'=>false, 'message'=>'User not found.'], 404);
+        }
+
+        $code = trim($request->input('code'));
+        $valid = false;
+
+        // 1) Try email OTP first (if present and not expired)
+        $sessOtp = session('2fa:email:otp');
+        $sessOtpExpires = session('2fa:email:otp_expires');
+
+        if ($sessOtp && (int)$sessOtpExpires >= now()->timestamp && hash_equals($sessOtp, $code)) {
+            $valid = true;
+            // consume OTP
+            session()->forget(['2fa:email:otp', '2fa:email:otp_expires']);
+        }
+
+        // 2) Try TOTP using the saved secret
+        if (!$valid && $user->two_factor_secret) {
+            try {
+                $secret = decrypt($user->two_factor_secret);
+                if ($this->google2fa->verifyKey($secret, $code)) {
+                    $valid = true;
+                }
+            } catch (\Throwable $e) {
+                // If decrypt fails or invalid code, continue
+                Log::warning('2FA secret decrypt/verify error: '.$e->getMessage());
+            }
+        }
+
+        if (!$valid) {
+            return response()->json(['success'=>false, 'message'=>'Invalid verification code.'], 422);
+        }
+
+        // Passed: log user in
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        // Optionally store user session record
+        if (class_exists(UserSessionController::class)) {
+            try {
+                (new UserSessionController())->store($request);
+            } catch (\Throwable $e) {
+                Log::warning('UserSession store failed: '.$e->getMessage());
+            }
+        }
+
+        // If remember_device requested, generate trusted token and return it
+        $trustedToken = null;
+        if ($request->boolean('remember_device')) {
+            $expiry = Carbon::now()->addDays(30);
+            $payload = $user->id . '|' . $expiry->timestamp;
+            $mac = hash_hmac('sha256', $payload, config('app.key'));
+            $token = base64_encode($payload . '|' . $mac);
+            $trustedToken = $token;
+        }
+
+        // Clear temp session id
+        session()->forget(['2fa:user:id', '2fa:login:ts', '2fa:email:otp', '2fa:email:otp_expires']);
+
+        $redirect = $user->is_admin === 'yes' ? route('choose-login-mode') : url('/');
+
+        return response()->json([
+            'success' => true,
+            'redirect' => $redirect,
+            'trusted_token' => $trustedToken, // if null, client won't set cookie
+            'trusted_token_expires_at' => isset($expiry) ? $expiry->toDateTimeString() : null
+        ]);
     }
 
     /**

@@ -192,66 +192,101 @@ public function verifyOtp(Request $request)
         return response()->json(['message' => 'Account created and verified successfully, now swipe to login.', 'redirect' => route('login')]);
     }
 
-  public function login(Request $request)
-{
-    // VALIDATION
-    $validator = Validator::make($request->all(), [
-        'email' => 'required|email|exists:users,email',
-        'password' => 'required|string|min:6',
-    ]);
-
-    if ($validator->fails()) {
-
-        // AJAX REQUEST (fetch)
-        if ($request->ajax()) {
-            return response()->json([
-                'error' => true,
-                'message' => $validator->errors()->first()
-            ], 422);
-        }
-
-        // Normal request
-        return back()->withErrors($validator)->withInput();
-    }
-
-    // Locate user first (DO NOT LOGIN YET)
-    $user = User::where('email', $request->email)->first();
-
-    if (!$user || !Hash::check($request->password, $user->password)) {
-
-        if ($request->ajax()) {
-            return response()->json([
-                'error' => true,
-                'message' => "Invalid credentials"
-            ], 422);
-        }
-
-        return back()->withErrors(['password' => 'Invalid credentials'])->withInput();
-    }
-
-    // CHECK 2FA
-    if ($user->two_factor_enabled) {
-
-        // Save temp session
-        session(['2fa:user:id' => $user->id]);
-
-        return response()->json([
-            'requires_2fa' => true
+    protected $trustedCookieName = 'trusted_2fa';
+ public function login(Request $request)
+    {
+        // VALIDATION
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|string|min:6',
         ]);
+
+        if ($validator->fails()) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'error' => true,
+                    'message' => $validator->errors()->first()
+                ], 422);
+            }
+            return back()->withErrors($validator)->withInput();
+        }
+
+        // Locate user (do NOT log in yet)
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Invalid credentials'
+                ], 422);
+            }
+            return back()->withErrors(['password' => 'Invalid credentials'])->withInput();
+        }
+
+        // If user doesn't have 2FA enabled -> standard login flow
+        if (!$user->two_factor_enabled) {
+            Auth::login($user, $request->has('remember'));
+            $request->session()->regenerate();
+
+            // Optional: call session storage
+            (new \App\Http\Controllers\UserSessionController())->store($request);
+
+            $redirect = $user->is_admin === 'yes' ? route('choose-login-mode') : url('/');
+
+            return response()->json(['redirect' => $redirect]);
+        }
+
+        // If 2FA enabled, check trusted cookie first (skip 2FA if trusted)
+        $trustedCookie = $request->cookie($this->trustedCookieName);
+        if ($trustedCookie && $this->validateTrustedToken($trustedCookie, $user->id)) {
+            // Trusted: complete login
+            Auth::login($user, $request->has('remember'));
+            $request->session()->regenerate();
+            (new UserSessionController())->store($request);
+            $redirect = $user->is_admin === 'yes' ? route('choose-login-mode') : url('/');
+            return response()->json(['redirect' => $redirect]);
+        }
+
+        // Not trusted — require 2FA. Save temp id and timestamp in session
+        session([
+            '2fa:user:id' => $user->id,
+            '2fa:login:ts' => now()->timestamp,
+        ]);
+
+        // Return JSON telling frontend to open 2FA modal
+        return response()->json(['requires_2fa' => true]);
     }
 
-    // NORMAL LOGIN (NO 2FA)
-    Auth::login($user, $request->has('remember'));
-    $request->session()->regenerate();
+    /**
+     * Create a trusted token payload string (user_id|expiry|mac).
+     * We'll use this same logic in validateTrustedToken.
+     */
+    protected function generateTrustedToken(int $userId, Carbon $expiry)
+    {
+        $payload = $userId . '|' . $expiry->timestamp;
+        $mac = hash_hmac('sha256', $payload, config('app.key'));
+        return base64_encode($payload . '|' . $mac);
+    }
 
-    (new UserSessionController())->store($request);
-
-    return response()->json([
-        'redirect' => $user->is_admin === 'yes'
-            ? route('choose-login-mode')
-            : url('/')
-    ]);
-}
+    protected function validateTrustedToken(?string $cookieValue, int $userId)
+    {
+        if (!$cookieValue) return false;
+        try {
+            $decoded = base64_decode($cookieValue);
+            if (!$decoded) return false;
+            $parts = explode('|', $decoded);
+            if (count($parts) !== 3) return false;
+            [$uid, $expiryTs, $mac] = $parts;
+            if ((int)$uid !== (int)$userId) return false;
+            if ((int)$expiryTs < now()->timestamp) return false;
+            $payload = $uid . '|' . $expiryTs;
+            $calc = hash_hmac('sha256', $payload, config('app.key'));
+            return hash_equals($calc, $mac);
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
 
 
     public function logout(Request $request)

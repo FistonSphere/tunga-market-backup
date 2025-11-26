@@ -578,29 +578,47 @@
         </button>
     </div>
 
-    <!-- 2FA LOGIN MODAL -->
-<div id="twoFaLoginModal"
-     class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
-
+    
+<!-- 2FA LOGIN MODAL -->
+<div id="twoFaLoginModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
     <div class="bg-white w-full max-w-md rounded-xl shadow-lg p-6 relative">
         <h2 class="text-xl font-semibold mb-3">Two-Factor Authentication</h2>
 
         <p class="text-secondary-600 mb-4">
-            Enter the 6-digit code from your Google Authenticator app.
+            Enter the 6-digit code from your Google Authenticator app or the code sent to your email.
         </p>
 
         <input type="text"
-            id="login2faInput"
-            maxlength="6"
-            class="input-field text-center tracking-widest text-lg"
-            placeholder="••••••">
+               id="login2faInput"
+               maxlength="6"
+               class="input-field text-center tracking-widest text-lg"
+               placeholder="••••••">
 
-        <div class="flex justify-end gap-2 mt-5" style="gap: 20px;margin-top:20px;">
-            <button onclick="closeLogin2FAModal()" class="btn-secondary">Cancel</button>
-            <button onclick="submitLogin2FA()" class="btn-primary">Verify</button>
+        <div class="flex items-center justify-between mt-3 mb-4">
+            <label class="flex items-center space-x-2">
+                <input type="checkbox" name="remember_device" id="rememberDeviceCheckbox" class="rounded border-secondary-300 text-primary focus:ring-primary">
+                <span class="text-sm text-secondary-700">Remember this device for 30 days</span>
+            </label>
+
+            <button type="button" id="btnRequestEmailOtp" class="btn-secondary text-sm">
+                Send code to email
+            </button>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-5">
+            <button type="button" onclick="closeLogin2FAModal()" class="btn-secondary">Cancel</button>
+            <button type="button" id="btnVerify2fa" class="btn-primary">Verify</button>
         </div>
     </div>
 </div>
+
+<script>
+    // helper to close modal (used in markup)
+    function closeLogin2FAModal() {
+        document.getElementById('twoFaLoginModal').classList.add('hidden');
+    }
+</script>
+
 
 
     <script>
@@ -942,66 +960,200 @@
             const box = document.getElementById('notification-login');
             box.classList.add('hidden');
         }
-    </script>
+    
+    
+    
+    
+    document.addEventListener('DOMContentLoaded', function () {
 
-    <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+    const loginForm = document.getElementById('loginForm');
+    const twoFaModal = document.getElementById('twoFaLoginModal');
+    const login2faInput = document.getElementById('login2faInput');
+    const btnVerify2fa = document.getElementById('btnVerify2fa'); // optional if you add id
+    const btnRequestEmailOtp = document.getElementById('btnRequestEmailOtp'); // optional if you add id
+    const rememberDeviceCheckbox = document.getElementById('rememberDeviceCheckbox'); // optional if you add id
 
-    let formData = new FormData(this);
+    // If not found by id, fallback to query selectors in modal
+    const modalRememberSelector = '#twoFaLoginModal input[name="remember_device"]';
+    const modalEmailOtpBtnSelector = '#btnRequestEmailOtp';
+    const modalVerifyBtnSelector = '#btnVerify2fa';
 
-    fetch("{{ route('normal-login-user') }}", {
-        method: "POST",
-        headers: { "X-CSRF-TOKEN": "{{ csrf_token() }}" },
-        body: formData
-    })
-        .then(res => res.json())
+    // Helper - open modal
+    function openTwoFaModal() {
+        twoFaModal.classList.remove('hidden');
+        login2faInput.value = '';
+        // Focus input after slight delay
+        setTimeout(() => login2faInput.focus(), 200);
+    }
+
+    function closeTwoFaModal() {
+        twoFaModal.classList.add('hidden');
+    }
+
+    // Show an inline toast (simple)
+    function showAlert(message) {
+        alert(message);
+    }
+
+    // Add submit listener to login form
+    loginForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch("{{ route('normal-login-user') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: formData
+        })
+        .then(async res => {
+            // Try parse JSON. Server should always return JSON for AJAX.
+            const text = await res.text();
+            // Debug: uncomment if needed
+            // console.log('RAW LOGIN RESPONSE:', text);
+            try {
+                return JSON.parse(text);
+            } catch (err) {
+                console.error('Login JSON parse error', err, text);
+                throw new Error('Invalid server response.');
+            }
+        })
         .then(data => {
-
-            // CASE 1: Requires 2FA
-            if (data.requires_2fa) {
-                document.getElementById('twoFaLoginModal').classList.remove('hidden');
+            if (data.error) {
+                showAlert(data.message || 'Login failed.');
                 return;
             }
 
-            // CASE 2: Normal redirect
+            if (data.requires_2fa) {
+                openTwoFaModal();
+                return;
+            }
+
             if (data.redirect) {
                 window.location.href = data.redirect;
             }
         })
-        .catch(err => console.error(err));
-});
+        .catch(err => {
+            console.error(err);
+            showAlert('An error occurred while logging in. Try again.');
+        });
+    });
 
-function submitLogin2FA() {
-    let code = document.getElementById('login2faInput').value;
+    // VERIFY 2FA handler
+    window.submitLogin2FA = function () {
+        const code = login2faInput.value.trim();
+        if (!code || (code.length !== 6 && code.length !== 4)) {
+            showAlert('Enter the 6-digit code from your authenticator app or email.');
+            return;
+        }
 
-    fetch("{{ route('2fa.verify.login') }}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        body: JSON.stringify({ code })
-    })
+        // Determine remember choice from modal (if present), otherwise false
+        let remember = false;
+        const rememberEl = document.querySelector(modalRememberSelector);
+        if (rememberEl) remember = rememberEl.checked;
+
+        fetch("{{ route('2fa.verify.login') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({ code: code, remember_device: remember })
+        })
         .then(async res => {
-    let text = await res.text();
-    console.log("RAW RESPONSE:", text); // <--- Debug
-    return JSON.parse(text);
-})
-
+            const text = await res.text();
+            // Debug:
+            // console.log('RAW VERIFY RESPONSE:', text);
+            try {
+                return JSON.parse(text);
+            } catch (err) {
+                console.error('2FA verify parse error', err, text);
+                throw new Error('Invalid server response.');
+            }
+        })
         .then(data => {
             if (!data.success) {
-                alert(data.message);
+                showAlert(data.message || 'Invalid code.');
                 return;
             }
 
-            window.location.href = data.redirect;
-        });
-}
+            // If server returned a trusted_token, set cookie for 30 days client-side
+            if (data.trusted_token) {
+                // cookie value: token, expires in 30 days
+                const expires = new Date();
+                expires.setDate(expires.getDate() + 30);
+                document.cookie = "{{ addslashes($trustedCookieName ?? 'trusted_2fa') }}" + "=" + encodeURIComponent(data.trusted_token) + "; path=/; expires=" + expires.toUTCString() + ";";
+            }
 
-function closeLogin2FAModal() {
-    document.getElementById('twoFaLoginModal').classList.add('hidden');
-}
+            // Auto-close modal, show success then redirect
+            closeTwoFaModal();
+
+            // Optional tiny delay to give user feedback
+            setTimeout(() => {
+                window.location.href = data.redirect || '/';
+            }, 250);
+        })
+        .catch(err => {
+            console.error(err);
+            showAlert('An error occurred verifying the code. Try again.');
+        });
+    };
+
+    // EMAIL OTP fallback - triggered by button in the modal
+    window.requestEmailOtp = function () {
+        fetch("{{ route('2fa.email.send') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({})
+        })
+        .then(async res => {
+            const text = await res.text();
+            try {
+                return JSON.parse(text);
+            } catch (err) {
+                console.error('Email OTP parse error', err, text);
+                throw new Error('Invalid server response.');
+            }
+        })
+        .then(data => {
+            if (!data.success) {
+                showAlert(data.message || 'Failed to send email OTP.');
+                return;
+            }
+            showAlert(data.message || 'One-time code sent to your email.');
+        })
+        .catch(err => {
+            console.error(err);
+            showAlert('Could not request email OTP. Try again later.');
+        });
+    };
+
+    // Attach event listeners for modal buttons if you added ids in markup
+    const emailOtpBtn = document.getElementById('btnRequestEmailOtp');
+    if (emailOtpBtn) emailOtpBtn.addEventListener('click', requestEmailOtp);
+
+    const verifyBtn = document.getElementById('btnVerify2fa');
+    if (verifyBtn) verifyBtn.addEventListener('click', submitLogin2FA);
+
+    // Also allow Enter key inside code input to submit
+    if (login2faInput) {
+        login2faInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submitLogin2FA();
+            }
+        });
+    }
+
+});
 </script>
 
 @endsection
