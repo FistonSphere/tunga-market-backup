@@ -578,6 +578,31 @@
         </button>
     </div>
 
+    <!-- 2FA LOGIN MODAL -->
+<div id="twoFaLoginModal"
+     class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+
+    <div class="bg-white w-full max-w-md rounded-xl shadow-lg p-6 relative">
+        <h2 class="text-xl font-semibold mb-3">Two-Factor Authentication</h2>
+
+        <p class="text-secondary-600 mb-4">
+            Enter the 6-digit code from your Google Authenticator app.
+        </p>
+
+        <input type="text"
+            id="login2faInput"
+            maxlength="6"
+            class="input-field text-center tracking-widest text-lg"
+            placeholder="••••••">
+
+        <div class="flex justify-end gap-2 mt-5">
+            <button onclick="closeLogin2FAModal()" class="btn-secondary">Cancel</button>
+            <button onclick="submitLogin2FA()" class="btn-primary">Verify</button>
+        </div>
+    </div>
+</div>
+
+
     <script>
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -918,4 +943,60 @@
             box.classList.add('hidden');
         }
     </script>
+
+    <script>
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    let formData = new FormData(this);
+
+    fetch("{{ route('normal-login-user') }}", {
+        method: "POST",
+        headers: { "X-CSRF-TOKEN": "{{ csrf_token() }}" },
+        body: formData
+    })
+        .then(res => res.json())
+        .then(data => {
+
+            // CASE 1: Requires 2FA
+            if (data.requires_2fa) {
+                document.getElementById('twoFaLoginModal').classList.remove('hidden');
+                return;
+            }
+
+            // CASE 2: Normal redirect
+            if (data.redirect) {
+                window.location.href = data.redirect;
+            }
+        })
+        .catch(err => console.error(err));
+});
+
+function submitLogin2FA() {
+    let code = document.getElementById('login2faInput').value;
+
+    fetch("{{ route('2fa.verify.login') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({ code })
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.success) {
+                alert(data.message);
+                return;
+            }
+
+            window.location.href = data.redirect;
+        });
+}
+
+function closeLogin2FAModal() {
+    document.getElementById('twoFaLoginModal').classList.add('hidden');
+}
+</script>
+
 @endsection

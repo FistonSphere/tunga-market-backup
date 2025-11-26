@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\UserSessionController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use PragmaRX\Google2FA\Google2FA;
 use Illuminate\Support\Str;
@@ -10,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
+use OTPHP\TOTP;
 
 class TwoFactorController extends Controller
 {
@@ -201,4 +204,48 @@ public function generate(Request $request)
 
     return $pdf->download('backup-codes.pdf');
 }
+
+
+
+
+public function verifyLoginCode(Request $request)
+{
+    $request->validate([
+        'code' => 'required|digits:6'
+    ]);
+
+    $userId = session('2fa:user:id');
+
+    if (!$userId) {
+        return response()->json(['success' => false, 'message' => 'Session expired']);
+    }
+
+    $user = User::find($userId);
+
+    if (!$user) {
+        return response()->json(['success' => false, 'message' => 'User not found']);
+    }
+
+    $totp = TOTP::create($user->two_factor_secret);
+
+    if (!$totp->verify($request->code)) {
+        return response()->json(['success' => false, 'message' => 'Invalid 2FA code']);
+    }
+
+    // SUCCESS → LOG THE USER IN
+    Auth::login($user);
+    request()->session()->regenerate();
+
+    (new UserSessionController())->store($request);
+
+    // Clear temporary session
+    session()->forget('2fa:user:id');
+
+    if ($user->is_admin === 'yes') {
+        return response()->json(['success' => true, 'redirect' => route('choose-login-mode')]);
+    }
+
+    return response()->json(['success' => true, 'redirect' => url('/')]);
+}
+
 }
