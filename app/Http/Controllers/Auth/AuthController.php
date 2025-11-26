@@ -194,25 +194,45 @@ public function verifyOtp(Request $request)
 
   public function login(Request $request)
 {
+    // VALIDATION
     $validator = Validator::make($request->all(), [
         'email' => 'required|email|exists:users,email',
         'password' => 'required|string|min:6',
     ]);
 
     if ($validator->fails()) {
+
+        // AJAX REQUEST (fetch)
+        if ($request->ajax()) {
+            return response()->json([
+                'error' => true,
+                'message' => $validator->errors()->first()
+            ], 422);
+        }
+
+        // Normal request
         return back()->withErrors($validator)->withInput();
     }
 
-    // Find user NOT logging in yet
+    // Locate user first (DO NOT LOGIN YET)
     $user = User::where('email', $request->email)->first();
 
     if (!$user || !Hash::check($request->password, $user->password)) {
+
+        if ($request->ajax()) {
+            return response()->json([
+                'error' => true,
+                'message' => "Invalid credentials"
+            ], 422);
+        }
+
         return back()->withErrors(['password' => 'Invalid credentials'])->withInput();
     }
 
-    // CHECK 2FA STATUS
+    // CHECK 2FA
     if ($user->two_factor_enabled) {
-        // Store temp user id for next step (NOT logged in yet)
+
+        // Save temp session
         session(['2fa:user:id' => $user->id]);
 
         return response()->json([
@@ -220,19 +240,17 @@ public function verifyOtp(Request $request)
         ]);
     }
 
-    // NORMAL LOGIN WITHOUT 2FA
+    // NORMAL LOGIN (NO 2FA)
     Auth::login($user, $request->has('remember'));
     $request->session()->regenerate();
 
-    // Store session record
     (new UserSessionController())->store($request);
 
-    // If admin → choose mode
-    if ($user->is_admin === 'yes') {
-        return response()->json(['redirect' => route('choose-login-mode')]);
-    }
-
-    return response()->json(['redirect' => url('/')]);
+    return response()->json([
+        'redirect' => $user->is_admin === 'yes'
+            ? route('choose-login-mode')
+            : url('/')
+    ]);
 }
 
 

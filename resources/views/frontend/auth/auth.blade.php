@@ -595,7 +595,7 @@
             class="input-field text-center tracking-widest text-lg"
             placeholder="••••••">
 
-        <div class="flex justify-end gap-2 mt-5">
+        <div class="flex justify-end gap-2 mt-5" style="gap: 20px;margin-top:20px;">
             <button onclick="closeLogin2FAModal()" class="btn-secondary">Cancel</button>
             <button onclick="submitLogin2FA()" class="btn-primary">Verify</button>
         </div>
@@ -945,7 +945,7 @@
     </script>
 
     <script>
-document.getElementById('loginForm').addEventListener('submit', function(e) {
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
     let formData = new FormData(this);
@@ -983,7 +983,12 @@ function submitLogin2FA() {
         },
         body: JSON.stringify({ code })
     })
-        .then(res => res.json())
+        .then(async res => {
+    let text = await res.text();
+    console.log("RAW RESPONSE:", text); // <--- Debug
+    return JSON.parse(text);
+})
+
         .then(data => {
             if (!data.success) {
                 alert(data.message);
