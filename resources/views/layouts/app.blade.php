@@ -76,7 +76,7 @@
 <body class="bg-background text-text-primary dark-theme">
 
     <!-- Navigation Header -->
-    <header class="bg-white shadow-card sticky top-0" style="z-index: 99999; background-color: #000e2a; color:#fff">
+    <header class="bg-white shadow-card sticky top-0" style="z-index: 99999; background-color: #000829; color:#fff">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
@@ -454,7 +454,7 @@
     @yield('content')
 
     <!-- Footer -->
-    <footer class=" text-white" style="background: #000e2a;margin-bottom: -1.5em;">
+    <footer class=" text-white" style="background: #000829;margin-bottom: -1.5em;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Company Info -->
@@ -808,7 +808,7 @@
 
     <!-- Bottom Navigation for Mobile -->
     <div id="mobile-bottom-nav" class="fixed bottom-0 left-0 right-0 border-t md:hidden z-40"
-        style="background: #000e2a; border-top:1px solid #000e2a">
+        style="background: #000829; border-top:1px solid #000829">
         <div class="flex items-center justify-around py-2">
             <!-- Home Button -->
             <button onclick="window.location.href='{{ route('home') }}'" class="flex flex-col items-center p-2

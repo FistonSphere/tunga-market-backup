@@ -107,7 +107,7 @@
                         <div class="lg:col-span-2">
                             <div class="flex items-center space-x-4 mb-6">
                                 <img src="{{ $gs->logo }}" alt="{{$gs->site_name}} Logo"
-                                    class="block rounded-lg" style="width:150px; height:100px; object-fit:cover;" />
+                                    class="block rounded-lg" style="width:auto; height:100px; object-fit:cover;" />
 
                                 <div>
                                     <h1 class="text-3xl font-bold" style="color:#FF6600;">{{$gs->site_name}}</h1>
@@ -289,7 +289,7 @@
                                             </td>
                                             <td class="border px-4 py-4">
                                                 <p class="font-semibold text-primary">
-                                                    {{ $item->product->brand->name ?? '{{$gs->site_name}} Inc.' }}
+                                                    {{ optional($item->product->brand)->name ?? ($gs->site_name . ' Inc.') }}
                                                 </p>
                                             </td>
                                             <td class="border px-4 py-4 text-center font-semibold">
