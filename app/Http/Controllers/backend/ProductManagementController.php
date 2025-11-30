@@ -278,15 +278,15 @@ public function store(Request $request)
         'min_order_quantity' => 'nullable|integer|min:1',
         'stock_quantity'     => 'nullable|integer|min:0',
         'main_image'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        'gallery'            => 'nullable',              
-        'gallery.*'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', 
+        'gallery'            => 'nullable',
+        'gallery.*'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         'video_url'          => 'nullable|string|max:255',
         'status'             => 'required|string|in:active,inactive,draft',
         'specifications'     => 'nullable|string',
         'features'           => 'nullable|string',
         'shipping_info'      => 'nullable|string',
         'tags'               => 'nullable|string',
-        
+
     ]);
 
     // ensure checkboxes default to 0/1 (they may not exist in request)
@@ -382,71 +382,117 @@ public function store(Request $request)
         $file = $request->file('main_image');
         if ($file->isValid()) {
             $filename = 'product_main_' . $product->id . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('products', $filename, 'public'); // stored in storage/app/public/products
-            $product->main_image = asset('storage/' . $path);
+            $destinationPath = public_path('uploads/products');
+            if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
+            $file->move($destinationPath, $filename);
+            $product->main_image = url('uploads/products/'.$filename);
             $product->save();
-            Log::info('📸 main_image uploaded', ['short' => $shortPath($path)]);
+            Log::info('📸 main_image uploaded', ['short' => $shortPath($destinationPath)]);
         }
     }
 
     // --- Gallery handling: the frontend 'gallery' hidden input contains a JSON array of
     //     existing URLs and possibly base64 data URLs generated from previews.
-    $finalGallery = [];
+   $finalGallery = [];
+$destinationPath = public_path('uploads/products');
 
-    // 1) If frontend provided a JSON list (existing urls + base64 previews)
-    $submittedGallery = $request->input('gallery');
-    if ($submittedGallery) {
-        $decoded = is_string($submittedGallery) ? json_decode($submittedGallery, true) : $submittedGallery;
-        if (is_array($decoded)) {
-            foreach ($decoded as $item) {
-                if (!is_string($item) || $item === '') continue;
+// ensure folder exists
+if (!file_exists($destinationPath)) {
+    mkdir($destinationPath, 0755, true);
+}
 
-                // keep existing remote/http URLs as-is
-                if (Str::startsWith($item, ['http://','https://','/storage/'])) {
-                    $finalGallery[] = $item;
-                    continue;
-                }
+// ==========================================
+// 1) Handle JSON gallery input (URLs + base64)
+// ==========================================
+$submittedGallery = $request->input('gallery');
 
-                // handle base64 "data:image/..." strings
-                if (Str::startsWith($item, 'data:image')) {
-                    preg_match('/^data:image\/(\w+);base64,/', $item, $type);
-                    $ext = $type[1] ?? 'png';
-                    $data = substr($item, strpos($item, ',') + 1);
-                    $decodedData = base64_decode($data);
-                    if ($decodedData !== false) {
-                        $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $ext;
-                        $storePath = 'products/gallery/' . $filename;
-                        Storage::disk('public')->put($storePath, $decodedData);
-                        $finalGallery[] = asset('storage/' . $storePath);
-                        Log::info('✅ gallery saved from base64', ['short' => $shortPath($storePath)]);
-                    }
+if ($submittedGallery) {
+
+    $decoded = is_string($submittedGallery) ? json_decode($submittedGallery, true) : $submittedGallery;
+
+    if (is_array($decoded)) {
+
+        foreach ($decoded as $item) {
+
+            if (!is_string($item) || $item === '') continue;
+
+            // keep existing HTTP URLs
+            if (Str::startsWith($item, ['http://', 'https://'])) {
+                $finalGallery[] = $item;
+                continue;
+            }
+
+            // handle base64-encoded images
+            if (Str::startsWith($item, 'data:image')) {
+
+                // extract extension
+                preg_match('/^data:image\/(\w+);base64,/', $item, $type);
+                $ext = $type[1] ?? 'png';
+
+                // decode
+                $data = substr($item, strpos($item, ',') + 1);
+                $decodedData = base64_decode($data);
+
+                if ($decodedData !== false) {
+                    $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $ext;
+                    $fullPath = $destinationPath . '/' . $filename;
+
+                    // save file
+                    file_put_contents($fullPath, $decodedData);
+
+                    // store public URL
+                    $finalGallery[] = url('uploads/products/' . $filename);
+
+                    Log::info('🖼️ base64 gallery image saved', [
+                        'file' => $filename
+                    ]);
                 }
             }
-        } else {
-            Log::warning('⚠️ gallery input present but not valid JSON/array');
+        }
+
+    } else {
+        Log::warning('⚠️ gallery input invalid JSON');
+    }
+}
+
+
+// ==========================================
+// 2) Handle uploaded gallery[] files
+// ==========================================
+if ($request->hasFile('gallery')) {
+    foreach ($request->file('gallery') as $file) {
+
+        if ($file && $file->isValid()) {
+
+            $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            // use SAME method as main_image
+            $file->move($destinationPath, $filename);
+
+            $finalGallery[] = url('uploads/products/' . $filename);
+
+            Log::info('📁 gallery file uploaded', [
+                'file' => $filename
+            ]);
         }
     }
+}
 
-    // 2) Also accept uploaded files in gallery[] (classic form submit)
-    if ($request->hasFile('gallery')) {
-        foreach ($request->file('gallery') as $file) {
-            if ($file && $file->isValid()) {
-                $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('products/gallery', $filename, 'public');
-                $finalGallery[] = asset('storage/' . $path);
-                Log::info('📁 gallery file uploaded', ['short' => $shortPath($path)]);
-            }
-        }
-    }
 
-    // 3) Clean, dedupe and keep only URLs we want
-    $finalGallery = array_values(array_unique(array_filter($finalGallery, function ($u) {
-        return is_string($u) && (Str::startsWith($u, ['http://','https://']) || Str::startsWith($u, '/storage/'));
-    })));
+// ==========================================
+// 3) Clean + Dedupe
+// ==========================================
+$finalGallery = array_values(array_unique(array_filter($finalGallery)));
 
-    // Save gallery (json array) or null if empty
-    $product->gallery = empty($finalGallery) ? null : json_encode($finalGallery);
-    $product->save();
+
+// ==========================================
+// 4) Save gallery JSON
+// ==========================================
+$product->gallery = empty($finalGallery) ? null : json_encode($finalGallery);
+$product->save();
+
+
+
 
     Log::info('✅ Product fully created', [
         'id' => $product->id,
