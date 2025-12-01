@@ -709,7 +709,7 @@
                                         <div class="relative overflow-hidden rounded-lg mb-4">
                                             <a href="{{ route('product.view', $related->sku) }}">
                                                 <img src="{{ $image }}" alt="{{ $product->name }}"
-                                                    class="w-full h-48 object-cover group-hover:scale-105 transition-all duration-300"
+                                                    class="w-full h-48 object-contain group-hover:scale-105 transition-all duration-300"
                                                     loading="lazy"
                                                     onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
                                             </a>
