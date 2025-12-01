@@ -277,8 +277,8 @@
     <div class="product-view">
         <div
             style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
-                                                    gap: 10px; background-color: #fff; padding: 15px 20px; border-radius: 10px;
-                                                    box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; margin-top: 2em; margin-left: 2em; margin-right: 2em;">
+                                                            gap: 10px; background-color: #fff; padding: 15px 20px; border-radius: 10px;
+                                                            box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; margin-top: 2em; margin-left: 2em; margin-right: 2em;">
 
             <!-- Product Title -->
             <h2 style="color: #001428; margin: 0; flex: 1 1 auto;">
@@ -292,13 +292,13 @@
             <!-- Actions Buttons -->
             <div class="actions" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end;">
                 <button onclick="window.location.href='{{ route('admin.products.edit', $product->id) }}'" style="background-color: #fb5d0d; color: #fff; border: none; border-radius: 6px;
-                                                           padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
-                                                           transition: 0.3s ease;">
+                                                                   padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
+                                                                   transition: 0.3s ease;">
                     Edit
                 </button>
                 <button id="deleteBtn" style="background-color: #dc3545; color: #fff; border: none; border-radius: 6px;
-                                           padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
-                                           transition: 0.3s ease;">
+                                                   padding: 8px 16px; font-size: 14px; cursor: pointer; font-weight: 500;
+                                                   transition: 0.3s ease;">
                     Delete
                 </button>
             </div>
@@ -306,8 +306,8 @@
             <!-- Back Button -->
             <div style="text-align: right;">
                 <a href="{{ route('admin.product.listing') }}" style="display: inline-block; background-color: #001428; color: #fff;
-                                                          padding: 8px 18px; border-radius: 6px; text-decoration: none;
-                                                          font-weight: 500; transition: 0.3s; font-size: 14px;">
+                                                                  padding: 8px 18px; border-radius: 6px; text-decoration: none;
+                                                                  font-weight: 500; transition: 0.3s; font-size: 14px;">
                     ← Back to Product Listing
                 </a>
             </div>
@@ -367,13 +367,20 @@
 
         <div id="gallery" class="tab-content">
             <div class="gallery">
-                @forelse (json_decode($product->gallery) ?? [] as $img)
+                @php
+                    $galleryImages = json_decode($product->gallery, true) ?? [];
+                    $galleryImages = array_unique($galleryImages); // Ensure uniqueness
+                    
+                    @endphp
+
+                @forelse ($galleryImages as $img)
                     <img src="{{ $img }}" alt="Gallery" onclick="openModal('{{ $img }}')">
                 @empty
                     <p>No gallery images available.</p>
                 @endforelse
             </div>
         </div>
+
 
         <div id="analytics" class="tab-content">
             <p><strong>Total Views:</strong> {{ $product->views_count ?? 0 }}</p>
