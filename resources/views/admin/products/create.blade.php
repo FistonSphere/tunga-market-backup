@@ -1,9 +1,9 @@
 @extends('admin.layouts.header')
 
 @section('content')
-@php
-    $gs = \App\Models\GeneralSetting::first();
-@endphp
+    @php
+        $gs = \App\Models\GeneralSetting::first();
+    @endphp
 
     <style>
         :root {
@@ -474,7 +474,8 @@
                             style="display:none">
                     </div>
                     <div class="prd-gallery-preview" id="galleryPreview"></div>
-                    <input type="hidden" id="galleryHidden" name="gallery">
+                    <input type="hidden" id="galleryHidden" name="gallery_json">
+
                 </div>
 
                 <!-- JSON INPUTS -->
