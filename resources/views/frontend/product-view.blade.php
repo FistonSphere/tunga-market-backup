@@ -109,7 +109,7 @@
                                     class="thumbnail-btn border-2 rounded-md overflow-hidden w-20 h-20 {{ $index === 0 ? 'border-accent' : 'border-transparent' }} hover:border-accent transition"
                                     data-index="{{ $index }}" onclick="changeMainImage({{ $index }}, '{{ $image }}')"
                                     onmouseover="changeMainImage({{ $index }}, '{{ $image }}')">
-                                    <img src="{{ $image }}" alt="Thumbnail {{ $index + 1 }}" class="object-cover w-full h-full"
+                                    <img src="{{ $image }}" alt="Thumbnail {{ $index + 1 }}" class="object-contain w-full h-full"
                                         onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
                                 </button>
                             @endforeach
@@ -126,10 +126,10 @@
                 </div>
 
                 <!-- Main Image Display -->
-                <div class="relative flex-1 bg-gray-50 rounded-xl overflow-hidden flex justify-center items-center shadow-xl transition hover:shadow-2xl group"
+                <div class="relative flex-1 bg-white rounded-xl overflow-hidden flex justify-center items-center shadow-xl transition hover:shadow-2xl group"
                     style="width:500px; height:500px; min-width:300px;">
                     <img id="mainImage" src="{{ $product->main_image }}" alt="{{ $product->name }}"
-                        class="w-full h-full object-cover transition-all duration-300 select-none" loading="lazy"
+                        class="w-full h-full object-contain transition-all duration-300 select-none" loading="lazy"
                         onerror="this.src='{{ $product->main_image }}'; this.onerror=null;" />
 
                     <!-- Zoom Lens -->
