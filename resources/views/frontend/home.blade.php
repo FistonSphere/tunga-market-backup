@@ -190,7 +190,8 @@
                 <!-- LEFT SIDE TEXT -->
                 <div class="text-center lg:text-left space-y-6" data-aos="fade-up">
 
-                    <h1 class="text-5xl font-bold leading-tight tracking-tight text-white mb-4 text-left" style="margin-top:1.5em">
+                    <h1 class="text-5xl font-bold leading-tight tracking-tight text-white mb-4 text-left"
+                        style="margin-top:1.5em">
                         <span class="block">{{ $gs->banner_title ?? 'Shop Premium Products' }}</span>
                         <span class="block text-orange-500" style="text-align:left;">
                             {{ $gs->banner_subtitle ?? 'Your Trusted Shopping Destination' }}
@@ -686,7 +687,7 @@
                     </div>
 
                     <div id="fx-rates" class="space-y-3">
-                        <!-- these will be filled by JS -->
+                        <!-- USD to RWF -->
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-2">
                                 <img src="https://flagcdn.com/us.svg" alt="US" class="w-5 h-5 rounded-sm" loading="lazy" />
@@ -696,6 +697,8 @@
                             </div>
                             <div class="font-semibold text-primary" id="rate-RWF">—</div>
                         </div>
+
+                        <!-- USD to EUR -->
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-2">
                                 <img src="https://flagcdn.com/us.svg" alt="US" class="w-5 h-5 rounded-sm" loading="lazy" />
@@ -704,6 +707,30 @@
                             </div>
                             <div class="font-semibold text-primary" id="rate-EUR">—</div>
                         </div>
+
+                        <!-- EUR to RWF -->
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <img src="https://flagcdn.com/eu.svg" alt="EU" class="w-5 h-5 rounded-sm" loading="lazy" />
+                                <span class="text-body-sm text-secondary-600">→</span>
+                                <img src="https://flagcdn.com/rw.svg" alt="Rwanda" class="w-5 h-5 rounded-sm"
+                                    loading="lazy" />
+                            </div>
+                            <div class="font-semibold text-primary" id="rate-EUR-to-RWF">—</div>
+                        </div>
+
+                        <!-- GBP to RWF -->
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <img src="https://flagcdn.com/gb.svg" alt="UK" class="w-5 h-5 rounded-sm" loading="lazy" />
+                                <span class="text-body-sm text-secondary-600">→</span>
+                                <img src="https://flagcdn.com/rw.svg" alt="Rwanda" class="w-5 h-5 rounded-sm"
+                                    loading="lazy" />
+                            </div>
+                            <div class="font-semibold text-primary" id="rate-GBP-to-RWF">—</div>
+                        </div>
+
+                        <!-- USD to GBP -->
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-2">
                                 <img src="https://flagcdn.com/us.svg" alt="US" class="w-5 h-5 rounded-sm" loading="lazy" />
@@ -711,15 +738,6 @@
                                 <img src="https://flagcdn.com/gb.svg" alt="UK" class="w-5 h-5 rounded-sm" loading="lazy" />
                             </div>
                             <div class="font-semibold text-primary" id="rate-GBP">—</div>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
-                                <img src="https://flagcdn.com/us.svg" alt="US" class="w-5 h-5 rounded-sm" loading="lazy" />
-                                <span class="text-body-sm text-secondary-600">→</span>
-                                <img src="https://flagcdn.com/ke.svg" alt="Kenya" class="w-5 h-5 rounded-sm"
-                                    loading="lazy" />
-                            </div>
-                            <div class="font-semibold text-primary" id="rate-KES">—</div>
                         </div>
 
                         <div class="text-xs text-secondary-500 mt-3">
@@ -733,6 +751,8 @@
                             </span>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -926,8 +946,8 @@
             <div id="modalContent" class="p-6 flex flex-col md:flex-row gap-6">
                 <!-- Left: Images -->
                 <div class="md:w-1/2" style="">
-                    <img id="modalMainImage" src="" alt="Product Image" class="object-cover rounded-lg mb-4"
-                        style="width:400px; height:300px; object-fit:cover" />
+                    <img id="modalMainImage" src="" alt="Product Image" class="object-contain rounded-lg mb-4"
+                        style="width:400px; height:300px; object-fit:contain" />
                     <div id="modalGallery" class="flex gap-2 overflow-x-auto">
                         <!-- Thumbnails appended dynamically -->
                     </div>
@@ -1184,9 +1204,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                                                                                                                        <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                                                                                                                        <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                                                                                                                    `;
+                                                                                                                                                                                                                                                    <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                                                                                                                    <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                                                                                                                                `;
 
             // Progress bar
             const progress = document.createElement("div");
@@ -1261,8 +1281,21 @@
                     if (rates.GBP !== undefined) {
                         document.getElementById('rate-GBP').innerText = Number(rates.GBP).toFixed(4);
                     }
-                    if (rates.KES !== undefined) {
-                        document.getElementById('rate-KES').innerText = Number(rates.KES).toFixed(3);
+
+                    // Calculate EUR to RWF (EUR/USD rate * RWF/USD rate)
+                    if (rates.EUR !== undefined && rates.RWF !== undefined) {
+                        const eurToUsd = rates.EUR;
+                        const rwfToUsd = rates.RWF;
+                        const eurToRwf = eurToUsd * rwfToUsd;
+                        document.getElementById('rate-EUR-to-RWF').innerText = Number(eurToRwf).toLocaleString(undefined, { maximumFractionDigits: 2 });
+                    }
+
+                    // Calculate GBP to RWF (GBP/USD rate * RWF/USD rate)
+                    if (rates.GBP !== undefined && rates.RWF !== undefined) {
+                        const gbpToUsd = rates.GBP;
+                        const rwfToUsd = rates.RWF;
+                        const gbpToRwf = gbpToUsd * rwfToUsd;
+                        document.getElementById('rate-GBP-to-RWF').innerText = Number(gbpToRwf).toLocaleString(undefined, { maximumFractionDigits: 2 });
                     }
 
                     document.getElementById('fx-last-updated').innerText = ts.toLocaleString();
@@ -1289,9 +1322,8 @@
             fetchRates();
             setInterval(fetchRates, 60 * 1000); // refresh every 60s
 
-            // Optional: re-fetch trending products every 5 minutes
-            // (You can implement a /market-pulse/trending endpoint if you want to live-update trending list)
         });
+
 
 
 
@@ -1526,9 +1558,9 @@
             const content = document.createElement("div");
             content.className = "flex-1";
             content.innerHTML = `
-                                                                                                                                                                    <div class="font-semibold">${styles[type].title}</div>
-                                                                                                                                                                    <div class="text-sm opacity-90">${message}</div>
-                                                                                                                                                                `;
+                                                                                                                                                                                <div class="font-semibold">${styles[type].title}</div>
+                                                                                                                                                                                <div class="text-sm opacity-90">${message}</div>
+                                                                                                                                                                            `;
 
             // Progress bar
             const progress = document.createElement("div");
