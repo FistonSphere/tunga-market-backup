@@ -278,8 +278,8 @@ public function store(Request $request)
         'min_order_quantity' => 'nullable|integer|min:1',
         'stock_quantity'     => 'nullable|integer|min:0',
         'main_image'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10000',
-        'gallery'    => 'nullable|string',
-        'gallery.*'  => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10000',
+        'gallery_json' => 'nullable|string',
+        'gallery.*'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10000',
         'video_url'          => 'nullable|string|max:255',
         'status'             => 'required|string|in:active,inactive,draft',
         'specifications'     => 'nullable|string',
@@ -396,44 +396,32 @@ public function store(Request $request)
   $finalGallery = [];
 $destinationPath = public_path('uploads/products');
 
-if (!file_exists($destinationPath)) {
-    mkdir($destinationPath, 0755, true);
-}
+if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
 
-/**
- * =========================================
- * 1) JSON gallery from hidden input
- *    (existing URLs + base64 previews)
- * =========================================
- */
-$submittedGallery = $request->input('gallery');
+
+// ==========================================
+// 1) Handle JSON from gallery_json
+// ==========================================
+$submittedGallery = $request->input('gallery_json');
 
 if ($submittedGallery) {
-
-    $decoded = is_string($submittedGallery)
-        ? json_decode($submittedGallery, true)
-        : $submittedGallery;
+    $decoded = json_decode($submittedGallery, true);
 
     if (is_array($decoded)) {
-
         foreach ($decoded as $item) {
 
             if (!is_string($item) || $item === '') continue;
 
-            // If it's already a saved URL -> keep it
-            if (Str::startsWith($item, ['http://', 'https://'])) {
+            if (Str::startsWith($item, ['http://','https://'])) {
                 $finalGallery[] = $item;
                 continue;
             }
 
-            // Base64 image
             if (Str::startsWith($item, 'data:image')) {
 
-                // get extension
                 preg_match('/^data:image\/(\w+);base64,/', $item, $matches);
                 $ext = $matches[1] ?? 'png';
 
-                // decode
                 $data = substr($item, strpos($item, ',') + 1);
                 $decodedData = base64_decode($data);
 
@@ -442,65 +430,46 @@ if ($submittedGallery) {
                     $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $ext;
                     $fullPath = $destinationPath . '/' . $filename;
 
-                    // save file
                     file_put_contents($fullPath, $decodedData);
 
-                    // public url
                     $finalGallery[] = url('uploads/products/' . $filename);
 
-                    Log::info('🖼️ base64 gallery image saved', ['file' => $filename]);
+                    Log::info('🖼️ Base64 gallery image saved', ['file' => $filename]);
                 }
             }
         }
-
-    } else {
-        Log::warning('⚠️ gallery input invalid JSON');
     }
 }
 
 
-/**
- * =========================================
- * 2) Uploaded gallery files from gallery[]
- * =========================================
- */
+// ==========================================
+// 2) Handle uploaded files from gallery[]
+// ==========================================
 if ($request->hasFile('gallery')) {
 
     foreach ($request->file('gallery') as $file) {
 
-        if ($file && $file->isValid()) {
+        if ($file->isValid()) {
 
             $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-            // same as main_image logic
             $file->move($destinationPath, $filename);
 
             $finalGallery[] = url('uploads/products/' . $filename);
 
-            Log::info('📁 gallery file uploaded', ['file' => $filename]);
+            Log::info('📁 gallery uploaded file saved', ['file' => $filename]);
         }
     }
 }
 
 
-/**
- * =========================================
- * 3) Dedupe + clean
- * =========================================
- */
+// ==========================================
+// 3) Save
+// ==========================================
 $finalGallery = array_values(array_unique(array_filter($finalGallery)));
-
-
-/**
- * =========================================
- * 4) Save JSON
- * =========================================
- */
-$product->gallery = empty($finalGallery)
-    ? null
-    : json_encode($finalGallery);
-
+$product->gallery = empty($finalGallery) ? null : json_encode($finalGallery);
 $product->save();
+
 
 
 
