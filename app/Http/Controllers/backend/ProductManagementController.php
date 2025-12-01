@@ -277,9 +277,9 @@ public function store(Request $request)
         'currency'           => 'nullable|string|max:10',
         'min_order_quantity' => 'nullable|integer|min:1',
         'stock_quantity'     => 'nullable|integer|min:0',
-        'main_image'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        'gallery'            => 'nullable',
-        'gallery.*'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'main_image'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10000',
+        'gallery'            => 'nullable|string',
+        'gallery.*'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10000',
         'video_url'          => 'nullable|string|max:255',
         'status'             => 'required|string|in:active,inactive,draft',
         'specifications'     => 'nullable|string',
@@ -394,7 +394,7 @@ public function store(Request $request)
     // --- Gallery handling: the frontend 'gallery' hidden input contains a JSON array of
     //     existing URLs and possibly base64 data URLs generated from previews.
    $finalGallery = [];
-$destinationPath = public_path('uploads/products');
+   $destinationPath = public_path('uploads/products');
 
 // ensure folder exists
 if (!file_exists($destinationPath)) {
@@ -454,8 +454,6 @@ if ($submittedGallery) {
         Log::warning('⚠️ gallery input invalid JSON');
     }
 }
-
-
 // ==========================================
 // 2) Handle uploaded gallery[] files
 // ==========================================
@@ -477,8 +475,6 @@ if ($request->hasFile('gallery')) {
         }
     }
 }
-
-
 // ==========================================
 // 3) Clean + Dedupe
 // ==========================================
