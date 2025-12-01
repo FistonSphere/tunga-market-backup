@@ -400,7 +400,7 @@ if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
 
 
 // ==========================================
-// 1) Handle JSON from gallery_json
+// 1) Handle JSON from gallery_json (base64 + existing URLs)
 // ==========================================
 $submittedGallery = $request->input('gallery_json');
 
@@ -410,29 +410,38 @@ if ($submittedGallery) {
     if (is_array($decoded)) {
         foreach ($decoded as $item) {
 
+            // Skip invalid items
             if (!is_string($item) || $item === '') continue;
 
+            // If it's an existing URL, just keep it
             if (Str::startsWith($item, ['http://','https://'])) {
-                $finalGallery[] = $item;
+                if (!in_array($item, $finalGallery)) {
+                    $finalGallery[] = $item;
+                }
                 continue;
             }
 
+            // Base64 image: process it
             if (Str::startsWith($item, 'data:image')) {
 
                 preg_match('/^data:image\/(\w+);base64,/', $item, $matches);
                 $ext = $matches[1] ?? 'png';
 
+                // Extract and decode the base64 string
                 $data = substr($item, strpos($item, ',') + 1);
                 $decodedData = base64_decode($data);
 
                 if ($decodedData !== false) {
-
                     $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $ext;
                     $fullPath = $destinationPath . '/' . $filename;
 
+                    // Save base64 image to disk
                     file_put_contents($fullPath, $decodedData);
 
-                    $finalGallery[] = url('uploads/products/' . $filename);
+                    $url = url('uploads/products/' . $filename);
+                    if (!in_array($url, $finalGallery)) {
+                        $finalGallery[] = $url;
+                    }
 
                     Log::info('🖼️ Base64 gallery image saved', ['file' => $filename]);
                 }
@@ -453,18 +462,24 @@ if ($request->hasFile('gallery')) {
 
             $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
+            // Save the uploaded file
             $file->move($destinationPath, $filename);
 
-            $finalGallery[] = url('uploads/products/' . $filename);
+            $url = url('uploads/products/' . $filename);
 
-            Log::info('📁 gallery uploaded file saved', ['file' => $filename]);
+            // Avoid duplicate URLs (e.g., if same file is added through base64 or upload)
+            if (!in_array($url, $finalGallery)) {
+                $finalGallery[] = $url;
+            }
+
+            Log::info('📁 Gallery file uploaded', ['file' => $filename]);
         }
     }
 }
 
 
 // ==========================================
-// 3) Save
+// 3) Final cleanup: Deduplicate and store
 // ==========================================
 $finalGallery = array_values(array_unique(array_filter($finalGallery)));
 $product->gallery = empty($finalGallery) ? null : json_encode($finalGallery);
