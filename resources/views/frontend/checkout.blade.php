@@ -672,6 +672,18 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="border border-border rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h3 class="font-semibold text-primary">Additional Notes (Optional)</h3>
+                                    </div>
+                                    <div class="space-y-2 text-body-sm">
+                                        <label for="additional_notes" class="sr-only">Additional Notes (Optional)</label>
+                                        <textarea id="additional_notes" name="additional_notes" rows="4"
+                                            class="w-full input-field" style="resize:none"
+                                            placeholder="Add any notes for the seller or delivery (e.g., preferred delivery time, gate code, drop-off instructions)."></textarea>
+                                        <p class="text-xs text-secondary-600">Optional: provide special instructions for delivery or the seller.</p>
+                                    </div>
+                                </div>
 
                                 <!-- Terms and Conditions -->
                                 <div class="border border-border rounded-lg p-4">
@@ -1978,7 +1990,7 @@
                         case "momo-code":
                             document.querySelector("#momo-code-form").classList.remove("hidden");
 
-                            // SHOW MOMO CODE INNER SECTIONS 
+                            // SHOW MOMO CODE INNER SECTIONS
                             document.querySelector("#code-input-section").classList.remove("hidden");
                             document.querySelector("#pin-input-section").classList.remove("hidden");
                             document.querySelector("#payment-instructions").classList.remove("hidden");

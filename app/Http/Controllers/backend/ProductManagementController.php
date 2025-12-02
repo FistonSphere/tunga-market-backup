@@ -455,25 +455,67 @@ public function destroy($id)
 {
     $product = Product::findOrFail($id);
 
-    // Optionally delete image files if you store them locally
-    if ($product->main_image && file_exists(public_path('storage/' . $product->main_image))) {
-        unlink(public_path('storage/' . $product->main_image));
+    Log::info("🛑 Deleting product {$id}");
+
+    /*
+    |--------------------------------------------------------------------------
+    | DELETE MAIN IMAGE
+    |--------------------------------------------------------------------------
+    */
+    if ($product->main_image) {
+
+        // Convert full URL → relative path
+        $relative = str_replace(url('/'), '', $product->main_image);
+        $relative = ltrim($relative, '/'); // example: uploads/products/main/xxx.jpg
+
+        $filePath = public_path($relative);
+
+        if (file_exists($filePath)) {
+            unlink($filePath);
+            Log::info("🗑 Deleted main image → {$relative}");
+        }
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | DELETE GALLERY IMAGES
+    |--------------------------------------------------------------------------
+    */
     if ($product->gallery) {
-        $gallery = json_decode($product->gallery, true);
-        foreach ($gallery as $image) {
-            $path = str_replace(url('/storage') . '/', '', $image);
-            if (file_exists(public_path('storage/' . $path))) {
-                unlink(public_path('storage/' . $path));
+
+        $gallery = json_decode($product->gallery, true) ?? [];
+
+        foreach ($gallery as $imageUrl) {
+
+            if (!is_string($imageUrl)) continue;
+
+            // Convert to relative file path
+            $relative = str_replace(url('/'), '', $imageUrl);
+            $relative = ltrim($relative, '/'); // uploads/products/xxx.jpg
+
+            $filePath = public_path($relative);
+
+            if (file_exists($filePath)) {
+                unlink($filePath);
+                Log::info("🗑 Deleted gallery image → {$relative}");
             }
         }
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | DELETE PRODUCT RECORD
+    |--------------------------------------------------------------------------
+    */
     $product->delete();
 
-    return redirect()->route('admin.product.listing')->with('success', 'Product deleted successfully!');
+    Log::info("✅ Product {$id} deleted.");
+
+    return redirect()
+        ->route('admin.product.listing')
+        ->with('success', 'Product deleted successfully!');
 }
+
 
 public function create()
 {
