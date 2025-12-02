@@ -19,6 +19,7 @@ class Order extends Model
         'invoice_number',
         'receipt_number',
         'tax_amount',
+        'additional_notes',
     ];
 
     // Relationships
