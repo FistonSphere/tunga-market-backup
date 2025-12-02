@@ -35,213 +35,6 @@ class ProductManagementController extends Controller
     return view('admin.products.show', compact('product'));
 }
 
-
-public function edit($id)
-    {
-        $product = Product::findOrFail($id);
-        $categories = Category::all();
-        $brands = Brand::all();
-        $taxClasses = TaxClass::all();
-        $units = Unit::all();
-        $productTypes = ProductType::all();
-        return view('admin.products.edit', compact('product', 'categories', 'brands','taxClasses','units','productTypes'));
-    }
-
-public function update(Request $request, $id)
-{
-    Log::info('🔵 Product update started', ['product_id' => $id]);
-    $product = Product::findOrFail($id);
-
-    $validated = $request->validate([
-        'name'              => 'required|string|max:255',
-        'category_id'       => 'nullable|integer',
-        'brand_id'          => 'nullable|integer',
-        'tax_class_id'      => 'nullable|integer',
-        'unit_id'           => 'nullable|integer',
-        'product_type_id'   => 'nullable|integer',
-        'short_description' => 'nullable|string',
-        'long_description'  => 'nullable|string',
-        'price'             => 'required|numeric',
-        'discount_price'    => 'nullable|numeric',
-        'currency'          => 'nullable|string|max:10',
-        'sku'               => 'nullable|string|max:100',
-        'stock_quantity'    => 'nullable|integer',
-        'main_image'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        'gallery'           => 'nullable|string',      // This will accept the JSON data for the gallery
-        'gallery_files.*'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // File uploads
-        'video_url'         => 'nullable|string|max:255',
-        'status'            => 'required|string|in:active,inactive,draft',
-        'specifications'    => 'nullable|string',
-        'features'          => 'nullable|string',
-        'shipping_info'     => 'nullable|string',
-        'tags'              => 'nullable|string',
-    ]);
-
-    // ✅ Handle Main Image
-    if ($request->hasFile('main_image')) {
-        $file = $request->file('main_image');
-        $filename = 'product_main_' . $product->id . '_' . time() . '.' . $file->getClientOriginalExtension();
-        $path = $file->storeAs('products', $filename, 'public');
-
-        // Remove old image if exists
-        if ($product->main_image) {
-            $oldPath = str_replace('/storage/', '', parse_url($product->main_image, PHP_URL_PATH));
-            if (Storage::disk('public')->exists($oldPath)) {
-                Storage::disk('public')->delete($oldPath);
-            }
-        }
-
-        $validated['main_image'] = asset('storage/' . $path);
-    }
-
-    // --- GALLERY HANDLING ---
-    $existingGallery = json_decode($product->gallery, true) ?? [];
-    if (!is_array($existingGallery)) {
-        $existingGallery = [];
-    }
-
-    $submittedGallery = $request->input('gallery');
-    $frontendGallery = [];
-    if ($submittedGallery) {
-        $decoded = is_string($submittedGallery) ? json_decode($submittedGallery, true) : $submittedGallery;
-        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-            $frontendGallery = $decoded;
-        } else {
-            Log::warning('⚠️ Invalid gallery JSON', ['error' => json_last_error_msg()]);
-        }
-    }
-
-    // Filter only valid URLs from the frontend gallery
-    $frontendGallery = array_filter($frontendGallery, fn($url) => is_string($url) && !empty($url));
-
-    // Handle gallery image removal
-    $removedImages = array_diff($existingGallery, $frontendGallery);
-    foreach ($removedImages as $oldImage) {
-        $oldPath = str_replace('/storage/', '', parse_url($oldImage, PHP_URL_PATH));
-        if (Storage::disk('public')->exists($oldPath)) {
-            Storage::disk('public')->delete($oldPath);
-            Log::info('🗑 Deleted old image', ['short' => $oldPath]);
-        }
-    }
-
-    // Prepare the final gallery array
-    $finalGallery = array_values(array_diff($existingGallery, $removedImages));
-
-    // Handle new gallery file uploads
-    if ($request->hasFile('gallery_files')) {
-        foreach ($request->file('gallery_files') as $file) {
-            if ($file && $file->isValid()) {
-                // Ensure the folder exists before saving
-                $galleryFolderPath = storage_path('app/public/products/gallery');
-                if (!is_dir($galleryFolderPath)) {
-                    mkdir($galleryFolderPath, 0775, true);  // Create folder if not exists
-                }
-
-                // Save the image file
-                $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('products/gallery', $filename, 'public');
-                $url = url('uploads/products/' . $filename);
-
-                // Add to the gallery if not already present
-                if (!in_array($url, $finalGallery)) {
-                    $finalGallery[] = $url;
-                    Log::info('📸 Uploaded new image', ['short' => $url]);
-                }
-            }
-        }
-    }
-
-    // Handle base64 gallery images (if any)
-    foreach ($frontendGallery as $img) {
-        if (Str::startsWith($img, 'data:image')) {
-            preg_match('/^data:image\/(\w+);base64,/', $img, $type);
-            $extension = $type[1] ?? 'png';
-            $data = substr($img, strpos($img, ',') + 1);
-            $decodedData = base64_decode($data);
-
-            if ($decodedData !== false) {
-                $filename = 'product_gallery_' . $product->id . '_' . uniqid() . '.' . $extension;
-                $path = 'products/gallery/' . $filename;
-
-                // Ensure the folder exists
-                $folderPath = storage_path('app/public/products/gallery');
-                if (!is_dir($folderPath)) {
-                    mkdir($folderPath, 0775, true);  // Create folder if not exists
-                }
-
-                // Save the base64 data to the storage
-                Storage::disk('public')->put($path, $decodedData);
-                $url = url('uploads/products/' . $filename);
-
-                // Add to the gallery if not already present
-                if (!in_array($url, $finalGallery)) {
-                    $finalGallery[] = $url;
-                    Log::info('✅ Saved base64 image', ['short' => $path]);
-                }
-            }
-        }
-    }
-
-    // Remove invalid URLs and duplicates from the gallery
-    $finalGallery = array_values(array_unique(array_filter($finalGallery, function ($url) {
-        return is_string($url) && preg_match('/^https?:\/\/|^\/storage\//', $url);
-    })));
-
-    // Store the final gallery as JSON in the database
-    $validated['gallery'] = json_encode($finalGallery);
-
-    // Log final gallery and update product
-    Log::info('✅ Final gallery ready', ['count' => count($finalGallery)]);
-
-    // ✅ Generate unique slug
-    $validated['slug'] = Str::slug($validated['name'] . '-' . uniqid());
-
-    // Save the product with the updated gallery
-    $product->update($validated);
-
-    return redirect()
-        ->route('admin.product.listing')
-        ->with('success', '✅ Product updated successfully with updated gallery.');
-}
-
-
-
-
-public function destroy($id)
-{
-    $product = Product::findOrFail($id);
-
-    // Optionally delete image files if you store them locally
-    if ($product->main_image && file_exists(public_path('storage/' . $product->main_image))) {
-        unlink(public_path('storage/' . $product->main_image));
-    }
-
-    if ($product->gallery) {
-        $gallery = json_decode($product->gallery, true);
-        foreach ($gallery as $image) {
-            $path = str_replace(url('/storage') . '/', '', $image);
-            if (file_exists(public_path('storage/' . $path))) {
-                unlink(public_path('storage/' . $path));
-            }
-        }
-    }
-
-    $product->delete();
-
-    return redirect()->route('admin.product.listing')->with('success', 'Product deleted successfully!');
-}
-
-public function create()
-{
-    $categories = Category::all();
-    $brands = Brand::all();
-    $taxClasses = TaxClass::all();
-    $units = Unit::all();
-    $productTypes = ProductType::all();
-
-    return view('admin.products.create', compact('categories', 'brands', 'taxClasses', 'units', 'productTypes'));
-}
-
 public function store(Request $request)
 {
     Log::info('🟢 Product creation started');
@@ -483,6 +276,217 @@ $product->save();
         ->route('admin.product.listing')
         ->with('success', '✅ Product created successfully.');
 }
+
+
+public function edit($id)
+    {
+        $product = Product::findOrFail($id);
+        $categories = Category::all();
+        $brands = Brand::all();
+        $taxClasses = TaxClass::all();
+        $units = Unit::all();
+        $productTypes = ProductType::all();
+        return view('admin.products.edit', compact('product', 'categories', 'brands','taxClasses','units','productTypes'));
+    }
+
+public function update(Request $request, $id)
+{
+    Log::info('🔵 Product update started', ['product_id' => $id]);
+
+    $product = Product::findOrFail($id);
+
+    $validated = $request->validate([
+        'name'              => 'required|string|max:255',
+        'category_id'       => 'nullable|integer',
+        'brand_id'          => 'nullable|integer',
+        'tax_class_id'      => 'nullable|integer',
+        'unit_id'           => 'nullable|integer',
+        'product_type_id'   => 'nullable|integer',
+        'short_description' => 'nullable|string',
+        'long_description'  => 'nullable|string',
+        'price'             => 'required|numeric',
+        'discount_price'    => 'nullable|numeric',
+        'currency'          => 'nullable|string|max:10',
+        'sku'               => 'nullable|string|max:100',
+        'stock_quantity'    => 'nullable|integer',
+        'main_image'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10000',
+        'gallery'           => 'nullable|string',
+        'gallery_files.*'   => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10000',
+        'video_url'         => 'nullable|string|max:255',
+        'status'            => 'required|string|in:active,inactive,draft',
+        'specifications'    => 'nullable|string',
+        'features'          => 'nullable|string',
+        'shipping_info'     => 'nullable|string',
+        'tags'              => 'nullable|string',
+    ]);
+
+    // -------------------------
+    // MAIN IMAGE (fixed)
+    // -------------------------
+    if ($request->hasFile('main_image')) {
+
+        $file = $request->file('main_image');
+
+        $mainFolder = public_path('uploads/products/main');
+        if (!file_exists($mainFolder)) {
+            mkdir($mainFolder, 0755, true);
+        }
+
+        $filename = "product_main_{$product->id}_" . time() . '.' . $file->getClientOriginalExtension();
+        $file->move($mainFolder, $filename);
+
+        // remove old file
+        if ($product->main_image) {
+            $relative = str_replace(url('/'), '', $product->main_image);
+            $relative = ltrim($relative, '/');
+            $oldPath = public_path($relative);
+
+            if (file_exists($oldPath)) unlink($oldPath);
+        }
+
+        $validated['main_image'] = url("uploads/products/main/{$filename}");
+    }
+
+    // ----------------------------------
+    // GALLERY — EXACT SAME LOGIC AS store()
+    // ----------------------------------
+
+    $destinationPath = public_path('uploads/products');
+    if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
+
+    $existingGallery = json_decode($product->gallery, true) ?? [];
+    if (!is_array($existingGallery)) $existingGallery = [];
+
+    $finalGallery = [];
+
+    // 1. Handle Gallery JSON (existing URLs + base64)
+    $submittedGallery = $request->input('gallery');
+    if ($submittedGallery) {
+        $decoded = json_decode($submittedGallery, true);
+        if (is_array($decoded)) {
+
+            foreach ($decoded as $item) {
+
+                if (!is_string($item) || $item === '') continue;
+
+                // KEEP VALID EXISTING URLs
+                if (Str::startsWith($item, ['http://','https://'])) {
+                    if (!in_array($item, $finalGallery)) $finalGallery[] = $item;
+                    continue;
+                }
+
+                // BASE64 IMAGE
+                if (Str::startsWith($item, 'data:image')) {
+
+                    preg_match('/^data:image\/(\w+);base64,/', $item, $matches);
+                    $ext = $matches[1] ?? 'png';
+
+                    $data = substr($item, strpos($item, ',') + 1);
+                    $decodedData = base64_decode($data);
+
+                    if ($decodedData !== false) {
+                        $filename = "product_gallery_{$product->id}_" . uniqid() . ".{$ext}";
+                        file_put_contents($destinationPath . '/' . $filename, $decodedData);
+                        $url = url("uploads/products/{$filename}");
+                        $finalGallery[] = $url;
+
+                        Log::info("🖼 Saved base64 → {$filename}");
+                    }
+                }
+            }
+        }
+    }
+
+    // 2. Handle uploaded files
+    if ($request->hasFile('gallery_files')) {
+        foreach ($request->file('gallery_files') as $file) {
+            if ($file->isValid()) {
+
+                $filename = "product_gallery_{$product->id}_" . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move($destinationPath, $filename);
+
+                $url = url("uploads/products/{$filename}");
+                $finalGallery[] = $url;
+
+                Log::info("📁 Uploaded gallery file → {$filename}");
+            }
+        }
+    }
+
+    // 3. Remove gallery images that user deleted
+    foreach ($existingGallery as $old) {
+        if (!in_array($old, $finalGallery)) {
+
+            $relative = str_replace(url('/'), '', $old);
+            $relative = ltrim($relative, '/');
+            $oldPath = public_path($relative);
+
+            if (file_exists($oldPath)) {
+                unlink($oldPath);
+                Log::info("🗑 Deleted removed gallery image → {$relative}");
+            }
+        }
+    }
+
+    // 4. Cleanup duplicates
+    $finalGallery = array_values(array_unique($finalGallery));
+
+    $validated['gallery'] = empty($finalGallery) ? null : json_encode($finalGallery);
+
+    // -------------------------
+    // UPDATE PRODUCT
+    // -------------------------
+    $validated['slug'] = Str::slug($validated['name'] . '-' . uniqid());
+    $product->update($validated);
+
+    Log::info("✅ Product updated", [
+        'id' => $product->id,
+        'gallery_count' => count($finalGallery)
+    ]);
+
+    return redirect()
+        ->route('admin.product.listing')
+        ->with('success', '✅ Product updated successfully.');
+}
+
+
+
+public function destroy($id)
+{
+    $product = Product::findOrFail($id);
+
+    // Optionally delete image files if you store them locally
+    if ($product->main_image && file_exists(public_path('storage/' . $product->main_image))) {
+        unlink(public_path('storage/' . $product->main_image));
+    }
+
+    if ($product->gallery) {
+        $gallery = json_decode($product->gallery, true);
+        foreach ($gallery as $image) {
+            $path = str_replace(url('/storage') . '/', '', $image);
+            if (file_exists(public_path('storage/' . $path))) {
+                unlink(public_path('storage/' . $path));
+            }
+        }
+    }
+
+    $product->delete();
+
+    return redirect()->route('admin.product.listing')->with('success', 'Product deleted successfully!');
+}
+
+public function create()
+{
+    $categories = Category::all();
+    $brands = Brand::all();
+    $taxClasses = TaxClass::all();
+    $units = Unit::all();
+    $productTypes = ProductType::all();
+
+    return view('admin.products.create', compact('categories', 'brands', 'taxClasses', 'units', 'productTypes'));
+}
+
+
 
 public function filter(Request $request)
 {
