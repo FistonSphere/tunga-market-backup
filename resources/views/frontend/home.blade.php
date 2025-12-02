@@ -322,7 +322,7 @@
                                     <div class="relative overflow-hidden rounded-lg mb-4">
                                         <img src="{{ $product->main_image ?? asset('assets/images/no-image.png') }}"
                                             alt="{{ $product->name }}"
-                                            class="w-full h-64 object-cover group-hover:scale-105 transition-all duration-300"
+                                            class="w-full h-64 object-contain group-hover:scale-105 transition-all duration-300"
                                             loading="lazy" />
                                     </div>
 
