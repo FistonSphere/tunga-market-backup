@@ -1514,6 +1514,8 @@
             let formData = new FormData();
             formData.append("shipping_address_id", selectedAddress.value);
             formData.append("payment_method", paymentMethod);
+            formData.append("save_address", document.getElementById("save-address-checkbox")?.checked ? "1" : "0");
+            formData.append("additional_notes", document.getElementById("additional_notes")?.value || "");
 
             // 🔹 MOMO Code fields
             if (paymentMethod === "momo-code") {
