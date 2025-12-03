@@ -157,8 +157,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/2fa/backup-codes/download', [TwoFactorController::class, 'downloadBackupCodes'])
         ->name('2fa.download.codes');
-    
-    
+
+
 
 
 

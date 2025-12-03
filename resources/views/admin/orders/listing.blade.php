@@ -1125,6 +1125,12 @@
                         <p class="total-price">{{ number_format($order->total) }} Rwf</p>
                         <p class="created-date">{{ $order->created_at->format('d M Y, H:i') }}</p>
                     </div>
+                    @if($order->additional_notes)
+                    <div class="order-section">
+                        <h3>Additional Notes</h3>
+                        <p class="payment-method">{{ $order->additional_notes ?? 'N/A' }}</p>
+                    </div>
+                    @endif
                 </div>
 
                 <div class="order-footer">

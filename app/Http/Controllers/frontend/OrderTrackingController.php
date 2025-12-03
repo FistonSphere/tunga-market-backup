@@ -378,6 +378,7 @@ public function store(Request $request)
     'payment_method' => 'required|in:momo-code,cod,bank-transfer',
     'mobile_code' => 'required_if:payment_method,momo-code|nullable|string|max:6',
     'mobile_pin' => 'required_if:payment_method,momo-code|nullable|string|max:4',
+    'additional_notes' => 'nullable|string|max:5000',
     'attachments.*' => 'required_if:payment_method,bank-transfer|nullable|file|max:10240|mimes:pdf,doc,docx,xls,xlsx,png,jpg,jpeg',
 ]);
 
@@ -405,6 +406,7 @@ public function store(Request $request)
         'status' => 'Processing',
         'shipping_address_id' => $request->shipping_address_id,
         'payment_method' => 'Cash on Delivery',
+        'additional_notes' => $request->additional_notes,
     ]);
 
     $total = 0;
